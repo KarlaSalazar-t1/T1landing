@@ -1,26 +1,414 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Colors */
+  --color-oxford: #4C4C4C;
+  --color-red-400: #E26153;
+  --color-red-500: #DB3B2B;
+  --color-red-600: #DB362B;
+  --color-red-700: #CC0000;
+
+  /* Fonts */
+  --font-sora: "Sora", "Sora Fallback", sans-serif;
+  --font-inter: "Inter", "Inter Fallback", sans-serif;
+
+  /* Breakpoints */
+  --breakpoint-mobile: 360px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1280px;
+  --breakpoint-wide: 1920px;
+
+  /* Animations */
+  --animate-float: float 5s ease-in-out infinite;
+  --animate-float-slow: float-slow 7s ease-in-out infinite;
+  --animate-float-reverse: float-reverse 6s ease-in-out infinite;
+  --animate-pulse-soft: pulse-soft 4s ease-in-out infinite;
+  --animate-marquee: marquee 30s linear infinite;
+  --animate-slide-down: slideDown 200ms ease-out;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes float-reverse {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(10px); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(1.05); }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cardTilt {
+  0%, 100% { transform: perspective(600px) rotateY(0deg) rotateX(0deg); }
+  25% { transform: perspective(600px) rotateY(6deg) rotateX(-4deg); }
+  50% { transform: perspective(600px) rotateY(-4deg) rotateX(3deg); }
+  75% { transform: perspective(600px) rotateY(3deg) rotateX(-2deg); }
+}
+
+@keyframes blobMove {
+  0%, 100% { background-position: 30% 20%; opacity: 0.6; }
+  33% { background-position: 70% 30%; opacity: 1; }
+  66% { background-position: 40% 70%; opacity: 0.8; }
+}
+
+@keyframes orbitSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes orbitSpinReverse {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
+/* Base */
+:root {
+  --max-w: 1220px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+
+html {
+  overflow-x: clip;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter-var), -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #000000;
+  color: #FFFFFF;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+/* ─── Glass Product Card ─── */
+.glass-card-wrapper {
+  --card-border-angle: 0;
+  --glow-opacity: 0;
+  position: relative;
+  border-radius: 26px;
+  padding: 1.5px;
+  background: rgba(255, 255, 255, 0.08);
+  transition: transform 0.4s cubic-bezier(0.03, 0.98, 0.52, 0.99),
+              box-shadow 0.4s cubic-bezier(0.03, 0.98, 0.52, 0.99);
+  will-change: transform;
+}
+.glass-card-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: radial-gradient(
+    300px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    rgba(255,255,255,0.12) 0%,
+    rgba(255,255,255,0.04) 30%,
+    transparent 70%
+  );
+  opacity: var(--glow-opacity);
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+.glass-card-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: -16px;
+  border-radius: 36px;
+  background: radial-gradient(
+    350px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    rgba(255,255,255,0.03) 0%,
+    rgba(255,255,255,0.01) 40%,
+    transparent 70%
+  );
+  filter: blur(20px);
+  opacity: var(--glow-opacity);
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+.glass-card {
+  position: relative;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.07) 50%, rgba(255,255,255,0.03) 100%);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -1px 0 rgba(255,255,255,0.05), 0 8px 32px rgba(0,0,0,0.12);
+  overflow: hidden;
+  z-index: 1;
+}
+.glass-card-spotlight {
+  --spot-x: 50%;
+  --spot-y: 50%;
+  --spot-opacity: 0;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 2;
+  background: radial-gradient(320px ellipse at var(--spot-x) var(--spot-y), rgba(255,255,255,0.015) 0%, rgba(255,255,255,0.005) 50%, transparent 100%);
+  opacity: var(--spot-opacity);
+  transition: opacity 0.4s ease;
+}
+.glass-card-wrapper:hover .glass-card {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), inset 0 -1px 0 rgba(255,255,255,0.04), 0 12px 40px rgba(0,0,0,0.14);
+}
+
+/* ─── Noise/grain texture overlay ─── */
+.noise-grain {
+  opacity: 0.45;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ─── Stack card gradient backgrounds ─── */
+
+/* Tienda — warm red/violet mesh with animated blob */
+.stack-bg-tienda {
+  background:
+    radial-gradient(ellipse 80% 60% at 75% 30%, rgba(219,59,43,0.35) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 80% at 20% 80%, rgba(99,102,241,0.2) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(127,29,29,0.15) 0%, transparent 50%),
+    linear-gradient(135deg, #1a0a0f 0%, #0f0a1a 40%, #1a0f0a 100%);
+}
+.stack-bg-tienda::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 40% 40% at 60% 40%, rgba(219,59,43,0.12) 0%, transparent 70%);
+  animation: blobFloat 8s ease-in-out infinite;
+}
+
+/* Pagos — blue/violet electric mesh */
+.stack-bg-pagos {
+  background:
+    radial-gradient(ellipse 70% 70% at 70% 25%, rgba(59,130,246,0.3) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 60% at 25% 75%, rgba(99,102,241,0.25) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 40% at 50% 100%, rgba(219,59,43,0.12) 0%, transparent 50%),
+    linear-gradient(160deg, #0a0f1a 0%, #0f0a1a 50%, #0a1020 100%);
+}
+.stack-bg-pagos::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 35% 45% at 65% 35%, rgba(59,130,246,0.1) 0%, transparent 70%);
+  animation: blobFloat 10s ease-in-out infinite reverse;
+}
+
+/* Envíos — violet/red warm gradient with organic shapes */
+.stack-bg-envios {
+  background:
+    radial-gradient(ellipse 60% 70% at 30% 30%, rgba(99,102,241,0.3) 0%, transparent 65%),
+    radial-gradient(ellipse 70% 50% at 80% 70%, rgba(219,59,43,0.25) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 50% 50%, rgba(127,29,29,0.1) 0%, transparent 50%),
+    linear-gradient(200deg, #0f0a1a 0%, #1a0a0f 50%, #0a0f1a 100%);
+}
+.stack-bg-envios::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 45% 35% at 40% 60%, rgba(99,102,241,0.08) 0%, transparent 70%);
+  animation: blobFloat 12s ease-in-out infinite;
+}
+
+@keyframes blobFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 1; }
+  33% { transform: translate(30px, -20px) scale(1.1); opacity: 0.8; }
+  66% { transform: translate(-20px, 15px) scale(0.95); opacity: 1; }
+}
+
+/* Scroll animations */
+[data-animate] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-animate].visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Marquee track */
+.marquee-track {
+  animation: marquee 30s linear infinite;
+  width: max-content;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* New pedido row slide-in */
+@keyframes slideRowIn {
+  from { opacity: 0; transform: translateY(-15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Counter bump */
+@keyframes countBump {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.15); color: #22C55E; }
+  100% { transform: scale(1); }
+}
+
+/* Fade + slide in from bottom */
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Solutions card — shadow only on desktop */
+@media (min-width: 768px) {
+  .solutions-card-wrapper {
+    box-shadow: 0 0 25px 2px rgba(0,0,0,0.06);
+  }
+}
+
+/* Modal slide up from bottom */
+@keyframes modalSlideUp {
+  from { opacity: 0; transform: translateX(-50%) translateY(40px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* Modal scroll-triggered animations */
+[data-modal-animate] {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+[data-modal-animate].modal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Typing cursor blink */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Hide scrollbar for horizontal scroll galleries */
+.overflow-x-auto::-webkit-scrollbar {
+  display: none;
+}
+.overflow-x-auto {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Store carousel */
+.store-carousel {
+  animation: storeScroll 25s linear infinite;
+  width: max-content;
+}
+
+.store-carousel:hover {
+  animation-play-state: paused;
+}
+
+@keyframes storeScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Route dots for enrutamiento — travel from left-center to each endpoint */
+@keyframes routeDot1 {
+  0% { left: 0; top: 50%; }
+  100% { left: 100%; top: 8%; }
+}
+@keyframes routeDot2 {
+  0% { left: 0; top: 50%; }
+  100% { left: 100%; top: 47%; }
+}
+@keyframes routeDot3 {
+  0% { left: 0; top: 50%; }
+  100% { left: 100%; top: 86%; }
+}
+
+/* ─── Stack cards: GPU-accelerated transform + overlay-based dim (no filter) ─── */
+.stack-card {
+  /* Variables driven by JS scroll listener (defaults = neutral) */
+  --stack-scale: 1;
+  --stack-dim: 0;
+  transform: scale(var(--stack-scale));
+  /* Hint browser to keep this on its own GPU layer for smooth scaling */
+  will-change: transform;
+  /* Promote to compositor — avoids per-frame repaint */
+  transform-origin: 50% 0;
+  backface-visibility: hidden;
+  /* C2-B — Isolate stacking context so descendants with mix-blend-mode
+     (e.g. .noise-grain) don't force the browser to recompose the entire
+     document tree on every paint. Cuts paint cost during scroll. */
+  isolation: isolate;
+  /* C3 — Skip layout/paint work for descendants of cards that are not
+     currently affecting the visible region. Browser can ignore the subtree
+     during reflow caused by other parts of the page. Zero visual change. */
+  contain: layout paint;
+}
+
+/* Dark overlay replaces filter: brightness() — drastically cheaper on GPU.
+   Sits above bg + content but below modal/click handlers. */
+.stack-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: var(--stack-dim);
+  pointer-events: none;
+  z-index: 50;
+  border-radius: inherit;
+  /* Smooth dim transitions even between rAF frames */
+  transition: opacity 0.15s linear;
+}
+
+/* ─── Stack cards: full-viewport on mobile, preserves sticky stack behavior ─── */
+@media (max-width: 767px) {
+  .stack-card-container {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    max-width: 100% !important;
+  }
+  .stack-card {
+    height: 100vh !important;
+    height: 100dvh !important;
+    margin-bottom: 0 !important;
+    border-radius: 0 !important;
+    /* Sticky offset = navbar height (60px) so title doesn't get covered */
+    top: 60px !important;
+    transition: none !important;
+    will-change: auto;
+    /* Mobile: no scale or dim — variables reset to neutral */
+    --stack-scale: 1 !important;
+    --stack-dim: 0 !important;
+    transform: none !important;
+  }
+  .stack-card::after {
+    display: none !important;
+  }
 }
