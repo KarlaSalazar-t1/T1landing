@@ -1,0 +1,1372 @@
+"use client";
+
+import Image from "next/image";
+import { createPortal } from "react-dom";
+import { useEffect, useRef, useState, useCallback } from "react";
+import {
+  FEATURES_HEADING,
+  FEATURES_SUBTITLE,
+  FEATURE_CARDS,
+} from "@/lib/constants";
+import ProductCard from "@/components/showcase/ProductCard";
+import GlassProductCard from "@/components/showcase/GlassProductCard";
+import GlassCreditCard from "@/components/showcase/GlassCreditCard";
+import PedidosPanel from "@/components/showcase/PedidosPanel";
+import EnviosPanel from "@/components/showcase/EnviosPanel";
+import GlassShipmentCard from "@/components/showcase/GlassShipmentCard";
+import { useIsDesktop } from "@/hooks/useIsDesktop";
+
+/* ── Marketplace icons for modal ── */
+const MODAL_MARKETPLACES = [
+  { name: "MercadoLibre", src: "/img/meli-iso.svg" },
+  { name: "Amazon", src: "/img/amazon-iso.svg" },
+  { name: "Sears", src: "/img/sears-isotipo.svg" },
+  { name: "SHEIN", src: "/img/shein-iso.svg" },
+  { name: "Walmart", src: "/img/walmart.svg" },
+  { name: "Shopify", src: "/img/shein-iso.svg" },
+  { name: "Liverpool", src: "/img/sears-isotipo.svg" },
+];
+
+/* ── Store carousel items ── */
+const STORE_CAROUSEL = [
+  { name: "Sportify", image: "/img/tienda-1.png", url: "#" },
+  { name: "Casa & Hogar", image: "/img/tienda-2.png", url: "#" },
+  { name: "TechZone", image: "/img/tienda-3.png", url: "#" },
+  { name: "Orgánica MX", image: "/img/tienda-4.png", url: "#" },
+  { name: "Sportify", image: "/img/tienda-1.png", url: "#" },
+  { name: "Casa & Hogar", image: "/img/tienda-2.png", url: "#" },
+  { name: "TechZone", image: "/img/tienda-3.png", url: "#" },
+  { name: "Orgánica MX", image: "/img/tienda-4.png", url: "#" },
+];
+
+/* ── Animated prompt phrases + matching page images + section bg + gradient color ── */
+const PROMPT_PAGES = [
+  { text: "Quiero vender muebles de la más alta calidad.", image: "/img/muebles-v2.png", bg: "/img/fondo-modal-1.png", gradientColor: "#978478" },
+  { text: "Necesito una tienda de ropa deportiva.", image: "/img/ropa-deportiva.png", bg: "/img/fondo-modal-2.png", gradientColor: "#7FA1B6" },
+  { text: "Vendo accesorios tech y gadgets.", image: "/img/tech.png", bg: "/img/fondo-modal-3.png", gradientColor: "#7FA1B6" },
+  { text: "Mi negocio es de productos orgánicos.", image: "/img/organico-v2.png", bg: "/img/fondo-modal-4.png", gradientColor: "#998E67" },
+];
+
+/* ── Product modal — matching Figma design ── */
+export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: string; onClose: () => void; pageMode?: boolean }) {
+  const titles: Record<string, string> = {
+    t1tienda: "T1tienda",
+    t1pagos: "T1pagos",
+    t1envios: "T1envíos",
+  };
+  const title = titles[cardId] || cardId;
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const [pageIdx, setPageIdx] = useState(0);
+  const [visiblePageIdx, setVisiblePageIdx] = useState(0); // only changes after typing done
+  const [displayedText, setDisplayedText] = useState("");
+  const [scrollY, setScrollY] = useState(0);
+
+  // Lock body scroll — only in modal mode
+  useEffect(() => {
+    if (pageMode) return;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = ""; };
+  }, [pageMode]);
+
+  // Scroll-triggered animations inside modal
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("modal-visible");
+          }
+        });
+      },
+      { root: container, threshold: 0.15 }
+    );
+    const elements = container.querySelectorAll("[data-modal-animate]");
+    elements.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  // Typewriter effect — types in, pauses, changes page image, scrolls, erases, next
+  useEffect(() => {
+    const fullText = PROMPT_PAGES[pageIdx].text;
+    let charIdx = 0;
+    let erasing = false;
+    let timeout: ReturnType<typeof setTimeout>;
+
+    function tick() {
+      if (!erasing) {
+        charIdx++;
+        setDisplayedText(fullText.slice(0, charIdx));
+        if (charIdx >= fullText.length) {
+          // Done typing — change the page image NOW
+          timeout = setTimeout(() => {
+            setVisiblePageIdx(pageIdx);
+            // Scroll animation on new page
+            setScrollY(80);
+            timeout = setTimeout(() => {
+              setScrollY(0);
+              // Start erasing
+              timeout = setTimeout(() => {
+                erasing = true;
+                tick();
+              }, 800);
+            }, 1200);
+          }, 800);
+          return;
+        }
+        timeout = setTimeout(tick, 40 + Math.random() * 30);
+      } else {
+        charIdx--;
+        setDisplayedText(fullText.slice(0, charIdx));
+        if (charIdx <= 0) {
+          setPageIdx((p) => (p + 1) % PROMPT_PAGES.length);
+          return;
+        }
+        timeout = setTimeout(tick, 20);
+      }
+    }
+
+    timeout = setTimeout(tick, 500);
+    return () => clearTimeout(timeout);
+  }, [pageIdx]);
+
+  return (
+    <div
+      className={pageMode ? "w-full" : "fixed inset-0 z-[300] flex items-center justify-center"}
+      onClick={pageMode ? undefined : onClose}
+    >
+      {!pageMode && (
+        <div className="absolute inset-0">
+          <Image src="/img/bg-modal-v3.png" alt="" fill className="object-cover" />
+        </div>
+      )}
+
+      {/* Modal container — flush to bottom; in pageMode, just full width */}
+      <div
+        className={pageMode ? "w-full" : "absolute bottom-0 left-1/2 overflow-hidden"}
+        style={pageMode ? {} : {
+          width: 1220,
+          maxWidth: "95vw",
+          maxHeight: "92vh",
+          transform: "translateX(-50%)",
+          borderRadius: "15px 15px 0 0",
+          boxShadow: "0 -10px 80px rgba(0,0,0,0.4)",
+          animation: "modalSlideUp 0.4s ease-out",
+        }}
+        onClick={pageMode ? undefined : (e) => e.stopPropagation()}
+      >
+        {/* Scrollable content — pageMode uses natural page scroll */}
+        <div
+          ref={scrollRef}
+          className={pageMode ? "w-full" : "modal-scroll-container overflow-y-auto"}
+          style={pageMode ? {} : { maxHeight: "92vh" }}
+        >
+          <div className="relative bg-white">
+
+            {/* ── Section 1: Crea tu tienda con IA — bg changes per prompt ── */}
+            {/* Background covers header + section 1 together */}
+            <div className="relative overflow-hidden pb-8">
+              {/* Per-prompt background image — changes only after typing completes */}
+              <div className="absolute inset-0 z-0">
+                <Image
+                  key={PROMPT_PAGES[visiblePageIdx].bg}
+                  src={PROMPT_PAGES[visiblePageIdx].bg}
+                  alt=""
+                  fill
+                  className="object-cover"
+                  style={{ animation: "fadeSlideIn 0.6s ease-out" }}
+                />
+                {/* Gradient overlay: color → transparent for blending */}
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background: `linear-gradient(180deg, ${PROMPT_PAGES[visiblePageIdx].gradientColor} 0%, ${PROMPT_PAGES[visiblePageIdx].gradientColor}cc 20%, transparent 60%)`,
+                    transition: "background 0.6s ease-out",
+                  }}
+                />
+              </div>
+              <div className={pageMode ? "relative z-10 mx-auto max-w-[var(--max-w)] px-5 tablet:px-3" : "relative z-10 px-5 tablet:px-10"}>
+              {/* Header — only in modal mode (page mode uses navbar instead) */}
+              {!pageMode && (
+                <div className="flex items-center justify-between pt-10 pb-4">
+                  <h2 className="font-sora text-[32px] font-normal text-white">{title}</h2>
+                  <button
+                    onClick={onClose}
+                    className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border-none bg-white/[0.15] text-white/80 transition-colors duration-150 hover:bg-white/[0.25] hover:text-white"
+                  >
+                    <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
+                      <path d="M4 4L12 12M12 4L4 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                    </svg>
+                  </button>
+                </div>
+              )}
+              <div className="flex flex-col gap-4 tablet:flex-row tablet:items-start tablet:justify-between tablet:gap-6" style={{ marginBottom: 28, paddingTop: pageMode ? 100 : 0 }}>
+                <div>
+                  <h3 className="font-sora text-[22px] font-normal text-white tablet:text-[28px]" style={{ marginBottom: 8 }}>
+                    Crea tu tienda con IA en segundos
+                  </h3>
+                  <p className="font-inter text-[17px] font-normal text-white/80" style={{ lineHeight: 1.6 }}>
+                    Cuéntanos de que trata tu negocio y nuestra IA creará tu tienda en menos de 2 minutos.
+                  </p>
+                </div>
+                <a
+                  href="#"
+                  className="inline-flex shrink-0 items-center rounded-[14px] bg-[#E26153] px-6 py-3 font-inter text-[14px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#DB3B2B]"
+                >
+                  Crear mi tienda
+                </a>
+              </div>
+
+              {/* Store preview with floating prompt */}
+              <div className="relative mx-auto" style={{ maxWidth: 850 }}>
+                {/* Glass frame — uses aspect-ratio for consistent sizing */}
+                <div
+                  className="mx-auto rounded-[18px]"
+                  style={{
+                    maxWidth: 850,
+                    padding: 10,
+                    background: "rgba(255,255,255,0.25)",
+                    backdropFilter: "blur(20px)",
+                    WebkitBackdropFilter: "blur(20px)",
+                    border: "1px solid rgba(255,255,255,0.35)",
+                    boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
+                  }}
+                >
+                  <div
+                    className="overflow-hidden rounded-[12px]"
+                    style={{ aspectRatio: "16/10" }}
+                  >
+                    <div
+                      className="transition-transform duration-1000 ease-in-out"
+                      style={{ transform: `translateY(-${scrollY}px)` }}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        key={PROMPT_PAGES[visiblePageIdx].image}
+                        src={PROMPT_PAGES[visiblePageIdx].image}
+                        alt="Vista previa tienda"
+                        className="block w-full"
+                        style={{ animation: "fadeSlideIn 0.5s ease-out" }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Floating AI prompt card — hidden on small screens */}
+                <div
+                  className="absolute hidden rounded-[16px] bg-white tablet:block"
+                  style={{
+                    left: -20,
+                    top: 30,
+                    width: 380,
+                    padding: "20px 24px",
+                    boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
+                  }}
+                >
+                  <p
+                    className="font-inter text-[15px] font-normal text-black/80"
+                    style={{ minHeight: 44 }}
+                  >
+                    {displayedText}
+                    <span
+                      className="ml-0.5 inline-block w-[2px] bg-black/60"
+                      style={{
+                        height: 16,
+                        verticalAlign: "text-bottom",
+                        animation: "blink 0.8s step-end infinite",
+                      }}
+                    />
+                  </p>
+                  <div className="mt-4 flex items-center justify-between">
+                    <span className="font-inter text-[12px] text-black/30">
+                      {displayedText.length}/500
+                    </span>
+                    <div className="flex h-[32px] w-[32px] items-center justify-center rounded-full bg-[#E26153]">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M7 11V3M7 3L4 6M7 3L10 6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </div>{/* close z-10 wrapper */}
+            </div>
+
+            {/* ── Section 2: Inspírate — carousel ── */}
+            <div className="py-12" data-modal-animate>
+              <h3
+                className="font-sora text-[20px] font-light text-black text-center px-5 tablet:text-[26px] tablet:px-10"
+                style={{ marginBottom: 40 }}
+              >
+                Inspírate con algunas tiendas creadas con T1
+              </h3>
+
+              {/* Carousel — overflow visible so hover scale isn't clipped */}
+              <div className="relative" style={{ overflow: "clip" }}>
+                <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 bg-gradient-to-r from-white/80 to-transparent" />
+                <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-white/80 to-transparent" />
+                <div
+                  className="store-carousel flex items-center gap-5"
+                  style={{ padding: "20px 40px" }}
+                >
+                  {STORE_CAROUSEL.map((store, i) => (
+                    <a
+                      key={`${store.name}-${i}`}
+                      href={store.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group/store relative shrink-0 rounded-[16px] no-underline transition-all duration-300 hover:scale-[1.06] hover:shadow-[0_12px_40px_rgba(0,0,0,0.2)]"
+                      style={{ width: 240, height: 280, overflow: "hidden" }}
+                    >
+                      <Image
+                        src={store.image}
+                        alt={store.name}
+                        fill
+                        className="object-cover transition-all duration-300 group-hover/store:blur-[2px] group-hover/store:brightness-75"
+                      />
+                      {/* Hover overlay */}
+                      <div
+                        className="absolute inset-0 flex flex-col items-center justify-center opacity-0 transition-opacity duration-300 group-hover/store:opacity-100"
+                        style={{ background: "rgba(0,0,0,0.2)" }}
+                      >
+                        <p className="font-sora text-[20px] font-normal text-white">{store.name}</p>
+                        <p className="mt-1 font-inter text-[12px] text-white/60">Visitar tienda →</p>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* ── Section 3: Conecta tus marketplaces — dark bg ── */}
+            <div
+              className="relative px-5 py-10 tablet:px-10 tablet:py-14"
+              data-modal-animate
+              style={{
+                background:
+                  "linear-gradient(135deg, #261515 0%, #1A0A0A 40%, #261515 100%)",
+              }}
+            >
+              <div className="flex flex-col items-start gap-6 tablet:flex-row tablet:items-center">
+                {/* Left: product card — vertically centered to align with T1 logo */}
+                <div
+                  className="shrink-0 overflow-hidden rounded-[20px]"
+                  style={{
+                    width: 160,
+                    padding: "18px",
+                    background: "rgba(255,255,255,0.1)",
+                    backdropFilter: "blur(20px)",
+                    border: "1px solid rgba(255,255,255,0.15)",
+                  }}
+                >
+                  <div className="mb-3 flex items-center justify-center">
+                    <Image src="/img/tenis-transparente.png" alt="" width={90} height={70} className="object-contain" />
+                  </div>
+                  <p className="text-center text-[16px] font-bold text-white">$1,345.99</p>
+                  <p className="text-center text-[11px] text-white/60">Tenis blancos clasicos</p>
+                  <p className="mt-0.5 text-center text-[10px] text-white/40">1,003 unidades</p>
+                </div>
+
+                {/* Center: T1 logo + L-shaped tree + marketplace icons — hidden on mobile */}
+                <div className="relative hidden flex-1 tablet:block" style={{ minHeight: 400 }}>
+                  {/*
+                    Layout (all absolute positioning, SVG viewBox 500x400):
+                    - Product card aligns to SVG at x=0, y=200
+                    - T1 logo at SVG (130, 200)
+                    - Trunk vertical at x=230
+                    - Col1 (4 icons) at x=280: y=30, y=140, y=250, y=360
+                    - Col2 (3 icons) at x=430: y=85, y=200, y=310
+                  */}
+                  <svg className="absolute inset-0 h-full w-full" viewBox="0 0 500 400" fill="none" preserveAspectRatio="xMidYMid meet">
+                    {/* Horizontal line from product card to T1 logo */}
+                    <line x1="0" y1="200" x2="110" y2="200" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
+                    <circle cx="110" cy="200" r="3" fill="rgba(255,255,255,0.4)" />
+
+                    {/* Horizontal from T1 to trunk */}
+                    <line x1="155" y1="200" x2="230" y2="200" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
+                    <circle cx="230" cy="200" r="3" fill="rgba(255,255,255,0.4)" />
+
+                    {/* Vertical trunk */}
+                    <line x1="230" y1="30" x2="230" y2="360" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
+
+                    {/* Col1 branches (x=280) */}
+                    <line x1="230" y1="30" x2="280" y2="30" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
+                    <circle cx="280" cy="30" r="3" fill="rgba(255,255,255,0.4)" />
+
+                    <line x1="230" y1="140" x2="280" y2="140" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
+                    <circle cx="280" cy="140" r="3" fill="rgba(255,255,255,0.4)" />
+
+                    <line x1="230" y1="250" x2="280" y2="250" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
+                    <circle cx="280" cy="250" r="3" fill="rgba(255,255,255,0.4)" />
+
+                    <line x1="230" y1="360" x2="280" y2="360" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
+                    <circle cx="280" cy="360" r="3" fill="rgba(255,255,255,0.4)" />
+
+                    {/* Col2 branches (x=430) */}
+                    <line x1="230" y1="85" x2="430" y2="85" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
+                    <circle cx="430" cy="85" r="3" fill="rgba(255,255,255,0.4)" />
+
+                    <line x1="230" y1="200" x2="430" y2="200" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
+                    <circle cx="430" cy="200" r="3" fill="rgba(255,255,255,0.4)" />
+
+                    <line x1="230" y1="310" x2="430" y2="310" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
+                    <circle cx="430" cy="310" r="3" fill="rgba(255,255,255,0.4)" />
+
+                    {/* Animated dots traveling along the lines */}
+                    {/* Product → T1 */}
+                    <circle r="3" fill="#E26153" opacity="0.7">
+                      <animateMotion dur="2s" repeatCount="indefinite" path="M0 200 L110 200" />
+                    </circle>
+                    {/* T1 → trunk */}
+                    <circle r="3" fill="#E26153" opacity="0.7">
+                      <animateMotion dur="1.5s" repeatCount="indefinite" path="M155 200 L230 200" />
+                    </circle>
+                    {/* Trunk → col1 branches */}
+                    <circle r="3" fill="#E26153" opacity="0.6">
+                      <animateMotion dur="2.5s" repeatCount="indefinite" path="M230 200 L230 30 L280 30" />
+                    </circle>
+                    <circle r="3" fill="#E26153" opacity="0.6">
+                      <animateMotion dur="2s" repeatCount="indefinite" path="M230 200 L230 140 L280 140" begin="0.5s" />
+                    </circle>
+                    <circle r="3" fill="#E26153" opacity="0.6">
+                      <animateMotion dur="2s" repeatCount="indefinite" path="M230 200 L230 250 L280 250" begin="0.3s" />
+                    </circle>
+                    <circle r="3" fill="#E26153" opacity="0.6">
+                      <animateMotion dur="2.5s" repeatCount="indefinite" path="M230 200 L230 360 L280 360" begin="0.8s" />
+                    </circle>
+                    {/* Trunk → col2 branches */}
+                    <circle r="3" fill="#E26153" opacity="0.6">
+                      <animateMotion dur="3s" repeatCount="indefinite" path="M230 200 L230 85 L430 85" begin="0.2s" />
+                    </circle>
+                    <circle r="3" fill="#E26153" opacity="0.7">
+                      <animateMotion dur="2.5s" repeatCount="indefinite" path="M230 200 L430 200" begin="0.6s" />
+                    </circle>
+                    <circle r="3" fill="#E26153" opacity="0.6">
+                      <animateMotion dur="3s" repeatCount="indefinite" path="M230 200 L230 310 L430 310" begin="0.4s" />
+                    </circle>
+                  </svg>
+
+                  {/* T1 Logo — aligned to SVG node at (130, 200) → 26%, 50% */}
+                  <div className="absolute" style={{ left: "26%", top: "50%", transform: "translate(-50%, -50%)" }}>
+                    <svg width="50" height="48" viewBox="0 0 45 44" fill="none">
+                      <path d="M27.6733 19.1041H31.4027C31.5444 19.1041 31.6388 19.1041 31.7332 19.1985C31.7332 19.1985 31.7332 19.1985 31.7332 19.2457V37.7039C31.7332 38.5064 32.4885 39.0729 33.291 38.8369C35.0377 38.1288 37.3037 37.2318 38.956 36.4765C39.2392 36.3349 39.6169 36.1932 39.6169 35.6268V19.2457C39.6169 19.2457 39.6169 19.1985 39.6169 19.1513C39.6169 19.1041 39.6169 19.1041 39.6169 19.1041V7.86867C39.6169 7.20776 39.0976 6.68848 38.4367 6.68848H35.6514C35.1321 6.68848 34.7073 7.01893 34.5184 7.491C33.3855 10.6539 31.2139 13.0143 27.9566 13.5808C24.6992 14.1473 27.6733 13.628 27.4845 13.628C26.8708 13.7224 26.4459 14.1945 26.4459 14.8082V17.8767C26.4459 18.5376 26.9652 19.0569 27.6261 19.0569L27.6733 19.1041Z" fill="#D93A26" />
+                      <path d="M32.5831 5.41411C32.4415 5.27248 32.2055 5.13086 31.9694 5.13086H4.63622C3.78648 5.13086 3.07837 5.74456 3.07837 6.54709V10.7014C3.07837 11.6927 3.2672 12.1648 4.4946 12.1648H13.6057C13.8417 12.1648 14.0305 12.3536 14.0305 12.5897V16.083V35.5326C14.0305 35.9574 14.3138 36.2879 14.7387 36.4767C15.5412 36.8072 18.3264 38.1762 19.2706 38.6955C20.2147 39.2148 21.867 38.3178 21.867 36.996V13.2506C21.867 13.2034 21.867 13.0617 21.867 13.0617C21.8198 12.7313 21.867 12.4008 22.1975 12.2592C22.2919 12.2592 22.3391 12.2592 22.4335 12.2592H25.4076C31.9222 11.6455 32.5831 6.5943 32.6303 6.02781C32.6303 6.02781 32.6303 5.9806 32.6303 5.93339V5.79177C32.6303 5.65014 32.6303 5.55573 32.4887 5.46131L32.5831 5.41411Z" fill="#D93A26" />
+                    </svg>
+                  </div>
+
+                  {/* Marketplace icons — 4 in col1 (x=56%), 3 in col2 (x=86%), aligned to SVG branches */}
+                  {[
+                    { mp: MODAL_MARKETPLACES[0], pctX: 56, pctY: 7.5 },    /* MercadoLibre col1 — y=30/400 */
+                    { mp: MODAL_MARKETPLACES[1], pctX: 86, pctY: 21.25 },   /* Amazon col2 — y=85/400 */
+                    { mp: MODAL_MARKETPLACES[2], pctX: 56, pctY: 35 },      /* Sears col1 — y=140/400 */
+                    { mp: MODAL_MARKETPLACES[3], pctX: 86, pctY: 50 },      /* SHEIN col2 — y=200/400 */
+                    { mp: MODAL_MARKETPLACES[4], pctX: 56, pctY: 62.5 },    /* Walmart col1 — y=250/400 */
+                    { mp: MODAL_MARKETPLACES[5], pctX: 86, pctY: 77.5 },    /* Shopify col2 — y=310/400 */
+                    { mp: MODAL_MARKETPLACES[6], pctX: 56, pctY: 90 },      /* Liverpool col1 — y=360/400 */
+                  ].map(({ mp, pctX, pctY }, i) => (
+                    <div
+                      key={i}
+                      className="absolute flex h-[56px] w-[56px] items-center justify-center overflow-hidden rounded-[14px]"
+                      style={{ left: `${pctX}%`, top: `${pctY}%`, transform: "translate(-50%, -50%)" }}
+                    >
+                      <Image src={mp.src} alt={mp.name} width={56} height={56} className="object-contain" />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Right: text + CTA */}
+                <div className="w-full tablet:w-[280px]" style={{ paddingTop: 20 }}>
+                  <h3 className="font-sora text-[24px] font-normal text-white tablet:text-[30px]" style={{ lineHeight: 1.2, marginBottom: 14 }}>
+                    Conecta tus marketplaces
+                  </h3>
+                  <p className="font-inter text-[15px] font-light text-white/60" style={{ lineHeight: 1.6, marginBottom: 24 }}>
+                    Simplifica tu operación, vende en + 10 marketplaces desde un solo lugar.
+                  </p>
+                  <a
+                    href="#"
+                    className="inline-flex items-center rounded-[14px] bg-[#E26153] px-7 py-3 font-inter text-[14px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#DB3B2B]"
+                  >
+                    Comenzar ahora
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Showcase stacking cards data ── */
+const SHOWCASE_CARDS = [
+  {
+    id: "t1tienda",
+    title: "Tienda",
+    description:
+      "Crea tu tienda en línea con checkout integrado, conecta +10 marketplaces y gestiona productos y envíos desde un solo lugar.",
+    bgImage: null,
+    bgCSS: "stack-bg-tienda",
+    panelLeft: "/img/card-producto.svg",
+    panelRight: "/img/lista-pedidos-t1.svg",
+  },
+  {
+    id: "t1envios",
+    title: "Envíos",
+    description:
+      "Cotiza y crea guías de envío. Si ya vendes en marketplaces, conéctalos y gestiona todos tus pedidos desde un solo lugar.",
+    bgImage: null,
+    bgCSS: "stack-bg-envios",
+    panelLeft: "/img/envios.svg",
+    panelRight: null,
+  },
+  {
+    id: "t1pagos",
+    title: "Pagos",
+    description:
+      "Crea links de pago en segundos, cobra a distancia y gestiona todo desde un solo lugar.",
+    bgImage: null,
+    bgCSS: "stack-bg-pagos",
+    panelLeft: "/img/pagos.svg",
+    panelRight: null,
+  },
+];
+
+/* ── External link arrow icon ── */
+/* ── Phone mockup with WhatsApp → Link de pago ── */
+function PhoneLinkPago() {
+  // 0 = payment form, 1 = confirmation
+  const [screen, setScreen] = useState(0);
+  const [btnPressed, setBtnPressed] = useState(false);
+  const phoneRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = phoneRef.current;
+    if (!el) return;
+    let timers: ReturnType<typeof setTimeout>[] = [];
+    let cycle: ReturnType<typeof setInterval> | null = null;
+
+    const runCycle = () => {
+      setScreen(0);
+      setBtnPressed(false);
+      // After 2.5s, simulate button press
+      timers.push(setTimeout(() => setBtnPressed(true), 2500));
+      // After 3s (0.5s after press), switch to confirmation
+      timers.push(setTimeout(() => {
+        setBtnPressed(false);
+        setScreen(1);
+      }, 3100));
+      // After 7s, reset back to payment and restart
+      timers.push(setTimeout(() => {
+        setScreen(0);
+        setBtnPressed(false);
+      }, 7500));
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          runCycle();
+          cycle = setInterval(runCycle, 8500);
+        } else {
+          setScreen(0);
+          setBtnPressed(false);
+          timers.forEach(clearTimeout);
+          timers = [];
+          if (cycle) clearInterval(cycle);
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => { observer.disconnect(); timers.forEach(clearTimeout); if (cycle) clearInterval(cycle); };
+  }, []);
+
+  return (
+    <div
+      ref={phoneRef}
+      className="overflow-hidden bg-white"
+      style={{
+        width: 280,
+        height: 520,
+        borderRadius: 15,
+        boxShadow: "0 8px 32px rgba(0,0,0,0.15)",
+        fontFamily: "var(--font-inter-var), sans-serif",
+        position: "relative",
+      }}
+    >
+      {/* iOS Status bar */}
+      <div className="flex items-center justify-between px-5 py-1.5 bg-white">
+        <span className="text-[11px] font-semibold text-black">9:41</span>
+        <div className="flex items-center gap-1">
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
+            <rect x="0" y="3" width="2.5" height="7" rx="0.5" fill="rgba(0,0,0,0.3)" />
+            <rect x="3.5" y="2" width="2.5" height="8" rx="0.5" fill="rgba(0,0,0,0.3)" />
+            <rect x="7" y="1" width="2.5" height="9" rx="0.5" fill="rgba(0,0,0,0.5)" />
+            <rect x="10.5" y="0" width="2.5" height="10" rx="0.5" fill="rgba(0,0,0,0.7)" />
+          </svg>
+          <svg width="12" height="10" viewBox="0 0 16 12" fill="none">
+            <path d="M1 8.5C3.5 5 6.5 3 8 3C9.5 3 12.5 5 15 8.5" stroke="rgba(0,0,0,0.5)" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+          <svg width="18" height="9" viewBox="0 0 22 11" fill="none">
+            <rect x="0.5" y="0.5" width="18" height="10" rx="2" stroke="rgba(0,0,0,0.3)" strokeWidth="1" />
+            <rect x="2" y="2" width="14" height="7" rx="1" fill="rgba(0,0,0,0.7)" />
+            <rect x="19.5" y="3.5" width="2" height="4" rx="1" fill="rgba(0,0,0,0.3)" />
+          </svg>
+        </div>
+      </div>
+
+      {screen === 1 ? (
+        /* ── Confirmation screen ── */
+        <div className="flex h-full flex-col bg-white" style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
+          {/* Header */}
+          <div className="flex items-center justify-between border-b border-black/[0.06] px-5 py-3">
+            <span className="text-[12px] font-bold text-black">LOGO</span>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 3L11 11M11 3L3 11" stroke="rgba(0,0,0,0.3)" strokeWidth="1.5" strokeLinecap="round" />
+            </svg>
+          </div>
+
+          {/* Success icon + message */}
+          <div className="flex flex-col items-center px-5" style={{ paddingTop: 28, paddingBottom: 20 }}>
+            <div className="flex h-[40px] w-[40px] items-center justify-center rounded-full bg-[#22C55E]" style={{ marginBottom: 14 }}>
+              <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8L6.5 11.5L13 4.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+            <p className="text-[16px] font-bold text-black" style={{ marginBottom: 4 }}>¡Gracias por tu pago!</p>
+            <p className="text-[11px] text-black/50 text-center">Enviaremos a tu correo la confirmación</p>
+          </div>
+
+          {/* Receipt details */}
+          <div className="mx-5 rounded-[10px] border border-black/[0.06]" style={{ padding: "14px 16px" }}>
+            <div className="flex items-center justify-between border-b border-black/[0.04] pb-2.5" style={{ marginBottom: 10 }}>
+              <span className="text-[10px] text-black/50">Método de pago</span>
+              <div className="flex items-center gap-1.5">
+                <div className="flex h-[14px] w-[22px] items-center justify-center rounded-[2px]" style={{ background: "#EB001B" }}>
+                  <div className="flex">
+                    <div className="h-[8px] w-[8px] rounded-full bg-[#EB001B]" />
+                    <div className="h-[8px] w-[8px] -ml-2 rounded-full bg-[#F79E1B] opacity-80" />
+                  </div>
+                </div>
+                <span className="text-[10px] font-medium text-black/60">**** 3456</span>
+              </div>
+            </div>
+            <div className="flex items-center justify-between" style={{ marginBottom: 8 }}>
+              <span className="text-[10px] text-black/50">Subtotal</span>
+              <span className="text-[10px] text-black/70">$2,396.00</span>
+            </div>
+            <div className="flex items-center justify-between" style={{ marginBottom: 8 }}>
+              <span className="text-[10px] text-black/50">Impuestos (IVA)</span>
+              <span className="text-[10px] text-black/70">$383.36</span>
+            </div>
+            <div className="flex items-center justify-between border-t border-black/[0.04] pt-2.5" style={{ marginTop: 4 }}>
+              <span className="text-[11px] font-semibold text-black">Total</span>
+              <span className="text-[11px] font-bold text-black">$2,629.36</span>
+            </div>
+          </div>
+
+          {/* Powered by */}
+          <div className="mt-auto flex items-center justify-center gap-1 pb-4">
+            <span className="text-[9px] text-black/30">Powered by</span>
+            <svg width="14" height="13" viewBox="0 0 45 44" fill="none">
+              <path d="M27.6733 19.1041H31.4027C31.5444 19.1041 31.6388 19.1041 31.7332 19.1985V19.2457V37.7039C31.7332 38.5064 32.4885 39.0729 33.291 38.8369C35.0377 38.1288 37.3037 37.2318 38.956 36.4765C39.2392 36.3349 39.6169 36.1932 39.6169 35.6268V19.2457V19.1513V19.1041V7.86867C39.6169 7.20776 39.0976 6.68848 38.4367 6.68848H35.6514C35.1321 6.68848 34.7073 7.01893 34.5184 7.491C33.3855 10.6539 31.2139 13.0143 27.9566 13.5808C24.6992 14.1473 27.6733 13.628 27.4845 13.628C26.8708 13.7224 26.4459 14.1945 26.4459 14.8082V17.8767C26.4459 18.5376 26.9652 19.0569 27.6261 19.0569L27.6733 19.1041Z" fill="#D93A26" />
+              <path d="M32.5831 5.41411C32.4415 5.27248 32.2055 5.13086 31.9694 5.13086H4.63622C3.78648 5.13086 3.07837 5.74456 3.07837 6.54709V10.7014C3.07837 11.6927 3.2672 12.1648 4.4946 12.1648H13.6057C13.8417 12.1648 14.0305 12.3536 14.0305 12.5897V16.083V35.5326C14.0305 35.9574 14.3138 36.2879 14.7387 36.4767C15.5412 36.8072 18.3264 38.1762 19.2706 38.6955C20.2147 39.2148 21.867 38.3178 21.867 36.996V13.2506V13.0617C21.8198 12.7313 21.867 12.4008 22.1975 12.2592H22.4335H25.4076C31.9222 11.6455 32.5831 6.5943 32.6303 6.02781V5.93339V5.79177C32.6303 5.65014 32.6303 5.55573 32.4887 5.46131L32.5831 5.41411Z" fill="#D93A26" />
+            </svg>
+            <span className="text-[9px] font-bold text-[#D93A26]">pagos</span>
+          </div>
+        </div>
+      ) : (
+        /* ── Payment form — credit card selected ── */
+        <div className="flex h-full flex-col bg-white">
+          <div className="flex items-center justify-between border-b border-black/[0.06] px-5 py-3">
+            <span className="text-[12px] font-bold text-black">LOGO</span>
+            <span className="text-[11px] text-black/40">Ver detalle ›</span>
+          </div>
+          <div className="flex flex-col items-center px-5 py-3">
+            <Image src="/img/tenis-transparente.png" alt="Tenis" width={60} height={42} className="object-contain" />
+            <p className="mt-1 text-[11px] text-black/50 text-center">Tenis blancos clasicos</p>
+            <p className="mt-0.5 text-[18px] font-bold text-black">$1,345.99</p>
+          </div>
+          <div className="border-t border-black/[0.06] px-5 py-2.5">
+            <p className="text-[11px] font-semibold text-black/70" style={{ marginBottom: 6 }}>Método de pago</p>
+            {/* Credit card — SELECTED with MSI dropdown inside */}
+            <div className="rounded-[8px] border border-[#E26153]" style={{ marginBottom: 8 }}>
+              <div className="flex items-center gap-2 px-3 py-2.5">
+                <div className="h-[8px] w-[8px] rounded-full bg-[#E26153]" />
+                <span className="text-[11px] font-medium text-black/70">Tarjetas de crédito o débito</span>
+                <div className="ml-auto flex items-center gap-1">
+                  <span className="text-[8px] font-bold text-[#1434CB]">VISA</span>
+                  <div className="flex">
+                    <div className="h-[8px] w-[8px] rounded-full bg-[#EB001B]" />
+                    <div className="h-[8px] w-[8px] -ml-2 rounded-full bg-[#F79E1B] opacity-80" />
+                  </div>
+                </div>
+              </div>
+              {/* MSI dropdown inside card selection */}
+              <div className="flex items-center justify-between border-t border-[#E26153]/10 px-3 py-2">
+                <span className="text-[9px] text-black/50">Meses sin intereses</span>
+                <div className="flex items-center gap-1">
+                  <span className="text-[9px] font-semibold text-black/70">6 meses</span>
+                  <svg width="8" height="8" viewBox="0 0 12 12" fill="none">
+                    <path d="M3 4.5L6 7.5L9 4.5" stroke="rgba(0,0,0,0.3)" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            {/* Transfer — unselected */}
+            <div className="flex items-center gap-2 rounded-[8px] border border-black/[0.06] px-3 py-2.5">
+              <div className="h-[8px] w-[8px] rounded-full border-2 border-black/15" />
+              <span className="text-[11px] text-black/50">Transferencia bancaria</span>
+              <span className="ml-auto text-[9px] font-bold text-black/25">SPEI</span>
+            </div>
+          </div>
+          {/* Pagar button — right after payment methods, simulated click */}
+          <div className="px-5" style={{ marginTop: 12 }}>
+            <div
+              className="flex h-[40px] items-center justify-center rounded-[10px] bg-[#E26153]"
+              style={{
+                transform: btnPressed ? "scale(0.95)" : "scale(1)",
+                opacity: btnPressed ? 0.85 : 1,
+                boxShadow: btnPressed ? "inset 0 2px 4px rgba(0,0,0,0.2)" : "0 2px 8px rgba(226,97,83,0.3)",
+                transition: "transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease",
+                position: "relative",
+              }}
+            >
+              <span className="text-[13px] font-bold text-white">Pagar $1,345.99</span>
+              {/* Simulated finger/cursor indicator */}
+              {btnPressed && (
+                <div
+                  className="absolute"
+                  style={{
+                    bottom: -18,
+                    right: 30,
+                    width: 24,
+                    height: 24,
+                    borderRadius: "50%",
+                    background: "rgba(0,0,0,0.12)",
+                    border: "2px solid rgba(0,0,0,0.08)",
+                    animation: "fadeSlideIn 0.2s ease-out",
+                  }}
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ExternalArrow() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path
+        d="M4.5 11.5L11.5 4.5M11.5 4.5H6M11.5 4.5V10"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+/* ── iOS Status Bar (shared by mobile panels) ── */
+function IOSStatusBar() {
+  return (
+    <div className="flex items-center justify-between px-5 py-1.5 bg-white">
+      <span className="text-[11px] font-semibold text-black">9:41</span>
+      <div className="flex items-center gap-1">
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
+          <rect x="0" y="3" width="2.5" height="7" rx="0.5" fill="rgba(0,0,0,0.3)" />
+          <rect x="3.5" y="2" width="2.5" height="8" rx="0.5" fill="rgba(0,0,0,0.3)" />
+          <rect x="7" y="1" width="2.5" height="9" rx="0.5" fill="rgba(0,0,0,0.5)" />
+          <rect x="10.5" y="0" width="2.5" height="10" rx="0.5" fill="rgba(0,0,0,0.7)" />
+        </svg>
+        <svg width="12" height="10" viewBox="0 0 16 12" fill="none">
+          <path d="M1 8.5C3.5 5 6.5 3 8 3C9.5 3 12.5 5 15 8.5" stroke="rgba(0,0,0,0.5)" strokeWidth="1.5" strokeLinecap="round" />
+        </svg>
+        <svg width="18" height="9" viewBox="0 0 22 11" fill="none">
+          <rect x="0.5" y="0.5" width="18" height="10" rx="2" stroke="rgba(0,0,0,0.3)" strokeWidth="1" />
+          <rect x="2" y="2" width="14" height="7" rx="1" fill="rgba(0,0,0,0.7)" />
+          <rect x="19.5" y="3.5" width="2" height="4" rx="1" fill="rgba(0,0,0,0.3)" />
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+/* ── Mobile Tienda Panel (phone-style with animation) ── */
+function MobileTiendaPanel({ animate }: { animate: boolean }) {
+  const [extraCount, setExtraCount] = useState(0);
+
+  useEffect(() => {
+    if (!animate) { setExtraCount(0); return; }
+    setExtraCount(0);
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    for (let i = 0; i < 3; i++) {
+      timers.push(setTimeout(() => setExtraCount(i + 1), 2500 + i * 2200));
+    }
+    return () => timers.forEach(clearTimeout);
+  }, [animate]);
+
+  const INITIAL = [
+    { id: "#112", canal: "Tiktok", src: "/img/tiktok-isotipo.png", productos: "2 productos", estatus: "Por enviar" },
+    { id: "#111", canal: "SHEIN", src: "/img/shein-iso.svg", productos: "1 producto", estatus: "Enviado" },
+    { id: "#110", canal: "Tienda", src: null as string | null, emoji: "🏪", productos: "3 productos", estatus: "Por preparar" },
+    { id: "#109", canal: "MeLi", src: "/img/meli-iso.svg", productos: "2 productos", estatus: "Entregado" },
+    { id: "#108", canal: "Amazon", src: "/img/amazon-iso.svg", productos: "1 producto", estatus: "Cancelado" },
+    { id: "#107", canal: "Walmart", src: "/img/walmart.svg", productos: "4 productos", estatus: "Enviado" },
+    { id: "#106", canal: "Tienda", src: null as string | null, emoji: "🏪", productos: "1 producto", estatus: "Entregado" },
+  ];
+
+  /* Extras appear one by one: #113 first, then #114, then #115 (newest on top) */
+  const EXTRA = [
+    { id: "#113", canal: "Amazon", src: "/img/amazon-iso.svg", productos: "1 producto", estatus: "Por enviar" },
+    { id: "#114", canal: "MeLi", src: "/img/meli-iso.svg", productos: "3 productos", estatus: "Por enviar" },
+    { id: "#115", canal: "Tienda", src: null as string | null, emoji: "🏪", productos: "1 producto", estatus: "Pendiente" },
+  ];
+
+  return (
+    <div className="mx-auto mt-5 flex flex-col overflow-hidden bg-white tablet:hidden" style={{ width: "85%", maxWidth: 300, height: 480, marginBottom: 16, borderRadius: 20, boxShadow: "0 8px 30px rgba(0,0,0,0.15)", fontFamily: "var(--font-manrope-var), sans-serif" }}>
+      <IOSStatusBar />
+      <div className="flex shrink-0 items-center justify-between border-b border-black/[0.06] px-4" style={{ paddingTop: 8, paddingBottom: 8 }}>
+        <span className="text-[14px] font-bold text-black">Mis pedidos</span>
+        <span className="flex h-[28px] items-center rounded-full bg-[#E26153] px-4 text-[10px] font-semibold text-white">Crear pedido</span>
+      </div>
+      <div className="flex-1 overflow-hidden">
+        {/* Show extras newest-on-top: slice then reverse so newest appears first */}
+        {[...EXTRA.slice(0, extraCount)].reverse().map((row, i) => (
+          <div key={`extra-${row.id}`} className="border-b border-black/[0.04] px-4 py-2.5" style={{ animation: "slideRowIn 0.8s ease-out" }}>
+            <div className="flex items-center justify-between" style={{ marginBottom: 2 }}>
+              <div className="flex items-center gap-2">
+                <span className="text-[9px] text-black/40">22 abr</span>
+                <span className="text-[10px] font-semibold text-black/60">{row.id}</span>
+              </div>
+              <span className="text-[10px] font-bold text-black">$1,345.99</span>
+            </div>
+            <div className="flex items-center gap-2" style={{ marginBottom: 2 }}>
+              <span className="rounded-full bg-black/[0.04] px-2 py-0.5 text-[8px] font-medium text-black/45">{row.estatus}</span>
+              <div className="flex items-center gap-1">
+                {row.src ? <Image src={row.src} alt="" width={12} height={12} className="rounded-full object-contain" /> : <span className="text-[10px]">{row.emoji}</span>}
+                <span className="text-[9px] text-black/40">{row.canal}</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-[9px] text-black/35">Juan Pérez</span>
+              <span className="text-[9px] text-black/25">{row.productos}</span>
+            </div>
+          </div>
+        ))}
+        {INITIAL.map((row, i) => (
+          <div key={i} className="border-b border-black/[0.04] px-4 py-2.5 last:border-0">
+            <div className="flex items-center justify-between" style={{ marginBottom: 2 }}>
+              <div className="flex items-center gap-2">
+                <span className="text-[9px] text-black/40">21 abr</span>
+                <span className="text-[10px] font-semibold text-black/60">{row.id}</span>
+              </div>
+              <span className="text-[10px] font-bold text-black">$1,345.99</span>
+            </div>
+            <div className="flex items-center gap-2" style={{ marginBottom: 2 }}>
+              <span className="rounded-full bg-black/[0.04] px-2 py-0.5 text-[8px] font-medium text-black/45">{row.estatus}</span>
+              <div className="flex items-center gap-1">
+                {row.src ? <Image src={row.src} alt="" width={12} height={12} className="rounded-full object-contain" /> : <span className="text-[10px]">{row.emoji}</span>}
+                <span className="text-[9px] text-black/40">{row.canal}</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-[9px] text-black/35">María López</span>
+              <span className="text-[9px] text-black/25">{row.productos}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── Mobile Envios Panel (phone-style with self-managed animation) ── */
+function MobileEnviosPanel() {
+  const [extraCount, setExtraCount] = useState(0);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = panelRef.current;
+    if (!el) return;
+    let timers: ReturnType<typeof setTimeout>[] = [];
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setExtraCount(0);
+          for (let i = 0; i < 3; i++) {
+            timers.push(setTimeout(() => setExtraCount(i + 1), 2500 + i * 2200));
+          }
+        } else {
+          setExtraCount(0);
+          timers.forEach(clearTimeout);
+          timers = [];
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => { observer.disconnect(); timers.forEach(clearTimeout); };
+  }, []);
+
+  const INITIAL = [
+    { guia: "43567890082", paqueteria: "FedEx", logo: "/img/icons/fedex-logo.svg", costo: "$87.45", estado: "En camino" },
+    { guia: "43567890082", paqueteria: "DHL", logo: "/img/dhl-iso.svg", costo: "$449.00", estado: "Entregado" },
+    { guia: "43567890082", paqueteria: "99min", logo: "/img/99min-iso.svg", costo: "$87.45", estado: "Por recolectar" },
+    { guia: "98765432100", paqueteria: "Estafeta", logo: "/img/icons/estafeta-logo.svg", costo: "$125.00", estado: "En camino" },
+    { guia: "55667788990", paqueteria: "FedEx", logo: "/img/icons/fedex-logo.svg", costo: "$95.50", estado: "Entregado" },
+    { guia: "77889900112", paqueteria: "DHL", logo: "/img/dhl-iso.svg", costo: "$210.00", estado: "Recolectado" },
+    { guia: "33445566778", paqueteria: "99min", logo: "/img/99min-iso.svg", costo: "$65.00", estado: "En camino" },
+    { guia: "22334455667", paqueteria: "Estafeta", logo: "/img/icons/estafeta-logo.svg", costo: "$178.50", estado: "Por recolectar" },
+    { guia: "11223344559", paqueteria: "FedEx", logo: "/img/icons/fedex-logo.svg", costo: "$112.00", estado: "Entregado" },
+  ];
+
+  const EXTRA = [
+    { guia: "11223344556", paqueteria: "DHL", logo: "/img/dhl-iso.svg", costo: "$210.00", estado: "Recolectado" },
+    { guia: "66778899001", paqueteria: "Estafeta", logo: "/img/icons/estafeta-logo.svg", costo: "$145.00", estado: "En camino" },
+    { guia: "99001122334", paqueteria: "FedEx", logo: "/img/icons/fedex-logo.svg", costo: "$89.00", estado: "Por recolectar" },
+  ];
+
+  return (
+    <div ref={panelRef} className="mx-auto mt-5 flex flex-col overflow-hidden bg-white tablet:hidden" style={{ width: "85%", maxWidth: 300, height: 480, marginBottom: 16, borderRadius: 20, boxShadow: "0 8px 30px rgba(0,0,0,0.15)", fontFamily: "var(--font-manrope-var), sans-serif" }}>
+      <IOSStatusBar />
+      <div className="flex shrink-0 items-center justify-between border-b border-black/[0.06] px-4" style={{ paddingTop: 8, paddingBottom: 8 }}>
+        <span className="text-[14px] font-bold text-black">Mis envíos</span>
+        <span className="flex h-[28px] items-center rounded-full bg-[#E26153] px-4 text-[10px] font-semibold text-white">Crear envío</span>
+      </div>
+      <div className="flex-1 overflow-hidden">
+        {EXTRA.slice(0, extraCount).map((row, i) => (
+          <div key={`extra-${row.guia}-${i}`} className="flex items-center gap-2.5 border-b border-black/[0.04] px-4 py-2.5" style={{ animation: "slideRowIn 0.8s ease-out" }}>
+            <Image src={row.logo} alt="" width={22} height={22} className="shrink-0 rounded object-contain" />
+            <div className="flex min-w-0 flex-col">
+              <span className="truncate text-[10px] font-semibold text-black/70">{row.guia}</span>
+              <span className="text-[9px] text-black/35">{row.paqueteria}</span>
+            </div>
+            <span className="ml-auto shrink-0 text-[10px] font-semibold text-black/60">{row.costo}</span>
+            <span className="shrink-0 rounded-full bg-black/[0.04] px-2 py-0.5 text-[8px] font-medium text-black/45">{row.estado}</span>
+          </div>
+        ))}
+        {INITIAL.map((row, i) => (
+          <div key={i} className="flex items-center gap-2.5 border-b border-black/[0.04] px-4 py-2.5 last:border-0">
+            <Image src={row.logo} alt="" width={22} height={22} className="shrink-0 rounded object-contain" />
+            <div className="flex min-w-0 flex-col">
+              <span className="truncate text-[10px] font-semibold text-black/70">{row.guia}</span>
+              <span className="text-[9px] text-black/35">{row.paqueteria}</span>
+            </div>
+            <span className="ml-auto shrink-0 text-[10px] font-semibold text-black/60">{row.costo}</span>
+            <span className="shrink-0 rounded-full bg-black/[0.04] px-2 py-0.5 text-[8px] font-medium text-black/45">{row.estado}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── Main Component ── */
+export default function T1Features() {
+  const tiendaRef = useRef<HTMLDivElement>(null);
+  const [tiendaVisible, setTiendaVisible] = useState(false);
+  const [modalCard, setModalCard] = useState<string | null>(null);
+  // Q1 — viewport gate: desktop-only and mobile-only subtrees are unmounted
+  // post-hydration to remove ~244 hidden nodes from the stack DOM.
+  const isDesktop = useIsDesktop();
+
+  const closeModal = useCallback(() => setModalCard(null), []);
+
+  /* Scale-down staircase — continuous interpolation based on next card's scroll progress.
+     Optimized: 1 batched read of rects → write CSS vars (no filter:brightness, no per-frame
+     querySelectorAll). The actual transform+overlay live in CSS using the variables. */
+  useEffect(() => {
+    let rafId: number;
+    let cachedCards: HTMLElement[] | null = null;
+    const TOP_BASE = 70;
+    const TOP_GAP = 20;
+
+    const getCards = () => {
+      if (!cachedCards || cachedCards.length === 0 || !document.contains(cachedCards[0])) {
+        cachedCards = Array.from(document.querySelectorAll<HTMLElement>(".stack-card"));
+      }
+      return cachedCards;
+    };
+
+    const onScroll = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const cards = getCards();
+        const totalCards = cards.length;
+        if (totalCards === 0) return;
+
+        // Skip scale effect on mobile — cards are full-viewport and shouldn't shrink.
+        const isMobile = window.matchMedia("(max-width: 767px)").matches;
+        if (isMobile) {
+          for (let i = 0; i < totalCards; i++) {
+            cards[i].style.removeProperty("--stack-scale");
+            cards[i].style.removeProperty("--stack-dim");
+          }
+          return;
+        }
+
+        // Single read pass: cache top positions
+        const viewportH = window.innerHeight;
+        const tops = new Array<number>(totalCards);
+        for (let i = 0; i < totalCards; i++) {
+          tops[i] = cards[i].getBoundingClientRect().top;
+        }
+
+        // Single write pass: compute reduction from cached tops (O(n), no extra reads)
+        for (let i = 0; i < totalCards; i++) {
+          let totalReduction = 0;
+          for (let j = i + 1; j < totalCards; j++) {
+            const nextStickyTop = TOP_BASE + j * TOP_GAP;
+            const distanceToTravel = viewportH - nextStickyTop;
+            const distanceTraveled = viewportH - tops[j];
+            const progress = distanceTraveled <= 0
+              ? 0
+              : distanceTraveled >= distanceToTravel
+                ? 1
+                : distanceTraveled / distanceToTravel;
+            totalReduction += progress * 0.04;
+          }
+          const scale = totalReduction >= 0.12 ? 0.88 : 1 - totalReduction;
+          // Dim is the strength of the dark overlay (0..0.25), replaces filter:brightness.
+          const dim = Math.min(0.25, totalReduction * 1.5);
+          cards[i].style.setProperty("--stack-scale", String(scale));
+          cards[i].style.setProperty("--stack-dim", String(dim));
+        }
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll(); // initial pass
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(rafId);
+    };
+  }, []);
+
+  useEffect(() => {
+    const el = tiendaRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setTiendaVisible(entry.isIntersecting);
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  /* Q2 — Pause blobFloat animation on cards that are off-screen.
+     Toggles `.is-visible` class on each `.stack-card`. CSS plays the
+     animation only when the class is present, saving paint cost on the
+     two non-active cards in the stack. */
+  useEffect(() => {
+    const cards = document.querySelectorAll<HTMLElement>(".stack-card");
+    if (cards.length === 0) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          (entry.target as HTMLElement).classList.toggle("is-visible", entry.isIntersecting);
+        }
+      },
+      // Activate when at least 10% of the card is visible
+      { threshold: 0.1, rootMargin: "0px" }
+    );
+    cards.forEach((c) => observer.observe(c));
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section className="bg-[#F6F6F6]" style={{ paddingTop: 60, paddingBottom: 40 }}>
+      <div className="mx-auto max-w-[var(--max-w)] px-5 tablet:px-6" style={{ paddingTop: 40 }}>
+        {/* Heading — Sora 44px */}
+        <h2
+          className="mx-auto font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]"
+          style={{
+            letterSpacing: "-0.03em",
+            lineHeight: "1.2em",
+            textAlign: "center",
+            maxWidth: 700,
+            marginBottom: 16,
+          }}
+        >
+          {FEATURES_HEADING}
+        </h2>
+
+        {/* Subtitle — Inter 25px light, full width */}
+        <p
+          className="font-inter text-[16px] font-light text-black tablet:text-[20px] lg:text-[25px]"
+          style={{
+            textAlign: "center",
+            lineHeight: 1.5,
+            marginBottom: 48,
+            whiteSpace: "pre-line",
+          }}
+        >
+          {FEATURES_SUBTITLE}
+        </p>
+
+        {/* 3-column card grid with SVG icons from files */}
+        <div className="grid grid-cols-1 gap-4 tablet:grid-cols-2 lg:grid-cols-3 lg:gap-6" style={{ marginBottom: 60 }}>
+          {FEATURE_CARDS.map((card) => (
+            <div
+              key={card.id}
+              className="group flex flex-col rounded-[15px] border border-black/[0.06] bg-white transition-shadow duration-200 hover:shadow-[0_0_30px_2px_rgba(0,0,0,0.06)]"
+              style={{ padding: "28px 24px" }}
+            >
+              {/* Top row: Label + Icon from SVG file */}
+              <div
+                className="flex items-start justify-between"
+                style={{ marginBottom: 12 }}
+              >
+                <p className="font-inter text-[15px] font-semibold tracking-[0.04em] text-black">
+                  {card.label}
+                </p>
+                <Image
+                  src={card.icon}
+                  alt={card.label}
+                  width={40}
+                  height={40}
+                  className="h-[40px] w-[40px] object-contain"
+                />
+              </div>
+
+              {/* Description */}
+              <p className="font-inter text-[14px] font-normal leading-relaxed text-black/55 tablet:text-[15px]">
+                {card.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Stack section heading ── */}
+      <div className="mx-auto max-w-[var(--max-w)] px-5 tablet:px-6" style={{ marginBottom: 32 }}>
+        <h2
+          className="mx-auto font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]"
+          style={{ letterSpacing: "-0.03em", lineHeight: "1.2em", textAlign: "center", maxWidth: 780 }}
+        >
+          No importa en qué punto esté tu negocio. Escala sin cambiar de sistema.
+        </h2>
+      </div>
+
+      {/* ── Stacking showcase cards with scale-down effect ── */}
+      <div className="stack-card-container relative mx-auto max-w-[var(--max-w)] px-4 tablet:px-6">
+        {SHOWCASE_CARDS.map((card, idx) => (
+          <div
+            key={card.id}
+            className="stack-card sticky cursor-pointer overflow-hidden rounded-[12px] tablet:rounded-[15px]"
+            style={{
+              top: `${70 + idx * 20}px`,
+              marginBottom: 40,
+              height: 580,
+              zIndex: idx + 1,
+              boxShadow: "0 -4px 30px rgba(0,0,0,0.2)",
+              transformOrigin: "50% 0",
+            }}
+            data-stack-idx={idx}
+            onClick={() => {
+              if (card.id === "t1pagos") {
+                window.open("https://t1.com/mx/pagos/", "_blank", "noopener,noreferrer");
+              } else if (card.id === "t1envios") {
+                window.open("https://www.t1.com/mx/envios", "_blank", "noopener,noreferrer");
+              } else if (card.id === "t1tienda") {
+                window.location.href = "/productos/t1tienda/tienda-con-ia";
+              } else {
+                setModalCard(card.id);
+              }
+            }}
+          >
+            {/* Background — CSS gradient or image */}
+            {card.bgImage ? (
+              <Image src={card.bgImage} alt="" fill className="object-cover" sizes="100vw" />
+            ) : (
+              <>
+                <div className={`absolute inset-0 ${card.bgCSS}`} />
+                <div className="noise-grain pointer-events-none absolute inset-0 z-[1]" />
+              </>
+            )}
+
+            {/* Dark overlay for readability */}
+            <div className="absolute inset-0 bg-black/20" />
+
+            {/* Content wrapper */}
+            <div className="relative z-10 flex h-full flex-col tablet:flex-row" style={{ minHeight: 320 }}>
+              {card.panelRight ? (
+                /* ── Two-column layout (T1tienda) ── */
+                <>
+                  {/* Left column — text at top + product card below */}
+                  <div className="flex w-full flex-col px-5 pt-14 pb-5 tablet:w-1/2 tablet:p-8" ref={tiendaRef}>
+                    {/* Text info at top */}
+                    <div>
+                      <p className="flex items-center gap-2 font-sora text-[20px] font-normal text-white tablet:text-[24px] lg:text-[28px]">
+                        {card.title}
+                        <span className="text-white/60">
+                          <ExternalArrow />
+                        </span>
+                      </p>
+                      <p
+                        className="font-inter text-[14px] font-normal text-white/90 tablet:text-[16px] lg:text-[18px]"
+                        style={{ lineHeight: 1.6, marginTop: 8 }}
+                      >
+                        {card.description}
+                      </p>
+                    </div>
+
+                    {/* Desktop: GlassProductCard — only mounted on desktop (Q1) */}
+                    {isDesktop !== false && (
+                      <div className="mt-6 hidden flex-1 items-center justify-center tablet:flex tablet:mt-0">
+                        <GlassProductCard
+                          imageSrc="/img/tenis-transparente.png"
+                          price="$1,345.99"
+                          title="Tenis blancos clasicos"
+                          units="1,003 unidades"
+                          marketplaces={[
+                            { src: "/img/meli-iso.svg", alt: "MercadoLibre" },
+                            { src: "/img/amazon-iso.svg", alt: "Amazon" },
+                            { src: "/img/walmart.svg", alt: "Walmart" },
+                            { src: "/img/sears-isotipo.svg", alt: "Sears" },
+                            { src: "/img/shein-iso.svg", alt: "SHEIN" },
+                          ]}
+                        />
+                      </div>
+                    )}
+
+                    {/* Mobile: phone-style pedidos panel — only mounted on mobile (Q1) */}
+                    {isDesktop !== true && <MobileTiendaPanel animate={tiendaVisible} />}
+
+                  </div>
+
+                  {/* Right column: animated pedidos panel — desktop only (Q1) */}
+                  {isDesktop !== false && (
+                    <div className="hidden w-1/2 items-end justify-end tablet:flex" style={{ paddingTop: 60 }}>
+                      <PedidosPanel animate={tiendaVisible} />
+                    </div>
+                  )}
+                </>
+              ) : card.id === "t1pagos" ? (
+                /* ── Two-column layout (T1pagos) ── */
+                <div className="flex h-full w-full flex-col tablet:flex-row">
+                  {/* Left column: text at top, credit cards centered below */}
+                  <div className="flex w-full flex-col px-5 pt-14 pb-5 tablet:w-1/2 tablet:p-8 lg:p-10">
+                    <div style={{ maxWidth: 420 }}>
+                      <p className="flex items-center gap-2 font-sora text-[20px] font-normal text-white tablet:text-[24px] lg:text-[28px]">
+                        {card.title}
+                        <span className="text-white/60"><ExternalArrow /></span>
+                      </p>
+                      <p className="font-inter text-[14px] font-normal text-white/90 tablet:text-[16px] lg:text-[18px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 12 }}>
+                        {card.description}
+                      </p>
+                    </div>
+                    {/* Desktop: credit cards — only mounted on desktop (Q1) */}
+                    {isDesktop !== false && (
+                      <div className="mt-6 hidden flex-1 items-center justify-center tablet:flex tablet:mt-0">
+                        <GlassCreditCard />
+                      </div>
+                    )}
+
+                    {/* Mobile: phone link de pago — only mounted on mobile (Q1) */}
+                    {isDesktop !== true && (
+                      <div className="mx-auto mt-5 tablet:hidden">
+                        <PhoneLinkPago />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Right column: phone mockup — only mounted on desktop (Q1) */}
+                  {isDesktop !== false && (
+                    <div className="hidden w-1/2 items-center justify-center overflow-hidden tablet:flex">
+                      <div style={{ marginTop: 40, marginBottom: -80 }}>
+                        <div
+                          className="relative"
+                          style={{
+                            padding: "10px 10px 0 10px",
+                            borderRadius: "18px 18px 0 0",
+                            background: "linear-gradient(180deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 40%, rgba(255,255,255,0.03) 100%)",
+                            boxShadow: "inset 0 1px 0 rgba(255,255,255,0.4), inset 1px 0 0 rgba(255,255,255,0.2), inset -1px 0 0 rgba(255,255,255,0.2)",
+                          }}
+                        >
+                          <PhoneLinkPago />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : card.id === "t1envios" ? (
+                /* ── Envíos — text + shipment card left, panel right ── */
+                <div className="flex h-full w-full flex-col tablet:flex-row">
+                  <div className="flex w-full flex-col px-5 pt-14 pb-5 tablet:w-2/5 tablet:p-8">
+                    <div>
+                      <p className="flex items-center gap-2 font-sora text-[20px] font-normal text-white tablet:text-[24px] lg:text-[28px]">
+                        {card.title}
+                        <span className="text-white/60"><ExternalArrow /></span>
+                      </p>
+                      <p className="font-inter text-[14px] font-normal text-white/90 tablet:text-[16px] lg:text-[18px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 12 }}>
+                        {card.description}
+                      </p>
+                    </div>
+                    {/* Desktop: GlassShipmentCard — only mounted on desktop (Q1) */}
+                    {isDesktop !== false && (
+                      <div className="mt-6 hidden flex-1 items-center justify-center tablet:flex tablet:mt-0">
+                        <GlassShipmentCard />
+                      </div>
+                    )}
+
+                    {/* Mobile: phone-style envios panel — only mounted on mobile (Q1) */}
+                    {isDesktop !== true && <MobileEnviosPanel />}
+
+                  </div>
+                  {/* EnviosPanel — only mounted on desktop (Q1) */}
+                  {isDesktop !== false && (
+                    <div className="hidden w-3/5 tablet:block" style={{ paddingTop: 40 }}>
+                      <EnviosPanel animate={tiendaVisible} />
+                    </div>
+                  )}
+                </div>
+              ) : (
+                /* ── Single panel layout (fallback) ── */
+                <div className="flex w-full flex-col justify-between p-5 tablet:p-8 lg:p-10">
+                  <div style={{ maxWidth: 520 }}>
+                    <p className="flex items-center gap-2 font-sora text-[20px] font-normal text-white tablet:text-[24px] lg:text-[28px]">
+                      {card.title}
+                      <span className="text-white/60"><ExternalArrow /></span>
+                    </p>
+                    <p className="font-inter text-[14px] font-normal text-white/90 tablet:text-[16px] lg:text-[18px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 12 }}>
+                      {card.description}
+                    </p>
+                  </div>
+                  <div className="hidden flex-1 items-center justify-center tablet:flex" style={{ minHeight: 0 }}>
+                    {card.panelLeft ? (
+                      <div className="overflow-hidden rounded-[12px] shadow-2xl" style={{ maxWidth: 500, maxHeight: "100%" }}>
+                        <Image
+                          src={card.panelLeft}
+                          alt={`${card.title} panel`}
+                          width={600}
+                          height={400}
+                          className="h-auto w-full object-contain"
+                        />
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Modal */}
+      {modalCard && typeof document !== "undefined" && createPortal(
+        <ProductModal cardId={modalCard} onClose={closeModal} />,
+        document.body
+      )}
+    </section>
+  );
+}

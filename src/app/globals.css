@@ -23,7 +23,7 @@
   --animate-float-slow: float-slow 7s ease-in-out infinite;
   --animate-float-reverse: float-reverse 6s ease-in-out infinite;
   --animate-pulse-soft: pulse-soft 4s ease-in-out infinite;
-  --animate-marquee: marquee 30s linear infinite;
+  --animate-marquee: marquee 50s linear infinite;
   --animate-slide-down: slideDown 200ms ease-out;
 }
 
@@ -240,6 +240,31 @@ body {
   66% { transform: translate(-20px, 15px) scale(0.95); opacity: 1; }
 }
 
+/* Q2 — pause blobFloat animation when the card is off-screen.
+   The animation is added by .stack-bg-* selectors above; here we gate
+   its play state on the `.is-visible` class toggled by IntersectionObserver. */
+.stack-bg-tienda::after,
+.stack-bg-pagos::after,
+.stack-bg-envios::after {
+  animation-play-state: paused;
+}
+.stack-card.is-visible .stack-bg-tienda::after,
+.stack-card.is-visible .stack-bg-pagos::after,
+.stack-card.is-visible .stack-bg-envios::after {
+  animation-play-state: running;
+}
+
+/* Q3 — honor user's prefers-reduced-motion preference.
+   Disables the decorative blob animation entirely for users who request
+   reduced motion (low-power mode, accessibility settings). */
+@media (prefers-reduced-motion: reduce) {
+  .stack-bg-tienda::after,
+  .stack-bg-pagos::after,
+  .stack-bg-envios::after {
+    animation: none !important;
+  }
+}
+
 /* Scroll animations */
 [data-animate] {
   opacity: 0;
@@ -255,7 +280,7 @@ body {
 
 /* Marquee track */
 .marquee-track {
-  animation: marquee 30s linear infinite;
+  animation: marquee 50s linear infinite;
   width: max-content;
 }
 
