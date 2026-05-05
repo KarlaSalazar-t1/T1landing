@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "prod",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["-e", "require('http').createServer((req,res)=>{res.writeHead(302,{Location:'https://t1landing.vercel.app'+req.url});res.end()}).listen(3001)"],
+      "port": 3001
+    }
+  ]
+}

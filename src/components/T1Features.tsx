@@ -15,6 +15,8 @@ import PedidosPanel from "@/components/showcase/PedidosPanel";
 import EnviosPanel from "@/components/showcase/EnviosPanel";
 import GlassShipmentCard from "@/components/showcase/GlassShipmentCard";
 import { useIsDesktop } from "@/hooks/useIsDesktop";
+import { useCountUp } from "@/hooks/useCountUp";
+import T1FinalCTA from "@/components/T1FinalCTA";
 
 /* ── Marketplace icons for modal ── */
 const MODAL_MARKETPLACES = [
@@ -47,6 +49,19 @@ const PROMPT_PAGES = [
   { text: "Mi negocio es de productos orgánicos.", image: "/img/organico-v2.png", bg: "/img/fondo-modal-4.png", gradientColor: "#998E67" },
 ];
 
+/* ── Stat with count-up animation, used in Tienda landing ── */
+function CountStat({ end, prefix = "", suffix = "", label, decimals = 0 }: { end: number; prefix?: string; suffix?: string; label: string; decimals?: number }) {
+  const { ref, display } = useCountUp({ end, prefix, suffix, decimals, duration: 1800 });
+  return (
+    <div ref={ref}>
+      <p className="font-sora text-[36px] font-light text-white tablet:text-[52px]" style={{ letterSpacing: "-0.03em", marginBottom: 6, lineHeight: 1 }}>
+        {display}
+      </p>
+      <p className="font-inter text-[12px] font-light text-white/55 tablet:text-[13px]">{label}</p>
+    </div>
+  );
+}
+
 /* ── Product modal — matching Figma design ── */
 export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: string; onClose: () => void; pageMode?: boolean }) {
   const titles: Record<string, string> = {
@@ -56,6 +71,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
   };
   const title = titles[cardId] || cardId;
   const scrollRef = useRef<HTMLDivElement>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   const [pageIdx, setPageIdx] = useState(0);
   const [visiblePageIdx, setVisiblePageIdx] = useState(0); // only changes after typing done
@@ -69,7 +85,82 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
     return () => { document.body.style.overflow = ""; };
   }, [pageMode]);
 
-  // Scroll-triggered animations inside modal
+  // ── Carousel 3D coverflow — center cards larger, sides smaller (pageMode only) ──
+  useEffect(() => {
+    if (!pageMode) return;
+    const wrap = carouselRef.current;
+    if (!wrap) return;
+
+    // Respect reduced motion
+    if (typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+    let rafId = 0;
+    let visible = true;
+    const hovered = new Set<HTMLElement>();
+
+    const ioVisibility = new IntersectionObserver(
+      ([entry]) => { visible = entry.isIntersecting; },
+      { threshold: 0 }
+    );
+    ioVisibility.observe(wrap);
+
+    // Track hover so we don't fight the CSS hover transform
+    const cards = Array.from(wrap.querySelectorAll<HTMLElement>(".store-carousel > a"));
+    const enterHandlers = new Map<HTMLElement, () => void>();
+    const leaveHandlers = new Map<HTMLElement, () => void>();
+    cards.forEach((card) => {
+      const enter = () => {
+        hovered.add(card);
+        // Clear inline transform/opacity so CSS :hover rule applies
+        card.style.removeProperty("transform");
+        card.style.removeProperty("opacity");
+      };
+      const leave = () => hovered.delete(card);
+      card.addEventListener("mouseenter", enter);
+      card.addEventListener("mouseleave", leave);
+      enterHandlers.set(card, enter);
+      leaveHandlers.set(card, leave);
+    });
+
+    function tick() {
+      if (visible && wrap) {
+        const rect = wrap.getBoundingClientRect();
+        const center = rect.left + rect.width / 2;
+        const half = rect.width / 2 || 1;
+        cards.forEach((card) => {
+          // Skip hovered cards — let CSS hover own the transform
+          if (hovered.has(card)) return;
+          const cr = card.getBoundingClientRect();
+          const cardCenter = cr.left + cr.width / 2;
+          const dist = (cardCenter - center) / half; // -1 .. 1 across the carousel
+          const clamped = Math.max(-1, Math.min(1, dist));
+          const scale = 1 - Math.abs(clamped) * 0.22;
+          const rotateY = clamped * -14;
+          const tz = -Math.abs(clamped) * 60;
+          const opacity = 1 - Math.abs(clamped) * 0.35;
+          card.style.transform = `perspective(1100px) translateZ(${tz}px) rotateY(${rotateY}deg) scale(${scale})`;
+          card.style.opacity = String(opacity);
+        });
+      }
+      rafId = requestAnimationFrame(tick);
+    }
+    rafId = requestAnimationFrame(tick);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      ioVisibility.disconnect();
+      cards.forEach((card) => {
+        const e = enterHandlers.get(card);
+        const l = leaveHandlers.get(card);
+        if (e) card.removeEventListener("mouseenter", e);
+        if (l) card.removeEventListener("mouseleave", l);
+      });
+    };
+  }, [pageMode]);
+
+  // Scroll-triggered animations — modal uses inner scroll container; pageMode uses viewport
   useEffect(() => {
     const container = scrollRef.current;
     if (!container) return;
@@ -81,12 +172,12 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
           }
         });
       },
-      { root: container, threshold: 0.15 }
+      { root: pageMode ? null : container, threshold: 0.15, rootMargin: pageMode ? "0px 0px -10% 0px" : "0px" }
     );
     const elements = container.querySelectorAll("[data-modal-animate]");
     elements.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, []);
+  }, [pageMode]);
 
   // Typewriter effect — types in, pauses, changes page image, scrolls, erases, next
   useEffect(() => {
@@ -163,11 +254,11 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
           className={pageMode ? "w-full" : "modal-scroll-container overflow-y-auto"}
           style={pageMode ? {} : { maxHeight: "92vh" }}
         >
-          <div className="relative bg-white">
+          <div className={`relative ${pageMode ? "bg-black" : "bg-white"}`}>
 
             {/* ── Section 1: Crea tu tienda con IA — bg changes per prompt ── */}
             {/* Background covers header + section 1 together */}
-            <div className="relative overflow-hidden pb-8">
+            <div className={`relative overflow-hidden ${pageMode ? "bg-black pb-24" : "pb-8"}`}>
               {/* Per-prompt background image — changes only after typing completes */}
               <div className="absolute inset-0 z-0">
                 <Image
@@ -182,10 +273,21 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                 <div
                   className="absolute inset-0"
                   style={{
-                    background: `linear-gradient(180deg, ${PROMPT_PAGES[visiblePageIdx].gradientColor} 0%, ${PROMPT_PAGES[visiblePageIdx].gradientColor}cc 20%, transparent 60%)`,
+                    background: `linear-gradient(180deg, ${PROMPT_PAGES[visiblePageIdx].gradientColor} 0%, ${PROMPT_PAGES[visiblePageIdx].gradientColor}cc 20%, transparent 55%)`,
                     transition: "background 0.6s ease-out",
                   }}
                 />
+                {/* Bottom black gradient — fuses hero with the black "Inspírate" carousel section (pageMode only) */}
+                {pageMode && (
+                  <div
+                    aria-hidden
+                    className="absolute inset-x-0 bottom-0"
+                    style={{
+                      height: "55%",
+                      background: "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.35) 45%, rgba(0,0,0,0.85) 80%, #000 100%)",
+                    }}
+                  />
+                )}
               </div>
               <div className={pageMode ? "relative z-10 mx-auto max-w-[var(--max-w)] px-5 tablet:px-3" : "relative z-10 px-5 tablet:px-10"}>
               {/* Header — only in modal mode (page mode uses navbar instead) */}
@@ -202,111 +304,186 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                   </button>
                 </div>
               )}
-              <div className="flex flex-col gap-4 tablet:flex-row tablet:items-start tablet:justify-between tablet:gap-6" style={{ marginBottom: 28, paddingTop: pageMode ? 100 : 0 }}>
-                <div>
-                  <h3 className="font-sora text-[22px] font-normal text-white tablet:text-[28px]" style={{ marginBottom: 8 }}>
-                    Crea tu tienda con IA en segundos
-                  </h3>
-                  <p className="font-inter text-[17px] font-normal text-white/80" style={{ lineHeight: 1.6 }}>
-                    Cuéntanos de que trata tu negocio y nuestra IA creará tu tienda en menos de 2 minutos.
-                  </p>
-                </div>
-                <a
-                  href="#"
-                  className="inline-flex shrink-0 items-center rounded-[14px] bg-[#E26153] px-6 py-3 font-inter text-[14px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#DB3B2B]"
-                >
-                  Crear mi tienda
-                </a>
-              </div>
-
-              {/* Store preview with floating prompt */}
-              <div className="relative mx-auto" style={{ maxWidth: 850 }}>
-                {/* Glass frame — uses aspect-ratio for consistent sizing */}
+              {pageMode ? (
+                /* ── pageMode: 2-column hero (text left, preview right) ── */
                 <div
-                  className="mx-auto rounded-[18px]"
-                  style={{
-                    maxWidth: 850,
-                    padding: 10,
-                    background: "rgba(255,255,255,0.25)",
-                    backdropFilter: "blur(20px)",
-                    WebkitBackdropFilter: "blur(20px)",
-                    border: "1px solid rgba(255,255,255,0.35)",
-                    boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
-                  }}
+                  className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] tablet:gap-12"
+                  style={{ paddingTop: 100, paddingBottom: 24 }}
                 >
-                  <div
-                    className="overflow-hidden rounded-[12px]"
-                    style={{ aspectRatio: "16/10" }}
-                  >
-                    <div
-                      className="transition-transform duration-1000 ease-in-out"
-                      style={{ transform: `translateY(-${scrollY}px)` }}
+                  {/* Left: title + description + CTA */}
+                  <div>
+                    <h1
+                      className="font-sora text-[32px] font-normal text-white tablet:text-[48px]"
+                      style={{ lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: 18 }}
                     >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        key={PROMPT_PAGES[visiblePageIdx].image}
-                        src={PROMPT_PAGES[visiblePageIdx].image}
-                        alt="Vista previa tienda"
-                        className="block w-full"
-                        style={{ animation: "fadeSlideIn 0.5s ease-out" }}
-                      />
+                      Crea tu tienda con IA en segundos
+                    </h1>
+                    <p
+                      className="font-inter text-[17px] font-light text-white/80 tablet:text-[19px]"
+                      style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 480 }}
+                    >
+                      Cuéntanos de qué trata tu negocio y nuestra IA creará tu tienda online lista para vender en menos de 2 minutos.
+                    </p>
+                    <div className="flex flex-wrap items-center gap-3">
+                      <a
+                        href="#"
+                        className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
+                      >
+                        Crear mi tienda
+                      </a>
+                      <span className="font-inter text-[13px] text-white/55">Sin tarjeta · Empieza gratis</span>
                     </div>
                   </div>
-                </div>
 
-                {/* Floating AI prompt card — hidden on small screens */}
-                <div
-                  className="absolute hidden rounded-[16px] bg-white tablet:block"
-                  style={{
-                    left: -20,
-                    top: 30,
-                    width: 380,
-                    padding: "20px 24px",
-                    boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
-                  }}
-                >
-                  <p
-                    className="font-inter text-[15px] font-normal text-black/80"
-                    style={{ minHeight: 44 }}
-                  >
-                    {displayedText}
-                    <span
-                      className="ml-0.5 inline-block w-[2px] bg-black/60"
+                  {/* Right: store preview with floating prompt */}
+                  <div className="relative">
+                    <div
+                      className="rounded-[18px]"
                       style={{
-                        height: 16,
-                        verticalAlign: "text-bottom",
-                        animation: "blink 0.8s step-end infinite",
+                        padding: 10,
+                        background: "rgba(255,255,255,0.25)",
+                        backdropFilter: "blur(20px)",
+                        WebkitBackdropFilter: "blur(20px)",
+                        border: "1px solid rgba(255,255,255,0.35)",
+                        boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
                       }}
-                    />
-                  </p>
-                  <div className="mt-4 flex items-center justify-between">
-                    <span className="font-inter text-[12px] text-black/30">
-                      {displayedText.length}/500
-                    </span>
-                    <div className="flex h-[32px] w-[32px] items-center justify-center rounded-full bg-[#E26153]">
-                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                        <path d="M7 11V3M7 3L4 6M7 3L10 6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
+                    >
+                      <div className="overflow-hidden rounded-[12px]" style={{ aspectRatio: "16/10" }}>
+                        <div
+                          className="transition-transform duration-1000 ease-in-out"
+                          style={{ transform: `translateY(-${scrollY}px)` }}
+                        >
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            key={PROMPT_PAGES[visiblePageIdx].image}
+                            src={PROMPT_PAGES[visiblePageIdx].image}
+                            alt="Vista previa tienda"
+                            className="block w-full"
+                            style={{ animation: "fadeSlideIn 0.5s ease-out" }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Floating AI prompt card — bottom-left of preview, desktop only */}
+                    <div
+                      className="absolute hidden rounded-[16px] bg-white tablet:block"
+                      style={{
+                        left: -32,
+                        bottom: -24,
+                        width: 320,
+                        padding: "18px 20px",
+                        boxShadow: "0 12px 36px rgba(0,0,0,0.18)",
+                      }}
+                    >
+                      <p className="font-inter text-[14px] font-normal text-black/80" style={{ minHeight: 44 }}>
+                        {displayedText}
+                        <span
+                          className="ml-0.5 inline-block w-[2px] bg-black/60"
+                          style={{ height: 16, verticalAlign: "text-bottom", animation: "blink 0.8s step-end infinite" }}
+                        />
+                      </p>
+                      <div className="mt-3 flex items-center justify-between">
+                        <span className="font-inter text-[11px] text-black/30">{displayedText.length}/500</span>
+                        <div className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-[#E26153]">
+                          <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+                            <path d="M7 11V3M7 3L4 6M7 3L10 6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                <>
+                  <div className="flex flex-col gap-4 tablet:flex-row tablet:items-start tablet:justify-between tablet:gap-6" style={{ marginBottom: 28, paddingTop: 0 }}>
+                    <div>
+                      <h3 className="font-sora text-[22px] font-normal text-white tablet:text-[28px]" style={{ marginBottom: 8 }}>
+                        Crea tu tienda con IA en segundos
+                      </h3>
+                      <p className="font-inter text-[17px] font-normal text-white/80" style={{ lineHeight: 1.6 }}>
+                        Cuéntanos de que trata tu negocio y nuestra IA creará tu tienda en menos de 2 minutos.
+                      </p>
+                    </div>
+                    <a
+                      href="#"
+                      className="inline-flex shrink-0 items-center rounded-[14px] bg-[#DB3B2B] px-6 py-3 font-inter text-[14px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
+                    >
+                      Crear mi tienda
+                    </a>
+                  </div>
+
+                  {/* Store preview with floating prompt */}
+                  <div className="relative mx-auto" style={{ maxWidth: 850 }}>
+                    <div
+                      className="mx-auto rounded-[18px]"
+                      style={{
+                        maxWidth: 850,
+                        padding: 10,
+                        background: "rgba(255,255,255,0.25)",
+                        backdropFilter: "blur(20px)",
+                        WebkitBackdropFilter: "blur(20px)",
+                        border: "1px solid rgba(255,255,255,0.35)",
+                        boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
+                      }}
+                    >
+                      <div className="overflow-hidden rounded-[12px]" style={{ aspectRatio: "16/10" }}>
+                        <div
+                          className="transition-transform duration-1000 ease-in-out"
+                          style={{ transform: `translateY(-${scrollY}px)` }}
+                        >
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            key={PROMPT_PAGES[visiblePageIdx].image}
+                            src={PROMPT_PAGES[visiblePageIdx].image}
+                            alt="Vista previa tienda"
+                            className="block w-full"
+                            style={{ animation: "fadeSlideIn 0.5s ease-out" }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      className="absolute hidden rounded-[16px] bg-white tablet:block"
+                      style={{ left: -20, top: 30, width: 380, padding: "20px 24px", boxShadow: "0 8px 32px rgba(0,0,0,0.12)" }}
+                    >
+                      <p className="font-inter text-[15px] font-normal text-black/80" style={{ minHeight: 44 }}>
+                        {displayedText}
+                        <span
+                          className="ml-0.5 inline-block w-[2px] bg-black/60"
+                          style={{ height: 16, verticalAlign: "text-bottom", animation: "blink 0.8s step-end infinite" }}
+                        />
+                      </p>
+                      <div className="mt-4 flex items-center justify-between">
+                        <span className="font-inter text-[12px] text-black/30">{displayedText.length}/500</span>
+                        <div className="flex h-[32px] w-[32px] items-center justify-center rounded-full bg-[#E26153]">
+                          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                            <path d="M7 11V3M7 3L4 6M7 3L10 6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
               </div>{/* close z-10 wrapper */}
             </div>
 
             {/* ── Section 2: Inspírate — carousel ── */}
-            <div className="py-12" data-modal-animate>
+            {/* In pageMode: black bg fuses with the hero's bottom black gradient. data-white-card stays so navbar still goes light when next white section enters. */}
+            <div className={`${pageMode ? "bg-black pt-4 pb-16 tablet:pt-6 tablet:pb-20" : "py-12"}`} data-modal-animate>
               <h3
-                className="font-sora text-[20px] font-light text-black text-center px-5 tablet:text-[26px] tablet:px-10"
-                style={{ marginBottom: 40 }}
+                className={`font-sora text-[22px] font-light text-center px-5 tablet:text-[28px] tablet:px-10 ${pageMode ? "text-white" : "text-black"}`}
+                style={{ marginBottom: 32, letterSpacing: "-0.02em" }}
               >
                 Inspírate con algunas tiendas creadas con T1
               </h3>
 
               {/* Carousel — overflow visible so hover scale isn't clipped */}
-              <div className="relative" style={{ overflow: "clip" }}>
-                <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 bg-gradient-to-r from-white/80 to-transparent" />
-                <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-white/80 to-transparent" />
+              <div ref={carouselRef} className={`relative ${pageMode ? "carousel-3d" : ""}`} style={{ overflow: "clip" }}>
+                <div className={`pointer-events-none absolute left-0 top-0 z-10 h-full w-20 ${pageMode ? "bg-gradient-to-r from-black to-transparent" : "bg-gradient-to-r from-white/80 to-transparent"}`} />
+                <div className={`pointer-events-none absolute right-0 top-0 z-10 h-full w-20 ${pageMode ? "bg-gradient-to-l from-black to-transparent" : "bg-gradient-to-l from-white/80 to-transparent"}`} />
                 <div
                   className="store-carousel flex items-center gap-5"
                   style={{ padding: "20px 40px" }}
@@ -317,22 +494,22 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                       href={store.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group/store relative shrink-0 rounded-[16px] no-underline transition-all duration-300 hover:scale-[1.06] hover:shadow-[0_12px_40px_rgba(0,0,0,0.2)]"
+                      className="store-card relative shrink-0 rounded-[16px] no-underline transition-all duration-300 hover:scale-[1.06] hover:shadow-[0_12px_40px_rgba(0,0,0,0.2)]"
                       style={{ width: 240, height: 280, overflow: "hidden" }}
                     >
                       <Image
                         src={store.image}
                         alt={store.name}
                         fill
-                        className="object-cover transition-all duration-300 group-hover/store:blur-[2px] group-hover/store:brightness-75"
+                        className="store-card-img object-cover transition-all duration-300"
                       />
                       {/* Hover overlay */}
                       <div
-                        className="absolute inset-0 flex flex-col items-center justify-center opacity-0 transition-opacity duration-300 group-hover/store:opacity-100"
-                        style={{ background: "rgba(0,0,0,0.2)" }}
+                        className="store-card-overlay absolute inset-0 z-[2] flex flex-col items-center justify-center"
+                        style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.55) 100%)", opacity: 0, transition: "opacity 0.3s ease" }}
                       >
-                        <p className="font-sora text-[20px] font-normal text-white">{store.name}</p>
-                        <p className="mt-1 font-inter text-[12px] text-white/60">Visitar tienda →</p>
+                        <p className="font-sora text-[22px] font-normal text-white" style={{ letterSpacing: "-0.01em" }}>{store.name}</p>
+                        <p className="mt-1 font-inter text-[13px] text-white/85">Visitar tienda →</p>
                       </div>
                     </a>
                   ))}
@@ -340,7 +517,358 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
               </div>
             </div>
 
-            {/* ── Section 3: Conecta tus marketplaces — dark bg ── */}
+            {/* ── pageMode-only storytelling sections ── */}
+            {pageMode && (
+              <>
+                {/* ── Act II — Conflict: "Antes" (subdued, sets the tension) ── */}
+                {/* data-white-card: triggers navbar light mode when this section reaches the top */}
+                <section className="relative bg-[#F6F6F6] px-5 py-24 tablet:px-10 tablet:py-32" data-white-card data-tienda-act-2>
+                  <div className="mx-auto max-w-[var(--max-w)]">
+                    <div data-modal-animate className="mx-auto text-center" style={{ marginBottom: 48 }}>
+                      <h2 className="font-sora text-[26px] font-light text-black tablet:text-[34px] lg:text-[40px] whitespace-nowrap" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>
+                        Antes, lanzar una tienda tomaba meses.
+                      </h2>
+                    </div>
+
+                    <div data-modal-animate className="grid grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
+                      {[
+                        { title: "Semanas de espera", desc: "Cotizaciones, ida y vuelta con agencias, prototipos que no convencían." },
+                        { title: "Costos opacos", desc: "Diseño, hosting, plugins, integraciones. La cuenta nunca paraba de subir." },
+                        { title: "Resultados inciertos", desc: "Lanzar y rezar. Sin métricas claras, sin SEO, sin saber si convertiría." },
+                      ].map((p, i) => (
+                        <div
+                          key={p.title}
+                          data-stagger
+                          className="rounded-[18px] border border-black/[0.06] bg-white p-7 transition-shadow duration-200 hover:shadow-[0_0_25px_2px_rgba(0,0,0,0.04)]"
+                          style={{ ["--i" as string]: i }}
+                        >
+                          <h3 className="font-sora text-[18px] font-normal text-black/70" style={{ marginBottom: 6 }}>{p.title}</h3>
+                          <p className="font-inter text-[14px] font-light text-black/50" style={{ lineHeight: 1.6 }}>{p.desc}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </section>
+
+                {/* ── Act III — The shift: Magic moment with live AI demo ── */}
+                <section className="relative overflow-hidden bg-white px-5 py-24 tablet:px-10 tablet:py-32">
+                  <div className="relative mx-auto max-w-[var(--max-w)]">
+                    {/* Headline */}
+                    <div data-modal-animate className="mx-auto max-w-[820px] text-center" style={{ marginBottom: 64 }}>
+                      <h2 className="font-sora text-[32px] font-light text-black tablet:text-[44px] lg:text-[56px]" style={{ letterSpacing: "-1.5px", lineHeight: 1.05, marginBottom: 20 }}>
+                        Hoy basta una <span className="relative inline-block">
+                          frase
+                          <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 8, background: "rgba(219,59,43,0.18)", borderRadius: 4, zIndex: -1 }} />
+                        </span>.
+                      </h2>
+                      <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[19px]" style={{ lineHeight: 1.5, maxWidth: 620, margin: "0 auto" }}>
+                        Le dices a la IA qué vendes y arma una tienda hecha para ti. Estructura, copy, secciones y diseño coherentes con tu marca.
+                      </p>
+                    </div>
+
+                    {/* Live AI prompt input — like t1.com/mx/tienda */}
+                    <div data-modal-animate className="mx-auto" style={{ maxWidth: 720 }}>
+                      <div className="relative rounded-[20px] border border-black/[0.08] bg-white" style={{ boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
+                        {/* Sparkle decoration on the left */}
+                        <div className="pointer-events-none absolute left-5 top-5 hidden tablet:flex h-[28px] w-[28px] items-center justify-center rounded-full" style={{ background: "rgba(219,59,43,0.10)" }}>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 3L14 9L20 11L14 13L12 19L10 13L4 11L10 9L12 3Z" stroke="#DB3B2B" strokeWidth="1.5" strokeLinejoin="round" fill="rgba(219,59,43,0.18)" />
+                          </svg>
+                        </div>
+                        {/* Live-typed prompt area */}
+                        <div className="px-6 pt-6 tablet:pl-16 tablet:pr-7 tablet:pt-7" style={{ minHeight: 120 }}>
+                          <p className="font-inter text-[16px] text-black/85 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
+                            {displayedText || (
+                              <span className="text-black/35">Cuéntanos de qué trata tu negocio…</span>
+                            )}
+                            <span
+                              className="ml-0.5 inline-block w-[2px] bg-[#DB3B2B] align-text-bottom"
+                              style={{ height: 18, animation: "blink 0.8s step-end infinite" }}
+                            />
+                          </p>
+                        </div>
+                        {/* Bottom row — char counter + submit */}
+                        <div className="flex items-center justify-between px-6 pb-5 pt-4 tablet:pl-16 tablet:pr-5">
+                          <span className="font-inter text-[12px] text-black/35">{(displayedText || "").length}/500</span>
+                          <a
+                            href="#"
+                            className="inline-flex h-[44px] items-center gap-2 rounded-full bg-[#DB3B2B] px-5 font-inter text-[14px] font-semibold text-white no-underline transition-all duration-200 hover:scale-[1.03] hover:bg-[#C0332A]"
+                          >
+                            Crear con IA
+                            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                              <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          </a>
+                        </div>
+                      </div>
+
+                      {/* Quick prompt chips */}
+                      <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+                        <span className="font-inter text-[12px] text-black/45" style={{ marginRight: 4 }}>Prueba con:</span>
+                        {PROMPT_PAGES.map((p) => (
+                          <button
+                            key={p.text}
+                            type="button"
+                            className="rounded-full border border-black/[0.08] bg-white px-3 py-1.5 font-inter text-[12px] text-black/65 transition-all duration-150 hover:border-[#DB3B2B]/40 hover:bg-[rgba(219,59,43,0.04)] hover:text-[#DB3B2B]"
+                          >
+                            {p.text.replace(/\.$/, "")}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                {/* ── Cómo funciona — 4 steps with connector line ── */}
+                <section className="relative bg-[#F6F6F6] px-5 py-24 tablet:px-10 tablet:py-32">
+                  <div className="mx-auto max-w-[var(--max-w)]">
+                    <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
+                      <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+                        Tu tienda lista en 4 pasos
+                      </h2>
+                      <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
+                        Sin código, sin diseñadores, sin esperar semanas.
+                      </p>
+                    </div>
+
+                    <div data-modal-animate className="relative grid grid-cols-1 gap-5 tablet:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+                      {/* Connector line — desktop only */}
+                      <div aria-hidden className="pointer-events-none absolute hidden lg:block" style={{ left: "12.5%", right: "12.5%", top: 30, height: 1, background: "linear-gradient(90deg, transparent 0%, rgba(219,59,43,0.25) 12%, rgba(219,59,43,0.25) 88%, transparent 100%)" }} />
+
+                      {[
+                        { n: "01", title: "Describe tu negocio", desc: "Cuéntale a la IA qué vendes, a quién y con qué tono. Una frase basta." },
+                        { n: "02", title: "La IA crea tu tienda", desc: "Genera estructura, secciones, copy y diseño coherente con tu marca." },
+                        { n: "03", title: "Personaliza al detalle", desc: "Ajusta colores, tipografías, productos y secciones con un editor visual." },
+                        { n: "04", title: "Publica y vende", desc: "Conecta dominio y pasarela. Empieza a recibir pedidos el mismo día." },
+                      ].map((s, i) => (
+                        <div
+                          key={s.n}
+                          data-stagger
+                          className="tienda-card relative rounded-[18px] border border-black/[0.06] bg-white p-7"
+                          style={{ ["--i" as string]: i }}
+                        >
+                          {/* Step dot above the card on desktop, connecting to the line */}
+                          <span aria-hidden className="step-dot absolute hidden h-[10px] w-[10px] rounded-full bg-[#DB3B2B] lg:block" style={{ left: 28, top: 25, boxShadow: "0 0 0 6px rgba(219,59,43,0.12)" }} />
+                          <span className="font-sora text-[40px] font-light text-[#DB3B2B]" style={{ display: "block", marginTop: 28, marginBottom: 12, letterSpacing: "-0.04em", lineHeight: 1 }}>
+                            {s.n}
+                          </span>
+                          <h3 className="font-sora text-[18px] font-normal text-black" style={{ marginBottom: 6 }}>{s.title}</h3>
+                          <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{s.desc}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </section>
+
+                {/* ── Lo que incluye — 3-col grid with compact visuals (no bento) ── */}
+                <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32">
+                  <div className="mx-auto max-w-[var(--max-w)]">
+                    <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
+                      <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+                        Todo incluido desde el día uno
+                      </h2>
+                      <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
+                        Tu tienda nace con todo lo necesario para vender, optimizar y crecer.
+                      </p>
+                    </div>
+
+                    {/* 3-col uniform grid — each card has a compact visual at top */}
+                    <div data-modal-animate className="grid grid-cols-1 gap-4 tablet:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+                      {/* 1. Diseño responsive */}
+                      <div data-stagger style={{ ["--i" as string]: 0 }} className="tienda-card flex flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
+                        <div className="relative mb-5 flex h-[110px] items-center justify-center overflow-hidden rounded-[10px]">
+                          {/* desktop frame */}
+                          <div className="absolute left-1/2 top-1/2 -translate-x-[calc(50%+22px)] -translate-y-1/2 rounded-[6px] border border-black/[0.08] bg-white" style={{ width: 110, height: 70 }}>
+                            <div className="flex items-center gap-[3px] border-b border-black/[0.05] px-1.5 py-1">
+                              <span className="h-[3px] w-[3px] rounded-full bg-[#FF5F57]" />
+                              <span className="h-[3px] w-[3px] rounded-full bg-[#FEBC2E]" />
+                              <span className="h-[3px] w-[3px] rounded-full bg-[#28C840]" />
+                            </div>
+                            <div className="flex flex-col gap-1 px-1.5 py-1.5">
+                              <div className="h-[3px] w-3/4 rounded-full bg-black/15" />
+                              <div className="h-[3px] w-1/2 rounded-full bg-black/10" />
+                              <div className="mt-0.5 h-[14px] w-full rounded-[2px] bg-[rgba(219,59,43,0.18)]" />
+                            </div>
+                          </div>
+                          {/* phone frame */}
+                          <div className="absolute left-1/2 top-1/2 translate-x-[calc(50%-2px)] -translate-y-1/2 rounded-[8px] border-2 border-white bg-white" style={{ width: 38, height: 70, boxShadow: "0 4px 12px rgba(0,0,0,0.10)" }}>
+                            <div className="flex h-full flex-col items-center justify-center gap-1 px-1.5">
+                              <div className="h-[2px] w-3/4 rounded-full bg-black/15" />
+                              <div className="h-[2px] w-1/2 rounded-full bg-black/10" />
+                              <div className="mt-1 h-[10px] w-full rounded-[2px] bg-[rgba(219,59,43,0.22)]" />
+                              <div className="h-[2px] w-2/3 rounded-full bg-black/10" />
+                            </div>
+                          </div>
+                        </div>
+                        <h3 className="font-sora text-[17px] font-normal text-black" style={{ marginBottom: 6 }}>Diseño responsive</h3>
+                        <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>Tu tienda se ve perfecta en cualquier dispositivo, sin esfuerzo.</p>
+                      </div>
+
+                      {/* 2. Checkout integrado */}
+                      <div data-stagger style={{ ["--i" as string]: 1 }} className="tienda-card flex flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
+                        <div className="relative mb-5 flex h-[110px] items-center justify-center overflow-hidden rounded-[10px]" style={{ padding: 12 }}>
+                          <div className="w-full max-w-[180px] rounded-[8px] border border-black/[0.06] bg-white p-2.5">
+                            <p className="font-inter text-[8px] text-black/40" style={{ marginBottom: 2 }}>Tarjeta</p>
+                            <p className="font-inter text-[11px] font-medium text-black" style={{ marginBottom: 6 }}>•••• •••• •••• 4242</p>
+                            <div className="flex items-center justify-center rounded-[5px] bg-[#DB3B2B] py-1">
+                              <span className="font-inter text-[9px] font-semibold text-white">Pagar $1,345.99</span>
+                            </div>
+                          </div>
+                        </div>
+                        <h3 className="font-sora text-[17px] font-normal text-black" style={{ marginBottom: 6 }}>Checkout integrado</h3>
+                        <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>Pasarela de pagos lista, optimizada para conversión.</p>
+                      </div>
+
+                      {/* 3. SEO out of the box */}
+                      <div data-stagger style={{ ["--i" as string]: 2 }} className="tienda-card flex flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
+                        <div className="relative mb-5 flex h-[110px] items-center justify-center overflow-hidden rounded-[10px]" style={{ padding: 12 }}>
+                          <div className="w-full max-w-[200px] rounded-[8px] border border-black/[0.06] bg-white p-2.5">
+                            <div className="flex items-center gap-1.5" style={{ marginBottom: 5 }}>
+                              <svg width="11" height="11" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.99.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.09a6.6 6.6 0 0 1 0-4.18V7.07H2.18a11 11 0 0 0 0 9.86l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1A11 11 0 0 0 2.18 7.07l3.66 2.84C6.71 7.31 9.14 5.38 12 5.38z"/></svg>
+                              <p className="font-inter text-[8px] text-black/45">tienda.t1.com</p>
+                            </div>
+                            <p className="font-inter text-[11px] font-medium text-[#1A0DAB]" style={{ marginBottom: 1 }}>Tienda | T1</p>
+                            <p className="font-inter text-[7.5px] text-[#006621]" style={{ marginBottom: 3 }}>tienda.t1.com</p>
+                            <p className="font-inter text-[7.5px] text-black/50" style={{ lineHeight: 1.4 }}>Encuentra todo lo que necesitas...</p>
+                          </div>
+                        </div>
+                        <h3 className="font-sora text-[17px] font-normal text-black" style={{ marginBottom: 6 }}>SEO out of the box</h3>
+                        <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>Estructura, metadatos y velocidad pensados para Google.</p>
+                      </div>
+
+                      {/* 4. Catálogo inteligente */}
+                      <div data-stagger style={{ ["--i" as string]: 3 }} className="tienda-card flex flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
+                        <div className="relative mb-5 flex h-[110px] items-center justify-center overflow-hidden rounded-[10px]" style={{ padding: 12 }}>
+                          <div className="flex w-full max-w-[210px] items-center gap-2 rounded-[8px] border border-black/[0.06] bg-white p-2">
+                            <div className="flex h-[44px] w-[44px] shrink-0 items-center justify-center overflow-hidden rounded-[5px] border border-black/[0.05] bg-white">
+                              <Image src="/img/tenis-transparente.png" alt="" width={36} height={28} className="object-contain" />
+                            </div>
+                            <div className="flex-1">
+                              <p className="font-inter text-[10px] font-semibold text-black" style={{ marginBottom: 1 }}>Tenis blancos</p>
+                              <p className="font-inter text-[8px] text-black/50" style={{ marginBottom: 2 }}>$1,345.99</p>
+                              <span className="inline-flex items-center gap-1 rounded-full bg-[rgba(139,92,246,0.10)] px-1.5 py-0.5">
+                                <svg width="7" height="7" viewBox="0 0 24 24" fill="none"><path d="M12 3L14 9L20 11L14 13L12 19L10 13L4 11L10 9L12 3Z" stroke="#8B5CF6" strokeWidth="2" strokeLinejoin="round" fill="rgba(139,92,246,0.2)" /></svg>
+                                <span className="font-inter text-[7px] font-semibold text-[#8B5CF6]">IA</span>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <h3 className="font-sora text-[17px] font-normal text-black" style={{ marginBottom: 6 }}>Catálogo inteligente</h3>
+                        <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>Sube fotos y la IA arma título, descripción y variantes.</p>
+                      </div>
+
+                      {/* 5. Dominio personalizado */}
+                      <div data-stagger style={{ ["--i" as string]: 4 }} className="tienda-card flex flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
+                        <div className="relative mb-5 flex h-[110px] items-center justify-center overflow-hidden rounded-[10px]" style={{ padding: 12 }}>
+                          <div className="flex w-full max-w-[210px] items-center gap-1.5 rounded-full border border-black/[0.08] bg-white px-2.5 py-1.5">
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="black" strokeOpacity="0.4" strokeWidth="1.5" /><path d="M3 12h18 M12 3c2 2.5 3 5.7 3 9s-1 6.5-3 9c-2-2.5-3-5.7-3-9s1-6.5 3-9z" stroke="black" strokeOpacity="0.4" strokeWidth="1.5" strokeLinecap="round" /></svg>
+                            <span className="font-inter text-[10px] text-black/50">https://</span>
+                            <span className="font-inter text-[10px] font-medium text-black">mitienda</span>
+                            <span className="font-inter text-[10px] text-black/50">.com</span>
+                            <div className="ml-auto flex items-center gap-1 rounded-full bg-[rgba(34,197,94,0.12)] px-1.5 py-0.5">
+                              <span className="h-[5px] w-[5px] rounded-full bg-[#22C55E]" />
+                            </div>
+                          </div>
+                        </div>
+                        <h3 className="font-sora text-[17px] font-normal text-black" style={{ marginBottom: 6 }}>Dominio personalizado</h3>
+                        <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>Conecta tu dominio en minutos o usa uno de cortesía.</p>
+                      </div>
+
+                      {/* 6. Métricas en tiempo real */}
+                      <div data-stagger style={{ ["--i" as string]: 5 }} className="tienda-card flex flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
+                        <div className="relative mb-5 flex h-[110px] items-center justify-center overflow-hidden rounded-[10px]" style={{ padding: 12 }}>
+                          <div className="w-full max-w-[200px] rounded-[8px] border border-black/[0.06] bg-white p-2.5">
+                            <div className="flex items-center justify-between" style={{ marginBottom: 4 }}>
+                              <span className="font-inter text-[8px] text-black/50">Ventas · 7 días</span>
+                              <span className="font-inter text-[9px] font-bold text-[#22C55E]">↑ 24%</span>
+                            </div>
+                            <p className="font-sora text-[16px] font-light text-black" style={{ letterSpacing: "-0.02em", marginBottom: 6, lineHeight: 1 }}>$284,920</p>
+                            <div className="flex h-[28px] items-end gap-1">
+                              {[35, 52, 28, 64, 48, 78, 90].map((h, i) => (
+                                <div key={i} className="flex-1 rounded-t-[2px]" style={{ height: `${h}%`, background: i === 6 ? "#DB3B2B" : "rgba(219,59,43,0.18)" }} />
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                        <h3 className="font-sora text-[17px] font-normal text-black" style={{ marginBottom: 6 }}>Métricas en tiempo real</h3>
+                        <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>Dashboard de ventas, tráfico y comportamiento desde el día uno.</p>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                {/* ── Stats with count-up ── */}
+                <section className="relative px-5 py-20 tablet:px-10 tablet:py-24" style={{ background: "linear-gradient(135deg, #1A0A0A 0%, #261515 50%, #1A0A0A 100%)" }}>
+                  <div className="mx-auto max-w-[var(--max-w)]">
+                    <div data-modal-animate className="mx-auto max-w-[640px] text-center" style={{ marginBottom: 48 }}>
+                      <h2 className="font-sora text-[24px] font-light text-white tablet:text-[34px]" style={{ letterSpacing: "-0.02em", lineHeight: 1.2 }}>
+                        Los números hablan.
+                      </h2>
+                    </div>
+
+                    <div data-modal-animate className="grid grid-cols-1 gap-10 text-center tablet:grid-cols-3">
+                      <div data-stagger style={{ ["--i" as string]: 0 }}>
+                        <CountStat end={2} prefix="<" suffix=" min" label="para tu primera tienda" />
+                      </div>
+                      <div data-stagger style={{ ["--i" as string]: 1 }}>
+                        <CountStat end={50} prefix="+" suffix="K" label="tiendas creadas con T1" />
+                      </div>
+                      <div data-stagger style={{ ["--i" as string]: 2 }}>
+                        <p className="font-sora text-[36px] font-light text-white tablet:text-[52px]" style={{ letterSpacing: "-0.03em", marginBottom: 6, lineHeight: 1 }}>
+                          24/7
+                        </p>
+                        <p className="font-inter text-[12px] font-light text-white/55 tablet:text-[13px]">soporte en español</p>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                {/* ── FAQ ── */}
+                <section className="relative bg-[#F6F6F6] px-5 py-24 tablet:px-10 tablet:py-32">
+                  <div className="mx-auto max-w-[760px]">
+                    <div data-modal-animate className="text-center" style={{ marginBottom: 40 }}>
+                      <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>
+                        Preguntas frecuentes
+                      </h2>
+                    </div>
+                    <div data-modal-animate className="flex flex-col gap-3">
+                      {[
+                        { q: "¿Necesito saber programar?", a: "No. La IA crea tu tienda y el editor visual te permite ajustar todo sin código." },
+                        { q: "¿Cuánto tarda en estar lista?", a: "Menos de 2 minutos para la primera versión. Puedes seguir personalizándola sin límite." },
+                        { q: "¿Puedo usar mi propio dominio?", a: "Sí. Conecta tu dominio existente o usa uno de cortesía mientras decides." },
+                        { q: "¿Qué incluye el plan gratis?", a: "Tienda completa con checkout, hasta cierto volumen de pedidos al mes y soporte en español." },
+                      ].map((f, i) => (
+                        <details
+                          key={f.q}
+                          data-stagger
+                          className="group rounded-[14px] border border-black/[0.06] bg-white transition-all duration-200 open:border-[rgba(219,59,43,0.2)] open:shadow-[0_4px_18px_rgba(0,0,0,0.05)]"
+                          style={{ ["--i" as string]: i }}
+                        >
+                          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-sora text-[16px] font-normal text-black transition-colors duration-150 hover:text-[#DB3B2B]">
+                            {f.q}
+                            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="shrink-0 text-black/40 transition-transform duration-300 group-open:rotate-180 group-open:text-[#DB3B2B]">
+                              <path d="M3 5.5L8 10.5L13 5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          </summary>
+                          <p className="px-6 pb-5 font-inter text-[14px] font-light text-black/65" style={{ lineHeight: 1.65 }}>
+                            {f.a}
+                          </p>
+                        </details>
+                      ))}
+                    </div>
+                  </div>
+                </section>
+
+                <T1FinalCTA
+                  title="¿Listo para crear tu tienda con T1?"
+                  description="Empieza gratis, sin tarjeta. Cuéntale a la IA qué vendes y deja que arme tu tienda en menos de 2 minutos."
+                  buttonLabel="Crear mi tienda gratis"
+                />
+              </>
+            )}
+
+            {/* Section 3 (Conecta tus marketplaces) moved to its own landing at /productos/t1tienda/marketplaces */}
+            {false && (
             <div
               className="relative px-5 py-10 tablet:px-10 tablet:py-14"
               data-modal-animate
@@ -486,13 +1014,14 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                   </p>
                   <a
                     href="#"
-                    className="inline-flex items-center rounded-[14px] bg-[#E26153] px-7 py-3 font-inter text-[14px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#DB3B2B]"
+                    className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3 font-inter text-[14px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
                   >
                     Comenzar ahora
                   </a>
                 </div>
               </div>
             </div>
+            )}
           </div>
         </div>
       </div>
@@ -511,6 +1040,8 @@ const SHOWCASE_CARDS = [
     bgCSS: "stack-bg-tienda",
     panelLeft: "/img/card-producto.svg",
     panelRight: "/img/lista-pedidos-t1.svg",
+    ctaLabel: "Conoce T1tienda",
+    ctaHref: "/productos/t1tienda/tienda-con-ia",
   },
   {
     id: "t1envios",
@@ -521,6 +1052,8 @@ const SHOWCASE_CARDS = [
     bgCSS: "stack-bg-envios",
     panelLeft: "/img/envios.svg",
     panelRight: null,
+    ctaLabel: "Conoce T1envíos",
+    ctaHref: "https://www.t1.com/mx/envios",
   },
   {
     id: "t1pagos",
@@ -531,6 +1064,8 @@ const SHOWCASE_CARDS = [
     bgCSS: "stack-bg-pagos",
     panelLeft: "/img/pagos.svg",
     panelRight: null,
+    ctaLabel: "Conoce T1pagos",
+    ctaHref: "https://t1.com/mx/pagos/",
   },
 ];
 
@@ -726,11 +1261,11 @@ function PhoneLinkPago() {
           {/* Pagar button — right after payment methods, simulated click */}
           <div className="px-5" style={{ marginTop: 12 }}>
             <div
-              className="flex h-[40px] items-center justify-center rounded-[10px] bg-[#E26153]"
+              className="flex h-[40px] items-center justify-center rounded-[10px] bg-[#DB3B2B]"
               style={{
                 transform: btnPressed ? "scale(0.95)" : "scale(1)",
                 opacity: btnPressed ? 0.85 : 1,
-                boxShadow: btnPressed ? "inset 0 2px 4px rgba(0,0,0,0.2)" : "0 2px 8px rgba(226,97,83,0.3)",
+                boxShadow: btnPressed ? "inset 0 2px 4px rgba(0,0,0,0.2)" : "0 2px 8px rgba(219,59,43,0.3)",
                 transition: "transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease",
                 position: "relative",
               }}
@@ -835,7 +1370,7 @@ function MobileTiendaPanel({ animate }: { animate: boolean }) {
       <IOSStatusBar />
       <div className="flex shrink-0 items-center justify-between border-b border-black/[0.06] px-4" style={{ paddingTop: 8, paddingBottom: 8 }}>
         <span className="text-[14px] font-bold text-black">Mis pedidos</span>
-        <span className="flex h-[28px] items-center rounded-full bg-[#E26153] px-4 text-[10px] font-semibold text-white">Crear pedido</span>
+        <span className="flex h-[28px] items-center rounded-full bg-[#DB3B2B] px-4 text-[10px] font-semibold text-white">Crear pedido</span>
       </div>
       <div className="flex-1 overflow-hidden">
         {/* Show extras newest-on-top: slice then reverse so newest appears first */}
@@ -939,7 +1474,7 @@ function MobileEnviosPanel() {
       <IOSStatusBar />
       <div className="flex shrink-0 items-center justify-between border-b border-black/[0.06] px-4" style={{ paddingTop: 8, paddingBottom: 8 }}>
         <span className="text-[14px] font-bold text-black">Mis envíos</span>
-        <span className="flex h-[28px] items-center rounded-full bg-[#E26153] px-4 text-[10px] font-semibold text-white">Crear envío</span>
+        <span className="flex h-[28px] items-center rounded-full bg-[#DB3B2B] px-4 text-[10px] font-semibold text-white">Crear envío</span>
       </div>
       <div className="flex-1 overflow-hidden">
         {EXTRA.slice(0, extraCount).map((row, i) => (
@@ -1147,16 +1682,6 @@ export default function T1Features() {
         </div>
       </div>
 
-      {/* ── Stack section heading ── */}
-      <div className="mx-auto max-w-[var(--max-w)] px-5 tablet:px-6" style={{ marginBottom: 32 }}>
-        <h2
-          className="mx-auto font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]"
-          style={{ letterSpacing: "-0.03em", lineHeight: "1.2em", textAlign: "center", maxWidth: 780 }}
-        >
-          No importa en qué punto esté tu negocio. Escala sin cambiar de sistema.
-        </h2>
-      </div>
-
       {/* ── Stacking showcase cards with scale-down effect ── */}
       <div className="stack-card-container relative mx-auto max-w-[var(--max-w)] px-4 tablet:px-6">
         {SHOWCASE_CARDS.map((card, idx) => (
@@ -1206,18 +1731,30 @@ export default function T1Features() {
                   <div className="flex w-full flex-col px-5 pt-14 pb-5 tablet:w-1/2 tablet:p-8" ref={tiendaRef}>
                     {/* Text info at top */}
                     <div>
-                      <p className="flex items-center gap-2 font-sora text-[20px] font-normal text-white tablet:text-[24px] lg:text-[28px]">
+                      <p className="font-sora text-[18px] font-normal text-white tablet:text-[22px] lg:text-[26px]">
                         {card.title}
-                        <span className="text-white/60">
-                          <ExternalArrow />
-                        </span>
                       </p>
                       <p
-                        className="font-inter text-[14px] font-normal text-white/90 tablet:text-[16px] lg:text-[18px]"
-                        style={{ lineHeight: 1.6, marginTop: 8 }}
+                        className="font-inter text-[13px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]"
+                        style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}
                       >
                         {card.description}
                       </p>
+                      {card.ctaLabel && (
+                        <a
+                          href={card.ctaHref}
+                          target={card.ctaHref?.startsWith("http") ? "_blank" : undefined}
+                          rel={card.ctaHref?.startsWith("http") ? "noopener noreferrer" : undefined}
+                          onClick={(e) => e.stopPropagation()}
+                          className="inline-flex h-[42px] items-center gap-2 rounded-full bg-white px-5 font-inter text-[13px] font-semibold text-black no-underline transition-all duration-200 hover:scale-[1.03] hover:bg-white/90"
+                          style={{ boxShadow: "0 6px 20px rgba(0,0,0,0.18)" }}
+                        >
+                          {card.ctaLabel}
+                          <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                            <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </a>
+                      )}
                     </div>
 
                     {/* Desktop: GlassProductCard — only mounted on desktop (Q1) */}
@@ -1257,13 +1794,27 @@ export default function T1Features() {
                   {/* Left column: text at top, credit cards centered below */}
                   <div className="flex w-full flex-col px-5 pt-14 pb-5 tablet:w-1/2 tablet:p-8 lg:p-10">
                     <div style={{ maxWidth: 420 }}>
-                      <p className="flex items-center gap-2 font-sora text-[20px] font-normal text-white tablet:text-[24px] lg:text-[28px]">
+                      <p className="font-sora text-[18px] font-normal text-white tablet:text-[22px] lg:text-[26px]">
                         {card.title}
-                        <span className="text-white/60"><ExternalArrow /></span>
                       </p>
-                      <p className="font-inter text-[14px] font-normal text-white/90 tablet:text-[16px] lg:text-[18px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 12 }}>
+                      <p className="font-inter text-[13px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
                         {card.description}
                       </p>
+                      {card.ctaLabel && (
+                        <a
+                          href={card.ctaHref}
+                          target={card.ctaHref?.startsWith("http") ? "_blank" : undefined}
+                          rel={card.ctaHref?.startsWith("http") ? "noopener noreferrer" : undefined}
+                          onClick={(e) => e.stopPropagation()}
+                          className="inline-flex h-[42px] items-center gap-2 rounded-full bg-white px-5 font-inter text-[13px] font-semibold text-black no-underline transition-all duration-200 hover:scale-[1.03] hover:bg-white/90"
+                          style={{ boxShadow: "0 6px 20px rgba(0,0,0,0.18)" }}
+                        >
+                          {card.ctaLabel}
+                          <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                            <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </a>
+                      )}
                     </div>
                     {/* Desktop: credit cards — only mounted on desktop (Q1) */}
                     {isDesktop !== false && (
@@ -1304,13 +1855,27 @@ export default function T1Features() {
                 <div className="flex h-full w-full flex-col tablet:flex-row">
                   <div className="flex w-full flex-col px-5 pt-14 pb-5 tablet:w-2/5 tablet:p-8">
                     <div>
-                      <p className="flex items-center gap-2 font-sora text-[20px] font-normal text-white tablet:text-[24px] lg:text-[28px]">
+                      <p className="font-sora text-[18px] font-normal text-white tablet:text-[22px] lg:text-[26px]">
                         {card.title}
-                        <span className="text-white/60"><ExternalArrow /></span>
                       </p>
-                      <p className="font-inter text-[14px] font-normal text-white/90 tablet:text-[16px] lg:text-[18px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 12 }}>
+                      <p className="font-inter text-[13px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
                         {card.description}
                       </p>
+                      {card.ctaLabel && (
+                        <a
+                          href={card.ctaHref}
+                          target={card.ctaHref?.startsWith("http") ? "_blank" : undefined}
+                          rel={card.ctaHref?.startsWith("http") ? "noopener noreferrer" : undefined}
+                          onClick={(e) => e.stopPropagation()}
+                          className="inline-flex h-[42px] items-center gap-2 rounded-full bg-white px-5 font-inter text-[13px] font-semibold text-black no-underline transition-all duration-200 hover:scale-[1.03] hover:bg-white/90"
+                          style={{ boxShadow: "0 6px 20px rgba(0,0,0,0.18)" }}
+                        >
+                          {card.ctaLabel}
+                          <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                            <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </a>
+                      )}
                     </div>
                     {/* Desktop: GlassShipmentCard — only mounted on desktop (Q1) */}
                     {isDesktop !== false && (

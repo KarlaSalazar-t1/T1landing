@@ -116,9 +116,9 @@ function LogoMarquee() {
   );
 }
 
-/* ── Hero video loop — cycles through 3 videos ── */
+/* ── Hero video loop — cycles through 4 videos ── */
 function HeroVideoLoop() {
-  const videos = ["/img/hero-1.mp4", "/img/hero-2.mp4", "/img/hero-3.mp4"];
+  const videos = ["/img/hero-1.mp4", "/img/hero-2.mp4", "/img/hero-3.mp4", "/img/hero-4.mp4"];
   const [idx, setIdx] = useState(0);
   const refs = useRef<(HTMLVideoElement | null)[]>([]);
 
@@ -182,11 +182,11 @@ export default function T1Hero() {
       {/* Sticky hero — stays in place while white card scrolls over */}
       <div className="sticky top-0 z-0">
         <section className="relative min-h-screen overflow-hidden">
-          {/* Background video — loop through 3 clips */}
+          {/* Background video — loop through 4 clips */}
           <div className="absolute inset-0 z-0">
             <HeroVideoLoop />
             {/* Dark overlay */}
-            <div className="absolute inset-0 bg-black/[0.31]" />
+            <div className="absolute inset-0 bg-black/[0.42]" />
           </div>
 
           {/* Bottom gradient fade to black */}
@@ -232,7 +232,7 @@ export default function T1Hero() {
               <div className="flex flex-col gap-3 tablet:flex-row tablet:items-center tablet:gap-4">
                 <a
                   href={HERO_DATA.ctaHref}
-                  className="inline-flex h-[50px] items-center justify-center gap-2.5 rounded-[23px] bg-[#E26153] px-8 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#DB3B2B] hover:shadow-[0_4px_16px_rgba(226,97,83,0.4)] tablet:px-10 tablet:text-[16px]"
+                  className="inline-flex h-[50px] items-center justify-center gap-2.5 rounded-[23px] bg-[#DB3B2B] px-8 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A] hover:shadow-[0_4px_16px_rgba(226,97,83,0.4)] tablet:px-10 tablet:text-[16px]"
                 >
                   {HERO_DATA.cta}
                   <svg
