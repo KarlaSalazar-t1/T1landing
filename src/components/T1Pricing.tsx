@@ -1,27 +1,6 @@
 "use client";
 
-const TIENDA_PLANS = [
-  {
-    title: "Integrador de marketplaces",
-    badge: "Gratis",
-    badgeColor: "rgba(34,197,94,0.12)",
-    badgeText: "#22C55E",
-    headline: "$0",
-    headlineSuffix: "/mes",
-    description:
-      "Conecta y gestiona Amazon, Mercado Libre, SHEIN y más sin costo. Solo pagas si vendes.",
-  },
-  {
-    title: "Tienda en línea",
-    badge: "30 días gratis",
-    badgeColor: "rgba(34,197,94,0.12)",
-    badgeText: "#22C55E",
-    headline: "Desde $399",
-    headlineSuffix: "/mes",
-    description:
-      "Tu tienda con dominio propio, checkout integrado y herramientas de IA. Prueba gratis 30 días.",
-  },
-];
+import Image from "next/image";
 
 const SIDE_PLANS = [
   {
@@ -67,46 +46,39 @@ export default function T1Pricing() {
           </p>
         </div>
 
-        {/* Two-column grid: T1tienda (with 2 sub-plans) | T1pagos + T1envíos stacked */}
-        <div className="grid grid-cols-1 gap-4 tablet:grid-cols-2">
-          {/* LEFT: T1tienda — single white card split in two halves */}
+        {/* Two-column 40/60 grid: T1tienda full-height (left, 40%) | T1pagos+T1envíos stacked (right, 60%) */}
+        <div className="grid grid-cols-1 gap-4 tablet:grid-cols-[2fr_3fr]">
+          {/* LEFT: T1tienda — single white card with two simple plans stacked */}
           <div
             className="flex flex-col overflow-hidden rounded-[20px] border border-black/[0.06] bg-white"
             style={{ padding: "26px 28px", boxShadow: "0 0 25px 0 rgba(0,0,0,0.04)" }}
           >
-            {/* Header */}
-            <div style={{ marginBottom: 20 }}>
-              <p className="font-inter text-[16px] font-semibold text-black">T1tienda</p>
-              <p className="font-inter text-[13px] font-light text-black/50" style={{ marginTop: 2 }}>
-                Empieza gratis o lleva tu marca al siguiente nivel
-              </p>
+            {/* Header — logo */}
+            <div style={{ marginBottom: 24 }}>
+              <Image src="/img/t1tienda-logo.svg" alt="T1tienda" width={140} height={32} style={{ width: "auto", height: 30 }} />
             </div>
 
-            {/* Divided sub-plans — single card, split by horizontal divider */}
-            <div className="flex flex-1 flex-col" style={{ marginBottom: 18 }}>
-              {TIENDA_PLANS.map((sub, i) => (
-                <div
-                  key={sub.title}
-                  className={i === 0 ? "border-b border-black/[0.06] pb-4" : "pt-4"}
-                >
-                  <div className="flex items-center gap-2" style={{ marginBottom: 6 }}>
-                    <span className="font-inter text-[13px] font-semibold text-black">{sub.title}</span>
-                    <span
-                      className="rounded-[6px] px-2 py-0.5 font-inter text-[10px] font-semibold"
-                      style={{ background: sub.badgeColor, color: sub.badgeText }}
-                    >
-                      {sub.badge}
-                    </span>
-                  </div>
-                  <p className="font-sora text-[20px] font-normal text-black" style={{ letterSpacing: "-0.02em", lineHeight: 1.1 }}>
-                    {sub.headline}
-                    <span className="font-inter text-[12px] font-light text-black/50">{sub.headlineSuffix}</span>
-                  </p>
-                  <p className="font-inter text-[12px] font-light text-black/55" style={{ marginTop: 6, lineHeight: 1.5 }}>
-                    {sub.description}
-                  </p>
-                </div>
-              ))}
+            {/* Two plans stacked, separated by a divider */}
+            <div className="flex flex-1 flex-col" style={{ marginBottom: 22 }}>
+              {/* Plan 1 — Integra tus canales GRATIS */}
+              <div className="border-b border-black/[0.06] pb-5">
+                <p className="font-sora text-[22px] font-normal text-black" style={{ letterSpacing: "-0.02em", lineHeight: 1.15, marginBottom: 4 }}>
+                  Integra tus canales GRATIS
+                </p>
+                <p className="font-inter text-[13px] font-light text-black/55" style={{ lineHeight: 1.5 }}>
+                  Conecta Mercado Libre, Amazon, SHEIN y más sin costo. Solo pagas si vendes.
+                </p>
+              </div>
+
+              {/* Plan 2 — Crea tu tienda — 30 días free first, then plan info */}
+              <div className="pt-5">
+                <p className="font-sora text-[22px] font-normal text-black" style={{ letterSpacing: "-0.02em", lineHeight: 1.15, marginBottom: 4 }}>
+                  Crea tu tienda GRATIS
+                </p>
+                <p className="font-inter text-[13px] font-light text-black/65" style={{ lineHeight: 1.55 }}>
+                  <span className="font-semibold text-black/85">30 días gratis</span>; después desde <span className="font-semibold text-black/85">$399/mes</span>. Tu tienda con dominio propio, checkout integrado y herramientas de IA.
+                </p>
+              </div>
             </div>
 
             {/* CTA */}
@@ -123,7 +95,7 @@ export default function T1Pricing() {
             </a>
           </div>
 
-          {/* RIGHT: stacked column with T1pagos + T1envíos */}
+          {/* RIGHT: T1pagos and T1envíos stacked in 2 rows */}
           <div className="flex flex-col gap-4">
             {SIDE_PLANS.map((plan) => (
               <a
@@ -134,8 +106,14 @@ export default function T1Pricing() {
                 className="group flex flex-1 flex-col overflow-hidden rounded-[20px] border border-black/[0.06] bg-white no-underline transition-all duration-300 hover:border-black/[0.12]"
                 style={{ padding: "26px 28px", boxShadow: "0 0 25px 0 rgba(0,0,0,0.04)" }}
               >
-                <div className="flex items-center gap-2" style={{ marginBottom: 12 }}>
-                  <span className="font-inter text-[16px] font-semibold text-black">{plan.title}</span>
+                <div className="flex items-center gap-2" style={{ marginBottom: 14 }}>
+                  <Image
+                    src={plan.id === "t1pagos" ? "/img/t1pagos-logo.svg" : "/img/t1envios-logo.svg"}
+                    alt={plan.title}
+                    width={140}
+                    height={30}
+                    style={{ width: "auto", height: 28 }}
+                  />
                   {plan.badge && (
                     <span
                       className="rounded-[6px] px-2 py-0.5 font-inter text-[11px] font-semibold"
@@ -146,7 +124,7 @@ export default function T1Pricing() {
                   )}
                 </div>
 
-                <p className="font-sora text-[24px] font-normal text-black tablet:text-[26px]" style={{ letterSpacing: "-0.02em", lineHeight: 1.15, marginBottom: 8 }}>
+                <p className="font-sora text-[22px] font-normal text-black" style={{ letterSpacing: "-0.02em", lineHeight: 1.15, marginBottom: 8 }}>
                   {plan.headline}
                 </p>
 

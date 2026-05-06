@@ -867,161 +867,6 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
               </>
             )}
 
-            {/* Section 3 (Conecta tus marketplaces) moved to its own landing at /productos/t1tienda/marketplaces */}
-            {false && (
-            <div
-              className="relative px-5 py-10 tablet:px-10 tablet:py-14"
-              data-modal-animate
-              style={{
-                background:
-                  "linear-gradient(135deg, #261515 0%, #1A0A0A 40%, #261515 100%)",
-              }}
-            >
-              <div className="flex flex-col items-start gap-6 tablet:flex-row tablet:items-center">
-                {/* Left: product card — vertically centered to align with T1 logo */}
-                <div
-                  className="shrink-0 overflow-hidden rounded-[20px]"
-                  style={{
-                    width: 160,
-                    padding: "18px",
-                    background: "rgba(255,255,255,0.1)",
-                    backdropFilter: "blur(20px)",
-                    border: "1px solid rgba(255,255,255,0.15)",
-                  }}
-                >
-                  <div className="mb-3 flex items-center justify-center">
-                    <Image src="/img/tenis-transparente.png" alt="" width={90} height={70} className="object-contain" />
-                  </div>
-                  <p className="text-center text-[16px] font-bold text-white">$1,345.99</p>
-                  <p className="text-center text-[11px] text-white/60">Tenis blancos clasicos</p>
-                  <p className="mt-0.5 text-center text-[10px] text-white/40">1,003 unidades</p>
-                </div>
-
-                {/* Center: T1 logo + L-shaped tree + marketplace icons — hidden on mobile */}
-                <div className="relative hidden flex-1 tablet:block" style={{ minHeight: 400 }}>
-                  {/*
-                    Layout (all absolute positioning, SVG viewBox 500x400):
-                    - Product card aligns to SVG at x=0, y=200
-                    - T1 logo at SVG (130, 200)
-                    - Trunk vertical at x=230
-                    - Col1 (4 icons) at x=280: y=30, y=140, y=250, y=360
-                    - Col2 (3 icons) at x=430: y=85, y=200, y=310
-                  */}
-                  <svg className="absolute inset-0 h-full w-full" viewBox="0 0 500 400" fill="none" preserveAspectRatio="xMidYMid meet">
-                    {/* Horizontal line from product card to T1 logo */}
-                    <line x1="0" y1="200" x2="110" y2="200" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
-                    <circle cx="110" cy="200" r="3" fill="rgba(255,255,255,0.4)" />
-
-                    {/* Horizontal from T1 to trunk */}
-                    <line x1="155" y1="200" x2="230" y2="200" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
-                    <circle cx="230" cy="200" r="3" fill="rgba(255,255,255,0.4)" />
-
-                    {/* Vertical trunk */}
-                    <line x1="230" y1="30" x2="230" y2="360" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
-
-                    {/* Col1 branches (x=280) */}
-                    <line x1="230" y1="30" x2="280" y2="30" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
-                    <circle cx="280" cy="30" r="3" fill="rgba(255,255,255,0.4)" />
-
-                    <line x1="230" y1="140" x2="280" y2="140" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
-                    <circle cx="280" cy="140" r="3" fill="rgba(255,255,255,0.4)" />
-
-                    <line x1="230" y1="250" x2="280" y2="250" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
-                    <circle cx="280" cy="250" r="3" fill="rgba(255,255,255,0.4)" />
-
-                    <line x1="230" y1="360" x2="280" y2="360" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
-                    <circle cx="280" cy="360" r="3" fill="rgba(255,255,255,0.4)" />
-
-                    {/* Col2 branches (x=430) */}
-                    <line x1="230" y1="85" x2="430" y2="85" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
-                    <circle cx="430" cy="85" r="3" fill="rgba(255,255,255,0.4)" />
-
-                    <line x1="230" y1="200" x2="430" y2="200" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
-                    <circle cx="430" cy="200" r="3" fill="rgba(255,255,255,0.4)" />
-
-                    <line x1="230" y1="310" x2="430" y2="310" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
-                    <circle cx="430" cy="310" r="3" fill="rgba(255,255,255,0.4)" />
-
-                    {/* Animated dots traveling along the lines */}
-                    {/* Product → T1 */}
-                    <circle r="3" fill="#E26153" opacity="0.7">
-                      <animateMotion dur="2s" repeatCount="indefinite" path="M0 200 L110 200" />
-                    </circle>
-                    {/* T1 → trunk */}
-                    <circle r="3" fill="#E26153" opacity="0.7">
-                      <animateMotion dur="1.5s" repeatCount="indefinite" path="M155 200 L230 200" />
-                    </circle>
-                    {/* Trunk → col1 branches */}
-                    <circle r="3" fill="#E26153" opacity="0.6">
-                      <animateMotion dur="2.5s" repeatCount="indefinite" path="M230 200 L230 30 L280 30" />
-                    </circle>
-                    <circle r="3" fill="#E26153" opacity="0.6">
-                      <animateMotion dur="2s" repeatCount="indefinite" path="M230 200 L230 140 L280 140" begin="0.5s" />
-                    </circle>
-                    <circle r="3" fill="#E26153" opacity="0.6">
-                      <animateMotion dur="2s" repeatCount="indefinite" path="M230 200 L230 250 L280 250" begin="0.3s" />
-                    </circle>
-                    <circle r="3" fill="#E26153" opacity="0.6">
-                      <animateMotion dur="2.5s" repeatCount="indefinite" path="M230 200 L230 360 L280 360" begin="0.8s" />
-                    </circle>
-                    {/* Trunk → col2 branches */}
-                    <circle r="3" fill="#E26153" opacity="0.6">
-                      <animateMotion dur="3s" repeatCount="indefinite" path="M230 200 L230 85 L430 85" begin="0.2s" />
-                    </circle>
-                    <circle r="3" fill="#E26153" opacity="0.7">
-                      <animateMotion dur="2.5s" repeatCount="indefinite" path="M230 200 L430 200" begin="0.6s" />
-                    </circle>
-                    <circle r="3" fill="#E26153" opacity="0.6">
-                      <animateMotion dur="3s" repeatCount="indefinite" path="M230 200 L230 310 L430 310" begin="0.4s" />
-                    </circle>
-                  </svg>
-
-                  {/* T1 Logo — aligned to SVG node at (130, 200) → 26%, 50% */}
-                  <div className="absolute" style={{ left: "26%", top: "50%", transform: "translate(-50%, -50%)" }}>
-                    <svg width="50" height="48" viewBox="0 0 45 44" fill="none">
-                      <path d="M27.6733 19.1041H31.4027C31.5444 19.1041 31.6388 19.1041 31.7332 19.1985C31.7332 19.1985 31.7332 19.1985 31.7332 19.2457V37.7039C31.7332 38.5064 32.4885 39.0729 33.291 38.8369C35.0377 38.1288 37.3037 37.2318 38.956 36.4765C39.2392 36.3349 39.6169 36.1932 39.6169 35.6268V19.2457C39.6169 19.2457 39.6169 19.1985 39.6169 19.1513C39.6169 19.1041 39.6169 19.1041 39.6169 19.1041V7.86867C39.6169 7.20776 39.0976 6.68848 38.4367 6.68848H35.6514C35.1321 6.68848 34.7073 7.01893 34.5184 7.491C33.3855 10.6539 31.2139 13.0143 27.9566 13.5808C24.6992 14.1473 27.6733 13.628 27.4845 13.628C26.8708 13.7224 26.4459 14.1945 26.4459 14.8082V17.8767C26.4459 18.5376 26.9652 19.0569 27.6261 19.0569L27.6733 19.1041Z" fill="#D93A26" />
-                      <path d="M32.5831 5.41411C32.4415 5.27248 32.2055 5.13086 31.9694 5.13086H4.63622C3.78648 5.13086 3.07837 5.74456 3.07837 6.54709V10.7014C3.07837 11.6927 3.2672 12.1648 4.4946 12.1648H13.6057C13.8417 12.1648 14.0305 12.3536 14.0305 12.5897V16.083V35.5326C14.0305 35.9574 14.3138 36.2879 14.7387 36.4767C15.5412 36.8072 18.3264 38.1762 19.2706 38.6955C20.2147 39.2148 21.867 38.3178 21.867 36.996V13.2506C21.867 13.2034 21.867 13.0617 21.867 13.0617C21.8198 12.7313 21.867 12.4008 22.1975 12.2592C22.2919 12.2592 22.3391 12.2592 22.4335 12.2592H25.4076C31.9222 11.6455 32.5831 6.5943 32.6303 6.02781C32.6303 6.02781 32.6303 5.9806 32.6303 5.93339V5.79177C32.6303 5.65014 32.6303 5.55573 32.4887 5.46131L32.5831 5.41411Z" fill="#D93A26" />
-                    </svg>
-                  </div>
-
-                  {/* Marketplace icons — 4 in col1 (x=56%), 3 in col2 (x=86%), aligned to SVG branches */}
-                  {[
-                    { mp: MODAL_MARKETPLACES[0], pctX: 56, pctY: 7.5 },    /* MercadoLibre col1 — y=30/400 */
-                    { mp: MODAL_MARKETPLACES[1], pctX: 86, pctY: 21.25 },   /* Amazon col2 — y=85/400 */
-                    { mp: MODAL_MARKETPLACES[2], pctX: 56, pctY: 35 },      /* Sears col1 — y=140/400 */
-                    { mp: MODAL_MARKETPLACES[3], pctX: 86, pctY: 50 },      /* SHEIN col2 — y=200/400 */
-                    { mp: MODAL_MARKETPLACES[4], pctX: 56, pctY: 62.5 },    /* Walmart col1 — y=250/400 */
-                    { mp: MODAL_MARKETPLACES[5], pctX: 86, pctY: 77.5 },    /* Shopify col2 — y=310/400 */
-                    { mp: MODAL_MARKETPLACES[6], pctX: 56, pctY: 90 },      /* Liverpool col1 — y=360/400 */
-                  ].map(({ mp, pctX, pctY }, i) => (
-                    <div
-                      key={i}
-                      className="absolute flex h-[56px] w-[56px] items-center justify-center overflow-hidden rounded-[14px]"
-                      style={{ left: `${pctX}%`, top: `${pctY}%`, transform: "translate(-50%, -50%)" }}
-                    >
-                      <Image src={mp.src} alt={mp.name} width={56} height={56} className="object-contain" />
-                    </div>
-                  ))}
-                </div>
-
-                {/* Right: text + CTA */}
-                <div className="w-full tablet:w-[280px]" style={{ paddingTop: 20 }}>
-                  <h3 className="font-sora text-[24px] font-normal text-white tablet:text-[30px]" style={{ lineHeight: 1.2, marginBottom: 14 }}>
-                    Conecta tus marketplaces
-                  </h3>
-                  <p className="font-inter text-[15px] font-light text-white/60" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                    Simplifica tu operación, vende en + 10 marketplaces desde un solo lugar.
-                  </p>
-                  <a
-                    href="#"
-                    className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3 font-inter text-[14px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
-                  >
-                    Comenzar ahora
-                  </a>
-                </div>
-              </div>
-            </div>
-            )}
           </div>
         </div>
       </div>
@@ -1648,37 +1493,42 @@ export default function T1Features() {
           {FEATURES_SUBTITLE}
         </p>
 
-        {/* 3-column card grid with SVG icons from files */}
-        <div className="grid grid-cols-1 gap-4 tablet:grid-cols-2 lg:grid-cols-3 lg:gap-6" style={{ marginBottom: 60 }}>
-          {FEATURE_CARDS.map((card) => (
-            <div
-              key={card.id}
-              className="group flex flex-col rounded-[15px] border border-black/[0.06] bg-white transition-shadow duration-200 hover:shadow-[0_0_30px_2px_rgba(0,0,0,0.06)]"
-              style={{ padding: "28px 24px" }}
-            >
-              {/* Top row: Label + Icon from SVG file */}
+        {/* 3-column card grid — centered illustration on pink-bg circle, label below */}
+        <div className="grid grid-cols-1 gap-4 tablet:grid-cols-3 lg:gap-6" style={{ marginBottom: 60 }}>
+          {FEATURE_CARDS.map((card) => {
+            const illustration =
+              card.id === "vende" ? "/img/card-vende.png"
+              : card.id === "cobra" ? "/img/card-cobra.png"
+              : "/img/card-envia.png";
+            return (
               <div
-                className="flex items-start justify-between"
-                style={{ marginBottom: 12 }}
+                key={card.id}
+                className="flex flex-col items-center rounded-[20px] bg-white transition-all duration-300 hover:scale-[1.01]"
+                style={{ padding: "40px 32px", boxShadow: "0 0 25px 0 rgba(0,0,0,0.06)" }}
               >
-                <p className="font-inter text-[15px] font-semibold tracking-[0.04em] text-black">
+                {/* Illustration — natural size, no wrapper */}
+                <Image
+                  src={illustration}
+                  alt={card.label}
+                  width={120}
+                  height={120}
+                  className="object-contain"
+                  style={{ marginBottom: 16, height: "auto", width: "auto", maxHeight: 140 }}
+                />
+
+
+                {/* Label uppercase */}
+                <p className="font-inter text-[18px] font-medium uppercase text-black tablet:text-[20px]" style={{ marginBottom: 16 }}>
                   {card.label}
                 </p>
-                <Image
-                  src={card.icon}
-                  alt={card.label}
-                  width={40}
-                  height={40}
-                  className="h-[40px] w-[40px] object-contain"
-                />
-              </div>
 
-              {/* Description */}
-              <p className="font-inter text-[14px] font-normal leading-relaxed text-black/55 tablet:text-[15px]">
-                {card.description}
-              </p>
-            </div>
-          ))}
+                {/* Description — left-aligned, full width */}
+                <p className="w-full font-inter text-[15px] font-normal text-black tablet:text-[16px]" style={{ lineHeight: 1.5 }}>
+                  {card.description}
+                </p>
+              </div>
+            );
+          })}
         </div>
       </div>
 

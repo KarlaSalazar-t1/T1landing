@@ -18,10 +18,10 @@ const CASES = [
     person: "Juan Manuel Ruiz", role: "DIRECTOR GENERAL | CÍRCULO DE CRÉDITO", hasVideo: true, videoId: "MPXrBe7iNgE",
   },
   {
-    id: "mercadolibre", name: "Mercado Libre", image: "/img/logos/mercado-libre.svg", coverImage: "/img/caso-mercado.png", bgColor: "#0A1A28",
-    metric: "+1M", metricLabel: "publicaciones sincronizadas en tiempo real",
-    quote: "La integración con T1 simplificó la gestión de nuestro inventario y pedidos en México.",
-    person: "Juan Hernández", role: "ECOMMERCE LEAD | MERCADO LIBRE MX", hasVideo: false,
+    id: "visa", name: "Visa", image: "/img/logos/visa.png", coverImage: "/img/caso-mercado.png", bgColor: "#0A1A28",
+    metric: "+1M", metricLabel: "transacciones procesadas con T1",
+    quote: "T1 nos permitió ofrecer una experiencia de pagos confiable y rápida para nuestros tarjetahabientes en México.",
+    person: "Juan Hernández", role: "PARTNERSHIPS LEAD | VISA MX", hasVideo: false,
   },
   {
     id: "telcel", name: "Telcel", image: "/img/logos/telcel.png", coverImage: "/img/caso-telcel.png", bgColor: "#0A1020",
@@ -40,12 +40,6 @@ const CASES = [
     metric: "+ Conversión", metricLabel: "y centralización de operación",
     quote: "T1 nos ayudó a aumentar la conversión y centralizar toda nuestra operación en una sola plataforma.",
     person: "Marín Ramos", role: "FUNDADOR Y DIRECTOR GENERAL | MAKORA", hasVideo: true, videoId: "7l0BDngMRUk",
-  },
-  {
-    id: "sanborns", name: "Sanborns", image: "/img/logos/sanborns.svg", coverImage: "/img/caso-sanborns.png", bgColor: "#14100A",
-    metric: "2.8x", metricLabel: "incremento en conversión de checkout",
-    quote: "El checkout de T1pagos es notablemente más rápido y nuestros clientes lo notan en cada compra.",
-    person: "Ricardo Vega", role: "ECOMMERCE MANAGER | SANBORNS", hasVideo: false,
   },
   {
     id: "pase", name: "PASE", image: "/img/logos/pase.png", coverImage: "/img/caso-pase.png", bgColor: "#0F1015",
@@ -193,10 +187,39 @@ export default function T1Enterprise() {
           ))}
         </div>
 
-        {/* Desktop gallery */}
+        {/* Mobile-only: info row below the gallery (metric, quote, person) + Ver video button */}
+        <div className="flex flex-col gap-4 tablet:hidden" style={{ marginBottom: 24 }}>
+          <div key={`mobile-info-${current.id}`} style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
+            <p className="font-inter text-[22px] font-bold leading-tight text-black">
+              {current.metric}{" "}
+              <span className="text-[14px] font-normal text-black/70">{current.metricLabel}</span>
+            </p>
+            <p className="mt-2 font-inter text-[14px] italic leading-relaxed text-black/55">
+              &ldquo;{current.quote}&rdquo;
+            </p>
+            <p className="mt-2 font-inter text-[12px] font-medium text-black/70">
+              {current.person} <span className="text-black/40">· {current.role}</span>
+            </p>
+          </div>
+          {current.hasVideo && (
+            <button
+              onClick={() => setVideoOpen(true)}
+              className="inline-flex w-fit cursor-pointer items-center gap-2 rounded-full border border-black/15 bg-white px-5 py-2.5 font-inter text-[13px] font-medium text-black transition-all duration-150 hover:border-black/30"
+            >
+              Ver video
+              <span className="flex h-[20px] w-[20px] items-center justify-center rounded-full bg-[#DB3B2B]">
+                <svg width="8" height="10" viewBox="0 0 8 10" fill="none">
+                  <path d="M1 1L7 5L1 9V1Z" fill="white" />
+                </svg>
+              </span>
+            </button>
+          )}
+        </div>
+
+        {/* Desktop gallery — active card has metric, quote, author embedded. */}
         <div
           className="hidden gap-2 overflow-hidden tablet:flex"
-          style={{ height: 420, marginBottom: 40 }}
+          style={{ height: 520, marginBottom: 24 }}
         >
           {CASES.map((c, i) => {
             const isActive = i === active;
@@ -214,7 +237,7 @@ export default function T1Enterprise() {
                 style={{
                   flex,
                   minWidth: 0,
-                  height: 420,
+                  height: 520,
                   background: c.bgColor,
                   transition: "flex 0.6s cubic-bezier(0.4, 0, 0.2, 1)",
                 }}
@@ -232,22 +255,62 @@ export default function T1Enterprise() {
                   />
                 )}
 
-                {/* Dark overlay — strong on inactive, lighter on hover/active */}
+                {/* Dark overlay — stronger bottom gradient on active to read text */}
                 <div
                   className="absolute inset-0 transition-all duration-500"
                   style={{
                     background: isActive
-                      ? `linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.55) 100%)`
+                      ? `linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.15) 35%, rgba(0,0,0,0.85) 100%)`
                       : isHovered
                         ? `linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.5) 100%)`
                         : `linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.75) 100%)`,
                   }}
                 />
 
-                {/* Logo + name — visible on active or hovered */}
+                {/* (Top-left brand logo removed per design — info lives at the bottom) */}
+
+                {/* Ver video button — top-right floating, active only */}
+                {isActive && c.hasVideo && (
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setVideoOpen(true); }}
+                    className="absolute right-6 top-6 z-10 inline-flex cursor-pointer items-center gap-2 rounded-full bg-white/90 px-5 py-2.5 font-inter text-[13px] font-medium text-black transition-all duration-150 hover:bg-white"
+                    style={{ animation: "fadeSlideIn 0.4s ease-out", boxShadow: "0 4px 14px rgba(0,0,0,0.18)" }}
+                  >
+                    Ver video
+                    <span className="flex h-[20px] w-[20px] items-center justify-center rounded-full bg-[#DB3B2B]">
+                      <svg width="8" height="10" viewBox="0 0 8 10" fill="none">
+                        <path d="M1 1L7 5L1 9V1Z" fill="white" />
+                      </svg>
+                    </span>
+                  </button>
+                )}
+
+                {/* Bottom info — metric, quote, author — active only */}
+                {isActive && (
+                  <div
+                    key={`info-${c.id}`}
+                    className="absolute bottom-0 left-0 right-0 z-10 px-7 pb-7"
+                    style={{ animation: "fadeSlideIn 0.5s ease-out" }}
+                  >
+                    {/* Metric — uppercase title */}
+                    <p className="font-inter text-[16px] font-bold uppercase leading-tight text-white tablet:text-[18px] lg:text-[20px]" style={{ letterSpacing: "0.02em", marginBottom: 12 }}>
+                      {c.metric} {c.metricLabel}
+                    </p>
+                    {/* Quote */}
+                    <p className="font-inter text-[14px] italic leading-relaxed text-white/85 tablet:text-[15px]" style={{ marginBottom: 10 }}>
+                      &ldquo;{c.quote}&rdquo;
+                    </p>
+                    {/* Author */}
+                    <p className="font-inter text-[11px] font-semibold uppercase text-white/70 tablet:text-[12px]" style={{ letterSpacing: "0.05em" }}>
+                      {c.person} <span className="text-white/45">· {c.role}</span>
+                    </p>
+                  </div>
+                )}
+
+                {/* Small logo + name — visible on hover only (not active) */}
                 <div
                   className="absolute bottom-5 left-5 z-10 flex items-center gap-2.5 transition-opacity duration-300"
-                  style={{ opacity: isActive || isHovered ? 1 : 0 }}
+                  style={{ opacity: isHovered ? 1 : 0 }}
                 >
                   <div className="flex h-[32px] w-[32px] shrink-0 items-center justify-center overflow-hidden rounded-[8px] bg-white/10 backdrop-blur-sm">
                     <Image
@@ -291,43 +354,6 @@ export default function T1Enterprise() {
           })}
         </div>
 
-        {/* Bottom: metric + quote + person + CTA */}
-        <div className="flex flex-col gap-4 tablet:flex-row tablet:items-start tablet:gap-12">
-          <div
-            key={current.id}
-            style={{ flex: 1, animation: "fadeSlideIn 0.4s ease-out" }}
-          >
-            {/* Metric */}
-            <p className="font-inter text-[24px] font-bold leading-tight text-black tablet:text-[32px]">
-              {current.metric}{" "}
-              <span className="text-[14px] font-normal text-black/70 tablet:text-[18px]">{current.metricLabel}</span>
-            </p>
-            {/* Quote */}
-            <p className="mt-2 font-inter text-[15px] italic leading-relaxed text-black/50">
-              &ldquo;{current.quote}&rdquo;
-            </p>
-            {/* Person */}
-            <p className="mt-2 font-inter text-[13px] font-medium text-black/70">
-              {current.person}{" "}
-              <span className="text-black/40">&middot; {current.role}</span>
-            </p>
-          </div>
-          {current.hasVideo && (
-            <div className="shrink-0">
-              <button
-                onClick={() => setVideoOpen(true)}
-                className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-black/15 bg-white px-6 py-3 font-inter text-[14px] font-medium text-black transition-all duration-150 hover:border-black/30 hover:bg-black/[0.02]"
-              >
-                Ver video
-                <span className="flex h-[20px] w-[20px] items-center justify-center rounded-full bg-black/10">
-                  <svg width="8" height="10" viewBox="0 0 8 10" fill="none">
-                    <path d="M1 1L7 5L1 9V1Z" fill="currentColor" />
-                  </svg>
-                </span>
-              </button>
-            </div>
-          )}
-        </div>
       </div>
 
       {/* Video modal */}

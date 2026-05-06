@@ -25,7 +25,7 @@ function AnimatedMetric({
       <p className="font-sora text-[40px] font-light leading-none tracking-tight text-white tablet:text-[72px]">
         {display}
       </p>
-      <p className="mt-4 font-inter text-[16px] font-normal text-white/45">
+      <p className="mt-4 font-inter text-[16px] font-normal text-white">
         {label}
       </p>
     </div>
@@ -56,7 +56,7 @@ export default function T1Metrics() {
 
         <div className="grid grid-cols-1 items-start gap-10 tablet:grid-cols-3 tablet:gap-0">
           <AnimatedMetric end={25} prefix="+" suffix=" mil" label="Negocios" />
-          <AnimatedMetric end={13} prefix="+$" suffix=" B" label="procesados en pagos" />
+          <AnimatedMetric end={25} prefix="+$" suffix=" B" label="procesados en pagos" />
           <AnimatedMetric end={40} prefix="+" suffix=" M" label="de envíos gestionados" />
         </div>
       </div>

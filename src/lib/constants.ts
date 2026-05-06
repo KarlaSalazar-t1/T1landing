@@ -87,21 +87,6 @@ export const HERO_DATA = {
   subtitle: "Inicia gratis. No se necesita tarjeta.",
 };
 
-// ── Client logos ──
-export const CLIENT_LOGOS_HEADING =
-  "Únete a los miles de negocios que ya confían en nosotros";
-
-export const CLIENT_LOGOS = [
-  "AliExpress",
-  "SHEIN",
-  "PLATA",
-  "Claro",
-  "SEARS",
-  "Telcel",
-  "Círculo",
-  "Estée Lauder",
-];
-
 // ── Feature cards (Todo tu negocio) ──
 export const FEATURES_HEADING = "Todo tu negocio, en un solo lugar";
 export const FEATURES_SUBTITLE =
@@ -130,27 +115,6 @@ export const FEATURE_CARDS = [
     icon: "/img/envia.svg",
   },
 ];
-
-// ── Solutions section (Tenemos la solución) ──
-export const SOLUTIONS_HEADING = "Todo lo que necesitas para operar tu negocio";
-
-export const SOLUTION_TABS = [
-  "Crea tu tienda",
-  "Conecta marketplaces",
-  "Crea envíos",
-  "Administra tus incidencias",
-  "Cobra en línea",
-  "Gestiona contracargos",
-];
-
-// ── Enterprise section ──
-export const ENTERPRISE_HEADING =
-  "Los negocios más grandes de México ya están usando T1";
-
-// ── CTA section ──
-export const CTA_HEADING = "¿Listo para operar tu negocio desde un solo lugar?";
-export const CTA_SUBTITLE =
-  "Comienza gratis y vende, cobra y envía sin integraciones.";
 
 // ── Footer ──
 export const FOOTER_SOLUTIONS = [

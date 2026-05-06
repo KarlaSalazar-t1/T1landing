@@ -11,9 +11,8 @@ const TABS = [
   "Crea envíos",
   "Control de calidad",
   "Cobra en línea",
-  "Gestiona contracargos",
+  "Gestiona reclamaciones",
   "Punto de venta",
-  "T1score",
 ];
 
 /* ── Sub-tab type ── */
@@ -22,7 +21,7 @@ type SubTab = {
   description: string;
   image: string | null;
   floatingCards: "incidencia" | "metrics" | "sobrepesos" | null;
-  panel?: "tienda-ia" | "producto-grid" | "pedidos" | "personaliza" | "sync-inventory" | "order-list" | "sobrepesos-cards" | "cotizador" | "carrito" | "rastreo" | "checkout" | "link-pago" | "disputas" | "metricas-contracargos" | "fraude" | "riesgo" | "buro" | "pos-cobro" | "pos-inventario" | "pos-control-caja" | null;
+  panel?: "tienda-ia" | "producto-grid" | "pedidos" | "personaliza" | "sync-inventory" | "order-list" | "sobrepesos-cards" | "cotizador" | "carrito" | "rastreo" | "guias-masivas" | "enrutamiento-pagos" | "checkout" | "link-pago" | "disputas" | "metricas-contracargos" | "fraude" | "riesgo" | "buro" | "pos-cobro" | "pos-inventario" | "pos-control-caja" | null;
 };
 
 type TabCard = {
@@ -76,7 +75,7 @@ const TAB_CARDS: TabCard[] = [
     ctaHref: "/registro",
     subTabs: [
       { label: "Cotizador", description: "Cotiza envíos con más de 10 paqueterías y elige la mejor opción para cada pedido.", image: null, floatingCards: null, panel: "cotizador" },
-      { label: "Guías masivas", description: "Genera cientos de guías de envío en segundos con procesamiento por lotes.", image: "/img/incidencia-img.png", floatingCards: null },
+      { label: "Guías masivas", description: "Genera cientos de guías de envío en segundos con procesamiento por lotes.", image: null, floatingCards: null, panel: "guias-masivas" },
       { label: "Rastreo de guías", description: "Rastrea todas tus guías en tiempo real desde un solo dashboard.", image: null, floatingCards: null, panel: "rastreo" },
     ],
   },
@@ -101,18 +100,18 @@ const TAB_CARDS: TabCard[] = [
     subTabs: [
       { label: "Checkout integrado", description: "Checkout optimizado para la mayor tasa de conversión en tu tienda.", image: null, floatingCards: null, panel: "checkout" },
       { label: "Links de pago", description: "Cobra compartiendo un enlace por WhatsApp, email o redes sociales.", image: null, floatingCards: null, panel: "link-pago" },
-      { label: "Enrutamiento de pagos", description: "Enruta pagos entre procesadores para maximizar la tasa de aprobación.", image: "/img/control-calidad.png", floatingCards: null },
+      { label: "Enrutamiento de pagos", description: "Enruta pagos entre procesadores para maximizar la tasa de aprobación.", image: null, floatingCards: null, panel: "enrutamiento-pagos" },
     ],
   },
   {
-    title: "CONTRACARGOS",
+    title: "RECLAMACIONES",
     description:
-      "Gestiona disputas y contracargos de manera eficiente. Genera evidencia automática y monitorea tus métricas.",
+      "Gestiona disputas y reclamaciones de manera eficiente. Genera evidencia automática y monitorea tus métricas.",
     cta: "Gestionar disputas",
     ctaHref: "/registro",
     subTabs: [
-      { label: "Panel de reclamaciones", description: "Gestiona todas tus reclamaciones y contracargos desde un panel centralizado.", image: null, floatingCards: null, panel: "disputas" },
-      { label: "Métricas clave", description: "Monitorea métricas de contracargos y tendencias por periodo.", image: null, floatingCards: null, panel: "metricas-contracargos" },
+      { label: "Panel de reclamaciones", description: "Gestiona todas tus reclamaciones desde un panel centralizado.", image: null, floatingCards: null, panel: "disputas" },
+      { label: "Métricas clave", description: "Monitorea métricas de reclamaciones y tendencias por periodo.", image: null, floatingCards: null, panel: "metricas-contracargos" },
     ],
   },
   {
@@ -127,18 +126,9 @@ const TAB_CARDS: TabCard[] = [
       { label: "Control de caja", description: "Cierra turno con el detalle de cobros, devoluciones y efectivo en caja.", image: null, floatingCards: null, panel: "pos-control-caja" },
     ],
   },
-  {
-    title: "T1SCORE",
-    description:
-      "Prevención de fraude y análisis de riesgo crediticio con datos tradicionales y alternativos. Protege tu negocio en tiempo real.",
-    cta: "Proteger mi negocio",
-    ctaHref: "/registro",
-    subTabs: [
-      { label: "Prevención de fraude", description: "Bloquea transacciones fraudulentas en tiempo real con IA.", image: null, floatingCards: null, panel: "fraude" },
-      { label: "Análisis de riesgo", description: "Evalúa cada operación al instante con datos tradicionales y alternativos.", image: null, floatingCards: null, panel: "riesgo" },
-      { label: "Evaluación crediticia", description: "Accede a scores crediticios enriquecidos para tomar mejores decisiones.", image: null, floatingCards: null, panel: "buro" },
-    ],
-  },
+  // T1Score hidden — DO NOT REMOVE (used for future launch)
+  // The T1score tab entry, its TAB_CARDS data, and the panel renders for
+  // `fraude`, `riesgo`, `buro` (both desktop and mobile) are kept intentionally.
 ];
 
 const font = "var(--font-manrope-var), sans-serif";
@@ -150,9 +140,9 @@ function FloatingCards({ type }: { type: string | null }) {
       <div
         className="absolute rounded-[20px] bg-white"
         style={{
-          right: 40, top: 110, width: 300, zIndex: 10,
+          right: 70, top: 110, width: 280, zIndex: 10,
           boxShadow: "0 0 25px 0 rgba(0,0,0,0.06)",
-          fontFamily: font, padding: "20px 30px",
+          fontFamily: font, padding: "20px 26px",
           animation: "fadeSlideIn 0.4s ease-out",
         }}
       >
@@ -177,12 +167,12 @@ function FloatingCards({ type }: { type: string | null }) {
   if (type === "metrics") {
     return (
       <>
-        <div className="absolute rounded-[16px] bg-white" style={{ right: 330, top: 40, width: 240, boxShadow: "0 0 25px 0 rgba(0,0,0,0.06)", fontFamily: font, padding: "18px 24px", zIndex: 10, animation: "fadeSlideIn 0.4s ease-out" }}>
-          <p className="text-[14px] font-bold text-[#4c4c4c]">Tasa de incidencias</p>
-          <p className="text-[40px] font-bold text-[#4c4c4c]" style={{ lineHeight: 1.1, marginTop: 4 }}>1.02%</p>
+        <div className="absolute rounded-[16px] bg-white" style={{ right: 360, top: 70, width: 220, boxShadow: "0 0 25px 0 rgba(0,0,0,0.06)", fontFamily: font, padding: "16px 22px", zIndex: 10, animation: "fadeSlideIn 0.4s ease-out" }}>
+          <p className="text-[13px] font-bold text-[#4c4c4c]">Tasa de incidencias</p>
+          <p className="text-[34px] font-bold text-[#4c4c4c]" style={{ lineHeight: 1.1, marginTop: 4 }}>1.02%</p>
           <p className="text-[11px] font-normal text-[#828282]">148 / 3,452 envíos</p>
         </div>
-        <div className="absolute rounded-[16px] bg-white" style={{ right: 20, top: 280, width: 250, boxShadow: "0 0 25px 0 rgba(0,0,0,0.06)", fontFamily: font, padding: "14px 16px 14px 18px", zIndex: 10, animation: "fadeSlideIn 0.5s ease-out" }}>
+        <div className="absolute rounded-[16px] bg-white" style={{ right: 60, top: 290, width: 230, boxShadow: "0 0 25px 0 rgba(0,0,0,0.06)", fontFamily: font, padding: "14px 16px 14px 18px", zIndex: 10, animation: "fadeSlideIn 0.5s ease-out" }}>
           <p className="text-[14px] font-bold text-[#4c4c4c]" style={{ marginBottom: 14 }}>Desempeño por paquetería</p>
           <div className="flex flex-col gap-[10px]">
             {[
@@ -225,19 +215,24 @@ export default function T1Solutions() {
   const card = TAB_CARDS[activeTab];
   const currentSub = card.subTabs[activeSubTab];
 
-  const handleTabChange = useCallback((i: number) => {
+  const handleTabChange = useCallback((i: number, dir?: "left" | "right") => {
     setActiveTab((prev) => {
-      setSlideDir(i > prev ? "right" : i < prev ? "left" : "right");
+      // Explicit direction (from peek-edge clicks) wins over inferred direction
+      setSlideDir(dir || (i > prev ? "right" : i < prev ? "left" : "right"));
       return i;
     });
     setActiveSubTab(0);
     setAnimKey((k) => k + 1);
-    // Scroll main tab into view
-    const container = mainTabsRef.current;
-    if (container) {
-      const buttons = Array.from(container.children) as HTMLElement[];
-      if (buttons[i]) {
-        buttons[i].scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    // Manual horizontal scroll on ONLY the chip's overflow container.
+    // (scrollIntoView walks up parents and can horizontally shift the page on some browsers
+    //  even with overflow-x: clip, which causes the whole section to appear "shifted left".)
+    const chipsRow = mainTabsRef.current;
+    const overflowContainer = chipsRow?.parentElement;
+    if (chipsRow && overflowContainer) {
+      const button = chipsRow.children[i] as HTMLElement | undefined;
+      if (button) {
+        const target = button.offsetLeft + button.offsetWidth / 2 - overflowContainer.clientWidth / 2;
+        overflowContainer.scrollTo({ left: Math.max(0, target), behavior: "smooth" });
       }
     }
   }, []);
@@ -266,89 +261,103 @@ export default function T1Solutions() {
           Todo lo que necesitas para operar tu negocio
         </h2>
 
-        {/* ── Level 1 chips OUTSIDE the card ── */}
-        {/* Desktop: wrap, justify-center. Mobile: horizontal scroll. */}
+        {/* ── Level 1 chips OUTSIDE the card — single line.
+            Outer wrapper handles overflow scroll; inner uses w-max + mx-auto so
+            chips center when they fit and scroll left when they overflow. */}
         <div
-          ref={mainTabsRef}
-          className="flex flex-nowrap items-center overflow-x-auto tablet:flex-wrap tablet:justify-center tablet:overflow-visible"
-          style={{ gap: 10, marginBottom: 24, paddingLeft: 4, paddingRight: 4, scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
+          className="overflow-x-auto"
+          style={{ marginBottom: 24, paddingLeft: 4, paddingRight: 4, scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
         >
-          {TABS.map((tab, i) => (
-            <button
-              key={tab}
-              onClick={() => handleTabChange(i)}
-              className={`shrink-0 cursor-pointer whitespace-nowrap rounded-full font-inter transition-all duration-200 ${
-                activeTab === i
-                  ? "bg-black font-semibold text-white shadow-[0_4px_14px_rgba(0,0,0,0.15)]"
-                  : "border border-black/[0.10] bg-white font-medium text-black/70 hover:border-black/30 hover:bg-black/[0.03] hover:text-black"
-              }`}
-              style={{ padding: "9px 18px", fontSize: 14 }}
-            >
-              {tab}
-            </button>
-          ))}
+          <div
+            ref={mainTabsRef}
+            className="mx-auto flex w-max items-center"
+            style={{ gap: 8 }}
+          >
+            {TABS.map((tab, i) => (
+              <button
+                key={tab}
+                onClick={() => handleTabChange(i)}
+                className={`shrink-0 cursor-pointer whitespace-nowrap rounded-full font-inter transition-all duration-200 ${
+                  activeTab === i
+                    ? "bg-black font-semibold text-white shadow-[0_4px_14px_rgba(0,0,0,0.15)]"
+                    : "border border-black/[0.10] bg-white font-medium text-black/70 hover:border-black/30 hover:bg-black/[0.03] hover:text-black"
+                }`}
+                style={{ padding: "6px 13px", fontSize: 12 }}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Single card — responsive
-            Carousel-hint peek (desktop only): clickable next/prev card edges that
-            stretch all the way to the viewport edges. Click jumps to that card. */}
-        <div className="relative mx-auto" style={{ maxWidth: 1180 }}>
-          {/* Peek edges — clickable, navigate to prev/next category */}
-          <button
-            type="button"
-            aria-label="Categoría anterior"
-            onClick={() => handleTabChange((activeTab - 1 + TABS.length) % TABS.length)}
-            className="absolute hidden cursor-pointer bg-white rounded-[20px] border-none p-0 transition-shadow duration-200 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] tablet:block"
-            style={{
-              right: "calc(100% + 16px)",
-              top: 14,
-              bottom: 14,
-              width: "100vw",
-              boxShadow: "0 4px 18px rgba(0,0,0,0.04)",
-              zIndex: 0,
-            }}
-          />
-          <button
-            type="button"
-            aria-label="Categoría siguiente"
-            onClick={() => handleTabChange((activeTab + 1) % TABS.length)}
-            className="absolute hidden cursor-pointer bg-white rounded-[20px] border-none p-0 transition-shadow duration-200 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] tablet:block"
-            style={{
-              left: "calc(100% + 16px)",
-              top: 14,
-              bottom: 14,
-              width: "100vw",
-              boxShadow: "0 4px 18px rgba(0,0,0,0.04)",
-              zIndex: 0,
-            }}
-          />
+            Carousel: card + peek edges wrapped in one animated container so they
+            slide together when activeTab changes (no misalignment during transition). */}
+        <div className="relative mx-auto" style={{ maxWidth: 1120 }}>
+          {/* Side-fade gradients — viewport-anchored so the carousel edges fade smoothly */}
+          <div aria-hidden className="pointer-events-none absolute z-[5] hidden tablet:block" style={{ left: "calc(-50vw + 50%)", top: 0, bottom: 0, width: "calc(50vw - 50%)", background: "linear-gradient(90deg, #F6F6F6 0%, rgba(246,246,246,0.95) 30%, rgba(246,246,246,0) 100%)" }} />
+          <div aria-hidden className="pointer-events-none absolute z-[5] hidden tablet:block" style={{ right: "calc(-50vw + 50%)", top: 0, bottom: 0, width: "calc(50vw - 50%)", background: "linear-gradient(270deg, #F6F6F6 0%, rgba(246,246,246,0.95) 30%, rgba(246,246,246,0) 100%)" }} />
+          <div
+            key={`carousel-${activeTab}`}
+            className="relative"
+            style={{ animation: `fadeSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1)` }}
+          >
+            {/* Peek edges — clickable, navigate to prev/next category */}
+            <button
+              type="button"
+              aria-label="Categoría anterior"
+              onClick={() => handleTabChange((activeTab - 1 + TABS.length) % TABS.length, "left")}
+              className="absolute hidden cursor-pointer bg-white rounded-[20px] border-none p-0 transition-shadow duration-200 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] tablet:block"
+              style={{
+                right: "calc(100% + 16px)",
+                top: 14,
+                bottom: 14,
+                width: "50vw",
+                boxShadow: "0 4px 18px rgba(0,0,0,0.04)",
+                zIndex: 0,
+              }}
+            />
+            <button
+              type="button"
+              aria-label="Categoría siguiente"
+              onClick={() => handleTabChange((activeTab + 1) % TABS.length, "right")}
+              className="absolute hidden cursor-pointer bg-white rounded-[20px] border-none p-0 transition-shadow duration-200 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] tablet:block"
+              style={{
+                left: "calc(100% + 16px)",
+                top: 14,
+                bottom: 14,
+                width: "50vw",
+                boxShadow: "0 4px 18px rgba(0,0,0,0.04)",
+                zIndex: 0,
+              }}
+            />
 
           <div
-            key={`card-${activeTab}`}
             className="solutions-card-wrapper relative overflow-hidden bg-white rounded-[16px] tablet:rounded-[20px]"
             style={{
               width: "100%",
               minHeight: 360,
-              animation: `${slideDir === "right" ? "carouselSlideRight" : "carouselSlideLeft"} 0.45s cubic-bezier(0.4, 0, 0.2, 1)`,
               zIndex: 1,
             }}
           >
-            {/* Side arrows INSIDE the card (desktop only) — navigate level-2 sub-tabs */}
+            {/* Inner < > arrows (desktop) — navigate level-2 sub-tabs within the active card */}
             <button
               type="button"
               onClick={() => handleSubTabChange((activeSubTab - 1 + card.subTabs.length) % card.subTabs.length)}
               aria-label="Herramienta anterior"
-              className="absolute left-3 top-1/2 z-[3] hidden h-[40px] w-[40px] -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-black/10 bg-white text-black/55 transition-all duration-150 hover:border-black/30 hover:text-black hover:shadow-[0_6px_18px_rgba(0,0,0,0.08)] tablet:flex"
+              className="absolute left-3 z-[3] hidden h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-full border border-black/10 bg-white text-black/55 transition-all duration-150 hover:border-black/30 hover:text-black hover:shadow-[0_4px_14px_rgba(0,0,0,0.08)] tablet:flex"
+              style={{ top: "calc(50% + 25px)", transform: "translateY(-50%)" }}
             >
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 4L6 8L10 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M10 4L6 8L10 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </button>
             <button
               type="button"
               onClick={() => handleSubTabChange((activeSubTab + 1) % card.subTabs.length)}
               aria-label="Siguiente herramienta"
-              className="absolute right-3 top-1/2 z-[3] hidden h-[40px] w-[40px] -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-black/10 bg-white text-black/55 transition-all duration-150 hover:border-black/30 hover:text-black hover:shadow-[0_6px_18px_rgba(0,0,0,0.08)] tablet:flex"
+              className="absolute right-3 z-[3] hidden h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-full border border-black/10 bg-white text-black/55 transition-all duration-150 hover:border-black/30 hover:text-black hover:shadow-[0_4px_14px_rgba(0,0,0,0.08)] tablet:flex"
+              style={{ top: "calc(50% + 25px)", transform: "translateY(-50%)" }}
             >
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </button>
             {/* ── Level 2 — Sub-tabs strip at top of card (desktop only) ──
                 Evenly distributed, uppercase, with shared horizontal rule below */}
@@ -423,17 +432,6 @@ export default function T1Solutions() {
                 >
                   <svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
                 </button>
-                {/* (legacy) all sub-tabs hidden — keeps prev/next semantics for screen readers */}
-                {false && card.subTabs.map((st, i) => (
-                  <button
-                    key={st.label}
-                    onClick={() => handleSubTabChange(i)}
-                    className="hidden"
-                    style={{ display: "none" }}
-                  >
-                    {st.label}
-                  </button>
-                ))}
               </div>
 
               <p
@@ -589,7 +587,8 @@ export default function T1Solutions() {
                     </div>
                   </div>
                 </div>
-              ) : currentSub.panel === "fraude" ? (
+              ) : /* T1Score hidden — DO NOT REMOVE (used for future launch). Mobile panels for fraude / riesgo / buro stay below. */
+              currentSub.panel === "fraude" ? (
                 <div key={`panel-m-${activeSubTab}`} className="relative flex justify-center px-4" style={{ height: 280, animation: "fadeSlideIn 0.4s ease-out" }}>
                   <svg width="180" height="180" viewBox="0 0 110 110" fill="none" style={{ marginTop: 30 }}>
                     <circle cx="55" cy="55" r="48" stroke="rgba(0,0,0,0.04)" strokeWidth="6" />
@@ -890,6 +889,69 @@ export default function T1Solutions() {
                 <div key={`panel-m-${activeSubTab}`} className="flex justify-center px-4" style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
                   <Image src="/img/rastrear.svg" alt="Rastreo" width={280} height={180} className="object-contain" />
                 </div>
+              ) : currentSub.panel === "guias-masivas" ? (
+                <div key={`panel-m-${activeSubTab}`} className="px-4" style={{ animation: "fadeSlideIn 0.4s ease-out", fontFamily: font }}>
+                  <div className="rounded-[12px] border border-black/[0.06] bg-white" style={{ padding: 14, boxShadow: "0 2px 10px rgba(0,0,0,0.04)" }}>
+                    <div className="flex items-center justify-between" style={{ marginBottom: 8 }}>
+                      <p className="text-[12px] font-bold text-[#4c4c4c]">Generando guías</p>
+                      <span className="rounded-full bg-[rgba(34,197,94,0.12)] px-2 py-0.5 text-[8px] font-bold text-[#22C55E]">En proceso</span>
+                    </div>
+                    <div className="rounded-[8px] bg-[#FAFAF9]" style={{ padding: "10px 12px", marginBottom: 10 }}>
+                      <div className="flex items-baseline justify-between" style={{ marginBottom: 6 }}>
+                        <span className="text-[18px] font-bold text-[#4c4c4c]">247</span>
+                        <span className="text-[9px] text-[#828282]">de 500 guías</span>
+                      </div>
+                      <div className="h-[5px] w-full overflow-hidden rounded-full bg-black/[0.05]">
+                        <div className="h-full rounded-full" style={{ width: "49%", background: "#DB3B2B" }} />
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      {[
+                        { id: "T1-9472831", courier: "/img/dhl-iso.svg", status: "ok" },
+                        { id: "T1-9472832", courier: "/img/icons/fedex-logo.svg", status: "ok" },
+                        { id: "T1-9472833", courier: "/img/99min-iso.svg", status: "loading" },
+                      ].map((row) => (
+                        <div key={row.id} className="flex items-center gap-2 rounded-[6px] border border-black/[0.04] bg-white px-2 py-1.5">
+                          <Image src={row.courier} alt="" width={22} height={14} className="object-contain" />
+                          <span className="flex-1 font-mono text-[9px] text-[#4c4c4c]">{row.id}</span>
+                          {row.status === "ok" ? (
+                            <div className="flex h-[16px] w-[16px] items-center justify-center rounded-full bg-[#22C55E]">
+                              <svg width="8" height="8" viewBox="0 0 16 16" fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                            </div>
+                          ) : (
+                            <span className="h-[8px] w-[8px] rounded-full bg-[#DB3B2B]" style={{ animation: "pulse-soft 1.2s ease-in-out infinite" }} />
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ) : currentSub.panel === "enrutamiento-pagos" ? (
+                <div key={`panel-m-${activeSubTab}`} className="px-4" style={{ animation: "fadeSlideIn 0.4s ease-out", fontFamily: font }}>
+                  <div className="rounded-[12px] border border-black/[0.06] bg-white" style={{ padding: 14, boxShadow: "0 2px 10px rgba(0,0,0,0.04)" }}>
+                    <p className="text-[12px] font-bold text-[#4c4c4c]" style={{ marginBottom: 10 }}>Enrutamiento por procesador</p>
+                    <div className="flex flex-col gap-2">
+                      {[
+                        { name: "Procesador A", pct: "88%", dim: true },
+                        { name: "Procesador B", pct: "96%", dim: false },
+                        { name: "Procesador C", pct: "79%", dim: true },
+                      ].map((p) => (
+                        <div
+                          key={p.name}
+                          className={`flex items-center justify-between rounded-[8px] border bg-white px-3 py-2 ${p.dim ? "border-black/[0.06] opacity-50" : "border-[#DB3B2B]"}`}
+                          style={p.dim ? {} : { boxShadow: "0 2px 8px rgba(219,59,43,0.12)" }}
+                        >
+                          <span className="text-[11px] font-semibold text-[#4c4c4c]">{p.name}</span>
+                          <span className={`text-[11px] font-bold ${p.dim ? "text-black/40" : "text-[#DB3B2B]"}`}>{p.pct} aprobación</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-3 flex items-center gap-2 rounded-[8px] bg-[rgba(34,197,94,0.08)] px-2.5 py-2">
+                      <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="#16A34A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                      <span className="text-[10px] font-semibold text-[#16A34A]">+24% de aprobación con enrutamiento</span>
+                    </div>
+                  </div>
+                </div>
               ) : currentSub.panel === "checkout" ? (
                 <div key={`panel-m-${activeSubTab}`} className="relative flex justify-center" style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
                   <div className="relative overflow-hidden rounded-[10px]" style={{ width: 220, height: 320, boxShadow: "0 4px 16px rgba(0,0,0,0.06)" }}>
@@ -968,10 +1030,11 @@ export default function T1Solutions() {
                 are scoped to this content area — sub-tabs strip above no longer
                 overlaps with content). */}
             <div className="hidden tablet:block" style={{ height: 521, position: "relative" }}>
-              {/* Left content — vertically centered in the column */}
+              {/* Left content — vertically centered in the column.
+                  Left padding 70 leaves room for the inner < arrow + safety gap. */}
               <div
                 className="absolute flex flex-col"
-                style={{ left: 35, top: "50%", transform: "translateY(-50%)", width: 370, gap: 20 }}
+                style={{ left: 70, top: "50%", transform: "translateY(-50%)", width: 320, gap: 18 }}
               >
                 {/* Description — changes per sub-tab */}
                 <p
@@ -994,11 +1057,12 @@ export default function T1Solutions() {
                 </a>
               </div>
 
-              {/* Right panel — custom or image */}
+              {/* Right panel — custom or image.
+                  Right padding ~70 leaves room for the inner > arrow + safety gap. */}
               <div
                 key={`panel-${activeTab}-${activeSubTab}`}
                 className="absolute overflow-hidden rounded-[10px]"
-                style={{ left: 460, top: 53, width: 600, height: 420, animation: "fadeSlideIn 0.4s ease-out" }}
+                style={{ left: 450, top: 53, width: 600, height: 420, animation: "fadeSlideIn 0.4s ease-out" }}
               >
                 {currentSub.panel === "tienda-ia" ? (
                   /* Tienda con IA — store preview with floating prompt on top */
@@ -1205,6 +1269,113 @@ export default function T1Solutions() {
                   <div className="relative flex h-full items-center justify-center bg-white">
                     <Image src="/img/rastrear.svg" alt="Rastreo de guías" width={380} height={300} className="object-contain" />
                   </div>
+                ) : currentSub.panel === "guias-masivas" ? (
+                  /* Guías masivas — bulk shipment generator mock with progress bar */
+                  <div className="relative flex h-full items-center justify-center bg-white" style={{ padding: "20px 24px" }}>
+                    <div className="w-[440px] rounded-[14px] border border-black/[0.06] bg-white" style={{ padding: 22, fontFamily: font, boxShadow: "0 4px 24px rgba(0,0,0,0.06)" }}>
+                      {/* Header — title + counter */}
+                      <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
+                        <p className="text-[14px] font-bold text-[#4c4c4c]">Generando guías</p>
+                        <span className="rounded-full bg-[rgba(34,197,94,0.12)] px-2 py-0.5 text-[10px] font-bold text-[#22C55E]">En proceso</span>
+                      </div>
+                      {/* Progress bar */}
+                      <div className="rounded-[10px] bg-[#FAFAF9]" style={{ padding: "12px 14px", marginBottom: 14 }}>
+                        <div className="flex items-baseline justify-between" style={{ marginBottom: 8 }}>
+                          <span className="text-[24px] font-bold text-[#4c4c4c]">247</span>
+                          <span className="text-[11px] text-[#828282]">de 500 guías</span>
+                        </div>
+                        <div className="h-[6px] w-full overflow-hidden rounded-full bg-black/[0.05]">
+                          <div className="h-full rounded-full" style={{ width: "49%", background: "#DB3B2B" }} />
+                        </div>
+                      </div>
+                      {/* List of generated shipments */}
+                      <div className="flex flex-col gap-1.5">
+                        {[
+                          { id: "T1-9472831", courier: "/img/dhl-iso.svg", status: "ok" },
+                          { id: "T1-9472832", courier: "/img/icons/fedex-logo.svg", status: "ok" },
+                          { id: "T1-9472833", courier: "/img/99min-iso.svg", status: "ok" },
+                          { id: "T1-9472834", courier: "/img/dhl-iso.svg", status: "loading" },
+                          { id: "T1-9472835", courier: "/img/icons/fedex-logo.svg", status: "pending" },
+                        ].map((row) => (
+                          <div key={row.id} className="flex items-center gap-3 rounded-[8px] border border-black/[0.04] bg-white px-3 py-2">
+                            <div className="flex h-[24px] w-[34px] shrink-0 items-center justify-center">
+                              <Image src={row.courier} alt="" width={28} height={18} className="object-contain" />
+                            </div>
+                            <span className="flex-1 font-mono text-[11px] text-[#4c4c4c]">{row.id}</span>
+                            {row.status === "ok" && (
+                              <div className="flex h-[20px] w-[20px] items-center justify-center rounded-full bg-[#22C55E]">
+                                <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                              </div>
+                            )}
+                            {row.status === "loading" && (
+                              <div className="flex h-[20px] w-[20px] items-center justify-center">
+                                <span className="h-[10px] w-[10px] rounded-full bg-[#DB3B2B]" style={{ animation: "pulse-soft 1.2s ease-in-out infinite" }} />
+                              </div>
+                            )}
+                            {row.status === "pending" && (
+                              <span className="text-[10px] text-black/35">En cola</span>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    {/* Floating: Listas para imprimir */}
+                    <div className="absolute flex items-center gap-2 rounded-[12px] bg-white" style={{ right: 36, top: 70, padding: "10px 14px", boxShadow: "0 6px 24px rgba(0,0,0,0.10)" }}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                        <path d="M6 9V2h12v7 M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2 M6 14h12v8H6z" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      <span className="font-inter text-[11px] font-semibold text-[#4c4c4c]">Listas para imprimir</span>
+                    </div>
+                  </div>
+                ) : currentSub.panel === "enrutamiento-pagos" ? (
+                  /* Enrutamiento de pagos — diagram: card → 3 processors → bank, animated */
+                  <div className="relative flex h-full items-center justify-center bg-white" style={{ padding: "20px 24px" }}>
+                    <div className="w-[460px] rounded-[14px] border border-black/[0.06] bg-white" style={{ padding: 24, fontFamily: font, boxShadow: "0 4px 24px rgba(0,0,0,0.06)" }}>
+                      <p className="text-[14px] font-bold text-[#4c4c4c]" style={{ marginBottom: 16 }}>Enrutamiento por procesador</p>
+                      <div className="relative" style={{ minHeight: 220 }}>
+                        <svg className="absolute inset-0 h-full w-full" viewBox="0 0 400 220" fill="none" preserveAspectRatio="xMidYMid meet">
+                          {/* Lines from card to processors */}
+                          <line x1="40" y1="110" x2="180" y2="60" stroke="rgba(219,59,43,0.30)" strokeWidth="1.5" strokeDasharray="4 4" />
+                          <line x1="40" y1="110" x2="180" y2="110" stroke="#DB3B2B" strokeWidth="2" />
+                          <line x1="40" y1="110" x2="180" y2="160" stroke="rgba(0,0,0,0.15)" strokeWidth="1.5" strokeDasharray="4 4" />
+                          {/* Lines from processors to bank */}
+                          <line x1="280" y1="60" x2="360" y2="110" stroke="rgba(0,0,0,0.15)" strokeWidth="1.5" strokeDasharray="4 4" />
+                          <line x1="280" y1="110" x2="360" y2="110" stroke="#DB3B2B" strokeWidth="2" />
+                          <line x1="280" y1="160" x2="360" y2="110" stroke="rgba(0,0,0,0.15)" strokeWidth="1.5" strokeDasharray="4 4" />
+                          {/* Animated dot */}
+                          <circle r="4" fill="#DB3B2B"><animateMotion dur="2.4s" repeatCount="indefinite" path="M40 110 L180 110 L280 110 L360 110" /></circle>
+                        </svg>
+                        {/* Card icon (left) */}
+                        <div className="absolute flex h-[44px] w-[44px] items-center justify-center rounded-[10px] border border-black/[0.08] bg-white" style={{ left: 0, top: 88, boxShadow: "0 2px 8px rgba(0,0,0,0.06)" }}>
+                          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2" stroke="#DB3B2B" strokeWidth="1.6" /><path d="M3 10h18" stroke="#DB3B2B" strokeWidth="1.6" /></svg>
+                        </div>
+                        {/* Processors (middle column) */}
+                        {[
+                          { y: 38, name: "Procesador A", subtitle: "88% aprobación", dim: true },
+                          { y: 88, name: "Procesador B", subtitle: "96% aprobación", dim: false },
+                          { y: 138, name: "Procesador C", subtitle: "79% aprobación", dim: true },
+                        ].map((p) => (
+                          <div
+                            key={p.name}
+                            className={`absolute flex w-[110px] flex-col items-center justify-center rounded-[10px] border bg-white px-2 py-2 ${p.dim ? "border-black/[0.06] opacity-50" : "border-[#DB3B2B]"}`}
+                            style={{ left: 175, top: p.y, boxShadow: p.dim ? "none" : "0 4px 14px rgba(219,59,43,0.18)" }}
+                          >
+                            <p className="text-[10px] font-semibold text-[#4c4c4c]">{p.name}</p>
+                            <p className="text-[9px] text-[#828282]">{p.subtitle}</p>
+                          </div>
+                        ))}
+                        {/* Bank icon (right) */}
+                        <div className="absolute flex h-[44px] w-[44px] items-center justify-center rounded-[10px] bg-[rgba(34,197,94,0.10)]" style={{ right: 0, top: 88 }}>
+                          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 21h18 M5 10v8 M9 10v8 M15 10v8 M19 10v8 M3 10l9-6 9 6v0 H3z" stroke="#16A34A" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                        </div>
+                      </div>
+                      {/* Footer — approval rate */}
+                      <div className="mt-3 flex items-center gap-2 rounded-[10px] bg-[rgba(34,197,94,0.08)] px-3 py-2.5">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="#16A34A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                        <span className="font-inter text-[12px] font-semibold text-[#16A34A]">+24% de aprobación con enrutamiento</span>
+                      </div>
+                    </div>
+                  </div>
                 ) : currentSub.panel === "checkout" ? (
                   /* Checkout — image with shadow + floating "Pedido completado" */
                   <div className="relative flex h-full items-center justify-center bg-white" style={{ padding: "20px" }}>
@@ -1331,7 +1502,8 @@ export default function T1Solutions() {
                       <span className="font-inter text-[13px] font-semibold text-[#4c4c4c]">Evidencia recibida</span>
                     </div>
                   </div>
-                ) : currentSub.panel === "fraude" ? (
+                ) : /* T1Score hidden — DO NOT REMOVE (used for future launch). Desktop panels for fraude / riesgo / buro stay below. */
+                currentSub.panel === "fraude" ? (
                   /* Prevención de fraude — gauge + transaction floats */
                   <div className="relative flex h-full items-center justify-center bg-white">
                     {/* Gauge */}
@@ -1574,11 +1746,11 @@ export default function T1Solutions() {
               </div>
             </div>
           </div>
-
-          {/* Floating cards — animated on sub-tab change, hidden on mobile */}
+          {/* Floating cards INSIDE carousel wrapper so they move with the card */}
           <div key={`float-${activeTab}-${activeSubTab}`} className="hidden lg:block">
             <FloatingCards type={currentSub.floatingCards} />
           </div>
+          </div>{/* /carousel animated wrapper */}
         </div>
       </div>
     </section>
