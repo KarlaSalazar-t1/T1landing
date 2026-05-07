@@ -18,16 +18,16 @@ const CASES = [
     person: "Juan Manuel Ruiz", role: "DIRECTOR GENERAL | CÍRCULO DE CRÉDITO", hasVideo: true, videoId: "MPXrBe7iNgE",
   },
   {
-    id: "visa", name: "Visa", image: "/img/logos/visa.png", coverImage: "/img/caso-mercado.png", bgColor: "#0A1A28",
-    metric: "+1M", metricLabel: "transacciones procesadas con T1",
-    quote: "T1 nos permitió ofrecer una experiencia de pagos confiable y rápida para nuestros tarjetahabientes en México.",
-    person: "Juan Hernández", role: "PARTNERSHIPS LEAD | VISA MX", hasVideo: false,
+    id: "casadetono", name: "Casa de Toño", image: "/img/logos/casa-de-tono.png", coverImage: "/img/caso-casa-de-tono.png", bgColor: "#0A1A28",
+    metric: "+92%", metricLabel: "de aprobación y fraude casi cero",
+    quote: "T1pagos permitió a Casa de Toño mantener altos niveles de aprobación, con fraude prácticamente nulo en sus operaciones digitales a través de su canal de WhatsApp.",
+    person: "", role: "", hasVideo: false,
   },
   {
     id: "telcel", name: "Telcel", image: "/img/logos/telcel.png", coverImage: "/img/caso-telcel.png", bgColor: "#0A1020",
-    metric: "+40M", metricLabel: "de envíos gestionados a través de T1",
-    quote: "La integración multipaquetería de T1 nos permitió reducir costos logísticos en un 30%.",
-    person: "Ana Ramírez", role: "VP SUPPLY CHAIN | TELCEL", hasVideo: false,
+    metric: "+2 M", metricLabel: "de recargas procesadas",
+    quote: "T1pagos ha procesado más de 2 millones de paquetes y recargas Telcel, consolidando una operación digital de alto volumen dentro del ecosistema.",
+    person: "", role: "", hasVideo: false,
   },
   {
     id: "pirma", name: "Pirma", image: "/img/logos/pirma.png", coverImage: "/img/caso-pirma.png", bgColor: "#0D1A18",
@@ -197,9 +197,11 @@ export default function T1Enterprise() {
             <p className="mt-2 font-inter text-[14px] italic leading-relaxed text-black/55">
               &ldquo;{current.quote}&rdquo;
             </p>
-            <p className="mt-2 font-inter text-[12px] font-medium text-black/70">
-              {current.person} <span className="text-black/40">· {current.role}</span>
-            </p>
+            {current.person && (
+              <p className="mt-2 font-inter text-[12px] font-medium text-black/70">
+                {current.person} <span className="text-black/40">· {current.role}</span>
+              </p>
+            )}
           </div>
           {current.hasVideo && (
             <button
@@ -301,9 +303,11 @@ export default function T1Enterprise() {
                       &ldquo;{c.quote}&rdquo;
                     </p>
                     {/* Author */}
-                    <p className="font-inter text-[11px] font-semibold uppercase text-white/70 tablet:text-[12px]" style={{ letterSpacing: "0.05em" }}>
-                      {c.person} <span className="text-white/45">· {c.role}</span>
-                    </p>
+                    {c.person && (
+                      <p className="font-inter text-[11px] font-semibold uppercase text-white/70 tablet:text-[12px]" style={{ letterSpacing: "0.05em" }}>
+                        {c.person} <span className="text-white/45">· {c.role}</span>
+                      </p>
+                    )}
                   </div>
                 )}
 
