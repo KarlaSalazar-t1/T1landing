@@ -1,10 +1,23 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
+const MAX_PROMPT = 500;
+const SIGNUP_BASE = "https://t1.com/mx/tienda";
 
 export default function T1AISectionV2() {
   const rootRef = useRef<HTMLDivElement>(null);
+  const [prompt, setPrompt] = useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const trimmed = prompt.trim();
+    const target = trimmed
+      ? `${SIGNUP_BASE}?prompt=${encodeURIComponent(trimmed)}`
+      : SIGNUP_BASE;
+    window.open(target, "_blank", "noopener,noreferrer");
+  };
 
   // Scroll-triggered reveal — IntersectionObserver toggles .is-visible
   useEffect(() => {
@@ -47,40 +60,131 @@ export default function T1AISectionV2() {
           [data-ai-card][data-i="5"] { transition-delay: 340ms; }
         `}</style>
 
-        {/* 2-column grid: title at top-left, 5 cards distributed.
-            Cards are shadow-only (no stroke), animated on scroll. */}
+        {/* Title — full-width header above the cards */}
+        <div data-ai-card data-i="0" className="flex flex-col" style={{ paddingTop: 16, paddingBottom: 8, marginBottom: 24 }}>
+          <div className="mb-3 flex">
+            <svg width="36" height="36" viewBox="0 0 28 28" fill="none">
+              <path d="M14 3L16.5 10.5L24 13L16.5 15.5L14 23L11.5 15.5L4 13L11.5 10.5L14 3Z" stroke="#DB3B2B" strokeWidth="1.5" strokeLinejoin="round" fill="rgba(219,59,43,0.10)" />
+            </svg>
+          </div>
+          <h2
+            className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]"
+            style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}
+          >
+            La <span style={{ color: "#DB3B2B" }}>IA</span> es la base desde el primer día.
+          </h2>
+          <p
+            className="font-inter text-[16px] font-light text-black/55 tablet:text-[17px]"
+            style={{ lineHeight: 1.55, maxWidth: 460 }}
+          >
+            No es una función extra: está integrada en todo T1 para ayudarte a operar y crecer.
+          </p>
+        </div>
+
+        {/* Crea tu tienda — full-width hero card right below the title */}
+        <div
+          data-ai-card
+          data-i="1"
+          className="group relative flex flex-col overflow-hidden rounded-[24px] tablet:flex-row tablet:items-center tablet:gap-10"
+          style={{
+            padding: "60px 36px",
+            marginBottom: 24,
+            boxShadow: "0 12px 40px -10px rgba(219,59,43,0.09), 0 4px 16px -4px rgba(0,0,0,0.02)",
+            background:
+              "radial-gradient(140% 328% at 105% 40%, rgba(255,210,200,6.55) 0%, rgba(255,236,232,0.35) 35%, #FFFFFF 75%)",
+          }}
+        >
+          {/* Left: title block */}
+          <div className="flex-1" style={{ maxWidth: 520 }}>
+            <span
+              className="inline-flex items-center gap-1.5 rounded-full font-inter text-[11px] font-semibold uppercase"
+              style={{
+                letterSpacing: "0.04em",
+                padding: "5px 10px",
+                background: "rgba(219,59,43,0.10)",
+                color: "#DB3B2B",
+                marginBottom: 14,
+              }}
+            >
+              <span className="h-[6px] w-[6px] rounded-full bg-[#DB3B2B]" style={{ animation: "stepDotPulse 1.6s ease-in-out infinite" }} />
+              Créala ahora
+            </span>
+            <h3
+              className="font-sora text-[22px] font-normal text-black tablet:text-[26px] lg:text-[28px]"
+              style={{ letterSpacing: "-0.01em", lineHeight: 1.2, marginBottom: 10 }}
+            >
+              Crea tu tienda en segundos
+            </h3>
+            <p
+              className="font-inter text-[15px] font-light leading-relaxed text-black/65 tablet:text-[16px]"
+              style={{ marginBottom: 0 }}
+            >
+              Describe tu negocio y la IA genera tu tienda lista para vender en menos de 2 minutos.
+            </p>
+          </div>
+
+          {/* Right: input */}
+          <form
+            onSubmit={handleSubmit}
+            className="mt-6 flex-1 rounded-[16px] border bg-white transition-all duration-200 focus-within:border-[#DB3B2B] focus-within:shadow-[0_0_0_4px_rgba(219,59,43,0.08)] tablet:mt-0"
+            style={{ borderColor: "rgba(0,0,0,0.10)", padding: "18px 18px 14px" }}
+          >
+            <textarea
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value.slice(0, MAX_PROMPT))}
+              placeholder="Quiero vender muebles de la más alta calidad..."
+              rows={2}
+              maxLength={MAX_PROMPT}
+              aria-label="Describe tu negocio"
+              className="w-full resize-none border-none bg-transparent font-inter text-[15px] text-black outline-none placeholder:text-black/40"
+              style={{ minHeight: 64, lineHeight: 1.45 }}
+            />
+            <div className="flex items-center justify-between gap-3">
+              <span className="font-inter text-[12px] text-black/40">
+                {prompt.length}/{MAX_PROMPT}
+              </span>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  aria-label="Describir por voz"
+                  title="Describir por voz"
+                  className="flex h-[34px] w-[34px] items-center justify-center rounded-full border border-black/10 bg-white text-black/60 transition-all duration-200 hover:border-black/20 hover:text-black"
+                >
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                    <rect x="6" y="2" width="4" height="8" rx="2" stroke="currentColor" strokeWidth="1.5" />
+                    <path d="M3.5 8C3.5 10.4853 5.51472 12.5 8 12.5C10.4853 12.5 12.5 10.4853 12.5 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                    <path d="M8 12.5V14.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                  </svg>
+                </button>
+                <button
+                  type="submit"
+                  disabled={!prompt.trim()}
+                  aria-label="Crear tienda con IA"
+                  className="flex h-[34px] w-[34px] items-center justify-center rounded-full bg-[#DB3B2B] text-white transition-all duration-200 hover:bg-[#C0332A] hover:scale-105 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100"
+                >
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                    <path d="M8 13V3M8 3L4 7M8 3L12 7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        {/* 2-column grid for the 4 illustrative AI cards */}
         <div className="grid grid-cols-1 gap-5 tablet:grid-cols-2 tablet:gap-6">
 
           {/* LEFT COLUMN */}
           <div className="flex flex-col gap-5 tablet:gap-6">
 
-            {/* Title — no card chrome, lives in top-left cell */}
-            <div data-ai-card data-i="0" className="flex flex-col" style={{ paddingTop: 16, paddingBottom: 8 }}>
-              <div className="mb-3 flex">
-                <svg width="36" height="36" viewBox="0 0 28 28" fill="none">
-                  <path d="M14 3L16.5 10.5L24 13L16.5 15.5L14 23L11.5 15.5L4 13L11.5 10.5L14 3Z" stroke="#DB3B2B" strokeWidth="1.5" strokeLinejoin="round" fill="rgba(219,59,43,0.10)" />
-                </svg>
+            {/* Personaliza — text left, image right */}
+            <div data-ai-card data-i="2" className="group relative flex items-center gap-5 overflow-hidden rounded-[20px] bg-white transition-all duration-300" style={{ padding: "28px 30px", boxShadow: "0 0 25px 2px rgba(0,0,0,0.06)", minHeight: 220 }}>
+              <div className="flex flex-1 flex-col">
+                <h3 className="font-sora text-[20px] font-normal text-black tablet:text-[22px]" style={{ marginBottom: 6 }}>Personaliza tu tienda</h3>
+                <p className="font-inter text-[14px] font-light leading-relaxed text-black/65 tablet:text-[15px]">Genera imágenes de producto, edita banners y personaliza textos con inteligencia artificial.</p>
               </div>
-              <h2
-                className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]"
-                style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}
-              >
-                La <span style={{ color: "#DB3B2B" }}>IA</span> es la base desde el primer día.
-              </h2>
-              <p
-                className="font-inter text-[16px] font-light text-black/55 tablet:text-[17px]"
-                style={{ lineHeight: 1.55, maxWidth: 460 }}
-              >
-                No es una función extra: está integrada en todo T1 para ayudarte a operar y crecer.
-              </p>
-            </div>
-
-            {/* Personaliza — shadow card, image overlapping below */}
-            <div data-ai-card data-i="2" className="group relative flex flex-col overflow-hidden rounded-[20px] bg-white transition-all duration-300" style={{ padding: "28px 30px 0", boxShadow: "0 0 25px 2px rgba(0,0,0,0.06)" }}>
-              <h3 className="font-sora text-[20px] font-normal text-black tablet:text-[22px]" style={{ marginBottom: 6 }}>Personaliza tu tienda</h3>
-              <p className="font-inter text-[14px] font-light leading-relaxed text-black/65 tablet:text-[15px]" style={{ marginBottom: 16 }}>Genera imágenes de producto, edita banners y personaliza textos con inteligencia artificial.</p>
-              <div className="flex flex-1 items-center justify-center" style={{ minHeight: 220 }}>
-                <Image src="/img/personaliza.png" alt="Personaliza tu tienda" width={360} height={220} className="object-contain" style={{ maxHeight: 240, width: "auto", marginBottom: 12 }} />
+              <div className="shrink-0">
+                <Image src="/img/personaliza.png" alt="Personaliza tu tienda" width={180} height={180} className="object-contain" style={{ maxHeight: 180, width: "auto" }} />
               </div>
             </div>
 
@@ -123,25 +227,6 @@ export default function T1AISectionV2() {
           {/* RIGHT COLUMN */}
           <div className="flex flex-col gap-5 tablet:gap-6">
 
-            {/* Crea tu tienda — prompt input */}
-            <div data-ai-card data-i="1" className="group flex flex-col overflow-hidden rounded-[20px] bg-white transition-all duration-300" style={{ padding: "28px 30px", boxShadow: "0 0 25px 2px rgba(0,0,0,0.06)" }}>
-              <h3 className="font-sora text-[20px] font-normal text-black tablet:text-[22px]" style={{ marginBottom: 6 }}>Crea tu tienda</h3>
-              <p className="font-inter text-[14px] font-light leading-relaxed text-black/65 tablet:text-[15px]" style={{ marginBottom: 18 }}>Describe tu negocio y la IA genera tu tienda lista para vender en menos de 2 minutos.</p>
-              <div className="rounded-[14px] border border-black/[0.10] bg-white" style={{ padding: "18px 18px 14px" }}>
-                <p className="font-inter text-[15px] text-black/55" style={{ minHeight: 56, lineHeight: 1.4 }}>
-                  Quiero vender muebles de la más alta calidad.
-                </p>
-                <div className="flex items-center justify-end gap-3">
-                  <span className="font-inter text-[12px] text-black/30">40/500</span>
-                  <button type="button" className="flex h-[34px] w-[34px] items-center justify-center rounded-full bg-[#DB3B2B] transition-transform duration-200 group-hover:scale-105">
-                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                      <path d="M8 13V3M8 3L4 7M8 3L12 7" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-
             {/* Crea tus productos — product card */}
             <div data-ai-card data-i="3" className="group flex flex-col overflow-hidden rounded-[20px] bg-white transition-all duration-300" style={{ padding: "28px 30px", boxShadow: "0 0 25px 2px rgba(0,0,0,0.06)" }}>
               <h3 className="font-sora text-[20px] font-normal text-black tablet:text-[22px]" style={{ marginBottom: 6 }}>Crea tus productos</h3>
@@ -161,11 +246,13 @@ export default function T1AISectionV2() {
               </div>
             </div>
 
-            {/* Análisis de riesgo — text top-left + gauge bottom-right, fills available height to align with Enrutamiento */}
-            <div data-ai-card data-i="5" className="group flex flex-1 flex-col overflow-hidden rounded-[20px] bg-white transition-all duration-300" style={{ padding: "28px 30px", boxShadow: "0 0 25px 2px rgba(0,0,0,0.06)", minHeight: 320 }}>
-              <h3 className="font-sora text-[20px] font-normal text-black tablet:text-[22px]" style={{ marginBottom: 6 }}>Análisis de riesgo</h3>
-              <p className="font-inter text-[14px] font-light leading-relaxed text-black/65 tablet:text-[15px]" style={{ marginBottom: 16 }}>IA que evalúa el riesgo crediticio de cada transacción en tiempo real.</p>
-              <div className="flex flex-1 items-center justify-center">
+            {/* Análisis de riesgo — text left, gauge right */}
+            <div data-ai-card data-i="5" className="group flex items-center gap-5 overflow-hidden rounded-[20px] bg-white transition-all duration-300" style={{ padding: "28px 30px", boxShadow: "0 0 25px 2px rgba(0,0,0,0.06)", minHeight: 220 }}>
+              <div className="flex flex-1 flex-col">
+                <h3 className="font-sora text-[20px] font-normal text-black tablet:text-[22px]" style={{ marginBottom: 6 }}>Análisis de riesgo</h3>
+                <p className="font-inter text-[14px] font-light leading-relaxed text-black/65 tablet:text-[15px]">IA que evalúa el riesgo crediticio de cada transacción en tiempo real.</p>
+              </div>
+              <div className="shrink-0">
                 <svg width="130" height="130" viewBox="0 0 110 110" fill="none" className="transition-transform duration-500 group-hover:scale-105">
                   <circle cx="55" cy="55" r="48" stroke="rgba(0,0,0,0.04)" strokeWidth="6" />
                   <circle cx="55" cy="55" r="48" stroke="#DB3B2B" strokeWidth="6" strokeLinecap="round" strokeDasharray="260 302" transform="rotate(-90 55 55)" />
@@ -180,6 +267,7 @@ export default function T1AISectionV2() {
           </div>
 
         </div>
+
       </div>
     </section>
   );
