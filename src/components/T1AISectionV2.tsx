@@ -219,7 +219,8 @@ export default function T1AISectionV2() {
       ref={sectionRef}
       className="relative"
       style={{
-        height: `${SLIDES.length * 100}vh`,
+        // Use dvh on mobile to avoid the address-bar height jump.
+        height: `${SLIDES.length * 100}dvh`,
         background: "#FFF1EB",
       }}
     >
@@ -243,14 +244,19 @@ export default function T1AISectionV2() {
               0 0 0 10px rgba(219, 59, 43, 0.04);
           }
         }
+        .ai-scroll-hint {
+          animation: aiScrollBounce 1.8s ease-in-out infinite;
+        }
+        @keyframes aiScrollBounce {
+          0%, 100% { transform: translateY(0); opacity: 0.5; }
+          50% { transform: translateY(4px); opacity: 1; }
+        }
       `}</style>
-      {/* Sticky inner — stays in view while the user scrolls through the section.
-          Background gradients live HERE (not on the section) so every slide
-          shows the exact same wash instead of revealing different parts of
-          the section-tall gradient as you scroll. */}
+      {/* Sticky inner — stays in view while the user scrolls through the section. */}
       <div
-        className="sticky top-0 flex h-screen w-full flex-col overflow-hidden"
+        className="sticky top-0 flex w-full flex-col overflow-hidden"
         style={{
+          height: "100dvh",
           background:
             "radial-gradient(110% 70% at 15% 0%, rgba(255,195,185,0.95) 0%, transparent 55%), radial-gradient(90% 70% at 100% 30%, rgba(255,165,150,0.75) 0%, transparent 55%), radial-gradient(120% 80% at 50% 110%, rgba(255,210,200,0.85) 0%, transparent 60%), #FFF1EB",
         }}
@@ -298,15 +304,18 @@ export default function T1AISectionV2() {
           />
         </div>
 
-        <div className="relative mx-auto flex h-full w-full max-w-[var(--max-w)] flex-col px-5 pb-8 pt-20 tablet:px-6 tablet:pb-20 tablet:pt-56">
+        <div className="relative mx-auto flex h-full w-full max-w-[var(--max-w)] flex-col px-5 pb-10 pt-24 tablet:px-6 tablet:pb-20 tablet:pt-56">
           {/* Grid:
               - mobile: single column, items reordered (text → visual → paginator at bottom)
-              - tablet+: 3 columns [paginator | text | visual] */}
-          <div className="grid flex-1 grid-cols-1 items-center gap-6 tablet:grid-cols-[60px_1fr_1fr] tablet:gap-12">
+              - tablet+: 3 columns [paginator | text | visual]
+              items-start so the IA title keeps a stable Y position when the
+              feature content under it changes size between slides. */}
+          <div className="grid flex-1 grid-cols-1 items-start gap-6 tablet:grid-cols-[60px_1fr_1fr] tablet:items-center tablet:gap-12">
             {/* COL 1 — Paginator
-                Mobile: horizontal row at bottom (order 3), arrows hidden.
-                Desktop: vertical column on the left (default order). */}
-            <div className="order-3 flex flex-row items-center justify-center gap-2 tablet:order-none tablet:flex-col tablet:gap-3">
+                Desktop only: vertical column on the left.
+                Hidden on mobile because horizontal dots imply a swipe gesture
+                that conflicts with the vertical scroll-driven carousel. */}
+            <div className="order-3 hidden flex-col items-center justify-center gap-3 tablet:order-none tablet:flex">
               <button
                 type="button"
                 onClick={prev}
@@ -352,11 +361,11 @@ export default function T1AISectionV2() {
             {/* COL 2 — Text (IA title at top, feature content below) */}
             <div className="order-1 flex flex-col tablet:order-none">
               <h2
-                className="font-sora text-[28px] font-light text-black tablet:text-[44px] lg:text-[54px]"
+                className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]"
                 style={{
                   letterSpacing: "-0.02em",
-                  lineHeight: 1.08,
-                  marginBottom: 24,
+                  lineHeight: 1.1,
+                  marginBottom: 28,
                 }}
               >
                 La <span style={{ color: "#DB3B2B" }}>IA</span>, desde
@@ -370,8 +379,8 @@ export default function T1AISectionV2() {
                 style={{ animation: "fadeSlideIn 0.45s ease-out" }}
               >
                 <h3
-                  className="font-inter text-[20px] font-medium text-black tablet:text-[22px] lg:text-[24px]"
-                  style={{ letterSpacing: "-0.01em", lineHeight: 1.25, marginBottom: 12 }}
+                  className="font-inter text-[17px] font-medium text-black tablet:text-[18px] lg:text-[20px]"
+                  style={{ letterSpacing: "-0.005em", lineHeight: 1.3, marginBottom: 10 }}
                 >
                   {slide.title}
                 </h3>
@@ -463,6 +472,33 @@ export default function T1AISectionV2() {
               {slide.id === "riesgo" && <VisualRiesgo />}
             </div>
           </div>
+
+          {/* Mobile-only scroll hint — bouncing chevron + counter, replaces
+              the horizontal dot paginator (which implied a swipe gesture
+              that conflicts with vertical scroll). */}
+          <div className="mt-3 flex flex-col items-center gap-1 tablet:hidden">
+            <span className="font-inter text-[10px] font-medium tracking-wide text-black/40">
+              {active + 1} / {SLIDES.length}
+            </span>
+            {active < SLIDES.length - 1 && (
+              <svg
+                className="ai-scroll-hint"
+                width="14"
+                height="14"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden
+              >
+                <path
+                  d="M3 6L8 11L13 6"
+                  stroke="rgba(0,0,0,0.45)"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            )}
+          </div>
         </div>
       </div>
     </section>
@@ -530,13 +566,75 @@ function VisualPersonaliza() {
 
   const current = PERSONALIZA_BANNERS[bannerIdx];
 
+  // Callout markup is reused in two places (absolute over the desktop mockup,
+  // stacked under the mobile mockup), so keep it as a small inline render fn.
+  const renderCallout = () => (
+    <div
+      className="flex flex-col gap-2 rounded-[14px] bg-white"
+      style={{
+        padding: "14px 14px 12px",
+        boxShadow:
+          "0 20px 44px -14px rgba(219,59,43,0.30), 0 4px 14px -4px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04)",
+      }}
+    >
+      <div className="flex items-center gap-1.5">
+        <svg width="13" height="13" viewBox="0 0 28 28" fill="none">
+          <path
+            d="M14 3L16.5 10.5L24 13L16.5 15.5L14 23L11.5 15.5L4 13L11.5 10.5L14 3Z"
+            stroke="#DB3B2B"
+            strokeWidth="1.5"
+            strokeLinejoin="round"
+            fill="rgba(219,59,43,0.15)"
+          />
+        </svg>
+        <span
+          className="font-inter text-[10px] font-semibold uppercase tracking-wide"
+          style={{ color: "#DB3B2B" }}
+        >
+          Generar imagen
+        </span>
+      </div>
+      <p
+        className="font-inter text-[12px] font-light text-black/80"
+        style={{ lineHeight: 1.4, minHeight: 50 }}
+      >
+        {typedPrompt}
+        {phase === "typing" && <span className="vp2-cursor" aria-hidden>|</span>}
+      </p>
+      <div className="flex items-center justify-between">
+        <span className="font-inter text-[9px] text-black/35">
+          {phase === "loading"
+            ? "Generando…"
+            : phase === "typing"
+            ? "Escribiendo…"
+            : "Imagen lista"}
+        </span>
+        <button
+          type="button"
+          aria-label="Generar"
+          className="flex h-[24px] w-[24px] items-center justify-center rounded-full bg-[#DB3B2B] text-white"
+        >
+          <svg width="10" height="10" viewBox="0 0 16 16" fill="none">
+            <path
+              d="M8 13V3M8 3L4 7M8 3L12 7"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  );
+
   return (
     <div className="flex w-full flex-col items-center justify-center gap-4 tablet:flex-row tablet:items-center tablet:gap-5">
-      {/* DESKTOP — browser-shaped mockup (≥ tablet) */}
+      {/* DESKTOP — browser-shaped mockup + absolute callout overlapping top */}
+      <div className="relative hidden shrink-0 tablet:block" style={{ width: 360 }}>
       <div
-        className="vp2-mockup-desktop hidden shrink-0 overflow-hidden rounded-[16px] bg-white tablet:block"
+        className="vp2-mockup-desktop w-full overflow-hidden rounded-[16px] bg-white"
         style={{
-          width: 360,
           boxShadow: "0 24px 60px -16px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.04)",
         }}
       >
@@ -649,6 +747,15 @@ function VisualPersonaliza() {
           ))}
         </div>
       </div>
+      {/* Desktop callout — overlaps the top-right of the mockup
+          (roughly 200px left + 200px up from its previous beside-the-mockup spot). */}
+      <div
+        className="vp2-callout absolute z-10"
+        style={{ top: 30, right: -30, width: 220 }}
+      >
+        {renderCallout()}
+      </div>
+      </div>
 
       {/* MOBILE — phone-shaped mockup (< tablet) */}
       <div
@@ -738,68 +845,9 @@ function VisualPersonaliza() {
         </div>
       </div>
 
-      {/* Floating prompt callout — sits BESIDE the phone now (no overflow,
-          so it never gets cropped by the column edge on either side). */}
-      <div
-        className="vp2-callout w-full max-w-[220px] shrink-0"
-        style={{ alignSelf: "center" }}
-      >
-        <div
-          className="flex flex-col gap-2 rounded-[14px] bg-white"
-          style={{
-            padding: "14px 14px 12px",
-            boxShadow: "0 20px 44px -14px rgba(219,59,43,0.30), 0 4px 14px -4px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04)",
-          }}
-        >
-          <div className="flex items-center gap-1.5">
-            <svg width="13" height="13" viewBox="0 0 28 28" fill="none">
-              <path
-                d="M14 3L16.5 10.5L24 13L16.5 15.5L14 23L11.5 15.5L4 13L11.5 10.5L14 3Z"
-                stroke="#DB3B2B"
-                strokeWidth="1.5"
-                strokeLinejoin="round"
-                fill="rgba(219,59,43,0.15)"
-              />
-            </svg>
-            <span
-              className="font-inter text-[10px] font-semibold uppercase tracking-wide"
-              style={{ color: "#DB3B2B" }}
-            >
-              Generar imagen
-            </span>
-          </div>
-          <p
-            className="font-inter text-[12px] font-light text-black/80"
-            style={{ lineHeight: 1.4, minHeight: 50 }}
-          >
-            {typedPrompt}
-            {phase === "typing" && <span className="vp2-cursor" aria-hidden>|</span>}
-          </p>
-          <div className="flex items-center justify-between">
-            <span className="font-inter text-[9px] text-black/35">
-              {phase === "loading"
-                ? "Generando…"
-                : phase === "typing"
-                ? "Escribiendo…"
-                : "Imagen lista"}
-            </span>
-            <button
-              type="button"
-              aria-label="Generar"
-              className="flex h-[24px] w-[24px] items-center justify-center rounded-full bg-[#DB3B2B] text-white"
-            >
-              <svg width="10" height="10" viewBox="0 0 16 16" fill="none">
-                <path
-                  d="M8 13V3M8 3L4 7M8 3L12 7"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
+      {/* Mobile callout — stacked under the phone (only renders on < tablet) */}
+      <div className="vp2-callout w-full max-w-[220px] shrink-0 tablet:hidden">
+        {renderCallout()}
       </div>
 
       <style jsx>{`
