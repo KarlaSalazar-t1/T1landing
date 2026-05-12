@@ -304,13 +304,12 @@ export default function T1AISectionV2() {
           />
         </div>
 
-        <div className="relative mx-auto flex h-full w-full max-w-[var(--max-w)] flex-col px-5 pb-10 pt-24 tablet:px-6 tablet:pb-20 tablet:pt-56">
-          {/* Grid:
-              - mobile: single column, items reordered (text → visual → paginator at bottom)
-              - tablet+: 3 columns [paginator | text | visual]
-              items-start so the IA title keeps a stable Y position when the
-              feature content under it changes size between slides. */}
-          <div className="grid flex-1 grid-cols-1 items-start gap-6 tablet:grid-cols-[60px_1fr_1fr] tablet:items-center tablet:gap-12">
+        <div className="relative mx-auto flex h-full w-full max-w-[var(--max-w)] flex-col px-5 pb-20 pt-20 tablet:px-6 tablet:pb-20 tablet:pt-56">
+          {/* Layout:
+              - mobile: flex column → text (flex-none, top), visual (flex-1, centered)
+                with the indicator pinned absolute at the bottom. Stable Y per slot.
+              - tablet+: 3-column grid [paginator | text | visual]. */}
+          <div className="flex flex-1 flex-col gap-6 tablet:grid tablet:grid-cols-[60px_1fr_1fr] tablet:items-center tablet:gap-12">
             {/* COL 1 — Paginator
                 Desktop only: vertical column on the left.
                 Hidden on mobile because horizontal dots imply a swipe gesture
@@ -358,8 +357,9 @@ export default function T1AISectionV2() {
               </button>
             </div>
 
-            {/* COL 2 — Text (IA title at top, feature content below) */}
-            <div className="order-1 flex flex-col tablet:order-none">
+            {/* COL 2 — Text (IA title at top, feature content below)
+                flex-none on mobile so it doesn't grow and stays at the top. */}
+            <div className="order-1 flex flex-none flex-col tablet:order-none">
               <h2
                 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]"
                 style={{
@@ -393,10 +393,13 @@ export default function T1AISectionV2() {
               </div>
             </div>
 
-            {/* COL 3 — Visual (centered vertically in its column) */}
+            {/* COL 3 — Visual.
+                Mobile: flex-1 so it fills the space between text and indicator,
+                with content centered both axes. Same Y center across all slides.
+                Desktop: regular grid cell, centered via items-center. */}
             <div
               key={`visual-${slide.id}`}
-              className="order-2 flex items-center justify-center tablet:order-none"
+              className="order-2 flex flex-1 items-center justify-center tablet:order-none tablet:flex-auto"
               style={{ minHeight: 220, animation: "fadeSlideIn 0.5s ease-out" }}
             >
               {slide.id === "tienda" && (
@@ -473,10 +476,12 @@ export default function T1AISectionV2() {
             </div>
           </div>
 
-          {/* Mobile-only scroll hint — bouncing chevron + counter, replaces
-              the horizontal dot paginator (which implied a swipe gesture
-              that conflicts with vertical scroll). */}
-          <div className="mt-3 flex flex-col items-center gap-1 tablet:hidden">
+          {/* Mobile-only scroll hint — absolute at the bottom of the inner
+              container so its Y stays stable regardless of slide content. */}
+          <div
+            className="absolute left-0 right-0 flex flex-col items-center gap-1 tablet:hidden"
+            style={{ bottom: 28 }}
+          >
             <span className="font-inter text-[10px] font-medium tracking-wide text-black/40">
               {active + 1} / {SLIDES.length}
             </span>
@@ -747,21 +752,22 @@ function VisualPersonaliza() {
           ))}
         </div>
       </div>
-      {/* Desktop callout — overlaps the top-right of the mockup
-          (roughly 200px left + 200px up from its previous beside-the-mockup spot). */}
+      {/* Desktop callout — overlaps the right side of the mockup. */}
       <div
         className="vp2-callout absolute z-10"
-        style={{ top: 30, right: -30, width: 220 }}
+        style={{ top: 130, right: -100, width: 220 }}
       >
         {renderCallout()}
       </div>
       </div>
 
-      {/* MOBILE — phone-shaped mockup (< tablet) */}
+      {/* MOBILE — phone-shaped mockup + absolute callout overlapping
+          (outer wrapper has no overflow so the callout can extend; inner div
+          keeps overflow-hidden for the rounded bezel). */}
+      <div className="relative shrink-0 tablet:hidden" style={{ width: 240 }}>
       <div
-        className="relative shrink-0 overflow-hidden bg-white tablet:hidden"
+        className="overflow-hidden bg-white"
         style={{
-          width: 240,
           borderRadius: 26,
           boxShadow:
             "0 24px 60px -16px rgba(0,0,0,0.22), 0 0 0 1px rgba(0,0,0,0.04), inset 0 0 0 2px rgba(0,0,0,0.04)",
@@ -844,10 +850,15 @@ function VisualPersonaliza() {
           ))}
         </div>
       </div>
-
-      {/* Mobile callout — stacked under the phone (only renders on < tablet) */}
-      <div className="vp2-callout w-full max-w-[220px] shrink-0 tablet:hidden">
+      {/* Mobile callout — overlaps the banner area of the phone, anchored
+          near the bottom of the visible mockup so it doesn't compete with
+          the IA title above. */}
+      <div
+        className="vp2-callout absolute z-10"
+        style={{ top: 150, left: -10, width: 200 }}
+      >
         {renderCallout()}
+      </div>
       </div>
 
       <style jsx>{`
