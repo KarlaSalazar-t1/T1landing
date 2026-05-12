@@ -532,9 +532,127 @@ function VisualPersonaliza() {
 
   return (
     <div className="flex w-full flex-col items-center justify-center gap-4 tablet:flex-row tablet:items-center tablet:gap-5">
-      {/* Phone-shaped store mockup — narrower so it doesn't crowd the column */}
+      {/* DESKTOP — browser-shaped mockup (≥ tablet) */}
       <div
-        className="relative shrink-0 overflow-hidden bg-white"
+        className="vp2-mockup-desktop hidden shrink-0 overflow-hidden rounded-[16px] bg-white tablet:block"
+        style={{
+          width: 360,
+          boxShadow: "0 24px 60px -16px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.04)",
+        }}
+      >
+        {/* Browser bar */}
+        <div className="flex items-center gap-1.5 border-b border-black/[0.05] px-3 py-2">
+          <span className="h-[8px] w-[8px] rounded-full bg-[#FF5F57]" />
+          <span className="h-[8px] w-[8px] rounded-full bg-[#FEBC2E]" />
+          <span className="h-[8px] w-[8px] rounded-full bg-[#28C840]" />
+          <span className="ml-2 rounded-full bg-black/[0.04] px-2 py-0.5 font-inter text-[9px] text-black/40">
+            mitienda.t1.com
+          </span>
+        </div>
+
+        {/* Store header */}
+        <div className="flex items-center justify-between border-b border-black/[0.05] px-4 py-2.5">
+          <span className="font-sora text-[11px] font-bold tracking-tight text-black">
+            mitienda
+          </span>
+          <div className="flex items-center gap-3 font-inter text-[9px] font-medium text-black/55">
+            <span>Tienda</span>
+            <span>Catálogo</span>
+            <span>🛒</span>
+          </div>
+        </div>
+
+        {/* Banner */}
+        <div className="relative overflow-hidden" style={{ height: 170, background: "#F6F1EE" }}>
+          <Image
+            key={`banner-d-${bannerIdx}`}
+            src={current.src}
+            alt=""
+            fill
+            sizes="360px"
+            className="object-cover"
+            style={{
+              objectPosition: "center 22%",
+              opacity: phase === "loading" ? 0.35 : 1,
+              transform: phase === "loading" ? "scale(1.03)" : "scale(1)",
+              transition: "opacity 0.45s ease, transform 0.6s ease",
+            }}
+          />
+          <div
+            className="absolute"
+            style={{
+              left: 16, bottom: 14, zIndex: 1,
+              opacity: phase === "loading" ? 0.4 : 1,
+              transition: "opacity 0.45s ease",
+            }}
+          >
+            <p
+              className="font-inter text-[9px] font-semibold uppercase text-white/85"
+              style={{
+                letterSpacing: "0.12em",
+                marginBottom: 4,
+                textShadow: "0 1px 6px rgba(0,0,0,0.35)",
+              }}
+            >
+              Colección Fitness
+            </p>
+            <p
+              className="font-sora text-[17px] font-light text-white"
+              style={{
+                letterSpacing: "-0.01em",
+                lineHeight: 1.1,
+                textShadow: "0 2px 10px rgba(0,0,0,0.40)",
+              }}
+            >
+              Tu mejor versión<br />en movimiento
+            </p>
+          </div>
+          {phase === "loading" && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div
+                className="flex items-center gap-2 rounded-full bg-white/95 backdrop-blur-sm"
+                style={{ padding: "8px 14px", boxShadow: "0 8px 24px -8px rgba(0,0,0,0.20)" }}
+              >
+                <svg className="vp2-spin" width="13" height="13" viewBox="0 0 28 28" fill="none">
+                  <path
+                    d="M14 3L16.5 10.5L24 13L16.5 15.5L14 23L11.5 15.5L4 13L11.5 10.5L14 3Z"
+                    stroke="#DB3B2B" strokeWidth="1.5" strokeLinejoin="round"
+                    fill="rgba(219,59,43,0.20)"
+                  />
+                </svg>
+                <span className="font-inter text-[11px] font-medium text-[#DB3B2B]">
+                  Generando imagen…
+                </span>
+              </div>
+              <span className="vp2-spark vp2-spark-a" />
+              <span className="vp2-spark vp2-spark-b" />
+              <span className="vp2-spark vp2-spark-c" />
+              <span className="vp2-spark vp2-spark-d" />
+            </div>
+          )}
+        </div>
+
+        {/* Products */}
+        <div className="grid grid-cols-3 gap-2 px-3 py-3">
+          {PERSONALIZA_PRODUCTS.map((p) => (
+            <div key={p.name} className="overflow-hidden rounded-[8px] bg-[#F6F1EE]" style={{ aspectRatio: "1 / 1.1" }}>
+              <div className="flex h-[68%] items-center justify-center">
+                <Image src={p.src} alt={p.name} width={50} height={40} className="object-contain opacity-90" style={{ maxHeight: 50, width: "auto" }} />
+              </div>
+              <div className="px-2 pb-1.5">
+                <p className="font-inter text-[8px] font-semibold leading-tight text-black/75" style={{ marginBottom: 1 }}>
+                  {p.name}
+                </p>
+                <p className="font-inter text-[8px] font-medium text-[#DB3B2B]">{p.price}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* MOBILE — phone-shaped mockup (< tablet) */}
+      <div
+        className="relative shrink-0 overflow-hidden bg-white tablet:hidden"
         style={{
           width: 240,
           borderRadius: 26,
@@ -542,11 +660,7 @@ function VisualPersonaliza() {
             "0 24px 60px -16px rgba(0,0,0,0.22), 0 0 0 1px rgba(0,0,0,0.04), inset 0 0 0 2px rgba(0,0,0,0.04)",
         }}
       >
-        {/* Phone status bar */}
-        <div
-          className="flex items-center justify-between px-4 py-1.5"
-          style={{ background: "#F6F1EE" }}
-        >
+        <div className="flex items-center justify-between px-4 py-1.5" style={{ background: "#F6F1EE" }}>
           <span className="font-inter text-[9px] font-semibold text-black/70">9:41</span>
           <div className="flex h-[12px] w-[40px] items-center justify-center rounded-full bg-black/85">
             <span className="h-[5px] w-[5px] rounded-full bg-black/40" />
@@ -558,7 +672,6 @@ function VisualPersonaliza() {
           </span>
         </div>
 
-        {/* Store header */}
         <div className="flex items-center justify-between border-b border-black/[0.05] px-3 py-2">
           <span className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-black/[0.06]">
             <span className="h-[2px] w-[10px] rounded bg-black/55" />
@@ -569,13 +682,9 @@ function VisualPersonaliza() {
           <span className="font-inter text-[12px] text-black/55">🛒</span>
         </div>
 
-        {/* Banner */}
-        <div
-          className="relative overflow-hidden"
-          style={{ height: 160, background: "#F6F1EE" }}
-        >
+        <div className="relative overflow-hidden" style={{ height: 160, background: "#F6F1EE" }}>
           <Image
-            key={`banner-${bannerIdx}`}
+            key={`banner-m-${bannerIdx}`}
             src={current.src}
             alt=""
             fill
@@ -588,58 +697,21 @@ function VisualPersonaliza() {
               transition: "opacity 0.45s ease, transform 0.6s ease",
             }}
           />
-
-          {/* Static banner text overlay */}
-          <div
-            className="absolute"
-            style={{
-              left: 12,
-              bottom: 10,
-              zIndex: 1,
-              opacity: phase === "loading" ? 0.35 : 1,
-              transition: "opacity 0.45s ease",
-            }}
-          >
-            <p
-              className="font-inter text-[8px] font-semibold uppercase text-white/85"
-              style={{
-                letterSpacing: "0.10em",
-                marginBottom: 2,
-                textShadow: "0 1px 5px rgba(0,0,0,0.40)",
-              }}
-            >
+          <div className="absolute" style={{ left: 12, bottom: 10, zIndex: 1, opacity: phase === "loading" ? 0.35 : 1, transition: "opacity 0.45s ease" }}>
+            <p className="font-inter text-[8px] font-semibold uppercase text-white/85" style={{ letterSpacing: "0.10em", marginBottom: 2, textShadow: "0 1px 5px rgba(0,0,0,0.40)" }}>
               Colección Fitness
             </p>
-            <p
-              className="font-sora text-[15px] font-light text-white"
-              style={{
-                letterSpacing: "-0.01em",
-                lineHeight: 1.1,
-                textShadow: "0 2px 10px rgba(0,0,0,0.40)",
-              }}
-            >
+            <p className="font-sora text-[15px] font-light text-white" style={{ letterSpacing: "-0.01em", lineHeight: 1.1, textShadow: "0 2px 10px rgba(0,0,0,0.40)" }}>
               Tu mejor versión<br />en movimiento
             </p>
           </div>
-
           {phase === "loading" && (
             <div className="absolute inset-0 flex items-center justify-center">
-              <div
-                className="flex items-center gap-1.5 rounded-full bg-white/95 backdrop-blur-sm"
-                style={{ padding: "6px 10px", boxShadow: "0 8px 24px -8px rgba(0,0,0,0.20)" }}
-              >
+              <div className="flex items-center gap-1.5 rounded-full bg-white/95 backdrop-blur-sm" style={{ padding: "6px 10px", boxShadow: "0 8px 24px -8px rgba(0,0,0,0.20)" }}>
                 <svg className="vp2-spin" width="11" height="11" viewBox="0 0 28 28" fill="none">
-                  <path
-                    d="M14 3L16.5 10.5L24 13L16.5 15.5L14 23L11.5 15.5L4 13L11.5 10.5L14 3Z"
-                    stroke="#DB3B2B"
-                    strokeWidth="1.5"
-                    strokeLinejoin="round"
-                    fill="rgba(219,59,43,0.20)"
-                  />
+                  <path d="M14 3L16.5 10.5L24 13L16.5 15.5L14 23L11.5 15.5L4 13L11.5 10.5L14 3Z" stroke="#DB3B2B" strokeWidth="1.5" strokeLinejoin="round" fill="rgba(219,59,43,0.20)" />
                 </svg>
-                <span className="font-inter text-[10px] font-medium text-[#DB3B2B]">
-                  Generando…
-                </span>
+                <span className="font-inter text-[10px] font-medium text-[#DB3B2B]">Generando…</span>
               </div>
               <span className="vp2-spark vp2-spark-a" />
               <span className="vp2-spark vp2-spark-b" />
@@ -649,29 +721,14 @@ function VisualPersonaliza() {
           )}
         </div>
 
-        {/* Product cards row */}
         <div className="grid grid-cols-3 gap-1.5 px-2 py-2.5">
           {PERSONALIZA_PRODUCTS.map((p) => (
-            <div
-              key={p.name}
-              className="overflow-hidden rounded-[6px] bg-[#F6F1EE]"
-              style={{ aspectRatio: "1 / 1.15" }}
-            >
+            <div key={p.name} className="overflow-hidden rounded-[6px] bg-[#F6F1EE]" style={{ aspectRatio: "1 / 1.15" }}>
               <div className="flex h-[64%] items-center justify-center">
-                <Image
-                  src={p.src}
-                  alt={p.name}
-                  width={42}
-                  height={32}
-                  className="object-contain opacity-90"
-                  style={{ maxHeight: 42, width: "auto" }}
-                />
+                <Image src={p.src} alt={p.name} width={42} height={32} className="object-contain opacity-90" style={{ maxHeight: 42, width: "auto" }} />
               </div>
               <div className="px-1.5 pb-1">
-                <p
-                  className="font-inter text-[7px] font-semibold leading-tight text-black/75"
-                  style={{ marginBottom: 1 }}
-                >
+                <p className="font-inter text-[7px] font-semibold leading-tight text-black/75" style={{ marginBottom: 1 }}>
                   {p.name}
                 </p>
                 <p className="font-inter text-[7px] font-medium text-[#DB3B2B]">{p.price}</p>
