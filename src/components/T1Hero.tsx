@@ -181,7 +181,7 @@ export default function T1Hero() {
     <>
       {/* Sticky hero — stays in place while white card scrolls over */}
       <div className="sticky top-0 z-0">
-        <section className="relative min-h-screen overflow-hidden">
+        <section className="relative min-h-[88dvh] overflow-hidden tablet:min-h-screen">
           {/* Background video — loop through 4 clips */}
           <div className="absolute inset-0 z-0">
             <HeroVideoLoop />

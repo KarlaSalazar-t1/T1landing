@@ -1493,8 +1493,54 @@ export default function T1Features() {
           {FEATURES_SUBTITLE}
         </p>
 
-        {/* 3-column card grid — centered illustration on pink-bg circle, label below */}
-        <div className="grid grid-cols-1 gap-4 tablet:grid-cols-3 lg:gap-6" style={{ marginBottom: 60 }}>
+        {/* MOBILE (< tablet) — connected icons row + stacked text blocks below */}
+        <div className="flex flex-col gap-8 tablet:hidden" style={{ marginBottom: 48 }}>
+          {/* Icons row with connecting line behind */}
+          <div className="relative mx-auto flex items-center justify-between" style={{ width: "min(280px, 90%)" }}>
+            <div
+              aria-hidden
+              className="absolute bg-black/[0.10]"
+              style={{ left: 22, right: 22, top: "calc(50% - 0.5px)", height: 1 }}
+            />
+            {FEATURE_CARDS.map((card) => (
+              <div
+                key={card.id}
+                className="relative z-10 flex h-[44px] w-[44px] items-center justify-center rounded-full bg-white"
+                style={{ boxShadow: "0 4px 14px -4px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04)" }}
+              >
+                <Image
+                  src={card.icon}
+                  alt=""
+                  width={22}
+                  height={22}
+                  className="object-contain"
+                  style={{ width: "auto", height: "auto", maxWidth: 22, maxHeight: 22 }}
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* Stacked text blocks — one per feature, short copy for mobile */}
+          <div className="flex flex-col gap-5">
+            {[
+              { label: "VENDE", desc: "En tu tienda en línea o marketplaces" },
+              { label: "COBRA", desc: "Con tarjeta o transferencia con nuestro checkout integrado o link de pago" },
+              { label: "ENVÍA", desc: "Cotiza y crea envíos con las mejores paqueterías y los precios más bajos" },
+            ].map((item) => (
+              <div key={item.label} className="flex flex-col gap-1.5">
+                <p className="font-inter text-[16px] font-semibold uppercase tracking-[0.04em] text-black">
+                  {item.label}
+                </p>
+                <p className="font-inter text-[14px] font-normal text-black/65" style={{ lineHeight: 1.5 }}>
+                  {item.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* DESKTOP (≥ tablet) — 3-column card grid */}
+        <div className="hidden tablet:grid tablet:grid-cols-3 tablet:gap-4 lg:gap-6" style={{ marginBottom: 60 }}>
           {FEATURE_CARDS.map((card) => {
             const illustration =
               card.id === "vende" ? "/img/card-vende.png"
@@ -1571,6 +1617,32 @@ export default function T1Features() {
 
             {/* Dark overlay for readability */}
             <div className="absolute inset-0 bg-black/20" />
+
+            {/* Mobile-only scroll hint inside each stack card */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-1 tablet:hidden"
+              style={{ bottom: 14 }}
+            >
+              <span className="font-inter text-[10px] font-medium tracking-wide text-white/70">
+                Desliza
+              </span>
+              <svg
+                className="scroll-hint"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+              >
+                <path
+                  d="M3 6L8 11L13 6"
+                  stroke="rgba(255,255,255,0.85)"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
 
             {/* Content wrapper */}
             <div className="relative z-10 flex h-full flex-col tablet:flex-row" style={{ minHeight: 320 }}>
