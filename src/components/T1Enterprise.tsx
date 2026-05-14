@@ -183,6 +183,37 @@ export default function T1Enterprise() {
                 </div>
                 <span className="whitespace-nowrap font-inter text-[13px] font-semibold text-white/90">{c.name}</span>
               </div>
+
+              {/* Play overlay — only when the case has a video. Lives on the card
+                  itself so it's visible while the user is still looking at the gallery
+                  (before the next section starts rising over T1Enterprise). */}
+              {c.hasVideo && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActive(i);
+                    setVideoOpen(true);
+                  }}
+                  aria-label={`Ver video de ${c.name}`}
+                  className="absolute z-20 flex cursor-pointer items-center gap-1.5 rounded-full border-none bg-white/95 backdrop-blur-sm"
+                  style={{
+                    top: 12,
+                    right: 12,
+                    padding: "5px 10px 5px 6px",
+                    boxShadow: "0 6px 16px -4px rgba(0,0,0,0.30)",
+                  }}
+                >
+                  <span className="flex h-[22px] w-[22px] items-center justify-center rounded-full bg-[#DB3B2B]">
+                    <svg width="8" height="10" viewBox="0 0 8 10" fill="none">
+                      <path d="M1 1L7 5L1 9V1Z" fill="white" />
+                    </svg>
+                  </span>
+                  <span className="font-inter text-[11px] font-semibold text-black">
+                    Ver video
+                  </span>
+                </button>
+              )}
             </div>
           ))}
         </div>

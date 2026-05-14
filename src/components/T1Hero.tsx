@@ -181,7 +181,7 @@ export default function T1Hero() {
     <>
       {/* Sticky hero — stays in place while white card scrolls over */}
       <div className="sticky top-0 z-0">
-        <section className="relative min-h-[88dvh] overflow-hidden tablet:min-h-screen">
+        <section className="relative min-h-screen overflow-hidden">
           {/* Background video — loop through 4 clips */}
           <div className="absolute inset-0 z-0">
             <HeroVideoLoop />
@@ -201,7 +201,7 @@ export default function T1Hero() {
 
           {/* Content */}
           <div className="relative z-10 mx-auto max-w-[var(--max-w)] px-5 tablet:px-6">
-            <div className="pt-[200px] pb-4 tablet:pt-[226px] tablet:pb-6">
+            <div className="pt-[140px] pb-4 tablet:pt-[226px] tablet:pb-6">
               {/* Rotating eyebrow word */}
               <p
                 className="font-sora text-[38px] font-normal leading-[1.26] text-white tablet:text-[48px] lg:text-[60px]"

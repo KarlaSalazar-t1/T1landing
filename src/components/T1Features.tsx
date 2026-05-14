@@ -1181,15 +1181,43 @@ function IOSStatusBar() {
 
 /* ── Mobile Tienda Panel (phone-style with animation) ── */
 function MobileTiendaPanel({ animate }: { animate: boolean }) {
+  type Stage = "channels" | "orders";
+  const [stage, setStage] = useState<Stage>("channels");
+  const [connectedCount, setConnectedCount] = useState(0);
   const [extraCount, setExtraCount] = useState(0);
 
+  const CHANNELS = [
+    { id: "amazon", name: "Amazon", src: "/img/amazon-iso.svg" },
+    { id: "meli", name: "Mercado Libre", src: "/img/meli-iso.svg" },
+    { id: "shein", name: "SHEIN", src: "/img/shein-iso.svg" },
+    { id: "tiktok", name: "TikTok", src: "/img/tiktok-isotipo.png" },
+  ];
+
   useEffect(() => {
-    if (!animate) { setExtraCount(0); return; }
-    setExtraCount(0);
-    const timers: ReturnType<typeof setTimeout>[] = [];
-    for (let i = 0; i < 3; i++) {
-      timers.push(setTimeout(() => setExtraCount(i + 1), 2500 + i * 2200));
+    if (!animate) {
+      setStage("channels");
+      setConnectedCount(0);
+      setExtraCount(0);
+      return;
     }
+
+    const timers: ReturnType<typeof setTimeout>[] = [];
+
+    // Stage 1 (channels) — each "Conectar canal" turns into "Canal conectado"
+    // sequentially. Starts after a short delay.
+    for (let i = 0; i < CHANNELS.length; i++) {
+      timers.push(setTimeout(() => setConnectedCount(i + 1), 900 + i * 850));
+    }
+
+    // After all channels connected → switch to orders stage.
+    const ordersAt = 900 + CHANNELS.length * 850 + 700;
+    timers.push(setTimeout(() => setStage("orders"), ordersAt));
+
+    // Orders trickle in.
+    for (let i = 0; i < 3; i++) {
+      timers.push(setTimeout(() => setExtraCount(i + 1), ordersAt + 700 + i * 1800));
+    }
+
     return () => timers.forEach(clearTimeout);
   }, [animate]);
 
@@ -1203,67 +1231,404 @@ function MobileTiendaPanel({ animate }: { animate: boolean }) {
     { id: "#106", canal: "Tienda", src: null as string | null, emoji: "🏪", productos: "1 producto", estatus: "Entregado" },
   ];
 
-  /* Extras appear one by one: #113 first, then #114, then #115 (newest on top) */
   const EXTRA = [
     { id: "#113", canal: "Amazon", src: "/img/amazon-iso.svg", productos: "1 producto", estatus: "Por enviar" },
     { id: "#114", canal: "MeLi", src: "/img/meli-iso.svg", productos: "3 productos", estatus: "Por enviar" },
     { id: "#115", canal: "Tienda", src: null as string | null, emoji: "🏪", productos: "1 producto", estatus: "Pendiente" },
   ];
 
+  const headerTitle = stage === "channels" ? "Canales de venta" : "Mis pedidos";
+
   return (
-    <div className="mx-auto mt-5 flex flex-col overflow-hidden bg-white tablet:hidden" style={{ width: "85%", maxWidth: 300, height: 480, marginBottom: 16, borderRadius: 20, boxShadow: "0 8px 30px rgba(0,0,0,0.15)", fontFamily: "var(--font-manrope-var), sans-serif" }}>
+    <div
+      className="mx-auto mt-5 flex flex-col overflow-hidden bg-white tablet:hidden"
+      style={{
+        width: "85%",
+        maxWidth: 300,
+        height: 480,
+        marginBottom: 16,
+        borderRadius: 20,
+        boxShadow: "0 8px 30px rgba(0,0,0,0.15)",
+        fontFamily: "var(--font-manrope-var), sans-serif",
+      }}
+    >
       <IOSStatusBar />
-      <div className="flex shrink-0 items-center justify-between border-b border-black/[0.06] px-4" style={{ paddingTop: 8, paddingBottom: 8 }}>
-        <span className="text-[14px] font-bold text-black">Mis pedidos</span>
-        <span className="flex h-[28px] items-center rounded-full bg-[#DB3B2B] px-4 text-[10px] font-semibold text-white">Crear pedido</span>
+
+      <div
+        className="flex shrink-0 items-center justify-between border-b border-black/[0.06] px-4"
+        style={{ paddingTop: 8, paddingBottom: 8 }}
+      >
+        <span key={headerTitle} className="text-[14px] font-bold text-black mt-fade-in">
+          {headerTitle}
+        </span>
+        {stage === "orders" && (
+          <span className="flex h-[28px] items-center rounded-full bg-[#DB3B2B] px-4 text-[10px] font-semibold text-white">
+            Crear pedido
+          </span>
+        )}
       </div>
-      <div className="flex-1 overflow-hidden">
-        {/* Show extras newest-on-top: slice then reverse so newest appears first */}
-        {[...EXTRA.slice(0, extraCount)].reverse().map((row, i) => (
-          <div key={`extra-${row.id}`} className="border-b border-black/[0.04] px-4 py-2.5" style={{ animation: "slideRowIn 0.8s ease-out" }}>
-            <div className="flex items-center justify-between" style={{ marginBottom: 2 }}>
-              <div className="flex items-center gap-2">
-                <span className="text-[9px] text-black/40">22 abr</span>
-                <span className="text-[10px] font-semibold text-black/60">{row.id}</span>
-              </div>
-              <span className="text-[10px] font-bold text-black">$1,345.99</span>
+
+      <div className="relative flex-1 overflow-hidden">
+        {/* ── Stage 1 — "Canales de venta" screen ───────────
+            Mimics the T1 admin "Canales de Venta" view. Each channel's
+            "Conectar canal" button transforms into "Canal conectado" with
+            a checkmark sequentially. */}
+        {stage === "channels" && (
+          <div className="mt-fade-in flex h-full flex-col px-3 pt-1">
+            <p className="text-[10px] font-normal text-black/55" style={{ marginBottom: 8 }}>
+              Aumenta tus ventas activando canales
+            </p>
+
+            {/* Tabs */}
+            <div className="flex items-center gap-3 border-b border-black/[0.06]" style={{ paddingBottom: 6, marginBottom: 8 }}>
+              <span className="relative text-[10px] font-semibold text-black">
+                Todos
+                <span
+                  className="absolute -bottom-1.5 left-0 right-0 h-[1.5px] bg-[#DB3B2B]"
+                />
+              </span>
+              <span className="text-[10px] font-normal text-black/40">Activos</span>
+              <span className="text-[10px] font-normal text-black/40">Próximos</span>
             </div>
-            <div className="flex items-center gap-2" style={{ marginBottom: 2 }}>
-              <span className="rounded-full bg-black/[0.04] px-2 py-0.5 text-[8px] font-medium text-black/45">{row.estatus}</span>
-              <div className="flex items-center gap-1">
-                {row.src ? <Image src={row.src} alt="" width={12} height={12} className="rounded-full object-contain" /> : <span className="text-[10px]">{row.emoji}</span>}
-                <span className="text-[9px] text-black/40">{row.canal}</span>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-[9px] text-black/35">Juan Pérez</span>
-              <span className="text-[9px] text-black/25">{row.productos}</span>
+
+            {/* Marketplace section header */}
+            <p className="text-[10px] font-bold text-black" style={{ marginBottom: 6 }}>
+              Marketplace
+            </p>
+
+            {/* Channel cards */}
+            <div className="flex flex-col gap-1.5 overflow-hidden">
+              {CHANNELS.map((ch, i) => {
+                const connected = i < connectedCount;
+                return (
+                  <div
+                    key={ch.id}
+                    className="flex items-center gap-2 rounded-[8px] border border-black/[0.06] bg-white"
+                    style={{ padding: "7px 8px" }}
+                  >
+                    <div className="flex h-[28px] w-[28px] shrink-0 items-center justify-center overflow-hidden rounded-[6px] border border-black/[0.06] bg-white">
+                      <Image
+                        src={ch.src}
+                        alt={ch.name}
+                        width={22}
+                        height={22}
+                        className="object-contain"
+                        style={{ maxHeight: 20, width: "auto" }}
+                      />
+                    </div>
+                    <span className="flex-1 truncate text-[10px] font-semibold text-black">
+                      {ch.name}
+                    </span>
+                    {connected ? (
+                      <span
+                        key="connected"
+                        className="mt-fade-in flex items-center gap-1 rounded-full"
+                        style={{
+                          padding: "3px 8px 3px 6px",
+                          background: "rgba(34,197,94,0.12)",
+                          color: "#15803D",
+                        }}
+                      >
+                        <svg width="9" height="9" viewBox="0 0 12 12" fill="none">
+                          <path
+                            d="M2 6L5 9L10 3"
+                            stroke="#15803D"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                        <span className="text-[9px] font-semibold">Conectado</span>
+                      </span>
+                    ) : (
+                      <span
+                        className="flex items-center gap-1 rounded-full"
+                        style={{
+                          padding: "3px 8px 3px 8px",
+                          background: "rgba(219,59,43,0.10)",
+                          color: "#DB3B2B",
+                        }}
+                      >
+                        <span className="text-[9px] font-semibold">Conectar</span>
+                        <svg width="9" height="9" viewBox="0 0 16 16" fill="none">
+                          <path
+                            d="M3 8H13M13 8L9 4M13 8L9 12"
+                            stroke="#DB3B2B"
+                            strokeWidth="1.6"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
-        ))}
-        {INITIAL.map((row, i) => (
-          <div key={i} className="border-b border-black/[0.04] px-4 py-2.5 last:border-0">
-            <div className="flex items-center justify-between" style={{ marginBottom: 2 }}>
-              <div className="flex items-center gap-2">
-                <span className="text-[9px] text-black/40">21 abr</span>
-                <span className="text-[10px] font-semibold text-black/60">{row.id}</span>
+        )}
+
+        {/* ── Stage 3 — orders list (original animation) ──── */}
+        {stage === "orders" && (
+          <div className="mt-fade-in h-full overflow-hidden">
+            {[...EXTRA.slice(0, extraCount)].reverse().map((row) => (
+              <div
+                key={`extra-${row.id}`}
+                className="border-b border-black/[0.04] px-4 py-2.5"
+                style={{ animation: "slideRowIn 0.8s ease-out" }}
+              >
+                <div className="flex items-center justify-between" style={{ marginBottom: 2 }}>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[9px] text-black/40">22 abr</span>
+                    <span className="text-[10px] font-semibold text-black/60">{row.id}</span>
+                  </div>
+                  <span className="text-[10px] font-bold text-black">$1,345.99</span>
+                </div>
+                <div className="flex items-center gap-2" style={{ marginBottom: 2 }}>
+                  <span className="rounded-full bg-black/[0.04] px-2 py-0.5 text-[8px] font-medium text-black/45">{row.estatus}</span>
+                  <div className="flex items-center gap-1">
+                    {row.src ? (
+                      <Image src={row.src} alt="" width={12} height={12} className="rounded-full object-contain" />
+                    ) : (
+                      <span className="text-[10px]">{row.emoji}</span>
+                    )}
+                    <span className="text-[9px] text-black/40">{row.canal}</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[9px] text-black/35">Juan Pérez</span>
+                  <span className="text-[9px] text-black/25">{row.productos}</span>
+                </div>
               </div>
-              <span className="text-[10px] font-bold text-black">$1,345.99</span>
-            </div>
-            <div className="flex items-center gap-2" style={{ marginBottom: 2 }}>
-              <span className="rounded-full bg-black/[0.04] px-2 py-0.5 text-[8px] font-medium text-black/45">{row.estatus}</span>
-              <div className="flex items-center gap-1">
-                {row.src ? <Image src={row.src} alt="" width={12} height={12} className="rounded-full object-contain" /> : <span className="text-[10px]">{row.emoji}</span>}
-                <span className="text-[9px] text-black/40">{row.canal}</span>
+            ))}
+            {INITIAL.map((row, i) => (
+              <div key={i} className="border-b border-black/[0.04] px-4 py-2.5 last:border-0">
+                <div className="flex items-center justify-between" style={{ marginBottom: 2 }}>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[9px] text-black/40">21 abr</span>
+                    <span className="text-[10px] font-semibold text-black/60">{row.id}</span>
+                  </div>
+                  <span className="text-[10px] font-bold text-black">$1,345.99</span>
+                </div>
+                <div className="flex items-center gap-2" style={{ marginBottom: 2 }}>
+                  <span className="rounded-full bg-black/[0.04] px-2 py-0.5 text-[8px] font-medium text-black/45">{row.estatus}</span>
+                  <div className="flex items-center gap-1">
+                    {row.src ? (
+                      <Image src={row.src} alt="" width={12} height={12} className="rounded-full object-contain" />
+                    ) : (
+                      <span className="text-[10px]">{row.emoji}</span>
+                    )}
+                    <span className="text-[9px] text-black/40">{row.canal}</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[9px] text-black/35">María López</span>
+                  <span className="text-[9px] text-black/25">{row.productos}</span>
+                </div>
               </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-[9px] text-black/35">María López</span>
-              <span className="text-[9px] text-black/25">{row.productos}</span>
-            </div>
+            ))}
           </div>
-        ))}
+        )}
       </div>
+
+      <style jsx>{`
+        .mt-fade-in {
+          animation: mtFadeIn 0.45s ease-out;
+        }
+        @keyframes mtFadeIn {
+          from { opacity: 0; transform: translateY(4px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .mt-cursor {
+          display: inline-block;
+          width: 1px;
+          margin-left: 2px;
+          background: #DB3B2B;
+          color: transparent;
+          animation: mtBlink 0.8s steps(2, end) infinite;
+        }
+        @keyframes mtBlink {
+          50% { opacity: 0; }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+/* ── Desktop Tienda Panel: channels view → orders view ──
+   Mirrors the mobile flow on desktop. Stage 1 mimics the T1 admin
+   "Canales de Venta" page (3-col grid of marketplace cards). Each card's
+   "Conectar canal" pill switches to "ACTIVO" sequentially. After all are
+   active, the panel cross-fades into the existing <PedidosPanel /> view. */
+function DesktopTiendaPanel({ animate }: { animate: boolean }) {
+  type Stage = "channels" | "orders";
+  const [stage, setStage] = useState<Stage>("channels");
+  const [connectedCount, setConnectedCount] = useState(0);
+
+  const CHANNELS = [
+    { id: "amazon", name: "Amazon", src: "/img/amazon-iso.svg" },
+    { id: "meli", name: "Mercado Libre", src: "/img/meli-iso.svg" },
+    { id: "shein", name: "SHEIN", src: "/img/shein-iso.svg" },
+    { id: "walmart", name: "Walmart", src: "/img/walmart.svg" },
+    { id: "tiktok", name: "TikTok", src: "/img/tiktok-isotipo.png" },
+    { id: "sears", name: "Sears", src: "/img/sears-isotipo.svg" },
+  ];
+
+  useEffect(() => {
+    if (!animate) {
+      setStage("channels");
+      setConnectedCount(0);
+      return;
+    }
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    for (let i = 0; i < CHANNELS.length; i++) {
+      timers.push(setTimeout(() => setConnectedCount(i + 1), 700 + i * 480));
+    }
+    const ordersAt = 700 + CHANNELS.length * 480 + 900;
+    timers.push(setTimeout(() => setStage("orders"), ordersAt));
+    return () => timers.forEach(clearTimeout);
+  }, [animate]);
+
+  // Stage 2: orders — render the existing PedidosPanel. We pass animate so it
+  // kicks off its own animation when shown.
+  if (stage === "orders") {
+    return (
+      <div className="dt-fade-in w-full">
+        <PedidosPanel animate={animate} />
+        <style jsx>{`
+          .dt-fade-in {
+            animation: dtFadeIn 0.45s ease-out;
+          }
+          @keyframes dtFadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+        `}</style>
+      </div>
+    );
+  }
+
+  // Stage 1: Canales de Venta panel
+  return (
+    <div
+      className="dt-channels-panel w-full overflow-hidden rounded-[16px] bg-white"
+      style={{
+        boxShadow: "0 24px 60px -16px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.05)",
+        maxWidth: 520,
+      }}
+    >
+      <div style={{ padding: "20px 22px 16px" }}>
+        <p className="font-sora text-[18px] font-normal text-black" style={{ letterSpacing: "-0.01em", marginBottom: 4 }}>
+          Canales de venta
+        </p>
+        <p className="font-inter text-[12px] font-light text-black/55">
+          Aumenta tus ventas activando más canales
+        </p>
+      </div>
+
+      {/* Tabs */}
+      <div className="flex items-center gap-5 border-b border-black/[0.06]" style={{ padding: "0 22px" }}>
+        <span className="relative inline-flex items-center font-inter text-[12px] font-semibold text-black" style={{ paddingBottom: 10 }}>
+          Todos los canales
+          <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#DB3B2B]" />
+        </span>
+        <span className="font-inter text-[12px] font-normal text-black/45" style={{ paddingBottom: 10 }}>
+          Canales activos
+        </span>
+        <span className="font-inter text-[12px] font-normal text-black/45" style={{ paddingBottom: 10 }}>
+          Próximos canales
+        </span>
+      </div>
+
+      <div style={{ padding: "16px 22px 22px" }}>
+        <p className="font-inter text-[12px] font-bold text-black" style={{ marginBottom: 12 }}>
+          Marketplace
+        </p>
+
+        {/* Channel cards grid */}
+        <div className="grid grid-cols-3 gap-3">
+          {CHANNELS.map((ch, i) => {
+            const active = i < connectedCount;
+            return (
+              <div
+                key={ch.id}
+                className="relative flex flex-col rounded-[10px] border border-black/[0.06] bg-white"
+                style={{ padding: "12px 14px", boxShadow: "0 2px 8px -2px rgba(0,0,0,0.05)" }}
+              >
+                <div className="flex items-center gap-2">
+                  <div className="flex h-[36px] w-[36px] shrink-0 items-center justify-center overflow-hidden rounded-[7px] border border-black/[0.06] bg-white">
+                    <Image
+                      src={ch.src}
+                      alt={ch.name}
+                      width={28}
+                      height={28}
+                      className="object-contain"
+                      style={{ maxHeight: 26, width: "auto" }}
+                    />
+                  </div>
+                  <span className="truncate font-inter text-[12px] font-semibold text-black">
+                    {ch.name}
+                  </span>
+                </div>
+                <div className="mt-2 flex items-center justify-between">
+                  {active ? (
+                    <span
+                      key="active"
+                      className="dt-fade-in inline-flex items-center gap-1 rounded-[6px] font-inter text-[9px] font-bold uppercase tracking-wide"
+                      style={{
+                        padding: "2px 8px",
+                        background: "rgba(34,197,94,0.12)",
+                        color: "#15803D",
+                        letterSpacing: "0.04em",
+                      }}
+                    >
+                      <svg width="9" height="9" viewBox="0 0 12 12" fill="none">
+                        <path
+                          d="M2 6L5 9L10 3"
+                          stroke="#15803D"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      Activo
+                    </span>
+                  ) : (
+                    <span
+                      className="inline-flex items-center gap-1 rounded-[6px] font-inter text-[9px] font-semibold uppercase tracking-wide"
+                      style={{
+                        padding: "2px 8px",
+                        background: "rgba(219,59,43,0.10)",
+                        color: "#DB3B2B",
+                        letterSpacing: "0.04em",
+                      }}
+                    >
+                      Conectar →
+                    </span>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <style jsx>{`
+        .dt-channels-panel {
+          animation: dtPanelIn 0.5s ease-out;
+        }
+        .dt-fade-in {
+          animation: dtFadeIn 0.4s ease-out;
+        }
+        @keyframes dtPanelIn {
+          from { opacity: 0; transform: translateY(8px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes dtFadeIn {
+          from { opacity: 0; transform: scale(0.92); }
+          to { opacity: 1; transform: scale(1); }
+        }
+      `}</style>
     </div>
   );
 }
@@ -1493,41 +1858,33 @@ export default function T1Features() {
           {FEATURES_SUBTITLE}
         </p>
 
-        {/* MOBILE (< tablet) — connected icons row + stacked text blocks below */}
-        <div className="flex flex-col gap-8 tablet:hidden" style={{ marginBottom: 48 }}>
-          {/* Icons row with connecting line behind */}
-          <div className="relative mx-auto flex items-center justify-between" style={{ width: "min(280px, 90%)" }}>
+        {/* MOBILE (< tablet) — 3 cards stacked: illustration on the left,
+            label + description on the right (same layout, now wrapped in cards). */}
+        <div className="flex flex-col gap-4 tablet:hidden" style={{ marginBottom: 48 }}>
+          {[
+            { id: "vende", label: "VENDE", desc: "En tu tienda en línea o marketplaces", src: "/img/card-vende.png" },
+            { id: "cobra", label: "COBRA", desc: "Con tarjeta o transferencia con nuestro checkout integrado o link de pago", src: "/img/card-cobra.png" },
+            { id: "envia", label: "ENVÍA", desc: "Cotiza y crea envíos con las mejores paqueterías y los precios más bajos", src: "/img/card-envia.png" },
+          ].map((item) => (
             <div
-              aria-hidden
-              className="absolute bg-black/[0.10]"
-              style={{ left: 22, right: 22, top: "calc(50% - 0.5px)", height: 1 }}
-            />
-            {FEATURE_CARDS.map((card) => (
-              <div
-                key={card.id}
-                className="relative z-10 flex h-[44px] w-[44px] items-center justify-center rounded-full bg-white"
-                style={{ boxShadow: "0 4px 14px -4px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04)" }}
-              >
+              key={item.id}
+              className="flex items-start gap-4 rounded-[16px] bg-white"
+              style={{
+                padding: "18px 18px",
+                boxShadow: "0 0 25px 0 rgba(0,0,0,0.06)",
+              }}
+            >
+              <div className="flex shrink-0 items-center justify-center" style={{ width: 64, height: 64 }}>
                 <Image
-                  src={card.icon}
-                  alt=""
-                  width={22}
-                  height={22}
+                  src={item.src}
+                  alt={item.label}
+                  width={64}
+                  height={64}
                   className="object-contain"
-                  style={{ width: "auto", height: "auto", maxWidth: 22, maxHeight: 22 }}
+                  style={{ width: "auto", height: "auto", maxWidth: 64, maxHeight: 64 }}
                 />
               </div>
-            ))}
-          </div>
-
-          {/* Stacked text blocks — one per feature, short copy for mobile */}
-          <div className="flex flex-col gap-5">
-            {[
-              { label: "VENDE", desc: "En tu tienda en línea o marketplaces" },
-              { label: "COBRA", desc: "Con tarjeta o transferencia con nuestro checkout integrado o link de pago" },
-              { label: "ENVÍA", desc: "Cotiza y crea envíos con las mejores paqueterías y los precios más bajos" },
-            ].map((item) => (
-              <div key={item.label} className="flex flex-col gap-1.5">
+              <div className="flex flex-1 flex-col gap-1 pt-1">
                 <p className="font-inter text-[16px] font-semibold uppercase tracking-[0.04em] text-black">
                   {item.label}
                 </p>
@@ -1535,8 +1892,8 @@ export default function T1Features() {
                   {item.desc}
                 </p>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
 
         {/* DESKTOP (≥ tablet) — 3-column card grid */}
@@ -1618,31 +1975,54 @@ export default function T1Features() {
             {/* Dark overlay for readability */}
             <div className="absolute inset-0 bg-black/20" />
 
-            {/* Mobile-only scroll hint inside each stack card */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-1 tablet:hidden"
-              style={{ bottom: 14 }}
+            {/* Mobile-only stack indicator: glass pill at title height.
+                Click jumps to the next stack card. */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                const next = idx + 1 < SHOWCASE_CARDS.length
+                  ? document.querySelector(`[data-stack-idx="${idx + 1}"]`)
+                  : null;
+                if (next) {
+                  (next as HTMLElement).scrollIntoView({ behavior: "smooth", block: "start" });
+                }
+              }}
+              aria-label={
+                idx < SHOWCASE_CARDS.length - 1
+                  ? `Ir a la siguiente tarjeta (${idx + 2} de ${SHOWCASE_CARDS.length})`
+                  : `Tarjeta ${idx + 1} de ${SHOWCASE_CARDS.length}`
+              }
+              disabled={idx === SHOWCASE_CARDS.length - 1}
+              className="absolute z-20 flex cursor-pointer items-center gap-1.5 rounded-full border-none tablet:hidden"
+              style={{
+                top: 50,
+                right: 20,
+                padding: "6px 12px",
+                background: "rgba(0,0,0,0.28)",
+                backdropFilter: "blur(10px)",
+                WebkitBackdropFilter: "blur(10px)",
+                boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.18)",
+              }}
             >
-              <span className="font-inter text-[10px] font-medium tracking-wide text-white/70">
-                Desliza
-              </span>
-              <svg
-                className="scroll-hint"
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
+              <span
+                className="font-inter text-[12px] font-semibold tabular-nums text-white"
+                style={{ letterSpacing: "0.02em" }}
               >
-                <path
-                  d="M3 6L8 11L13 6"
-                  stroke="rgba(255,255,255,0.85)"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
+                {idx + 1} / {SHOWCASE_CARDS.length}
+              </span>
+              {idx < SHOWCASE_CARDS.length - 1 && (
+                <svg className="scroll-hint" width="12" height="12" viewBox="0 0 16 16" fill="none">
+                  <path
+                    d="M3 6L8 11L13 6"
+                    stroke="rgba(255,255,255,0.95)"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              )}
+            </button>
 
             {/* Content wrapper */}
             <div className="relative z-10 flex h-full flex-col tablet:flex-row" style={{ minHeight: 320 }}>
@@ -1703,10 +2083,10 @@ export default function T1Features() {
 
                   </div>
 
-                  {/* Right column: animated pedidos panel — desktop only (Q1) */}
+                  {/* Right column: channels-then-orders desktop panel (Q1) */}
                   {isDesktop !== false && (
-                    <div className="hidden w-1/2 items-end justify-end tablet:flex" style={{ paddingTop: 60 }}>
-                      <PedidosPanel animate={tiendaVisible} />
+                    <div className="hidden w-1/2 items-center justify-end tablet:flex" style={{ paddingTop: 40 }}>
+                      <DesktopTiendaPanel animate={tiendaVisible} />
                     </div>
                   )}
                 </>

@@ -115,11 +115,14 @@ export default function T1AISectionV2() {
     window.open(target, "_blank", "noopener,noreferrer");
   };
 
-  // Scroll-driven slide change: section is tall (N * 100vh), the inner is sticky.
-  // As the user scrolls through the section, we map scroll progress → active slide.
+  // Scroll-driven slide change: tablet+ only. On mobile the section is a
+  // horizontal carousel (single viewport) and slides change via swipe / button.
   useEffect(() => {
     const sec = sectionRef.current;
     if (!sec) return;
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(min-width: 768px)");
+    if (!mq.matches) return;
     let raf = 0;
     const onScroll = () => {
       if (raf) cancelAnimationFrame(raf);
@@ -184,15 +187,19 @@ export default function T1AISectionV2() {
   const nextRef = useRef<() => void>(() => {});
   const prevRef = useRef<() => void>(() => {});
 
-  // Scroll page to a specific slide's range (used by arrows + number buttons)
+  // Scroll page to a specific slide's range (tablet+).
+  // On mobile this just sets active (horizontal carousel — no page scroll).
   const goToSlide = useCallback((i: number) => {
+    if (typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches) {
+      setActive(i);
+      return;
+    }
     const sec = sectionRef.current;
     if (!sec) return;
     const sectionTop = sec.getBoundingClientRect().top + window.scrollY;
     const sectionHeight = sec.offsetHeight;
     const viewportHeight = window.innerHeight;
     const maxScroll = Math.max(1, sectionHeight - viewportHeight);
-    // Land near the middle of slide i's range
     const target = sectionTop + ((i + 0.5) / SLIDES.length) * maxScroll;
     window.scrollTo({ top: target, behavior: "smooth" });
   }, []);
@@ -217,46 +224,26 @@ export default function T1AISectionV2() {
   return (
     <section
       ref={sectionRef}
-      className="relative"
+      className="relative h-[85dvh] tablet:h-[var(--ai-tablet-h)]"
       style={{
-        // Use dvh on mobile to avoid the address-bar height jump.
-        height: `${SLIDES.length * 100}dvh`,
         background: "#FFF1EB",
-      }}
+        ["--ai-tablet-h" as string]: `${SLIDES.length * 100}dvh`,
+      } as React.CSSProperties}
     >
       <style jsx>{`
-        .ai-prompt-form {
-          animation: aiPromptPulse 2.8s ease-in-out infinite;
+        .ai-carousel-hint {
+          animation: aiCarouselNudge 1.6s ease-in-out infinite;
         }
-        .ai-prompt-form:focus-within {
-          animation: none;
-          box-shadow: 0 0 0 4px rgba(219, 59, 43, 0.08) !important;
-        }
-        @keyframes aiPromptPulse {
-          0%, 100% {
-            box-shadow:
-              0 16px 40px -16px rgba(219, 59, 43, 0.18),
-              0 0 0 0 rgba(219, 59, 43, 0.18);
-          }
-          50% {
-            box-shadow:
-              0 18px 44px -14px rgba(219, 59, 43, 0.32),
-              0 0 0 10px rgba(219, 59, 43, 0.04);
-          }
-        }
-        .ai-scroll-hint {
-          animation: aiScrollBounce 1.8s ease-in-out infinite;
-        }
-        @keyframes aiScrollBounce {
-          0%, 100% { transform: translateY(0); opacity: 0.5; }
-          50% { transform: translateY(4px); opacity: 1; }
+        @keyframes aiCarouselNudge {
+          0%, 100% { transform: translateX(0); opacity: 0.55; }
+          50% { transform: translateX(4px); opacity: 1; }
         }
       `}</style>
-      {/* Sticky inner — stays in view while the user scrolls through the section. */}
+      {/* Mobile: relative block, height matches section (one viewport, no sticky).
+          Tablet+: sticky inner pinned at top:0 while the tall section scrolls past. */}
       <div
-        className="sticky top-0 flex w-full flex-col overflow-hidden"
+        className="relative flex h-full w-full flex-col overflow-hidden tablet:sticky tablet:top-0 tablet:h-[100dvh]"
         style={{
-          height: "100dvh",
           background:
             "radial-gradient(110% 70% at 15% 0%, rgba(255,195,185,0.95) 0%, transparent 55%), radial-gradient(90% 70% at 100% 30%, rgba(255,165,150,0.75) 0%, transparent 55%), radial-gradient(120% 80% at 50% 110%, rgba(255,210,200,0.85) 0%, transparent 60%), #FFF1EB",
         }}
@@ -304,7 +291,7 @@ export default function T1AISectionV2() {
           />
         </div>
 
-        <div className="relative mx-auto flex h-full w-full max-w-[var(--max-w)] flex-col px-5 pb-20 pt-20 tablet:px-6 tablet:pb-20 tablet:pt-56">
+        <div className="relative mx-auto flex h-full w-full max-w-[var(--max-w)] flex-col px-5 pb-24 pt-12 tablet:px-6 tablet:pb-20 tablet:pt-56">
           {/* Layout:
               - mobile: flex column → text (flex-none, top), visual (flex-1, centered)
                 with the indicator pinned absolute at the bottom. Stable Y per slot.
@@ -394,13 +381,13 @@ export default function T1AISectionV2() {
             </div>
 
             {/* COL 3 — Visual.
-                Mobile: flex-1 so it fills the space between text and indicator,
-                with content centered both axes. Same Y center across all slides.
+                Mobile: flex-1 with capped max-height so taller visuals
+                (mockup, gauge stack) don't bleed into the bottom indicator.
                 Desktop: regular grid cell, centered via items-center. */}
             <div
               key={`visual-${slide.id}`}
-              className="order-2 flex flex-1 items-center justify-center tablet:order-none tablet:flex-auto"
-              style={{ minHeight: 220, animation: "fadeSlideIn 0.5s ease-out" }}
+              className="order-2 flex max-h-[260px] flex-1 items-center justify-center overflow-hidden tablet:order-none tablet:max-h-none tablet:flex-auto tablet:overflow-visible"
+              style={{ minHeight: 200, animation: "fadeSlideIn 0.5s ease-out" }}
             >
               {slide.id === "tienda" && (
                 <div className="flex w-full max-w-[460px] flex-col">
@@ -476,33 +463,73 @@ export default function T1AISectionV2() {
             </div>
           </div>
 
-          {/* Mobile-only scroll hint — absolute at the bottom of the inner
-              container so its Y stays stable regardless of slide content. */}
+          {/* Mobile-only carousel controls — prev + counter + next pill.
+              z-30 so it sits above any slide visual that nudges into this area. */}
           <div
-            className="absolute left-0 right-0 flex flex-col items-center gap-1 tablet:hidden"
-            style={{ bottom: 28 }}
+            className="absolute left-0 right-0 z-30 flex justify-center tablet:hidden"
+            style={{ bottom: 20 }}
           >
-            <span className="font-inter text-[10px] font-medium tracking-wide text-black/40">
-              {active + 1} / {SLIDES.length}
-            </span>
-            {active < SLIDES.length - 1 && (
-              <svg
-                className="ai-scroll-hint"
-                width="14"
-                height="14"
-                viewBox="0 0 16 16"
-                fill="none"
-                aria-hidden
+            <div
+              className="flex items-center gap-1 rounded-full"
+              style={{
+                padding: 4,
+                background: "rgba(255,255,255,0.78)",
+                backdropFilter: "blur(10px)",
+                WebkitBackdropFilter: "blur(10px)",
+                boxShadow: "inset 0 0 0 1px rgba(10,31,63,0.14), 0 4px 14px -4px rgba(10,31,63,0.22)",
+              }}
+            >
+              <button
+                type="button"
+                onClick={() => {
+                  if (active > 0) goToSlide(active - 1);
+                }}
+                disabled={active === 0}
+                aria-label="Anterior"
+                className="flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-full border-none bg-transparent disabled:opacity-30"
               >
-                <path
-                  d="M3 6L8 11L13 6"
-                  stroke="rgba(0,0,0,0.45)"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            )}
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                  <path
+                    d="M10 3L5 8L10 13"
+                    stroke="#0A1F3F"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+              <span
+                className="font-inter text-[13px] font-semibold tabular-nums"
+                style={{ color: "#0A1F3F", letterSpacing: "0.02em", padding: "0 6px" }}
+              >
+                {active + 1} / {SLIDES.length}
+              </span>
+              <button
+                type="button"
+                onClick={() => {
+                  if (active < SLIDES.length - 1) goToSlide(active + 1);
+                }}
+                disabled={active === SLIDES.length - 1}
+                aria-label="Siguiente"
+                className="flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-full border-none bg-transparent disabled:opacity-30"
+              >
+                <svg
+                  className={active < SLIDES.length - 1 ? "ai-carousel-hint" : ""}
+                  width="14"
+                  height="14"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                >
+                  <path
+                    d="M6 3L11 8L6 13"
+                    stroke="#0A1F3F"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -795,7 +822,7 @@ function VisualPersonaliza() {
           <span className="font-inter text-[12px] text-black/55">🛒</span>
         </div>
 
-        <div className="relative overflow-hidden" style={{ height: 160, background: "#F6F1EE" }}>
+        <div className="relative overflow-hidden" style={{ height: 120, background: "#F6F1EE" }}>
           <Image
             key={`banner-m-${bannerIdx}`}
             src={current.src}
@@ -1234,8 +1261,12 @@ function VisualRiesgo() {
   }, []);
 
   return (
-    <div className="relative flex flex-col items-center justify-center gap-5">
-      <svg width="220" height="220" viewBox="0 0 110 110" fill="none">
+    <div className="relative flex flex-col items-center justify-center gap-3 tablet:gap-5">
+      <svg
+        viewBox="0 0 110 110"
+        fill="none"
+        className="h-[150px] w-[150px] tablet:h-[220px] tablet:w-[220px]"
+      >
         {/* Outer */}
         <circle cx="55" cy="55" r="48" stroke="rgba(0,0,0,0.04)" strokeWidth="6" />
         <circle
