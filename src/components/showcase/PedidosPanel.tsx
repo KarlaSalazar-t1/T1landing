@@ -133,6 +133,7 @@ export default function PedidosPanel({
     <div
       className="relative h-full"
       style={{
+        minHeight: 500,
         padding: "12px 0 0 12px",
         borderRadius: "20px 0 0 0",
         background: "linear-gradient(135deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.15) 30%, rgba(255,255,255,0.05) 60%, transparent 100%)",

@@ -1499,8 +1499,8 @@ function DesktopTiendaPanel({ animate }: { animate: boolean }) {
       `}</style>
 
       {/* Header (mimics the "Mis pedidos" header height/spacing of PedidosPanel) */}
-      <div className="border-b border-black/[0.04] px-5" style={{ paddingTop: 14, paddingBottom: 10 }}>
-        <h3 className="text-[16px] font-bold text-black">Canales de venta</h3>
+      <div className="border-b border-black/[0.04] px-5" style={{ paddingTop: 18, paddingBottom: 14 }}>
+        <h3 className="text-[18px] font-bold text-black">Canales de venta</h3>
         <p className="text-[11px] font-normal text-black/55" style={{ marginTop: 2 }}>
           Aumenta tus ventas activando más canales
         </p>
@@ -1520,36 +1520,50 @@ function DesktopTiendaPanel({ animate }: { animate: boolean }) {
         </span>
       </div>
 
-      {/* Marketplace section + grid */}
-      <div className="flex-1 overflow-hidden px-5" style={{ paddingTop: 14 }}>
-        <p className="text-[11px] font-bold text-black" style={{ marginBottom: 10 }}>
+      {/* Search bar */}
+      <div className="px-5" style={{ paddingTop: 12, paddingBottom: 6 }}>
+        <div
+          className="flex items-center gap-2 rounded-[8px] border border-black/[0.06]"
+          style={{ padding: "7px 10px" }}
+        >
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+            <circle cx="7" cy="7" r="5" stroke="rgba(0,0,0,0.35)" strokeWidth="1.5" />
+            <path d="M11 11L14 14" stroke="rgba(0,0,0,0.35)" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+          <span className="text-[10px] text-black/35">Búsqueda</span>
+        </div>
+      </div>
+
+      {/* Marketplace section + grid — flex-1 makes this fill, cards stretch */}
+      <div className="flex flex-1 flex-col overflow-hidden px-5" style={{ paddingTop: 6, paddingBottom: 14 }}>
+        <p className="text-[12px] font-bold text-black" style={{ marginBottom: 10 }}>
           Marketplace
         </p>
-        <div className="grid grid-cols-3 gap-2.5">
+        <div className="grid flex-1 grid-cols-3 gap-2.5" style={{ gridAutoRows: "1fr" }}>
           {CHANNELS.map((ch, i) => {
             const active = i < connectedCount;
             return (
               <div
                 key={ch.id}
-                className="rounded-[10px] border border-black/[0.06] bg-white"
-                style={{ padding: "10px 12px", boxShadow: "0 2px 8px -2px rgba(0,0,0,0.04)" }}
+                className="flex flex-col justify-between rounded-[10px] border border-black/[0.06] bg-white"
+                style={{ padding: "12px 14px", boxShadow: "0 2px 8px -2px rgba(0,0,0,0.04)", minHeight: 90 }}
               >
                 <div className="flex items-center gap-2">
-                  <div className="flex h-[32px] w-[32px] shrink-0 items-center justify-center overflow-hidden rounded-[6px] border border-black/[0.06] bg-white">
+                  <div className="flex h-[36px] w-[36px] shrink-0 items-center justify-center overflow-hidden rounded-[7px] border border-black/[0.06] bg-white">
                     <Image
                       src={ch.src}
                       alt={ch.name}
-                      width={24}
-                      height={24}
+                      width={26}
+                      height={26}
                       className="object-contain"
-                      style={{ maxHeight: 22, width: "auto" }}
+                      style={{ maxHeight: 24, width: "auto" }}
                     />
                   </div>
                   <span className="truncate text-[11px] font-semibold text-black">
                     {ch.name}
                   </span>
                 </div>
-                <div className="mt-2 flex">
+                <div className="flex items-end justify-between">
                   {active ? (
                     <span
                       key="active"
