@@ -181,7 +181,7 @@ export default function T1Hero() {
     <>
       {/* Sticky hero — stays in place while white card scrolls over */}
       <div className="sticky top-0 z-0">
-        <section className="relative min-h-[92dvh] overflow-hidden tablet:min-h-screen">
+        <section className="relative flex min-h-[92dvh] flex-col overflow-hidden tablet:min-h-screen tablet:block">
           {/* Background video — loop through 4 clips */}
           <div className="absolute inset-0 z-0">
             <HeroVideoLoop />
@@ -199,9 +199,11 @@ export default function T1Hero() {
             }}
           />
 
-          {/* Content */}
-          <div className="relative z-10 mx-auto max-w-[var(--max-w)] px-5 tablet:px-6">
-            <div className="pt-[120px] pb-4 tablet:pt-[226px] tablet:pb-6">
+          {/* Content — on mobile fills the available space with content
+              centered vertically so the gap above the logo marquee shrinks
+              on taller phones. Desktop keeps the original top-aligned pt. */}
+          <div className="relative z-10 mx-auto flex w-full max-w-[var(--max-w)] flex-1 flex-col justify-center px-5 tablet:block tablet:flex-none tablet:px-6">
+            <div className="pt-[90px] pb-6 tablet:pt-[226px] tablet:pb-6">
               {/* Rotating eyebrow word */}
               <p
                 className="font-sora text-[38px] font-normal leading-[1.26] text-white tablet:text-[48px] lg:text-[60px]"

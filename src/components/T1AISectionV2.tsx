@@ -494,12 +494,12 @@ export default function T1AISectionV2() {
               </svg>
             </button>
             <span
-              className="rounded-full bg-white/85 backdrop-blur-sm font-inter text-[12px] font-semibold tabular-nums"
+              className="rounded-full backdrop-blur-sm font-inter text-[12px] font-semibold tabular-nums"
               style={{
                 color: "#0A1F3F",
+                background: "rgba(255,255,255,0.35)",
                 padding: "5px 12px",
                 letterSpacing: "0.02em",
-                boxShadow: "inset 0 0 0 1px rgba(10,31,63,0.10)",
               }}
             >
               {active + 1} / {SLIDES.length}

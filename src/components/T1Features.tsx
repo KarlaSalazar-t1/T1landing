@@ -1608,6 +1608,7 @@ function DesktopTiendaPanel({ animate }: { animate: boolean }) {
     <PedidosPanel
       animate={stage === "orders" ? animate : false}
       contentOverride={stage === "channels" ? channelsContent : undefined}
+      activeIconLabel={stage === "channels" ? "Canales" : "Pedidos"}
     />
   );
 }

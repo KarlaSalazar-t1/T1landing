@@ -52,7 +52,7 @@ const font = "var(--font-manrope-var), sans-serif";
 /* ── Sidebar nav icons (SVG file paths) ── */
 const SIDEBAR_ICONS = [
   { src: "/img/icons/home.svg", label: "Inicio" },
-  { src: "/img/icons/pedido.svg", label: "Pedidos", active: true },
+  { src: "/img/icons/pedido.svg", label: "Pedidos" },
   { src: "/img/icons/producto.svg", label: "Productos" },
   { src: "/img/icons/cliente.svg", label: "Clientes" },
   { src: "/img/icons/canal-de-venta-24.svg", label: "Canales" },
@@ -93,9 +93,11 @@ function Chevron({ open }: { open: boolean }) {
 export default function PedidosPanel({
   animate,
   contentOverride,
+  activeIconLabel = "Pedidos",
 }: {
   animate: boolean;
   contentOverride?: React.ReactNode;
+  activeIconLabel?: string;
 }) {
   const [showNew, setShowNew] = useState(false);
   const [showProduct, setShowProduct] = useState(false);
@@ -168,21 +170,24 @@ export default function PedidosPanel({
             className="flex flex-col items-center gap-2 border-r border-black/[0.06] bg-white"
             style={{ width: 80, paddingTop: 16, paddingBottom: 16 }}
           >
-            {SIDEBAR_ICONS.map((icon, i) => (
-              <div
-                key={i}
-                className="flex h-[44px] w-[44px] items-center justify-center rounded-[12px] transition-colors duration-150"
-                style={{ background: icon.active ? "#F0F0F0" : "transparent" }}
-              >
-                <Image
-                  src={icon.src}
-                  alt={icon.label}
-                  width={28}
-                  height={28}
-                  style={{ opacity: icon.active ? 1 : 0.4 }}
-                />
-              </div>
-            ))}
+            {SIDEBAR_ICONS.map((icon, i) => {
+              const isActive = icon.label === activeIconLabel;
+              return (
+                <div
+                  key={i}
+                  className="flex h-[44px] w-[44px] items-center justify-center rounded-[12px] transition-colors duration-300"
+                  style={{ background: isActive ? "#F0F0F0" : "transparent" }}
+                >
+                  <Image
+                    src={icon.src}
+                    alt={icon.label}
+                    width={28}
+                    height={28}
+                    style={{ opacity: isActive ? 1 : 0.4, transition: "opacity 0.3s" }}
+                  />
+                </div>
+              );
+            })}
           </div>
 
           {/* Content area — defaults to Mis pedidos; can be overridden */}
