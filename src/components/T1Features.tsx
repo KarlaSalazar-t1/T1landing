@@ -1456,10 +1456,9 @@ function MobileTiendaPanel({ animate }: { animate: boolean }) {
 }
 
 /* ── Desktop Tienda Panel: channels view → orders view ──
-   Mirrors the mobile flow on desktop. Stage 1 mimics the T1 admin
-   "Canales de Venta" page (3-col grid of marketplace cards). Each card's
-   "Conectar canal" pill switches to "ACTIVO" sequentially. After all are
-   active, the panel cross-fades into the existing <PedidosPanel /> view. */
+   Renders <PedidosPanel> as the fixed glass frame and only swaps the
+   inner content area: stage 1 shows the "Canales de Venta" view, stage 2
+   falls back to PedidosPanel's default Mis pedidos table. */
 function DesktopTiendaPanel({ animate }: { animate: boolean }) {
   type Stage = "channels" | "orders";
   const [stage, setStage] = useState<Stage>("channels");
@@ -1489,97 +1488,76 @@ function DesktopTiendaPanel({ animate }: { animate: boolean }) {
     return () => timers.forEach(clearTimeout);
   }, [animate]);
 
-  // Stage 2: orders — render the existing PedidosPanel. We pass animate so it
-  // kicks off its own animation when shown.
-  if (stage === "orders") {
-    return (
-      <div className="dt-fade-in w-full">
-        <PedidosPanel animate={animate} />
-        <style jsx>{`
-          .dt-fade-in {
-            animation: dtFadeIn 0.45s ease-out;
-          }
-          @keyframes dtFadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-        `}</style>
-      </div>
-    );
-  }
+  const channelsContent = (
+    <div className="flex flex-1 flex-col overflow-hidden dt-fade-in">
+      <style jsx>{`
+        .dt-fade-in { animation: dtFadeIn 0.5s ease-out; }
+        @keyframes dtFadeIn {
+          from { opacity: 0; transform: translateY(6px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
 
-  // Stage 1: Canales de Venta panel
-  return (
-    <div
-      className="dt-channels-panel w-full overflow-hidden rounded-[16px] bg-white"
-      style={{
-        boxShadow: "0 24px 60px -16px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.05)",
-        maxWidth: 520,
-      }}
-    >
-      <div style={{ padding: "20px 22px 16px" }}>
-        <p className="font-sora text-[18px] font-normal text-black" style={{ letterSpacing: "-0.01em", marginBottom: 4 }}>
-          Canales de venta
-        </p>
-        <p className="font-inter text-[12px] font-light text-black/55">
+      {/* Header (mimics the "Mis pedidos" header height/spacing of PedidosPanel) */}
+      <div className="border-b border-black/[0.04] px-5" style={{ paddingTop: 14, paddingBottom: 10 }}>
+        <h3 className="text-[16px] font-bold text-black">Canales de venta</h3>
+        <p className="text-[11px] font-normal text-black/55" style={{ marginTop: 2 }}>
           Aumenta tus ventas activando más canales
         </p>
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-5 border-b border-black/[0.06]" style={{ padding: "0 22px" }}>
-        <span className="relative inline-flex items-center font-inter text-[12px] font-semibold text-black" style={{ paddingBottom: 10 }}>
+      <div className="flex items-center gap-5 border-b border-black/[0.04] px-5" style={{ paddingTop: 8 }}>
+        <span className="relative inline-flex items-center text-[11px] font-semibold text-black" style={{ paddingBottom: 8 }}>
           Todos los canales
           <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#DB3B2B]" />
         </span>
-        <span className="font-inter text-[12px] font-normal text-black/45" style={{ paddingBottom: 10 }}>
+        <span className="text-[11px] font-normal text-black/40" style={{ paddingBottom: 8 }}>
           Canales activos
         </span>
-        <span className="font-inter text-[12px] font-normal text-black/45" style={{ paddingBottom: 10 }}>
+        <span className="text-[11px] font-normal text-black/40" style={{ paddingBottom: 8 }}>
           Próximos canales
         </span>
       </div>
 
-      <div style={{ padding: "16px 22px 22px" }}>
-        <p className="font-inter text-[12px] font-bold text-black" style={{ marginBottom: 12 }}>
+      {/* Marketplace section + grid */}
+      <div className="flex-1 overflow-hidden px-5" style={{ paddingTop: 14 }}>
+        <p className="text-[11px] font-bold text-black" style={{ marginBottom: 10 }}>
           Marketplace
         </p>
-
-        {/* Channel cards grid */}
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-3 gap-2.5">
           {CHANNELS.map((ch, i) => {
             const active = i < connectedCount;
             return (
               <div
                 key={ch.id}
-                className="relative flex flex-col rounded-[10px] border border-black/[0.06] bg-white"
-                style={{ padding: "12px 14px", boxShadow: "0 2px 8px -2px rgba(0,0,0,0.05)" }}
+                className="rounded-[10px] border border-black/[0.06] bg-white"
+                style={{ padding: "10px 12px", boxShadow: "0 2px 8px -2px rgba(0,0,0,0.04)" }}
               >
                 <div className="flex items-center gap-2">
-                  <div className="flex h-[36px] w-[36px] shrink-0 items-center justify-center overflow-hidden rounded-[7px] border border-black/[0.06] bg-white">
+                  <div className="flex h-[32px] w-[32px] shrink-0 items-center justify-center overflow-hidden rounded-[6px] border border-black/[0.06] bg-white">
                     <Image
                       src={ch.src}
                       alt={ch.name}
-                      width={28}
-                      height={28}
+                      width={24}
+                      height={24}
                       className="object-contain"
-                      style={{ maxHeight: 26, width: "auto" }}
+                      style={{ maxHeight: 22, width: "auto" }}
                     />
                   </div>
-                  <span className="truncate font-inter text-[12px] font-semibold text-black">
+                  <span className="truncate text-[11px] font-semibold text-black">
                     {ch.name}
                   </span>
                 </div>
-                <div className="mt-2 flex items-center justify-between">
+                <div className="mt-2 flex">
                   {active ? (
                     <span
                       key="active"
-                      className="dt-fade-in inline-flex items-center gap-1 rounded-[6px] font-inter text-[9px] font-bold uppercase tracking-wide"
+                      className="dt-pill-in inline-flex items-center gap-1 rounded-[5px]"
                       style={{
-                        padding: "2px 8px",
+                        padding: "2px 7px",
                         background: "rgba(34,197,94,0.12)",
                         color: "#15803D",
-                        letterSpacing: "0.04em",
                       }}
                     >
                       <svg width="9" height="9" viewBox="0 0 12 12" fill="none">
@@ -1591,19 +1569,22 @@ function DesktopTiendaPanel({ animate }: { animate: boolean }) {
                           strokeLinejoin="round"
                         />
                       </svg>
-                      Activo
+                      <span className="text-[8px] font-bold uppercase tracking-wide" style={{ letterSpacing: "0.05em" }}>
+                        Activo
+                      </span>
                     </span>
                   ) : (
                     <span
-                      className="inline-flex items-center gap-1 rounded-[6px] font-inter text-[9px] font-semibold uppercase tracking-wide"
+                      className="inline-flex items-center gap-1 rounded-[5px]"
                       style={{
-                        padding: "2px 8px",
+                        padding: "2px 7px",
                         background: "rgba(219,59,43,0.10)",
                         color: "#DB3B2B",
-                        letterSpacing: "0.04em",
                       }}
                     >
-                      Conectar →
+                      <span className="text-[8px] font-bold uppercase tracking-wide" style={{ letterSpacing: "0.05em" }}>
+                        Conectar →
+                      </span>
                     </span>
                   )}
                 </div>
@@ -1614,22 +1595,20 @@ function DesktopTiendaPanel({ animate }: { animate: boolean }) {
       </div>
 
       <style jsx>{`
-        .dt-channels-panel {
-          animation: dtPanelIn 0.5s ease-out;
-        }
-        .dt-fade-in {
-          animation: dtFadeIn 0.4s ease-out;
-        }
-        @keyframes dtPanelIn {
-          from { opacity: 0; transform: translateY(8px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes dtFadeIn {
-          from { opacity: 0; transform: scale(0.92); }
+        .dt-pill-in { animation: dtPillIn 0.35s ease-out; }
+        @keyframes dtPillIn {
+          from { opacity: 0; transform: scale(0.85); }
           to { opacity: 1; transform: scale(1); }
         }
       `}</style>
     </div>
+  );
+
+  return (
+    <PedidosPanel
+      animate={stage === "orders" ? animate : false}
+      contentOverride={stage === "channels" ? channelsContent : undefined}
+    />
   );
 }
 
@@ -1868,7 +1847,7 @@ export default function T1Features() {
           ].map((item) => (
             <div
               key={item.id}
-              className="flex items-start gap-4 rounded-[16px] bg-white"
+              className="flex items-center gap-4 rounded-[16px] bg-white"
               style={{
                 padding: "18px 18px",
                 boxShadow: "0 0 25px 0 rgba(0,0,0,0.06)",
@@ -1884,7 +1863,7 @@ export default function T1Features() {
                   style={{ width: "auto", height: "auto", maxWidth: 64, maxHeight: 64 }}
                 />
               </div>
-              <div className="flex flex-1 flex-col gap-1 pt-1">
+              <div className="flex flex-1 flex-col gap-1">
                 <p className="font-inter text-[16px] font-semibold uppercase tracking-[0.04em] text-black">
                   {item.label}
                 </p>
@@ -2085,7 +2064,7 @@ export default function T1Features() {
 
                   {/* Right column: channels-then-orders desktop panel (Q1) */}
                   {isDesktop !== false && (
-                    <div className="hidden w-1/2 items-center justify-end tablet:flex" style={{ paddingTop: 40 }}>
+                    <div className="hidden w-1/2 items-end justify-end tablet:flex" style={{ paddingTop: 60 }}>
                       <DesktopTiendaPanel animate={tiendaVisible} />
                     </div>
                   )}

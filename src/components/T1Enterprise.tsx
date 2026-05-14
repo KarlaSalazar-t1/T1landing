@@ -234,19 +234,8 @@ export default function T1Enterprise() {
               </p>
             )}
           </div>
-          {current.hasVideo && (
-            <button
-              onClick={() => setVideoOpen(true)}
-              className="inline-flex w-fit cursor-pointer items-center gap-2 rounded-full border border-black/15 bg-white px-5 py-2.5 font-inter text-[13px] font-medium text-black transition-all duration-150 hover:border-black/30"
-            >
-              Ver video
-              <span className="flex h-[20px] w-[20px] items-center justify-center rounded-full bg-[#DB3B2B]">
-                <svg width="8" height="10" viewBox="0 0 8 10" fill="none">
-                  <path d="M1 1L7 5L1 9V1Z" fill="white" />
-                </svg>
-              </span>
-            </button>
-          )}
+          {/* Ver video button removed here — now overlayed on each gallery card
+              so it stays visible while the user looks at the case images. */}
         </div>
 
         {/* Desktop gallery — active card has metric, quote, author embedded. */}

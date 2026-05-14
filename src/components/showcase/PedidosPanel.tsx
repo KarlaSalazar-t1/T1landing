@@ -85,8 +85,18 @@ function Chevron({ open }: { open: boolean }) {
   );
 }
 
-/* ── Main ── */
-export default function PedidosPanel({ animate }: { animate: boolean }) {
+/* ── Main ──
+   Renders the desktop "T1tienda" admin frame (glass + inner white +
+   header bar + sidebar). The right content area defaults to the Mis pedidos
+   table, but `contentOverride` lets callers (e.g. DesktopTiendaPanel) swap
+   in a different view (Canales de Venta) while keeping the same frame. */
+export default function PedidosPanel({
+  animate,
+  contentOverride,
+}: {
+  animate: boolean;
+  contentOverride?: React.ReactNode;
+}) {
   const [showNew, setShowNew] = useState(false);
   const [showProduct, setShowProduct] = useState(false);
   const [extraCount, setExtraCount] = useState(0);
@@ -175,8 +185,12 @@ export default function PedidosPanel({ animate }: { animate: boolean }) {
             ))}
           </div>
 
-          {/* Content area */}
+          {/* Content area — defaults to Mis pedidos; can be overridden */}
           <div className="flex flex-1 flex-col overflow-hidden">
+            {contentOverride ? (
+              <>{contentOverride}</>
+            ) : (
+              <>
         {/* Pedidos header */}
         <div className="flex items-center gap-3 border-b border-black/[0.04] px-5" style={{ paddingTop: 18, paddingBottom: 14 }}>
           <h3 className="text-[18px] font-bold text-black">Mis pedidos</h3>
@@ -272,6 +286,8 @@ export default function PedidosPanel({ animate }: { animate: boolean }) {
             </div>
           ))}
         </div>
+              </>
+            )}
           </div>
         </div>
       </div>

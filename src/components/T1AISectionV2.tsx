@@ -121,17 +121,22 @@ export default function T1AISectionV2() {
     const sec = sectionRef.current;
     if (!sec) return;
     if (typeof window === "undefined") return;
-    const mq = window.matchMedia("(min-width: 768px)");
-    if (!mq.matches) return;
     let raf = 0;
     const onScroll = () => {
       if (raf) cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
+        // Re-check viewport on every frame so a resize from tablet→mobile
+        // doesn't keep the listener running. Mobile carousel is horizontal
+        // and shouldn't react to vertical scroll position at all.
+        if (!window.matchMedia("(min-width: 768px)").matches) return;
         const rect = sec.getBoundingClientRect();
         const sectionTop = rect.top + window.scrollY;
         const sectionHeight = sec.offsetHeight;
         const viewportHeight = window.innerHeight;
-        const maxScroll = Math.max(1, sectionHeight - viewportHeight);
+        // Need a meaningful scrollable range — bail out if section is shorter
+        // than viewport (which it is on mobile via the dvh class override).
+        if (sectionHeight <= viewportHeight + 50) return;
+        const maxScroll = sectionHeight - viewportHeight;
         const scrolledInto = Math.max(0, window.scrollY - sectionTop);
         const progress = Math.max(0, Math.min(0.9999, scrolledInto / maxScroll));
         const newActive = Math.min(
@@ -463,73 +468,67 @@ export default function T1AISectionV2() {
             </div>
           </div>
 
-          {/* Mobile-only carousel controls — prev + counter + next pill.
-              z-30 so it sits above any slide visual that nudges into this area. */}
+          {/* Mobile-only carousel controls — circular arrow buttons matching
+              the Casos de Éxito ArrowBtn style, with a counter chip between. */}
           <div
-            className="absolute left-0 right-0 z-30 flex justify-center tablet:hidden"
-            style={{ bottom: 20 }}
+            className="absolute left-0 right-0 z-30 flex items-center justify-center gap-3 tablet:hidden"
+            style={{ bottom: 22 }}
           >
-            <div
-              className="flex items-center gap-1 rounded-full"
+            <button
+              type="button"
+              onClick={() => {
+                if (active > 0) goToSlide(active - 1);
+              }}
+              disabled={active === 0}
+              aria-label="Anterior"
+              className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-black/10 bg-white text-black/45 transition-all duration-150 hover:border-black/25 hover:text-black disabled:opacity-30"
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path
+                  d="M10 4L6 8L10 12"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+            <span
+              className="rounded-full bg-white/85 backdrop-blur-sm font-inter text-[12px] font-semibold tabular-nums"
               style={{
-                padding: 4,
-                background: "rgba(255,255,255,0.78)",
-                backdropFilter: "blur(10px)",
-                WebkitBackdropFilter: "blur(10px)",
-                boxShadow: "inset 0 0 0 1px rgba(10,31,63,0.14), 0 4px 14px -4px rgba(10,31,63,0.22)",
+                color: "#0A1F3F",
+                padding: "5px 12px",
+                letterSpacing: "0.02em",
+                boxShadow: "inset 0 0 0 1px rgba(10,31,63,0.10)",
               }}
             >
-              <button
-                type="button"
-                onClick={() => {
-                  if (active > 0) goToSlide(active - 1);
-                }}
-                disabled={active === 0}
-                aria-label="Anterior"
-                className="flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-full border-none bg-transparent disabled:opacity-30"
+              {active + 1} / {SLIDES.length}
+            </span>
+            <button
+              type="button"
+              onClick={() => {
+                if (active < SLIDES.length - 1) goToSlide(active + 1);
+              }}
+              disabled={active === SLIDES.length - 1}
+              aria-label="Siguiente"
+              className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-black/10 bg-white text-black/45 transition-all duration-150 hover:border-black/25 hover:text-black disabled:opacity-30"
+            >
+              <svg
+                className={active < SLIDES.length - 1 ? "ai-carousel-hint" : ""}
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
               >
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                  <path
-                    d="M10 3L5 8L10 13"
-                    stroke="#0A1F3F"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-              <span
-                className="font-inter text-[13px] font-semibold tabular-nums"
-                style={{ color: "#0A1F3F", letterSpacing: "0.02em", padding: "0 6px" }}
-              >
-                {active + 1} / {SLIDES.length}
-              </span>
-              <button
-                type="button"
-                onClick={() => {
-                  if (active < SLIDES.length - 1) goToSlide(active + 1);
-                }}
-                disabled={active === SLIDES.length - 1}
-                aria-label="Siguiente"
-                className="flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-full border-none bg-transparent disabled:opacity-30"
-              >
-                <svg
-                  className={active < SLIDES.length - 1 ? "ai-carousel-hint" : ""}
-                  width="14"
-                  height="14"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                >
-                  <path
-                    d="M6 3L11 8L6 13"
-                    stroke="#0A1F3F"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-            </div>
+                <path
+                  d="M6 4L10 8L6 12"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
           </div>
         </div>
       </div>
