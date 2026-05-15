@@ -229,7 +229,7 @@ export default function T1AISectionV2() {
   return (
     <section
       ref={sectionRef}
-      className="relative h-[85dvh] tablet:h-[var(--ai-tablet-h)]"
+      className="relative h-[100svh] tablet:h-[var(--ai-tablet-h)]"
       style={{
         background: "#FFF1EB",
         ["--ai-tablet-h" as string]: `${SLIDES.length * 100}dvh`,

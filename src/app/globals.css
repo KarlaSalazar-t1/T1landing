@@ -558,8 +558,11 @@ body {
     max-width: 100% !important;
   }
   .stack-card {
+    /* Use svh (small viewport) so the URL bar showing/hiding doesn't
+       resize the cards mid-scroll — that resize was causing the
+       "saltos raros" when crossing section boundaries. */
     height: 100vh !important;
-    height: 100dvh !important;
+    height: 100svh !important;
     margin-bottom: 0 !important;
     border-radius: 0 !important;
     /* Sticky offset = navbar height (60px) so title doesn't get covered */

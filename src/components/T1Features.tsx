@@ -1065,12 +1065,9 @@ function PhoneLinkPago() {
               <div className="flex items-center gap-2 px-3 py-2.5">
                 <div className="h-[8px] w-[8px] rounded-full bg-[#E26153]" />
                 <span className="text-[11px] font-medium text-black/70">Tarjetas de crédito o débito</span>
-                <div className="ml-auto flex items-center gap-1">
-                  <span className="text-[8px] font-bold text-[#1434CB]">VISA</span>
-                  <div className="flex">
-                    <div className="h-[8px] w-[8px] rounded-full bg-[#EB001B]" />
-                    <div className="h-[8px] w-[8px] -ml-2 rounded-full bg-[#F79E1B] opacity-80" />
-                  </div>
+                <div className="ml-auto flex items-center gap-1.5">
+                  <Image src="/img/icons/visa.svg" alt="Visa" width={26} height={10} className="h-[10px] w-auto" />
+                  <Image src="/img/icons/mastercard.svg" alt="Mastercard" width={16} height={10} className="h-[12px] w-auto" />
                 </div>
               </div>
               {/* MSI dropdown inside card selection */}
@@ -1091,18 +1088,13 @@ function PhoneLinkPago() {
             >
               <div className="h-[8px] w-[8px] rounded-full border-2 border-black/15" />
               <span className="text-[11px] text-black/50">Transferencia bancaria</span>
-              <span className="ml-auto text-[9px] font-bold text-black/25">SPEI</span>
+              <Image src="/img/icons/spei.svg" alt="SPEI" width={26} height={10} className="ml-auto h-[12px] w-auto" />
             </div>
             {/* Kueski — unselected (buy-now-pay-later) */}
             <div className="flex items-center gap-2 rounded-[8px] border border-black/[0.06] px-3 py-2.5">
               <div className="h-[8px] w-[8px] rounded-full border-2 border-black/15" />
               <span className="text-[11px] text-black/50">Pago a plazos</span>
-              <span
-                className="ml-auto text-[9px] font-bold tracking-tight"
-                style={{ color: "#FF5C42" }}
-              >
-                kueski pay
-              </span>
+              <Image src="/img/icons/kueski.svg" alt="Kueski Pay" width={32} height={13} className="ml-auto h-[13px] w-auto" />
             </div>
           </div>
           {/* Pagar button — right after payment methods, simulated click */}
@@ -1909,7 +1901,7 @@ export default function T1Features() {
   }, []);
 
   return (
-    <section className="bg-[#F6F6F6]" style={{ paddingTop: 60, paddingBottom: 40 }}>
+    <section className="bg-[#F6F6F6]" style={{ paddingTop: 60, paddingBottom: 0 }}>
       <div className="mx-auto max-w-[var(--max-w)] px-5 tablet:px-6" style={{ paddingTop: 40 }}>
         {/* Heading — Sora 44px */}
         <h2
@@ -2308,6 +2300,18 @@ export default function T1Features() {
           </div>
         ))}
       </div>
+
+      {/* Seamless transition into the AI section's warm background.
+          Without this, mobile sees a gray band between the last sticky stack
+          card releasing and the AI section starting. */}
+      <div
+        aria-hidden
+        className="tablet:hidden"
+        style={{
+          height: 80,
+          background: "linear-gradient(180deg, #F6F6F6 0%, #FFF1EB 100%)",
+        }}
+      />
 
       {/* Modal */}
       {modalCard && typeof document !== "undefined" && createPortal(
