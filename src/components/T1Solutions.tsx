@@ -143,7 +143,7 @@ function FloatingCards({ type }: { type: string | null }) {
           right: 70, top: 110, width: 280, zIndex: 10,
           boxShadow: "0 0 25px 0 rgba(0,0,0,0.06)",
           fontFamily: font, padding: "20px 26px",
-          animation: "fadeSlideIn 0.4s ease-out",
+          animation: "none",
         }}
       >
         <div className="flex items-center justify-between" style={{ marginBottom: 12 }}>
@@ -167,12 +167,12 @@ function FloatingCards({ type }: { type: string | null }) {
   if (type === "metrics") {
     return (
       <>
-        <div className="absolute rounded-[16px] bg-white" style={{ right: 360, top: 70, width: 220, boxShadow: "0 0 25px 0 rgba(0,0,0,0.06)", fontFamily: font, padding: "16px 22px", zIndex: 10, animation: "fadeSlideIn 0.4s ease-out" }}>
+        <div className="absolute rounded-[16px] bg-white" style={{ right: 360, top: 70, width: 220, boxShadow: "0 0 25px 0 rgba(0,0,0,0.06)", fontFamily: font, padding: "16px 22px", zIndex: 10, animation: "none" }}>
           <p className="text-[13px] font-bold text-[#4c4c4c]">Tasa de incidencias</p>
           <p className="text-[34px] font-bold text-[#4c4c4c]" style={{ lineHeight: 1.1, marginTop: 4 }}>1.02%</p>
           <p className="text-[11px] font-normal text-[#828282]">148 / 3,452 envíos</p>
         </div>
-        <div className="absolute rounded-[16px] bg-white" style={{ right: 60, top: 290, width: 230, boxShadow: "0 0 25px 0 rgba(0,0,0,0.06)", fontFamily: font, padding: "14px 16px 14px 18px", zIndex: 10, animation: "fadeSlideIn 0.5s ease-out" }}>
+        <div className="absolute rounded-[16px] bg-white" style={{ right: 60, top: 290, width: 230, boxShadow: "0 0 25px 0 rgba(0,0,0,0.06)", fontFamily: font, padding: "14px 16px 14px 18px", zIndex: 10, animation: "none" }}>
           <p className="text-[14px] font-bold text-[#4c4c4c]" style={{ marginBottom: 14 }}>Desempeño por paquetería</p>
           <div className="flex flex-col gap-[10px]">
             {[
@@ -206,8 +206,6 @@ function FloatingCards({ type }: { type: string | null }) {
 export default function T1Solutions() {
   const [activeTab, setActiveTab] = useState(0);
   const [activeSubTab, setActiveSubTab] = useState(0);
-  const [animKey, setAnimKey] = useState(0); // forces re-mount for animation
-  const [slideDir, setSlideDir] = useState<"left" | "right">("right");
   const mobileSubTabsRef = useRef<HTMLDivElement>(null);
   const mainTabsRef = useRef<HTMLDivElement>(null);
   const desktopSubTabsRef = useRef<HTMLDivElement>(null);
@@ -215,14 +213,9 @@ export default function T1Solutions() {
   const card = TAB_CARDS[activeTab];
   const currentSub = card.subTabs[activeSubTab];
 
-  const handleTabChange = useCallback((i: number, dir?: "left" | "right") => {
-    setActiveTab((prev) => {
-      // Explicit direction (from peek-edge clicks) wins over inferred direction
-      setSlideDir(dir || (i > prev ? "right" : i < prev ? "left" : "right"));
-      return i;
-    });
+  const handleTabChange = useCallback((i: number) => {
+    setActiveTab(i);
     setActiveSubTab(0);
-    setAnimKey((k) => k + 1);
     // Manual horizontal scroll on ONLY the chip's overflow container.
     // (scrollIntoView walks up parents and can horizontally shift the page on some browsers
     //  even with overflow-x: clip, which causes the whole section to appear "shifted left".)
@@ -239,7 +232,6 @@ export default function T1Solutions() {
 
   const handleSubTabChange = useCallback((i: number) => {
     setActiveSubTab(i);
-    setAnimKey((k) => k + 1);
     // Scroll mobile sub-tab into view
     const container = mobileSubTabsRef.current;
     if (container) {
@@ -306,7 +298,7 @@ export default function T1Solutions() {
             <button
               type="button"
               aria-label="Categoría anterior"
-              onClick={() => handleTabChange((activeTab - 1 + TABS.length) % TABS.length, "left")}
+              onClick={() => handleTabChange((activeTab - 1 + TABS.length) % TABS.length)}
               className="absolute hidden cursor-pointer bg-white rounded-[20px] border-none p-0 transition-shadow duration-200 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] tablet:block"
               style={{
                 right: "calc(100% + 16px)",
@@ -320,7 +312,7 @@ export default function T1Solutions() {
             <button
               type="button"
               aria-label="Categoría siguiente"
-              onClick={() => handleTabChange((activeTab + 1) % TABS.length, "right")}
+              onClick={() => handleTabChange((activeTab + 1) % TABS.length)}
               className="absolute hidden cursor-pointer bg-white rounded-[20px] border-none p-0 transition-shadow duration-200 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] tablet:block"
               style={{
                 left: "calc(100% + 16px)",
@@ -420,7 +412,7 @@ export default function T1Solutions() {
                 <p
                   key={`mobile-subtab-${activeSubTab}`}
                   className="font-inter font-bold uppercase text-black"
-                  style={{ fontSize: 13, letterSpacing: "0.06em", animation: "fadeSlideIn 0.3s ease-out" }}
+                  style={{ fontSize: 13, letterSpacing: "0.06em", animation: "none" }}
                 >
                   {currentSub.label}
                 </p>
@@ -437,7 +429,7 @@ export default function T1Solutions() {
               <p
                 key={`desc-m-${activeTab}-${activeSubTab}`}
                 className="font-inter text-[14px] font-light text-black/60 px-4"
-                style={{ lineHeight: 1.5, animation: "fadeSlideIn 0.3s ease-out", marginBottom: 12 }}
+                style={{ lineHeight: 1.5, animation: "none", marginBottom: 12 }}
               >
                 {currentSub.description}
               </p>
@@ -453,7 +445,7 @@ export default function T1Solutions() {
 
               {/* Image or panel on mobile */}
               {currentSub.image && currentSub.floatingCards === "incidencia" ? (
-                <div key={`img-m-${activeTab}-${activeSubTab}`} className="relative px-4" style={{ height: 280, animation: "fadeSlideIn 0.4s ease-out" }}>
+                <div key={`img-m-${activeTab}-${activeSubTab}`} className="relative px-4" style={{ height: 280, animation: "none" }}>
                   <div className="relative overflow-hidden rounded-[12px]" style={{ width: "60%", height: 260 }}>
                     <Image src={currentSub.image} alt="" fill className="object-cover" />
                   </div>
@@ -473,7 +465,7 @@ export default function T1Solutions() {
                   </div>
                 </div>
               ) : currentSub.image && currentSub.floatingCards === "metrics" ? (
-                <div key={`img-m-${activeTab}-${activeSubTab}`} className="relative px-4" style={{ height: 280, animation: "fadeSlideIn 0.4s ease-out" }}>
+                <div key={`img-m-${activeTab}-${activeSubTab}`} className="relative px-4" style={{ height: 280, animation: "none" }}>
                   {/* Centered image */}
                   <div className="relative mx-auto overflow-hidden rounded-[12px]" style={{ width: "55%", height: 240, marginTop: 20 }}>
                     <Image src={currentSub.image} alt="" fill className="object-cover" />
@@ -500,7 +492,7 @@ export default function T1Solutions() {
                   </div>
                 </div>
               ) : currentSub.image && currentSub.floatingCards === "sobrepesos" ? (
-                <div key={`img-m-${activeTab}-${activeSubTab}`} className="relative px-4" style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
+                <div key={`img-m-${activeTab}-${activeSubTab}`} className="relative px-4" style={{ animation: "none" }}>
                   <div className="flex gap-2" style={{ marginBottom: 8 }}>
                     <div className="flex-1 rounded-[8px] bg-white" style={{ padding: "10px 12px", boxShadow: "0 2px 10px rgba(0,0,0,0.04)", fontFamily: font }}>
                       <p className="text-[9px] font-bold text-[#4c4c4c]">Tasa de sobrepesos</p>
@@ -544,7 +536,7 @@ export default function T1Solutions() {
                   </div>
                 </div>
               ) : currentSub.panel === "sobrepesos-cards" ? (
-                <div key={`panel-m-${activeSubTab}`} className="px-4" style={{ animation: "fadeSlideIn 0.4s ease-out", fontFamily: font }}>
+                <div key={`panel-m-${activeSubTab}`} className="px-4" style={{ animation: "none", fontFamily: font }}>
                   <div className="flex gap-2" style={{ marginBottom: 8 }}>
                     <div className="flex-1 rounded-[8px] bg-white" style={{ padding: "10px 12px", boxShadow: "0 2px 10px rgba(0,0,0,0.04)" }}>
                       <p className="text-[9px] font-bold text-[#4c4c4c]">Tasa de sobrepesos</p>
@@ -589,7 +581,7 @@ export default function T1Solutions() {
                 </div>
               ) : /* T1Score hidden — DO NOT REMOVE (used for future launch). Mobile panels for fraude / riesgo / buro stay below. */
               currentSub.panel === "fraude" ? (
-                <div key={`panel-m-${activeSubTab}`} className="relative flex justify-center px-4" style={{ height: 280, animation: "fadeSlideIn 0.4s ease-out" }}>
+                <div key={`panel-m-${activeSubTab}`} className="relative flex justify-center px-4" style={{ height: 280, animation: "none" }}>
                   <svg width="180" height="180" viewBox="0 0 110 110" fill="none" style={{ marginTop: 30 }}>
                     <circle cx="55" cy="55" r="48" stroke="rgba(0,0,0,0.04)" strokeWidth="6" />
                     <circle cx="55" cy="55" r="48" stroke="#22C55E" strokeWidth="6" strokeLinecap="round" strokeDasharray="280 302" transform="rotate(-90 55 55)" />
@@ -614,7 +606,7 @@ export default function T1Solutions() {
                   </div>
                 </div>
               ) : currentSub.panel === "riesgo" ? (
-                <div key={`panel-m-${activeSubTab}`} className="relative flex justify-center px-4" style={{ height: 280, animation: "fadeSlideIn 0.4s ease-out" }}>
+                <div key={`panel-m-${activeSubTab}`} className="relative flex justify-center px-4" style={{ height: 280, animation: "none" }}>
                   <svg width="160" height="160" viewBox="0 0 110 110" fill="none" style={{ marginTop: 40 }}>
                     <circle cx="55" cy="55" r="48" stroke="rgba(0,0,0,0.04)" strokeWidth="6" />
                     <circle cx="55" cy="55" r="48" stroke="#E26153" strokeWidth="6" strokeLinecap="round" strokeDasharray="260 302" transform="rotate(-90 55 55)" />
@@ -644,7 +636,7 @@ export default function T1Solutions() {
                   </div>
                 </div>
               ) : currentSub.panel === "buro" ? (
-                <div key={`panel-m-${activeSubTab}`} className="px-4" style={{ animation: "fadeSlideIn 0.4s ease-out", fontFamily: font }}>
+                <div key={`panel-m-${activeSubTab}`} className="px-4" style={{ animation: "none", fontFamily: font }}>
                   <div className="overflow-hidden rounded-[12px] border border-black/[0.06] bg-white" style={{ padding: "14px 16px", boxShadow: "0 4px 16px rgba(0,0,0,0.06)" }}>
                     <div className="flex items-center justify-between" style={{ marginBottom: 10 }}>
                       <div>
@@ -687,7 +679,7 @@ export default function T1Solutions() {
                   </div>
                 </div>
               ) : currentSub.panel === "pos-cobro" ? (
-                <div key={`panel-m-${activeSubTab}`} className="relative flex justify-center px-6 py-4" style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
+                <div key={`panel-m-${activeSubTab}`} className="relative flex justify-center px-6 py-4" style={{ animation: "none" }}>
                   <div className="relative overflow-hidden rounded-[14px]" style={{ width: "62%", maxWidth: 220, aspectRatio: "3 / 4", boxShadow: "0 6px 18px rgba(0,0,0,0.14)" }}>
                     <Image src="/img/pos-carrito.svg" alt="Carrito de cobro POS" fill className="object-cover" sizes="220px" />
                   </div>
@@ -696,7 +688,7 @@ export default function T1Solutions() {
                   </div>
                 </div>
               ) : currentSub.panel === "pos-inventario" ? (
-                <div key={`panel-m-${activeSubTab}`} className="px-4" style={{ animation: "fadeSlideIn 0.4s ease-out", fontFamily: font }}>
+                <div key={`panel-m-${activeSubTab}`} className="px-4" style={{ animation: "none", fontFamily: font }}>
                   <div className="rounded-[12px] border border-black/[0.06] bg-white" style={{ padding: 14, boxShadow: "0 2px 10px rgba(0,0,0,0.04)" }}>
                     <p className="text-[12px] font-bold text-[#4c4c4c]" style={{ marginBottom: 8 }}>Inventario en tiempo real</p>
                     {[
@@ -718,7 +710,7 @@ export default function T1Solutions() {
                   </div>
                 </div>
               ) : currentSub.panel === "pos-control-caja" ? (
-                <div key={`panel-m-${activeSubTab}`} className="relative flex justify-center px-6 py-4" style={{ animation: "fadeSlideIn 0.4s ease-out", fontFamily: font }}>
+                <div key={`panel-m-${activeSubTab}`} className="relative flex justify-center px-6 py-4" style={{ animation: "none", fontFamily: font }}>
                   <div className="relative overflow-hidden rounded-[14px]" style={{ width: "66%", maxWidth: 230, aspectRatio: "3 / 4", boxShadow: "0 8px 20px rgba(0,0,0,0.14)" }}>
                     <Image src="/img/pos-control-caja.svg" alt="Control de caja POS" fill className="object-cover" sizes="230px" />
                   </div>
@@ -747,12 +739,12 @@ export default function T1Solutions() {
                 <div
                   key={`img-m-${activeTab}-${activeSubTab}`}
                   className="relative w-full overflow-hidden"
-                  style={{ height: 220, animation: "fadeSlideIn 0.4s ease-out" }}
+                  style={{ height: 220, animation: "none" }}
                 >
                   <Image src={currentSub.image} alt="" fill className="object-cover" sizes="100vw" />
                 </div>
               ) : currentSub.panel === "tienda-ia" ? (
-                <div key={`panel-m-${activeSubTab}`} className="relative flex justify-center overflow-hidden" style={{ height: 340, animation: "fadeSlideIn 0.4s ease-out" }}>
+                <div key={`panel-m-${activeSubTab}`} className="relative flex justify-center overflow-hidden" style={{ height: 340, animation: "none" }}>
                   <div className="relative overflow-hidden rounded-[10px] border border-black/[0.06]" style={{ width: "75%", height: "100%" }}>
                     <Image src="/img/muebles-responsive.png" alt="" fill className="object-cover object-top" />
                   </div>
@@ -767,7 +759,7 @@ export default function T1Solutions() {
                   </div>
                 </div>
               ) : currentSub.panel === "producto-grid" ? (
-                <div key={`panel-m-${activeSubTab}`} className="relative flex justify-center" style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
+                <div key={`panel-m-${activeSubTab}`} className="relative flex justify-center" style={{ animation: "none" }}>
                   <div className="relative overflow-hidden rounded-[10px]" style={{ width: 200, height: 320, boxShadow: "0 4px 16px rgba(0,0,0,0.06)" }}>
                     <Image src="/img/list-product.svg" alt="" fill className="object-cover object-top" />
                   </div>
@@ -781,7 +773,7 @@ export default function T1Solutions() {
                   </div>
                 </div>
               ) : currentSub.panel === "pedidos" ? (
-                <div key={`panel-m-${activeSubTab}`} className="relative flex items-center justify-center px-4" style={{ height: 250, animation: "fadeSlideIn 0.4s ease-out" }}>
+                <div key={`panel-m-${activeSubTab}`} className="relative flex items-center justify-center px-4" style={{ height: 250, animation: "none" }}>
                   {/* T1 center */}
                   <div className="flex h-[40px] w-[40px] items-center justify-center" style={{ zIndex: 5 }}>
                     <svg width="24" height="22" viewBox="0 0 45 44" fill="none">
@@ -812,7 +804,7 @@ export default function T1Solutions() {
                   </svg>
                 </div>
               ) : currentSub.panel === "personaliza" ? (
-                <div key={`panel-m-${activeSubTab}`} className="relative flex justify-center overflow-hidden" style={{ height: 340, animation: "fadeSlideIn 0.4s ease-out" }}>
+                <div key={`panel-m-${activeSubTab}`} className="relative flex justify-center overflow-hidden" style={{ height: 340, animation: "none" }}>
                   <div className="relative overflow-hidden rounded-[10px] border border-black/[0.06]" style={{ width: "75%", height: "100%" }}>
                     <Image src="/img/muebles-responsive.png" alt="" fill className="object-cover object-top" />
                   </div>
@@ -831,7 +823,7 @@ export default function T1Solutions() {
                   </div>
                 </div>
               ) : currentSub.panel === "sync-inventory" ? (
-                <div key={`panel-m-${activeSubTab}`} className="relative flex flex-col items-center px-4" style={{ height: 350, animation: "fadeSlideIn 0.4s ease-out" }}>
+                <div key={`panel-m-${activeSubTab}`} className="relative flex flex-col items-center px-4" style={{ height: 350, animation: "none" }}>
                   {/* Product card — top */}
                   <div className="shrink-0 overflow-hidden rounded-[10px]" style={{ width: 100, padding: 10, background: "rgba(0,0,0,0.02)", border: "1px solid rgba(0,0,0,0.06)", zIndex: 2 }}>
                     <div className="mb-1 flex items-center justify-center">
@@ -869,7 +861,7 @@ export default function T1Solutions() {
                   </svg>
                 </div>
               ) : currentSub.panel === "order-list" ? (
-                <div key={`panel-m-${activeSubTab}`} className="relative mx-auto" style={{ width: 280, height: 280, animation: "fadeSlideIn 0.4s ease-out" }}>
+                <div key={`panel-m-${activeSubTab}`} className="relative mx-auto" style={{ width: 280, height: 280, animation: "none" }}>
                   {/* Background photo — left/behind */}
                   <div className="absolute overflow-hidden rounded-[10px]" style={{ left: 0, top: 10, width: 160, height: 240 }}>
                     <Image src="/img/pedidos-bg.png" alt="" fill className="object-cover" />
@@ -880,17 +872,17 @@ export default function T1Solutions() {
                   </div>
                 </div>
               ) : currentSub.panel === "carrito" ? (
-                <div key={`panel-m-${activeSubTab}`} className="flex justify-center" style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
+                <div key={`panel-m-${activeSubTab}`} className="flex justify-center" style={{ animation: "none" }}>
                   <div className="relative overflow-hidden rounded-[10px]" style={{ width: 220, height: 340, boxShadow: "0 4px 16px rgba(0,0,0,0.06)" }}>
                     <Image src="/img/carrito-movil.svg" alt="Carrito abandonado" fill className="object-cover object-top" />
                   </div>
                 </div>
               ) : currentSub.panel === "rastreo" ? (
-                <div key={`panel-m-${activeSubTab}`} className="flex justify-center px-4" style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
+                <div key={`panel-m-${activeSubTab}`} className="flex justify-center px-4" style={{ animation: "none" }}>
                   <Image src="/img/rastrear.svg" alt="Rastreo" width={280} height={180} className="object-contain" />
                 </div>
               ) : currentSub.panel === "guias-masivas" ? (
-                <div key={`panel-m-${activeSubTab}`} className="px-4" style={{ animation: "fadeSlideIn 0.4s ease-out", fontFamily: font }}>
+                <div key={`panel-m-${activeSubTab}`} className="px-4" style={{ animation: "none", fontFamily: font }}>
                   <div className="rounded-[12px] border border-black/[0.06] bg-white" style={{ padding: 14, boxShadow: "0 2px 10px rgba(0,0,0,0.04)" }}>
                     <div className="flex items-center justify-between" style={{ marginBottom: 8 }}>
                       <p className="text-[12px] font-bold text-[#4c4c4c]">Generando guías</p>
@@ -927,7 +919,7 @@ export default function T1Solutions() {
                   </div>
                 </div>
               ) : currentSub.panel === "enrutamiento-pagos" ? (
-                <div key={`panel-m-${activeSubTab}`} className="px-4" style={{ animation: "fadeSlideIn 0.4s ease-out", fontFamily: font }}>
+                <div key={`panel-m-${activeSubTab}`} className="px-4" style={{ animation: "none", fontFamily: font }}>
                   <div className="rounded-[12px] border border-black/[0.06] bg-white" style={{ padding: 14, boxShadow: "0 2px 10px rgba(0,0,0,0.04)" }}>
                     <p className="text-[12px] font-bold text-[#4c4c4c]" style={{ marginBottom: 10 }}>Enrutamiento por procesador</p>
                     <div className="flex flex-col gap-2">
@@ -953,7 +945,7 @@ export default function T1Solutions() {
                   </div>
                 </div>
               ) : currentSub.panel === "checkout" ? (
-                <div key={`panel-m-${activeSubTab}`} className="relative flex justify-center" style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
+                <div key={`panel-m-${activeSubTab}`} className="relative flex justify-center" style={{ animation: "none" }}>
                   <div className="relative overflow-hidden rounded-[10px]" style={{ width: 220, height: 320, boxShadow: "0 4px 16px rgba(0,0,0,0.06)" }}>
                     <Image src="/img/checkout-movil.svg" alt="Checkout" fill className="object-cover object-top" />
                   </div>
@@ -968,7 +960,7 @@ export default function T1Solutions() {
                   </div>
                 </div>
               ) : currentSub.panel === "link-pago" ? (
-                <div key={`panel-m-${activeSubTab}`} className="relative flex justify-center" style={{ height: 300, animation: "fadeSlideIn 0.4s ease-out" }}>
+                <div key={`panel-m-${activeSubTab}`} className="relative flex justify-center" style={{ height: 300, animation: "none" }}>
                   <div className="relative overflow-hidden rounded-[14px]" style={{ width: 200, height: 280 }}>
                     <Image src="/img/link-pago.png" alt="Link de pago" fill className="object-cover object-top" />
                   </div>
@@ -987,7 +979,7 @@ export default function T1Solutions() {
                   </div>
                 </div>
               ) : currentSub.panel === "cotizador" ? (
-                <div key={`panel-m-${activeSubTab}`} className="relative flex justify-center" style={{ height: 380, animation: "fadeSlideIn 0.4s ease-out" }}>
+                <div key={`panel-m-${activeSubTab}`} className="relative flex justify-center" style={{ height: 380, animation: "none" }}>
                   <div className="relative overflow-hidden rounded-[10px]" style={{ width: 210, height: 360, boxShadow: "0 4px 16px rgba(0,0,0,0.06)" }}>
                     <Image src="/img/cotizador-movil.svg" alt="Cotizador" fill className="object-cover object-top" />
                   </div>
@@ -997,7 +989,7 @@ export default function T1Solutions() {
                   </div>
                 </div>
               ) : currentSub.panel === "metricas-contracargos" ? (
-                <div key={`panel-m-${activeSubTab}`} className="relative flex justify-center" style={{ height: 280, animation: "fadeSlideIn 0.4s ease-out" }}>
+                <div key={`panel-m-${activeSubTab}`} className="relative flex justify-center" style={{ height: 280, animation: "none" }}>
                   <Image src="/img/metricas-contracargos.png" alt="" width={200} height={180} className="object-contain" style={{ marginTop: 20 }} />
                   {/* Floating card reclamacion 1 */}
                   <div className="absolute overflow-hidden rounded-[8px]" style={{ left: 8, top: 10, width: 140, boxShadow: "0 4px 16px rgba(0,0,0,0.1)" }}>
@@ -1009,7 +1001,7 @@ export default function T1Solutions() {
                   </div>
                 </div>
               ) : currentSub.panel === "disputas" ? (
-                <div key={`panel-m-${activeSubTab}`} className="relative flex justify-center" style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
+                <div key={`panel-m-${activeSubTab}`} className="relative flex justify-center" style={{ animation: "none" }}>
                   <div className="relative overflow-hidden rounded-[10px]" style={{ width: 220, height: 320, boxShadow: "0 4px 16px rgba(0,0,0,0.06)" }}>
                     <Image src="/img/reclamaciones-movil.svg" alt="Disputas" fill className="object-cover object-top" />
                   </div>
@@ -1040,7 +1032,7 @@ export default function T1Solutions() {
                 <p
                   key={`desc-${activeTab}-${activeSubTab}`}
                   className="font-inter text-[15px] font-light text-black/60"
-                  style={{ lineHeight: 1.6, animation: "fadeSlideIn 0.3s ease-out" }}
+                  style={{ lineHeight: 1.6, animation: "none" }}
                 >
                   {currentSub.description}
                 </p>
@@ -1062,7 +1054,7 @@ export default function T1Solutions() {
               <div
                 key={`panel-${activeTab}-${activeSubTab}`}
                 className="absolute overflow-hidden rounded-[10px]"
-                style={{ left: 450, top: 53, width: 600, height: 420, animation: "fadeSlideIn 0.4s ease-out" }}
+                style={{ left: 450, top: 53, width: 600, height: 420, animation: "none" }}
               >
                 {currentSub.panel === "tienda-ia" ? (
                   /* Tienda con IA — store preview with floating prompt on top */

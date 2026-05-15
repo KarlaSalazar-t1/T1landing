@@ -18,14 +18,14 @@ type ShipmentRow = {
 const INITIAL_ROWS: ShipmentRow[] = [
   { guia: "43567890082", paqueteria: "FedEx", logoSrc: "/img/icons/fedex-logo.svg", fecha: "26 de ene\n2:24 hrs", canalVenta: "T1envíos", costo: "$87.45 MXN", estado: "En camino", estadoColor: "#6B7280", estadoBg: "rgba(107,114,128,0.08)" },
   { guia: "43567890082", paqueteria: "DHL", logoSrc: "/img/dhl-iso.svg", fecha: "26 de ene\n2:24 hrs", canalVenta: "Shopify", costo: "$449.00 MXN", estado: "Entregado", estadoColor: "#22C55E", estadoBg: "rgba(34,197,94,0.08)" },
-  { guia: "43567890082", paqueteria: "Grupo ampm", logoSrc: "/img/icons/paquetexpress.svg", fecha: "26 de ene\n2:24 hrs", canalVenta: "Shopify", costo: "$87.45 MXN", estado: "Recolectado", estadoColor: "#6B7280", estadoBg: "rgba(107,114,128,0.08)" },
+  { guia: "43567890082", paqueteria: "99minutos", logoSrc: "/img/99min-iso.svg", fecha: "26 de ene\n2:24 hrs", canalVenta: "Shopify", costo: "$87.45 MXN", estado: "Recolectado", estadoColor: "#6B7280", estadoBg: "rgba(107,114,128,0.08)" },
   { guia: "43567890082", paqueteria: "99minutos", logoSrc: "/img/99min-iso.svg", fecha: "26 de ene\n2:24 hrs", canalVenta: "T1envíos", costo: "$87.45 MXN", estado: "Por recolectar", estadoColor: "#6B7280", estadoBg: "rgba(107,114,128,0.08)" },
   { guia: "43567890082", paqueteria: "FedEx", logoSrc: "/img/icons/fedex-logo.svg", fecha: "26 de ene\n2:24 hrs", canalVenta: "Amazon", costo: "$87.45 MXN", estado: "Entregado", estadoColor: "#22C55E", estadoBg: "rgba(34,197,94,0.08)" },
   { guia: "43567890082", paqueteria: "DHL", logoSrc: "/img/dhl-iso.svg", fecha: "26 de ene\n2:24 hrs", canalVenta: "T1envíos", costo: "$87.45", estado: "En camino", estadoColor: "#6B7280", estadoBg: "rgba(107,114,128,0.08)" },
 ];
 
 const EXTRA_ROWS: ShipmentRow[] = [
-  { guia: "98765432100", paqueteria: "Estafeta", logoSrc: "/img/icons/estafeta-logo.svg", fecha: "Ahora", canalVenta: "T1envíos", costo: "$125.00 MXN", estado: "Por recolectar", estadoColor: "#6B7280", estadoBg: "rgba(107,114,128,0.08)" },
+  { guia: "98765432100", paqueteria: "99minutos", logoSrc: "/img/99min-iso.svg", fecha: "Ahora", canalVenta: "T1envíos", costo: "$78.00 MXN", estado: "Por recolectar", estadoColor: "#6B7280", estadoBg: "rgba(107,114,128,0.08)" },
   { guia: "55667788990", paqueteria: "FedEx", logoSrc: "/img/icons/fedex-logo.svg", fecha: "Ahora", canalVenta: "MeLi", costo: "$95.50 MXN", estado: "En camino", estadoColor: "#6B7280", estadoBg: "rgba(107,114,128,0.08)" },
   { guia: "11223344556", paqueteria: "DHL", logoSrc: "/img/dhl-iso.svg", fecha: "Ahora", canalVenta: "Amazon", costo: "$210.00 MXN", estado: "Recolectado", estadoColor: "#6B7280", estadoBg: "rgba(107,114,128,0.08)" },
 ];
@@ -118,7 +118,11 @@ export default function EnviosPanel({ animate }: { animate: boolean }) {
         {/* Rows */}
         <div className="flex-1 overflow-hidden">
           {EXTRA_ROWS.slice(0, extraCount).reverse().map((row, i) => (
-            <RowItem key={`extra-${i}`} row={row} animated />
+            <RowItem
+              key={`extra-${row.guia}-${row.paqueteria}`}
+              row={row}
+              animated={i === 0}
+            />
           ))}
           {INITIAL_ROWS.map((row, i) => (
             <RowItem key={`init-${i}`} row={row} />

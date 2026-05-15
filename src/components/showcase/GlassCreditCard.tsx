@@ -1,13 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
-
+/* Reordered so Mastercard is the active (front) card. The other cards
+   stay in the wallet stack behind it — visible as a hint of depth but
+   no longer animating between them. */
 const CARDS = [
-  {
-    brand: "VISA",
-    bg: "linear-gradient(135deg, #1a1f71 0%, #2962ff 50%, #1565c0 100%)",
-    logo: <span className="font-sora text-[20px] font-bold italic text-white tracking-wide">VISA</span>,
-  },
   {
     brand: "Mastercard",
     bg: "linear-gradient(135deg, #1a1a2e 0%, #e53935 50%, #ff6f00 100%)",
@@ -17,6 +13,11 @@ const CARDS = [
         <div className="h-[20px] w-[20px] -ml-2.5 rounded-full bg-[#f79e1b] opacity-80" />
       </div>
     ),
+  },
+  {
+    brand: "VISA",
+    bg: "linear-gradient(135deg, #1a1f71 0%, #2962ff 50%, #1565c0 100%)",
+    logo: <span className="font-sora text-[20px] font-bold italic text-white tracking-wide">VISA</span>,
   },
   {
     brand: "Amex",
@@ -32,14 +33,8 @@ const CARDS = [
 ];
 
 export default function GlassCreditCard() {
-  const [activeCard, setActiveCard] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveCard((c) => (c + 1) % CARDS.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
+  // Static — Mastercard (index 0) is always the front card. No cycling.
+  const activeCard = 0;
 
   return (
     <div

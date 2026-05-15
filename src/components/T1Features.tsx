@@ -8,7 +8,6 @@ import {
   FEATURES_SUBTITLE,
   FEATURE_CARDS,
 } from "@/lib/constants";
-import ProductCard from "@/components/showcase/ProductCard";
 import GlassProductCard from "@/components/showcase/GlassProductCard";
 import GlassCreditCard from "@/components/showcase/GlassCreditCard";
 import PedidosPanel from "@/components/showcase/PedidosPanel";
@@ -17,17 +16,6 @@ import GlassShipmentCard from "@/components/showcase/GlassShipmentCard";
 import { useIsDesktop } from "@/hooks/useIsDesktop";
 import { useCountUp } from "@/hooks/useCountUp";
 import T1FinalCTA from "@/components/T1FinalCTA";
-
-/* ── Marketplace icons for modal ── */
-const MODAL_MARKETPLACES = [
-  { name: "MercadoLibre", src: "/img/meli-iso.svg" },
-  { name: "Amazon", src: "/img/amazon-iso.svg" },
-  { name: "Sears", src: "/img/sears-isotipo.svg" },
-  { name: "SHEIN", src: "/img/shein-iso.svg" },
-  { name: "Walmart", src: "/img/walmart.svg" },
-  { name: "Shopify", src: "/img/shein-iso.svg" },
-  { name: "Liverpool", src: "/img/sears-isotipo.svg" },
-];
 
 /* ── Store carousel items ── */
 const STORE_CAROUSEL = [
@@ -1097,10 +1085,24 @@ function PhoneLinkPago() {
               </div>
             </div>
             {/* Transfer — unselected */}
-            <div className="flex items-center gap-2 rounded-[8px] border border-black/[0.06] px-3 py-2.5">
+            <div
+              className="flex items-center gap-2 rounded-[8px] border border-black/[0.06] px-3 py-2.5"
+              style={{ marginBottom: 8 }}
+            >
               <div className="h-[8px] w-[8px] rounded-full border-2 border-black/15" />
               <span className="text-[11px] text-black/50">Transferencia bancaria</span>
               <span className="ml-auto text-[9px] font-bold text-black/25">SPEI</span>
+            </div>
+            {/* Kueski — unselected (buy-now-pay-later) */}
+            <div className="flex items-center gap-2 rounded-[8px] border border-black/[0.06] px-3 py-2.5">
+              <div className="h-[8px] w-[8px] rounded-full border-2 border-black/15" />
+              <span className="text-[11px] text-black/50">Pago a plazos</span>
+              <span
+                className="ml-auto text-[9px] font-bold tracking-tight"
+                style={{ color: "#FF5C42" }}
+              >
+                kueski pay
+              </span>
             </div>
           </div>
           {/* Pagar button — right after payment methods, simulated click */}
@@ -1219,16 +1221,17 @@ function TiendaNuevoPedidoBadge({
     }
     const interval = window.setInterval(() => {
       setIdx((i) => (i + 1) % TIENDA_NUEVO_PEDIDO.length);
-    }, 1800);
+    }, 2800);
     return () => window.clearInterval(interval);
   }, [visible]);
 
   const a = TIENDA_NUEVO_PEDIDO[idx];
 
+  // The badge wrapper stays mounted (no key change). Only the inner text
+  // pieces (channel name + amount) crossfade in place when idx changes.
   const badge = (
     <div
-      key={`tienda-badge-${idx}`}
-      className="tienda-badge-fade overflow-hidden rounded-[12px] bg-white"
+      className="overflow-hidden rounded-[12px] bg-white"
       style={{
         boxShadow:
           "0 16px 32px -10px rgba(10,31,63,0.18), 0 0 0 1px rgba(10,31,63,0.08)",
@@ -1271,14 +1274,16 @@ function TiendaNuevoPedidoBadge({
         }}
       >
         <Image
+          key={`logo-${idx}`}
           src={a.src}
           alt={a.canal}
           width={orientation === "desktop" ? 20 : 18}
           height={orientation === "desktop" ? 20 : 18}
-          className="rounded-full object-contain"
+          className="tienda-text-fade rounded-full object-contain"
         />
         <span
-          className={`font-inter font-semibold ${
+          key={`canal-${idx}`}
+          className={`tienda-text-fade font-inter font-semibold ${
             orientation === "desktop" ? "text-[12px]" : "text-[11px]"
           }`}
           style={{ color: "#1A1A1A" }}
@@ -1286,7 +1291,8 @@ function TiendaNuevoPedidoBadge({
           {a.canal}
         </span>
         <span
-          className={`ml-auto font-inter font-bold tabular-nums ${
+          key={`monto-${idx}`}
+          className={`tienda-text-fade ml-auto font-inter font-bold tabular-nums ${
             orientation === "desktop" ? "text-[13px]" : "text-[12px]"
           }`}
           style={{ color: OXFORD }}
@@ -1296,10 +1302,10 @@ function TiendaNuevoPedidoBadge({
       </div>
 
       <style jsx>{`
-        .tienda-badge-fade { animation: tiendaBadgeFade 0.35s ease-out; }
-        @keyframes tiendaBadgeFade {
-          from { opacity: 0; }
-          to { opacity: 1; }
+        .tienda-text-fade { animation: tiendaTextFade 0.6s ease-in-out; }
+        @keyframes tiendaTextFade {
+          0%   { opacity: 0.25; }
+          100% { opacity: 1; }
         }
       `}</style>
     </div>
@@ -1314,47 +1320,50 @@ function TiendaNuevoPedidoBadge({
       <div
         className="pointer-events-none absolute z-30"
         style={{
-          top: 132,
-          left: 120,
+          top: 210,
+          left: -80,
           width: 232,
           opacity: visible ? 1 : 0,
-          transition: "opacity 0.4s ease",
+          transition: "opacity 0.6s ease",
         }}
       >
         {badge}
+        {/* Dashed connector — from above the badge curves up-right toward
+            the "Pedidos" cart icon. Badge wrapper top=210; the far end of
+            the path shifted +50px to the right to land closer to the cart. */}
         <svg
           aria-hidden
-          width="14"
-          height="80"
+          width="200"
+          height="170"
           className="absolute"
-          style={{ top: 76, left: 22, overflow: "visible" }}
+          style={{ top: -150, left: 40, overflow: "visible" }}
         >
-          <line
-            x1="2"
-            y1="0"
-            x2="2"
-            y2="68"
+          <path
+            d="M 90 150 C 90 130 80 110 80 92"
             stroke={OXFORD}
             strokeWidth="1.4"
             strokeDasharray="4 4"
             strokeLinecap="round"
+            fill="none"
           />
-          <circle cx="2" cy="72" r="2.5" fill={OXFORD} />
+          <circle cx="80" cy="92" r="3" fill={OXFORD} />
         </svg>
       </div>
     );
   }
 
-  /* Mobile: badge floats above the phone mockup, no line. */
+  /* Mobile: badge floats over the upper area of the phone mockup,
+     shifted ~60px to the right of horizontal center. No connector line. */
   return (
     <div
-      className="pointer-events-none absolute left-1/2 z-30 -translate-x-1/2"
+      className="pointer-events-none absolute z-30"
       style={{
-        top: -10,
+        top: 90,
+        left: "50%",
+        transform: "translateX(calc(-50% + 60px))",
         width: 220,
-        transform: "translate(-50%, -100%)",
         opacity: visible ? 1 : 0,
-        transition: "opacity 0.4s ease",
+        transition: "opacity 0.6s ease",
       }}
     >
       {badge}
@@ -1384,7 +1393,9 @@ const TIENDA_CHANNELS_MOBILE = [
 /* ── Mobile Tienda Panel ── */
 function MobileTiendaPanel({ animate }: { animate: boolean }) {
   const [connectedCount, setConnectedCount] = useState(0);
-  const allConnected = connectedCount >= TIENDA_CHANNELS_MOBILE.length;
+  // Badge appears as soon as the first channel activates (not after all
+  // are connected). Once visible it stays — only the text inside rotates.
+  const badgeVisible = connectedCount >= 1;
 
   useEffect(() => {
     if (!animate) {
@@ -1400,7 +1411,7 @@ function MobileTiendaPanel({ animate }: { animate: boolean }) {
     }
     const timers: ReturnType<typeof setTimeout>[] = [];
     for (let i = 0; i < TIENDA_CHANNELS_MOBILE.length; i++) {
-      timers.push(setTimeout(() => setConnectedCount(i + 1), 900 + i * 850));
+      timers.push(setTimeout(() => setConnectedCount(i + 1), 1200 + i * 1300));
     }
     return () => timers.forEach(clearTimeout);
   }, [animate]);
@@ -1528,7 +1539,7 @@ function MobileTiendaPanel({ animate }: { animate: boolean }) {
       </div>
 
       {/* Floating "Nuevo pedido" badge — appears once all channels are connected */}
-      <TiendaNuevoPedidoBadge visible={allConnected} orientation="mobile" />
+      <TiendaNuevoPedidoBadge visible={badgeVisible} orientation="mobile" />
     </div>
   );
 }
@@ -1536,7 +1547,9 @@ function MobileTiendaPanel({ animate }: { animate: boolean }) {
 /* ── Desktop Tienda Panel ── */
 function DesktopTiendaPanel({ animate }: { animate: boolean }) {
   const [connectedCount, setConnectedCount] = useState(0);
-  const allConnected = connectedCount >= TIENDA_CHANNELS_DESKTOP.length;
+  // Badge appears once the first channel activates and stays mounted —
+  // only the text inside rotates afterwards.
+  const badgeVisible = connectedCount >= 1;
 
   useEffect(() => {
     if (!animate) {
@@ -1552,7 +1565,7 @@ function DesktopTiendaPanel({ animate }: { animate: boolean }) {
     }
     const timers: ReturnType<typeof setTimeout>[] = [];
     for (let i = 0; i < TIENDA_CHANNELS_DESKTOP.length; i++) {
-      timers.push(setTimeout(() => setConnectedCount(i + 1), 700 + i * 480));
+      timers.push(setTimeout(() => setConnectedCount(i + 1), 900 + i * 900));
     }
     return () => timers.forEach(clearTimeout);
   }, [animate]);
@@ -1693,8 +1706,8 @@ function DesktopTiendaPanel({ animate }: { animate: boolean }) {
 
   return (
     <div className="relative h-full w-full">
-      <PedidosPanel animate={false} activeIconLabel="Canales" contentOverride={channelsContent} />
-      <TiendaNuevoPedidoBadge visible={allConnected} orientation="desktop" />
+      <PedidosPanel animate={false} activeIconLabel="Pedidos" contentOverride={channelsContent} />
+      <TiendaNuevoPedidoBadge visible={badgeVisible} orientation="desktop" />
     </div>
   );
 }
@@ -1730,17 +1743,15 @@ function MobileEnviosPanel() {
     { guia: "43567890082", paqueteria: "FedEx", logo: "/img/icons/fedex-logo.svg", costo: "$87.45", estado: "En camino" },
     { guia: "43567890082", paqueteria: "DHL", logo: "/img/dhl-iso.svg", costo: "$449.00", estado: "Entregado" },
     { guia: "43567890082", paqueteria: "99min", logo: "/img/99min-iso.svg", costo: "$87.45", estado: "Por recolectar" },
-    { guia: "98765432100", paqueteria: "Estafeta", logo: "/img/icons/estafeta-logo.svg", costo: "$125.00", estado: "En camino" },
     { guia: "55667788990", paqueteria: "FedEx", logo: "/img/icons/fedex-logo.svg", costo: "$95.50", estado: "Entregado" },
     { guia: "77889900112", paqueteria: "DHL", logo: "/img/dhl-iso.svg", costo: "$210.00", estado: "Recolectado" },
     { guia: "33445566778", paqueteria: "99min", logo: "/img/99min-iso.svg", costo: "$65.00", estado: "En camino" },
-    { guia: "22334455667", paqueteria: "Estafeta", logo: "/img/icons/estafeta-logo.svg", costo: "$178.50", estado: "Por recolectar" },
     { guia: "11223344559", paqueteria: "FedEx", logo: "/img/icons/fedex-logo.svg", costo: "$112.00", estado: "Entregado" },
   ];
 
   const EXTRA = [
     { guia: "11223344556", paqueteria: "DHL", logo: "/img/dhl-iso.svg", costo: "$210.00", estado: "Recolectado" },
-    { guia: "66778899001", paqueteria: "Estafeta", logo: "/img/icons/estafeta-logo.svg", costo: "$145.00", estado: "En camino" },
+    { guia: "66778899001", paqueteria: "99min", logo: "/img/99min-iso.svg", costo: "$78.00", estado: "En camino" },
     { guia: "99001122334", paqueteria: "FedEx", logo: "/img/icons/fedex-logo.svg", costo: "$89.00", estado: "Por recolectar" },
   ];
 
@@ -1752,8 +1763,12 @@ function MobileEnviosPanel() {
         <span className="flex h-[28px] items-center rounded-full bg-[#DB3B2B] px-4 text-[10px] font-semibold text-white">Crear envío</span>
       </div>
       <div className="flex-1 overflow-hidden">
-        {EXTRA.slice(0, extraCount).map((row, i) => (
-          <div key={`extra-${row.guia}-${i}`} className="flex items-center gap-2.5 border-b border-black/[0.04] px-4 py-2.5" style={{ animation: "slideRowIn 0.8s ease-out" }}>
+        {EXTRA.slice(0, extraCount).slice().reverse().map((row, i) => (
+          <div
+            key={`extra-${row.guia}-${row.paqueteria}`}
+            className="flex items-center gap-2.5 border-b border-black/[0.04] px-4 py-2.5"
+            style={i === 0 ? { animation: "slideRowIn 0.8s ease-out" } : undefined}
+          >
             <Image src={row.logo} alt="" width={22} height={22} className="shrink-0 rounded object-contain" />
             <div className="flex min-w-0 flex-col">
               <span className="truncate text-[10px] font-semibold text-black/70">{row.guia}</span>

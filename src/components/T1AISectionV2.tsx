@@ -738,20 +738,22 @@ function VisualPersonaliza() {
           </div>
           {phase === "loading" && (
             <div className="absolute inset-0 flex items-center justify-center">
+              {/* Loading badge — solo spark icon, sin texto "Generando con IA" */}
               <div
-                className="flex items-center gap-2 rounded-full bg-white/95 backdrop-blur-sm"
-                style={{ padding: "8px 14px", boxShadow: "0 8px 24px -8px rgba(0,0,0,0.20)" }}
+                className="flex items-center justify-center rounded-full bg-white/95 backdrop-blur-sm"
+                style={{
+                  width: 36,
+                  height: 36,
+                  boxShadow: "0 8px 24px -8px rgba(0,0,0,0.20)",
+                }}
               >
-                <svg className="vp2-spin" width="13" height="13" viewBox="0 0 28 28" fill="none">
+                <svg className="vp2-spin" width="16" height="16" viewBox="0 0 28 28" fill="none">
                   <path
                     d="M14 3L16.5 10.5L24 13L16.5 15.5L14 23L11.5 15.5L4 13L11.5 10.5L14 3Z"
                     stroke="#DB3B2B" strokeWidth="1.5" strokeLinejoin="round"
                     fill="rgba(219,59,43,0.20)"
                   />
                 </svg>
-                <span className="font-inter text-[11px] font-medium text-[#DB3B2B]">
-                  Generando imagen…
-                </span>
               </div>
               <span className="vp2-spark vp2-spark-a" />
               <span className="vp2-spark vp2-spark-b" />
@@ -787,30 +789,17 @@ function VisualPersonaliza() {
       </div>
       </div>
 
-      {/* MOBILE — phone-shaped mockup + absolute callout overlapping
-          (outer wrapper has no overflow so the callout can extend; inner div
-          keeps overflow-hidden for the rounded bezel). */}
+      {/* MOBILE — store mockup without phone chrome (no status bar, no
+          dynamic island). Just a browser-card-style container. */}
       <div className="relative shrink-0 tablet:hidden" style={{ width: 240 }}>
       <div
         className="overflow-hidden bg-white"
         style={{
-          borderRadius: 26,
+          borderRadius: 16,
           boxShadow:
-            "0 24px 60px -16px rgba(0,0,0,0.22), 0 0 0 1px rgba(0,0,0,0.04), inset 0 0 0 2px rgba(0,0,0,0.04)",
+            "0 24px 60px -16px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.06)",
         }}
       >
-        <div className="flex items-center justify-between px-4 py-1.5" style={{ background: "#F6F1EE" }}>
-          <span className="font-inter text-[9px] font-semibold text-black/70">9:41</span>
-          <div className="flex h-[12px] w-[40px] items-center justify-center rounded-full bg-black/85">
-            <span className="h-[5px] w-[5px] rounded-full bg-black/40" />
-          </div>
-          <span className="flex items-center gap-0.5">
-            <span className="h-[4px] w-[4px] rounded-full bg-black/70" />
-            <span className="h-[5px] w-[4px] rounded-sm bg-black/70" />
-            <span className="h-[7px] w-[12px] rounded-[2px] bg-black/70" />
-          </span>
-        </div>
-
         <div className="flex items-center justify-between border-b border-black/[0.05] px-3 py-2">
           <span className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-black/[0.06]">
             <span className="h-[2px] w-[10px] rounded bg-black/55" />
@@ -846,11 +835,17 @@ function VisualPersonaliza() {
           </div>
           {phase === "loading" && (
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="flex items-center gap-1.5 rounded-full bg-white/95 backdrop-blur-sm" style={{ padding: "6px 10px", boxShadow: "0 8px 24px -8px rgba(0,0,0,0.20)" }}>
-                <svg className="vp2-spin" width="11" height="11" viewBox="0 0 28 28" fill="none">
+              <div
+                className="flex items-center justify-center rounded-full bg-white/95 backdrop-blur-sm"
+                style={{
+                  width: 30,
+                  height: 30,
+                  boxShadow: "0 8px 24px -8px rgba(0,0,0,0.20)",
+                }}
+              >
+                <svg className="vp2-spin" width="14" height="14" viewBox="0 0 28 28" fill="none">
                   <path d="M14 3L16.5 10.5L24 13L16.5 15.5L14 23L11.5 15.5L4 13L11.5 10.5L14 3Z" stroke="#DB3B2B" strokeWidth="1.5" strokeLinejoin="round" fill="rgba(219,59,43,0.20)" />
                 </svg>
-                <span className="font-inter text-[10px] font-medium text-[#DB3B2B]">Generando…</span>
               </div>
               <span className="vp2-spark vp2-spark-a" />
               <span className="vp2-spark vp2-spark-b" />
@@ -881,7 +876,7 @@ function VisualPersonaliza() {
           the IA title above. */}
       <div
         className="vp2-callout absolute z-10"
-        style={{ top: 150, left: -10, width: 200 }}
+        style={{ top: 135, left: -10, width: 200 }}
       >
         {renderCallout()}
       </div>
@@ -934,183 +929,145 @@ function VisualPersonaliza() {
   );
 }
 
+/* ── VisualProductos (Stripe-pattern static composition) ──
+   Desktop: horizontal (photo · dashed line · mini-card).
+   Mobile: diagonal — product photo top-left, mini-card bottom-right, they
+   slightly overlap; the dashed connector lives outside the overlap. */
 function VisualProductos() {
-  // 3-stage timeline: photo → loading with sparkles → full info
-  const [stage, setStage] = useState<"photo" | "loading" | "complete">("photo");
-
-  useEffect(() => {
-    const t1 = window.setTimeout(() => setStage("loading"), 800);
-    const t2 = window.setTimeout(() => setStage("complete"), 2200);
-    return () => {
-      window.clearTimeout(t1);
-      window.clearTimeout(t2);
-    };
-  }, []);
-
-  return (
+  const photoSquare = (
     <div
-      className="relative w-full max-w-[400px] rounded-[18px] bg-white/85 backdrop-blur-sm"
+      className="flex shrink-0 items-center justify-center rounded-[14px] bg-[#F6F6F6]"
+      style={{ width: 120, height: 120 }}
+    >
+      <Image
+        src="/img/tenis-transparente.png"
+        alt=""
+        width={92}
+        height={68}
+        className="object-contain"
+        style={{ maxHeight: 80, width: "auto" }}
+      />
+    </div>
+  );
+
+  const productCard = (
+    <div
+      className="relative rounded-[14px] bg-white"
       style={{
-        padding: "22px",
-        boxShadow: "0 20px 50px -16px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.04)",
-        minHeight: 280,
+        padding: "14px 14px 12px",
+        boxShadow: "0 14px 32px -10px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.04)",
+        width: 220,
       }}
     >
-      <div className="flex items-center gap-4" style={{ marginBottom: 16 }}>
-        <div className="relative flex h-[90px] w-[100px] shrink-0 items-center justify-center overflow-hidden rounded-[12px] border border-black/[0.06]">
+      <div className="flex items-start gap-3" style={{ marginBottom: 8 }}>
+        <div className="flex h-[40px] w-[40px] shrink-0 items-center justify-center overflow-hidden rounded-[8px] bg-[#F6F6F6]">
           <Image
             src="/img/tenis-transparente.png"
             alt=""
-            width={80}
-            height={64}
+            width={30}
+            height={22}
             className="object-contain"
           />
-          {/* Sparkles overlay during loading */}
-          {stage === "loading" && (
-            <>
-              <span className="vp-spark vp-spark-1" />
-              <span className="vp-spark vp-spark-2" />
-              <span className="vp-spark vp-spark-3" />
-              <span className="vp-spark vp-spark-4" />
-            </>
-          )}
         </div>
-
-        {/* Title area — shows skeleton during loading, real text on complete */}
-        <div className="flex flex-1 flex-col gap-2">
-          {stage === "photo" && (
-            <div className="vp-fade-in" key="title-photo">
-              <div className="h-[10px] w-[60%] rounded-full bg-black/[0.06]" />
-            </div>
-          )}
-          {stage === "loading" && (
-            <div className="vp-fade-in flex flex-col gap-2" key="title-loading">
-              <div className="vp-shimmer h-[10px] w-[80%] rounded-full" />
-              <div className="vp-shimmer h-[10px] w-[50%] rounded-full" />
-            </div>
-          )}
-          {stage === "complete" && (
-            <p
-              key="title-complete"
-              className="vp-fade-in font-sora text-[17px] font-bold text-black/85"
-              style={{ lineHeight: 1.3 }}
-            >
-              Tenis clásicos blancos con detalles en rojo
-            </p>
-          )}
-        </div>
-      </div>
-
-      {/* Description / sparks indicator below */}
-      <div style={{ minHeight: 60, marginBottom: 12 }}>
-        {stage === "photo" && (
-          <div className="vp-fade-in flex flex-col gap-2" key="desc-photo">
-            <div className="h-[8px] w-[90%] rounded-full bg-black/[0.04]" />
-            <div className="h-[8px] w-[80%] rounded-full bg-black/[0.04]" />
-            <div className="h-[8px] w-[60%] rounded-full bg-black/[0.04]" />
-          </div>
-        )}
-        {stage === "loading" && (
-          <div
-            className="vp-fade-in flex items-center gap-2"
-            key="desc-loading"
-            style={{ paddingTop: 8 }}
-          >
-            <svg className="vp-spin" width="16" height="16" viewBox="0 0 28 28" fill="none">
-              <path
-                d="M14 3L16.5 10.5L24 13L16.5 15.5L14 23L11.5 15.5L4 13L11.5 10.5L14 3Z"
-                stroke="#DB3B2B"
-                strokeWidth="1.5"
-                strokeLinejoin="round"
-                fill="rgba(219,59,43,0.15)"
-              />
-            </svg>
-            <span className="font-inter text-[12px] font-medium text-[#DB3B2B]">
-              Generando con IA<span className="vp-dots">...</span>
-            </span>
-          </div>
-        )}
-        {stage === "complete" && (
-          <p
-            key="desc-complete"
-            className="vp-fade-in font-inter text-[13px] font-light text-black/60"
-            style={{ lineHeight: 1.6 }}
-          >
-            Tenis clásicos blancos, con un diseño minimalista y cómodo, son perfectos para cualquier ocasión, ya sea un paseo casual o una salida con amigos.
+        <div className="flex flex-1 flex-col">
+          <p className="font-sora text-[12px] font-semibold text-black" style={{ lineHeight: 1.3, marginBottom: 2 }}>
+            Tenis blancos clásicos
           </p>
-        )}
+          <p className="font-inter text-[11px] font-bold tabular-nums" style={{ color: "#0A1F3F" }}>
+            $1,345.99 MXN
+          </p>
+        </div>
       </div>
+
+      <p className="font-inter text-[10px] font-light text-black/65" style={{ lineHeight: 1.5, marginBottom: 8 }}>
+        Tenis casuales de piel sintética, ideales para el día a día.
+      </p>
+
+      <p className="font-inter text-[9px] font-medium text-black/45">
+        Calzado · Hombre · Casual
+      </p>
 
       <div
-        className="flex items-center gap-1.5 font-inter text-[11px] font-semibold uppercase text-[#DB3B2B]"
-        style={{ letterSpacing: "0.05em", opacity: stage === "complete" ? 1 : 0, transition: "opacity 0.4s ease" }}
+        className="absolute flex items-center gap-1 rounded-full"
+        style={{
+          top: -8,
+          right: 12,
+          padding: "3px 8px 3px 6px",
+          background: "#DB3B2B",
+          boxShadow: "0 6px 14px -4px rgba(219,59,43,0.40)",
+        }}
       >
-        <svg width="12" height="12" viewBox="0 0 28 28" fill="none">
-          <path
-            d="M14 3L16.5 10.5L24 13L16.5 15.5L14 23L11.5 15.5L4 13L11.5 10.5L14 3Z"
-            stroke="#DB3B2B"
-            strokeWidth="1.5"
-            strokeLinejoin="round"
-            fill="rgba(219,59,43,0.10)"
-          />
+        <svg width="9" height="9" viewBox="0 0 28 28" fill="none">
+          <path d="M14 3L16.5 10.5L24 13L16.5 15.5L14 23L11.5 15.5L4 13L11.5 10.5L14 3Z" fill="white" />
         </svg>
-        Generado con IA
+        <span className="font-inter text-[8px] font-bold uppercase tracking-wide text-white" style={{ letterSpacing: "0.08em" }}>
+          Creada con IA
+        </span>
+      </div>
+    </div>
+  );
+
+  return (
+    <>
+      {/* DESKTOP — horizontal row: photo · line · card */}
+      <div className="hidden items-center justify-center gap-0 tablet:flex">
+        {photoSquare}
+        <svg
+          aria-hidden
+          width="64"
+          height="14"
+          viewBox="0 0 64 14"
+          fill="none"
+          style={{ overflow: "visible" }}
+        >
+          <line
+            x1="0" y1="7" x2="60" y2="7"
+            stroke="#0A1F3F"
+            strokeWidth="1.4"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
+          <circle cx="62" cy="7" r="2.5" fill="#0A1F3F" />
+        </svg>
+        {productCard}
       </div>
 
-      <style jsx>{`
-        .vp-fade-in {
-          animation: vpFadeIn 0.35s ease-out;
-        }
-        @keyframes vpFadeIn {
-          from { opacity: 0; transform: translateY(4px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .vp-shimmer {
-          background: linear-gradient(90deg, rgba(0,0,0,0.05) 0%, rgba(219,59,43,0.20) 50%, rgba(0,0,0,0.05) 100%);
-          background-size: 200% 100%;
-          animation: vpShimmer 1.1s linear infinite;
-        }
-        @keyframes vpShimmer {
-          from { background-position: 200% 0; }
-          to { background-position: -200% 0; }
-        }
-        .vp-spin {
-          animation: vpSpin 1.2s linear infinite;
-        }
-        @keyframes vpSpin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        .vp-dots::after {
-          content: "";
-          animation: vpDots 1.2s steps(4, end) infinite;
-        }
-        @keyframes vpDots {
-          0% { content: ""; }
-          25% { content: "."; }
-          50% { content: ".."; }
-          75% { content: "..."; }
-          100% { content: ""; }
-        }
-        .vp-spark {
-          position: absolute;
-          width: 6px;
-          height: 6px;
-          border-radius: 50%;
-          background: #DB3B2B;
-          box-shadow: 0 0 8px rgba(219,59,43,0.7);
-          opacity: 0;
-        }
-        .vp-spark-1 { top: 14%; left: 18%; animation: vpSpark 1.4s ease-in-out 0s infinite; }
-        .vp-spark-2 { top: 70%; left: 24%; animation: vpSpark 1.4s ease-in-out 0.35s infinite; }
-        .vp-spark-3 { top: 25%; right: 18%; animation: vpSpark 1.4s ease-in-out 0.7s infinite; }
-        .vp-spark-4 { bottom: 18%; right: 22%; animation: vpSpark 1.4s ease-in-out 1.05s infinite; }
-        @keyframes vpSpark {
-          0%, 100% { opacity: 0; transform: scale(0.4); }
-          50% { opacity: 1; transform: scale(1.1); }
-        }
-      `}</style>
-    </div>
+      {/* MOBILE — diagonal: photo top-left, card bottom-right, overlap,
+          dashed connector outside the overlap going from photo top-right
+          corner area down to the card top-left corner area. */}
+      <div className="relative tablet:hidden" style={{ width: 260, height: 230, margin: "0 auto" }}>
+        {/* Photo: anchored top-left */}
+        <div className="absolute" style={{ top: 0, left: 0, zIndex: 1 }}>
+          {photoSquare}
+        </div>
+
+        {/* Card: anchored bottom-right, slightly overlapping the photo
+            (its top-left corner sits behind the photo's bottom-right). */}
+        <div className="absolute" style={{ bottom: 0, right: 0, zIndex: 2 }}>
+          {productCard}
+        </div>
+
+        {/* Dashed connector — sits OUTSIDE the overlap, going from the
+            photo's right edge down/right to the card's top-left area. */}
+        <svg
+          aria-hidden
+          className="absolute"
+          style={{ top: 18, left: 102, width: 64, height: 80, overflow: "visible", zIndex: 3 }}
+          viewBox="0 0 64 80"
+          fill="none"
+        >
+          <path
+            d="M 4 4 C 30 4 30 70 60 70"
+            stroke="#0A1F3F"
+            strokeWidth="1.4"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+            fill="none"
+          />
+          <circle cx="60" cy="70" r="2.5" fill="#0A1F3F" />
+        </svg>
+      </div>
+    </>
   );
 }
 
@@ -1173,92 +1130,17 @@ function VisualEnrutamiento() {
         }}
       >
         <svg className="h-full w-full" viewBox="0 0 100 100" fill="none" preserveAspectRatio="none">
-          <path d="M0 50 C25 50, 50 11, 100 11" stroke="rgba(226,97,83,0.45)" strokeWidth="2" fill="none" strokeDasharray="4 3" />
-          <path d="M0 50 C25 50, 50 50, 100 50" stroke="rgba(226,97,83,0.55)" strokeWidth="2" fill="none" strokeDasharray="4 3" />
-          <path d="M0 50 C25 50, 50 89, 100 89" stroke="rgba(226,97,83,0.45)" strokeWidth="2" fill="none" strokeDasharray="4 3" />
+          <path d="M0 50 C25 50, 50 11, 100 11" stroke="rgba(226,97,83,0.45)" strokeWidth="1" fill="none" strokeDasharray="3 3" />
+          <path d="M0 50 C25 50, 50 50, 100 50" stroke="rgba(226,97,83,0.55)" strokeWidth="1" fill="none" strokeDasharray="3 3" />
+          <path d="M0 50 C25 50, 50 89, 100 89" stroke="rgba(226,97,83,0.45)" strokeWidth="1" fill="none" strokeDasharray="3 3" />
         </svg>
-
-        {/* Animated traveling dots */}
-        <span className="ve-dot ve-dot-1" />
-        <span className="ve-dot ve-dot-2" />
-        <span className="ve-dot ve-dot-3" />
       </div>
-
-      <style jsx>{`
-        .ve-dot {
-          position: absolute;
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: #DB3B2B;
-          box-shadow: 0 0 10px rgba(219,59,43,0.6);
-          margin-left: -4px;
-          margin-top: -4px;
-        }
-        .ve-dot-1 { animation: veRoute1 2.6s ease-in-out infinite; }
-        .ve-dot-2 { animation: veRoute2 2.2s ease-in-out 0.4s infinite; }
-        .ve-dot-3 { animation: veRoute3 2.9s ease-in-out 0.8s infinite; }
-
-        @keyframes veRoute1 {
-          0%   { left: 0%;   top: 50%; opacity: 0; }
-          10%  { opacity: 1; }
-          25%  { left: 25%;  top: 50%; }
-          50%  { left: 50%;  top: 30%; }
-          75%  { left: 75%;  top: 17%; }
-          90%  { opacity: 1; }
-          100% { left: 100%; top: 11%; opacity: 0; }
-        }
-        @keyframes veRoute2 {
-          0%   { left: 0%;   top: 50%; opacity: 0; }
-          10%  { opacity: 1; }
-          90%  { opacity: 1; }
-          100% { left: 100%; top: 50%; opacity: 0; }
-        }
-        @keyframes veRoute3 {
-          0%   { left: 0%;   top: 50%; opacity: 0; }
-          10%  { opacity: 1; }
-          25%  { left: 25%;  top: 50%; }
-          50%  { left: 50%;  top: 70%; }
-          75%  { left: 75%;  top: 82%; }
-          90%  { opacity: 1; }
-          100% { left: 100%; top: 89%; opacity: 0; }
-        }
-      `}</style>
     </div>
   );
 }
 
 function VisualRiesgo() {
-  // Each ring fills via stroke-dashoffset transition; number counts up to 78.
-  const [drawn, setDrawn] = useState(false);
-  const [count, setCount] = useState(0);
-  const [showResult, setShowResult] = useState(false);
-
-  useEffect(() => {
-    const t = window.setTimeout(() => setDrawn(true), 60);
-
-    // Animated counter 0 → 78 (~1.5s, ease-out cubic)
-    const start = performance.now();
-    const duration = 1500;
-    let raf = 0;
-    const tick = (now: number) => {
-      const p = Math.min(1, (now - start) / duration);
-      const eased = 1 - Math.pow(1 - p, 3);
-      setCount(Math.round(eased * 78));
-      if (p < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-
-    // Result card shows shortly after counter finishes
-    const tCard = window.setTimeout(() => setShowResult(true), 1750);
-
-    return () => {
-      window.clearTimeout(t);
-      window.clearTimeout(tCard);
-      cancelAnimationFrame(raf);
-    };
-  }, []);
-
+  // Fully static — no ring-fill animation, no counter, no slide-in card.
   return (
     <div className="relative flex flex-col items-center justify-center gap-3 tablet:gap-5">
       <svg
@@ -1266,56 +1148,38 @@ function VisualRiesgo() {
         fill="none"
         className="h-[150px] w-[150px] tablet:h-[220px] tablet:w-[220px]"
       >
-        {/* Outer */}
         <circle cx="55" cy="55" r="48" stroke="rgba(0,0,0,0.04)" strokeWidth="6" />
         <circle
           cx="55" cy="55" r="48"
           stroke="#DB3B2B" strokeWidth="6" strokeLinecap="round"
           transform="rotate(-90 55 55)"
-          style={{
-            strokeDasharray: `260 302`,
-            strokeDashoffset: drawn ? 0 : 260,
-            transition: "stroke-dashoffset 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0ms",
-          }}
+          strokeDasharray="260 302"
         />
-        {/* Middle */}
         <circle cx="55" cy="55" r="36" stroke="rgba(0,0,0,0.03)" strokeWidth="5" />
         <circle
           cx="55" cy="55" r="36"
           stroke="#E26153" strokeWidth="5" strokeLinecap="round"
           transform="rotate(-90 55 55)"
-          style={{
-            strokeDasharray: `150 226`,
-            strokeDashoffset: drawn ? 0 : 150,
-            transition: "stroke-dashoffset 1.4s cubic-bezier(0.16, 1, 0.3, 1) 120ms",
-          }}
+          strokeDasharray="150 226"
         />
-        {/* Inner */}
         <circle cx="55" cy="55" r="25" stroke="rgba(0,0,0,0.02)" strokeWidth="4" />
         <circle
           cx="55" cy="55" r="25"
           stroke="#F2876A" strokeWidth="4" strokeLinecap="round"
           transform="rotate(-90 55 55)"
-          style={{
-            strokeDasharray: `90 157`,
-            strokeDashoffset: drawn ? 0 : 90,
-            transition: "stroke-dashoffset 1.4s cubic-bezier(0.16, 1, 0.3, 1) 240ms",
-          }}
+          strokeDasharray="90 157"
         />
         <text x="55" y="61" textAnchor="middle" style={{ fontSize: 18, fontWeight: 700, fill: "rgba(0,0,0,0.75)" }}>
-          {count}
+          78
         </text>
       </svg>
 
-      {/* Result card — slides in once the score lands */}
+      {/* Result card — static, no slide-in animation */}
       <div
         className="vr-result-card flex w-full max-w-[300px] items-center gap-3 rounded-[14px] bg-white"
         style={{
           padding: "12px 14px",
           boxShadow: "0 14px 36px -12px rgba(219,59,43,0.20), 0 0 0 1px rgba(0,0,0,0.04)",
-          opacity: showResult ? 1 : 0,
-          transform: showResult ? "translateY(0)" : "translateY(12px)",
-          transition: "opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)",
         }}
       >
         <div

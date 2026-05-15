@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { HERO_DATA, LOGIN_URL } from "@/lib/constants";
 
 /* ── Rotating words ── */
@@ -118,60 +118,18 @@ function LogoMarquee() {
 
 /* ── Hero video loop — cycles through 4 videos ── */
 function HeroVideoLoop() {
-  const videos = ["/img/hero-1.mp4", "/img/hero-2.mp4", "/img/hero-3.mp4", "/img/hero-4.mp4"];
-  const [idx, setIdx] = useState(0);
-  const refs = useRef<(HTMLVideoElement | null)[]>([]);
-
-  const handleEnded = useCallback(() => {
-    setIdx((i) => (i + 1) % videos.length);
-  }, [videos.length]);
-
-  // Imperatively play the active video and rewind/pause the others.
-  // Needed because <video autoPlay> only triggers on initial mount, not when idx changes.
-  useEffect(() => {
-    refs.current.forEach((vid, i) => {
-      if (!vid) return;
-      if (i === idx) {
-        vid.currentTime = 0;
-        vid.play().catch(() => {/* autoplay blocked — ignore */});
-      } else {
-        vid.pause();
-        vid.currentTime = 0;
-      }
-    });
-  }, [idx]);
-
-  // Pre-warm the upcoming clip so the transition is seamless.
-  // Strategy: idx 0 always preload="auto"; current and next clip get "auto",
-  // others stay "metadata" to avoid downloading 4 MB up front.
-  const nextIdx = (idx + 1) % videos.length;
-
   return (
-    <>
-      {videos.map((src, i) => {
-        const isCurrent = i === idx;
-        const isNext = i === nextIdx;
-        // First clip gets "auto" so first paint shows a frame fast (LCP).
-        // Current + next clip also use "auto" to avoid stalls on transitions.
-        // Others use "metadata" — only fetch headers, not the full mp4.
-        const preload = i === 0 || isCurrent || isNext ? "auto" : "metadata";
-        return (
-          <video
-            key={src}
-            ref={(el) => { refs.current[i] = el; }}
-            autoPlay={i === 0}
-            muted
-            playsInline
-            onEnded={isCurrent ? handleEnded : undefined}
-            preload={preload}
-            className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500"
-            style={{ opacity: isCurrent ? 1 : 0, pointerEvents: "none", backgroundColor: "#000" }}
-          >
-            <source src={src} type="video/mp4" />
-          </video>
-        );
-      })}
-    </>
+    <video
+      autoPlay
+      loop
+      muted
+      playsInline
+      preload="metadata"
+      className="absolute inset-0 h-full w-full object-cover"
+      style={{ pointerEvents: "none", backgroundColor: "#000" }}
+    >
+      <source src="/img/hero.mp4" type="video/mp4" />
+    </video>
   );
 }
 
