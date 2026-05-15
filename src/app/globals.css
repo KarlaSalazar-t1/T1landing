@@ -1,5 +1,20 @@
 @import "tailwindcss";
 
+/* Honor user accessibility setting: when the OS reports
+   prefers-reduced-motion: reduce we strip out long-running animations
+   and snap transitions to near-instant. Applies to every component
+   without per-file work. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 @theme inline {
   /* Colors */
   --color-oxford: #4C4C4C;
@@ -294,11 +309,10 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Counter bump */
+/* Counter bump — transform-only (color removed for performance rule). */
 @keyframes countBump {
-  0% { transform: scale(1); }
-  40% { transform: scale(1.15); color: #22C55E; }
-  100% { transform: scale(1); }
+  0%, 100% { transform: scale(1); }
+  40% { transform: scale(1.12); }
 }
 
 /* Fade + slide in from bottom */

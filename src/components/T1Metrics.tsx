@@ -15,7 +15,8 @@ function AnimatedMetric({
 }) {
   const { ref, display } = useCountUp({
     end,
-    duration: 2200,
+    // Use hook default (1200ms) — short, ease-out, no stagger between
+    // the three metrics; they all kick off in the same frame.
     prefix,
     suffix,
   });
