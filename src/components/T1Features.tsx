@@ -1179,39 +1179,34 @@ function IOSStatusBar() {
   );
 }
 
-/* ── Tienda annotation: rotating marketing label + SVG dashed line.
-   Lives ABOVE every other layer of the T1tienda card and is the single
-   moving piece in the section. Solo cross-fade en opacity. Respects
-   prefers-reduced-motion (renders the first option static if so). */
+/* ── Tienda card: channels-activating UI + floating "Nuevo pedido" badge.
+   The channels view is restored as the primary capa 1 (matches the real
+   T1 admin "Canales de venta" screen). The only marketing animation on
+   top is the rotating <TiendaNuevoPedidoBadge> in Oxford navy. */
 
-const TIENDA_ANNOTATIONS = [
-  { canal: "TikTok",        monto: "$1,345.99", src: "/img/tiktok-isotipo.png", rowIdx: 0 },
-  { canal: "Mercado Libre", monto: "$2,150.00", src: "/img/meli-iso.svg",       rowIdx: 3 },
-  { canal: "Amazon",        monto: "$3,890.00", src: "/img/amazon-iso.svg",     rowIdx: 4 },
-  { canal: "SHEIN",         monto: "$450.00",   src: "/img/shein-iso.svg",      rowIdx: 1 },
-  { canal: "Walmart",       monto: "$1,200.00", src: "/img/walmart.svg",        rowIdx: 5 },
+const TIENDA_NUEVO_PEDIDO = [
+  { canal: "TikTok",        monto: "$1,345.99", src: "/img/tiktok-isotipo.png" },
+  { canal: "Mercado Libre", monto: "$2,150.00", src: "/img/meli-iso.svg" },
+  { canal: "Amazon",        monto: "$3,890.00", src: "/img/amazon-iso.svg" },
+  { canal: "SHEIN",         monto: "$450.00",   src: "/img/shein-iso.svg" },
+  { canal: "Walmart",       monto: "$1,200.00", src: "/img/walmart.svg" },
 ];
 
-/* Approximate vertical center of each PedidosPanel order row, measured
-   in pixels from the top of the *content area* of the panel (i.e. after
-   the panel's outer glass padding, the top bar and the "Mis pedidos"
-   header). Used to anchor the dashed line at the correct row. */
-const PEDIDOS_ROW_Y_DESKTOP = [60, 106, 152, 198, 244, 290, 336, 382];
-const PEDIDOS_ROW_Y_MOBILE  = [44, 72, 100, 128, 156, 184, 212];
+const OXFORD = "#0A1F3F";
 
-type AnnotationOrientation = "desktop" | "mobile";
+type TiendaBadgeOrientation = "desktop" | "mobile";
 
-function TiendaOrderAnnotation({
-  animate,
+function TiendaNuevoPedidoBadge({
+  visible,
   orientation,
 }: {
-  animate: boolean;
-  orientation: AnnotationOrientation;
+  visible: boolean;
+  orientation: TiendaBadgeOrientation;
 }) {
   const [idx, setIdx] = useState(0);
 
   useEffect(() => {
-    if (!animate) {
+    if (!visible) {
       setIdx(0);
       return;
     }
@@ -1223,204 +1218,192 @@ function TiendaOrderAnnotation({
       return;
     }
     const interval = window.setInterval(() => {
-      setIdx((i) => (i + 1) % TIENDA_ANNOTATIONS.length);
+      setIdx((i) => (i + 1) % TIENDA_NUEVO_PEDIDO.length);
     }, 1800);
     return () => window.clearInterval(interval);
-  }, [animate]);
+  }, [visible]);
 
-  const a = TIENDA_ANNOTATIONS[idx];
-  const rowY =
-    orientation === "desktop"
-      ? PEDIDOS_ROW_Y_DESKTOP[a.rowIdx] ?? 60
-      : PEDIDOS_ROW_Y_MOBILE[a.rowIdx] ?? 44;
+  const a = TIENDA_NUEVO_PEDIDO[idx];
 
-  if (orientation === "desktop") {
-    /* Desktop: badge top-left of the right column, dashed line drops down
-       and lands on the row Y inside the PedidosPanel content area below. */
-    const BADGE_HEIGHT = 76;
-    const LINE_TOP = BADGE_HEIGHT + 4;
-    const LINE_HEIGHT = rowY + 12;
-    return (
-      <div
-        className="pointer-events-none absolute z-30"
-        style={{ top: 16, left: 24, width: 220 }}
-      >
-        <div
-          key={`tienda-annot-${idx}`}
-          className="ann-fade overflow-hidden rounded-[12px] bg-white"
-          style={{
-            boxShadow:
-              "0 14px 32px -10px rgba(219,59,43,0.30), 0 0 0 1px rgba(219,59,43,0.25)",
-          }}
-        >
-          <div
-            className="flex items-center gap-1.5"
-            style={{ padding: "8px 12px 6px", borderBottom: "1px solid rgba(219,59,43,0.12)" }}
-          >
-            <svg width="10" height="10" viewBox="0 0 28 28" fill="none">
-              <path
-                d="M14 3L16.5 10.5L24 13L16.5 15.5L14 23L11.5 15.5L4 13L11.5 10.5L14 3Z"
-                stroke="#DB3B2B"
-                strokeWidth="2"
-                strokeLinejoin="round"
-                fill="rgba(219,59,43,0.20)"
-              />
-            </svg>
-            <span
-              className="font-inter text-[9px] font-bold uppercase"
-              style={{ color: "#DB3B2B", letterSpacing: "0.10em" }}
-            >
-              Nuevo pedido
-            </span>
-          </div>
-          <div className="flex items-center gap-2" style={{ padding: "8px 12px 10px" }}>
-            <Image
-              src={a.src}
-              alt={a.canal}
-              width={20}
-              height={20}
-              className="rounded-full object-contain"
-            />
-            <span className="font-inter text-[12px] font-semibold text-black">
-              {a.canal}
-            </span>
-            <span className="ml-auto font-inter text-[12px] font-bold" style={{ color: "#DB3B2B" }}>
-              {a.monto}
-            </span>
-          </div>
-        </div>
-
-        {/* Dashed connector — drops down from the badge to the row Y */}
-        <svg
-          aria-hidden
-          className="absolute"
-          width="14"
-          height={Math.max(20, LINE_HEIGHT)}
-          style={{ top: LINE_TOP, left: 16, overflow: "visible" }}
-        >
-          <line
-            x1="2"
-            y1="0"
-            x2="2"
-            y2={LINE_HEIGHT - 6}
-            stroke="#DB3B2B"
-            strokeWidth="1.4"
-            strokeDasharray="4 4"
-            strokeLinecap="round"
-          />
-          <circle cx="2" cy={LINE_HEIGHT - 4} r="2.5" fill="#DB3B2B" />
-        </svg>
-
-        <style jsx>{`
-          .ann-fade { animation: tiendaAnnFade 0.35s ease-out; }
-          @keyframes tiendaAnnFade {
-            from { opacity: 0; }
-            to { opacity: 1; }
-          }
-        `}</style>
-      </div>
-    );
-  }
-
-  /* Mobile: badge sits ABOVE the phone mockup with a short vertical
-     dashed line dropping down into the mockup near the corresponding row. */
-  return (
+  const badge = (
     <div
-      className="pointer-events-none absolute z-30"
-      style={{ top: 0, left: "50%", transform: "translate(-50%, -100%)", width: 220 }}
+      key={`tienda-badge-${idx}`}
+      className="tienda-badge-fade overflow-hidden rounded-[12px] bg-white"
+      style={{
+        boxShadow:
+          "0 16px 32px -10px rgba(10,31,63,0.18), 0 0 0 1px rgba(10,31,63,0.08)",
+      }}
     >
       <div
-        key={`tienda-annot-m-${idx}`}
-        className="ann-fade-m overflow-hidden rounded-[12px] bg-white"
+        className="flex items-center gap-1.5"
         style={{
-          boxShadow:
-            "0 14px 32px -10px rgba(219,59,43,0.30), 0 0 0 1px rgba(219,59,43,0.25)",
-          marginBottom: 14,
+          padding: orientation === "desktop" ? "8px 14px 6px" : "7px 11px 5px",
+          borderBottom: "1px solid rgba(10,31,63,0.08)",
         }}
       >
-        <div
-          className="flex items-center gap-1.5"
-          style={{ padding: "7px 11px 5px", borderBottom: "1px solid rgba(219,59,43,0.12)" }}
+        <svg
+          width={orientation === "desktop" ? 11 : 10}
+          height={orientation === "desktop" ? 11 : 10}
+          viewBox="0 0 28 28"
+          fill="none"
         >
-          <svg width="9" height="9" viewBox="0 0 28 28" fill="none">
-            <path
-              d="M14 3L16.5 10.5L24 13L16.5 15.5L14 23L11.5 15.5L4 13L11.5 10.5L14 3Z"
-              stroke="#DB3B2B"
-              strokeWidth="2"
-              strokeLinejoin="round"
-              fill="rgba(219,59,43,0.20)"
-            />
-          </svg>
-          <span
-            className="font-inter text-[8px] font-bold uppercase"
-            style={{ color: "#DB3B2B", letterSpacing: "0.10em" }}
-          >
-            Nuevo pedido
-          </span>
-        </div>
-        <div className="flex items-center gap-2" style={{ padding: "6px 11px 8px" }}>
-          <Image
-            src={a.src}
-            alt={a.canal}
-            width={18}
-            height={18}
-            className="rounded-full object-contain"
+          <path
+            d="M14 3L16.5 10.5L24 13L16.5 15.5L14 23L11.5 15.5L4 13L11.5 10.5L14 3Z"
+            stroke="#DB3B2B"
+            strokeWidth="2"
+            strokeLinejoin="round"
+            fill="rgba(219,59,43,0.18)"
           />
-          <span className="font-inter text-[11px] font-semibold text-black">
-            {a.canal}
-          </span>
-          <span className="ml-auto font-inter text-[11px] font-bold" style={{ color: "#DB3B2B" }}>
-            {a.monto}
-          </span>
-        </div>
+        </svg>
+        <span
+          className={`font-inter font-bold uppercase ${
+            orientation === "desktop" ? "text-[10px]" : "text-[9px]"
+          }`}
+          style={{ color: OXFORD, letterSpacing: "0.10em" }}
+        >
+          Nuevo pedido
+        </span>
+      </div>
+      <div
+        className="flex items-center gap-2"
+        style={{
+          padding: orientation === "desktop" ? "9px 14px 11px" : "7px 11px 9px",
+        }}
+      >
+        <Image
+          src={a.src}
+          alt={a.canal}
+          width={orientation === "desktop" ? 20 : 18}
+          height={orientation === "desktop" ? 20 : 18}
+          className="rounded-full object-contain"
+        />
+        <span
+          className={`font-inter font-semibold ${
+            orientation === "desktop" ? "text-[12px]" : "text-[11px]"
+          }`}
+          style={{ color: "#1A1A1A" }}
+        >
+          {a.canal}
+        </span>
+        <span
+          className={`ml-auto font-inter font-bold tabular-nums ${
+            orientation === "desktop" ? "text-[13px]" : "text-[12px]"
+          }`}
+          style={{ color: OXFORD }}
+        >
+          {a.monto}
+        </span>
       </div>
 
-      {/* Short vertical dashed connector — drops into the phone mockup */}
-      <svg
-        aria-hidden
-        className="absolute left-1/2 -translate-x-1/2"
-        width="6"
-        height={rowY + 14}
-        style={{ top: 78, overflow: "visible" }}
-      >
-        <line
-          x1="3"
-          y1="0"
-          x2="3"
-          y2={rowY + 8}
-          stroke="#DB3B2B"
-          strokeWidth="1.4"
-          strokeDasharray="4 4"
-          strokeLinecap="round"
-        />
-        <circle cx="3" cy={rowY + 10} r="2.5" fill="#DB3B2B" />
-      </svg>
-
       <style jsx>{`
-        .ann-fade-m { animation: tiendaAnnFadeM 0.35s ease-out; }
-        @keyframes tiendaAnnFadeM {
+        .tienda-badge-fade { animation: tiendaBadgeFade 0.35s ease-out; }
+        @keyframes tiendaBadgeFade {
           from { opacity: 0; }
           to { opacity: 1; }
         }
       `}</style>
     </div>
   );
+
+  if (!visible) return null;
+
+  if (orientation === "desktop") {
+    /* Desktop: badge floats over the top-left of the channels grid with
+       a vertical dashed line dropping down into the grid area. */
+    return (
+      <div
+        className="pointer-events-none absolute z-30"
+        style={{
+          top: 132,
+          left: 120,
+          width: 232,
+          opacity: visible ? 1 : 0,
+          transition: "opacity 0.4s ease",
+        }}
+      >
+        {badge}
+        <svg
+          aria-hidden
+          width="14"
+          height="80"
+          className="absolute"
+          style={{ top: 76, left: 22, overflow: "visible" }}
+        >
+          <line
+            x1="2"
+            y1="0"
+            x2="2"
+            y2="68"
+            stroke={OXFORD}
+            strokeWidth="1.4"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
+          <circle cx="2" cy="72" r="2.5" fill={OXFORD} />
+        </svg>
+      </div>
+    );
+  }
+
+  /* Mobile: badge floats above the phone mockup, no line. */
+  return (
+    <div
+      className="pointer-events-none absolute left-1/2 z-30 -translate-x-1/2"
+      style={{
+        top: -10,
+        width: 220,
+        transform: "translate(-50%, -100%)",
+        opacity: visible ? 1 : 0,
+        transition: "opacity 0.4s ease",
+      }}
+    >
+      {badge}
+    </div>
+  );
 }
 
-/* ── Mobile Tienda Panel ──
-   Static mobile mockup of the T1tienda admin "Mis pedidos" screen.
-   No more stages, no row trickle, no channels-then-orders animation —
-   the only moving piece on this card is <TiendaOrderAnnotation />. */
+/* ── Channels list — shared between Mobile and Desktop. Each entry
+   maps to a card in the "Marketplace" grid that animates from
+   "Conectar →" to "Conectado ✓" sequentially. */
+const TIENDA_CHANNELS_DESKTOP = [
+  { id: "amazon", name: "Amazon", src: "/img/amazon-iso.svg" },
+  { id: "meli", name: "Mercado Libre", src: "/img/meli-iso.svg" },
+  { id: "shein", name: "SHEIN", src: "/img/shein-iso.svg" },
+  { id: "walmart", name: "Walmart", src: "/img/walmart.svg" },
+  { id: "tiktok", name: "TikTok", src: "/img/tiktok-isotipo.png" },
+  { id: "sears", name: "Sears", src: "/img/sears-isotipo.svg" },
+];
+
+const TIENDA_CHANNELS_MOBILE = [
+  { id: "amazon", name: "Amazon", src: "/img/amazon-iso.svg" },
+  { id: "meli", name: "Mercado Libre", src: "/img/meli-iso.svg" },
+  { id: "shein", name: "SHEIN", src: "/img/shein-iso.svg" },
+  { id: "tiktok", name: "TikTok", src: "/img/tiktok-isotipo.png" },
+];
+
+/* ── Mobile Tienda Panel ── */
 function MobileTiendaPanel({ animate }: { animate: boolean }) {
-  const INITIAL = [
-    { id: "#112", canal: "Tiktok",          src: "/img/tiktok-isotipo.png", productos: "2 productos", estatus: "Por enviar" },
-    { id: "#111", canal: "SHEIN",           src: "/img/shein-iso.svg",      productos: "1 producto",  estatus: "Enviado" },
-    { id: "#110", canal: "Tienda",          src: null as string | null,     emoji: "🏪", productos: "3 productos", estatus: "Por preparar" },
-    { id: "#109", canal: "MeLi",            src: "/img/meli-iso.svg",       productos: "2 productos", estatus: "Entregado" },
-    { id: "#108", canal: "Amazon",          src: "/img/amazon-iso.svg",     productos: "1 producto",  estatus: "Cancelado" },
-    { id: "#107", canal: "Walmart",         src: "/img/walmart.svg",        productos: "4 productos", estatus: "Enviado" },
-    { id: "#106", canal: "Tienda",          src: null as string | null,     emoji: "🏪", productos: "1 producto",  estatus: "Entregado" },
-  ];
+  const [connectedCount, setConnectedCount] = useState(0);
+  const allConnected = connectedCount >= TIENDA_CHANNELS_MOBILE.length;
+
+  useEffect(() => {
+    if (!animate) {
+      setConnectedCount(0);
+      return;
+    }
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      setConnectedCount(TIENDA_CHANNELS_MOBILE.length);
+      return;
+    }
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    for (let i = 0; i < TIENDA_CHANNELS_MOBILE.length; i++) {
+      timers.push(setTimeout(() => setConnectedCount(i + 1), 900 + i * 850));
+    }
+    return () => timers.forEach(clearTimeout);
+  }, [animate]);
 
   return (
     <div className="relative mx-auto mt-5" style={{ width: "85%", maxWidth: 300 }}>
@@ -1440,64 +1423,281 @@ function MobileTiendaPanel({ animate }: { animate: boolean }) {
           className="flex shrink-0 items-center justify-between border-b border-black/[0.06] px-4"
           style={{ paddingTop: 8, paddingBottom: 8 }}
         >
-          <span className="text-[14px] font-bold text-black">Mis pedidos</span>
-          <span className="flex h-[28px] items-center rounded-full bg-[#DB3B2B] px-4 text-[10px] font-semibold text-white">
-            Crear pedido
-          </span>
+          <span className="text-[14px] font-bold text-black">Canales de venta</span>
         </div>
 
-        <div className="flex-1 overflow-hidden">
-          {INITIAL.map((row, i) => (
-            <div key={i} className="border-b border-black/[0.04] px-4 py-2.5 last:border-0">
-              <div className="flex items-center justify-between" style={{ marginBottom: 2 }}>
-                <div className="flex items-center gap-2">
-                  <span className="text-[9px] text-black/40">21 abr</span>
-                  <span className="text-[10px] font-semibold text-black/60">{row.id}</span>
-                </div>
-                <span className="text-[10px] font-bold text-black">$1,345.99</span>
-              </div>
-              <div className="flex items-center gap-2" style={{ marginBottom: 2 }}>
-                <span className="rounded-full bg-black/[0.04] px-2 py-0.5 text-[8px] font-medium text-black/45">
-                  {row.estatus}
-                </span>
-                <div className="flex items-center gap-1">
-                  {row.src ? (
-                    <Image src={row.src} alt="" width={12} height={12} className="rounded-full object-contain" />
+        <div className="flex flex-1 flex-col overflow-hidden px-3 pt-2">
+          <p className="text-[10px] font-normal text-black/55" style={{ marginBottom: 8 }}>
+            Aumenta tus ventas activando canales
+          </p>
+
+          {/* Tabs */}
+          <div
+            className="flex items-center gap-3 border-b border-black/[0.06]"
+            style={{ paddingBottom: 6, marginBottom: 8 }}
+          >
+            <span className="relative text-[10px] font-semibold text-black">
+              Todos
+              <span className="absolute -bottom-1.5 left-0 right-0 h-[1.5px] bg-[#DB3B2B]" />
+            </span>
+            <span className="text-[10px] font-normal text-black/40">Activos</span>
+            <span className="text-[10px] font-normal text-black/40">Próximos</span>
+          </div>
+
+          <p className="text-[10px] font-bold text-black" style={{ marginBottom: 6 }}>
+            Marketplace
+          </p>
+
+          <div className="flex flex-col gap-1.5 overflow-hidden">
+            {TIENDA_CHANNELS_MOBILE.map((ch, i) => {
+              const connected = i < connectedCount;
+              return (
+                <div
+                  key={ch.id}
+                  className="flex items-center gap-2 rounded-[8px] border border-black/[0.06] bg-white"
+                  style={{ padding: "7px 8px" }}
+                >
+                  <div className="flex h-[28px] w-[28px] shrink-0 items-center justify-center overflow-hidden rounded-[6px] border border-black/[0.06] bg-white">
+                    <Image
+                      src={ch.src}
+                      alt={ch.name}
+                      width={22}
+                      height={22}
+                      className="object-contain"
+                      style={{ maxHeight: 20, width: "auto" }}
+                    />
+                  </div>
+                  <span className="flex-1 truncate text-[10px] font-semibold text-black">
+                    {ch.name}
+                  </span>
+                  {connected ? (
+                    <span
+                      key="connected"
+                      className="tienda-pill-fade flex items-center gap-1 rounded-full"
+                      style={{
+                        padding: "3px 8px 3px 6px",
+                        background: "rgba(34,197,94,0.12)",
+                        color: "#15803D",
+                      }}
+                    >
+                      <svg width="9" height="9" viewBox="0 0 12 12" fill="none">
+                        <path
+                          d="M2 6L5 9L10 3"
+                          stroke="#15803D"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      <span className="text-[9px] font-semibold">Conectado</span>
+                    </span>
                   ) : (
-                    <span className="text-[10px]">{row.emoji}</span>
+                    <span
+                      className="flex items-center gap-1 rounded-full"
+                      style={{
+                        padding: "3px 8px",
+                        background: "rgba(219,59,43,0.10)",
+                        color: "#DB3B2B",
+                      }}
+                    >
+                      <span className="text-[9px] font-semibold">Conectar</span>
+                      <svg width="9" height="9" viewBox="0 0 16 16" fill="none">
+                        <path
+                          d="M3 8H13M13 8L9 4M13 8L9 12"
+                          stroke="#DB3B2B"
+                          strokeWidth="1.6"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
                   )}
-                  <span className="text-[9px] text-black/40">{row.canal}</span>
                 </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-[9px] text-black/35">María López</span>
-                <span className="text-[9px] text-black/25">{row.productos}</span>
-              </div>
-            </div>
-          ))}
+              );
+            })}
+          </div>
+        </div>
+
+        <style jsx>{`
+          .tienda-pill-fade { animation: tiendaPillFade 0.35s ease-out; }
+          @keyframes tiendaPillFade {
+            from { opacity: 0; transform: scale(0.85); }
+            to { opacity: 1; transform: scale(1); }
+          }
+        `}</style>
+      </div>
+
+      {/* Floating "Nuevo pedido" badge — appears once all channels are connected */}
+      <TiendaNuevoPedidoBadge visible={allConnected} orientation="mobile" />
+    </div>
+  );
+}
+
+/* ── Desktop Tienda Panel ── */
+function DesktopTiendaPanel({ animate }: { animate: boolean }) {
+  const [connectedCount, setConnectedCount] = useState(0);
+  const allConnected = connectedCount >= TIENDA_CHANNELS_DESKTOP.length;
+
+  useEffect(() => {
+    if (!animate) {
+      setConnectedCount(0);
+      return;
+    }
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      setConnectedCount(TIENDA_CHANNELS_DESKTOP.length);
+      return;
+    }
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    for (let i = 0; i < TIENDA_CHANNELS_DESKTOP.length; i++) {
+      timers.push(setTimeout(() => setConnectedCount(i + 1), 700 + i * 480));
+    }
+    return () => timers.forEach(clearTimeout);
+  }, [animate]);
+
+  const channelsContent = (
+    <div className="flex flex-1 flex-col overflow-hidden">
+      <div
+        className="border-b border-black/[0.04] px-5"
+        style={{ paddingTop: 18, paddingBottom: 14 }}
+      >
+        <h3 className="text-[18px] font-bold text-black">Canales de venta</h3>
+        <p className="text-[11px] font-normal text-black/55" style={{ marginTop: 2 }}>
+          Aumenta tus ventas activando más canales
+        </p>
+      </div>
+
+      <div className="flex items-center gap-5 border-b border-black/[0.04] px-5" style={{ paddingTop: 8 }}>
+        <span
+          className="relative inline-flex items-center text-[11px] font-semibold text-black"
+          style={{ paddingBottom: 8 }}
+        >
+          Todos los canales
+          <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#DB3B2B]" />
+        </span>
+        <span className="text-[11px] font-normal text-black/40" style={{ paddingBottom: 8 }}>
+          Canales activos
+        </span>
+        <span className="text-[11px] font-normal text-black/40" style={{ paddingBottom: 8 }}>
+          Próximos canales
+        </span>
+      </div>
+
+      <div className="px-5" style={{ paddingTop: 12, paddingBottom: 6 }}>
+        <div
+          className="flex items-center gap-2 rounded-[8px] border border-black/[0.06]"
+          style={{ padding: "7px 10px" }}
+        >
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+            <circle cx="7" cy="7" r="5" stroke="rgba(0,0,0,0.35)" strokeWidth="1.5" />
+            <path d="M11 11L14 14" stroke="rgba(0,0,0,0.35)" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+          <span className="text-[10px] text-black/35">Búsqueda</span>
         </div>
       </div>
 
-      {/* Capa 3 — rotating annotation, sits above the mockup with line
-          dropping down into the corresponding row. */}
-      <TiendaOrderAnnotation animate={animate} orientation="mobile" />
+      <div className="flex flex-1 flex-col overflow-hidden px-5" style={{ paddingTop: 6, paddingBottom: 14 }}>
+        <p className="text-[12px] font-bold text-black" style={{ marginBottom: 10 }}>
+          Marketplace
+        </p>
+        <div className="grid flex-1 grid-cols-3 gap-2.5" style={{ gridAutoRows: "1fr" }}>
+          {TIENDA_CHANNELS_DESKTOP.map((ch, i) => {
+            const active = i < connectedCount;
+            return (
+              <div
+                key={ch.id}
+                className="flex flex-col justify-between rounded-[10px] border border-black/[0.06] bg-white"
+                style={{
+                  padding: "12px 14px",
+                  boxShadow: "0 2px 8px -2px rgba(0,0,0,0.04)",
+                  minHeight: 90,
+                }}
+              >
+                <div className="flex items-center gap-2">
+                  <div className="flex h-[36px] w-[36px] shrink-0 items-center justify-center overflow-hidden rounded-[7px] border border-black/[0.06] bg-white">
+                    <Image
+                      src={ch.src}
+                      alt={ch.name}
+                      width={26}
+                      height={26}
+                      className="object-contain"
+                      style={{ maxHeight: 24, width: "auto" }}
+                    />
+                  </div>
+                  <span className="truncate text-[11px] font-semibold text-black">
+                    {ch.name}
+                  </span>
+                </div>
+                <div className="flex items-end justify-between">
+                  {active ? (
+                    <span
+                      key="active"
+                      className="tienda-pill-fade-d inline-flex items-center gap-1 rounded-[5px]"
+                      style={{
+                        padding: "2px 7px",
+                        background: "rgba(34,197,94,0.12)",
+                        color: "#15803D",
+                      }}
+                    >
+                      <svg width="9" height="9" viewBox="0 0 12 12" fill="none">
+                        <path
+                          d="M2 6L5 9L10 3"
+                          stroke="#15803D"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      <span
+                        className="text-[8px] font-bold uppercase tracking-wide"
+                        style={{ letterSpacing: "0.05em" }}
+                      >
+                        Activo
+                      </span>
+                    </span>
+                  ) : (
+                    <span
+                      className="inline-flex items-center gap-1 rounded-[5px]"
+                      style={{
+                        padding: "2px 7px",
+                        background: "rgba(219,59,43,0.10)",
+                        color: "#DB3B2B",
+                      }}
+                    >
+                      <span
+                        className="text-[8px] font-bold uppercase tracking-wide"
+                        style={{ letterSpacing: "0.05em" }}
+                      >
+                        Conectar →
+                      </span>
+                    </span>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <style jsx>{`
+        .tienda-pill-fade-d { animation: tiendaPillFadeD 0.35s ease-out; }
+        @keyframes tiendaPillFadeD {
+          from { opacity: 0; transform: scale(0.85); }
+          to { opacity: 1; transform: scale(1); }
+        }
+      `}</style>
     </div>
   );
-}
 
-/* ── Desktop Tienda Panel ──
-   Renders <PedidosPanel animate={false} /> as the static capa 1 admin
-   screen, plus <TiendaOrderAnnotation /> as the rotating capa 3 marketing
-   overlay. No more channels-then-orders animation. */
-function DesktopTiendaPanel({ animate }: { animate: boolean }) {
   return (
     <div className="relative h-full w-full">
-      <PedidosPanel animate={false} />
-      <TiendaOrderAnnotation animate={animate} orientation="desktop" />
+      <PedidosPanel animate={false} activeIconLabel="Canales" contentOverride={channelsContent} />
+      <TiendaNuevoPedidoBadge visible={allConnected} orientation="desktop" />
     </div>
   );
 }
-
 /* ── Mobile Envios Panel (phone-style with self-managed animation) ── */
 function MobileEnviosPanel() {
   const [extraCount, setExtraCount] = useState(0);
