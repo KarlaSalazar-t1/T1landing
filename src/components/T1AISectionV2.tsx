@@ -296,7 +296,7 @@ export default function T1AISectionV2() {
           />
         </div>
 
-        <div className="relative mx-auto flex h-full w-full max-w-[var(--max-w)] flex-col px-5 pb-24 pt-12 tablet:px-6 tablet:pb-20 tablet:pt-56">
+        <div className="relative mx-auto flex h-full w-full max-w-[var(--max-w)] flex-col px-5 pb-28 pt-20 tablet:px-6 tablet:pb-20 tablet:pt-56">
           {/* Layout:
               - mobile: flex column → text (flex-none, top), visual (flex-1, centered)
                 with the indicator pinned absolute at the bottom. Stable Y per slot.
@@ -472,7 +472,7 @@ export default function T1AISectionV2() {
               the Casos de Éxito ArrowBtn style, with a counter chip between. */}
           <div
             className="absolute left-0 right-0 z-30 flex items-center justify-center gap-3 tablet:hidden"
-            style={{ bottom: 22 }}
+            style={{ bottom: 56 }}
           >
             <button
               type="button"

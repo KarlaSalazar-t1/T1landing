@@ -1901,7 +1901,7 @@ export default function T1Features() {
   }, []);
 
   return (
-    <section className="bg-[#F6F6F6]" style={{ paddingTop: 60, paddingBottom: 0 }}>
+    <section className="bg-[#F6F6F6] pb-0 tablet:pb-10" style={{ paddingTop: 60 }}>
       <div className="mx-auto max-w-[var(--max-w)] px-5 tablet:px-6" style={{ paddingTop: 40 }}>
         {/* Heading — Sora 44px */}
         <h2
