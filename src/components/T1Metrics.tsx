@@ -36,16 +36,10 @@ function AnimatedMetric({
 export default function T1Metrics() {
   return (
     <>
-      {/* Mobile-only warm→black bridge. Hides the moment Safari's URL bar
-          toggles and exposes a sliver of black under the AI section. */}
-      <div
-        aria-hidden
-        className="tablet:hidden"
-        style={{
-          height: 80,
-          background: "linear-gradient(180deg, #FFF1EB 0%, #000 100%)",
-        }}
-      />
+      {/* Mobile-only solid black bridge that absorbs any sliver of
+          space exposed when Safari's URL bar toggles between the
+          AI section (100svh) and Metrics. */}
+      <div aria-hidden className="tablet:hidden bg-black" style={{ height: 80 }} />
     <section className="relative overflow-hidden bg-black" style={{ paddingTop: 60, paddingBottom: 60 }}>
       {/* Color blobs */}
       <div className="pointer-events-none absolute inset-0">
