@@ -9,7 +9,9 @@ const SIDE_PLANS = [
     badge: "",
     badgeColor: "",
     badgeText: "",
-    headline: "Desde 3.5% + $1 por transacción",
+    // Hero number + small descriptor underneath
+    headline: "Desde 3.5% + $1",
+    eyebrow: "por transacción",
     description: "4.5% con protección de contracargos.",
     cta: "Ver detalles",
     href: "https://t1.com/mx/pagos/",
@@ -21,6 +23,7 @@ const SIDE_PLANS = [
     badgeColor: "",
     badgeText: "",
     headline: "Cotiza y recarga",
+    eyebrow: "",
     description: "Las mejores tarifas, sin mínimo de envíos.",
     cta: "Ver tarifas",
     href: "https://www.t1.com/mx/envios",
@@ -58,23 +61,29 @@ export default function T1Pricing() {
 
             {/* Two plans stacked, separated by a divider */}
             <div className="flex flex-1 flex-col" style={{ marginBottom: 22 }}>
-              {/* Plan 1 — Vende en todos tus canales, sin costo */}
-              <div className="border-b border-black/[0.06] pb-5">
-                <p className="font-sora text-[22px] font-normal text-black" style={{ letterSpacing: "-0.02em", lineHeight: 1.15, marginBottom: 4 }}>
-                  Vende en todos tus canales, sin costo
+              {/* Plan 1 — Conecta canales gratis */}
+              <div className="border-b border-black/[0.06] pb-6">
+                <p
+                  className="font-sora text-[26px] font-normal text-black tablet:text-[28px]"
+                  style={{ letterSpacing: "-0.025em", lineHeight: 1.1, marginBottom: 8 }}
+                >
+                  Conecta canales gratis
                 </p>
-                <p className="font-inter text-[13px] font-light text-black/55" style={{ lineHeight: 1.5 }}>
-                  Conecta Mercado Libre, Amazon y más.
+                <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.5 }}>
+                  Mercado Libre, Amazon, Shein, Sears y más.
                 </p>
               </div>
 
-              {/* Plan 2 — Crea tu tienda en minutos */}
-              <div className="pt-5">
-                <p className="font-sora text-[22px] font-normal text-black" style={{ letterSpacing: "-0.02em", lineHeight: 1.15, marginBottom: 4 }}>
-                  Crea tu tienda en minutos
+              {/* Plan 2 — Desde $399/mes */}
+              <div className="pt-6">
+                <p
+                  className="font-sora text-[26px] font-normal text-black tablet:text-[28px]"
+                  style={{ letterSpacing: "-0.025em", lineHeight: 1.1, marginBottom: 8 }}
+                >
+                  Desde $399/mes
                 </p>
-                <p className="font-inter text-[13px] font-light text-black/65" style={{ lineHeight: 1.55 }}>
-                  <span className="font-semibold text-black/85">30 días gratis</span> · después desde <span className="font-semibold text-black/85">$399/mes</span>.
+                <p className="font-inter text-[14px] font-light text-black/65" style={{ lineHeight: 1.5 }}>
+                  <span className="font-semibold text-black/85">Crea tu tienda</span> + 30 días gratis.
                 </p>
               </div>
             </div>
@@ -122,11 +131,20 @@ export default function T1Pricing() {
                   )}
                 </div>
 
-                <p className="font-sora text-[22px] font-normal text-black" style={{ letterSpacing: "-0.02em", lineHeight: 1.15, marginBottom: 8 }}>
+                <p
+                  className="font-sora text-[26px] font-normal text-black tablet:text-[28px]"
+                  style={{ letterSpacing: "-0.025em", lineHeight: 1.1, marginBottom: plan.eyebrow ? 4 : 8 }}
+                >
                   {plan.headline}
                 </p>
 
-                <p className="font-inter text-[13px] font-light text-black/55" style={{ lineHeight: 1.5, marginBottom: 14 }}>
+                {plan.eyebrow && (
+                  <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.4, marginBottom: 4 }}>
+                    {plan.eyebrow}
+                  </p>
+                )}
+
+                <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.5, marginBottom: 14 }}>
                   {plan.description}
                 </p>
 

@@ -2117,7 +2117,7 @@ export default function T1Features() {
                 /* ── Two-column layout (T1tienda) ── */
                 <>
                   {/* Left column — text at top + product card below */}
-                  <div className="flex w-full flex-col px-5 pt-14 pb-5 tablet:w-1/2 tablet:p-8" ref={tiendaRef}>
+                  <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:p-8" ref={tiendaRef}>
                     {/* Text info at top */}
                     <div>
                       <p className="font-sora text-[18px] font-normal text-white tablet:text-[22px] lg:text-[26px]">
@@ -2181,7 +2181,7 @@ export default function T1Features() {
                 /* ── Two-column layout (T1pagos) ── */
                 <div className="flex h-full w-full flex-col tablet:flex-row">
                   {/* Left column: text at top, credit cards centered below */}
-                  <div className="flex w-full flex-col px-5 pt-14 pb-5 tablet:w-1/2 tablet:p-8 lg:p-10">
+                  <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:p-8 lg:p-10">
                     <div style={{ maxWidth: 420 }}>
                       <p className="font-sora text-[18px] font-normal text-white tablet:text-[22px] lg:text-[26px]">
                         {card.title}
@@ -2242,7 +2242,7 @@ export default function T1Features() {
               ) : card.id === "t1envios" ? (
                 /* ── Envíos — text + shipment card left, panel right ── */
                 <div className="flex h-full w-full flex-col tablet:flex-row">
-                  <div className="flex w-full flex-col px-5 pt-14 pb-5 tablet:w-2/5 tablet:p-8">
+                  <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-2/5 tablet:p-8">
                     <div>
                       <p className="font-sora text-[18px] font-normal text-white tablet:text-[22px] lg:text-[26px]">
                         {card.title}
@@ -2286,7 +2286,7 @@ export default function T1Features() {
                 </div>
               ) : (
                 /* ── Single panel layout (fallback) ── */
-                <div className="flex w-full flex-col justify-between p-5 tablet:p-8 lg:p-10">
+                <div className="flex w-full flex-col justify-between px-5 pt-24 pb-5 tablet:p-8 lg:p-10">
                   <div style={{ maxWidth: 520 }}>
                     <p className="flex items-center gap-2 font-sora text-[20px] font-normal text-white tablet:text-[24px] lg:text-[28px]">
                       {card.title}
