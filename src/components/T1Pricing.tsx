@@ -49,10 +49,15 @@ export default function T1Pricing() {
 
         {/* Two-column 40/60 grid: T1tienda full-height (left, 40%) | T1pagos+T1envíos stacked (right, 60%) */}
         <div className="grid grid-cols-1 gap-4 tablet:grid-cols-[2fr_3fr]">
-          {/* LEFT: T1tienda — single white card with two simple plans stacked */}
-          <div
-            className="flex flex-col overflow-hidden rounded-[20px] border border-black/[0.06] bg-white"
-            style={{ padding: "26px 28px", boxShadow: "0 0 25px 0 rgba(0,0,0,0.04)" }}
+          {/* LEFT: T1tienda — single white card with two simple plans stacked.
+              Now an <a> so the whole card has the same hover/click affordance
+              as the right-side cards. */}
+          <a
+            href="https://t1.com/mx/tienda"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex flex-col overflow-hidden rounded-[20px] border border-black/[0.06] bg-white no-underline transition-all duration-300 hover:border-black/[0.12] hover:shadow-[0_4px_30px_rgba(0,0,0,0.06)]"
+            style={{ padding: "28px 28px", boxShadow: "0 0 25px 0 rgba(0,0,0,0.04)" }}
           >
             {/* Header — logo */}
             <div style={{ marginBottom: 24 }}>
@@ -70,8 +75,8 @@ export default function T1Pricing() {
                   Integrador
                 </span>
                 <p
-                  className="font-sora text-[32px] font-normal text-black tablet:text-[36px]"
-                  style={{ letterSpacing: "-0.03em", lineHeight: 1.05, marginBottom: 8 }}
+                  className="font-sora text-[24px] font-light text-black tablet:text-[28px]"
+                  style={{ letterSpacing: "-0.02em", lineHeight: 1.1, marginBottom: 8 }}
                 >
                   Gratis
                 </p>
@@ -89,8 +94,8 @@ export default function T1Pricing() {
                   Tienda en línea
                 </span>
                 <p
-                  className="font-sora text-[32px] font-normal text-black tablet:text-[36px]"
-                  style={{ letterSpacing: "-0.03em", lineHeight: 1.05, marginBottom: 8 }}
+                  className="font-sora text-[24px] font-light text-black tablet:text-[28px]"
+                  style={{ letterSpacing: "-0.02em", lineHeight: 1.1, marginBottom: 8 }}
                 >
                   Desde $399/mes
                 </p>
@@ -100,19 +105,14 @@ export default function T1Pricing() {
               </div>
             </div>
 
-            {/* CTA */}
-            <a
-              href="https://t1.com/mx/tienda"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-auto inline-flex items-center gap-1.5 font-inter text-[14px] font-semibold text-black no-underline transition-colors duration-150 hover:text-black/70"
-            >
+            {/* CTA — span, not nested <a>, since the whole card is the link */}
+            <span className="mt-auto inline-flex items-center gap-1.5 font-inter text-[14px] font-semibold text-black transition-transform duration-200 group-hover:translate-x-1">
               Ver planes
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
                 <path d="M3 8H13M13 8L8.5 3.5M13 8L8.5 12.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-            </a>
-          </div>
+            </span>
+          </a>
 
           {/* RIGHT: T1pagos and T1envíos stacked in 2 rows */}
           <div className="flex flex-col gap-4">
@@ -122,10 +122,10 @@ export default function T1Pricing() {
                 href={plan.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex flex-1 flex-col overflow-hidden rounded-[20px] border border-black/[0.06] bg-white no-underline transition-all duration-300 hover:border-black/[0.12]"
-                style={{ padding: "26px 28px", boxShadow: "0 0 25px 0 rgba(0,0,0,0.04)" }}
+                className="group flex flex-1 flex-col overflow-hidden rounded-[20px] border border-black/[0.06] bg-white no-underline transition-all duration-300 hover:border-black/[0.12] hover:shadow-[0_4px_30px_rgba(0,0,0,0.06)]"
+                style={{ padding: "28px 28px", boxShadow: "0 0 25px 0 rgba(0,0,0,0.04)" }}
               >
-                <div className="flex items-center gap-2" style={{ marginBottom: 14 }}>
+                <div className="flex items-center gap-2" style={{ marginBottom: 18 }}>
                   <Image
                     src={plan.id === "t1pagos" ? "/img/t1pagos-logo.svg" : "/img/t1envios-logo.svg"}
                     alt={plan.title}
@@ -143,21 +143,26 @@ export default function T1Pricing() {
                   )}
                 </div>
 
-                <p
-                  className="font-sora text-[32px] font-normal text-black tablet:text-[36px]"
-                  style={{ letterSpacing: "-0.03em", lineHeight: 1.05, marginBottom: plan.eyebrow ? 2 : 8 }}
-                >
-                  {plan.headline}
-                </p>
-
-                {plan.eyebrow && (
+                {/* Headline + eyebrow.
+                    Mobile: stacked (each on its own line).
+                    Desktop: inline as one line so "Desde 3.5% + $1 por transacción"
+                    reads as a single sentence. */}
+                <div className="flex flex-col tablet:flex-row tablet:flex-wrap tablet:items-baseline tablet:gap-x-2" style={{ marginBottom: 10 }}>
                   <p
-                    className="font-inter text-[18px] font-normal text-black/65 tablet:text-[20px]"
-                    style={{ letterSpacing: "-0.01em", lineHeight: 1.3, marginBottom: 10 }}
+                    className="font-sora text-[24px] font-light text-black tablet:text-[28px]"
+                    style={{ letterSpacing: "-0.02em", lineHeight: 1.1 }}
                   >
-                    {plan.eyebrow}
+                    {plan.headline}
                   </p>
-                )}
+                  {plan.eyebrow && (
+                    <p
+                      className="font-inter text-[16px] font-light text-black/55 tablet:text-[18px]"
+                      style={{ letterSpacing: "-0.01em", lineHeight: 1.3, marginTop: 2 }}
+                    >
+                      {plan.eyebrow}
+                    </p>
+                  )}
+                </div>
 
                 <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.5, marginBottom: 14 }}>
                   {plan.description}
