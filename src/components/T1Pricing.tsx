@@ -25,7 +25,7 @@ const SIDE_PLANS = [
     headline: "Cotiza y recarga",
     eyebrow: "",
     description: "Las mejores tarifas, sin mínimo de envíos.",
-    cta: "Ver tarifas",
+    cta: "Cotizar",
     href: "https://www.t1.com/mx/envios",
   },
 ];
