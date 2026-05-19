@@ -2083,7 +2083,8 @@ export default function T1Features() {
               disabled={idx === SHOWCASE_CARDS.length - 1}
               className="absolute z-20 flex cursor-pointer items-center gap-1.5 rounded-full border-none tablet:hidden"
               style={{
-                top: 50,
+                // Aligned with the card title now sitting at pt-24
+                top: 100,
                 right: 20,
                 padding: "6px 12px",
                 background: "rgba(0,0,0,0.28)",

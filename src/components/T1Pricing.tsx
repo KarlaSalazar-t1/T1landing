@@ -61,29 +61,41 @@ export default function T1Pricing() {
 
             {/* Two plans stacked, separated by a divider */}
             <div className="flex flex-1 flex-col" style={{ marginBottom: 22 }}>
-              {/* Plan 1 — Conecta canales gratis */}
+              {/* Plan 1 — Integrador / Gratis */}
               <div className="border-b border-black/[0.06] pb-6">
-                <p
-                  className="font-sora text-[26px] font-normal text-black tablet:text-[28px]"
-                  style={{ letterSpacing: "-0.025em", lineHeight: 1.1, marginBottom: 8 }}
+                <span
+                  className="inline-flex items-center rounded-full bg-black/[0.05] font-inter text-[11px] font-semibold uppercase tracking-[0.06em] text-black/55"
+                  style={{ padding: "4px 10px", marginBottom: 12 }}
                 >
-                  Conecta canales gratis
+                  Integrador
+                </span>
+                <p
+                  className="font-sora text-[32px] font-normal text-black tablet:text-[36px]"
+                  style={{ letterSpacing: "-0.03em", lineHeight: 1.05, marginBottom: 8 }}
+                >
+                  Gratis
                 </p>
                 <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.5 }}>
-                  Mercado Libre, Amazon, Shein, Sears y más.
+                  Conecta Mercado Libre, Amazon, Shein, Sears y más.
                 </p>
               </div>
 
-              {/* Plan 2 — Desde $399/mes */}
+              {/* Plan 2 — Tienda en línea / Desde $399/mes */}
               <div className="pt-6">
+                <span
+                  className="inline-flex items-center rounded-full bg-black/[0.05] font-inter text-[11px] font-semibold uppercase tracking-[0.06em] text-black/55"
+                  style={{ padding: "4px 10px", marginBottom: 12 }}
+                >
+                  Tienda en línea
+                </span>
                 <p
-                  className="font-sora text-[26px] font-normal text-black tablet:text-[28px]"
-                  style={{ letterSpacing: "-0.025em", lineHeight: 1.1, marginBottom: 8 }}
+                  className="font-sora text-[32px] font-normal text-black tablet:text-[36px]"
+                  style={{ letterSpacing: "-0.03em", lineHeight: 1.05, marginBottom: 8 }}
                 >
                   Desde $399/mes
                 </p>
                 <p className="font-inter text-[14px] font-light text-black/65" style={{ lineHeight: 1.5 }}>
-                  <span className="font-semibold text-black/85">Crea tu tienda</span> + 30 días gratis.
+                  Crea tu tienda gratis + 30 días de prueba.
                 </p>
               </div>
             </div>
@@ -132,14 +144,17 @@ export default function T1Pricing() {
                 </div>
 
                 <p
-                  className="font-sora text-[26px] font-normal text-black tablet:text-[28px]"
-                  style={{ letterSpacing: "-0.025em", lineHeight: 1.1, marginBottom: plan.eyebrow ? 4 : 8 }}
+                  className="font-sora text-[32px] font-normal text-black tablet:text-[36px]"
+                  style={{ letterSpacing: "-0.03em", lineHeight: 1.05, marginBottom: plan.eyebrow ? 2 : 8 }}
                 >
                   {plan.headline}
                 </p>
 
                 {plan.eyebrow && (
-                  <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.4, marginBottom: 4 }}>
+                  <p
+                    className="font-inter text-[18px] font-normal text-black/65 tablet:text-[20px]"
+                    style={{ letterSpacing: "-0.01em", lineHeight: 1.3, marginBottom: 10 }}
+                  >
                     {plan.eyebrow}
                   </p>
                 )}
