@@ -139,7 +139,7 @@ export default function T1Hero() {
     <>
       {/* Sticky hero — stays in place while white card scrolls over */}
       <div className="sticky top-0 z-0">
-        <section className="relative flex min-h-[92dvh] flex-col overflow-hidden tablet:min-h-screen tablet:block">
+        <section className="relative flex min-h-[92svh] flex-col overflow-hidden tablet:min-h-screen tablet:block">
           {/* Background video — loop through 4 clips */}
           <div className="absolute inset-0 z-0">
             <HeroVideoLoop />

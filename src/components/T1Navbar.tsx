@@ -124,6 +124,7 @@ export default function T1Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileScreen, setMobileScreen] = useState<"main" | "productos">("main");
   const [isLight, setIsLight] = useState(false);
+  const [hidden, setHidden] = useState(false);
 
   const close = useCallback(() => { setMenuOpen(false); setMobileOpen(false); setMobileScreen("main"); }, []);
 
@@ -145,14 +146,30 @@ export default function T1Navbar() {
     return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
 
-  /* Detect when white card section enters viewport */
+  /* Detect when white card section enters viewport + auto-hide on scroll down */
   useEffect(() => {
+    let lastY = window.scrollY;
+    let ticking = false;
     const onScroll = () => {
-      const whiteCard = document.querySelector("[data-white-card]");
-      if (whiteCard) {
-        const rect = whiteCard.getBoundingClientRect();
-        setIsLight(rect.top <= 60);
-      }
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        const whiteCard = document.querySelector("[data-white-card]");
+        if (whiteCard) {
+          const rect = whiteCard.getBoundingClientRect();
+          setIsLight(rect.top <= 60);
+        }
+        // Hide on scroll down past 80px, show on scroll up.
+        // Always visible near the very top so the hero CTA is reachable.
+        const delta = y - lastY;
+        if (Math.abs(delta) > 4) {
+          if (y > 80 && delta > 0) setHidden(true);
+          else if (delta < 0) setHidden(false);
+          lastY = y;
+        }
+        ticking = false;
+      });
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -169,7 +186,7 @@ export default function T1Navbar() {
     <>
       {/* Navbar */}
       <nav
-        className="fixed left-0 right-0 top-0 z-[100] transition-all duration-300"
+        className="fixed left-0 right-0 top-0 z-[100] transition-transform duration-300 ease-out"
         style={{
           background: menuOpen || mobileOpen
             ? "rgba(255,255,255,0.98)"
@@ -180,6 +197,11 @@ export default function T1Navbar() {
           WebkitBackdropFilter: "none",
           padding: "10px 12px",
           boxShadow: (isLight || menuOpen || mobileOpen) ? "0 1px 0 rgba(0,0,0,0.06)" : "none",
+          // Hide on scroll down, show on scroll up. Never hide while a menu is open.
+          transform:
+            hidden && !menuOpen && !mobileOpen
+              ? "translateY(-100%)"
+              : "translateY(0)",
         }}
       >
         <div className="mx-auto flex max-w-[var(--max-w)] items-center justify-between">
