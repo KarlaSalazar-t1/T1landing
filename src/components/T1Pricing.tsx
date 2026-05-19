@@ -9,9 +9,8 @@ const SIDE_PLANS = [
     badge: "",
     badgeColor: "",
     badgeText: "",
-    headline: "Desde 3.5%",
-    description:
-      "3.5% sin protección de contracargos · 4.5% con protección. Sin renta mensual.",
+    headline: "Desde 3.5% + $1 por transacción",
+    description: "4.5% con protección de contracargos.",
     cta: "Ver detalles",
     href: "https://t1.com/mx/pagos/",
   },
@@ -21,9 +20,8 @@ const SIDE_PLANS = [
     badge: "",
     badgeColor: "",
     badgeText: "",
-    headline: "Pago por guía",
-    description:
-      "Recarga saldo y compra guías al mejor precio del mercado. Sin mensualidad.",
+    headline: "Cotiza y recarga",
+    description: "Las mejores tarifas, sin mínimo de envíos.",
     cta: "Ver tarifas",
     href: "https://www.t1.com/mx/envios",
   },
@@ -60,23 +58,23 @@ export default function T1Pricing() {
 
             {/* Two plans stacked, separated by a divider */}
             <div className="flex flex-1 flex-col" style={{ marginBottom: 22 }}>
-              {/* Plan 1 — Integra tus canales GRATIS */}
+              {/* Plan 1 — Vende en todos tus canales, sin costo */}
               <div className="border-b border-black/[0.06] pb-5">
                 <p className="font-sora text-[22px] font-normal text-black" style={{ letterSpacing: "-0.02em", lineHeight: 1.15, marginBottom: 4 }}>
-                  Integra tus canales GRATIS
+                  Vende en todos tus canales, sin costo
                 </p>
                 <p className="font-inter text-[13px] font-light text-black/55" style={{ lineHeight: 1.5 }}>
-                  Conecta Mercado Libre, Amazon, SHEIN y más sin costo. Solo pagas si vendes.
+                  Conecta Mercado Libre, Amazon y más.
                 </p>
               </div>
 
-              {/* Plan 2 — Crea tu tienda — 30 días free first, then plan info */}
+              {/* Plan 2 — Crea tu tienda en minutos */}
               <div className="pt-5">
                 <p className="font-sora text-[22px] font-normal text-black" style={{ letterSpacing: "-0.02em", lineHeight: 1.15, marginBottom: 4 }}>
-                  Crea tu tienda GRATIS
+                  Crea tu tienda en minutos
                 </p>
                 <p className="font-inter text-[13px] font-light text-black/65" style={{ lineHeight: 1.55 }}>
-                  <span className="font-semibold text-black/85">30 días gratis</span>; después desde <span className="font-semibold text-black/85">$399/mes</span>. Tu tienda con dominio propio, checkout integrado y herramientas de IA.
+                  <span className="font-semibold text-black/85">30 días gratis</span> · después desde <span className="font-semibold text-black/85">$399/mes</span>.
                 </p>
               </div>
             </div>

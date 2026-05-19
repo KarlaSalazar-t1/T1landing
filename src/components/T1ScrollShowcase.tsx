@@ -150,7 +150,11 @@ const ORBIT_ICONS = [
 ];
 
 function TodoEnUnoCard() {
+  // The 420×420 composition with orbit radius 180 gets clipped on small
+  // phones (≤375px). Scale the whole thing down to ~70% on mobile so the
+  // orbiting icons stay fully visible without rewriting the geometry.
   return (
+    <div className="origin-center scale-[0.7] tablet:scale-100">
     <div className="relative flex items-center justify-center" style={{ width: 420, height: 420 }}>
       {/* Orbit circle */}
       <div
@@ -184,6 +188,7 @@ function TodoEnUnoCard() {
           );
         })}
       </div>
+    </div>
     </div>
   );
 }

@@ -565,8 +565,10 @@ body {
     height: 100svh !important;
     margin-bottom: 0 !important;
     border-radius: 0 !important;
-    /* Sticky offset = navbar height (60px) so title doesn't get covered */
-    top: 60px !important;
+    /* Navbar auto-hides on scroll-down by the time the user is in the
+       stack, so we don't need to leave 60px of empty space for it.
+       Pinning at the very top keeps the card filling the viewport. */
+    top: 0 !important;
     transition: none !important;
     will-change: auto;
     /* Mobile: no scale or dim — variables reset to neutral */

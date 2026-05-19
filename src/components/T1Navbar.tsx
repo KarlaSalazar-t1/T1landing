@@ -160,11 +160,12 @@ export default function T1Navbar() {
           const rect = whiteCard.getBoundingClientRect();
           setIsLight(rect.top <= 60);
         }
-        // Hide on scroll down past 80px, show on scroll up.
-        // Always visible near the very top so the hero CTA is reachable.
+        // Stay visible through the entire hero area; only allow hide once
+        // the user has scrolled past it. Show again on scroll up.
         const delta = y - lastY;
+        const heroThreshold = window.innerHeight * 0.9;
         if (Math.abs(delta) > 4) {
-          if (y > 80 && delta > 0) setHidden(true);
+          if (y > heroThreshold && delta > 0) setHidden(true);
           else if (delta < 0) setHidden(false);
           lastY = y;
         }
