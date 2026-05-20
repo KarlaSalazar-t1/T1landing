@@ -137,9 +137,13 @@ function HeroVideoLoop() {
 export default function T1Hero() {
   return (
     <>
-      {/* Sticky hero — stays in place while white card scrolls over */}
+      {/* Sticky hero — stays in place while white card scrolls over.
+          Desktop: 95vh so the top edge of the white card peeks ~5% above
+          the fold (per design feedback on ultra-tall monitors). The hero
+          stays flex-col on desktop so the logo marquee can sit flush at
+          the bottom regardless of how tall the viewport is. */}
       <div className="sticky top-0 z-0">
-        <section className="relative flex min-h-[92svh] flex-col overflow-hidden tablet:min-h-screen tablet:block">
+        <section className="relative flex min-h-[92svh] flex-col overflow-hidden tablet:h-[95vh] tablet:min-h-0">
           {/* Background video — loop through 4 clips */}
           <div className="absolute inset-0 z-0">
             <HeroVideoLoop />
@@ -159,9 +163,11 @@ export default function T1Hero() {
 
           {/* Content — on mobile fills the available space with content
               centered vertically so the gap above the logo marquee shrinks
-              on taller phones. Desktop keeps the original top-aligned pt. */}
-          <div className="relative z-10 mx-auto flex w-full max-w-[var(--max-w)] flex-1 flex-col justify-center px-5 tablet:block tablet:flex-none tablet:px-6">
-            <div className="pt-[90px] pb-6 tablet:pt-[226px] tablet:pb-6">
+              on taller phones. Desktop also grows (flex-1) so the logo
+              marquee gets pushed to the bottom on tall monitors instead
+              of floating in the middle of a black void. */}
+          <div className="relative z-10 mx-auto flex w-full max-w-[var(--max-w)] flex-1 flex-col justify-center px-5 tablet:px-6">
+            <div className="pt-[90px] pb-6 tablet:pt-[140px] tablet:pb-6 lg:pt-[180px]">
               {/* Rotating eyebrow word */}
               <p
                 className="font-sora text-[38px] font-normal leading-[1.26] text-white tablet:text-[48px] lg:text-[60px]"
@@ -228,8 +234,10 @@ export default function T1Hero() {
             </div>
           </div>
 
-          {/* Logo marquee — sits over the black gradient area */}
-          <div className="relative z-10" style={{ paddingTop: 10, paddingBottom: 30 }}>
+          {/* Logo marquee — pinned to the bottom of the section
+              (mt-auto) so on tall desktops it sits low instead of
+              floating in the middle of empty black. */}
+          <div className="relative z-10 mt-auto" style={{ paddingTop: 10, paddingBottom: 30 }}>
             <div className="mx-auto max-w-[var(--max-w)] px-4 tablet:px-6">
               <LogoMarquee />
             </div>

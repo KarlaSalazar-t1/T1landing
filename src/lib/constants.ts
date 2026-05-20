@@ -84,7 +84,8 @@ export const HERO_DATA = {
   cta: "Comienza gratis",
   ctaSecondary: "Iniciar sesión",
   ctaHref: SIGNUP_URL,
-  subtitle: "Inicia gratis. No se necesita tarjeta.",
+  // Social proof rather than restating "gratis" (which the button already says).
+  subtitle: "Únete a +25,000 negocios que ya venden con T1.",
 };
 
 // ── Feature cards (Todo tu negocio) ──
