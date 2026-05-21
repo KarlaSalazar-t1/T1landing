@@ -118,6 +118,17 @@ export default function T1Enterprise() {
     return () => { container.removeEventListener("scroll", onScroll); clearTimeout(timeout); };
   }, []);
 
+  // Auto-advance carousel every 5s. Pauses while a video is open or the
+  // user is hovering a card; resets timing whenever `active` changes
+  // (so manual navigation gives a full interval before the next auto-step).
+  useEffect(() => {
+    if (videoOpen || hovered !== null) return;
+    const id = setInterval(() => {
+      setActive((a) => (a === CASES.length - 1 ? 0 : a + 1));
+    }, 5000);
+    return () => clearInterval(id);
+  }, [active, videoOpen, hovered]);
+
   const prev = useCallback(() => {
     setActive((a) => (a === 0 ? CASES.length - 1 : a - 1));
   }, []);

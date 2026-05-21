@@ -24,7 +24,7 @@ interface UseCountUpOptions {
  */
 export function useCountUp({
   end,
-  duration = 1600,
+  duration = 1300,
   prefix = "",
   suffix = "",
   decimals = 0,

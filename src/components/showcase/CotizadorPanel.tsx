@@ -68,10 +68,7 @@ const RESULTS: { logo: string; carrier: string; service: string; eta: string; pr
   { logo: "/img/icons/fedex-logo.svg", carrier: "FedEx", service: "Día siguiente", eta: "20 de may", price: "$148.30", recommended: true },
   { logo: "/img/dhl-iso.svg", carrier: "DHL", service: "Día siguiente", eta: "20 de may", price: "$151.69" },
   { logo: "/img/dhl-iso.svg", carrier: "DHL", service: "Económico / 2 días", eta: "21 de may", price: "$155.75" },
-  { logo: "/img/icons/fedex-logo.svg", carrier: "FedEx", service: "Estándar", eta: "22 de may", price: "$132.40" },
   { logo: "/img/99min-iso.svg", carrier: "99minutos", service: "Mismo día", eta: "Hoy", price: "$210.00" },
-  { logo: "/img/icons/paquetexpress.svg", carrier: "Paquetexpress", service: "Económico", eta: "23 de may", price: "$118.50" },
-  { logo: "/img/icons/estafeta-logo.svg", carrier: "Estafeta", service: "Día siguiente", eta: "20 de may", price: "$165.20" },
 ];
 
 function MiniStatusBar() {
@@ -149,7 +146,7 @@ export default function CotizadorPanel({ animate, mobile = false }: { animate: b
 function CotizadorContent({ stage, mobile = false }: { stage: Stage; mobile?: boolean }) {
   const showResults = stage >= 5;
   return (
-    <div className={mobile ? "flex flex-1 flex-col overflow-y-auto" : "flex flex-1 flex-col"}>
+    <div className="flex flex-1 flex-col overflow-hidden">
         {/* Header */}
         <div className="px-5" style={{ paddingTop: 16, paddingBottom: 6 }}>
           <h3 className="text-[18px] font-bold text-black">Cotizador</h3>
