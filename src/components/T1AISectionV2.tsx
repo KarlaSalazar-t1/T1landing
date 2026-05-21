@@ -115,47 +115,6 @@ export default function T1AISectionV2() {
     window.open(target, "_blank", "noopener,noreferrer");
   };
 
-  // Scroll-driven slide change: tablet+ only. On mobile the section is a
-  // horizontal carousel (single viewport) and slides change via swipe / button.
-  useEffect(() => {
-    const sec = sectionRef.current;
-    if (!sec) return;
-    if (typeof window === "undefined") return;
-    let raf = 0;
-    const onScroll = () => {
-      if (raf) cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        // Re-check viewport on every frame so a resize from tablet→mobile
-        // doesn't keep the listener running. Mobile carousel is horizontal
-        // and shouldn't react to vertical scroll position at all.
-        if (!window.matchMedia("(min-width: 768px)").matches) return;
-        const rect = sec.getBoundingClientRect();
-        const sectionTop = rect.top + window.scrollY;
-        const sectionHeight = sec.offsetHeight;
-        const viewportHeight = window.innerHeight;
-        // Need a meaningful scrollable range — bail out if section is shorter
-        // than viewport (which it is on mobile via the dvh class override).
-        if (sectionHeight <= viewportHeight + 50) return;
-        const maxScroll = sectionHeight - viewportHeight;
-        const scrolledInto = Math.max(0, window.scrollY - sectionTop);
-        const progress = Math.max(0, Math.min(0.9999, scrolledInto / maxScroll));
-        const newActive = Math.min(
-          SLIDES.length - 1,
-          Math.floor(progress * SLIDES.length)
-        );
-        if (newActive !== activeRef.current) {
-          setActive(newActive);
-        }
-      });
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      if (raf) cancelAnimationFrame(raf);
-    };
-  }, []);
-
   // Horizontal swipe on touch devices → prev/next slide.
   // Ignores vertical swipes so native scroll (which also changes slides) keeps working.
   useEffect(() => {
@@ -192,21 +151,9 @@ export default function T1AISectionV2() {
   const nextRef = useRef<() => void>(() => {});
   const prevRef = useRef<() => void>(() => {});
 
-  // Scroll page to a specific slide's range (tablet+).
-  // On mobile this just sets active (horizontal carousel — no page scroll).
+  // Horizontal carousel on all breakpoints — just set the active slide.
   const goToSlide = useCallback((i: number) => {
-    if (typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches) {
-      setActive(i);
-      return;
-    }
-    const sec = sectionRef.current;
-    if (!sec) return;
-    const sectionTop = sec.getBoundingClientRect().top + window.scrollY;
-    const sectionHeight = sec.offsetHeight;
-    const viewportHeight = window.innerHeight;
-    const maxScroll = Math.max(1, sectionHeight - viewportHeight);
-    const target = sectionTop + ((i + 0.5) / SLIDES.length) * maxScroll;
-    window.scrollTo({ top: target, behavior: "smooth" });
+    setActive(i);
   }, []);
 
   const next = useCallback(
@@ -229,11 +176,8 @@ export default function T1AISectionV2() {
   return (
     <section
       ref={sectionRef}
-      className="relative h-[100svh] tablet:h-[var(--ai-tablet-h)]"
-      style={{
-        background: "#FFF1EB",
-        ["--ai-tablet-h" as string]: `${SLIDES.length * 100}dvh`,
-      } as React.CSSProperties}
+      className="relative h-[100svh]"
+      style={{ background: "#FFF1EB" }}
     >
       <style jsx>{`
         .ai-carousel-hint {
@@ -244,10 +188,11 @@ export default function T1AISectionV2() {
           50% { transform: translateX(4px); opacity: 1; }
         }
       `}</style>
-      {/* Mobile: relative block, height matches section (one viewport, no sticky).
-          Tablet+: sticky inner pinned at top:0 while the tall section scrolls past. */}
+      {/* Single-viewport horizontal carousel on every breakpoint. Slides
+          change via the paginator / arrows / swipe — no scroll-driven
+          pinning, so the section no longer eats 5 viewports of scroll. */}
       <div
-        className="relative flex h-full w-full flex-col overflow-hidden tablet:sticky tablet:top-0 tablet:h-[100dvh]"
+        className="relative flex h-full w-full flex-col overflow-hidden"
         style={{
           background:
             "radial-gradient(110% 70% at 15% 0%, rgba(255,195,185,0.95) 0%, transparent 55%), radial-gradient(90% 70% at 100% 30%, rgba(255,165,150,0.75) 0%, transparent 55%), radial-gradient(120% 80% at 50% 110%, rgba(255,210,200,0.85) 0%, transparent 60%), #FFF1EB",

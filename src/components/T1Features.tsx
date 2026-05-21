@@ -1802,6 +1802,10 @@ function MobileEnviosPanel() {
 export default function T1Features() {
   const tiendaRef = useRef<HTMLDivElement>(null);
   const [tiendaVisible, setTiendaVisible] = useState(false);
+  const tiendaOnlineRef = useRef<HTMLDivElement>(null);
+  const [tiendaOnlineVisible, setTiendaOnlineVisible] = useState(false);
+  const enviosRef = useRef<HTMLDivElement>(null);
+  const [enviosVisible, setEnviosVisible] = useState(false);
   const [modalCard, setModalCard] = useState<string | null>(null);
   // Q1 — viewport gate: desktop-only and mobile-only subtrees are unmounted
   // post-hydration to remove ~244 hidden nodes from the stack DOM.
@@ -1880,16 +1884,22 @@ export default function T1Features() {
   }, []);
 
   useEffect(() => {
-    const el = tiendaRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setTiendaVisible(entry.isIntersecting);
-      },
-      { threshold: 0.3 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
+    const pairs: [HTMLDivElement | null, (v: boolean) => void][] = [
+      [tiendaRef.current, setTiendaVisible],
+      [tiendaOnlineRef.current, setTiendaOnlineVisible],
+      [enviosRef.current, setEnviosVisible],
+    ];
+    const observers = pairs
+      .filter(([el]) => el)
+      .map(([el, setter]) => {
+        const observer = new IntersectionObserver(
+          ([entry]) => setter(entry.isIntersecting),
+          { threshold: 0.3 }
+        );
+        observer.observe(el as HTMLDivElement);
+        return observer;
+      });
+    return () => observers.forEach((o) => o.disconnect());
   }, []);
 
   /* Q2 — Pause blobFloat animation on cards that are off-screen.
@@ -2128,7 +2138,7 @@ export default function T1Features() {
             <div className="relative z-10 flex h-full flex-col tablet:flex-row" style={{ minHeight: 320 }}>
               {card.id === "t1tienda-en-linea" ? (
                 /* ── Tienda en línea — text + AI prompt panel ── */
-                <div className="flex h-full w-full flex-col tablet:flex-row">
+                <div className="flex h-full w-full flex-col tablet:flex-row" ref={tiendaOnlineRef}>
                   <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-2/5 tablet:p-8">
                     <div>
                       <p className="font-sora text-[18px] font-normal text-white tablet:text-[22px] lg:text-[26px]">
@@ -2154,11 +2164,11 @@ export default function T1Features() {
                   </div>
                   {/* AI prompt panel — same wrapper style as Pedidos/Envíos */}
                   <div className="hidden w-3/5 tablet:block" style={{ paddingTop: 40 }}>
-                    <TiendaPromptPanel animate={tiendaVisible} />
+                    <TiendaPromptPanel animate={tiendaOnlineVisible} />
                   </div>
                   {/* Mobile: condensed panel */}
                   <div className="px-5 pb-5 tablet:hidden" style={{ height: 380 }}>
-                    <TiendaPromptPanel animate={tiendaVisible} />
+                    <TiendaPromptPanel animate={tiendaOnlineVisible} />
                   </div>
                 </div>
               ) : card.panelRight ? (
@@ -2289,7 +2299,7 @@ export default function T1Features() {
                 </div>
               ) : card.id === "t1envios" ? (
                 /* ── Envíos — text + shipment card left, panel right ── */
-                <div className="flex h-full w-full flex-col tablet:flex-row">
+                <div className="flex h-full w-full flex-col tablet:flex-row" ref={enviosRef}>
                   <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-2/5 tablet:p-8">
                     <div>
                       <p className="font-sora text-[18px] font-normal text-white tablet:text-[22px] lg:text-[26px]">
@@ -2318,13 +2328,13 @@ export default function T1Features() {
                   {/* CotizadorPanel — desktop right column */}
                   {isDesktop !== false && (
                     <div className="hidden w-3/5 tablet:block" style={{ paddingTop: 40 }}>
-                      <CotizadorPanel animate={tiendaVisible} />
+                      <CotizadorPanel animate={enviosVisible} />
                     </div>
                   )}
                   {/* Mobile: condensed cotizador */}
                   {isDesktop !== true && (
                     <div className="px-5 pb-5 tablet:hidden" style={{ height: 420 }}>
-                      <CotizadorPanel animate={tiendaVisible} />
+                      <CotizadorPanel animate={enviosVisible} />
                     </div>
                   )}
                 </div>

@@ -201,19 +201,19 @@ body {
 
 /* ─── Stack card gradient backgrounds ─── */
 
-/* Tienda en línea — deep magenta/orange AI accent */
+/* Tienda en línea — clean warm-red accent anchored behind the input
+   (right column). Less purple so it doesn't read muddy. */
 .stack-bg-tienda-online {
   background:
-    radial-gradient(ellipse 70% 60% at 70% 25%, rgba(219,59,43,0.42) 0%, transparent 65%),
-    radial-gradient(ellipse 60% 70% at 20% 80%, rgba(168,85,247,0.28) 0%, transparent 60%),
-    radial-gradient(ellipse 55% 55% at 50% 50%, rgba(244,114,182,0.18) 0%, transparent 55%),
-    linear-gradient(135deg, #1a0a14 0%, #1a0a1a 45%, #200a14 100%);
+    radial-gradient(ellipse 65% 60% at 72% 60%, rgba(219,59,43,0.4) 0%, transparent 62%),
+    radial-gradient(ellipse 55% 50% at 30% 25%, rgba(127,29,29,0.18) 0%, transparent 60%),
+    linear-gradient(150deg, #160a0c 0%, #1a0a10 50%, #1e0b0e 100%);
 }
 .stack-bg-tienda-online::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 40% 40% at 55% 45%, rgba(244,114,182,0.14) 0%, transparent 70%);
+  background: radial-gradient(ellipse 38% 38% at 70% 60%, rgba(244,114,182,0.1) 0%, transparent 70%);
   animation: blobFloat 9s ease-in-out infinite;
 }
 
