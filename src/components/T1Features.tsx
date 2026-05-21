@@ -11,8 +11,8 @@ import {
 import GlassProductCard from "@/components/showcase/GlassProductCard";
 import GlassCreditCard from "@/components/showcase/GlassCreditCard";
 import PedidosPanel from "@/components/showcase/PedidosPanel";
-import EnviosPanel from "@/components/showcase/EnviosPanel";
-import GlassShipmentCard from "@/components/showcase/GlassShipmentCard";
+import CotizadorPanel from "@/components/showcase/CotizadorPanel";
+import TiendaPromptPanel from "@/components/showcase/TiendaPromptPanel";
 import { useIsDesktop } from "@/hooks/useIsDesktop";
 import { useCountUp } from "@/hooks/useCountUp";
 import T1FinalCTA from "@/components/T1FinalCTA";
@@ -865,28 +865,28 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
 /* ── Showcase stacking cards data ── */
 const SHOWCASE_CARDS = [
   {
-    id: "t1tienda",
-    title: "Tienda",
+    id: "t1tienda-en-linea",
+    title: "Tienda en línea",
     description:
-      "Crea tu tienda en línea con checkout integrado, conecta +10 marketplaces y gestiona productos y envíos desde un solo lugar.",
+      "Crea una tienda completa con IA en minutos. Solo describe tu negocio y obtén una tienda lista para vender, con productos, checkout y dominio propio.",
+    bgImage: null,
+    bgCSS: "stack-bg-tienda-online",
+    panelLeft: null,
+    panelRight: "ai-prompt",
+    ctaLabel: "Crear tienda con IA",
+    ctaHref: "/productos/t1tienda/tienda-con-ia",
+  },
+  {
+    id: "t1tienda",
+    title: "Marketplaces",
+    description:
+      "Conecta Mercado Libre, Amazon, Shein, Sears y más en un solo lugar. Sincroniza inventario, recibe pedidos y gestiona todo desde un panel.",
     bgImage: null,
     bgCSS: "stack-bg-tienda",
     panelLeft: "/img/card-producto.svg",
     panelRight: "/img/lista-pedidos-t1.svg",
     ctaLabel: "Conoce T1tienda",
     ctaHref: "/productos/t1tienda/tienda-con-ia",
-  },
-  {
-    id: "t1envios",
-    title: "Envíos",
-    description:
-      "Cotiza y crea guías de envío. Si ya vendes en marketplaces, conéctalos y gestiona todos tus pedidos desde un solo lugar.",
-    bgImage: null,
-    bgCSS: "stack-bg-envios",
-    panelLeft: "/img/envios.svg",
-    panelRight: null,
-    ctaLabel: "Conoce T1envíos",
-    ctaHref: "https://www.t1.com/mx/envios",
   },
   {
     id: "t1pagos",
@@ -899,6 +899,18 @@ const SHOWCASE_CARDS = [
     panelRight: null,
     ctaLabel: "Conoce T1pagos",
     ctaHref: "https://t1.com/mx/pagos/",
+  },
+  {
+    id: "t1envios",
+    title: "Envíos",
+    description:
+      "Cotiza, compara paqueterías y crea guías en segundos. Las mejores tarifas del mercado, sin mensualidad ni mínimo de envíos.",
+    bgImage: null,
+    bgCSS: "stack-bg-envios",
+    panelLeft: "/img/envios.svg",
+    panelRight: null,
+    ctaLabel: "Conoce T1envíos",
+    ctaHref: "https://www.t1.com/mx/envios",
   },
 ];
 
@@ -2114,7 +2126,42 @@ export default function T1Features() {
 
             {/* Content wrapper */}
             <div className="relative z-10 flex h-full flex-col tablet:flex-row" style={{ minHeight: 320 }}>
-              {card.panelRight ? (
+              {card.id === "t1tienda-en-linea" ? (
+                /* ── Tienda en línea — text + AI prompt panel ── */
+                <div className="flex h-full w-full flex-col tablet:flex-row">
+                  <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-2/5 tablet:p-8">
+                    <div>
+                      <p className="font-sora text-[18px] font-normal text-white tablet:text-[22px] lg:text-[26px]">
+                        {card.title}
+                      </p>
+                      <p className="font-inter text-[13px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
+                        {card.description}
+                      </p>
+                      {card.ctaLabel && (
+                        <a
+                          href={card.ctaHref}
+                          onClick={(e) => e.stopPropagation()}
+                          className="inline-flex h-[42px] items-center gap-2 rounded-full bg-white px-5 font-inter text-[13px] font-semibold text-black no-underline transition-all duration-200 hover:scale-[1.03] hover:bg-white/90"
+                          style={{ boxShadow: "0 6px 20px rgba(0,0,0,0.18)" }}
+                        >
+                          {card.ctaLabel}
+                          <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                            <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                  {/* AI prompt panel — same wrapper style as Pedidos/Envíos */}
+                  <div className="hidden w-3/5 tablet:block" style={{ paddingTop: 40 }}>
+                    <TiendaPromptPanel animate={tiendaVisible} />
+                  </div>
+                  {/* Mobile: condensed panel */}
+                  <div className="px-5 pb-5 tablet:hidden" style={{ height: 380 }}>
+                    <TiendaPromptPanel animate={tiendaVisible} />
+                  </div>
+                </div>
+              ) : card.panelRight ? (
                 /* ── Two-column layout (T1tienda) ── */
                 <>
                   {/* Left column — text at top + product card below */}
@@ -2267,21 +2314,17 @@ export default function T1Features() {
                         </a>
                       )}
                     </div>
-                    {/* Desktop: GlassShipmentCard — only mounted on desktop (Q1) */}
-                    {isDesktop !== false && (
-                      <div className="mt-6 hidden flex-1 items-center justify-center tablet:flex tablet:mt-0">
-                        <GlassShipmentCard />
-                      </div>
-                    )}
-
-                    {/* Mobile: phone-style envios panel — only mounted on mobile (Q1) */}
-                    {isDesktop !== true && <MobileEnviosPanel />}
-
                   </div>
-                  {/* EnviosPanel — only mounted on desktop (Q1) */}
+                  {/* CotizadorPanel — desktop right column */}
                   {isDesktop !== false && (
                     <div className="hidden w-3/5 tablet:block" style={{ paddingTop: 40 }}>
-                      <EnviosPanel animate={tiendaVisible} />
+                      <CotizadorPanel animate={tiendaVisible} />
+                    </div>
+                  )}
+                  {/* Mobile: condensed cotizador */}
+                  {isDesktop !== true && (
+                    <div className="px-5 pb-5 tablet:hidden" style={{ height: 420 }}>
+                      <CotizadorPanel animate={tiendaVisible} />
                     </div>
                   )}
                 </div>

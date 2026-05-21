@@ -201,6 +201,22 @@ body {
 
 /* ─── Stack card gradient backgrounds ─── */
 
+/* Tienda en línea — deep magenta/orange AI accent */
+.stack-bg-tienda-online {
+  background:
+    radial-gradient(ellipse 70% 60% at 70% 25%, rgba(219,59,43,0.42) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 70% at 20% 80%, rgba(168,85,247,0.28) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 55% at 50% 50%, rgba(244,114,182,0.18) 0%, transparent 55%),
+    linear-gradient(135deg, #1a0a14 0%, #1a0a1a 45%, #200a14 100%);
+}
+.stack-bg-tienda-online::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 40% 40% at 55% 45%, rgba(244,114,182,0.14) 0%, transparent 70%);
+  animation: blobFloat 9s ease-in-out infinite;
+}
+
 /* Tienda — warm red/violet mesh with animated blob */
 .stack-bg-tienda {
   background:
@@ -258,11 +274,13 @@ body {
 /* Q2 — pause blobFloat animation when the card is off-screen.
    The animation is added by .stack-bg-* selectors above; here we gate
    its play state on the `.is-visible` class toggled by IntersectionObserver. */
+.stack-bg-tienda-online::after,
 .stack-bg-tienda::after,
 .stack-bg-pagos::after,
 .stack-bg-envios::after {
   animation-play-state: paused;
 }
+.stack-card.is-visible .stack-bg-tienda-online::after,
 .stack-card.is-visible .stack-bg-tienda::after,
 .stack-card.is-visible .stack-bg-pagos::after,
 .stack-card.is-visible .stack-bg-envios::after {
@@ -273,11 +291,18 @@ body {
    Disables the decorative blob animation entirely for users who request
    reduced motion (low-power mode, accessibility settings). */
 @media (prefers-reduced-motion: reduce) {
+  .stack-bg-tienda-online::after,
   .stack-bg-tienda::after,
   .stack-bg-pagos::after,
   .stack-bg-envios::after {
     animation: none !important;
   }
+}
+
+/* Loader spinner */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* Scroll animations */
