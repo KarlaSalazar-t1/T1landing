@@ -4,14 +4,15 @@ import Image from "next/image";
 import { useState, useRef, useCallback } from "react";
 
 /* ── Top-level tabs ── */
+// Ordered by the seller's journey priority: create store → get paid →
+// expand channels → manage orders → ship → quality → physical POS.
 const TABS = [
   "Crea tu tienda",
+  "Cobra en línea",
   "Conecta marketplaces",
   "Gestiona pedidos",
   "Crea envíos",
   "Control de calidad",
-  "Cobra en línea",
-  "Gestiona reclamaciones",
   "Punto de venta",
 ];
 
@@ -43,6 +44,18 @@ const TAB_CARDS: TabCard[] = [
       { label: "Tienda con IA", description: "Describe tu negocio y nuestra IA creará tu tienda en menos de 2 minutos, lista para vender.", image: null, floatingCards: null, panel: "tienda-ia" },
       { label: "Catálogo de productos", description: "Gestiona productos, variantes, precios e inventario desde un solo lugar centralizado.", image: null, floatingCards: null, panel: "producto-grid" },
       { label: "Personaliza diseño", description: "Personaliza colores, tipografías, banners y secciones de tu tienda sin necesidad de código.", image: null, floatingCards: null, panel: "personaliza" },
+    ],
+  },
+  {
+    title: "PAGOS EN LÍNEA",
+    description:
+      "Recibe pagos con tarjeta, transferencia y efectivo. Enrutamiento inteligente para la mayor tasa de aprobación del mercado.",
+    cta: "Comenzar a cobrar",
+    ctaHref: "/registro",
+    subTabs: [
+      { label: "Checkout integrado", description: "Checkout optimizado para la mayor tasa de conversión en tu tienda.", image: null, floatingCards: null, panel: "checkout" },
+      { label: "Links de pago", description: "Cobra compartiendo un enlace por WhatsApp, email o redes sociales.", image: null, floatingCards: null, panel: "link-pago" },
+      { label: "Enrutamiento de pagos", description: "Enruta pagos entre procesadores para maximizar la tasa de aprobación.", image: null, floatingCards: null, panel: "enrutamiento-pagos" },
     ],
   },
   {
@@ -89,29 +102,6 @@ const TAB_CARDS: TabCard[] = [
       { label: "Crea incidencias", description: "Crea y gestiona incidencias de tus envíos directamente desde el panel.", image: "/img/incidencias.png", floatingCards: "incidencia" },
       { label: "Métricas de desempeño", description: "Monitorea tu tasa de incidencias y el desempeño de cada paquetería.", image: "/img/metricas.png", floatingCards: "metrics" },
       { label: "Gestiona sobrepesos", description: "Detecta y gestiona sobrepesos para evitar cargos adicionales.", image: null, floatingCards: "sobrepesos", panel: "sobrepesos-cards" },
-    ],
-  },
-  {
-    title: "PAGOS EN LÍNEA",
-    description:
-      "Recibe pagos con tarjeta, transferencia y efectivo. Enrutamiento inteligente para la mayor tasa de aprobación del mercado.",
-    cta: "Comenzar a cobrar",
-    ctaHref: "/registro",
-    subTabs: [
-      { label: "Checkout integrado", description: "Checkout optimizado para la mayor tasa de conversión en tu tienda.", image: null, floatingCards: null, panel: "checkout" },
-      { label: "Links de pago", description: "Cobra compartiendo un enlace por WhatsApp, email o redes sociales.", image: null, floatingCards: null, panel: "link-pago" },
-      { label: "Enrutamiento de pagos", description: "Enruta pagos entre procesadores para maximizar la tasa de aprobación.", image: null, floatingCards: null, panel: "enrutamiento-pagos" },
-    ],
-  },
-  {
-    title: "RECLAMACIONES",
-    description:
-      "Gestiona disputas y reclamaciones de manera eficiente. Genera evidencia automática y monitorea tus métricas.",
-    cta: "Gestionar disputas",
-    ctaHref: "/registro",
-    subTabs: [
-      { label: "Panel de reclamaciones", description: "Gestiona todas tus reclamaciones desde un panel centralizado.", image: null, floatingCards: null, panel: "disputas" },
-      { label: "Métricas clave", description: "Monitorea métricas de reclamaciones y tendencias por periodo.", image: null, floatingCards: null, panel: "metricas-contracargos" },
     ],
   },
   {

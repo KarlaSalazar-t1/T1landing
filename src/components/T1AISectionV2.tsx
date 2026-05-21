@@ -243,56 +243,11 @@ export default function T1AISectionV2() {
 
         <div className="relative mx-auto flex w-full max-w-[var(--max-w)] flex-col px-5 py-16 tablet:px-6 tablet:py-24">
           {/* Layout:
-              - mobile: flex column → text (flex-none, top), visual (flex-1, centered)
-                with the indicator pinned absolute at the bottom. Stable Y per slot.
-              - tablet+: 3-column grid [paginator | text | visual]. */}
-          <div className="flex flex-1 flex-col gap-6 tablet:grid tablet:grid-cols-[60px_1fr_1fr] tablet:items-center tablet:gap-12">
-            {/* COL 1 — Paginator
-                Desktop only: vertical column on the left.
-                Hidden on mobile because horizontal dots imply a swipe gesture
-                that conflicts with the vertical scroll-driven carousel. */}
-            <div className="order-3 hidden flex-col items-center justify-center gap-3 tablet:order-none tablet:flex">
-              <button
-                type="button"
-                onClick={prev}
-                aria-label="Anterior"
-                className="hidden h-[28px] w-[28px] cursor-pointer items-center justify-center rounded-full border-none bg-transparent text-black/55 transition-colors duration-200 hover:text-black disabled:opacity-30 tablet:flex"
-                disabled={active === 0}
-              >
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                  <path d="M3 10L8 5L13 10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-              {SLIDES.map((s, i) => (
-                <button
-                  key={s.id}
-                  type="button"
-                  onClick={() => goToSlide(i)}
-                  aria-label={`Ir a ${s.title}`}
-                  aria-current={i === active}
-                  className="cursor-pointer border-none p-0 transition-all duration-300"
-                  style={{
-                    width: i === active ? 12 : 8,
-                    height: i === active ? 12 : 8,
-                    borderRadius: "50%",
-                    background: i === active ? "#DB3B2B" : "rgba(0,0,0,0.22)",
-                    boxShadow:
-                      i === active ? "0 0 0 4px rgba(219,59,43,0.10)" : "none",
-                  }}
-                />
-              ))}
-              <button
-                type="button"
-                onClick={next}
-                aria-label="Siguiente"
-                className="hidden h-[28px] w-[28px] cursor-pointer items-center justify-center rounded-full border-none bg-transparent text-black/55 transition-colors duration-200 hover:text-black disabled:opacity-30 tablet:flex"
-                disabled={active === SLIDES.length - 1}
-              >
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                  <path d="M3 6L8 11L13 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-            </div>
+              - mobile: flex column → text (top), visual (centered).
+              - tablet+: 2-column grid [text | visual].
+              Navigation is the horizontal arrow bar at the bottom on every
+              breakpoint (no vertical paginator). */}
+          <div className="flex flex-col gap-6 tablet:grid tablet:min-h-[440px] tablet:grid-cols-2 tablet:items-center tablet:gap-12">
 
             {/* COL 2 — Text (IA title at top, feature content below)
                 flex-none on mobile so it doesn't grow and stays at the top. */}
@@ -413,11 +368,10 @@ export default function T1AISectionV2() {
             </div>
           </div>
 
-          {/* Mobile-only carousel controls — circular arrow buttons matching
-              the Casos de Éxito ArrowBtn style, with a counter chip between.
-              In-flow (mt) now that the section is content-sized. */}
+          {/* Horizontal carousel controls — shown on every breakpoint now.
+              Circular prev/next arrows with a dot paginator between them. */}
           <div
-            className="z-30 mt-8 flex items-center justify-center gap-3 tablet:hidden"
+            className="z-30 mt-10 flex items-center justify-center gap-4 tablet:mt-12"
           >
             <button
               type="button"
@@ -438,17 +392,25 @@ export default function T1AISectionV2() {
                 />
               </svg>
             </button>
-            <span
-              className="rounded-full backdrop-blur-sm font-inter text-[12px] font-semibold tabular-nums"
-              style={{
-                color: "#0A1F3F",
-                background: "rgba(255,255,255,0.35)",
-                padding: "5px 12px",
-                letterSpacing: "0.02em",
-              }}
-            >
-              {active + 1} / {SLIDES.length}
-            </span>
+            <div className="flex items-center gap-2">
+              {SLIDES.map((s, i) => (
+                <button
+                  key={s.id}
+                  type="button"
+                  onClick={() => goToSlide(i)}
+                  aria-label={`Ir a ${s.title}`}
+                  aria-current={i === active}
+                  className="cursor-pointer border-none p-0 transition-all duration-300"
+                  style={{
+                    width: i === active ? 11 : 8,
+                    height: i === active ? 11 : 8,
+                    borderRadius: "50%",
+                    background: i === active ? "#DB3B2B" : "rgba(0,0,0,0.20)",
+                    boxShadow: i === active ? "0 0 0 4px rgba(219,59,43,0.10)" : "none",
+                  }}
+                />
+              ))}
+            </div>
             <button
               type="button"
               onClick={() => {

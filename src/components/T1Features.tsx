@@ -9,10 +9,10 @@ import {
   FEATURE_CARDS,
 } from "@/lib/constants";
 import GlassProductCard from "@/components/showcase/GlassProductCard";
-import GlassCreditCard from "@/components/showcase/GlassCreditCard";
 import PedidosPanel from "@/components/showcase/PedidosPanel";
 import CotizadorPanel from "@/components/showcase/CotizadorPanel";
 import TiendaPromptPanel from "@/components/showcase/TiendaPromptPanel";
+import GlassShipmentCard from "@/components/showcase/GlassShipmentCard";
 import { useIsDesktop } from "@/hooks/useIsDesktop";
 import { useCountUp } from "@/hooks/useCountUp";
 import T1FinalCTA from "@/components/T1FinalCTA";
@@ -913,6 +913,48 @@ const SHOWCASE_CARDS = [
     ctaHref: "https://www.t1.com/mx/envios",
   },
 ];
+
+/* ── Payment methods we accept — logo tiles (replaces credit-card mockup) ── */
+const PAYMENT_METHODS = [
+  { src: "/img/icons/visa.svg", alt: "Visa" },
+  { src: "/img/icons/mastercard.svg", alt: "Mastercard" },
+  { src: "/img/icons/amex.svg", alt: "American Express" },
+  { src: "/img/icons/spei.svg", alt: "SPEI" },
+  { src: "/img/icons/kueski.svg", alt: "Kueski Pay" },
+];
+
+function PaymentMethodsGrid() {
+  return (
+    <div className="w-full" style={{ maxWidth: 420 }}>
+      <p className="font-inter text-[13px] font-medium text-white/60" style={{ marginBottom: 14 }}>
+        Acepta todas las formas de pago
+      </p>
+      <div className="flex flex-wrap gap-3">
+        {PAYMENT_METHODS.map((m) => (
+          <div
+            key={m.alt}
+            className="flex items-center justify-center rounded-[12px] bg-white"
+            style={{
+              width: 84,
+              height: 56,
+              padding: "0 14px",
+              boxShadow: "0 6px 20px rgba(0,0,0,0.18)",
+            }}
+          >
+            <Image
+              src={m.src}
+              alt={m.alt}
+              width={60}
+              height={28}
+              className="h-auto w-auto object-contain"
+              style={{ maxHeight: 30, maxWidth: 56 }}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 /* ── External link arrow icon ── */
 /* ── Phone mockup with WhatsApp → Link de pago ── */
@@ -2166,8 +2208,8 @@ export default function T1Features() {
                   <div className="hidden w-1/2 items-end justify-end tablet:flex" style={{ paddingTop: 60 }}>
                     <TiendaPromptPanel animate={tiendaOnlineVisible} />
                   </div>
-                  {/* Mobile: condensed panel */}
-                  <div className="px-5 pb-5 tablet:hidden" style={{ height: 380 }}>
+                  {/* Mobile: landing mockup panel with breathing room */}
+                  <div className="px-5 pb-5 tablet:hidden" style={{ height: 470 }}>
                     <TiendaPromptPanel animate={tiendaOnlineVisible} />
                   </div>
                 </div>
@@ -2263,10 +2305,10 @@ export default function T1Features() {
                         </a>
                       )}
                     </div>
-                    {/* Desktop: credit cards — only mounted on desktop (Q1) */}
+                    {/* Desktop: payment-method logos we accept (Q1) */}
                     {isDesktop !== false && (
-                      <div className="mt-6 hidden flex-1 items-center justify-center tablet:flex tablet:mt-0">
-                        <GlassCreditCard />
+                      <div className="mt-6 hidden flex-1 flex-col items-start justify-center tablet:flex tablet:mt-0">
+                        <PaymentMethodsGrid />
                       </div>
                     )}
 
@@ -2324,16 +2366,18 @@ export default function T1Features() {
                         </a>
                       )}
                     </div>
+                    {/* Desktop: GlassShipmentCard (guía) below the text */}
+                    {isDesktop !== false && (
+                      <div className="mt-6 hidden flex-1 items-center justify-center tablet:flex tablet:mt-0">
+                        <GlassShipmentCard />
+                      </div>
+                    )}
+                    {/* Mobile: phone-style envíos list */}
+                    {isDesktop !== true && <MobileEnviosPanel />}
                   </div>
                   {/* CotizadorPanel — matches Marketplaces panel width (w-1/2) */}
                   {isDesktop !== false && (
                     <div className="hidden w-1/2 items-end justify-end tablet:flex" style={{ paddingTop: 60 }}>
-                      <CotizadorPanel animate={enviosVisible} />
-                    </div>
-                  )}
-                  {/* Mobile: condensed cotizador */}
-                  {isDesktop !== true && (
-                    <div className="px-5 pb-5 tablet:hidden" style={{ height: 420 }}>
                       <CotizadorPanel animate={enviosVisible} />
                     </div>
                   )}
