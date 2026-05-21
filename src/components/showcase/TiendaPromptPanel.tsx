@@ -4,31 +4,275 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 /**
- * Tienda en línea — AI prompt panel.
- * Shows a typed prompt + spark icon, then transitions to a generated
- * tienda preview (storefront mockup).
+ * Tienda en línea — full-flow landing reveal.
  *
  * Stages:
- *   typing  → typewriter prompt
- *   loading → "Creando tu tienda..." with spinner
- *   ready   → storefront preview reveal
+ *   typing   → renders the T1 landing page mockup with the AI prompt
+ *              input typing out a sample query
+ *   loading  → fills the whole panel with a skeleton (the "creating
+ *              your store" state — full surface, no spinner)
+ *   ready    → reveals the finished tienda landing (logo, hero, product
+ *              grid, footer)
  */
-const PROMPT_TEXT = "Quiero vender accesorios para celular y tecnología";
+const PROMPT_TEXT = "Quiero vender comida y accesorios para mascotas";
 const FONT = "var(--font-manrope-var), sans-serif";
 
 type Stage = "typing" | "loading" | "ready";
 
-function Spark({ size = 14 }: { size?: number }) {
+function Spark({ size = 14, color = "#DB3B2B" }: { size?: number; color?: string }) {
   return (
     <svg width={size} height={size} viewBox="0 0 16 16" fill="none">
       <path
         d="M8 1.5L9.4 6.6L14.5 8L9.4 9.4L8 14.5L6.6 9.4L1.5 8L6.6 6.6L8 1.5Z"
-        fill="#DB3B2B"
+        fill={color}
       />
     </svg>
   );
 }
 
+/* ────────────────────────────────────────────────────────────────
+   Stage 1 — Landing with AI prompt
+   ──────────────────────────────────────────────────────────────── */
+function LandingPrompt({ typed, isActive }: { typed: string; isActive: boolean }) {
+  return (
+    <div className="flex h-full w-full flex-col" style={{ fontFamily: FONT }}>
+      {/* Top nav: T1 logo + condensed nav */}
+      <div className="flex items-center justify-between px-5 py-3">
+        <svg width="24" height="22" viewBox="0 0 45 44" fill="none">
+          <path d="M27.6733 19.1041H31.4027C31.5444 19.1041 31.6388 19.1041 31.7332 19.1985V19.2457V37.7039C31.7332 38.5064 32.4885 39.0729 33.291 38.8369C35.0377 38.1288 37.3037 37.2318 38.956 36.4765C39.2392 36.3349 39.6169 36.1932 39.6169 35.6268V19.2457V19.1513V19.1041V7.86867C39.6169 7.20776 39.0976 6.68848 38.4367 6.68848H35.6514C35.1321 6.68848 34.7073 7.01893 34.5184 7.491C33.3855 10.6539 31.2139 13.0143 27.9566 13.5808C24.6992 14.1473 27.6733 13.628 27.4845 13.628C26.8708 13.7224 26.4459 14.1945 26.4459 14.8082V17.8767C26.4459 18.5376 26.9652 19.0569 27.6261 19.0569L27.6733 19.1041Z" fill="#D93A26" />
+          <path d="M32.5831 5.41411C32.4415 5.27248 32.2055 5.13086 31.9694 5.13086H4.63622C3.78648 5.13086 3.07837 5.74456 3.07837 6.54709V10.7014C3.07837 11.6927 3.2672 12.1648 4.4946 12.1648H13.6057C13.8417 12.1648 14.0305 12.3536 14.0305 12.5897V16.083V35.5326C14.0305 35.9574 14.3138 36.2879 14.7387 36.4767C15.5412 36.8072 18.3264 38.1762 19.2706 38.6955C20.2147 39.2148 21.867 38.3178 21.867 36.996V13.2506V13.0617C21.8198 12.7313 21.867 12.4008 22.1975 12.2592H22.4335H25.4076C31.9222 11.6455 32.5831 6.5943 32.6303 6.02781V5.93339V5.79177C32.6303 5.65014 32.6303 5.55573 32.4887 5.46131L32.5831 5.41411Z" fill="#D93A26" />
+        </svg>
+        <div className="flex items-center gap-3 text-[9px] text-black/60">
+          <span>Ecosistema</span>
+          <span>¿Qué es T1?</span>
+          <span>Iniciar sesión</span>
+          <span
+            className="rounded-full px-2.5 py-1 text-[8px] font-semibold text-white"
+            style={{ background: "#DB3B2B" }}
+          >
+            Comenzar gratis
+          </span>
+        </div>
+      </div>
+
+      {/* Hero copy + prompt */}
+      <div className="flex flex-1 flex-col items-center justify-center px-6">
+        <h2
+          className="text-center font-sora font-normal text-black"
+          style={{ fontSize: 26, lineHeight: 1.1, letterSpacing: "-0.025em" }}
+        >
+          Crea tu tienda en{" "}
+          <span style={{ color: "#DB3B2B" }}>segundos</span>
+        </h2>
+        <p
+          className="mt-2 text-center font-inter text-[11px] font-light text-black/60"
+          style={{ maxWidth: 380 }}
+        >
+          T1 te ayuda a vender, cobrar y enviar a todo México. Todo en uno.
+        </p>
+
+        {/* Prompt input — big, rounded, like the screenshot */}
+        <div
+          className="mt-4 w-full overflow-hidden rounded-[18px] border bg-white"
+          style={{
+            maxWidth: 460,
+            borderColor: "rgba(0,0,0,0.08)",
+            padding: "16px 18px",
+            boxShadow: "0 4px 30px rgba(0,0,0,0.04)",
+            minHeight: 90,
+          }}
+        >
+          <span className="font-inter text-[12px] text-black/85" style={{ lineHeight: 1.4 }}>
+            {typed}
+            {isActive && (
+              <span
+                className="ml-0.5 inline-block w-[2px] bg-black/70"
+                style={{ height: "0.9em", verticalAlign: "text-bottom", animation: "blink 0.7s step-end infinite" }}
+              />
+            )}
+          </span>
+          <div className="mt-3 flex items-center justify-end gap-2">
+            <span className="font-inter text-[9px] text-black/35">{typed.length}/500</span>
+            <span className="flex h-[20px] w-[20px] items-center justify-center rounded-full border border-black/10 bg-white text-black/55">
+              <svg width="9" height="9" viewBox="0 0 16 16" fill="none">
+                <rect x="6" y="2" width="4" height="8" rx="2" stroke="currentColor" strokeWidth="1.5" />
+                <path d="M3.5 8C3.5 10.4853 5.51472 12.5 8 12.5C10.4853 12.5 12.5 10.4853 12.5 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
+            </span>
+            <span
+              className="flex h-[22px] w-[22px] items-center justify-center rounded-full text-white"
+              style={{ background: "#DB3B2B" }}
+            >
+              <svg width="10" height="10" viewBox="0 0 16 16" fill="none">
+                <path d="M8 13V3M8 3L4 7M8 3L12 7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
+          </div>
+        </div>
+
+        {/* Category chips */}
+        <div className="mt-3 flex flex-wrap items-center justify-center gap-1.5">
+          {["Moda", "Deportes", "Belleza", "Joyería", "Electrónica", "Hogar"].map((c) => (
+            <span
+              key={c}
+              className="rounded-full bg-black/[0.04] px-2.5 py-1 font-inter text-[9px] font-medium text-black/65"
+            >
+              {c}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Stats footer */}
+      <div className="flex items-center justify-center gap-3 border-t border-black/[0.05] py-2.5 font-inter text-[9px] text-black/55">
+        <span>+5,000 negocios</span>
+        <span className="text-black/20">•</span>
+        <span>+40,000 envíos</span>
+        <span className="text-black/20">•</span>
+        <span>+$1,000M procesados</span>
+      </div>
+    </div>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────────
+   Stage 2 — Full-panel skeleton
+   ──────────────────────────────────────────────────────────────── */
+function SkeletonLanding() {
+  return (
+    <div
+      className="flex h-full w-full flex-col"
+      style={{ fontFamily: FONT, animation: "fadeSlideIn 0.4s ease-out" }}
+    >
+      <style jsx>{`
+        @keyframes shimmer {
+          0% { background-position: -200% 0; }
+          100% { background-position: 200% 0; }
+        }
+        .skel {
+          background: linear-gradient(
+            90deg,
+            rgba(0,0,0,0.04) 0%,
+            rgba(0,0,0,0.08) 50%,
+            rgba(0,0,0,0.04) 100%
+          );
+          background-size: 200% 100%;
+          animation: shimmer 1.4s linear infinite;
+          border-radius: 6px;
+        }
+      `}</style>
+
+      {/* Top nav skeleton */}
+      <div className="flex items-center justify-between px-5 py-3">
+        <div className="skel" style={{ width: 28, height: 22 }} />
+        <div className="flex items-center gap-2">
+          <div className="skel" style={{ width: 50, height: 10 }} />
+          <div className="skel" style={{ width: 60, height: 10 }} />
+          <div className="skel" style={{ width: 70, height: 20, borderRadius: 999 }} />
+        </div>
+      </div>
+
+      {/* Hero skeleton */}
+      <div className="flex flex-1 flex-col items-center justify-center gap-3 px-6">
+        <div className="skel" style={{ width: "70%", maxWidth: 320, height: 22 }} />
+        <div className="skel" style={{ width: "55%", maxWidth: 260, height: 22 }} />
+        <div className="skel" style={{ width: "60%", maxWidth: 280, height: 10, marginTop: 6 }} />
+
+        {/* Product grid placeholder */}
+        <div className="mt-4 grid w-full max-w-[460px] grid-cols-4 gap-1.5">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div key={i} className="skel" style={{ height: 50 }} />
+          ))}
+        </div>
+      </div>
+
+      {/* Stats footer skeleton */}
+      <div className="flex items-center justify-center gap-3 border-t border-black/[0.04] py-2.5">
+        <div className="skel" style={{ width: 70, height: 10 }} />
+        <div className="skel" style={{ width: 70, height: 10 }} />
+        <div className="skel" style={{ width: 70, height: 10 }} />
+      </div>
+    </div>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────────
+   Stage 3 — Finished landing (the tienda the prompt described)
+   ──────────────────────────────────────────────────────────────── */
+function FinalLanding() {
+  const PRODUCTS = [
+    { name: "Croquetas Premium", price: "$489" },
+    { name: "Collar ajustable", price: "$129" },
+    { name: "Juguete dental", price: "$89" },
+    { name: "Cama acolchada", price: "$649" },
+    { name: "Plato doble", price: "$179" },
+    { name: "Snacks naturales", price: "$95" },
+    { name: "Transportadora", price: "$899" },
+    { name: "Shampoo natural", price: "$199" },
+  ];
+  return (
+    <div className="flex h-full w-full flex-col" style={{ fontFamily: FONT, animation: "fadeSlideIn 0.5s ease-out" }}>
+      {/* Branded nav */}
+      <div className="flex items-center justify-between border-b border-black/[0.05] px-5 py-3">
+        <span className="font-sora text-[14px] font-semibold text-black">PetShop MX</span>
+        <div className="flex items-center gap-3 text-[10px] text-black/60">
+          <span>Tienda</span>
+          <span>Marcas</span>
+          <span>Promos</span>
+          <span
+            className="rounded-full bg-black px-3 py-1 text-[9px] font-semibold text-white"
+          >
+            Comprar
+          </span>
+        </div>
+      </div>
+
+      {/* Hero band */}
+      <div
+        className="flex flex-col items-center justify-center gap-1 px-5 py-3"
+        style={{
+          background: "linear-gradient(135deg, #FFF6F0 0%, #FFE9DD 100%)",
+        }}
+      >
+        <p className="font-sora text-[15px] font-semibold text-black" style={{ letterSpacing: "-0.02em" }}>
+          Todo para tu mascota
+        </p>
+        <p className="font-inter text-[9px] text-black/55">Envíos a todo México · 24 hrs</p>
+      </div>
+
+      {/* Product grid */}
+      <div className="grid flex-1 grid-cols-4 gap-1.5 p-2.5">
+        {PRODUCTS.map((p, i) => (
+          <div
+            key={i}
+            className="overflow-hidden rounded-[6px] border border-black/[0.05] bg-white"
+            style={{ animation: `fadeSlideIn 0.4s ease-out ${0.1 + i * 0.05}s both` }}
+          >
+            <div className="flex h-[40px] items-center justify-center" style={{ background: "#FAF6F2" }}>
+              <Image src="/img/tenis-transparente.png" alt="" width={28} height={20} className="object-contain opacity-80" />
+            </div>
+            <div style={{ padding: "4px 5px" }}>
+              <p className="truncate font-inter text-[7.5px] font-medium text-black">{p.name}</p>
+              <p className="font-inter text-[8px] font-bold text-black">{p.price}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Footer pill */}
+      <div className="flex items-center justify-center gap-1 border-t border-black/[0.04] py-2">
+        <Spark size={9} />
+        <span className="font-inter text-[8px] font-semibold text-black/55">
+          Tienda creada con T1 en segundos
+        </span>
+      </div>
+    </div>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────────
+   Main panel — wraps with the glass border frame other panels use
+   ──────────────────────────────────────────────────────────────── */
 export default function TiendaPromptPanel({ animate }: { animate: boolean }) {
   const [typed, setTyped] = useState("");
   const [stage, setStage] = useState<Stage>("typing");
@@ -48,15 +292,19 @@ export default function TiendaPromptPanel({ animate }: { animate: boolean }) {
       if (i <= PROMPT_TEXT.length) {
         setTyped(PROMPT_TEXT.slice(0, i));
         i++;
-        typingTimer = setTimeout(tick, 32 + Math.random() * 20);
+        // Slightly slower typing so the user has time to read it.
+        typingTimer = setTimeout(tick, 55 + Math.random() * 25);
       } else {
+        // Pause on the completed prompt so user can read it before
+        // the skeleton blanks everything out.
         loadingTimer = setTimeout(() => {
           setStage("loading");
-          readyTimer = setTimeout(() => setStage("ready"), 1400);
-        }, 600);
+          // Spend longer in skeleton too — it's the build-up to the reveal.
+          readyTimer = setTimeout(() => setStage("ready"), 2000);
+        }, 1200);
       }
     };
-    typingTimer = setTimeout(tick, 800);
+    typingTimer = setTimeout(tick, 700);
     return () => {
       clearTimeout(typingTimer);
       clearTimeout(loadingTimer);
@@ -67,7 +315,7 @@ export default function TiendaPromptPanel({ animate }: { animate: boolean }) {
   return (
     <div
       className="relative h-full w-full overflow-hidden"
-      style={{ paddingTop: 12, paddingLeft: 12, fontFamily: FONT }}
+      style={{ paddingTop: 12, paddingLeft: 12 }}
     >
       {/* Glass border frame */}
       <div
@@ -79,147 +327,21 @@ export default function TiendaPromptPanel({ animate }: { animate: boolean }) {
         }}
       />
 
-      {/* Inner white panel with two stages */}
+      {/* Inner panel — switches content per stage */}
       <div
-        className="relative flex h-full flex-col overflow-hidden bg-white"
-        style={{ borderRadius: "14px 0 0 0" }}
+        className="relative h-full overflow-hidden"
+        style={{
+          borderRadius: "14px 0 0 0",
+          background:
+            stage === "typing"
+              ? "radial-gradient(ellipse 80% 60% at 50% 30%, rgba(255,193,180,0.6) 0%, rgba(255,255,255,0.95) 60%, #FFFFFF 100%)"
+              : "#FFFFFF",
+          transition: "background 0.6s ease",
+        }}
       >
-        {/* Top: prompt input ALWAYS visible */}
-        <div className="px-6" style={{ paddingTop: 24, paddingBottom: 16 }}>
-          <span
-            className="inline-flex w-fit items-center gap-1.5 rounded-full font-inter text-[11px] font-semibold"
-            style={{
-              padding: "5px 12px 5px 9px",
-              background: "rgba(219,59,43,0.08)",
-              color: "#DB3B2B",
-              marginBottom: 10,
-            }}
-          >
-            <Spark size={12} />
-            Crea tu tienda con IA
-          </span>
-
-          {/* Prompt input */}
-          <div
-            className="rounded-[14px] border bg-white"
-            style={{
-              borderColor: stage === "typing" ? "#DB3B2B" : "rgba(0,0,0,0.08)",
-              padding: "12px 14px",
-              boxShadow: stage === "typing" ? "0 0 0 3px rgba(219,59,43,0.08)" : "0 0 0 0 transparent",
-              transition: "border-color 0.3s, box-shadow 0.3s",
-            }}
-          >
-            <span className="font-inter text-[13px] text-black/85" style={{ lineHeight: 1.4 }}>
-              {typed}
-              {stage === "typing" && (
-                <span
-                  className="ml-0.5 inline-block w-[2px] bg-[#DB3B2B]"
-                  style={{ height: "0.9em", verticalAlign: "text-bottom", animation: "blink 0.7s step-end infinite" }}
-                />
-              )}
-            </span>
-            <div className="mt-2 flex items-center justify-between">
-              <span className="font-inter text-[10px] text-black/35">
-                {typed.length}/500
-              </span>
-              <span
-                className="flex h-[26px] w-[26px] items-center justify-center rounded-full text-white"
-                style={{ background: "#DB3B2B" }}
-              >
-                <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-                  <path d="M8 13V3M8 3L4 7M8 3L12 7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom: loading or generated tienda preview */}
-        <div className="relative flex-1 px-6 pb-5">
-          {stage === "loading" && (
-            <div
-              className="flex h-full flex-col items-center justify-center gap-3"
-              style={{ animation: "fadeSlideIn 0.4s ease-out" }}
-            >
-              <div
-                className="flex h-[44px] w-[44px] items-center justify-center"
-                style={{ animation: "spin 1.2s linear infinite" }}
-              >
-                <Spark size={26} />
-              </div>
-              <span className="font-inter text-[12px] font-medium text-black/65">
-                Creando tu tienda…
-              </span>
-            </div>
-          )}
-
-          {stage === "ready" && (
-            <div
-              className="relative flex h-full flex-col overflow-hidden rounded-[12px] border border-black/[0.06] bg-white"
-              style={{ animation: "fadeSlideIn 0.5s ease-out" }}
-            >
-              {/* Browser chrome */}
-              <div className="flex items-center gap-1.5 border-b border-black/[0.05] bg-[#FAFAFA] px-3 py-1.5">
-                <div className="h-[6px] w-[6px] rounded-full bg-[#FF5F57]" />
-                <div className="h-[6px] w-[6px] rounded-full bg-[#FEBC2E]" />
-                <div className="h-[6px] w-[6px] rounded-full bg-[#28C840]" />
-                <div className="ml-2 flex-1 truncate rounded-[4px] bg-white px-2 py-0.5 text-[8px] text-black/40">
-                  techstore.t1pages.com
-                </div>
-              </div>
-
-              {/* Hero band */}
-              <div
-                className="flex items-center justify-between px-4 py-3"
-                style={{ background: "linear-gradient(120deg, #0F172A 0%, #1E293B 100%)" }}
-              >
-                <div>
-                  <p className="font-sora text-[11px] font-semibold text-white">TechStore</p>
-                  <p className="font-inter text-[8px] text-white/65">Accesorios para celular y tecnología</p>
-                </div>
-                <span
-                  className="rounded-full bg-[#DB3B2B] px-2 py-0.5 font-inter text-[7px] font-bold text-white"
-                >
-                  Comprar
-                </span>
-              </div>
-
-              {/* Product grid */}
-              <div className="grid grid-cols-3 gap-1.5 p-2">
-                {[
-                  { img: "/img/tenis-transparente.png", name: "Funda Pro", price: "$249" },
-                  { img: "/img/tenis-transparente.png", name: "Cargador 20W", price: "$399" },
-                  { img: "/img/tenis-transparente.png", name: "Audífonos BT", price: "$549" },
-                  { img: "/img/tenis-transparente.png", name: "PowerBank", price: "$199" },
-                  { img: "/img/tenis-transparente.png", name: "MagSafe", price: "$329" },
-                  { img: "/img/tenis-transparente.png", name: "Cable USB-C", price: "$89" },
-                ].map((p, i) => (
-                  <div
-                    key={i}
-                    className="overflow-hidden rounded-[5px] border border-black/[0.05] bg-white"
-                    style={{ animation: `fadeSlideIn 0.4s ease-out ${0.2 + i * 0.07}s both` }}
-                  >
-                    <div className="flex h-[42px] items-center justify-center bg-[#F7F7F7]">
-                      <Image src={p.img} alt="" width={40} height={28} className="object-contain" />
-                    </div>
-                    <div style={{ padding: "4px 6px" }}>
-                      <p className="truncate font-inter text-[8px] font-medium text-black">{p.name}</p>
-                      <p className="font-inter text-[8px] font-bold text-black">{p.price}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Footer pill */}
-              <div className="mt-auto flex items-center justify-center gap-1 border-t border-black/[0.04] py-1.5">
-                <Spark size={9} />
-                <span className="font-inter text-[8px] font-semibold text-black/55">
-                  Tienda creada en segundos con T1
-                </span>
-              </div>
-            </div>
-          )}
-        </div>
+        {stage === "typing" && <LandingPrompt typed={typed} isActive={true} />}
+        {stage === "loading" && <SkeletonLanding />}
+        {stage === "ready" && <FinalLanding />}
       </div>
     </div>
   );

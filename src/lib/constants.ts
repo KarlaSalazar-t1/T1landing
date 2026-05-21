@@ -14,7 +14,7 @@ export const NAV_LINKS = [
 // ── Mega Menu ──
 export const MEGA_MENU_COLUMNS = [
   {
-    title: "T1tienda",
+    title: "T1 Tienda",
     href: "/productos/t1tienda",
     items: [
       { title: "Tienda con IA", desc: "Crea tu tienda online en minutos", href: "/productos/t1tienda/tienda-con-ia" },
@@ -26,7 +26,7 @@ export const MEGA_MENU_COLUMNS = [
     ],
   },
   {
-    title: "T1envíos",
+    title: "T1 Envíos",
     href: "/productos/t1envios",
     items: [
       { title: "Multipaquetería", desc: "Conecta +25 paqueterías en un click", href: "/productos/t1envios/multipaqueteria" },
@@ -38,7 +38,7 @@ export const MEGA_MENU_COLUMNS = [
     ],
   },
   {
-    title: "T1pagos",
+    title: "T1 Pagos",
     href: "/productos/t1pagos",
     items: [
       { title: "Pagos en línea", desc: "Tarjetas, transferencias y efectivo", href: "/productos/t1pagos/pagos-en-linea" },
@@ -49,7 +49,7 @@ export const MEGA_MENU_COLUMNS = [
     ],
   },
   {
-    title: "T1score",
+    title: "T1 Score",
     href: "/productos/t1score",
     items: [
       { title: "Prevención de fraude", desc: "Bloquea fraude en tiempo real", href: "/productos/t1score/prevencion-fraude" },
@@ -65,9 +65,9 @@ export const MEGA_MENU_SIDEBAR = {
     text: "Nuestros resultados nos respaldan",
   },
   news: [
-    "T1tienda + TikTok Shop",
-    "T1score integra Círculo de Crédito",
-    "T1envíos llega a Colombia y Brasil",
+    "T1 Tienda + TikTok Shop",
+    "T1 Score integra Círculo de Crédito",
+    "T1 Envíos llega a Colombia y Brasil",
   ],
 };
 
@@ -119,10 +119,10 @@ export const FEATURE_CARDS = [
 
 // ── Footer ──
 export const FOOTER_SOLUTIONS = [
-  { label: "T1tienda", href: "/productos/t1tienda" },
-  { label: "T1pagos", href: "/productos/t1pagos" },
-  { label: "T1envíos", href: "/productos/t1envios" },
-  { label: "T1score", href: "/productos/t1score" },
+  { label: "T1 Tienda", href: "/productos/t1tienda" },
+  { label: "T1 Pagos", href: "/productos/t1pagos" },
+  { label: "T1 Envíos", href: "/productos/t1envios" },
+  { label: "T1 Score", href: "/productos/t1score" },
 ];
 
 export const FOOTER_COMPANY = [

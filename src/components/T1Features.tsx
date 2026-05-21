@@ -53,9 +53,9 @@ function CountStat({ end, prefix = "", suffix = "", label, decimals = 0 }: { end
 /* ── Product modal — matching Figma design ── */
 export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: string; onClose: () => void; pageMode?: boolean }) {
   const titles: Record<string, string> = {
-    t1tienda: "T1tienda",
-    t1pagos: "T1pagos",
-    t1envios: "T1envíos",
+    t1tienda: "T1 Tienda",
+    t1pagos: "T1 Pagos",
+    t1envios: "T1 Envíos",
   };
   const title = titles[cardId] || cardId;
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -885,7 +885,7 @@ const SHOWCASE_CARDS = [
     bgCSS: "stack-bg-tienda",
     panelLeft: "/img/card-producto.svg",
     panelRight: "/img/lista-pedidos-t1.svg",
-    ctaLabel: "Conoce T1tienda",
+    ctaLabel: "Conoce T1 Tienda",
     ctaHref: "/productos/t1tienda/tienda-con-ia",
   },
   {
@@ -897,7 +897,7 @@ const SHOWCASE_CARDS = [
     bgCSS: "stack-bg-pagos",
     panelLeft: "/img/pagos.svg",
     panelRight: null,
-    ctaLabel: "Conoce T1pagos",
+    ctaLabel: "Conoce T1 Pagos",
     ctaHref: "https://t1.com/mx/pagos/",
   },
   {
@@ -909,7 +909,7 @@ const SHOWCASE_CARDS = [
     bgCSS: "stack-bg-envios",
     panelLeft: "/img/envios.svg",
     panelRight: null,
-    ctaLabel: "Conoce T1envíos",
+    ctaLabel: "Conoce T1 Envíos",
     ctaHref: "https://www.t1.com/mx/envios",
   },
 ];
@@ -2162,7 +2162,7 @@ export default function T1Features() {
                   </div>
                 </div>
               ) : card.panelRight ? (
-                /* ── Two-column layout (T1tienda) ── */
+                /* ── Two-column layout (T1 Tienda) ── */
                 <>
                   {/* Left column — text at top + product card below */}
                   <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:p-8" ref={tiendaRef}>
@@ -2226,7 +2226,7 @@ export default function T1Features() {
                   )}
                 </>
               ) : card.id === "t1pagos" ? (
-                /* ── Two-column layout (T1pagos) ── */
+                /* ── Two-column layout (T1 Pagos) ── */
                 <div className="flex h-full w-full flex-col tablet:flex-row">
                   {/* Left column: text at top, credit cards centered below */}
                   <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:p-8 lg:p-10">

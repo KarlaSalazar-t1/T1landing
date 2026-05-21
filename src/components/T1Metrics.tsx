@@ -61,9 +61,9 @@ export default function T1Metrics() {
         </h3>
 
         <div className="grid grid-cols-1 items-start gap-10 tablet:grid-cols-3 tablet:gap-0">
-          <AnimatedMetric end={25} prefix="+" suffix=" mil" label="Negocios" />
-          <AnimatedMetric end={25} prefix="+$" suffix=" B" label="procesados en pagos" />
-          <AnimatedMetric end={40} prefix="+" suffix=" M" label="de envíos gestionados" />
+          <AnimatedMetric end={5000} prefix="+" suffix="" label="negocios usando T1" />
+          <AnimatedMetric end={1000} prefix="+$" suffix="M" label="procesados en pagos" />
+          <AnimatedMetric end={40000} prefix="+" suffix="" label="envíos entregados" />
         </div>
       </div>
     </section>

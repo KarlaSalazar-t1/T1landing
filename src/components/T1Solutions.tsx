@@ -127,7 +127,7 @@ const TAB_CARDS: TabCard[] = [
     ],
   },
   // T1Score hidden — DO NOT REMOVE (used for future launch)
-  // The T1score tab entry, its TAB_CARDS data, and the panel renders for
+  // The T1 Score tab entry, its TAB_CARDS data, and the panel renders for
   // `fraude`, `riesgo`, `buro` (both desktop and mobile) are kept intentionally.
 ];
 

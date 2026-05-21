@@ -3,7 +3,7 @@ import T1Footer from "@/components/T1Footer";
 import T1Reportes from "@/components/T1Reportes";
 
 export const metadata = {
-  title: "Reportería avanzada · T1tienda",
+  title: "Reportería avanzada · T1 Tienda",
   description:
     "Dashboards de ventas, tráfico y rendimiento en tiempo real. Compara canales, exporta a Excel y deja que la IA encuentre oportunidades en tus datos.",
 };

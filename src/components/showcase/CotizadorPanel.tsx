@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 /**
- * Cotizador panel — mirrors the T1envíos shipping-rate quote tool.
+ * Cotizador panel — mirrors the T1 Envíos shipping-rate quote tool.
  * Auto-fills the form fields, then reveals the carrier results table.
  *
  * Stages:
@@ -66,8 +66,12 @@ function InputField({
 
 const RESULTS: { logo: string; carrier: string; service: string; eta: string; price: string; recommended?: boolean }[] = [
   { logo: "/img/icons/fedex-logo.svg", carrier: "FedEx", service: "Día siguiente", eta: "20 de may", price: "$148.30", recommended: true },
+  { logo: "/img/dhl-iso.svg", carrier: "DHL", service: "Día siguiente", eta: "20 de may", price: "$151.69" },
   { logo: "/img/dhl-iso.svg", carrier: "DHL", service: "Económico / 2 días", eta: "21 de may", price: "$155.75" },
+  { logo: "/img/icons/fedex-logo.svg", carrier: "FedEx", service: "Estándar", eta: "22 de may", price: "$132.40" },
   { logo: "/img/99min-iso.svg", carrier: "99minutos", service: "Mismo día", eta: "Hoy", price: "$210.00" },
+  { logo: "/img/icons/paquetexpress.svg", carrier: "Paquetexpress", service: "Económico", eta: "23 de may", price: "$118.50" },
+  { logo: "/img/icons/estafeta-logo.svg", carrier: "Estafeta", service: "Día siguiente", eta: "20 de may", price: "$165.20" },
 ];
 
 export default function CotizadorPanel({ animate }: { animate: boolean }) {
@@ -76,8 +80,10 @@ export default function CotizadorPanel({ animate }: { animate: boolean }) {
   useEffect(() => {
     if (!animate) { setStage(0); return; }
     const timers: ReturnType<typeof setTimeout>[] = [];
+    // Stretch the cadence so each form field reveal has time to read.
+    // Was 600 + i*700 (max ~3.5s) — now 800 + i*1100 (max ~6.3s).
     [1, 2, 3, 4, 5].forEach((s, i) => {
-      timers.push(setTimeout(() => setStage(s as Stage), 600 + i * 700));
+      timers.push(setTimeout(() => setStage(s as Stage), 800 + i * 1100));
     });
     return () => timers.forEach(clearTimeout);
   }, [animate]);
@@ -180,7 +186,7 @@ export default function CotizadorPanel({ animate }: { animate: boolean }) {
                   }}
                 >
                   <div className="flex items-center gap-2">
-                    <div className="flex h-[28px] w-[28px] shrink-0 items-center justify-center overflow-hidden rounded-[6px] bg-[#FFE600]">
+                    <div className="flex h-[28px] w-[28px] shrink-0 items-center justify-center overflow-hidden rounded-[6px] border border-black/[0.06] bg-white">
                       <Image src={row.logo} alt="" width={20} height={20} className="object-contain" />
                     </div>
                     <div className="flex flex-col">

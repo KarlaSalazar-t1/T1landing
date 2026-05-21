@@ -14,25 +14,25 @@ const CASES = [
   {
     id: "circulo", name: "Círculo de Crédito", image: "/img/logos/circulo-de-credito.png", coverImage: "/img/caso-circulo.png", bgColor: "#0A0F1A",
     metric: "−40%", metricLabel: "de mora temprana gracias a data alternativa",
-    quote: "Con T1score logramos reducir 40% la mora temprana gracias a la data alternativa que integran al modelo.",
+    quote: "Con T1 Score logramos reducir 40% la mora temprana gracias a la data alternativa que integran al modelo.",
     person: "Juan Manuel Ruiz", role: "DIRECTOR GENERAL | CÍRCULO DE CRÉDITO", hasVideo: true, videoId: "MPXrBe7iNgE",
   },
   {
     id: "casadetono", name: "Casa de Toño", image: "/img/logos/casa-de-tono.png", coverImage: "/img/caso-casa-de-tono.png", bgColor: "#0A1A28",
     metric: "+92%", metricLabel: "de aprobación y fraude casi cero",
-    quote: "T1pagos permitió a Casa de Toño mantener altos niveles de aprobación, con fraude prácticamente nulo en sus operaciones digitales a través de su canal de WhatsApp.",
+    quote: "T1 Pagos permitió a Casa de Toño mantener altos niveles de aprobación, con fraude prácticamente nulo en sus operaciones digitales a través de su canal de WhatsApp.",
     person: "", role: "", hasVideo: false,
   },
   {
     id: "telcel", name: "Telcel", image: "/img/logos/telcel.png", coverImage: "/img/caso-telcel.png", bgColor: "#0A1020",
     metric: "+2 M", metricLabel: "de recargas procesadas",
-    quote: "T1pagos ha procesado más de 2 millones de paquetes y recargas Telcel, consolidando una operación digital de alto volumen dentro del ecosistema.",
+    quote: "T1 Pagos ha procesado más de 2 millones de paquetes y recargas Telcel, consolidando una operación digital de alto volumen dentro del ecosistema.",
     person: "", role: "", hasVideo: false,
   },
   {
     id: "pirma", name: "Pirma", image: "/img/logos/pirma.png", coverImage: "/img/caso-pirma.png", bgColor: "#0D1A18",
     metric: "45%", metricLabel: "reducción en tiempo de entrega promedio",
-    quote: "T1envíos nos dio acceso a las mejores paqueterías con tarifas que no podíamos negociar solos.",
+    quote: "T1 Envíos nos dio acceso a las mejores paqueterías con tarifas que no podíamos negociar solos.",
     person: "Fernando Díaz", role: "HEAD OF LOGISTICS | PIRMA", hasVideo: false,
   },
   {
@@ -204,7 +204,7 @@ export default function T1Enterprise() {
                     boxShadow: "0 6px 16px -4px rgba(0,0,0,0.30)",
                   }}
                 >
-                  <span className="flex h-[22px] w-[22px] items-center justify-center rounded-full bg-[#DB3B2B]">
+                  <span className="flex h-[22px] w-[22px] items-center justify-center rounded-full bg-black">
                     <svg width="8" height="10" viewBox="0 0 8 10" fill="none">
                       <path d="M1 1L7 5L1 9V1Z" fill="white" />
                     </svg>
@@ -299,7 +299,7 @@ export default function T1Enterprise() {
                     style={{ animation: "fadeSlideIn 0.4s ease-out", boxShadow: "0 4px 14px rgba(0,0,0,0.18)" }}
                   >
                     Ver video
-                    <span className="flex h-[20px] w-[20px] items-center justify-center rounded-full bg-[#DB3B2B]">
+                    <span className="flex h-[20px] w-[20px] items-center justify-center rounded-full bg-black">
                       <svg width="8" height="10" viewBox="0 0 8 10" fill="none">
                         <path d="M1 1L7 5L1 9V1Z" fill="white" />
                       </svg>

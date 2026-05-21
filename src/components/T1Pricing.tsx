@@ -5,7 +5,7 @@ import Image from "next/image";
 const SIDE_PLANS = [
   {
     id: "t1pagos",
-    title: "T1pagos",
+    title: "T1 Pagos",
     badge: "",
     badgeColor: "",
     badgeText: "",
@@ -18,7 +18,7 @@ const SIDE_PLANS = [
   },
   {
     id: "t1envios",
-    title: "T1envíos",
+    title: "T1 Envíos",
     badge: "",
     badgeColor: "",
     badgeText: "",
@@ -47,9 +47,9 @@ export default function T1Pricing() {
           </p>
         </div>
 
-        {/* Two-column 40/60 grid: T1tienda full-height (left, 40%) | T1pagos+T1envíos stacked (right, 60%) */}
+        {/* Two-column 40/60 grid: T1 Tienda full-height (left, 40%) | T1 Pagos+T1 Envíos stacked (right, 60%) */}
         <div className="grid grid-cols-1 gap-4 tablet:grid-cols-[2fr_3fr]">
-          {/* LEFT: T1tienda — single white card with two simple plans stacked.
+          {/* LEFT: T1 Tienda — single white card with two simple plans stacked.
               Now an <a> so the whole card has the same hover/click affordance
               as the right-side cards. */}
           <a
@@ -61,7 +61,7 @@ export default function T1Pricing() {
           >
             {/* Header — logo */}
             <div style={{ marginBottom: 24 }}>
-              <Image src="/img/t1tienda-logo.svg" alt="T1tienda" width={140} height={32} style={{ width: "auto", height: 30 }} />
+              <Image src="/img/t1tienda-logo.svg" alt="T1 Tienda" width={140} height={32} style={{ width: "auto", height: 30 }} />
             </div>
 
             {/* Two plans stacked, separated by a divider */}
@@ -114,7 +114,7 @@ export default function T1Pricing() {
             </span>
           </a>
 
-          {/* RIGHT: T1pagos and T1envíos stacked in 2 rows */}
+          {/* RIGHT: T1 Pagos and T1 Envíos stacked in 2 rows */}
           <div className="flex flex-col gap-4">
             {SIDE_PLANS.map((plan) => (
               <a

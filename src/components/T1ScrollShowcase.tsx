@@ -143,10 +143,10 @@ function EnviaCard() {
 
 /* ── Card for "Todo en uno" — orbiting product icons around T1 logo ── */
 const ORBIT_ICONS = [
-  { src: "/img/icon-tienda.svg", label: "T1tienda" },
-  { src: "/img/icon-envios.svg", label: "T1envíos" },
-  { src: "/img/icon-pagos.svg", label: "T1pagos" },
-  { src: "/img/icon-score.svg", label: "T1score" },
+  { src: "/img/icon-tienda.svg", label: "T1 Tienda" },
+  { src: "/img/icon-envios.svg", label: "T1 Envíos" },
+  { src: "/img/icon-pagos.svg", label: "T1 Pagos" },
+  { src: "/img/icon-score.svg", label: "T1 Score" },
 ];
 
 function TodoEnUnoCard() {

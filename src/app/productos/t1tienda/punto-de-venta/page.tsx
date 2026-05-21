@@ -3,7 +3,7 @@ import T1Footer from "@/components/T1Footer";
 import T1POS from "@/components/T1POS";
 
 export const metadata = {
-  title: "Punto de venta · T1tienda",
+  title: "Punto de venta · T1 Tienda",
   description:
     "Vende en sucursal y online desde una sola caja. Cobra con tarjeta, efectivo o transferencia, sincroniza inventario y cierra turno con control de caja.",
 };

@@ -86,7 +86,7 @@ function Chevron({ open }: { open: boolean }) {
 }
 
 /* ── Main ──
-   Renders the desktop "T1tienda" admin frame (glass + inner white +
+   Renders the desktop "T1 Tienda" admin frame (glass + inner white +
    header bar + sidebar). The right content area defaults to the Mis pedidos
    table, but `contentOverride` lets callers (e.g. DesktopTiendaPanel) swap
    in a different view (Canales de Venta) while keeping the same frame. */
@@ -152,7 +152,7 @@ export default function PedidosPanel({
     >
       {/* Full layout — header bar on top, then sidebar + content below */}
       <div className="flex flex-1 flex-col overflow-hidden">
-        {/* Top header bar — collapse icon + T1tienda logo */}
+        {/* Top header bar — collapse icon + T1 Tienda logo */}
         <div className="flex items-center gap-2 border-b border-black/[0.06] bg-white px-4" style={{ paddingTop: 14, paddingBottom: 12 }}>
           <Image src="/img/icons/colapse.svg" alt="" width={20} height={20} style={{ opacity: 0.35 }} />
           <div className="flex items-center gap-1">

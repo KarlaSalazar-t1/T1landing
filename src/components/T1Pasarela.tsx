@@ -361,7 +361,7 @@ export default function T1Pasarela() {
                   Antifraude que no detiene tus ventas
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                  Score de riesgo por transacción con T1score. Detiene fraude real sin bloquear clientes legítimos.
+                  Score de riesgo por transacción con T1 Score. Detiene fraude real sin bloquear clientes legítimos.
                 </p>
                 <ul className="flex flex-col gap-2.5">
                   {["Análisis de +200 señales por transacción", "Decisión en menos de 100ms", "3D Secure cuando lo necesitas"].map((it) => (
@@ -545,7 +545,7 @@ export default function T1Pasarela() {
               { q: "¿Qué métodos de pago acepta T1?", a: "Tarjetas Visa, Mastercard, AMEX (crédito y débito), SPEI, OXXO, transferencia interbancaria, MSI hasta 18 meses y wallets." },
               { q: "¿Necesito un contrato con cada banco?", a: "No. T1 te conecta a múltiples procesadores con un solo contrato y enruta cada cobro al que más conviene." },
               { q: "¿Qué tan rápido recibo el dinero?", a: "Liquidación T+1 hábil para tarjetas. SPEI y transferencias en cuestión de minutos." },
-              { q: "¿Cómo funciona el antifraude?", a: "Cada transacción pasa por T1score, que evalúa +200 señales y emite decisión en menos de 100ms sin afectar la experiencia." },
+              { q: "¿Cómo funciona el antifraude?", a: "Cada transacción pasa por T1 Score, que evalúa +200 señales y emite decisión en menos de 100ms sin afectar la experiencia." },
               { q: "¿Puedo integrarme a mi tienda actual?", a: "Sí. Ofrecemos plugin para Shopify, VTEX, Magento y WooCommerce, además de SDKs y API REST." },
             ].map((f, i) => (
               <details
