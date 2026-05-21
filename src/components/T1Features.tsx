@@ -2139,7 +2139,7 @@ export default function T1Features() {
               {card.id === "t1tienda-en-linea" ? (
                 /* ── Tienda en línea — text + AI prompt panel ── */
                 <div className="flex h-full w-full flex-col tablet:flex-row" ref={tiendaOnlineRef}>
-                  <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-2/5 tablet:p-8">
+                  <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:p-8">
                     <div>
                       <p className="font-sora text-[18px] font-normal text-white tablet:text-[22px] lg:text-[26px]">
                         {card.title}
@@ -2162,8 +2162,8 @@ export default function T1Features() {
                       )}
                     </div>
                   </div>
-                  {/* AI prompt panel — same wrapper style as Pedidos/Envíos */}
-                  <div className="hidden w-3/5 tablet:block" style={{ paddingTop: 40 }}>
+                  {/* AI prompt panel — matches Marketplaces panel width (w-1/2) */}
+                  <div className="hidden w-1/2 items-end justify-end tablet:flex" style={{ paddingTop: 60 }}>
                     <TiendaPromptPanel animate={tiendaOnlineVisible} />
                   </div>
                   {/* Mobile: condensed panel */}
@@ -2300,7 +2300,7 @@ export default function T1Features() {
               ) : card.id === "t1envios" ? (
                 /* ── Envíos — text + shipment card left, panel right ── */
                 <div className="flex h-full w-full flex-col tablet:flex-row" ref={enviosRef}>
-                  <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-2/5 tablet:p-8">
+                  <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:p-8">
                     <div>
                       <p className="font-sora text-[18px] font-normal text-white tablet:text-[22px] lg:text-[26px]">
                         {card.title}
@@ -2325,9 +2325,9 @@ export default function T1Features() {
                       )}
                     </div>
                   </div>
-                  {/* CotizadorPanel — desktop right column */}
+                  {/* CotizadorPanel — matches Marketplaces panel width (w-1/2) */}
                   {isDesktop !== false && (
-                    <div className="hidden w-3/5 tablet:block" style={{ paddingTop: 40 }}>
+                    <div className="hidden w-1/2 items-end justify-end tablet:flex" style={{ paddingTop: 60 }}>
                       <CotizadorPanel animate={enviosVisible} />
                     </div>
                   )}

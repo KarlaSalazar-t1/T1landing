@@ -4,7 +4,6 @@ import T1Features from "@/components/T1Features";
 import T1AISectionV2 from "@/components/T1AISectionV2";
 import T1Metrics from "@/components/T1Metrics";
 import T1Solutions from "@/components/T1Solutions";
-import T1Pricing from "@/components/T1Pricing";
 import T1Enterprise from "@/components/T1Enterprise";
 import T1Audience from "@/components/T1Audience";
 import T1ScrollShowcase from "@/components/T1ScrollShowcase";
@@ -30,7 +29,6 @@ export default function Home() {
         <T1Metrics />
         <T1Audience />
         <T1Solutions />
-        <T1Pricing />
       </div>
 
       {/* Enterprise — sticky behind the black card (same pattern as hero) */}

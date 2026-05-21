@@ -30,11 +30,12 @@ const SIDE_PLANS = [
   },
 ];
 
-export default function T1Pricing() {
+export default function T1Pricing({ hideHeading = false }: { hideHeading?: boolean }) {
   return (
-    <section className="bg-white" style={{ paddingTop: 80, paddingBottom: 80 }}>
+    <section className="bg-white" style={{ paddingTop: hideHeading ? 20 : 80, paddingBottom: 80 }}>
       <div className="mx-auto max-w-[var(--max-w)] px-5 tablet:px-6">
-        {/* Heading */}
+        {/* Heading — omitted when the host page already has its own header */}
+        {!hideHeading && (
         <div style={{ marginBottom: 32 }}>
           <h2
             className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]"
@@ -46,6 +47,7 @@ export default function T1Pricing() {
             Paga solo por lo que usas. Sin sorpresas, sin letras chiquitas.
           </p>
         </div>
+        )}
 
         {/* Two-column 40/60 grid: T1 Tienda full-height (left, 40%) | T1 Pagos+T1 Envíos stacked (right, 60%) */}
         <div className="grid grid-cols-1 gap-4 tablet:grid-cols-[2fr_3fr]">

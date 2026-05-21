@@ -176,7 +176,7 @@ export default function T1AISectionV2() {
   return (
     <section
       ref={sectionRef}
-      className="relative h-[100svh]"
+      className="relative"
       style={{ background: "#FFF1EB" }}
     >
       <style jsx>{`
@@ -188,11 +188,11 @@ export default function T1AISectionV2() {
           50% { transform: translateX(4px); opacity: 1; }
         }
       `}</style>
-      {/* Single-viewport horizontal carousel on every breakpoint. Slides
-          change via the paginator / arrows / swipe — no scroll-driven
-          pinning, so the section no longer eats 5 viewports of scroll. */}
+      {/* Compact, content-sized horizontal carousel on every breakpoint.
+          Slides change via the paginator / arrows / swipe — no scroll
+          pinning and no full-viewport height. */}
       <div
-        className="relative flex h-full w-full flex-col overflow-hidden"
+        className="relative flex w-full flex-col overflow-hidden"
         style={{
           background:
             "radial-gradient(110% 70% at 15% 0%, rgba(255,195,185,0.95) 0%, transparent 55%), radial-gradient(90% 70% at 100% 30%, rgba(255,165,150,0.75) 0%, transparent 55%), radial-gradient(120% 80% at 50% 110%, rgba(255,210,200,0.85) 0%, transparent 60%), #FFF1EB",
@@ -241,7 +241,7 @@ export default function T1AISectionV2() {
           />
         </div>
 
-        <div className="relative mx-auto flex h-full w-full max-w-[var(--max-w)] flex-col px-5 pb-28 pt-20 tablet:px-6 tablet:pb-20 tablet:pt-56">
+        <div className="relative mx-auto flex w-full max-w-[var(--max-w)] flex-col px-5 py-16 tablet:px-6 tablet:py-24">
           {/* Layout:
               - mobile: flex column → text (flex-none, top), visual (flex-1, centered)
                 with the indicator pinned absolute at the bottom. Stable Y per slot.
@@ -414,10 +414,10 @@ export default function T1AISectionV2() {
           </div>
 
           {/* Mobile-only carousel controls — circular arrow buttons matching
-              the Casos de Éxito ArrowBtn style, with a counter chip between. */}
+              the Casos de Éxito ArrowBtn style, with a counter chip between.
+              In-flow (mt) now that the section is content-sized. */}
           <div
-            className="absolute left-0 right-0 z-30 flex items-center justify-center gap-3 tablet:hidden"
-            style={{ bottom: 56 }}
+            className="z-30 mt-8 flex items-center justify-center gap-3 tablet:hidden"
           >
             <button
               type="button"
