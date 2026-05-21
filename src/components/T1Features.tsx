@@ -1757,89 +1757,6 @@ function DesktopTiendaPanel({ animate }: { animate: boolean }) {
     </div>
   );
 }
-/* ── Mobile Envios Panel (phone-style with self-managed animation) ── */
-function MobileEnviosPanel() {
-  const [extraCount, setExtraCount] = useState(0);
-  const panelRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = panelRef.current;
-    if (!el) return;
-    let timers: ReturnType<typeof setTimeout>[] = [];
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setExtraCount(0);
-          for (let i = 0; i < 3; i++) {
-            timers.push(setTimeout(() => setExtraCount(i + 1), 2500 + i * 2200));
-          }
-        } else {
-          setExtraCount(0);
-          timers.forEach(clearTimeout);
-          timers = [];
-        }
-      },
-      { threshold: 0.3 }
-    );
-    observer.observe(el);
-    return () => { observer.disconnect(); timers.forEach(clearTimeout); };
-  }, []);
-
-  const INITIAL = [
-    { guia: "43567890082", paqueteria: "FedEx", logo: "/img/icons/fedex-logo.svg", costo: "$87.45", estado: "En camino" },
-    { guia: "43567890082", paqueteria: "DHL", logo: "/img/dhl-iso.svg", costo: "$449.00", estado: "Entregado" },
-    { guia: "43567890082", paqueteria: "99min", logo: "/img/99min-iso.svg", costo: "$87.45", estado: "Por recolectar" },
-    { guia: "55667788990", paqueteria: "FedEx", logo: "/img/icons/fedex-logo.svg", costo: "$95.50", estado: "Entregado" },
-    { guia: "77889900112", paqueteria: "DHL", logo: "/img/dhl-iso.svg", costo: "$210.00", estado: "Recolectado" },
-    { guia: "33445566778", paqueteria: "99min", logo: "/img/99min-iso.svg", costo: "$65.00", estado: "En camino" },
-    { guia: "11223344559", paqueteria: "FedEx", logo: "/img/icons/fedex-logo.svg", costo: "$112.00", estado: "Entregado" },
-  ];
-
-  const EXTRA = [
-    { guia: "11223344556", paqueteria: "DHL", logo: "/img/dhl-iso.svg", costo: "$210.00", estado: "Recolectado" },
-    { guia: "66778899001", paqueteria: "99min", logo: "/img/99min-iso.svg", costo: "$78.00", estado: "En camino" },
-    { guia: "99001122334", paqueteria: "FedEx", logo: "/img/icons/fedex-logo.svg", costo: "$89.00", estado: "Por recolectar" },
-  ];
-
-  return (
-    <div ref={panelRef} className="mx-auto mt-5 flex flex-col overflow-hidden bg-white tablet:hidden" style={{ width: "85%", maxWidth: 300, height: 480, marginBottom: 16, borderRadius: 20, boxShadow: "0 8px 30px rgba(0,0,0,0.15)", fontFamily: "var(--font-manrope-var), sans-serif" }}>
-      <IOSStatusBar />
-      <div className="flex shrink-0 items-center justify-between border-b border-black/[0.06] px-4" style={{ paddingTop: 8, paddingBottom: 8 }}>
-        <span className="text-[14px] font-bold text-black">Mis envíos</span>
-        <span className="flex h-[28px] items-center rounded-full bg-[#DB3B2B] px-4 text-[10px] font-semibold text-white">Crear envío</span>
-      </div>
-      <div className="flex-1 overflow-hidden">
-        {EXTRA.slice(0, extraCount).slice().reverse().map((row, i) => (
-          <div
-            key={`extra-${row.guia}-${row.paqueteria}`}
-            className="flex items-center gap-2.5 border-b border-black/[0.04] px-4 py-2.5"
-            style={i === 0 ? { animation: "slideRowIn 0.8s ease-out" } : undefined}
-          >
-            <Image src={row.logo} alt="" width={22} height={22} className="shrink-0 rounded object-contain" />
-            <div className="flex min-w-0 flex-col">
-              <span className="truncate text-[10px] font-semibold text-black/70">{row.guia}</span>
-              <span className="text-[9px] text-black/35">{row.paqueteria}</span>
-            </div>
-            <span className="ml-auto shrink-0 text-[10px] font-semibold text-black/60">{row.costo}</span>
-            <span className="shrink-0 rounded-full bg-black/[0.04] px-2 py-0.5 text-[8px] font-medium text-black/45">{row.estado}</span>
-          </div>
-        ))}
-        {INITIAL.map((row, i) => (
-          <div key={i} className="flex items-center gap-2.5 border-b border-black/[0.04] px-4 py-2.5 last:border-0">
-            <Image src={row.logo} alt="" width={22} height={22} className="shrink-0 rounded object-contain" />
-            <div className="flex min-w-0 flex-col">
-              <span className="truncate text-[10px] font-semibold text-black/70">{row.guia}</span>
-              <span className="text-[9px] text-black/35">{row.paqueteria}</span>
-            </div>
-            <span className="ml-auto shrink-0 text-[10px] font-semibold text-black/60">{row.costo}</span>
-            <span className="shrink-0 rounded-full bg-black/[0.04] px-2 py-0.5 text-[8px] font-medium text-black/45">{row.estado}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 /* ── Main Component ── */
 export default function T1Features() {
   const tiendaRef = useRef<HTMLDivElement>(null);
@@ -2208,9 +2125,9 @@ export default function T1Features() {
                   <div className="hidden w-1/2 items-end justify-end tablet:flex" style={{ paddingTop: 60 }}>
                     <TiendaPromptPanel animate={tiendaOnlineVisible} />
                   </div>
-                  {/* Mobile: landing mockup panel with breathing room */}
-                  <div className="px-5 pb-5 tablet:hidden" style={{ height: 470 }}>
-                    <TiendaPromptPanel animate={tiendaOnlineVisible} />
+                  {/* Mobile: phone-framed landing animation */}
+                  <div className="px-5 pb-5 pt-2 tablet:hidden">
+                    <TiendaPromptPanel animate={tiendaOnlineVisible} mobile />
                   </div>
                 </div>
               ) : card.panelRight ? (
@@ -2372,10 +2289,10 @@ export default function T1Features() {
                         <GlassShipmentCard />
                       </div>
                     )}
-                    {/* Mobile: cotizador (same as desktop) */}
+                    {/* Mobile: cotizador in a phone frame */}
                     {isDesktop !== true && (
-                      <div className="pb-5" style={{ height: 460 }}>
-                        <CotizadorPanel animate={enviosVisible} />
+                      <div className="pb-5 pt-2">
+                        <CotizadorPanel animate={enviosVisible} mobile />
                       </div>
                     )}
                   </div>

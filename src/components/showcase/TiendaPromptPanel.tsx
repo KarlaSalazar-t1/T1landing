@@ -273,7 +273,27 @@ function FinalLanding() {
 /* ────────────────────────────────────────────────────────────────
    Main panel — wraps with the glass border frame other panels use
    ──────────────────────────────────────────────────────────────── */
-export default function TiendaPromptPanel({ animate }: { animate: boolean }) {
+function MiniStatusBar() {
+  return (
+    <div className="flex shrink-0 items-center justify-between bg-white px-5 py-1.5">
+      <span className="text-[11px] font-semibold text-black">9:41</span>
+      <div className="flex items-center gap-1">
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
+          <rect x="0" y="3" width="2.5" height="7" rx="0.5" fill="rgba(0,0,0,0.3)" />
+          <rect x="3.5" y="2" width="2.5" height="8" rx="0.5" fill="rgba(0,0,0,0.3)" />
+          <rect x="7" y="1" width="2.5" height="9" rx="0.5" fill="rgba(0,0,0,0.5)" />
+          <rect x="10.5" y="0" width="2.5" height="10" rx="0.5" fill="rgba(0,0,0,0.7)" />
+        </svg>
+        <svg width="18" height="9" viewBox="0 0 22 11" fill="none">
+          <rect x="0.5" y="0.5" width="18" height="10" rx="2" stroke="rgba(0,0,0,0.3)" strokeWidth="1" />
+          <rect x="2" y="2" width="14" height="7" rx="1" fill="rgba(0,0,0,0.7)" />
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+export default function TiendaPromptPanel({ animate, mobile = false }: { animate: boolean; mobile?: boolean }) {
   const [typed, setTyped] = useState("");
   const [stage, setStage] = useState<Stage>("typing");
 
@@ -312,6 +332,39 @@ export default function TiendaPromptPanel({ animate }: { animate: boolean }) {
     };
   }, [animate]);
 
+  const stageBg =
+    stage === "typing"
+      ? "radial-gradient(ellipse 80% 55% at 50% 8%, #FFF3EF 0%, #FFFFFF 55%)"
+      : "#FFFFFF";
+
+  const content = (
+    <>
+      {stage === "typing" && <LandingPrompt typed={typed} isActive={true} />}
+      {stage === "loading" && <SkeletonLanding />}
+      {stage === "ready" && <FinalLanding />}
+    </>
+  );
+
+  // ── Mobile: phone-framed version (rounded card + iOS status bar) ──
+  if (mobile) {
+    return (
+      <div className="relative mx-auto" style={{ width: "88%", maxWidth: 320, fontFamily: FONT }}>
+        <div
+          className="flex flex-col overflow-hidden bg-white"
+          style={{ borderRadius: 22, boxShadow: "0 8px 30px rgba(0,0,0,0.15)", height: 460 }}
+        >
+          <MiniStatusBar />
+          <div
+            className="relative flex-1 overflow-hidden"
+            style={{ background: stageBg, transition: "background 0.6s ease" }}
+          >
+            {content}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       className="relative h-full w-full overflow-hidden"
@@ -332,16 +385,11 @@ export default function TiendaPromptPanel({ animate }: { animate: boolean }) {
         className="relative h-full overflow-hidden"
         style={{
           borderRadius: "14px 0 0 0",
-          background:
-            stage === "typing"
-              ? "radial-gradient(ellipse 80% 55% at 50% 8%, #FFF3EF 0%, #FFFFFF 55%)"
-              : "#FFFFFF",
+          background: stageBg,
           transition: "background 0.6s ease",
         }}
       >
-        {stage === "typing" && <LandingPrompt typed={typed} isActive={true} />}
-        {stage === "loading" && <SkeletonLanding />}
-        {stage === "ready" && <FinalLanding />}
+        {content}
       </div>
     </div>
   );

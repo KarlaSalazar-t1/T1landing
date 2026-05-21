@@ -74,7 +74,27 @@ const RESULTS: { logo: string; carrier: string; service: string; eta: string; pr
   { logo: "/img/icons/estafeta-logo.svg", carrier: "Estafeta", service: "Día siguiente", eta: "20 de may", price: "$165.20" },
 ];
 
-export default function CotizadorPanel({ animate }: { animate: boolean }) {
+function MiniStatusBar() {
+  return (
+    <div className="flex shrink-0 items-center justify-between bg-white px-5 py-1.5">
+      <span className="text-[11px] font-semibold text-black">9:41</span>
+      <div className="flex items-center gap-1">
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
+          <rect x="0" y="3" width="2.5" height="7" rx="0.5" fill="rgba(0,0,0,0.3)" />
+          <rect x="3.5" y="2" width="2.5" height="8" rx="0.5" fill="rgba(0,0,0,0.3)" />
+          <rect x="7" y="1" width="2.5" height="9" rx="0.5" fill="rgba(0,0,0,0.5)" />
+          <rect x="10.5" y="0" width="2.5" height="10" rx="0.5" fill="rgba(0,0,0,0.7)" />
+        </svg>
+        <svg width="18" height="9" viewBox="0 0 22 11" fill="none">
+          <rect x="0.5" y="0.5" width="18" height="10" rx="2" stroke="rgba(0,0,0,0.3)" strokeWidth="1" />
+          <rect x="2" y="2" width="14" height="7" rx="1" fill="rgba(0,0,0,0.7)" />
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+export default function CotizadorPanel({ animate, mobile = false }: { animate: boolean; mobile?: boolean }) {
   const [stage, setStage] = useState<Stage>(0);
 
   useEffect(() => {
@@ -87,6 +107,21 @@ export default function CotizadorPanel({ animate }: { animate: boolean }) {
     });
     return () => timers.forEach(clearTimeout);
   }, [animate]);
+
+  // ── Mobile: phone-framed version (rounded card + iOS status bar) ──
+  if (mobile) {
+    return (
+      <div className="relative mx-auto" style={{ width: "88%", maxWidth: 320, fontFamily: FONT }}>
+        <div
+          className="flex flex-col overflow-hidden bg-white"
+          style={{ borderRadius: 22, boxShadow: "0 8px 30px rgba(0,0,0,0.15)", maxHeight: 440 }}
+        >
+          <MiniStatusBar />
+          <CotizadorContent stage={stage} mobile />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative h-full w-full" style={{ paddingTop: 12, paddingLeft: 12, fontFamily: FONT }}>
@@ -105,6 +140,15 @@ export default function CotizadorPanel({ animate }: { animate: boolean }) {
         className="relative flex h-full flex-col overflow-hidden bg-white"
         style={{ borderRadius: "14px 0 0 0" }}
       >
+        <CotizadorContent stage={stage} />
+      </div>
+    </div>
+  );
+}
+
+function CotizadorContent({ stage, mobile = false }: { stage: Stage; mobile?: boolean }) {
+  return (
+    <div className={mobile ? "flex flex-1 flex-col overflow-y-auto" : "flex flex-1 flex-col"}>
         {/* Header */}
         <div className="px-5" style={{ paddingTop: 16, paddingBottom: 6 }}>
           <h3 className="text-[18px] font-bold text-black">Cotizador</h3>
@@ -113,24 +157,26 @@ export default function CotizadorPanel({ animate }: { animate: boolean }) {
           </p>
         </div>
 
-        {/* Form row — wraps on mobile (2 CPs, then 4 dims, then button),
-            single row on desktop via flex-grow. */}
+        {/* Form — fields wrap, action buttons sit on their own row below. */}
         <div
-          className="mx-5 flex flex-wrap items-end gap-2 rounded-[14px] border border-black/[0.06] bg-white px-3"
+          className="mx-5 rounded-[14px] border border-black/[0.06] bg-white px-3"
           style={{ paddingTop: 10, paddingBottom: 10, marginTop: 12, boxShadow: "0 0 12px rgba(0,0,0,0.04)" }}
         >
-          <InputField label="CP origen" value="55712" placeholder="06700" filled={stage >= 1} className="basis-[46%] grow tablet:basis-0 tablet:grow-[1.5]" />
-          <InputField label="CP destino" value="55712" placeholder="06700" filled={stage >= 2} className="basis-[46%] grow tablet:basis-0 tablet:grow-[1.5]" />
-          <InputField label="Largo" value="23" placeholder="" suffix="cm" filled={stage >= 3} className="basis-[21%] grow tablet:basis-0 tablet:grow" />
-          <InputField label="Alto" value="23" placeholder="" suffix="cm" filled={stage >= 3} className="basis-[21%] grow tablet:basis-0 tablet:grow" />
-          <InputField label="Ancho" value="2" placeholder="" suffix="cm" filled={stage >= 3} className="basis-[21%] grow tablet:basis-0 tablet:grow" />
-          <InputField label="Peso" value="2" placeholder="" suffix="kg" filled={stage >= 4} className="basis-[21%] grow tablet:basis-0 tablet:grow" />
-          <div className="flex w-full items-center justify-end gap-2 tablet:w-auto tablet:flex-1">
+          <div className="flex flex-wrap items-end gap-2">
+            <InputField label="CP origen" value="55712" placeholder="06700" filled={stage >= 1} className="basis-[46%] grow tablet:basis-0 tablet:grow-[1.5]" />
+            <InputField label="CP destino" value="55712" placeholder="06700" filled={stage >= 2} className="basis-[46%] grow tablet:basis-0 tablet:grow-[1.5]" />
+            <InputField label="Largo" value="23" placeholder="" suffix="cm" filled={stage >= 3} className="basis-[21%] grow tablet:basis-0 tablet:grow" />
+            <InputField label="Alto" value="23" placeholder="" suffix="cm" filled={stage >= 3} className="basis-[21%] grow tablet:basis-0 tablet:grow" />
+            <InputField label="Ancho" value="2" placeholder="" suffix="cm" filled={stage >= 3} className="basis-[21%] grow tablet:basis-0 tablet:grow" />
+            <InputField label="Peso" value="2" placeholder="" suffix="kg" filled={stage >= 4} className="basis-[21%] grow tablet:basis-0 tablet:grow" />
+          </div>
+          {/* Action buttons — own row, below the inputs */}
+          <div className="mt-3 flex items-center justify-end gap-3">
             <span className="text-[10px] text-black/35">Limpiar</span>
             <span
-              className="inline-flex items-center justify-center rounded-full px-4 text-[10px] font-semibold text-white"
+              className="inline-flex items-center justify-center rounded-full px-5 text-[10px] font-semibold text-white"
               style={{
-                height: 28,
+                height: 30,
                 background: stage >= 4 ? "#DB3B2B" : "#E9A89F",
                 transition: "background 0.3s",
               }}
@@ -210,16 +256,15 @@ export default function CotizadorPanel({ animate }: { animate: boolean }) {
                   </span>
                   <span
                     className="inline-flex h-[24px] items-center justify-center rounded-full text-[9px] font-semibold text-white"
-                    style={{ background: "#DB3B2B", padding: "0 10px" }}
+                    style={{ background: "#DB3B2B", padding: "0 12px" }}
                   >
-                    Crear envío
+                    Crear
                   </span>
                 </div>
               ))}
             </div>
           </>
         )}
-      </div>
     </div>
   );
 }
