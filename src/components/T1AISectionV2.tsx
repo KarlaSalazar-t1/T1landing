@@ -307,8 +307,8 @@ export default function T1AISectionV2() {
                       backdropFilter: "blur(8px)",
                     }}
                   >
-                    <span aria-hidden style={{ fontSize: 14 }}>👋</span>
-                    Cuéntame qué vendes
+                    <span aria-hidden style={{ fontSize: 14 }}>✨</span>
+                    Escribe qué vendes y crea tu tienda
                   </span>
                 <form
                   onSubmit={handleSubmit}
