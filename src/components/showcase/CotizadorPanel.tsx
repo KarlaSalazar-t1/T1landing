@@ -25,17 +25,17 @@ function InputField({
   placeholder,
   suffix,
   filled,
-  width,
+  className,
 }: {
   label: string;
   value: string;
   placeholder?: string;
   suffix?: string;
   filled: boolean;
-  width?: number | string;
+  className?: string;
 }) {
   return (
-    <div className="flex flex-col" style={{ width }}>
+    <div className={`flex flex-col ${className ?? ""}`}>
       <span className="font-inter text-[10px] font-medium text-black/55" style={{ marginBottom: 4 }}>
         {label}
       </span>
@@ -113,18 +113,19 @@ export default function CotizadorPanel({ animate }: { animate: boolean }) {
           </p>
         </div>
 
-        {/* Form row */}
+        {/* Form row — wraps on mobile (2 CPs, then 4 dims, then button),
+            single row on desktop via flex-grow. */}
         <div
-          className="mx-5 flex items-end gap-2 rounded-[14px] border border-black/[0.06] bg-white px-3"
+          className="mx-5 flex flex-wrap items-end gap-2 rounded-[14px] border border-black/[0.06] bg-white px-3"
           style={{ paddingTop: 10, paddingBottom: 10, marginTop: 12, boxShadow: "0 0 12px rgba(0,0,0,0.04)" }}
         >
-          <InputField label="CP origen" value="55712" placeholder="06700" filled={stage >= 1} width="14%" />
-          <InputField label="CP destino" value="55712" placeholder="06700" filled={stage >= 2} width="14%" />
-          <InputField label="Largo" value="23" placeholder="" suffix="cm" filled={stage >= 3} width="11%" />
-          <InputField label="Alto" value="23" placeholder="" suffix="cm" filled={stage >= 3} width="11%" />
-          <InputField label="Ancho" value="2" placeholder="" suffix="cm" filled={stage >= 3} width="11%" />
-          <InputField label="Peso" value="2" placeholder="" suffix="kg" filled={stage >= 4} width="11%" />
-          <div className="flex flex-1 items-end justify-end gap-2">
+          <InputField label="CP origen" value="55712" placeholder="06700" filled={stage >= 1} className="basis-[46%] grow tablet:basis-0 tablet:grow-[1.5]" />
+          <InputField label="CP destino" value="55712" placeholder="06700" filled={stage >= 2} className="basis-[46%] grow tablet:basis-0 tablet:grow-[1.5]" />
+          <InputField label="Largo" value="23" placeholder="" suffix="cm" filled={stage >= 3} className="basis-[21%] grow tablet:basis-0 tablet:grow" />
+          <InputField label="Alto" value="23" placeholder="" suffix="cm" filled={stage >= 3} className="basis-[21%] grow tablet:basis-0 tablet:grow" />
+          <InputField label="Ancho" value="2" placeholder="" suffix="cm" filled={stage >= 3} className="basis-[21%] grow tablet:basis-0 tablet:grow" />
+          <InputField label="Peso" value="2" placeholder="" suffix="kg" filled={stage >= 4} className="basis-[21%] grow tablet:basis-0 tablet:grow" />
+          <div className="flex w-full items-center justify-end gap-2 tablet:w-auto tablet:flex-1">
             <span className="text-[10px] text-black/35">Limpiar</span>
             <span
               className="inline-flex items-center justify-center rounded-full px-4 text-[10px] font-semibold text-white"

@@ -9,9 +9,9 @@ import { useState, useRef, useCallback } from "react";
 const TABS = [
   "Crea tu tienda",
   "Cobra en línea",
+  "Crea envíos",
   "Conecta marketplaces",
   "Gestiona pedidos",
-  "Crea envíos",
   "Control de calidad",
   "Punto de venta",
 ];
@@ -59,6 +59,18 @@ const TAB_CARDS: TabCard[] = [
     ],
   },
   {
+    title: "ENVÍOS",
+    description:
+      "Cotiza y crea envíos con más de 10 paqueterías desde un solo lugar. Genera guías masivas y rastrea en tiempo real.",
+    cta: "Crear envío",
+    ctaHref: "/registro",
+    subTabs: [
+      { label: "Cotizador", description: "Cotiza envíos con más de 10 paqueterías y elige la mejor opción para cada pedido.", image: null, floatingCards: null, panel: "cotizador" },
+      { label: "Guías masivas", description: "Genera cientos de guías de envío en segundos con procesamiento por lotes.", image: null, floatingCards: null, panel: "guias-masivas" },
+      { label: "Rastreo de guías", description: "Rastrea todas tus guías en tiempo real desde un solo dashboard.", image: null, floatingCards: null, panel: "rastreo" },
+    ],
+  },
+  {
     title: "MARKETPLACES",
     description:
       "Conecta y gestiona Amazon, Mercado Libre, Walmart, SHEIN y más. Sincroniza inventario y pedidos automáticamente.",
@@ -78,18 +90,6 @@ const TAB_CARDS: TabCard[] = [
     subTabs: [
       { label: "Panel de pedidos", description: "Visualiza, filtra y gestiona pedidos de todos tus canales en un solo panel.", image: null, floatingCards: null, panel: "order-list" },
       { label: "Carrito abandonado", description: "Recupera ventas perdidas con seguimiento automático de carritos abandonados.", image: null, floatingCards: null, panel: "carrito" },
-    ],
-  },
-  {
-    title: "ENVÍOS",
-    description:
-      "Cotiza y crea envíos con más de 10 paqueterías desde un solo lugar. Genera guías masivas y rastrea en tiempo real.",
-    cta: "Crear envío",
-    ctaHref: "/registro",
-    subTabs: [
-      { label: "Cotizador", description: "Cotiza envíos con más de 10 paqueterías y elige la mejor opción para cada pedido.", image: null, floatingCards: null, panel: "cotizador" },
-      { label: "Guías masivas", description: "Genera cientos de guías de envío en segundos con procesamiento por lotes.", image: null, floatingCards: null, panel: "guias-masivas" },
-      { label: "Rastreo de guías", description: "Rastrea todas tus guías en tiempo real desde un solo dashboard.", image: null, floatingCards: null, panel: "rastreo" },
     ],
   },
   {

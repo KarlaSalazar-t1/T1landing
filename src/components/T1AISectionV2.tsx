@@ -241,7 +241,7 @@ export default function T1AISectionV2() {
           />
         </div>
 
-        <div className="relative mx-auto flex w-full max-w-[var(--max-w)] flex-col px-5 py-16 tablet:px-6 tablet:py-24">
+        <div className="relative mx-auto flex w-full max-w-[var(--max-w)] flex-col px-5 py-10 tablet:px-6 tablet:py-14">
           {/* Layout:
               - mobile: flex column → text (top), visual (centered).
               - tablet+: 2-column grid [text | visual].

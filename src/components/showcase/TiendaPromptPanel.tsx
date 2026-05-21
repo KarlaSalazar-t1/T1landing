@@ -334,7 +334,7 @@ export default function TiendaPromptPanel({ animate }: { animate: boolean }) {
           borderRadius: "14px 0 0 0",
           background:
             stage === "typing"
-              ? "radial-gradient(ellipse 70% 45% at 50% 55%, rgba(255,210,198,0.4) 0%, rgba(255,255,255,0.98) 55%, #FFFFFF 100%)"
+              ? "radial-gradient(ellipse 80% 55% at 50% 8%, #FFF3EF 0%, #FFFFFF 55%)"
               : "#FFFFFF",
           transition: "background 0.6s ease",
         }}

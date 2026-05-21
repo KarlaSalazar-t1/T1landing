@@ -2372,8 +2372,12 @@ export default function T1Features() {
                         <GlassShipmentCard />
                       </div>
                     )}
-                    {/* Mobile: phone-style envíos list */}
-                    {isDesktop !== true && <MobileEnviosPanel />}
+                    {/* Mobile: cotizador (same as desktop) */}
+                    {isDesktop !== true && (
+                      <div className="pb-5" style={{ height: 460 }}>
+                        <CotizadorPanel animate={enviosVisible} />
+                      </div>
+                    )}
                   </div>
                   {/* CotizadorPanel — matches Marketplaces panel width (w-1/2) */}
                   {isDesktop !== false && (
