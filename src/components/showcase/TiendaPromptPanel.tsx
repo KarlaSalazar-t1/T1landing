@@ -236,16 +236,9 @@ function FinalLanding() {
         </div>
       </div>
 
-      {/* Hero banner image with overlaid copy */}
-      <div className="relative h-[88px] w-full shrink-0 overflow-hidden">
+      {/* Hero banner image — image only, no overlay text */}
+      <div className="relative h-[120px] w-full shrink-0 overflow-hidden">
         <Image src="/img/petshop-banner.png" alt="" fill sizes="100vw" className="object-cover" />
-        <div className="absolute inset-0" style={{ background: "linear-gradient(90deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.1) 60%, transparent 100%)" }} />
-        <div className="absolute inset-0 flex flex-col justify-center px-4">
-          <p className="font-sora text-[14px] font-semibold text-white" style={{ letterSpacing: "-0.02em" }}>
-            Todo para tu mascota
-          </p>
-          <p className="font-inter text-[9px] text-white/80">Envíos a todo México · 24 hrs</p>
-        </div>
       </div>
 
       {/* Product grid — cards fill their row; image takes the space, text

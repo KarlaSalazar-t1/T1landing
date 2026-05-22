@@ -477,12 +477,10 @@ export default function T1ScrollShowcase() {
       <MobileScrollSections cards={cards} />
 
       {/* ── CTA — PayPal brand-moment style: sticky centered, scroll-reveal.
-          Desktop keeps the 200vh container so the sticky pins long enough
-          for the reveal to feel like a brand moment. Mobile gets a flat
-          100vh container so the sticky has zero scroll-pin buffer — the
-          user scrolls straight from the CTA into the footer without the
-          "pause / scroll twice" feeling. ── */}
-      <div ref={ctaRef} className="h-screen tablet:h-[200vh]">
+          Mobile: flat 100vh (zero pin buffer). Desktop: 125vh — just a
+          small 25vh pin so the reveal registers as a brand moment without
+          the long dead-scroll that made reaching the footer feel stuck. ── */}
+      <div ref={ctaRef} className="h-screen tablet:h-[125vh]">
         <div
           className="sticky top-0 flex items-center justify-center"
           style={{ height: "100vh" }}
