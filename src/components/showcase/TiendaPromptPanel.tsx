@@ -237,7 +237,7 @@ function FinalLanding() {
       </div>
 
       {/* Hero banner image with overlaid copy */}
-      <div className="relative h-[72px] w-full overflow-hidden">
+      <div className="relative h-[88px] w-full shrink-0 overflow-hidden">
         <Image src="/img/petshop-banner.png" alt="" fill sizes="100vw" className="object-cover" />
         <div className="absolute inset-0" style={{ background: "linear-gradient(90deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.1) 60%, transparent 100%)" }} />
         <div className="absolute inset-0 flex flex-col justify-center px-4">
@@ -248,18 +248,19 @@ function FinalLanding() {
         </div>
       </div>
 
-      {/* Product grid */}
-      <div className="grid flex-1 grid-cols-4 gap-1.5 p-2.5">
+      {/* Product grid — cards fill their row; image takes the space, text
+          sits flush at the bottom (no trailing white gap). */}
+      <div className="grid flex-1 grid-cols-4 grid-rows-2 gap-1.5 p-2.5">
         {PRODUCTS.map((p, i) => (
           <div
             key={i}
-            className="overflow-hidden rounded-[6px] border border-black/[0.05] bg-white"
+            className="flex flex-col overflow-hidden rounded-[6px] border border-black/[0.05] bg-white"
             style={{ animation: `fadeSlideIn 0.4s ease-out ${0.1 + i * 0.05}s both` }}
           >
-            <div className="relative h-[46px] w-full overflow-hidden" style={{ background: "#FAF6F2" }}>
+            <div className="relative w-full flex-1 overflow-hidden" style={{ background: "#FAF6F2", minHeight: 40 }}>
               <Image src={p.img} alt={p.name} fill sizes="80px" className="object-cover" />
             </div>
-            <div style={{ padding: "4px 5px" }}>
+            <div className="shrink-0" style={{ padding: "4px 5px" }}>
               <p className="truncate font-inter text-[7.5px] font-medium text-black">{p.name}</p>
               <p className="font-inter text-[8px] font-bold text-black">{p.price}</p>
             </div>
