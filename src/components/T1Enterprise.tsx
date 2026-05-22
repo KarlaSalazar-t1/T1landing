@@ -280,17 +280,16 @@ export default function T1Enterprise() {
                 onMouseEnter={() => setHovered(i)}
                 onMouseLeave={() => setHovered(null)}
               >
-                {/* Cover image — on collapsed/hovered (narrow) cards we shift
-                    the crop toward the right so the brand logo, which sits on
-                    that side of the photo, stays visible instead of being
-                    cropped out. Active (wide) card stays centered. */}
+                {/* Cover image — left-aligned crop so the brand logo (which
+                    sits on the left of each photo) stays visible instead of
+                    being cropped when the card narrows. */}
                 {c.coverImage && (
                   <Image
                     src={c.coverImage}
                     alt={c.name}
                     fill
                     className="object-cover transition-[object-position] duration-500"
-                    style={{ objectPosition: isActive ? "center" : "75% center" }}
+                    style={{ objectPosition: "left center" }}
                   />
                 )}
 
