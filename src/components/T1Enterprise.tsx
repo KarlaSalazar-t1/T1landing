@@ -258,10 +258,12 @@ export default function T1Enterprise() {
             const isActive = i === active;
             const isHovered = i === hovered && !isActive;
 
-            /* Determine flex value */
-            let flex = 1;
-            if (isActive) flex = 10;
-            else if (isHovered) flex = 3;
+            /* Determine flex value — hovered cards open wide enough to show
+               their full content (not just the title), so you can read two
+               cases at once. */
+            let flex = 1.4;
+            if (isActive) flex = 7;
+            else if (isHovered) flex = 6;
 
             return (
               <div
@@ -292,18 +294,16 @@ export default function T1Enterprise() {
                 <div
                   className="absolute inset-0 transition-all duration-500"
                   style={{
-                    background: isActive
+                    background: (isActive || isHovered)
                       ? `linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.15) 35%, rgba(0,0,0,0.85) 100%)`
-                      : isHovered
-                        ? `linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.5) 100%)`
-                        : `linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.75) 100%)`,
+                      : `linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.75) 100%)`,
                   }}
                 />
 
                 {/* (Top-left brand logo removed per design — info lives at the bottom) */}
 
-                {/* Ver video button — top-right floating, active only */}
-                {isActive && c.hasVideo && (
+                {/* Ver video button — top-right floating, on open cards */}
+                {(isActive || isHovered) && c.hasVideo && (
                   <button
                     onClick={(e) => { e.stopPropagation(); setVideoOpen(true); }}
                     className="absolute right-6 top-6 z-10 inline-flex cursor-pointer items-center gap-2 rounded-full bg-white/90 px-5 py-2.5 font-inter text-[13px] font-medium text-black transition-all duration-150 hover:bg-white"
@@ -318,8 +318,8 @@ export default function T1Enterprise() {
                   </button>
                 )}
 
-                {/* Bottom info — metric, quote, author — active only */}
-                {isActive && (
+                {/* Bottom info — metric, quote, author — shown on any open card */}
+                {(isActive || isHovered) && (
                   <div
                     key={`info-${c.id}`}
                     className="absolute bottom-0 left-0 right-0 z-10 px-7 pb-7"
@@ -341,25 +341,6 @@ export default function T1Enterprise() {
                     )}
                   </div>
                 )}
-
-                {/* Small logo + name — visible on hover only (not active) */}
-                <div
-                  className="absolute bottom-5 left-5 z-10 flex items-center gap-2.5 transition-opacity duration-300"
-                  style={{ opacity: isHovered ? 1 : 0 }}
-                >
-                  <div className="flex h-[32px] w-[32px] shrink-0 items-center justify-center overflow-hidden rounded-[8px] bg-white/10 backdrop-blur-sm">
-                    <Image
-                      src={c.image}
-                      alt={c.name}
-                      width={24}
-                      height={24}
-                      className="object-contain brightness-0 invert"
-                    />
-                  </div>
-                  <span className="whitespace-nowrap font-inter text-[14px] font-semibold text-white/90">
-                    {c.name}
-                  </span>
-                </div>
 
                 {/* Tiny centered logo for collapsed cards */}
                 <div

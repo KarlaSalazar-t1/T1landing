@@ -18,7 +18,7 @@ const AUDIENCES = [
     description: "Conecta todos tus canales de venta, automatiza envíos y optimiza tus cobros.",
     cta: "Empezar ahora",
     ctaHref: "/registro",
-    image: "/img/pyme-v4.png",
+    image: "/img/pyme-v5.png",
   },
   {
     id: "enterprise",
@@ -26,7 +26,7 @@ const AUDIENCES = [
     description: "Infraestructura robusta con soporte dedicado y SLAs garantizados para alto volumen.",
     cta: "Habla con un experto",
     ctaHref: "/contacto-ventas",
-    image: "/img/enterprise-v3.png",
+    image: "/img/enterprise-v4.png",
   },
 ];
 
