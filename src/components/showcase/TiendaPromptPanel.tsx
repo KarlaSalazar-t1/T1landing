@@ -210,14 +210,14 @@ function SkeletonLanding() {
    ──────────────────────────────────────────────────────────────── */
 function FinalLanding() {
   const PRODUCTS = [
-    { name: "Croquetas Premium", price: "$489" },
-    { name: "Collar ajustable", price: "$129" },
-    { name: "Juguete dental", price: "$89" },
-    { name: "Cama acolchada", price: "$649" },
-    { name: "Plato doble", price: "$179" },
-    { name: "Snacks naturales", price: "$95" },
-    { name: "Transportadora", price: "$899" },
-    { name: "Shampoo natural", price: "$199" },
+    { name: "Croquetas Premium", price: "$489", img: "/img/petshop-croquetas.png" },
+    { name: "Collar ajustable", price: "$129", img: "/img/petshop-collar.png" },
+    { name: "Juguete dental", price: "$89", img: "/img/petshop-juguete.png" },
+    { name: "Cama acolchada", price: "$649", img: "/img/petshop-cama.png" },
+    { name: "Plato doble", price: "$179", img: "/img/petshop-plato.png" },
+    { name: "Snacks naturales", price: "$95", img: "/img/petshop-snacks.png" },
+    { name: "Transportadora", price: "$899", img: "/img/petshop-transportadora.png" },
+    { name: "Shampoo natural", price: "$199", img: "/img/petshop-shampoo.png" },
   ];
   return (
     <div className="flex h-full w-full flex-col" style={{ fontFamily: FONT, animation: "fadeSlideIn 0.5s ease-out" }}>
@@ -236,17 +236,16 @@ function FinalLanding() {
         </div>
       </div>
 
-      {/* Hero band */}
-      <div
-        className="flex flex-col items-center justify-center gap-1 px-5 py-3"
-        style={{
-          background: "linear-gradient(135deg, #FFF6F0 0%, #FFE9DD 100%)",
-        }}
-      >
-        <p className="font-sora text-[15px] font-semibold text-black" style={{ letterSpacing: "-0.02em" }}>
-          Todo para tu mascota
-        </p>
-        <p className="font-inter text-[9px] text-black/55">Envíos a todo México · 24 hrs</p>
+      {/* Hero banner image with overlaid copy */}
+      <div className="relative h-[72px] w-full overflow-hidden">
+        <Image src="/img/petshop-banner.png" alt="" fill sizes="100vw" className="object-cover" />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(90deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.1) 60%, transparent 100%)" }} />
+        <div className="absolute inset-0 flex flex-col justify-center px-4">
+          <p className="font-sora text-[14px] font-semibold text-white" style={{ letterSpacing: "-0.02em" }}>
+            Todo para tu mascota
+          </p>
+          <p className="font-inter text-[9px] text-white/80">Envíos a todo México · 24 hrs</p>
+        </div>
       </div>
 
       {/* Product grid */}
@@ -257,8 +256,8 @@ function FinalLanding() {
             className="overflow-hidden rounded-[6px] border border-black/[0.05] bg-white"
             style={{ animation: `fadeSlideIn 0.4s ease-out ${0.1 + i * 0.05}s both` }}
           >
-            <div className="flex h-[40px] items-center justify-center" style={{ background: "#FAF6F2" }}>
-              <Image src="/img/tenis-transparente.png" alt="" width={28} height={20} className="object-contain opacity-80" />
+            <div className="relative h-[46px] w-full overflow-hidden" style={{ background: "#FAF6F2" }}>
+              <Image src={p.img} alt={p.name} fill sizes="80px" className="object-cover" />
             </div>
             <div style={{ padding: "4px 5px" }}>
               <p className="truncate font-inter text-[7.5px] font-medium text-black">{p.name}</p>
