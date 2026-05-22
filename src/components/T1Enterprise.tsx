@@ -258,12 +258,12 @@ export default function T1Enterprise() {
             const isActive = i === active;
             const isHovered = i === hovered && !isActive;
 
-            /* Determine flex value — hovered cards open wide enough to show
-               their full content (not just the title), so you can read two
-               cases at once. */
+            /* Determine flex value. Active is the dominant open card (full
+               info on click); hovered opens just enough to preview the key
+               metric + name. */
             let flex = 1.4;
-            if (isActive) flex = 7;
-            else if (isHovered) flex = 6;
+            if (isActive) flex = 8;
+            else if (isHovered) flex = 3.5;
 
             return (
               <div
@@ -302,8 +302,8 @@ export default function T1Enterprise() {
 
                 {/* (Top-left brand logo removed per design — info lives at the bottom) */}
 
-                {/* Ver video button — top-right floating, on open cards */}
-                {(isActive || isHovered) && c.hasVideo && (
+                {/* Ver video button — top-right floating, active only */}
+                {isActive && c.hasVideo && (
                   <button
                     onClick={(e) => { e.stopPropagation(); setVideoOpen(true); }}
                     className="absolute right-6 top-6 z-10 inline-flex cursor-pointer items-center gap-2 rounded-full bg-white/90 px-5 py-2.5 font-inter text-[13px] font-medium text-black transition-all duration-150 hover:bg-white"
@@ -318,8 +318,8 @@ export default function T1Enterprise() {
                   </button>
                 )}
 
-                {/* Bottom info — metric, quote, author — shown on any open card */}
-                {(isActive || isHovered) && (
+                {/* Active card — full info: metric, quote, author */}
+                {isActive && (
                   <div
                     key={`info-${c.id}`}
                     className="absolute bottom-0 left-0 right-0 z-10 px-7 pb-7"
@@ -339,6 +339,27 @@ export default function T1Enterprise() {
                         {c.person} <span className="text-white/45">· {c.role}</span>
                       </p>
                     )}
+                  </div>
+                )}
+
+                {/* Hovered (not active) — preview: key metric + name only */}
+                {isHovered && (
+                  <div
+                    key={`hover-${c.id}`}
+                    className="absolute bottom-0 left-0 right-0 z-10 px-6 pb-6"
+                    style={{ animation: "fadeSlideIn 0.35s ease-out" }}
+                  >
+                    <div className="flex items-center gap-2.5" style={{ marginBottom: 8 }}>
+                      <div className="flex h-[28px] w-[28px] shrink-0 items-center justify-center overflow-hidden rounded-[7px] bg-white/10 backdrop-blur-sm">
+                        <Image src={c.image} alt={c.name} width={20} height={20} className="object-contain brightness-0 invert" />
+                      </div>
+                      <span className="whitespace-nowrap font-inter text-[13px] font-semibold text-white/90">
+                        {c.name}
+                      </span>
+                    </div>
+                    <p className="font-inter text-[15px] font-bold uppercase leading-tight text-white tablet:text-[17px]" style={{ letterSpacing: "0.02em" }}>
+                      {c.metric} <span className="font-medium normal-case text-white/75">{c.metricLabel}</span>
+                    </p>
                   </div>
                 )}
 
