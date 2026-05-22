@@ -914,6 +914,51 @@ const SHOWCASE_CARDS = [
   },
 ];
 
+/* ── Modern line icons for the Vende / Cobra / Envía intro cards ──
+   Replaces the old PNG illustrations the team felt looked dated. */
+function FeatureIcon({ id, size = 28 }: { id: string; size?: number }) {
+  const common = {
+    width: size,
+    height: size,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "#DB3B2B",
+    strokeWidth: 1.6,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+  };
+  if (id === "vende") {
+    // Storefront
+    return (
+      <svg {...common}>
+        <path d="M3 9l1.5-4.5h15L21 9" />
+        <path d="M4 9v10a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9" />
+        <path d="M3 9a2.4 2.4 0 0 0 4.5 0 2.4 2.4 0 0 0 4.5 0 2.4 2.4 0 0 0 4.5 0 2.4 2.4 0 0 0 4.5 0" />
+        <path d="M9 20v-5h6v5" />
+      </svg>
+    );
+  }
+  if (id === "cobra") {
+    // Card + spark
+    return (
+      <svg {...common}>
+        <rect x="2.5" y="5.5" width="19" height="13" rx="2.5" />
+        <path d="M2.5 9.5h19" />
+        <path d="M6 14.5h4" />
+      </svg>
+    );
+  }
+  // envia — package box
+  return (
+    <svg {...common}>
+      <path d="M21 8l-9-5-9 5 9 5 9-5z" />
+      <path d="M3 8v8l9 5 9-5V8" />
+      <path d="M12 13v8" />
+      <path d="M7.5 5.5l9 5" />
+    </svg>
+  );
+}
+
 /* ── Payment methods we accept — logo tiles (replaces credit-card mockup) ── */
 const PAYMENT_METHODS = [
   { src: "/img/icons/visa.svg", alt: "Visa" },
@@ -1915,9 +1960,9 @@ export default function T1Features() {
             label + description on the right (same layout, now wrapped in cards). */}
         <div className="flex flex-col gap-4 tablet:hidden" style={{ marginBottom: 48 }}>
           {[
-            { id: "vende", label: "VENDE", desc: "En tu tienda en línea o marketplaces", src: "/img/card-vende.png" },
-            { id: "cobra", label: "COBRA", desc: "Con tarjeta o transferencia con nuestro checkout integrado o link de pago", src: "/img/card-cobra.png" },
-            { id: "envia", label: "ENVÍA", desc: "Cotiza y crea envíos con las mejores paqueterías y los precios más bajos", src: "/img/card-envia.png" },
+            { id: "vende", label: "VENDE", desc: "En tu tienda en línea o marketplaces" },
+            { id: "cobra", label: "COBRA", desc: "Con tarjeta o transferencia con nuestro checkout integrado o link de pago" },
+            { id: "envia", label: "ENVÍA", desc: "Cotiza y crea envíos con las mejores paqueterías y los precios más bajos" },
           ].map((item) => (
             <div
               key={item.id}
@@ -1927,15 +1972,11 @@ export default function T1Features() {
                 boxShadow: "0 0 25px 0 rgba(0,0,0,0.06)",
               }}
             >
-              <div className="flex shrink-0 items-center justify-center" style={{ width: 64, height: 64 }}>
-                <Image
-                  src={item.src}
-                  alt={item.label}
-                  width={64}
-                  height={64}
-                  className="object-contain"
-                  style={{ width: "auto", height: "auto", maxWidth: 64, maxHeight: 64 }}
-                />
+              <div
+                className="flex shrink-0 items-center justify-center rounded-[14px]"
+                style={{ width: 56, height: 56, background: "rgba(219,59,43,0.08)" }}
+              >
+                <FeatureIcon id={item.id} size={28} />
               </div>
               <div className="flex flex-1 flex-col gap-1">
                 <p className="font-inter text-[16px] font-semibold uppercase tracking-[0.04em] text-black">
@@ -1951,40 +1992,31 @@ export default function T1Features() {
 
         {/* DESKTOP (≥ tablet) — 3-column card grid */}
         <div className="hidden tablet:grid tablet:grid-cols-3 tablet:gap-4 lg:gap-6" style={{ marginBottom: 60 }}>
-          {FEATURE_CARDS.map((card) => {
-            const illustration =
-              card.id === "vende" ? "/img/card-vende.png"
-              : card.id === "cobra" ? "/img/card-cobra.png"
-              : "/img/card-envia.png";
-            return (
+          {FEATURE_CARDS.map((card) => (
+            <div
+              key={card.id}
+              className="flex flex-col items-start rounded-[20px] bg-white transition-all duration-300 hover:scale-[1.01]"
+              style={{ padding: "40px 32px", boxShadow: "0 0 25px 0 rgba(0,0,0,0.06)" }}
+            >
+              {/* Modern line icon in a tinted rounded square */}
               <div
-                key={card.id}
-                className="flex flex-col items-center rounded-[20px] bg-white transition-all duration-300 hover:scale-[1.01]"
-                style={{ padding: "40px 32px", boxShadow: "0 0 25px 0 rgba(0,0,0,0.06)" }}
+                className="flex items-center justify-center rounded-[16px]"
+                style={{ width: 64, height: 64, background: "rgba(219,59,43,0.08)", marginBottom: 24 }}
               >
-                {/* Illustration — natural size, no wrapper */}
-                <Image
-                  src={illustration}
-                  alt={card.label}
-                  width={120}
-                  height={120}
-                  className="object-contain"
-                  style={{ marginBottom: 16, height: "auto", width: "auto", maxHeight: 140 }}
-                />
-
-
-                {/* Label uppercase */}
-                <p className="font-inter text-[18px] font-medium uppercase text-black tablet:text-[20px]" style={{ marginBottom: 16 }}>
-                  {card.label}
-                </p>
-
-                {/* Description — left-aligned, full width */}
-                <p className="w-full font-inter text-[15px] font-normal text-black tablet:text-[16px]" style={{ lineHeight: 1.5 }}>
-                  {card.description}
-                </p>
+                <FeatureIcon id={card.id} size={32} />
               </div>
-            );
-          })}
+
+              {/* Label uppercase */}
+              <p className="font-inter text-[18px] font-medium uppercase text-black tablet:text-[20px]" style={{ marginBottom: 12 }}>
+                {card.label}
+              </p>
+
+              {/* Description — left-aligned, full width */}
+              <p className="w-full font-inter text-[15px] font-normal text-black/65 tablet:text-[16px]" style={{ lineHeight: 1.5 }}>
+                {card.description}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
 
