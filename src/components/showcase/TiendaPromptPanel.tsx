@@ -260,9 +260,16 @@ function FinalLanding({ compact = false }: { compact?: boolean }) {
         </div>
       </div>
 
-      {/* Hero banner image — image only, no overlay text */}
+      {/* Hero banner image — image only, no overlay text. Mobile uses a
+          version cropped for narrow viewports; desktop keeps the wide one. */}
       <div className="relative h-[120px] w-full shrink-0 overflow-hidden">
-        <Image src="/img/petshop-banner-v2.png" alt="" fill sizes="100vw" className="object-cover" />
+        <Image
+          src={compact ? "/img/petshop-banner-mobile.png" : "/img/petshop-banner-v2.png"}
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover"
+        />
       </div>
 
       {/* Product grid — cards fill their row; image takes the space, text
