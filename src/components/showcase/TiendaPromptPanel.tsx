@@ -208,7 +208,7 @@ function SkeletonLanding() {
 /* ────────────────────────────────────────────────────────────────
    Stage 3 — Finished landing (the tienda the prompt described)
    ──────────────────────────────────────────────────────────────── */
-function FinalLanding() {
+function FinalLanding({ compact = false }: { compact?: boolean }) {
   const PRODUCTS = [
     { name: "Croquetas Premium", price: "$489", img: "/img/petshop-croquetas.png" },
     { name: "Collar ajustable", price: "$129", img: "/img/petshop-collar.png" },
@@ -219,26 +219,50 @@ function FinalLanding() {
     { name: "Transportadora", price: "$899", img: "/img/petshop-transportadora.png" },
     { name: "Shampoo natural", price: "$199", img: "/img/petshop-shampoo.png" },
   ];
+
+  /* Cart icon shared by desktop nav and mobile nav. */
+  const CartIcon = (
+    <span
+      className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-black text-white"
+      aria-label="Carrito"
+    >
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+        <path d="M2 2h2l1.5 8h7l1.5-5H5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="6.5" cy="13" r="1.1" fill="currentColor" />
+        <circle cx="12" cy="13" r="1.1" fill="currentColor" />
+      </svg>
+    </span>
+  );
+
   return (
     <div className="flex h-full w-full flex-col" style={{ fontFamily: FONT, animation: "fadeSlideIn 0.5s ease-out" }}>
-      {/* Branded nav */}
+      {/* Branded nav — desktop: text links + cart. Mobile: hamburger + cart. */}
       <div className="flex items-center justify-between border-b border-black/[0.05] px-5 py-3">
-        <span className="font-sora text-[14px] font-semibold text-black">PetShop MX</span>
+        <div className="flex items-center gap-2">
+          {compact && (
+            <span className="flex flex-col gap-[3px]">
+              <span className="block h-[1.5px] w-[14px] rounded-full bg-black/55" />
+              <span className="block h-[1.5px] w-[14px] rounded-full bg-black/55" />
+              <span className="block h-[1.5px] w-[14px] rounded-full bg-black/55" />
+            </span>
+          )}
+          <span className="font-sora text-[14px] font-semibold text-black">PetShop MX</span>
+        </div>
         <div className="flex items-center gap-3 text-[10px] text-black/60">
-          <span>Tienda</span>
-          <span>Marcas</span>
-          <span>Promos</span>
-          <span
-            className="rounded-full bg-black px-3 py-1 text-[9px] font-semibold text-white"
-          >
-            Comprar
-          </span>
+          {!compact && (
+            <>
+              <span>Tienda</span>
+              <span>Marcas</span>
+              <span>Promos</span>
+            </>
+          )}
+          {CartIcon}
         </div>
       </div>
 
       {/* Hero banner image — image only, no overlay text */}
       <div className="relative h-[120px] w-full shrink-0 overflow-hidden">
-        <Image src="/img/petshop-banner.png" alt="" fill sizes="100vw" className="object-cover" />
+        <Image src="/img/petshop-banner-v2.png" alt="" fill sizes="100vw" className="object-cover" />
       </div>
 
       {/* Product grid — cards fill their row; image takes the space, text
@@ -343,7 +367,7 @@ export default function TiendaPromptPanel({ animate, mobile = false }: { animate
     <>
       {stage === "typing" && <LandingPrompt typed={typed} isActive={true} compact={mobile} />}
       {stage === "loading" && <SkeletonLanding />}
-      {stage === "ready" && <FinalLanding />}
+      {stage === "ready" && <FinalLanding compact={mobile} />}
     </>
   );
 
