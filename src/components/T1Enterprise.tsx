@@ -6,49 +6,49 @@ import { useState, useCallback, useRef, useEffect } from "react";
 /* ── Case studies data ── */
 const CASES = [
   {
-    id: "sears", name: "Sears", image: "/img/logos/sears.png", coverImage: "/img/caso-1.png", bgColor: "#0A1628",
+    id: "sears", name: "Sears", image: "/img/logos/sears-v2.png", coverImage: "/img/caso-sears-v2.png", bgColor: "#0A1628",
     metric: "Cobertura", metricLabel: "nacional con entrega el mismo día",
     quote: "T1 como core logístico, con cobertura a nivel nacional y entrega el mismo día.",
     person: "Mario Muñoz", role: "CHIEF DIGITAL OFFICER | SEARS", hasVideo: true, videoId: "KtUy7AhmdlA",
   },
   {
-    id: "circulo", name: "Círculo de Crédito", image: "/img/logos/circulo-de-credito.png", coverImage: "/img/caso-circulo.png", bgColor: "#0A0F1A",
+    id: "circulo", name: "Círculo de Crédito", image: "/img/logos/circulo-v2.png", coverImage: "/img/caso-circulo-v2.png", bgColor: "#0A0F1A",
     metric: "−40%", metricLabel: "de mora temprana gracias a data alternativa",
     quote: "Con T1 Score logramos reducir 40% la mora temprana gracias a la data alternativa que integran al modelo.",
     person: "Juan Manuel Ruiz", role: "DIRECTOR GENERAL | CÍRCULO DE CRÉDITO", hasVideo: true, videoId: "MPXrBe7iNgE",
   },
   {
-    id: "casadetono", name: "Casa de Toño", image: "/img/logos/casa-de-tono.png", coverImage: "/img/caso-casa-de-tono.png", bgColor: "#0A1A28",
+    id: "casadetono", name: "Casa de Toño", image: "/img/logos/casadetono-v2.png", coverImage: "/img/caso-casadetono-v2.png", bgColor: "#0A1A28",
     metric: "+92%", metricLabel: "de aprobación y fraude casi cero",
     quote: "T1 Pagos permitió a Casa de Toño mantener altos niveles de aprobación, con fraude prácticamente nulo en sus operaciones digitales a través de su canal de WhatsApp.",
     person: "", role: "", hasVideo: false,
   },
   {
-    id: "telcel", name: "Telcel", image: "/img/logos/telcel.png", coverImage: "/img/caso-telcel.png", bgColor: "#0A1020",
+    id: "telcel", name: "Telcel", image: "/img/logos/telcel-v2.png", coverImage: "/img/caso-telcel-v2.png", bgColor: "#0A1020",
     metric: "+2 M", metricLabel: "de recargas procesadas",
     quote: "T1 Pagos ha procesado más de 2 millones de paquetes y recargas Telcel, consolidando una operación digital de alto volumen dentro del ecosistema.",
     person: "", role: "", hasVideo: false,
   },
   {
-    id: "pirma", name: "Pirma", image: "/img/logos/pirma.png", coverImage: "/img/caso-pirma.png", bgColor: "#0D1A18",
+    id: "pirma", name: "Pirma", image: "/img/logos/pirma-v2.png", coverImage: "/img/caso-pirma-v2.png", bgColor: "#0D1A18",
     metric: "45%", metricLabel: "reducción en tiempo de entrega promedio",
     quote: "T1 Envíos nos dio acceso a las mejores paqueterías con tarifas que no podíamos negociar solos.",
     person: "Fernando Díaz", role: "HEAD OF LOGISTICS | PIRMA", hasVideo: false,
   },
   {
-    id: "makora", name: "Makora", image: "/img/logos/makora.svg", coverImage: "/img/caso-makora.png", bgColor: "#1A1408",
+    id: "makora", name: "Makora", image: "/img/logos/makora-v2.png", coverImage: "/img/caso-makora-v2.png", bgColor: "#1A1408",
     metric: "+ Conversión", metricLabel: "y centralización de operación",
     quote: "T1 nos ayudó a aumentar la conversión y centralizar toda nuestra operación en una sola plataforma.",
     person: "Marín Ramos", role: "FUNDADOR Y DIRECTOR GENERAL | MAKORA", hasVideo: true, videoId: "7l0BDngMRUk",
   },
   {
-    id: "pase", name: "PASE", image: "/img/logos/pase.png", coverImage: "/img/caso-pase.png", bgColor: "#0F1015",
+    id: "pase", name: "PASE", image: "/img/logos/pase-v2.png", coverImage: "/img/caso-pase-v2.png", bgColor: "#0F1015",
     metric: "<0.5 s", metricLabel: "tiempo de respuesta · 98% aprobación · +2 mil entregas de tags al mes",
     quote: "Con T1 procesamos en menos de 0.5 segundos con 98% de aprobación y entregamos más de 2 mil tags al mes.",
     person: "Alexis Reséndiz Meza", role: "DIRECTOR GENERAL | PASE", hasVideo: true, videoId: "ezeCCveM8y4",
   },
   {
-    id: "claro", name: "Claro", image: "/img/logos/claro.png", coverImage: "/img/caso-claro.png", bgColor: "#1A0510",
+    id: "claro", name: "Claro", image: "/img/logos/claro-v2.png", coverImage: "/img/caso-claro-v2.png", bgColor: "#1A0510",
     metric: "3.2x", metricLabel: "más pedidos procesados por hora",
     quote: "Con T1 automatizamos la gestión de pedidos y redujimos tiempos de preparación significativamente.",
     person: "Javier Torres", role: "DIRECTOR DE OPERACIONES | CLARO", hasVideo: false,
@@ -303,7 +303,28 @@ export default function T1Enterprise() {
                   }}
                 />
 
-                {/* (Top-left brand logo removed per design — info lives at the bottom) */}
+                {/* Top-left brand logo — small on hover, larger when active.
+                    White chip so colored brand logos read on the dark photo. */}
+                {(isActive || isHovered) && (
+                  <div
+                    className="absolute left-5 top-5 z-10 flex items-center justify-center overflow-hidden rounded-[12px] bg-white transition-all duration-500"
+                    style={{
+                      width: isActive ? 64 : 40,
+                      height: isActive ? 64 : 40,
+                      boxShadow: "0 4px 14px rgba(0,0,0,0.18)",
+                      animation: "fadeSlideIn 0.35s ease-out",
+                    }}
+                  >
+                    <Image
+                      src={c.image}
+                      alt={c.name}
+                      width={isActive ? 48 : 30}
+                      height={isActive ? 48 : 30}
+                      className="object-contain"
+                      style={{ padding: isActive ? 4 : 2 }}
+                    />
+                  </div>
+                )}
 
                 {/* Ver video button — top-right floating, active only */}
                 {isActive && c.hasVideo && (
@@ -345,21 +366,17 @@ export default function T1Enterprise() {
                   </div>
                 )}
 
-                {/* Hovered (not active) — preview: key metric + name only */}
+                {/* Hovered (not active) — preview: brand name + key metric.
+                    Logo lives in the top-left chip. */}
                 {isHovered && (
                   <div
                     key={`hover-${c.id}`}
                     className="absolute bottom-0 left-0 right-0 z-10 px-6 pb-6"
                     style={{ animation: "fadeSlideIn 0.35s ease-out" }}
                   >
-                    <div className="flex items-center gap-2.5" style={{ marginBottom: 8 }}>
-                      <div className="flex h-[28px] w-[28px] shrink-0 items-center justify-center overflow-hidden rounded-[7px] bg-white/10 backdrop-blur-sm">
-                        <Image src={c.image} alt={c.name} width={20} height={20} className="object-contain brightness-0 invert" />
-                      </div>
-                      <span className="whitespace-nowrap font-inter text-[13px] font-semibold text-white/90">
-                        {c.name}
-                      </span>
-                    </div>
+                    <span className="mb-1.5 block whitespace-nowrap font-inter text-[13px] font-semibold text-white/90">
+                      {c.name}
+                    </span>
                     <p className="font-inter text-[15px] font-bold uppercase leading-tight text-white tablet:text-[17px]" style={{ letterSpacing: "0.02em" }}>
                       {c.metric} <span className="font-medium normal-case text-white/75">{c.metricLabel}</span>
                     </p>
