@@ -12,13 +12,13 @@ const CASES = [
     person: "Mario Muñoz", role: "CHIEF DIGITAL OFFICER | SEARS", hasVideo: true, videoId: "KtUy7AhmdlA",
   },
   {
-    id: "circulo", name: "Círculo de Crédito", image: "/img/logos/circulo-v2.png", coverImage: "/img/caso-circulo-v2.png", bgColor: "#0A0F1A",
+    id: "circulo", name: "Círculo de Crédito", image: "/img/logos/circulo-v3.png", coverImage: "/img/caso-circulo-v2.png", bgColor: "#0A0F1A",
     metric: "−40%", metricLabel: "de mora temprana gracias a data alternativa",
     quote: "Con T1 Score logramos reducir 40% la mora temprana gracias a la data alternativa que integran al modelo.",
     person: "Juan Manuel Ruiz", role: "DIRECTOR GENERAL | CÍRCULO DE CRÉDITO", hasVideo: true, videoId: "MPXrBe7iNgE",
   },
   {
-    id: "casadetono", name: "Casa de Toño", image: "/img/logos/casadetono-v2.png", coverImage: "/img/caso-casadetono-v2.png", bgColor: "#0A1A28",
+    id: "casadetono", name: "Casa de Toño", image: "/img/logos/casadetono-v3.png", coverImage: "/img/caso-casadetono-v2.png", bgColor: "#0A1A28",
     metric: "+92%", metricLabel: "de aprobación y fraude casi cero",
     quote: "T1 Pagos permitió a Casa de Toño mantener altos niveles de aprobación, con fraude prácticamente nulo en sus operaciones digitales a través de su canal de WhatsApp.",
     person: "", role: "", hasVideo: false,
@@ -42,13 +42,13 @@ const CASES = [
     person: "Marín Ramos", role: "FUNDADOR Y DIRECTOR GENERAL | MAKORA", hasVideo: true, videoId: "7l0BDngMRUk",
   },
   {
-    id: "pase", name: "PASE", image: "/img/logos/pase-v2.png", coverImage: "/img/caso-pase-v2.png", bgColor: "#0F1015",
+    id: "pase", name: "PASE", image: "/img/logos/pase-v3.png", coverImage: "/img/caso-pase-v2.png", bgColor: "#0F1015",
     metric: "<0.5 s", metricLabel: "tiempo de respuesta · 98% aprobación · +2 mil entregas de tags al mes",
     quote: "Con T1 procesamos en menos de 0.5 segundos con 98% de aprobación y entregamos más de 2 mil tags al mes.",
     person: "Alexis Reséndiz Meza", role: "DIRECTOR GENERAL | PASE", hasVideo: true, videoId: "ezeCCveM8y4",
   },
   {
-    id: "claro", name: "Claro", image: "/img/logos/claro-v2.png", coverImage: "/img/caso-claro-v2.png", bgColor: "#1A0510",
+    id: "claro", name: "Claro", image: "/img/logos/claro-v3.png", coverImage: "/img/caso-claro-v2.png", bgColor: "#1A0510",
     metric: "3.2x", metricLabel: "más pedidos procesados por hora",
     quote: "Con T1 automatizamos la gestión de pedidos y redujimos tiempos de preparación significativamente.",
     person: "Javier Torres", role: "DIRECTOR DE OPERACIONES | CLARO", hasVideo: false,
@@ -280,16 +280,16 @@ export default function T1Enterprise() {
                 onMouseEnter={() => setHovered(i)}
                 onMouseLeave={() => setHovered(null)}
               >
-                {/* Cover image — left-aligned crop so the brand logo (which
-                    sits on the left of each photo) stays visible instead of
-                    being cropped when the card narrows. */}
+                {/* Cover image — centered. Logos now live in the top-left
+                    chip (not baked into the photo) so centering the crop
+                    keeps the subject readable even when the card is narrow. */}
                 {c.coverImage && (
                   <Image
                     src={c.coverImage}
                     alt={c.name}
                     fill
-                    className="object-cover transition-[object-position] duration-500"
-                    style={{ objectPosition: "left center" }}
+                    className="object-cover"
+                    style={{ objectPosition: "center" }}
                   />
                 )}
 
