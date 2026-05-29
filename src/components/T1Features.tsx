@@ -1966,26 +1966,21 @@ export default function T1Features() {
           ].map((item) => (
             <div
               key={item.id}
-              className="flex items-center gap-4 rounded-[16px] bg-white"
+              className="flex flex-col gap-2 rounded-[16px] bg-white"
               style={{
                 padding: "18px 18px",
                 boxShadow: "0 0 25px 0 rgba(0,0,0,0.06)",
               }}
             >
-              <div
-                className="flex shrink-0 items-center justify-center rounded-[14px]"
-                style={{ width: 56, height: 56, background: "rgba(219,59,43,0.08)" }}
-              >
-                <FeatureIcon id={item.id} size={28} />
-              </div>
-              <div className="flex flex-1 flex-col gap-1">
+              <div className="flex items-center justify-between">
                 <p className="font-inter text-[16px] font-semibold uppercase tracking-[0.04em] text-black">
                   {item.label}
                 </p>
-                <p className="font-inter text-[14px] font-normal text-black/65" style={{ lineHeight: 1.5 }}>
-                  {item.desc}
-                </p>
+                <FeatureIcon id={item.id} size={26} />
               </div>
+              <p className="font-inter text-[14px] font-normal text-black/65" style={{ lineHeight: 1.5 }}>
+                {item.desc}
+              </p>
             </div>
           ))}
         </div>
@@ -1995,21 +1990,16 @@ export default function T1Features() {
           {FEATURE_CARDS.map((card) => (
             <div
               key={card.id}
-              className="flex flex-col items-start rounded-[20px] bg-white transition-all duration-300 hover:scale-[1.01]"
+              className="flex flex-col rounded-[20px] bg-white transition-all duration-300 hover:scale-[1.01]"
               style={{ padding: "40px 32px", boxShadow: "0 0 25px 0 rgba(0,0,0,0.06)" }}
             >
-              {/* Modern line icon in a tinted rounded square */}
-              <div
-                className="flex items-center justify-center rounded-[16px]"
-                style={{ width: 64, height: 64, background: "rgba(219,59,43,0.08)", marginBottom: 24 }}
-              >
-                <FeatureIcon id={card.id} size={32} />
+              {/* Title row — label left, icon right (no background) */}
+              <div className="flex items-center justify-between" style={{ marginBottom: 12 }}>
+                <p className="font-inter text-[18px] font-medium uppercase text-black tablet:text-[20px]">
+                  {card.label}
+                </p>
+                <FeatureIcon id={card.id} size={28} />
               </div>
-
-              {/* Label uppercase */}
-              <p className="font-inter text-[18px] font-medium uppercase text-black tablet:text-[20px]" style={{ marginBottom: 12 }}>
-                {card.label}
-              </p>
 
               {/* Description — left-aligned, full width */}
               <p className="w-full font-inter text-[15px] font-normal text-black/65 tablet:text-[16px]" style={{ lineHeight: 1.5 }}>
