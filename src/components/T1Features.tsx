@@ -1969,7 +1969,10 @@ export default function T1Features() {
               className="flex flex-col rounded-[12px] bg-white"
               style={{
                 padding: "20px 20px",
-                minHeight: 160,
+                // Sized to the natural height of the two-line descriptions
+                // (Cobra / Envia). Vende's single-line desc stretches up to
+                // match, but the longer cards don't get trailing empty space.
+                minHeight: 124,
                 boxShadow: "0 0 25px 0 rgba(0,0,0,0.06)",
               }}
             >
@@ -1995,7 +1998,7 @@ export default function T1Features() {
               style={{ padding: "40px 32px", boxShadow: "0 0 25px 0 rgba(0,0,0,0.06)" }}
             >
               {/* Title row — label left, icon right (no background) */}
-              <div className="flex items-center justify-between" style={{ marginBottom: 20 }}>
+              <div className="flex items-center justify-between" style={{ marginBottom: 32 }}>
                 <p className="font-inter text-[18px] font-medium uppercase text-black tablet:text-[20px]">
                   {card.label}
                 </p>
