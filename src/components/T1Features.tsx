@@ -922,7 +922,7 @@ function FeatureIcon({ id, size = 28 }: { id: string; size?: number }) {
     height: size,
     viewBox: "0 0 24 24",
     fill: "none",
-    stroke: "#DB3B2B",
+    stroke: "#000000",
     strokeWidth: 1.6,
     strokeLinecap: "round" as const,
     strokeLinejoin: "round" as const,
@@ -1966,7 +1966,7 @@ export default function T1Features() {
           ].map((item) => (
             <div
               key={item.id}
-              className="flex flex-col rounded-[16px] bg-white"
+              className="flex flex-col rounded-[12px] bg-white"
               style={{
                 padding: "20px 20px",
                 minHeight: 160,
@@ -1979,7 +1979,7 @@ export default function T1Features() {
                 </p>
                 <FeatureIcon id={item.id} size={26} />
               </div>
-              <p className="font-inter text-[14px] font-normal text-black/65" style={{ lineHeight: 1.5 }}>
+              <p className="font-inter text-[14px] font-normal text-black" style={{ lineHeight: 1.5 }}>
                 {item.desc}
               </p>
             </div>
@@ -1991,7 +1991,7 @@ export default function T1Features() {
           {FEATURE_CARDS.map((card) => (
             <div
               key={card.id}
-              className="flex h-full flex-col rounded-[20px] bg-white transition-all duration-300 hover:scale-[1.01]"
+              className="flex h-full flex-col rounded-[15px] bg-white transition-all duration-300 hover:scale-[1.01]"
               style={{ padding: "40px 32px", boxShadow: "0 0 25px 0 rgba(0,0,0,0.06)" }}
             >
               {/* Title row — label left, icon right (no background) */}
@@ -2003,7 +2003,7 @@ export default function T1Features() {
               </div>
 
               {/* Description — left-aligned, full width */}
-              <p className="w-full font-inter text-[15px] font-normal text-black/65 tablet:text-[16px]" style={{ lineHeight: 1.5 }}>
+              <p className="w-full font-inter text-[15px] font-normal text-black tablet:text-[16px]" style={{ lineHeight: 1.5 }}>
                 {card.description}
               </p>
             </div>
