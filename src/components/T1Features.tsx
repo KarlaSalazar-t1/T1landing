@@ -1966,13 +1966,14 @@ export default function T1Features() {
           ].map((item) => (
             <div
               key={item.id}
-              className="flex flex-col gap-2 rounded-[16px] bg-white"
+              className="flex flex-col rounded-[16px] bg-white"
               style={{
-                padding: "18px 18px",
+                padding: "20px 20px",
+                minHeight: 160,
                 boxShadow: "0 0 25px 0 rgba(0,0,0,0.06)",
               }}
             >
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between" style={{ marginBottom: 18 }}>
                 <p className="font-inter text-[16px] font-semibold uppercase tracking-[0.04em] text-black">
                   {item.label}
                 </p>
@@ -1985,16 +1986,16 @@ export default function T1Features() {
           ))}
         </div>
 
-        {/* DESKTOP (≥ tablet) — 3-column card grid */}
-        <div className="hidden tablet:grid tablet:grid-cols-3 tablet:gap-4 lg:gap-6" style={{ marginBottom: 60 }}>
+        {/* DESKTOP (≥ tablet) — 3-column card grid, equal heights */}
+        <div className="hidden tablet:grid tablet:auto-rows-fr tablet:grid-cols-3 tablet:items-stretch tablet:gap-4 lg:gap-6" style={{ marginBottom: 60 }}>
           {FEATURE_CARDS.map((card) => (
             <div
               key={card.id}
-              className="flex flex-col rounded-[20px] bg-white transition-all duration-300 hover:scale-[1.01]"
+              className="flex h-full flex-col rounded-[20px] bg-white transition-all duration-300 hover:scale-[1.01]"
               style={{ padding: "40px 32px", boxShadow: "0 0 25px 0 rgba(0,0,0,0.06)" }}
             >
               {/* Title row — label left, icon right (no background) */}
-              <div className="flex items-center justify-between" style={{ marginBottom: 12 }}>
+              <div className="flex items-center justify-between" style={{ marginBottom: 20 }}>
                 <p className="font-inter text-[18px] font-medium uppercase text-black tablet:text-[20px]">
                   {card.label}
                 </p>
