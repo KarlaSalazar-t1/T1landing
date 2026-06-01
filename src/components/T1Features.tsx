@@ -923,7 +923,7 @@ function FeatureIcon({ id, size = 28 }: { id: string; size?: number }) {
     viewBox: "0 0 24 24",
     fill: "none",
     stroke: "#000000",
-    strokeWidth: 1.6,
+    strokeWidth: 1.2,
     strokeLinecap: "round" as const,
     strokeLinejoin: "round" as const,
   };
