@@ -211,8 +211,15 @@ export default function T1Footer() {
               onClick={() => setLangOpen(!langOpen)}
               className="flex cursor-pointer items-center gap-2 rounded-[8px] border border-white/10 bg-transparent px-3 py-2 font-inter text-[13px] text-white/60 transition-colors hover:border-white/20 hover:text-white/80"
             >
-              <span>🇲🇽</span>
-              <span>México (Español)</span>
+              {/* Generic globe — country-agnostic icon so the language
+                  switcher reads as "international", not "currently-MX". */}
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M3 12h18" />
+                <path d="M12 3a13 13 0 0 1 0 18" />
+                <path d="M12 3a13 13 0 0 0 0 18" />
+              </svg>
+              <span>México | Español</span>
               <svg width="10" height="10" viewBox="0 0 12 12" fill="none" style={{ transform: langOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }}>
                 <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
