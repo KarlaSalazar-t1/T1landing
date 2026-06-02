@@ -1891,15 +1891,6 @@ export default function T1Features() {
         {/* Heading and subtitle live in T1FeatureIntro now. */}
       </div>
 
-      {/* Mobile-only gray→warm fade entering the stack-card zone. */}
-      <div
-        aria-hidden
-        className="tablet:hidden"
-        style={{
-          height: 40,
-          background: "linear-gradient(180deg, #F6F6F6 0%, #FFF1EB 100%)",
-        }}
-      />
 
       {/* ── Stacking showcase cards with scale-down effect ──
           On mobile, the wrapper carries the warm AI bg color so any sliver
