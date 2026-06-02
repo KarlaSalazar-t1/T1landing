@@ -1877,17 +1877,19 @@ export default function T1Features() {
   }, []);
 
   return (
-    <section className="bg-[#F6F6F6] pb-0 tablet:pb-10" style={{ paddingTop: 60 }}>
-      <div className="mx-auto max-w-[var(--max-w)] px-5 tablet:px-6" style={{ paddingTop: 40 }}>
-        {/* Heading — Sora 44px */}
-        {/* H2 title and subtitle both moved out of this white section.
-            The title 'Todo tu negocio, en un solo lugar' now lives in
-            T1FeatureIntro above the V/C/E cards on the dark band. */}
+    <section className="bg-[#F6F6F6] pb-0 pt-0 tablet:pb-10 tablet:pt-[60px]">
+      {/* Mobile-only thin divider line replacing the previous ~100px
+          of empty white space between the V/C/E cards (dark band) and
+          the stack cards (white card). */}
+      <div
+        aria-hidden
+        className="mx-auto tablet:hidden"
+        style={{ height: 1, width: 48, background: "rgba(0,0,0,0.12)", marginTop: 20, marginBottom: 20 }}
+      />
 
-        {/* The Vende / Cobra / Envia cards used to live here. They were
-            lifted into <T1FeatureIntro /> rendered ABOVE this white card
-            (sitting on the dark hero area). The title + subtitle stay so
-            the white section opens with the value proposition. */}
+      {/* Desktop keeps a small gap above the stack cards. */}
+      <div className="mx-auto hidden max-w-[var(--max-w)] px-5 tablet:block tablet:px-6" style={{ paddingTop: 40 }}>
+        {/* Heading and subtitle live in T1FeatureIntro now. */}
       </div>
 
       {/* Mobile-only gray→warm fade entering the stack-card zone. */}

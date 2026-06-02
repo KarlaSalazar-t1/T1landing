@@ -1,6 +1,6 @@
 "use client";
 
-import { FEATURE_CARDS, FEATURES_HEADING } from "@/lib/constants";
+import { FEATURE_CARDS } from "@/lib/constants";
 
 /* ── Modern line icons for the Vende / Cobra / Envía intro cards ── */
 function FeatureIcon({ id, size = 28 }: { id: string; size?: number }) {
@@ -55,7 +55,9 @@ function FeatureIcon({ id, size = 28 }: { id: string; size?: number }) {
 export default function T1FeatureIntro() {
   return (
     <div className="relative mx-auto w-full max-w-[var(--max-w)] px-5 tablet:px-6">
-      {/* Section title sits above the cards on the dark band. */}
+      {/* Section title sits above the cards on the dark band. Pushed
+          down a bit so it doesn't crowd the logo marquee above. Mobile
+          splits the heading into two lines for better legibility. */}
       <h2
         className="mx-auto font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]"
         style={{
@@ -63,10 +65,13 @@ export default function T1FeatureIntro() {
           lineHeight: "1.2em",
           textAlign: "center",
           maxWidth: 700,
+          marginTop: 24,
           marginBottom: 36,
         }}
       >
-        {FEATURES_HEADING}
+        Todo tu negocio,
+        <br className="tablet:hidden" />{" "}
+        en un solo lugar
       </h2>
 
       {/* MOBILE — 3 cards stacked */}
