@@ -352,7 +352,7 @@ export default function T1AISectionV2() {
               }}
               disabled={active === 0}
               aria-label="Anterior"
-              className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-black/10 bg-white text-black/45 transition-all duration-150 hover:border-black/25 hover:text-black disabled:opacity-30"
+              className="hidden h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-black/10 bg-white text-black/45 transition-all duration-150 hover:border-black/25 hover:text-black disabled:opacity-30 tablet:flex"
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <path
@@ -390,7 +390,7 @@ export default function T1AISectionV2() {
               }}
               disabled={active === SLIDES.length - 1}
               aria-label="Siguiente"
-              className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-black/10 bg-white text-black/45 transition-all duration-150 hover:border-black/25 hover:text-black disabled:opacity-30"
+              className="hidden h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-black/10 bg-white text-black/45 transition-all duration-150 hover:border-black/25 hover:text-black disabled:opacity-30 tablet:flex"
             >
               <svg
                 className={active < SLIDES.length - 1 ? "ai-carousel-hint" : ""}

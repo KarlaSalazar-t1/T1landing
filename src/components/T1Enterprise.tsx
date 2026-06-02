@@ -138,7 +138,7 @@ export default function T1Enterprise() {
   }, []);
 
   return (
-    <section className="bg-[#F6F6F6]" style={{ paddingTop: 60, paddingBottom: 280 }}>
+    <section className="bg-[#F6F6F6] pb-12 pt-[60px] tablet:pb-[280px]">
       <div className="mx-auto max-w-[var(--max-w)] px-5 tablet:px-6">
         {/* Header row */}
         <div className="flex flex-col gap-4 tablet:flex-row tablet:items-end tablet:justify-between" style={{ marginBottom: 24 }}>
