@@ -21,13 +21,13 @@ const SLIDES: { id: SlideId; title: string; description: string; badge?: string 
   {
     id: "tienda",
     title: "Crea tu tienda en segundos",
-    description: "Describe tu negocio y la IA arma tu tienda lista para vender.",
+    description: "Describe tu negocio y la IA arma tu tienda en segundos.",
     badge: "Créala ahora",
   },
   {
     id: "personaliza",
     title: "Personaliza tu tienda",
-    description: "Genera imágenes, banners y textos con IA.",
+    description: "Personaliza tu tienda con imágenes, banners y textos creados por IA.",
   },
   {
     id: "productos",
@@ -37,7 +37,7 @@ const SLIDES: { id: SlideId; title: string; description: string; badge?: string 
   {
     id: "enrutamiento",
     title: "Enrutamiento inteligente",
-    description: "Elegimos la paquetería más rápida y económica para cada envío.",
+    description: "Nuestra IA elige la paquetería más rápida y económica para cada envío.",
   },
   {
     id: "riesgo",
@@ -239,13 +239,7 @@ export default function T1AISectionV2() {
         <div className="relative mx-auto flex w-full max-w-[var(--max-w)] flex-col px-5 py-10 tablet:px-6 tablet:py-14">
           {/* Layout: vertical on every breakpoint — title + description on
               top, visual below. Navigation arrows at the bottom. */}
-          {(() => {
-            // All slides use the same 2-col layout on desktop so the total
-            // height is identical across slides — no more taller Riesgo /
-            // Productos / Prompt vs shorter Personaliza / Enrutamiento.
-            const twoCol = true;
-            return (
-          <div className="flex flex-col items-center gap-8 tablet:gap-10">
+          <div className="flex flex-col items-center gap-6 tablet:gap-8">
             {/* Top: IA title — always centered */}
             <h2
               className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]"
@@ -259,44 +253,31 @@ export default function T1AISectionV2() {
               La <span style={{ color: "#DB3B2B" }}>IA</span>, desde el primer día.
             </h2>
 
-            <div
-              className={
-                twoCol
-                  ? "flex w-full flex-col items-center gap-8 tablet:grid tablet:max-w-[960px] tablet:grid-cols-2 tablet:items-center tablet:gap-12"
-                  : "flex w-full flex-col items-center gap-8"
-              }
+            {/* Single-line slide description — no separate title, just one
+                line that summarizes the feature. Fixed height keeps every
+                slide the same overall size. */}
+            <p
+              key={`text-${slide.id}`}
+              className="text-center font-inter text-[16px] font-normal text-black/75 tablet:text-[20px]"
+              style={{
+                letterSpacing: "-0.01em",
+                lineHeight: 1.35,
+                maxWidth: 720,
+                animation: "fadeSlideIn 0.45s ease-out",
+                minHeight: 56,
+                marginBottom: 0,
+              }}
             >
-              {/* Slide subtitle + description */}
-              <div
-                key={`text-${slide.id}`}
-                className={twoCol ? "flex flex-col tablet:items-start tablet:text-left" : "flex flex-col items-center text-center"}
-                style={{ animation: "fadeSlideIn 0.45s ease-out", minHeight: 84 }}
-              >
-                <h3
-                  className="font-inter text-[17px] font-medium text-black tablet:text-[20px] lg:text-[24px]"
-                  style={{ letterSpacing: "-0.005em", lineHeight: 1.3, marginBottom: 10 }}
-                >
-                  {slide.title}
-                </h3>
-                <p
-                  className={
-                    twoCol
-                      ? "font-inter text-[14px] font-light leading-relaxed text-black/65 tablet:text-[16px]"
-                      : "font-inter text-[14px] font-light leading-relaxed text-black/65 tablet:whitespace-nowrap tablet:text-[16px]"
-                  }
-                  style={{ marginBottom: 0, maxWidth: twoCol ? 420 : undefined }}
-                >
-                  {slide.description}
-                </p>
-              </div>
+              {slide.description}
+            </p>
 
-              {/* Visual — fixed height so every slide is the same overall
-                  size (no jumps between Prompt / Productos / Riesgo). */}
-              <div
-                key={`visual-${slide.id}`}
-                className="flex w-full max-w-[640px] items-center justify-center overflow-hidden"
-                style={{ minHeight: 240, height: 240, animation: "fadeSlideIn 0.5s ease-out" }}
-              >
+            {/* Visual — fixed height so every slide is the same overall
+                size (no jumps between Prompt / Productos / Riesgo). */}
+            <div
+              key={`visual-${slide.id}`}
+              className="flex w-full max-w-[640px] items-center justify-center overflow-hidden"
+              style={{ minHeight: 240, height: 240, animation: "fadeSlideIn 0.5s ease-out" }}
+            >
               {slide.id === "tienda" && (
                 <div className="flex w-full max-w-[460px] flex-col">
                 <form
@@ -354,11 +335,8 @@ export default function T1AISectionV2() {
               {slide.id === "productos" && <VisualProductos />}
               {slide.id === "enrutamiento" && <VisualEnrutamiento />}
               {slide.id === "riesgo" && <VisualRiesgo />}
-              </div>
             </div>
           </div>
-            );
-          })()}
 
           {/* Horizontal carousel controls — shown on every breakpoint now.
               Circular prev/next arrows with a dot paginator between them. */}

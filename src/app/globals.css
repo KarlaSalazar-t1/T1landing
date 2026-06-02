@@ -194,8 +194,11 @@ body {
 
 /* ─── Noise/grain texture overlay ─── */
 .noise-grain {
-  opacity: 0.45;
-  mix-blend-mode: overlay;
+  /* Plain alpha overlay — mix-blend-mode caused compositor glitches
+     (sticky hero video bleeding through the bottom of stack cards in
+     Safari). Slightly higher opacity to compensate for the loss of
+     overlay-blend brightness. */
+  opacity: 0.12;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -513,6 +516,10 @@ body {
   --stack-scale: 1;
   --stack-dim: 0;
   transform: scale(var(--stack-scale));
+  /* Solid fallback so the card never goes transparent during compositor
+     glitches (Safari + mix-blend-mode + scale would occasionally show
+     the sticky hero video through the bottom of a card). */
+  background-color: #0a0a0a;
   /* Hint browser to keep this on its own GPU layer for smooth scaling */
   will-change: transform;
   /* Promote to compositor — avoids per-frame repaint */
