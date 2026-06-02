@@ -873,7 +873,7 @@ const SHOWCASE_CARDS = [
     panelLeft: null,
     panelRight: "ai-prompt",
     ctaLabel: "Crear tienda con IA",
-    ctaHref: "/productos/t1tienda/tienda-con-ia",
+    ctaHref: "https://www.t1.com/mx/tienda",
   },
   {
     id: "t1tienda",
@@ -885,7 +885,7 @@ const SHOWCASE_CARDS = [
     panelLeft: "/img/card-producto.svg",
     panelRight: "/img/lista-pedidos-t1.svg",
     ctaLabel: "Conoce T1 Tienda",
-    ctaHref: "/productos/t1tienda/tienda-con-ia",
+    ctaHref: "https://www.t1.com/mx/tienda",
   },
   {
     id: "t1pagos",
@@ -1951,8 +1951,8 @@ export default function T1Features() {
                 window.open("https://t1.com/mx/pagos/", "_blank", "noopener,noreferrer");
               } else if (card.id === "t1envios") {
                 window.open("https://www.t1.com/mx/envios", "_blank", "noopener,noreferrer");
-              } else if (card.id === "t1tienda") {
-                window.location.href = "/productos/t1tienda/tienda-con-ia";
+              } else if (card.id === "t1tienda" || card.id === "t1tienda-en-linea") {
+                window.open("https://www.t1.com/mx/tienda", "_blank", "noopener,noreferrer");
               } else {
                 setModalCard(card.id);
               }
@@ -2055,8 +2055,9 @@ export default function T1Features() {
                     </div>
                     {/* Integrations strip — desktop only: shows the kind
                         of payment + shipping logos a Tienda en linea
-                        creator gets out of the box. */}
-                    <div className="mt-auto hidden flex-col gap-3 pt-10 tablet:flex">
+                        creator gets out of the box. Sits just under the
+                        CTA (not pinned to the bottom of the card). */}
+                    <div className="hidden flex-col gap-3 pt-8 tablet:flex">
                       <p className="font-inter text-[12px] font-medium uppercase tracking-[0.06em] text-white/55">
                         Pagos y envíos integrados
                       </p>
