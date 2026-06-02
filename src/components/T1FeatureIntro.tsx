@@ -1,6 +1,6 @@
 "use client";
 
-import { FEATURE_CARDS } from "@/lib/constants";
+import { FEATURE_CARDS, FEATURES_HEADING } from "@/lib/constants";
 
 /* ── Modern line icons for the Vende / Cobra / Envía intro cards ── */
 function FeatureIcon({ id, size = 28 }: { id: string; size?: number }) {
@@ -55,6 +55,20 @@ function FeatureIcon({ id, size = 28 }: { id: string; size?: number }) {
 export default function T1FeatureIntro() {
   return (
     <div className="relative mx-auto w-full max-w-[var(--max-w)] px-5 tablet:px-6">
+      {/* Section title sits above the cards on the dark band. */}
+      <h2
+        className="mx-auto font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]"
+        style={{
+          letterSpacing: "-0.03em",
+          lineHeight: "1.2em",
+          textAlign: "center",
+          maxWidth: 700,
+          marginBottom: 36,
+        }}
+      >
+        {FEATURES_HEADING}
+      </h2>
+
       {/* MOBILE — 3 cards stacked */}
       <div className="flex flex-col gap-4 tablet:hidden">
         {[

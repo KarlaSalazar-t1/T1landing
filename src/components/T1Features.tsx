@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { createPortal } from "react-dom";
 import { useEffect, useRef, useState, useCallback } from "react";
-import { FEATURES_HEADING } from "@/lib/constants";
 import GlassProductCard from "@/components/showcase/GlassProductCard";
 import PedidosPanel from "@/components/showcase/PedidosPanel";
 import CotizadorPanel from "@/components/showcase/CotizadorPanel";
@@ -1881,22 +1880,9 @@ export default function T1Features() {
     <section className="bg-[#F6F6F6] pb-0 tablet:pb-10" style={{ paddingTop: 60 }}>
       <div className="mx-auto max-w-[var(--max-w)] px-5 tablet:px-6" style={{ paddingTop: 40 }}>
         {/* Heading — Sora 44px */}
-        <h2
-          className="mx-auto font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]"
-          style={{
-            letterSpacing: "-0.03em",
-            lineHeight: "1.2em",
-            textAlign: "center",
-            maxWidth: 700,
-            // Subtitle was removed; the H2 keeps the breathing room on its own.
-            marginBottom: 48,
-          }}
-        >
-          {FEATURES_HEADING}
-        </h2>
-
-        {/* Subtitle hidden per design — the section opens with the H2
-            only, then goes straight into the stack cards. */}
+        {/* H2 title and subtitle both moved out of this white section.
+            The title 'Todo tu negocio, en un solo lugar' now lives in
+            T1FeatureIntro above the V/C/E cards on the dark band. */}
 
         {/* The Vende / Cobra / Envia cards used to live here. They were
             lifted into <T1FeatureIntro /> rendered ABOVE this white card
