@@ -476,14 +476,13 @@ export default function T1ScrollShowcase() {
       {/* ── Mobile — vertical scroll with fade-in/out transitions ── */}
       <MobileScrollSections cards={cards} />
 
-      {/* ── CTA — final brand moment. Inner sticky fills the viewport so
-          there is no awkward "half-section" that lets the footer peek in
-          mid-reveal. Desktop gets a small 10vh pin so the reveal lands
-          before the user scrolls into the footer. ── */}
-      <div ref={ctaRef} className="h-screen tablet:h-[110vh]">
+      {/* ── CTA — final brand moment, sized at ~3/4 of full viewport so
+          the section doesn't dominate the scroll. Inner sticky matches
+          the container height so the reveal still feels centered. ── */}
+      <div ref={ctaRef} className="h-[75vh] tablet:h-[82vh]">
         <div
           className="sticky top-0 flex items-center justify-center"
-          style={{ height: "100vh" }}
+          style={{ height: "75vh" }}
         >
           <div
             className="flex flex-col items-center text-center px-6"

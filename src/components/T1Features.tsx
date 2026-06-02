@@ -2053,6 +2053,46 @@ export default function T1Features() {
                         </a>
                       )}
                     </div>
+                    {/* Integrations strip — desktop only: shows the kind
+                        of payment + shipping logos a Tienda en linea
+                        creator gets out of the box. */}
+                    <div className="mt-auto hidden flex-col gap-3 pt-10 tablet:flex">
+                      <p className="font-inter text-[12px] font-medium uppercase tracking-[0.06em] text-white/55">
+                        Pagos y envíos integrados
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {[
+                          { src: "/img/icons/visa.svg", alt: "Visa" },
+                          { src: "/img/icons/mastercard.svg", alt: "Mastercard" },
+                          { src: "/img/icons/amex.svg", alt: "Amex" },
+                          { src: "/img/icons/spei.svg", alt: "SPEI" },
+                          { src: "/img/icons/fedex-logo.svg", alt: "FedEx" },
+                          { src: "/img/dhl-iso.svg", alt: "DHL" },
+                          { src: "/img/99min-iso.svg", alt: "99minutos" },
+                          { src: "/img/icons/estafeta-logo.svg", alt: "Estafeta" },
+                        ].map((logo) => (
+                          <div
+                            key={logo.alt}
+                            className="flex items-center justify-center rounded-[10px] bg-white"
+                            style={{
+                              width: 56,
+                              height: 40,
+                              padding: "0 8px",
+                              boxShadow: "0 4px 14px rgba(0,0,0,0.18)",
+                            }}
+                          >
+                            <Image
+                              src={logo.src}
+                              alt={logo.alt}
+                              width={40}
+                              height={22}
+                              className="h-auto w-auto object-contain"
+                              style={{ maxHeight: 22, maxWidth: 40 }}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                   {/* AI prompt panel — anchored to the LEFT edge of its
                       column (the column is visually on the left of the

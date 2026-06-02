@@ -272,11 +272,13 @@ export default function T1AISectionV2() {
             </p>
 
             {/* Visual — fixed height so every slide is the same overall
-                size (no jumps between Prompt / Productos / Riesgo). */}
+                size (no jumps between Prompt / Productos / Riesgo). 280px
+                fits the Personaliza mockup and the Enrutamiento diagram
+                without clipping. */}
             <div
               key={`visual-${slide.id}`}
               className="flex w-full max-w-[640px] items-center justify-center overflow-hidden"
-              style={{ minHeight: 240, height: 240, animation: "fadeSlideIn 0.5s ease-out" }}
+              style={{ minHeight: 280, height: 280, animation: "fadeSlideIn 0.5s ease-out" }}
             >
               {slide.id === "tienda" && (
                 <div className="flex w-full max-w-[460px] flex-col">
