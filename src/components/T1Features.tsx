@@ -3,10 +3,7 @@
 import Image from "next/image";
 import { createPortal } from "react-dom";
 import { useEffect, useRef, useState, useCallback } from "react";
-import {
-  FEATURES_HEADING,
-  FEATURES_SUBTITLE,
-} from "@/lib/constants";
+import { FEATURES_HEADING } from "@/lib/constants";
 import GlassProductCard from "@/components/showcase/GlassProductCard";
 import PedidosPanel from "@/components/showcase/PedidosPanel";
 import CotizadorPanel from "@/components/showcase/CotizadorPanel";
@@ -1891,24 +1888,15 @@ export default function T1Features() {
             lineHeight: "1.2em",
             textAlign: "center",
             maxWidth: 700,
-            marginBottom: 16,
+            // Subtitle was removed; the H2 keeps the breathing room on its own.
+            marginBottom: 48,
           }}
         >
           {FEATURES_HEADING}
         </h2>
 
-        {/* Subtitle — Inter 25px light, full width */}
-        <p
-          className="font-inter text-[16px] font-light text-black tablet:text-[20px] lg:text-[25px]"
-          style={{
-            textAlign: "center",
-            lineHeight: 1.5,
-            marginBottom: 48,
-            whiteSpace: "pre-line",
-          }}
-        >
-          {FEATURES_SUBTITLE}
-        </p>
+        {/* Subtitle hidden per design — the section opens with the H2
+            only, then goes straight into the stack cards. */}
 
         {/* The Vende / Cobra / Envia cards used to live here. They were
             lifted into <T1FeatureIntro /> rendered ABOVE this white card
