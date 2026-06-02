@@ -19,25 +19,22 @@ export default function Home() {
       <T1Hero />
 
       {/* Dark band carrying the Vende / Cobra / Envia intro cards.
-          Rounded top corners now live on this dark band so the curve
-          divides the hero (sharp) and the dark intro (rounded). */}
+          Mobile: minimal bottom padding so the band ends right under
+          the cards and the white section begins at a thin divider.
+          Desktop: keeps the deep 220px bottom padding for the card-peek
+          effect with the overlapping white card. */}
       <div
-        className="relative z-[5] bg-black"
-        style={{
-          paddingTop: 40,
-          paddingBottom: 220,
-          borderRadius: "24px 24px 0 0",
-          marginTop: -10,
-        }}
+        className="relative z-[5] -mt-2.5 rounded-t-[24px] bg-black pb-7 pt-10 tablet:pb-[220px]"
       >
         <T1FeatureIntro />
       </div>
 
-      {/* White card — sharp top edge, solid gray bg. */}
+      {/* White card — sharp top edge, solid gray bg.
+          Mobile: no negative margin (no overlap). Desktop: pulls up by
+          160 to create the peek over the dark intro band. */}
       <div
-        className="relative z-10 bg-[#F6F6F6]"
+        className="relative z-10 bg-[#F6F6F6] tablet:-mt-40"
         data-white-card
-        style={{ marginTop: -160 }}
       >
         <T1Features />
         <T1AISectionV2 />

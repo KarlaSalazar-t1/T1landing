@@ -1878,13 +1878,12 @@ export default function T1Features() {
 
   return (
     <section className="bg-[#F6F6F6] pb-0 pt-0 tablet:pb-10 tablet:pt-[60px]">
-      {/* Mobile-only thin divider line replacing the previous ~100px
-          of empty white space between the V/C/E cards (dark band) and
-          the stack cards (white card). */}
+      {/* Mobile-only full-width divider between the dark intro section
+          and the stack cards. Replaces the previous awkward white gap. */}
       <div
         aria-hidden
-        className="mx-auto tablet:hidden"
-        style={{ height: 1, width: 48, background: "rgba(0,0,0,0.12)", marginTop: 20, marginBottom: 20 }}
+        className="tablet:hidden"
+        style={{ height: 1, width: "100%", background: "rgba(0,0,0,0.10)" }}
       />
 
       {/* Desktop keeps a small gap above the stack cards. */}
