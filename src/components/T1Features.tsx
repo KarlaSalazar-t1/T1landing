@@ -2054,8 +2054,10 @@ export default function T1Features() {
                       )}
                     </div>
                   </div>
-                  {/* AI prompt panel — matches Marketplaces panel width (w-1/2) */}
-                  <div className="hidden w-1/2 items-end justify-end tablet:flex" style={{ paddingTop: 60 }}>
+                  {/* AI prompt panel — anchored to the LEFT edge of its
+                      column (the column is visually on the left of the
+                      card now because of flex-row-reverse). */}
+                  <div className="hidden w-1/2 items-end justify-start tablet:flex" style={{ paddingTop: 60 }}>
                     <TiendaPromptPanel animate={tiendaOnlineVisible} />
                   </div>
                   {/* Mobile: phone-framed landing animation */}

@@ -402,15 +402,18 @@ export default function TiendaPromptPanel({ animate, mobile = false }: { animate
   return (
     <div
       className="relative h-full w-full overflow-hidden"
-      style={{ paddingTop: 12, paddingLeft: 12 }}
+      // Tienda en linea panel lives on the LEFT side of the stack card now
+      // (row-reverse). Mirror the glass frame so the "screen" appears to
+      // bleed off the LEFT edge — rounded corner + padding move to top-right.
+      style={{ paddingTop: 12, paddingRight: 12 }}
     >
       {/* Glass border frame */}
       <div
         className="absolute inset-0"
         style={{
-          borderRadius: "18px 0 0 0",
+          borderRadius: "0 18px 0 0",
           background: "linear-gradient(180deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.12) 40%, rgba(255,255,255,0.03) 100%)",
-          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.4), inset 1px 0 0 rgba(255,255,255,0.3)",
+          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.4), inset -1px 0 0 rgba(255,255,255,0.3)",
         }}
       />
 
@@ -418,7 +421,7 @@ export default function TiendaPromptPanel({ animate, mobile = false }: { animate
       <div
         className="relative h-full overflow-hidden"
         style={{
-          borderRadius: "14px 0 0 0",
+          borderRadius: "0 14px 0 0",
           background: stageBg,
           transition: "background 0.6s ease",
         }}
