@@ -242,43 +242,37 @@ export default function T1AISectionV2() {
         </div>
 
         <div className="relative mx-auto flex w-full max-w-[var(--max-w)] flex-col px-5 py-10 tablet:px-6 tablet:py-14">
-          {/* Layout:
-              - mobile: flex column → text (top), visual (centered).
-              - tablet+: 2-column grid [text | visual].
-              Navigation is the horizontal arrow bar at the bottom on every
-              breakpoint (no vertical paginator). */}
-          <div className="flex flex-col gap-6 tablet:grid tablet:min-h-[440px] tablet:grid-cols-2 tablet:items-center tablet:gap-12">
+          {/* Layout: vertical on every breakpoint — title + description on
+              top, visual below. Navigation arrows at the bottom. */}
+          <div className="flex flex-col items-center gap-8 tablet:gap-10">
 
-            {/* COL 2 — Text (IA title at top, feature content below)
-                flex-none on mobile so it doesn't grow and stays at the top. */}
-            <div className="order-1 flex flex-none flex-col tablet:order-none">
+            {/* Text — IA title + active feature copy, centered */}
+            <div className="flex flex-col items-center text-center">
               <h2
                 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]"
                 style={{
                   letterSpacing: "-0.02em",
                   lineHeight: 1.1,
-                  marginBottom: 28,
+                  marginBottom: 20,
                 }}
               >
-                La <span style={{ color: "#DB3B2B" }}>IA</span>, desde
-                <br />
-                el primer día.
+                La <span style={{ color: "#DB3B2B" }}>IA</span>, desde el primer día.
               </h2>
 
               <div
                 key={`text-${slide.id}`}
-                className="flex flex-col"
+                className="flex flex-col items-center"
                 style={{ animation: "fadeSlideIn 0.45s ease-out" }}
               >
                 <h3
                   className="font-inter text-[17px] font-medium text-black tablet:text-[18px] lg:text-[20px]"
-                  style={{ letterSpacing: "-0.005em", lineHeight: 1.3, marginBottom: 10 }}
+                  style={{ letterSpacing: "-0.005em", lineHeight: 1.3, marginBottom: 8 }}
                 >
                   {slide.title}
                 </h3>
                 <p
                   className="font-inter text-[15px] font-light leading-relaxed text-black/65 tablet:text-[16px]"
-                  style={{ marginBottom: 0, maxWidth: 480 }}
+                  style={{ marginBottom: 0, maxWidth: 560 }}
                 >
                   {slide.description}
                 </p>
@@ -291,8 +285,8 @@ export default function T1AISectionV2() {
                 Desktop: regular grid cell, centered via items-center. */}
             <div
               key={`visual-${slide.id}`}
-              className="order-2 flex max-h-[260px] flex-1 items-center justify-center overflow-hidden tablet:order-none tablet:max-h-none tablet:flex-auto tablet:overflow-visible"
-              style={{ minHeight: 200, animation: "fadeSlideIn 0.5s ease-out" }}
+              className="flex w-full max-w-[640px] items-center justify-center overflow-hidden"
+              style={{ minHeight: 220, animation: "fadeSlideIn 0.5s ease-out" }}
             >
               {slide.id === "tienda" && (
                 <div className="flex w-full max-w-[460px] flex-col">

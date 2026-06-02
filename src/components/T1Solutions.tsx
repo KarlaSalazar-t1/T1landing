@@ -264,7 +264,7 @@ export default function T1Solutions() {
                     ? "bg-black font-semibold text-white shadow-[0_4px_14px_rgba(0,0,0,0.15)]"
                     : "border border-black/[0.10] bg-white font-medium text-black/70 hover:border-black/30 hover:bg-black/[0.03] hover:text-black"
                 }`}
-                style={{ padding: "6px 13px", fontSize: 12 }}
+                style={{ padding: "9px 17px", fontSize: 13.5 }}
               >
                 {tab}
               </button>
@@ -284,35 +284,50 @@ export default function T1Solutions() {
             className="relative"
             style={{ animation: `fadeSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1)` }}
           >
-            {/* Peek edges — clickable, navigate to prev/next category */}
+            {/* Peek edges — clickable, navigate to prev/next category.
+                Chevron only appears on hover (opacity transition). */}
             <button
               type="button"
               aria-label="Categoría anterior"
               onClick={() => handleTabChange((activeTab - 1 + TABS.length) % TABS.length)}
-              className="absolute hidden cursor-pointer bg-white rounded-[20px] border-none p-0 transition-shadow duration-200 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] tablet:block"
+              className="group/peek absolute hidden cursor-pointer items-center justify-end bg-white rounded-[20px] border-none p-0 transition-shadow duration-200 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] tablet:flex"
               style={{
                 right: "calc(100% + 16px)",
                 top: 14,
                 bottom: 14,
                 width: "50vw",
+                paddingRight: 18,
                 boxShadow: "0 4px 18px rgba(0,0,0,0.04)",
                 zIndex: 0,
               }}
-            />
+            >
+              <span className="flex h-[44px] w-[44px] items-center justify-center rounded-full bg-white text-black/55 opacity-0 transition-opacity duration-200 group-hover/peek:opacity-100" style={{ boxShadow: "0 4px 14px rgba(0,0,0,0.10)" }}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M10 4L6 8L10 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
+            </button>
             <button
               type="button"
               aria-label="Categoría siguiente"
               onClick={() => handleTabChange((activeTab + 1) % TABS.length)}
-              className="absolute hidden cursor-pointer bg-white rounded-[20px] border-none p-0 transition-shadow duration-200 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] tablet:block"
+              className="group/peek absolute hidden cursor-pointer items-center bg-white rounded-[20px] border-none p-0 transition-shadow duration-200 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] tablet:flex"
               style={{
                 left: "calc(100% + 16px)",
                 top: 14,
                 bottom: 14,
                 width: "50vw",
+                paddingLeft: 18,
                 boxShadow: "0 4px 18px rgba(0,0,0,0.04)",
                 zIndex: 0,
               }}
-            />
+            >
+              <span className="flex h-[44px] w-[44px] items-center justify-center rounded-full bg-white text-black/55 opacity-0 transition-opacity duration-200 group-hover/peek:opacity-100" style={{ boxShadow: "0 4px 14px rgba(0,0,0,0.10)" }}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
+            </button>
 
           <div
             className="solutions-card-wrapper relative overflow-hidden bg-white rounded-[16px] tablet:rounded-[20px]"

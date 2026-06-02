@@ -303,28 +303,25 @@ export default function T1Enterprise() {
                   }}
                 />
 
-                {/* Top-left brand logo — small on hover, larger when active.
-                    White chip so colored brand logos read on the dark photo. */}
-                {(isActive || isHovered) && (
-                  <div
-                    className="absolute left-5 top-5 z-10 flex items-center justify-center overflow-hidden rounded-[12px] bg-white transition-all duration-500"
-                    style={{
-                      width: isActive ? 64 : 40,
-                      height: isActive ? 64 : 40,
-                      boxShadow: "0 4px 14px rgba(0,0,0,0.18)",
-                      animation: "fadeSlideIn 0.35s ease-out",
-                    }}
-                  >
-                    <Image
-                      src={c.image}
-                      alt={c.name}
-                      width={isActive ? 48 : 30}
-                      height={isActive ? 48 : 30}
-                      className="object-contain"
-                      style={{ padding: isActive ? 4 : 2 }}
-                    />
-                  </div>
-                )}
+                {/* Top-left brand logo — always visible in a white chip.
+                    Scales: collapsed 34, hover 42, active 64. */}
+                <div
+                  className="absolute left-5 top-5 z-10 flex items-center justify-center overflow-hidden rounded-[12px] bg-white transition-all duration-500"
+                  style={{
+                    width: isActive ? 64 : isHovered ? 42 : 34,
+                    height: isActive ? 64 : isHovered ? 42 : 34,
+                    boxShadow: "0 4px 14px rgba(0,0,0,0.18)",
+                  }}
+                >
+                  <Image
+                    src={c.image}
+                    alt={c.name}
+                    width={isActive ? 48 : isHovered ? 32 : 26}
+                    height={isActive ? 48 : isHovered ? 32 : 26}
+                    className="object-contain"
+                    style={{ padding: isActive ? 4 : 2 }}
+                  />
+                </div>
 
                 {/* Ver video button — top-right floating, active only */}
                 {isActive && c.hasVideo && (
@@ -382,22 +379,6 @@ export default function T1Enterprise() {
                     </p>
                   </div>
                 )}
-
-                {/* Tiny centered logo for collapsed cards */}
-                <div
-                  className="absolute inset-0 flex items-end justify-center pb-5 transition-opacity duration-300"
-                  style={{ opacity: !isActive && !isHovered ? 0.5 : 0 }}
-                >
-                  <div className="flex h-[24px] w-[24px] items-center justify-center overflow-hidden rounded-[6px] bg-white/10">
-                    <Image
-                      src={c.image}
-                      alt={c.name}
-                      width={18}
-                      height={18}
-                      className="object-contain brightness-0 invert"
-                    />
-                  </div>
-                </div>
 
                 {/* Hover brighten */}
                 {!isActive && (

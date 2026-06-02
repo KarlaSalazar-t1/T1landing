@@ -476,14 +476,13 @@ export default function T1ScrollShowcase() {
       {/* ── Mobile — vertical scroll with fade-in/out transitions ── */}
       <MobileScrollSections cards={cards} />
 
-      {/* ── CTA — PayPal brand-moment style: sticky centered, scroll-reveal.
-          Mobile: flat 100vh (zero pin buffer). Desktop: 125vh — just a
-          small 25vh pin so the reveal registers as a brand moment without
-          the long dead-scroll that made reaching the footer feel stuck. ── */}
-      <div ref={ctaRef} className="h-screen tablet:h-[125vh]">
+      {/* ── CTA — compact final moment. Reduced from h-screen so the
+          section takes less vertical real estate while still centering
+          its content for the reveal. ── */}
+      <div ref={ctaRef} className="h-[70vh] tablet:h-[85vh]">
         <div
           className="sticky top-0 flex items-center justify-center"
-          style={{ height: "100vh" }}
+          style={{ height: "70vh" }}
         >
           <div
             className="flex flex-col items-center text-center px-6"
