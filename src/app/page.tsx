@@ -26,15 +26,17 @@ export default function Home() {
         <T1FeatureIntro />
       </div>
 
-      {/* White card — scrolls over the dark intro section. The negative
-          margin pulls the white edge up so it overlaps the bottom of the
-          intro cards (giving the "card peek" feel). */}
-      <div className="relative z-10" data-white-card style={{ marginTop: -160 }}>
-        {/* Rounded top cap */}
-        <div
-          className="bg-[#F6F6F6]"
-          style={{ borderRadius: "24px 24px 0 0", height: 24 }}
-        />
+      {/* Rounded top cap — sits ABOVE the white card so the cap's
+          rounded corners reveal the dark intro section behind, while the
+          card itself has a solid gray background that never goes
+          transparent over the sticky hero. */}
+      <div
+        className="relative z-10 bg-[#F6F6F6]"
+        style={{ borderRadius: "24px 24px 0 0", height: 24, marginTop: -160 }}
+      />
+      {/* White card — solid gray bg so the sticky hero never bleeds
+          through the stack cards or any inter-section gap. */}
+      <div className="relative z-10 bg-[#F6F6F6]" data-white-card>
         <T1Features />
         <T1AISectionV2 />
         <T1Metrics />

@@ -239,68 +239,62 @@ export default function T1AISectionV2() {
         <div className="relative mx-auto flex w-full max-w-[var(--max-w)] flex-col px-5 py-10 tablet:px-6 tablet:py-14">
           {/* Layout: vertical on every breakpoint — title + description on
               top, visual below. Navigation arrows at the bottom. */}
+          {(() => {
+            const twoCol = slide.id === "personaliza" || slide.id === "enrutamiento";
+            return (
           <div className="flex flex-col items-center gap-8 tablet:gap-10">
+            {/* Top: IA title — always centered */}
+            <h2
+              className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]"
+              style={{
+                letterSpacing: "-0.02em",
+                lineHeight: 1.1,
+                marginBottom: 0,
+                textAlign: "center",
+              }}
+            >
+              La <span style={{ color: "#DB3B2B" }}>IA</span>, desde el primer día.
+            </h2>
 
-            {/* Text — IA title + active feature copy, centered */}
-            <div className="flex flex-col items-center text-center">
-              <h2
-                className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]"
-                style={{
-                  letterSpacing: "-0.02em",
-                  lineHeight: 1.1,
-                  marginBottom: 20,
-                }}
-              >
-                La <span style={{ color: "#DB3B2B" }}>IA</span>, desde el primer día.
-              </h2>
-
-              {/* Fixed min-height so the title/desc block never reflows
-                  between slides — the visual below stays at the same Y. */}
+            <div
+              className={
+                twoCol
+                  ? "flex w-full flex-col items-center gap-8 tablet:grid tablet:max-w-[960px] tablet:grid-cols-2 tablet:items-center tablet:gap-12"
+                  : "flex w-full flex-col items-center gap-8"
+              }
+            >
+              {/* Slide subtitle + description */}
               <div
                 key={`text-${slide.id}`}
-                className="flex flex-col items-center"
+                className={twoCol ? "flex flex-col tablet:items-start tablet:text-left" : "flex flex-col items-center text-center"}
                 style={{ animation: "fadeSlideIn 0.45s ease-out", minHeight: 84 }}
               >
                 <h3
-                  className="font-inter text-[17px] font-medium text-black tablet:text-[18px] lg:text-[20px]"
-                  style={{ letterSpacing: "-0.005em", lineHeight: 1.3, marginBottom: 8 }}
+                  className="font-inter text-[17px] font-medium text-black tablet:text-[20px] lg:text-[24px]"
+                  style={{ letterSpacing: "-0.005em", lineHeight: 1.3, marginBottom: 10 }}
                 >
                   {slide.title}
                 </h3>
                 <p
-                  className="font-inter text-[14px] font-light leading-relaxed text-black/65 tablet:whitespace-nowrap tablet:text-[16px]"
-                  style={{ marginBottom: 0 }}
+                  className={
+                    twoCol
+                      ? "font-inter text-[14px] font-light leading-relaxed text-black/65 tablet:text-[16px]"
+                      : "font-inter text-[14px] font-light leading-relaxed text-black/65 tablet:whitespace-nowrap tablet:text-[16px]"
+                  }
+                  style={{ marginBottom: 0, maxWidth: twoCol ? 420 : undefined }}
                 >
                   {slide.description}
                 </p>
               </div>
-            </div>
 
-            {/* COL 3 — Visual.
-                Mobile: flex-1 with capped max-height so taller visuals
-                (mockup, gauge stack) don't bleed into the bottom indicator.
-                Desktop: regular grid cell, centered via items-center. */}
-            <div
-              key={`visual-${slide.id}`}
-              className="flex w-full max-w-[640px] items-center justify-center overflow-hidden"
-              style={{ minHeight: 300, height: 300, animation: "fadeSlideIn 0.5s ease-out" }}
-            >
+              {/* Visual */}
+              <div
+                key={`visual-${slide.id}`}
+                className="flex w-full max-w-[640px] items-center justify-center overflow-hidden"
+                style={{ minHeight: 300, height: 300, animation: "fadeSlideIn 0.5s ease-out" }}
+              >
               {slide.id === "tienda" && (
                 <div className="flex w-full max-w-[460px] flex-col">
-                  <span
-                    className="inline-flex w-fit items-center gap-2 rounded-full font-inter text-[12px] font-medium"
-                    style={{
-                      padding: "6px 14px 6px 10px",
-                      background: "rgba(255,255,255,0.7)",
-                      color: "#0A1F3F",
-                      marginBottom: 14,
-                      border: "1px solid rgba(10,31,63,0.18)",
-                      backdropFilter: "blur(8px)",
-                    }}
-                  >
-                    <span aria-hidden style={{ fontSize: 14 }}>✨</span>
-                    Escribe qué vendes y crea tu tienda
-                  </span>
                 <form
                   onSubmit={handleSubmit}
                   className="ai-prompt-form w-full rounded-[18px] border bg-white/85 backdrop-blur-sm transition-all duration-200 focus-within:border-[#DB3B2B] focus-within:shadow-[0_0_0_4px_rgba(219,59,43,0.08)]"
@@ -356,8 +350,11 @@ export default function T1AISectionV2() {
               {slide.id === "productos" && <VisualProductos />}
               {slide.id === "enrutamiento" && <VisualEnrutamiento />}
               {slide.id === "riesgo" && <VisualRiesgo />}
+              </div>
             </div>
           </div>
+            );
+          })()}
 
           {/* Horizontal carousel controls — shown on every breakpoint now.
               Circular prev/next arrows with a dot paginator between them. */}

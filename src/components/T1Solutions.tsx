@@ -281,66 +281,22 @@ export default function T1Solutions() {
             className="relative"
             style={{ animation: `fadeSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1)` }}
           >
-            {/* Peek edges — invisible by default. The whole white panel
-                fades in (with its chevron) only when the user hovers the
-                wrapper. The buttons themselves keep their click area. */}
-            <button
-              type="button"
-              aria-label="Categoría anterior"
-              onClick={() => handleTabChange((activeTab - 1 + TABS.length) % TABS.length)}
-              className="group/peek absolute hidden cursor-pointer items-center justify-end rounded-[20px] border-none p-0 transition-all duration-300 tablet:flex"
-              style={{
-                right: "calc(100% + 16px)",
-                top: 14,
-                bottom: 14,
-                width: "50vw",
-                paddingRight: 18,
-                background: "transparent",
-                zIndex: 0,
-              }}
-            >
-              <span className="flex h-[44px] w-[44px] items-center justify-center rounded-full bg-white text-black/55 opacity-0 transition-opacity duration-200 group-hover/peek:opacity-100" style={{ boxShadow: "0 4px 14px rgba(0,0,0,0.12)" }}>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M10 4L6 8L10 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
-            </button>
-            <button
-              type="button"
-              aria-label="Categoría siguiente"
-              onClick={() => handleTabChange((activeTab + 1) % TABS.length)}
-              className="group/peek absolute hidden cursor-pointer items-center rounded-[20px] border-none p-0 transition-all duration-300 tablet:flex"
-              style={{
-                left: "calc(100% + 16px)",
-                top: 14,
-                bottom: 14,
-                width: "50vw",
-                paddingLeft: 18,
-                background: "transparent",
-                zIndex: 0,
-              }}
-            >
-              <span className="flex h-[44px] w-[44px] items-center justify-center rounded-full bg-white text-black/55 opacity-0 transition-opacity duration-200 group-hover/peek:opacity-100" style={{ boxShadow: "0 4px 14px rgba(0,0,0,0.12)" }}>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
-            </button>
 
           <div
-            className="solutions-card-wrapper relative overflow-hidden bg-white rounded-[16px] tablet:rounded-[20px]"
+            className="solutions-card-wrapper group/card relative overflow-hidden bg-white rounded-[16px] tablet:rounded-[20px]"
             style={{
               width: "100%",
               minHeight: 360,
               zIndex: 1,
             }}
           >
-            {/* Inner < > arrows (desktop) — navigate level-2 sub-tabs within the active card */}
+            {/* Inner < > arrows (desktop) — navigate level-2 sub-tabs within the active card.
+                Hidden until the user hovers the card. */}
             <button
               type="button"
               onClick={() => handleSubTabChange((activeSubTab - 1 + card.subTabs.length) % card.subTabs.length)}
               aria-label="Herramienta anterior"
-              className="absolute left-3 z-[3] hidden h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-full border border-black/10 bg-white text-black/55 transition-all duration-150 hover:border-black/30 hover:text-black hover:shadow-[0_4px_14px_rgba(0,0,0,0.08)] tablet:flex"
+              className="absolute left-3 z-[3] hidden h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-full border border-black/10 bg-white text-black/55 opacity-0 transition-all duration-200 hover:border-black/30 hover:text-black hover:shadow-[0_4px_14px_rgba(0,0,0,0.08)] group-hover/card:opacity-100 tablet:flex"
               style={{ top: "calc(50% + 25px)", transform: "translateY(-50%)" }}
             >
               <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M10 4L6 8L10 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -349,7 +305,7 @@ export default function T1Solutions() {
               type="button"
               onClick={() => handleSubTabChange((activeSubTab + 1) % card.subTabs.length)}
               aria-label="Siguiente herramienta"
-              className="absolute right-3 z-[3] hidden h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-full border border-black/10 bg-white text-black/55 transition-all duration-150 hover:border-black/30 hover:text-black hover:shadow-[0_4px_14px_rgba(0,0,0,0.08)] tablet:flex"
+              className="absolute right-3 z-[3] hidden h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-full border border-black/10 bg-white text-black/55 opacity-0 transition-all duration-200 hover:border-black/30 hover:text-black hover:shadow-[0_4px_14px_rgba(0,0,0,0.08)] group-hover/card:opacity-100 tablet:flex"
               style={{ top: "calc(50% + 25px)", transform: "translateY(-50%)" }}
             >
               <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>

@@ -141,7 +141,7 @@ export default function T1Hero() {
           Now sized so the V/C/E intro cards (in the dark band that follows)
           peek visibly above the fold, giving an unmistakable scroll hint. */}
       <div className="sticky top-0 z-0">
-        <section className="relative flex min-h-[80svh] flex-col overflow-hidden tablet:h-[82vh] tablet:min-h-0">
+        <section className="relative flex min-h-[86svh] flex-col overflow-hidden tablet:h-[88vh] tablet:min-h-0">
           {/* Background video — loop through 4 clips */}
           <div className="absolute inset-0 z-0">
             <HeroVideoLoop />

@@ -261,7 +261,7 @@ function MobileScrollSections({ cards }: { cards: React.ReactNode[] }) {
           </p>
           <a
             href={SIGNUP_URL}
-            className="inline-flex h-[42px] items-center rounded-full bg-[#DB3B2B] px-5 font-inter text-[13px] font-semibold text-white no-underline transition-colors duration-200 hover:bg-[#C0332A]"
+            className="inline-flex h-[52px] items-center rounded-full bg-[#DB3B2B] px-7 font-inter text-[15px] font-semibold text-white no-underline transition-colors duration-200 hover:bg-[#C0332A]"
           >
             {WORDS[tabIdx].ctaLabel}
           </a>
@@ -307,7 +307,7 @@ function MobileScrollSections({ cards }: { cards: React.ReactNode[] }) {
             </p>
             <a
               href={SIGNUP_URL}
-              className="inline-flex h-[42px] items-center rounded-full bg-[#DB3B2B] px-5 font-inter text-[13px] font-semibold text-white no-underline transition-colors duration-200 hover:bg-[#C0332A]"
+              className="inline-flex h-[52px] items-center rounded-full bg-[#DB3B2B] px-7 font-inter text-[15px] font-semibold text-white no-underline transition-colors duration-200 hover:bg-[#C0332A]"
             >
               {WORDS[3].ctaLabel}
             </a>
@@ -463,7 +463,7 @@ export default function T1ScrollShowcase() {
                 </p>
                 <a
                   href={SIGNUP_URL}
-                  className="inline-flex h-[44px] items-center rounded-full bg-[#DB3B2B] px-6 font-inter text-[13px] font-semibold text-white no-underline transition-all duration-200 hover:bg-[#C0332A] hover:scale-[1.02]"
+                  className="inline-flex h-[52px] items-center rounded-full bg-[#DB3B2B] px-7 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-200 hover:bg-[#C0332A] hover:scale-[1.02]"
                 >
                   {WORDS[activeIndex].ctaLabel}
                 </a>
@@ -476,13 +476,14 @@ export default function T1ScrollShowcase() {
       {/* ── Mobile — vertical scroll with fade-in/out transitions ── */}
       <MobileScrollSections cards={cards} />
 
-      {/* ── CTA — compact final moment. Reduced from h-screen so the
-          section takes less vertical real estate while still centering
-          its content for the reveal. ── */}
-      <div ref={ctaRef} className="h-[70vh] tablet:h-[85vh]">
+      {/* ── CTA — final brand moment. Inner sticky fills the viewport so
+          there is no awkward "half-section" that lets the footer peek in
+          mid-reveal. Desktop gets a small 10vh pin so the reveal lands
+          before the user scrolls into the footer. ── */}
+      <div ref={ctaRef} className="h-screen tablet:h-[110vh]">
         <div
           className="sticky top-0 flex items-center justify-center"
-          style={{ height: "70vh" }}
+          style={{ height: "100vh" }}
         >
           <div
             className="flex flex-col items-center text-center px-6"
