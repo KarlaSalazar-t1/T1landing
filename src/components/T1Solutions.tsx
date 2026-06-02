@@ -981,11 +981,12 @@ export default function T1Solutions() {
                 are scoped to this content area — sub-tabs strip above no longer
                 overlaps with content). */}
             <div className="hidden tablet:block" style={{ height: 521, position: "relative" }}>
-              {/* Left content — vertically centered in the column.
-                  Left padding 70 leaves room for the inner < arrow + safety gap. */}
+              {/* Left content — vertically centered. Reduced left padding
+                  so the card uses more horizontal real estate (the arrows
+                  only appear on hover now so we don't need a wide gutter). */}
               <div
                 className="absolute flex flex-col"
-                style={{ left: 70, top: "50%", transform: "translateY(-50%)", width: 320, gap: 18 }}
+                style={{ left: 36, top: "50%", transform: "translateY(-50%)", width: 320, gap: 18 }}
               >
                 {/* Description — changes per sub-tab */}
                 <p
@@ -1008,12 +1009,11 @@ export default function T1Solutions() {
                 </a>
               </div>
 
-              {/* Right panel — custom or image.
-                  Right padding ~70 leaves room for the inner > arrow + safety gap. */}
+              {/* Right panel — custom or image. Right padding trimmed too. */}
               <div
                 key={`panel-${activeTab}-${activeSubTab}`}
                 className="absolute overflow-hidden rounded-[10px]"
-                style={{ left: 450, top: 53, width: 600, height: 420, animation: "none" }}
+                style={{ left: 410, top: 53, width: 670, height: 420, animation: "none" }}
               >
                 {currentSub.panel === "tienda-ia" ? (
                   /* Tienda con IA — store preview with floating prompt on top */

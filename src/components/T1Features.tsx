@@ -2024,8 +2024,9 @@ export default function T1Features() {
             {/* Content wrapper */}
             <div className="relative z-10 flex h-full flex-col tablet:flex-row" style={{ minHeight: 320 }}>
               {card.id === "t1tienda-en-linea" ? (
-                /* ── Tienda en línea — text + AI prompt panel ── */
-                <div className="flex h-full w-full flex-col tablet:flex-row" ref={tiendaOnlineRef}>
+                /* ── Tienda en línea — AI prompt panel on the LEFT,
+                       text on the RIGHT (swapped from default). ── */
+                <div className="flex h-full w-full flex-col tablet:flex-row-reverse" ref={tiendaOnlineRef}>
                   <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:p-8">
                     <div>
                       <p className="font-sora text-[18px] font-normal text-white tablet:text-[22px] lg:text-[26px]">
@@ -2038,13 +2039,17 @@ export default function T1Features() {
                         <a
                           href={card.ctaHref}
                           onClick={(e) => e.stopPropagation()}
-                          className="inline-flex h-[42px] items-center gap-2 rounded-full bg-white px-5 font-inter text-[13px] font-semibold text-black no-underline transition-all duration-200 hover:scale-[1.03] hover:bg-white/90"
-                          style={{ boxShadow: "0 6px 20px rgba(0,0,0,0.18)" }}
+                          className="group/cta inline-flex items-center gap-3 font-inter text-[15px] font-semibold text-white no-underline transition-opacity hover:opacity-90 tablet:text-[16px]"
                         >
                           {card.ctaLabel}
-                          <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                            <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
+                          <span
+                            className="flex h-[38px] w-[38px] items-center justify-center rounded-full bg-white/15 transition-transform duration-200 group-hover/cta:translate-x-1"
+                            style={{ backdropFilter: "blur(8px)", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.18)" }}
+                          >
+                            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                              <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          </span>
                         </a>
                       )}
                     </div>
@@ -2080,13 +2085,17 @@ export default function T1Features() {
                           target={card.ctaHref?.startsWith("http") ? "_blank" : undefined}
                           rel={card.ctaHref?.startsWith("http") ? "noopener noreferrer" : undefined}
                           onClick={(e) => e.stopPropagation()}
-                          className="inline-flex h-[42px] items-center gap-2 rounded-full bg-white px-5 font-inter text-[13px] font-semibold text-black no-underline transition-all duration-200 hover:scale-[1.03] hover:bg-white/90"
-                          style={{ boxShadow: "0 6px 20px rgba(0,0,0,0.18)" }}
+                          className="group/cta inline-flex items-center gap-3 font-inter text-[15px] font-semibold text-white no-underline transition-opacity hover:opacity-90 tablet:text-[16px]"
                         >
                           {card.ctaLabel}
-                          <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                            <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
+                          <span
+                            className="flex h-[38px] w-[38px] items-center justify-center rounded-full bg-white/15 transition-transform duration-200 group-hover/cta:translate-x-1"
+                            style={{ backdropFilter: "blur(8px)", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.18)" }}
+                          >
+                            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                              <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          </span>
                         </a>
                       )}
                     </div>
@@ -2123,9 +2132,10 @@ export default function T1Features() {
                   )}
                 </>
               ) : card.id === "t1pagos" ? (
-                /* ── Two-column layout (T1 Pagos) ── */
-                <div className="flex h-full w-full flex-col tablet:flex-row">
-                  {/* Left column: text at top, credit cards centered below */}
+                /* ── Two-column layout (T1 Pagos) — phone panel on the
+                       LEFT, text/payment-method tiles on the RIGHT. ── */
+                <div className="flex h-full w-full flex-col tablet:flex-row-reverse">
+                  {/* Right column (visually): text at top, payment methods centered below */}
                   <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:p-8 lg:p-10">
                     <div style={{ maxWidth: 420 }}>
                       <p className="font-sora text-[18px] font-normal text-white tablet:text-[22px] lg:text-[26px]">
@@ -2140,13 +2150,17 @@ export default function T1Features() {
                           target={card.ctaHref?.startsWith("http") ? "_blank" : undefined}
                           rel={card.ctaHref?.startsWith("http") ? "noopener noreferrer" : undefined}
                           onClick={(e) => e.stopPropagation()}
-                          className="inline-flex h-[42px] items-center gap-2 rounded-full bg-white px-5 font-inter text-[13px] font-semibold text-black no-underline transition-all duration-200 hover:scale-[1.03] hover:bg-white/90"
-                          style={{ boxShadow: "0 6px 20px rgba(0,0,0,0.18)" }}
+                          className="group/cta inline-flex items-center gap-3 font-inter text-[15px] font-semibold text-white no-underline transition-opacity hover:opacity-90 tablet:text-[16px]"
                         >
                           {card.ctaLabel}
-                          <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                            <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
+                          <span
+                            className="flex h-[38px] w-[38px] items-center justify-center rounded-full bg-white/15 transition-transform duration-200 group-hover/cta:translate-x-1"
+                            style={{ backdropFilter: "blur(8px)", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.18)" }}
+                          >
+                            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                              <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          </span>
                         </a>
                       )}
                     </div>
@@ -2201,13 +2215,17 @@ export default function T1Features() {
                           target={card.ctaHref?.startsWith("http") ? "_blank" : undefined}
                           rel={card.ctaHref?.startsWith("http") ? "noopener noreferrer" : undefined}
                           onClick={(e) => e.stopPropagation()}
-                          className="inline-flex h-[42px] items-center gap-2 rounded-full bg-white px-5 font-inter text-[13px] font-semibold text-black no-underline transition-all duration-200 hover:scale-[1.03] hover:bg-white/90"
-                          style={{ boxShadow: "0 6px 20px rgba(0,0,0,0.18)" }}
+                          className="group/cta inline-flex items-center gap-3 font-inter text-[15px] font-semibold text-white no-underline transition-opacity hover:opacity-90 tablet:text-[16px]"
                         >
                           {card.ctaLabel}
-                          <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                            <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
+                          <span
+                            className="flex h-[38px] w-[38px] items-center justify-center rounded-full bg-white/15 transition-transform duration-200 group-hover/cta:translate-x-1"
+                            style={{ backdropFilter: "blur(8px)", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.18)" }}
+                          >
+                            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                              <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          </span>
                         </a>
                       )}
                     </div>

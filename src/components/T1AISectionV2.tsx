@@ -240,7 +240,10 @@ export default function T1AISectionV2() {
           {/* Layout: vertical on every breakpoint — title + description on
               top, visual below. Navigation arrows at the bottom. */}
           {(() => {
-            const twoCol = slide.id === "personaliza" || slide.id === "enrutamiento";
+            // All slides use the same 2-col layout on desktop so the total
+            // height is identical across slides — no more taller Riesgo /
+            // Productos / Prompt vs shorter Personaliza / Enrutamiento.
+            const twoCol = true;
             return (
           <div className="flex flex-col items-center gap-8 tablet:gap-10">
             {/* Top: IA title — always centered */}
