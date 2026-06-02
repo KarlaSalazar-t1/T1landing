@@ -137,13 +137,11 @@ function HeroVideoLoop() {
 export default function T1Hero() {
   return (
     <>
-      {/* Sticky hero — stays in place while white card scrolls over.
-          Desktop: 95vh so the top edge of the white card peeks ~5% above
-          the fold (per design feedback on ultra-tall monitors). The hero
-          stays flex-col on desktop so the logo marquee can sit flush at
-          the bottom regardless of how tall the viewport is. */}
+      {/* Sticky hero — stays in place while content scrolls over.
+          Now sized so the V/C/E intro cards (in the dark band that follows)
+          peek visibly above the fold, giving an unmistakable scroll hint. */}
       <div className="sticky top-0 z-0">
-        <section className="relative flex min-h-[92svh] flex-col overflow-hidden tablet:h-[95vh] tablet:min-h-0">
+        <section className="relative flex min-h-[80svh] flex-col overflow-hidden tablet:h-[82vh] tablet:min-h-0">
           {/* Background video — loop through 4 clips */}
           <div className="absolute inset-0 z-0">
             <HeroVideoLoop />

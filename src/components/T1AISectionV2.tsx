@@ -21,33 +21,28 @@ const SLIDES: { id: SlideId; title: string; description: string; badge?: string 
   {
     id: "tienda",
     title: "Crea tu tienda en segundos",
-    description:
-      "Describe tu negocio y la IA genera tu tienda lista para vender en menos de 2 minutos.",
+    description: "Describe tu negocio y la IA arma tu tienda lista para vender.",
     badge: "Créala ahora",
   },
   {
     id: "personaliza",
     title: "Personaliza tu tienda",
-    description:
-      "Genera imágenes de producto, edita banners y personaliza textos con inteligencia artificial.",
+    description: "Genera imágenes, banners y textos con IA.",
   },
   {
     id: "productos",
     title: "Crea tus productos",
-    description:
-      "Sube una foto y la IA genera título, descripción y variantes automáticamente.",
+    description: "Sube una foto y la IA genera título, descripción y variantes.",
   },
   {
     id: "enrutamiento",
     title: "Enrutamiento inteligente",
-    description:
-      "Nuestra IA elige la paquetería más rápida y económica para cada envío.",
+    description: "Elegimos la paquetería más rápida y económica para cada envío.",
   },
   {
     id: "riesgo",
     title: "Análisis de riesgo",
-    description:
-      "IA que evalúa el riesgo crediticio de cada transacción en tiempo real.",
+    description: "Evaluamos el riesgo crediticio de cada transacción al instante.",
   },
 ];
 
@@ -259,10 +254,12 @@ export default function T1AISectionV2() {
                 La <span style={{ color: "#DB3B2B" }}>IA</span>, desde el primer día.
               </h2>
 
+              {/* Fixed min-height so the title/desc block never reflows
+                  between slides — the visual below stays at the same Y. */}
               <div
                 key={`text-${slide.id}`}
                 className="flex flex-col items-center"
-                style={{ animation: "fadeSlideIn 0.45s ease-out" }}
+                style={{ animation: "fadeSlideIn 0.45s ease-out", minHeight: 84 }}
               >
                 <h3
                   className="font-inter text-[17px] font-medium text-black tablet:text-[18px] lg:text-[20px]"
@@ -271,8 +268,8 @@ export default function T1AISectionV2() {
                   {slide.title}
                 </h3>
                 <p
-                  className="font-inter text-[15px] font-light leading-relaxed text-black/65 tablet:text-[16px]"
-                  style={{ marginBottom: 0, maxWidth: 560 }}
+                  className="font-inter text-[14px] font-light leading-relaxed text-black/65 tablet:whitespace-nowrap tablet:text-[16px]"
+                  style={{ marginBottom: 0 }}
                 >
                   {slide.description}
                 </p>
@@ -286,7 +283,7 @@ export default function T1AISectionV2() {
             <div
               key={`visual-${slide.id}`}
               className="flex w-full max-w-[640px] items-center justify-center overflow-hidden"
-              style={{ minHeight: 220, animation: "fadeSlideIn 0.5s ease-out" }}
+              style={{ minHeight: 300, height: 300, animation: "fadeSlideIn 0.5s ease-out" }}
             >
               {slide.id === "tienda" && (
                 <div className="flex w-full max-w-[460px] flex-col">
@@ -562,24 +559,14 @@ function VisualPersonaliza() {
 
   return (
     <div className="flex w-full flex-col items-center justify-center gap-4 tablet:flex-row tablet:items-center tablet:gap-5">
-      {/* DESKTOP — browser-shaped mockup + absolute callout overlapping top */}
-      <div className="relative hidden shrink-0 tablet:block" style={{ width: 360 }}>
+      {/* DESKTOP — store mockup (no browser chrome, compact size) */}
+      <div className="relative hidden shrink-0 tablet:block" style={{ width: 300 }}>
       <div
         className="vp2-mockup-desktop w-full overflow-hidden rounded-[16px] bg-white"
         style={{
           boxShadow: "0 24px 60px -16px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.04)",
         }}
       >
-        {/* Browser bar */}
-        <div className="flex items-center gap-1.5 border-b border-black/[0.05] px-3 py-2">
-          <span className="h-[8px] w-[8px] rounded-full bg-[#FF5F57]" />
-          <span className="h-[8px] w-[8px] rounded-full bg-[#FEBC2E]" />
-          <span className="h-[8px] w-[8px] rounded-full bg-[#28C840]" />
-          <span className="ml-2 rounded-full bg-black/[0.04] px-2 py-0.5 font-inter text-[9px] text-black/40">
-            mitienda.t1.com
-          </span>
-        </div>
-
         {/* Store header */}
         <div className="flex items-center justify-between border-b border-black/[0.05] px-4 py-2.5">
           <span className="font-sora text-[11px] font-bold tracking-tight text-black">
@@ -593,7 +580,7 @@ function VisualPersonaliza() {
         </div>
 
         {/* Banner */}
-        <div className="relative overflow-hidden" style={{ height: 170, background: "#F6F1EE" }}>
+        <div className="relative overflow-hidden" style={{ height: 140, background: "#F6F1EE" }}>
           <Image
             key={`banner-d-${bannerIdx}`}
             src={current.src}
@@ -1042,8 +1029,9 @@ function VisualEnrutamiento() {
 
 function VisualRiesgo() {
   // Fully static — no ring-fill animation, no counter, no slide-in card.
+  // Layout: gauge + result card side-by-side on desktop, stacked on mobile.
   return (
-    <div className="relative flex flex-col items-center justify-center gap-3 tablet:gap-5">
+    <div className="relative flex flex-col items-center justify-center gap-3 tablet:flex-row tablet:items-center tablet:gap-6">
       <svg
         viewBox="0 0 110 110"
         fill="none"

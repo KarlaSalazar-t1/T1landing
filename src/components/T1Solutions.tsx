@@ -276,32 +276,30 @@ export default function T1Solutions() {
             Carousel: card + peek edges wrapped in one animated container so they
             slide together when activeTab changes (no misalignment during transition). */}
         <div className="relative mx-auto" style={{ maxWidth: 1120 }}>
-          {/* Side-fade gradients — viewport-anchored so the carousel edges fade smoothly */}
-          <div aria-hidden className="pointer-events-none absolute z-[5] hidden tablet:block" style={{ left: "calc(-50vw + 50%)", top: 0, bottom: 0, width: "calc(50vw - 50%)", background: "linear-gradient(90deg, #F6F6F6 0%, rgba(246,246,246,0.95) 30%, rgba(246,246,246,0) 100%)" }} />
-          <div aria-hidden className="pointer-events-none absolute z-[5] hidden tablet:block" style={{ right: "calc(-50vw + 50%)", top: 0, bottom: 0, width: "calc(50vw - 50%)", background: "linear-gradient(270deg, #F6F6F6 0%, rgba(246,246,246,0.95) 30%, rgba(246,246,246,0) 100%)" }} />
           <div
             key={`carousel-${activeTab}`}
             className="relative"
             style={{ animation: `fadeSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1)` }}
           >
-            {/* Peek edges — clickable, navigate to prev/next category.
-                Chevron only appears on hover (opacity transition). */}
+            {/* Peek edges — invisible by default. The whole white panel
+                fades in (with its chevron) only when the user hovers the
+                wrapper. The buttons themselves keep their click area. */}
             <button
               type="button"
               aria-label="Categoría anterior"
               onClick={() => handleTabChange((activeTab - 1 + TABS.length) % TABS.length)}
-              className="group/peek absolute hidden cursor-pointer items-center justify-end bg-white rounded-[20px] border-none p-0 transition-shadow duration-200 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] tablet:flex"
+              className="group/peek absolute hidden cursor-pointer items-center justify-end rounded-[20px] border-none p-0 transition-all duration-300 tablet:flex"
               style={{
                 right: "calc(100% + 16px)",
                 top: 14,
                 bottom: 14,
                 width: "50vw",
                 paddingRight: 18,
-                boxShadow: "0 4px 18px rgba(0,0,0,0.04)",
+                background: "transparent",
                 zIndex: 0,
               }}
             >
-              <span className="flex h-[44px] w-[44px] items-center justify-center rounded-full bg-white text-black/55 opacity-0 transition-opacity duration-200 group-hover/peek:opacity-100" style={{ boxShadow: "0 4px 14px rgba(0,0,0,0.10)" }}>
+              <span className="flex h-[44px] w-[44px] items-center justify-center rounded-full bg-white text-black/55 opacity-0 transition-opacity duration-200 group-hover/peek:opacity-100" style={{ boxShadow: "0 4px 14px rgba(0,0,0,0.12)" }}>
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                   <path d="M10 4L6 8L10 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
@@ -311,18 +309,18 @@ export default function T1Solutions() {
               type="button"
               aria-label="Categoría siguiente"
               onClick={() => handleTabChange((activeTab + 1) % TABS.length)}
-              className="group/peek absolute hidden cursor-pointer items-center bg-white rounded-[20px] border-none p-0 transition-shadow duration-200 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] tablet:flex"
+              className="group/peek absolute hidden cursor-pointer items-center rounded-[20px] border-none p-0 transition-all duration-300 tablet:flex"
               style={{
                 left: "calc(100% + 16px)",
                 top: 14,
                 bottom: 14,
                 width: "50vw",
                 paddingLeft: 18,
-                boxShadow: "0 4px 18px rgba(0,0,0,0.04)",
+                background: "transparent",
                 zIndex: 0,
               }}
             >
-              <span className="flex h-[44px] w-[44px] items-center justify-center rounded-full bg-white text-black/55 opacity-0 transition-opacity duration-200 group-hover/peek:opacity-100" style={{ boxShadow: "0 4px 14px rgba(0,0,0,0.10)" }}>
+              <span className="flex h-[44px] w-[44px] items-center justify-center rounded-full bg-white text-black/55 opacity-0 transition-opacity duration-200 group-hover/peek:opacity-100" style={{ boxShadow: "0 4px 14px rgba(0,0,0,0.12)" }}>
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                   <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>

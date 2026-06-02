@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
  *   ready    → reveals the finished tienda landing (logo, hero, product
  *              grid, footer)
  */
-const PROMPT_TEXT = "Quiero vender comida y accesorios para mascotas";
+const PROMPT_TEXT = "Quiero vender ropa y accesorios urbanos / streetwear";
 const FONT = "var(--font-manrope-var), sans-serif";
 
 type Stage = "typing" | "loading" | "ready";
@@ -209,15 +209,18 @@ function SkeletonLanding() {
    Stage 3 — Finished landing (the tienda the prompt described)
    ──────────────────────────────────────────────────────────────── */
 function FinalLanding({ compact = false }: { compact?: boolean }) {
+  // Fashion / streetwear theme. Placeholder product images use the tenis,
+  // gorra and playera assets already in the project — swap when the team
+  // sends final fashion shots.
   const PRODUCTS = [
-    { name: "Croquetas Premium", price: "$489", img: "/img/petshop-croquetas.png" },
-    { name: "Collar ajustable", price: "$129", img: "/img/petshop-collar.png" },
-    { name: "Juguete dental", price: "$89", img: "/img/petshop-juguete.png" },
-    { name: "Cama acolchada", price: "$649", img: "/img/petshop-cama.png" },
-    { name: "Plato doble", price: "$179", img: "/img/petshop-plato.png" },
-    { name: "Snacks naturales", price: "$95", img: "/img/petshop-snacks.png" },
-    { name: "Transportadora", price: "$899", img: "/img/petshop-transportadora.png" },
-    { name: "Shampoo natural", price: "$199", img: "/img/petshop-shampoo.png" },
+    { name: "Sneakers Court", price: "$1,890", img: "/img/tenis-transparente.png" },
+    { name: "Gorra Box Logo", price: "$549", img: "/img/gorra.png" },
+    { name: "Playera Oversize", price: "$649", img: "/img/playera.png" },
+    { name: "Hoodie Heavyweight", price: "$1,290", img: "/img/playera.png" },
+    { name: "Cargo Pants", price: "$1,490", img: "/img/playera.png" },
+    { name: "Sneakers Runner", price: "$2,190", img: "/img/tenis-transparente.png" },
+    { name: "Bucket Hat", price: "$389", img: "/img/gorra.png" },
+    { name: "Crewneck Premium", price: "$1,090", img: "/img/playera.png" },
   ];
 
   /* Cart icon shared by desktop nav and mobile nav. */
@@ -246,7 +249,7 @@ function FinalLanding({ compact = false }: { compact?: boolean }) {
               <span className="block h-[1.5px] w-[14px] rounded-full bg-black/55" />
             </span>
           )}
-          <span className="font-sora text-[14px] font-semibold text-black">PetShop MX</span>
+          <span className="font-sora text-[14px] font-semibold text-black">URBANO MX</span>
         </div>
         <div className="flex items-center gap-3 text-[10px] text-black/60">
           {!compact && (
