@@ -287,11 +287,12 @@ export default function T1AISectionV2() {
                 </p>
               </div>
 
-              {/* Visual */}
+              {/* Visual — fixed height so every slide is the same overall
+                  size (no jumps between Prompt / Productos / Riesgo). */}
               <div
                 key={`visual-${slide.id}`}
                 className="flex w-full max-w-[640px] items-center justify-center overflow-hidden"
-                style={{ minHeight: 300, height: 300, animation: "fadeSlideIn 0.5s ease-out" }}
+                style={{ minHeight: 240, height: 240, animation: "fadeSlideIn 0.5s ease-out" }}
               >
               {slide.id === "tienda" && (
                 <div className="flex w-full max-w-[460px] flex-col">
@@ -308,11 +309,11 @@ export default function T1AISectionV2() {
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value.slice(0, MAX_PROMPT))}
                     placeholder=""
-                    rows={4}
+                    rows={3}
                     maxLength={MAX_PROMPT}
                     aria-label="Describe tu negocio"
                     className="w-full resize-none border-none bg-transparent font-inter text-[15px] text-black outline-none placeholder:text-black/40"
-                    style={{ minHeight: 120, lineHeight: 1.5 }}
+                    style={{ minHeight: 80, lineHeight: 1.5 }}
                   />
                   <div className="flex items-center justify-between gap-3">
                     <span className="font-inter text-[12px] text-black/40">
@@ -577,7 +578,7 @@ function VisualPersonaliza() {
         </div>
 
         {/* Banner */}
-        <div className="relative overflow-hidden" style={{ height: 140, background: "#F6F1EE" }}>
+        <div className="relative overflow-hidden" style={{ height: 110, background: "#F6F1EE" }}>
           <Image
             key={`banner-d-${bannerIdx}`}
             src={current.src}

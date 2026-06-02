@@ -304,22 +304,22 @@ export default function T1Enterprise() {
                 />
 
                 {/* Top-left brand logo — always visible in a white chip.
-                    Scales: collapsed 34, hover 42, active 64. */}
+                    Scales: collapsed 44, hover 50, active 64. */}
                 <div
                   className="absolute left-5 top-5 z-10 flex items-center justify-center overflow-hidden rounded-[12px] bg-white transition-all duration-500"
                   style={{
-                    width: isActive ? 64 : isHovered ? 42 : 34,
-                    height: isActive ? 64 : isHovered ? 42 : 34,
+                    width: isActive ? 64 : isHovered ? 50 : 44,
+                    height: isActive ? 64 : isHovered ? 50 : 44,
                     boxShadow: "0 4px 14px rgba(0,0,0,0.18)",
                   }}
                 >
                   <Image
                     src={c.image}
                     alt={c.name}
-                    width={isActive ? 48 : isHovered ? 32 : 26}
-                    height={isActive ? 48 : isHovered ? 32 : 26}
+                    width={isActive ? 48 : isHovered ? 38 : 34}
+                    height={isActive ? 48 : isHovered ? 38 : 34}
                     className="object-contain"
-                    style={{ padding: isActive ? 4 : 2 }}
+                    style={{ padding: isActive ? 4 : 3 }}
                   />
                 </div>
 

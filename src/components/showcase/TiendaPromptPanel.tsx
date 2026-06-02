@@ -209,18 +209,16 @@ function SkeletonLanding() {
    Stage 3 — Finished landing (the tienda the prompt described)
    ──────────────────────────────────────────────────────────────── */
 function FinalLanding({ compact = false }: { compact?: boolean }) {
-  // Fashion / streetwear theme. Placeholder product images use the tenis,
-  // gorra and playera assets already in the project — swap when the team
-  // sends final fashion shots.
+  // Fashion / streetwear theme. Final product shots provided by the team.
   const PRODUCTS = [
-    { name: "Sneakers Court", price: "$1,890", img: "/img/tenis-transparente.png" },
-    { name: "Gorra Box Logo", price: "$549", img: "/img/gorra.png" },
-    { name: "Playera Oversize", price: "$649", img: "/img/playera.png" },
-    { name: "Hoodie Heavyweight", price: "$1,290", img: "/img/playera.png" },
-    { name: "Cargo Pants", price: "$1,490", img: "/img/playera.png" },
-    { name: "Sneakers Runner", price: "$2,190", img: "/img/tenis-transparente.png" },
-    { name: "Bucket Hat", price: "$389", img: "/img/gorra.png" },
-    { name: "Crewneck Premium", price: "$1,090", img: "/img/playera.png" },
+    { name: "Sneakers Court", price: "$1,890", img: "/img/moda-tennis.png" },
+    { name: "Gorra Box Logo", price: "$549", img: "/img/moda-gorra.png" },
+    { name: "Playera Oversize", price: "$649", img: "/img/moda-playera.png" },
+    { name: "Hoodie Heavyweight", price: "$1,290", img: "/img/moda-hoodie.png" },
+    { name: "Cargo Pants", price: "$1,490", img: "/img/moda-pantalon.png" },
+    { name: "Sneakers Runner", price: "$2,190", img: "/img/moda-sneaker.png" },
+    { name: "Bucket Hat", price: "$389", img: "/img/moda-bucket.png" },
+    { name: "Crewneck Premium", price: "$1,090", img: "/img/moda-crewneck.png" },
   ];
 
   /* Cart icon shared by desktop nav and mobile nav. */
@@ -267,7 +265,7 @@ function FinalLanding({ compact = false }: { compact?: boolean }) {
           version cropped for narrow viewports; desktop keeps the wide one. */}
       <div className="relative h-[120px] w-full shrink-0 overflow-hidden">
         <Image
-          src={compact ? "/img/petshop-banner-mobile.png" : "/img/petshop-banner-v2.png"}
+          src={compact ? "/img/moda-banner-mobile.png" : "/img/moda-banner-desktop.png"}
           alt=""
           fill
           sizes="100vw"
