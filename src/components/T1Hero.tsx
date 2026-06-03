@@ -99,8 +99,10 @@ function LogoMarquee() {
     <div className="relative overflow-hidden" style={{ padding: "28px 0" }}>
       {/* No fade edges — clean seamless loop */}
 
-      <div className="marquee-track flex items-center gap-16">
-        {/* Double the logos for seamless loop */}
+      <div className="marquee-track flex items-center">
+        {/* Double the logos for seamless loop. Spacing is per-item margin
+            (not flex gap) so the -50% keyframe lands exactly on one period
+            — otherwise a trailing half-gap makes the loop "jump" on mobile. */}
         {[...LOGOS, ...LOGOS].map((logo, i) => (
           <Image
             key={`${logo.alt}-${i}`}
@@ -108,7 +110,7 @@ function LogoMarquee() {
             alt={logo.alt}
             width={120}
             height={40}
-            className="h-[28px] w-auto shrink-0 object-contain brightness-0 invert opacity-60"
+            className="mr-16 h-[28px] w-auto shrink-0 object-contain brightness-0 invert opacity-60"
           />
         ))}
       </div>

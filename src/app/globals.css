@@ -63,8 +63,12 @@
 }
 
 @keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  /* translate3d keeps the track on its own GPU layer the whole loop, which
+     kills the mobile repaint "brinco" while the page scrolls. The -50% lands
+     exactly on one period because spacing is per-item margin (not flex gap),
+     so item N+1 of the duplicate sits exactly where item 1 started. */
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
 }
 
 @keyframes slideDown {
@@ -326,6 +330,8 @@ body {
 .marquee-track {
   animation: marquee 50s linear infinite;
   width: max-content;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .marquee-track:hover {
