@@ -273,6 +273,35 @@ body {
   animation: blobFloat 12s ease-in-out infinite;
 }
 
+/* ─── Dark section surfaces (P3 tonality) ───
+   Warm neutral darks (not pure black) so the big block reads cohesive and
+   the light↔dark flips between sections go away. Reference: footer #141414. */
+
+/* Neutral base — the page wrapper behind the dark block. */
+.section-dark {
+  background-color: #141414;
+}
+
+/* Stack-showcase backdrop — neutral dark with VERY subtle ambient color
+   blobs ("negro con blobs"), kept low-opacity so the cards still dominate
+   and the stacking effect stays legible against it. */
+.stack-section-bg {
+  background:
+    radial-gradient(60% 50% at 14% 6%, rgba(219,59,43,0.07) 0%, transparent 60%),
+    radial-gradient(55% 45% at 90% 22%, rgba(59,130,246,0.05) 0%, transparent 60%),
+    #141414;
+}
+
+/* IA section — keeps the warm "AI moment" as a glow on dark instead of a
+   bright peach field, so the stack→IA transition becomes dark-to-dark. */
+.ai-section-bg {
+  background:
+    radial-gradient(110% 70% at 15% 0%, rgba(255,120,95,0.16) 0%, transparent 55%),
+    radial-gradient(90% 70% at 100% 30%, rgba(255,110,90,0.12) 0%, transparent 55%),
+    radial-gradient(120% 80% at 50% 110%, rgba(219,59,43,0.10) 0%, transparent 60%),
+    #161311;
+}
+
 @keyframes blobFloat {
   0%, 100% { transform: translate(0, 0) scale(1); opacity: 1; }
   33% { transform: translate(30px, -20px) scale(1.1); opacity: 0.8; }

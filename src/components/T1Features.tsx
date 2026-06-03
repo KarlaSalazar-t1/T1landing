@@ -1877,13 +1877,13 @@ export default function T1Features() {
   }, []);
 
   return (
-    <section className="bg-[#F6F6F6] pb-0 pt-0 tablet:pb-10 tablet:pt-[60px]">
+    <section className="stack-section-bg pb-0 pt-0 tablet:pb-10 tablet:pt-[60px]">
       {/* Mobile-only full-width divider between the dark intro section
-          and the stack cards. Replaces the previous awkward white gap. */}
+          and the stack cards. Light hairline now that the bg is dark. */}
       <div
         aria-hidden
         className="tablet:hidden"
-        style={{ height: 1, width: "100%", background: "rgba(0,0,0,0.10)" }}
+        style={{ height: 1, width: "100%", background: "rgba(255,255,255,0.08)" }}
       />
 
       {/* Desktop keeps a small gap above the stack cards. */}
@@ -1893,11 +1893,11 @@ export default function T1Features() {
 
 
       {/* ── Stacking showcase cards with scale-down effect ──
-          On mobile, the wrapper carries the warm AI bg color so any sliver
-          of bg that becomes visible (e.g. when Safari's URL bar hides and
-          the viewport grows beyond 100svh, leaving ~80px below each card)
-          blends straight into the AI section instead of flashing gray. */}
-      <div className="bg-[#FFF1EB] tablet:bg-[#F6F6F6]">
+          Transparent now that the whole block is dark — any sliver of bg that
+          becomes visible (e.g. when Safari's URL bar hides and the viewport
+          grows beyond 100svh, leaving ~80px below each card) shows the
+          stack-section-bg charcoal instead of flashing a light gray. */}
+      <div className="bg-transparent">
       <div className="stack-card-container relative mx-auto max-w-[var(--max-w)] px-4 tablet:px-6">
         {SHOWCASE_CARDS.map((card, idx) => (
           <div
@@ -1908,7 +1908,12 @@ export default function T1Features() {
               marginBottom: 40,
               height: 580,
               zIndex: idx + 1,
-              boxShadow: "0 -4px 30px rgba(0,0,0,0.2)",
+              // Dark-bg legibility: a light hairline ring + a top inset
+              // edge-highlight give each card a crisp lit top edge as it
+              // stacks (a plain dark drop-shadow disappears on the charcoal
+              // section bg). Downward dark shadow keeps depth between layers.
+              boxShadow:
+                "inset 0 1px 0 rgba(255,255,255,0.12), 0 0 0 1px rgba(255,255,255,0.08), 0 -8px 28px rgba(0,0,0,0.45), 0 18px 44px rgba(0,0,0,0.4)",
               transformOrigin: "50% 0",
             }}
             data-stack-idx={idx}

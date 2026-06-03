@@ -233,11 +233,11 @@ export default function T1Solutions() {
   }, []);
 
   return (
-    <section className="overflow-x-hidden bg-[#F6F6F6]" style={{ paddingTop: 100, paddingBottom: 60 }}>
+    <section className="overflow-x-hidden bg-[#141414]" style={{ paddingTop: 100, paddingBottom: 60 }}>
       <div className="mx-auto max-w-[var(--max-w)] px-5 tablet:px-6">
         {/* Heading */}
         <h2
-          className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]"
+          className="font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]"
           style={{ letterSpacing: "-1.32px", textAlign: "center", marginBottom: 28 }}
         >
           Todo lo que necesitas para operar tu negocio
@@ -261,8 +261,8 @@ export default function T1Solutions() {
                 onClick={() => handleTabChange(i)}
                 className={`shrink-0 cursor-pointer whitespace-nowrap rounded-full font-inter transition-all duration-200 ${
                   activeTab === i
-                    ? "bg-black font-semibold text-white shadow-[0_4px_14px_rgba(0,0,0,0.15)]"
-                    : "border border-black/[0.10] bg-white font-medium text-black/70 hover:border-black/30 hover:bg-black/[0.03] hover:text-black"
+                    ? "bg-white font-semibold text-[#141414] shadow-[0_4px_16px_rgba(0,0,0,0.4)]"
+                    : "border border-white/[0.14] bg-white/[0.04] font-medium text-white/70 hover:border-white/30 hover:bg-white/[0.08] hover:text-white"
                 }`}
                 style={{ padding: "9px 17px", fontSize: 13.5 }}
               >

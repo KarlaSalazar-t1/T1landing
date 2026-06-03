@@ -172,7 +172,7 @@ export default function T1AISectionV2() {
     <section
       ref={sectionRef}
       className="relative"
-      style={{ background: "#FFF1EB" }}
+      style={{ background: "#161311" }}
     >
       <style jsx>{`
         .ai-carousel-hint {
@@ -187,13 +187,11 @@ export default function T1AISectionV2() {
           Slides change via the paginator / arrows / swipe — no scroll
           pinning and no full-viewport height. */}
       <div
-        className="relative flex w-full flex-col overflow-hidden"
-        style={{
-          background:
-            "radial-gradient(110% 70% at 15% 0%, rgba(255,195,185,0.95) 0%, transparent 55%), radial-gradient(90% 70% at 100% 30%, rgba(255,165,150,0.75) 0%, transparent 55%), radial-gradient(120% 80% at 50% 110%, rgba(255,210,200,0.85) 0%, transparent 60%), #FFF1EB",
-        }}
+        className="ai-section-bg relative flex w-full flex-col overflow-hidden"
       >
-        {/* Decorative glow blobs */}
+        {/* Decorative glow blobs — warm color pops on the dark base (the
+            "negro con blobs de color" direction). Kept low-opacity so they
+            add depth without washing the section into gray. */}
         <div className="pointer-events-none absolute inset-0">
           <div
             className="absolute"
@@ -204,7 +202,7 @@ export default function T1AISectionV2() {
               height: 500,
               borderRadius: "50%",
               background:
-                "radial-gradient(circle, rgba(219,59,43,0.10) 0%, transparent 60%)",
+                "radial-gradient(circle, rgba(219,59,43,0.22) 0%, transparent 60%)",
               filter: "blur(90px)",
             }}
           />
@@ -217,7 +215,7 @@ export default function T1AISectionV2() {
               height: 600,
               borderRadius: "50%",
               background:
-                "radial-gradient(circle, rgba(255,180,165,0.18) 0%, transparent 60%)",
+                "radial-gradient(circle, rgba(255,140,110,0.16) 0%, transparent 60%)",
               filter: "blur(100px)",
             }}
           />
@@ -230,7 +228,7 @@ export default function T1AISectionV2() {
               height: 450,
               borderRadius: "50%",
               background:
-                "radial-gradient(circle, rgba(255,236,232,0.55) 0%, transparent 55%)",
+                "radial-gradient(circle, rgba(255,150,120,0.12) 0%, transparent 55%)",
               filter: "blur(70px)",
             }}
           />
@@ -242,7 +240,7 @@ export default function T1AISectionV2() {
           <div className="flex flex-col items-center gap-6 tablet:gap-8">
             {/* Top: IA title — always centered */}
             <h2
-              className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]"
+              className="font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]"
               style={{
                 letterSpacing: "-0.02em",
                 lineHeight: 1.1,
@@ -250,7 +248,7 @@ export default function T1AISectionV2() {
                 textAlign: "center",
               }}
             >
-              La <span style={{ color: "#DB3B2B" }}>IA</span>, integrada en todo tu negocio.
+              La <span style={{ color: "#FF6F5E" }}>IA</span>, integrada en todo tu negocio.
             </h2>
 
             {/* Single-line slide description — no separate title, just one
@@ -258,7 +256,7 @@ export default function T1AISectionV2() {
                 slide the same overall size. */}
             <p
               key={`text-${slide.id}`}
-              className="text-center font-inter text-[16px] font-normal text-black/75 tablet:text-[20px]"
+              className="text-center font-inter text-[16px] font-normal text-white/70 tablet:text-[20px]"
               style={{
                 letterSpacing: "-0.01em",
                 lineHeight: 1.35,
@@ -352,7 +350,7 @@ export default function T1AISectionV2() {
               }}
               disabled={active === 0}
               aria-label="Anterior"
-              className="hidden h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-black/10 bg-white text-black/45 transition-all duration-150 hover:border-black/25 hover:text-black disabled:opacity-30 tablet:flex"
+              className="hidden h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/50 transition-all duration-150 hover:border-white/30 hover:text-white disabled:opacity-25 tablet:flex"
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <path
@@ -377,8 +375,8 @@ export default function T1AISectionV2() {
                     width: i === active ? 11 : 8,
                     height: i === active ? 11 : 8,
                     borderRadius: "50%",
-                    background: i === active ? "#DB3B2B" : "rgba(0,0,0,0.20)",
-                    boxShadow: i === active ? "0 0 0 4px rgba(219,59,43,0.10)" : "none",
+                    background: i === active ? "#DB3B2B" : "rgba(255,255,255,0.25)",
+                    boxShadow: i === active ? "0 0 0 4px rgba(219,59,43,0.18)" : "none",
                   }}
                 />
               ))}
@@ -390,7 +388,7 @@ export default function T1AISectionV2() {
               }}
               disabled={active === SLIDES.length - 1}
               aria-label="Siguiente"
-              className="hidden h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-black/10 bg-white text-black/45 transition-all duration-150 hover:border-black/25 hover:text-black disabled:opacity-30 tablet:flex"
+              className="hidden h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/50 transition-all duration-150 hover:border-white/30 hover:text-white disabled:opacity-25 tablet:flex"
             >
               <svg
                 className={active < SLIDES.length - 1 ? "ai-carousel-hint" : ""}
@@ -891,12 +889,12 @@ function VisualProductos() {
         >
           <line
             x1="0" y1="7" x2="60" y2="7"
-            stroke="#0A1F3F"
+            stroke="rgba(255,255,255,0.5)"
             strokeWidth="1.4"
             strokeDasharray="4 4"
             strokeLinecap="round"
           />
-          <circle cx="62" cy="7" r="2.5" fill="#0A1F3F" />
+          <circle cx="62" cy="7" r="2.5" fill="rgba(255,255,255,0.5)" />
         </svg>
         {productCard}
       </div>
@@ -927,13 +925,13 @@ function VisualProductos() {
         >
           <path
             d="M 4 4 C 30 4 30 70 60 70"
-            stroke="#0A1F3F"
+            stroke="rgba(255,255,255,0.5)"
             strokeWidth="1.4"
             strokeDasharray="4 4"
             strokeLinecap="round"
             fill="none"
           />
-          <circle cx="60" cy="70" r="2.5" fill="#0A1F3F" />
+          <circle cx="60" cy="70" r="2.5" fill="rgba(255,255,255,0.5)" />
         </svg>
       </div>
     </>
@@ -1018,28 +1016,28 @@ function VisualRiesgo() {
         fill="none"
         className="h-[150px] w-[150px] tablet:h-[220px] tablet:w-[220px]"
       >
-        <circle cx="55" cy="55" r="48" stroke="rgba(0,0,0,0.04)" strokeWidth="6" />
+        <circle cx="55" cy="55" r="48" stroke="rgba(255,255,255,0.08)" strokeWidth="6" />
         <circle
           cx="55" cy="55" r="48"
           stroke="#DB3B2B" strokeWidth="6" strokeLinecap="round"
           transform="rotate(-90 55 55)"
           strokeDasharray="260 302"
         />
-        <circle cx="55" cy="55" r="36" stroke="rgba(0,0,0,0.03)" strokeWidth="5" />
+        <circle cx="55" cy="55" r="36" stroke="rgba(255,255,255,0.06)" strokeWidth="5" />
         <circle
           cx="55" cy="55" r="36"
           stroke="#E26153" strokeWidth="5" strokeLinecap="round"
           transform="rotate(-90 55 55)"
           strokeDasharray="150 226"
         />
-        <circle cx="55" cy="55" r="25" stroke="rgba(0,0,0,0.02)" strokeWidth="4" />
+        <circle cx="55" cy="55" r="25" stroke="rgba(255,255,255,0.05)" strokeWidth="4" />
         <circle
           cx="55" cy="55" r="25"
           stroke="#F2876A" strokeWidth="4" strokeLinecap="round"
           transform="rotate(-90 55 55)"
           strokeDasharray="90 157"
         />
-        <text x="55" y="61" textAnchor="middle" style={{ fontSize: 18, fontWeight: 700, fill: "rgba(0,0,0,0.75)" }}>
+        <text x="55" y="61" textAnchor="middle" style={{ fontSize: 18, fontWeight: 700, fill: "rgba(255,255,255,0.92)" }}>
           78
         </text>
       </svg>

@@ -29,12 +29,16 @@ export default function Home() {
         <T1FeatureIntro />
       </div>
 
-      {/* White card — sharp top edge, solid gray bg.
-          Mobile: no negative margin (no overlap). Desktop: pulls up by
-          160 to create the peek over the dark intro band. */}
+      {/* Dark block — sharp top edge over the intro band.
+          (P3 tonality) Base is a warm neutral dark (#141414, footer ref) so
+          the contained sections read cohesive instead of flipping light↔dark.
+          No `data-white-card` here anymore: the whole block is dark now, so the
+          navbar must STAY in dark mode (white text) instead of flipping to its
+          white-bar light mode. With no [data-white-card] on the landing, the
+          navbar's scroll handler leaves isLight=false throughout.
+          Desktop pulls up by 160 to keep the peek over the dark intro band. */}
       <div
-        className="relative z-10 bg-[#F6F6F6] tablet:-mt-40"
-        data-white-card
+        className="relative z-10 bg-[#141414] tablet:-mt-40"
       >
         <T1Features />
         <T1AISectionV2 />
