@@ -250,7 +250,7 @@ export default function T1AISectionV2() {
                 textAlign: "center",
               }}
             >
-              La <span style={{ color: "#DB3B2B" }}>IA</span>, desde el primer día.
+              La <span style={{ color: "#DB3B2B" }}>IA</span>, integrada en todo tu negocio.
             </h2>
 
             {/* Single-line slide description — no separate title, just one

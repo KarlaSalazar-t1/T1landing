@@ -863,7 +863,7 @@ const SHOWCASE_CARDS = [
     id: "t1tienda-en-linea",
     title: "Tienda en línea",
     description:
-      "Crea una tienda completa con IA en minutos. Solo describe tu negocio y obtén una tienda lista para vender, con productos, checkout y dominio propio.",
+      "Describe tu negocio y la IA crea tu tienda completa, lista para vender.",
     bgImage: null,
     bgCSS: "stack-bg-tienda-online",
     panelLeft: null,
@@ -2001,64 +2001,44 @@ export default function T1Features() {
                       <p className="font-inter text-[13px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
                         {card.description}
                       </p>
+                      {/* Clear feature bullets (CEO: "abajo bullet points bien
+                          claros"). Desktop only — on mobile the phone animation
+                          carries the message and bullets would crowd the card. */}
+                      <ul className="hidden flex-col gap-2.5 tablet:flex" style={{ marginBottom: 26 }}>
+                        {[
+                          "Lista para vender en minutos, sin código",
+                          "Productos, carrito y checkout incluidos",
+                          "Dominio propio y diseño creado con IA",
+                          "Se ve perfecta en cualquier dispositivo",
+                        ].map((b) => (
+                          <li key={b} className="flex items-start gap-2.5">
+                            <span
+                              className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full"
+                              style={{ background: "rgba(255,255,255,0.14)" }}
+                            >
+                              <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
+                                <path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            </span>
+                            <span className="font-inter text-[13px] font-normal text-white/85 tablet:text-[14px]" style={{ lineHeight: 1.45 }}>
+                              {b}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                      {/* CTA — underlined text instead of the small arrow chip
+                          (CEO: "el call to action puede ser un texto subrayado"). */}
                       {card.ctaLabel && (
                         <a
                           href={card.ctaHref}
+                          target={card.ctaHref?.startsWith("http") ? "_blank" : undefined}
+                          rel={card.ctaHref?.startsWith("http") ? "noopener noreferrer" : undefined}
                           onClick={(e) => e.stopPropagation()}
-                          className="group/cta inline-flex items-center gap-3 font-inter text-[15px] font-semibold text-white no-underline transition-opacity hover:opacity-90 tablet:text-[16px]"
+                          className="inline-flex w-fit items-center font-inter text-[15px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
                         >
                           {card.ctaLabel}
-                          <span
-                            className="flex h-[38px] w-[38px] items-center justify-center rounded-full bg-white/15 transition-transform duration-200 group-hover/cta:translate-x-1"
-                            style={{ backdropFilter: "blur(8px)", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.18)" }}
-                          >
-                            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                              <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                          </span>
                         </a>
                       )}
-                    </div>
-                    {/* Integrations strip — desktop only: shows the kind
-                        of payment + shipping logos a Tienda en linea
-                        creator gets out of the box. Sits just under the
-                        CTA (not pinned to the bottom of the card). */}
-                    <div className="hidden flex-col gap-3 pt-8 tablet:flex">
-                      <p className="font-inter text-[12px] font-medium uppercase tracking-[0.06em] text-white/55">
-                        Pagos y envíos integrados
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {[
-                          { src: "/img/icons/visa.svg", alt: "Visa" },
-                          { src: "/img/icons/mastercard.svg", alt: "Mastercard" },
-                          { src: "/img/icons/amex.svg", alt: "Amex" },
-                          { src: "/img/icons/spei.svg", alt: "SPEI" },
-                          { src: "/img/icons/fedex-logo.svg", alt: "FedEx" },
-                          { src: "/img/dhl-iso.svg", alt: "DHL" },
-                          { src: "/img/99min-iso.svg", alt: "99minutos" },
-                          { src: "/img/icons/estafeta-logo.svg", alt: "Estafeta" },
-                        ].map((logo) => (
-                          <div
-                            key={logo.alt}
-                            className="flex items-center justify-center rounded-[10px] bg-white"
-                            style={{
-                              width: 56,
-                              height: 40,
-                              padding: "0 8px",
-                              boxShadow: "0 4px 14px rgba(0,0,0,0.18)",
-                            }}
-                          >
-                            <Image
-                              src={logo.src}
-                              alt={logo.alt}
-                              width={40}
-                              height={22}
-                              className="h-auto w-auto object-contain"
-                              style={{ maxHeight: 22, maxWidth: 40 }}
-                            />
-                          </div>
-                        ))}
-                      </div>
                     </div>
                   </div>
                   {/* AI prompt panel — anchored to the LEFT edge of its

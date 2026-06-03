@@ -156,18 +156,57 @@ function TodoEnUnoCard() {
   return (
     <div className="origin-center scale-[0.7] tablet:scale-100">
     <div className="relative flex items-center justify-center" style={{ width: 420, height: 420 }}>
-      {/* Orbit circle */}
+      {/* Outer glow halo — gives the whole system presence on the black bg */}
       <div
-        className="absolute rounded-full border border-white/15"
-        style={{ width: 360, height: 360 }}
+        className="pointer-events-none absolute rounded-full"
+        style={{
+          width: 420, height: 420,
+          background: "radial-gradient(circle, rgba(219,59,43,0.16) 0%, rgba(219,59,43,0.05) 38%, transparent 68%)",
+          filter: "blur(6px)",
+        }}
       />
+      {/* Concentric orbit rings — depth + a 'system' density */}
+      <div className="absolute rounded-full border border-white/[0.07]" style={{ width: 360, height: 360 }} />
+      <div className="absolute rounded-full border border-white/[0.10]" style={{ width: 262, height: 262 }} />
+      <div className="absolute rounded-full border border-dashed border-white/[0.08]" style={{ width: 168, height: 168 }} />
+      {/* Inner ring of slow-spinning tick dots for extra density */}
+      <div className="absolute z-[1]" style={{ width: 262, height: 262, animation: "orbitSpin 30s linear infinite" }}>
+        {Array.from({ length: 8 }).map((_, i) => {
+          const a = (i / 8) * 360;
+          const r = (a * Math.PI) / 180;
+          const x = 131 + Math.cos(r) * 131;
+          const y = 131 + Math.sin(r) * 131;
+          return (
+            <span key={i} className="absolute rounded-full bg-white/25" style={{ width: 4, height: 4, left: x - 2, top: y - 2 }} />
+          );
+        })}
+      </div>
+      {/* Glowing core behind the logo */}
+      <div
+        className="pointer-events-none absolute z-[2] rounded-full"
+        style={{
+          width: 118, height: 118,
+          background: "radial-gradient(circle at 50% 42%, rgba(219,59,43,0.5) 0%, rgba(219,59,43,0.16) 46%, transparent 72%)",
+        }}
+      />
+      {/* Solid core disc holding the T1 logo */}
+      <div
+        className="absolute z-[3] flex items-center justify-center rounded-full"
+        style={{
+          width: 94, height: 94,
+          background: "radial-gradient(circle at 50% 32%, #2c1517 0%, #160a0c 100%)",
+          border: "1px solid rgba(255,255,255,0.12)",
+          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 34px rgba(219,59,43,0.32)",
+        }}
+      >
       {/* T1 Logo center */}
-      <svg width="60" height="58" viewBox="0 0 45 44" fill="none" className="relative z-10">
+      <svg width="50" height="48" viewBox="0 0 45 44" fill="none">
         <path d="M27.6733 19.1041H31.4027C31.5444 19.1041 31.6388 19.1041 31.7332 19.1985C31.7332 19.1985 31.7332 19.1985 31.7332 19.2457V37.7039C31.7332 38.5064 32.4885 39.0729 33.291 38.8369C35.0377 38.1288 37.3037 37.2318 38.956 36.4765C39.2392 36.3349 39.6169 36.1932 39.6169 35.6268V19.2457C39.6169 19.2457 39.6169 19.1985 39.6169 19.1513C39.6169 19.1041 39.6169 19.1041 39.6169 19.1041V7.86867C39.6169 7.20776 39.0976 6.68848 38.4367 6.68848H35.6514C35.1321 6.68848 34.7073 7.01893 34.5184 7.491C33.3855 10.6539 31.2139 13.0143 27.9566 13.5808C24.6992 14.1473 27.6733 13.628 27.4845 13.628C26.8708 13.7224 26.4459 14.1945 26.4459 14.8082V17.8767C26.4459 18.5376 26.9652 19.0569 27.6261 19.0569L27.6733 19.1041Z" fill="#D93A26" />
         <path d="M32.5831 5.41411C32.4415 5.27248 32.2055 5.13086 31.9694 5.13086H4.63622C3.78648 5.13086 3.07837 5.74456 3.07837 6.54709V10.7014C3.07837 11.6927 3.2672 12.1648 4.4946 12.1648H13.6057C13.8417 12.1648 14.0305 12.3536 14.0305 12.5897V16.083V35.5326C14.0305 35.9574 14.3138 36.2879 14.7387 36.4767C15.5412 36.8072 18.3264 38.1762 19.2706 38.6955C20.2147 39.2148 21.867 38.3178 21.867 36.996V13.2506C21.867 13.2034 21.867 13.0617 21.867 13.0617C21.8198 12.7313 21.867 12.4008 22.1975 12.2592C22.2919 12.2592 22.3391 12.2592 22.4335 12.2592H25.4076C31.9222 11.6455 32.5831 6.5943 32.6303 6.02781C32.6303 6.02781 32.6303 5.9806 32.6303 5.93339V5.79177C32.6303 5.65014 32.6303 5.55573 32.4887 5.46131L32.5831 5.41411Z" fill="#D93A26" />
       </svg>
+      </div>
       {/* Orbiting icons */}
-      <div className="absolute" style={{ width: 360, height: 360, animation: "orbitSpin 20s linear infinite" }}>
+      <div className="absolute z-10" style={{ width: 360, height: 360, animation: "orbitSpin 20s linear infinite" }}>
         {ORBIT_ICONS.map((icon, i) => {
           const angle = (i / ORBIT_ICONS.length) * 360;
           const rad = (angle * Math.PI) / 180;
@@ -176,8 +215,13 @@ function TodoEnUnoCard() {
           return (
             <div
               key={i}
-              className="group/orbit absolute flex h-[48px] w-[48px] items-center justify-center rounded-full border border-white/20 bg-white/[0.08] backdrop-blur-sm"
-              style={{ left: x - 3, top: y - 3, animation: `orbitSpinReverse 20s linear infinite` }}
+              className="group/orbit absolute flex h-[48px] w-[48px] items-center justify-center rounded-full border border-white/25 backdrop-blur-md"
+              style={{
+                left: x - 3, top: y - 3,
+                background: "radial-gradient(circle at 50% 30%, rgba(255,255,255,0.16), rgba(255,255,255,0.05))",
+                boxShadow: "0 6px 18px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.15)",
+                animation: "orbitSpinReverse 20s linear infinite",
+              }}
             >
               <Image src={icon.src} alt={icon.label} width={26} height={26} className="object-contain [filter:brightness(0)_invert(1)]" />
               {/* Hover tooltip */}
@@ -195,10 +239,10 @@ function TodoEnUnoCard() {
 
 /* ── Words + cards ── */
 const WORDS = [
-  { text: "Vende", ctaCopy: "Empieza a vender en tu tienda en línea y +10 canales de venta", ctaLabel: "Comenzar gratis" },
-  { text: "Cobra", ctaCopy: "Acepta pagos sin renta mensual", ctaLabel: "Comenzar gratis" },
-  { text: "Envía", ctaCopy: "Comienza a enviar a todo México.", ctaLabel: "Cotizar envío" },
-  { text: "Todo en uno", ctaCopy: "Activa todo el ecosistema en minutos", ctaLabel: "Crear cuenta gratis" },
+  { text: "Vende", ctaCopy: "Crea tu tienda con IA y vende en línea y en marketplaces, desde un solo lugar.", ctaLabel: "Crear tienda gratis" },
+  { text: "Cobra", ctaCopy: "Acepta tarjetas, SPEI y meses sin intereses, o cobra con un link de pago.", ctaLabel: "Empezar a cobrar" },
+  { text: "Envía", ctaCopy: "Crea guías con +10 paqueterías al mejor precio y rastrea todo en un lugar.", ctaLabel: "Cotizar envío" },
+  { text: "Todo en uno", ctaCopy: "Vende, cobra y envía desde una sola plataforma potenciada con IA.", ctaLabel: "Crear cuenta gratis" },
 ];
 
 const BG_GRADIENT = "radial-gradient(ellipse at 50% 60%, rgba(226,97,83,0.3) 0%, rgba(226,97,83,0.08) 40%, transparent 70%)";

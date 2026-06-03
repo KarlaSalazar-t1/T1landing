@@ -85,8 +85,10 @@ export const HERO_DATA = {
   cta: "Comienza gratis",
   ctaSecondary: "Iniciar sesión",
   ctaHref: SIGNUP_URL,
-  // Social proof rather than restating "gratis" (which the button already says).
-  subtitle: "Únete a +25,000 negocios que ya venden con T1.",
+  // Lead with the AI + all-in-one value prop (CEO feedback: push AI hard and
+  // make "todo en un solo lugar" obvious from the hero). Social proof lives in
+  // the metrics band below.
+  subtitle: "Crea tu tienda con IA y vende, cobra y envía desde un solo lugar.",
 };
 
 // ── Feature cards (Todo tu negocio) ──

@@ -60,7 +60,7 @@ function ArrowBtn({ direction, onClick }: { direction: "left" | "right"; onClick
   return (
     <button
       onClick={onClick}
-      className="flex h-[44px] w-[44px] cursor-pointer items-center justify-center rounded-full border border-black/10 bg-white text-black/40 transition-all duration-150 hover:border-black/20 hover:text-black"
+      className="flex h-[44px] w-[44px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/50 transition-all duration-150 hover:border-white/30 hover:text-white"
     >
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
         <path
@@ -138,19 +138,19 @@ export default function T1Enterprise() {
   }, []);
 
   return (
-    <section className="bg-[#F6F6F6] pb-[140px] pt-[60px] tablet:pb-[280px]">
+    <section className="bg-[#141312] pb-[140px] pt-[60px] tablet:pb-[280px]">
       <div className="mx-auto max-w-[var(--max-w)] px-5 tablet:px-6">
         {/* Header row */}
         <div className="flex flex-col gap-4 tablet:flex-row tablet:items-end tablet:justify-between" style={{ marginBottom: 24 }}>
           <div>
             <h2
-              className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]"
+              className="font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]"
               style={{ letterSpacing: "-0.03em", lineHeight: "1.2em" }}
             >
               Casos de éxito
             </h2>
             <p
-              className="font-inter text-[16px] font-light text-black/50 tablet:text-[20px] lg:text-[25px]"
+              className="font-inter text-[16px] font-light text-white/55 tablet:text-[20px] lg:text-[25px]"
               style={{ lineHeight: 1.5 }}
             >
               Conoce cómo nuestros clientes crecen con T1.
@@ -181,18 +181,30 @@ export default function T1Enterprise() {
                 height: 260,
                 background: c.bgColor,
                 scrollSnapAlign: "start",
+                boxShadow: "0 0 0 1px rgba(255,255,255,0.07)",
               }}
               onClick={() => setActive(i)}
             >
               {c.coverImage && (
                 <Image src={c.coverImage} alt={c.name} fill className="object-cover" sizes="80vw" />
               )}
-              <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.55) 100%)" }} />
-              <div className="absolute bottom-4 left-4 z-10 flex items-center gap-2">
-                <div className="flex h-[28px] w-[28px] items-center justify-center rounded-[6px] bg-white/10 backdrop-blur-sm">
-                  <Image src={c.image} alt={c.name} width={20} height={20} className="object-contain brightness-0 invert" />
+              <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.12) 32%, transparent 60%, rgba(0,0,0,0.32) 100%)" }} />
+              {/* Brand logo at the TOP of the card — the CEO flagged it as the
+                  most important thing, so it leads. White chip + real logo for
+                  legibility (matches desktop chips). */}
+              <div className="absolute left-4 top-4 z-10 flex items-center gap-2">
+                <div
+                  className="flex h-[40px] w-[40px] items-center justify-center rounded-[10px] bg-white"
+                  style={{ boxShadow: "0 3px 10px rgba(0,0,0,0.22)" }}
+                >
+                  <Image src={c.image} alt={c.name} width={28} height={28} className="object-contain" style={{ padding: 3 }} />
                 </div>
-                <span className="whitespace-nowrap font-inter text-[13px] font-semibold text-white/90">{c.name}</span>
+                <span
+                  className="whitespace-nowrap font-inter text-[14px] font-semibold text-white"
+                  style={{ textShadow: "0 1px 6px rgba(0,0,0,0.55)" }}
+                >
+                  {c.name}
+                </span>
               </div>
 
               {/* Play overlay — only when the case has a video. Lives on the card
@@ -232,16 +244,16 @@ export default function T1Enterprise() {
         {/* Mobile-only: info row below the gallery (metric, quote, person) + Ver video button */}
         <div className="flex flex-col gap-4 tablet:hidden" style={{ marginBottom: 24 }}>
           <div key={`mobile-info-${current.id}`} style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
-            <p className="font-inter text-[22px] font-bold leading-tight text-black">
+            <p className="font-inter text-[22px] font-bold leading-tight text-white">
               {current.metric}{" "}
-              <span className="text-[14px] font-normal text-black/70">{current.metricLabel}</span>
+              <span className="text-[14px] font-normal text-white/70">{current.metricLabel}</span>
             </p>
-            <p className="mt-2 font-inter text-[14px] italic leading-relaxed text-black/55">
+            <p className="mt-2 font-inter text-[14px] italic leading-relaxed text-white/60">
               &ldquo;{current.quote}&rdquo;
             </p>
             {current.person && (
-              <p className="mt-2 font-inter text-[12px] font-medium text-black/70">
-                {current.person} <span className="text-black/40">· {current.role}</span>
+              <p className="mt-2 font-inter text-[12px] font-medium text-white/70">
+                {current.person} <span className="text-white/45">· {current.role}</span>
               </p>
             )}
           </div>
@@ -275,6 +287,7 @@ export default function T1Enterprise() {
                   height: 520,
                   background: c.bgColor,
                   transition: "flex 0.6s cubic-bezier(0.4, 0, 0.2, 1)",
+                  boxShadow: "0 0 0 1px rgba(255,255,255,0.06)",
                 }}
                 onClick={() => setActive(i)}
                 onMouseEnter={() => setHovered(i)}
@@ -304,22 +317,23 @@ export default function T1Enterprise() {
                 />
 
                 {/* Top-left brand logo — always visible in a white chip.
-                    Scales: collapsed 44, hover 50, active 64. */}
+                    Enlarged for legibility (CEO: "no se leen tanto").
+                    Scales: collapsed 54, hover 62, active 78. */}
                 <div
-                  className="absolute left-5 top-5 z-10 flex items-center justify-center overflow-hidden rounded-[12px] bg-white transition-all duration-500"
+                  className="absolute left-5 top-5 z-10 flex items-center justify-center overflow-hidden rounded-[14px] bg-white transition-all duration-500"
                   style={{
-                    width: isActive ? 64 : isHovered ? 50 : 44,
-                    height: isActive ? 64 : isHovered ? 50 : 44,
+                    width: isActive ? 78 : isHovered ? 62 : 54,
+                    height: isActive ? 78 : isHovered ? 62 : 54,
                     boxShadow: "0 4px 14px rgba(0,0,0,0.18)",
                   }}
                 >
                   <Image
                     src={c.image}
                     alt={c.name}
-                    width={isActive ? 48 : isHovered ? 38 : 34}
-                    height={isActive ? 48 : isHovered ? 38 : 34}
+                    width={isActive ? 58 : isHovered ? 46 : 40}
+                    height={isActive ? 58 : isHovered ? 46 : 40}
                     className="object-contain"
-                    style={{ padding: isActive ? 4 : 3 }}
+                    style={{ padding: isActive ? 5 : 4 }}
                   />
                 </div>
 

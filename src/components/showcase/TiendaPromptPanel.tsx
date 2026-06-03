@@ -68,13 +68,13 @@ function LandingPrompt({ typed, isActive, compact = false }: { typed: string; is
       <div className="flex flex-1 flex-col items-center justify-center px-6">
         <h2
           className="text-center font-sora font-normal text-black"
-          style={{ fontSize: 26, lineHeight: 1.1, letterSpacing: "-0.025em" }}
+          style={{ fontSize: 30, lineHeight: 1.08, letterSpacing: "-0.025em" }}
         >
           Crea tu tienda en{" "}
           <span style={{ color: "#DB3B2B" }}>segundos</span>
         </h2>
         <p
-          className="mt-2 text-center font-inter text-[11px] font-light text-black/60"
+          className="mt-2.5 text-center font-inter text-[12px] font-light text-black/60"
           style={{ maxWidth: 380 }}
         >
           T1 te ayuda a vender, cobrar y enviar a todo México. Todo en uno.
@@ -84,14 +84,14 @@ function LandingPrompt({ typed, isActive, compact = false }: { typed: string; is
         <div
           className="mt-4 w-full overflow-hidden rounded-[18px] border bg-white"
           style={{
-            maxWidth: 460,
+            maxWidth: 480,
             borderColor: "rgba(0,0,0,0.08)",
-            padding: "16px 18px",
+            padding: "18px 20px",
             boxShadow: "0 4px 30px rgba(0,0,0,0.04)",
-            minHeight: 90,
+            minHeight: 104,
           }}
         >
-          <span className="font-inter text-[12px] text-black/85" style={{ lineHeight: 1.4 }}>
+          <span className="font-inter text-[13px] text-black/85" style={{ lineHeight: 1.4 }}>
             {typed}
             {isActive && (
               <span
@@ -338,31 +338,41 @@ export default function TiendaPromptPanel({ animate, mobile = false }: { animate
       return;
     }
     let i = 0;
-    let typingTimer: ReturnType<typeof setTimeout>;
-    let loadingTimer: ReturnType<typeof setTimeout>;
-    let readyTimer: ReturnType<typeof setTimeout>;
-
-    const tick = () => {
-      if (i <= PROMPT_TEXT.length) {
-        setTyped(PROMPT_TEXT.slice(0, i));
-        i++;
-        // Slightly slower typing so the user has time to read it.
-        typingTimer = setTimeout(tick, 55 + Math.random() * 25);
-      } else {
-        // Pause on the completed prompt so user can read it before
-        // the skeleton blanks everything out.
-        loadingTimer = setTimeout(() => {
-          setStage("loading");
-          // Spend longer in skeleton too — it's the build-up to the reveal.
-          readyTimer = setTimeout(() => setStage("ready"), 2000);
-        }, 1200);
-      }
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    const schedule = (fn: () => void, ms: number) => {
+      const t = setTimeout(fn, ms);
+      timers.push(t);
+      return t;
     };
-    typingTimer = setTimeout(tick, 700);
+
+    // One full cycle: type the prompt → skeleton → finished store, hold a
+    // moment, then loop so the animation keeps playing (CEO: "que se mantenga
+    // la animación"). Timers are quicker so the reveal lands fast.
+    const runCycle = () => {
+      i = 0;
+      setTyped("");
+      setStage("typing");
+      const tick = () => {
+        if (i <= PROMPT_TEXT.length) {
+          setTyped(PROMPT_TEXT.slice(0, i));
+          i++;
+          schedule(tick, 32 + Math.random() * 18);
+        } else {
+          schedule(() => {
+            setStage("loading");
+            schedule(() => {
+              setStage("ready");
+              schedule(runCycle, 3500);
+            }, 900);
+          }, 650);
+        }
+      };
+      schedule(tick, 450);
+    };
+
+    runCycle();
     return () => {
-      clearTimeout(typingTimer);
-      clearTimeout(loadingTimer);
-      clearTimeout(readyTimer);
+      timers.forEach(clearTimeout);
     };
   }, [animate]);
 

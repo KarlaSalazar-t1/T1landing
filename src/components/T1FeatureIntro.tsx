@@ -1,16 +1,16 @@
 "use client";
 
-import { FEATURE_CARDS } from "@/lib/constants";
+import Image from "next/image";
 
 /* ── Modern line icons for the Vende / Cobra / Envía intro cards ── */
-function FeatureIcon({ id, size = 28 }: { id: string; size?: number }) {
+function FeatureIcon({ id, size = 28, color = "#000000" }: { id: string; size?: number; color?: string }) {
   const common = {
     width: size,
     height: size,
     viewBox: "0 0 24 24",
     fill: "none",
-    stroke: "#000000",
-    strokeWidth: 1.2,
+    stroke: color,
+    strokeWidth: 1.3,
     strokeLinecap: "round" as const,
     strokeLinejoin: "round" as const,
   };
@@ -43,14 +43,98 @@ function FeatureIcon({ id, size = 28 }: { id: string; size?: number }) {
   );
 }
 
+/* ── Card data — single source for mobile + desktop. Each card carries the
+   real brand logos of what it includes so the section is graphic, not just
+   text (CEO feedback: "que sea más gráfico, que muestre los íconos"). ── */
+type Brand = { src: string; alt: string };
+type Card = { id: string; label: string; desc: string; logos: Brand[] };
+
+const CARDS: Card[] = [
+  {
+    id: "vende",
+    label: "VENDE",
+    desc: "Crea tu tienda en línea en segundos y maneja todos tus marketplaces desde un solo lugar.",
+    logos: [
+      { src: "/img/logos/mercado-libre.svg", alt: "Mercado Libre" },
+      { src: "/img/amazon-iso.svg", alt: "Amazon" },
+      { src: "/img/tiktok-isotipo.png", alt: "TikTok Shop" },
+      { src: "/img/shein-iso.svg", alt: "Shein" },
+      { src: "/img/walmart.svg", alt: "Walmart" },
+    ],
+  },
+  {
+    id: "cobra",
+    label: "COBRA",
+    desc: "Recibe pagos con tarjetas, SPEI, Kueski y meses sin intereses, o comparte un link de pago.",
+    logos: [
+      { src: "/img/icons/visa.svg", alt: "Visa" },
+      { src: "/img/icons/mastercard.svg", alt: "Mastercard" },
+      { src: "/img/icons/amex.svg", alt: "American Express" },
+      { src: "/img/icons/spei.svg", alt: "SPEI" },
+      { src: "/img/icons/kueski.svg", alt: "Kueski Pay" },
+    ],
+  },
+  {
+    id: "envia",
+    label: "ENVÍA",
+    desc: "Cotiza, crea guías y rastrea tus pedidos con +10 paqueterías al mejor precio del mercado.",
+    logos: [
+      { src: "/img/icons/fedex-logo.svg", alt: "FedEx" },
+      { src: "/img/dhl-iso.svg", alt: "DHL" },
+      { src: "/img/icons/estafeta-logo.svg", alt: "Estafeta" },
+      { src: "/img/99min-iso.svg", alt: "99minutos" },
+    ],
+  },
+];
+
+/* Dark, slightly-elevated card surface — replaces the flat white cards the
+   CEO called "chafa". Sits a touch lighter than the black band so the edges
+   read, with the colorful brand tiles providing the pop of color. */
+const CARD_SURFACE: React.CSSProperties = {
+  background: "linear-gradient(160deg, #242424 0%, #181818 100%)",
+  border: "1px solid rgba(255,255,255,0.10)",
+  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.05), 0 14px 34px rgba(0,0,0,0.38)",
+};
+
+/* White logo tiles — the brand marks pop against the dark card. */
+function LogoTiles({ logos, compact = false }: { logos: Brand[]; compact?: boolean }) {
+  const tileH = compact ? 30 : 38;
+  const maxH = compact ? 16 : 20;
+  const maxW = compact ? 34 : 44;
+  return (
+    <div className="flex flex-wrap items-center gap-1.5 tablet:gap-2">
+      {logos.map((l) => (
+        <div
+          key={l.alt}
+          className="flex items-center justify-center rounded-[8px] bg-white"
+          style={{
+            height: tileH,
+            minWidth: tileH + 6,
+            padding: "0 8px",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.22)",
+          }}
+        >
+          <Image
+            src={l.src}
+            alt={l.alt}
+            width={44}
+            height={20}
+            className="h-auto w-auto object-contain"
+            style={{ maxHeight: maxH, maxWidth: maxW }}
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 /**
  * T1FeatureIntro
  *
  * The Vende / Cobra / Envía cards lifted out of T1Features and laid on a
- * dark band that sits between the hero and the white card section. The
- * white card below has a negative margin so only the top of these cards
- * peeks above the white card's rounded edge — the classic Stripe / Linear
- * "card peek over the next section" treatment.
+ * dark band that sits between the hero and the white card section. Each card
+ * now shows the real brand logos it includes (marketplaces / payment methods
+ * / couriers) so the value is graphic at a glance.
  */
 export default function T1FeatureIntro() {
   return (
@@ -76,50 +160,48 @@ export default function T1FeatureIntro() {
 
       {/* MOBILE — 3 cards stacked */}
       <div className="flex flex-col gap-4 tablet:hidden">
-        {[
-          { id: "vende", label: "VENDE", desc: "Crea tu tienda en línea en segundos y maneja todos tus marketplaces desde un solo lugar." },
-          { id: "cobra", label: "COBRA", desc: "Recibe pagos con tarjetas, SPEI, Kueski y meses sin intereses, todo desde un mismo checkout." },
-          { id: "envia", label: "ENVÍA", desc: "Cotiza, crea guías y rastrea tus pedidos con +10 paqueterías al mejor precio del mercado." },
-        ].map((item) => (
+        {CARDS.map((item) => (
           <div
             key={item.id}
-            className="flex flex-col rounded-[12px] bg-white"
-            style={{
-              padding: "20px 20px",
-              minHeight: 124,
-              boxShadow: "0 0 25px 0 rgba(0,0,0,0.06)",
-            }}
+            className="flex flex-col rounded-[12px]"
+            style={{ ...CARD_SURFACE, padding: "20px 20px" }}
           >
-            <div className="flex items-center justify-between" style={{ marginBottom: 18 }}>
-              <p className="font-inter text-[16px] font-semibold uppercase tracking-[0.04em] text-black">
+            <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
+              <p className="font-inter text-[16px] font-semibold uppercase tracking-[0.04em] text-white">
                 {item.label}
               </p>
-              <FeatureIcon id={item.id} size={26} />
+              <FeatureIcon id={item.id} size={24} color="#DB3B2B" />
             </div>
-            <p className="font-inter text-[14px] font-normal text-black" style={{ lineHeight: 1.5 }}>
+            <p className="font-inter text-[13.5px] font-normal text-white/70" style={{ lineHeight: 1.5, marginBottom: 18 }}>
               {item.desc}
             </p>
+            <div className="mt-auto">
+              <LogoTiles logos={item.logos} compact />
+            </div>
           </div>
         ))}
       </div>
 
       {/* DESKTOP — 3-column card grid, equal heights */}
       <div className="hidden tablet:grid tablet:auto-rows-fr tablet:grid-cols-3 tablet:items-stretch tablet:gap-4 lg:gap-6">
-        {FEATURE_CARDS.map((card) => (
+        {CARDS.map((card) => (
           <div
             key={card.id}
-            className="flex h-full flex-col rounded-[15px] bg-white transition-all duration-300 hover:scale-[1.01]"
-            style={{ padding: "40px 32px", boxShadow: "0 0 25px 0 rgba(0,0,0,0.06)" }}
+            className="flex h-full flex-col rounded-[15px] transition-all duration-300 hover:scale-[1.01]"
+            style={{ ...CARD_SURFACE, padding: "34px 30px" }}
           >
-            <div className="flex items-center justify-between" style={{ marginBottom: 32 }}>
-              <p className="font-inter text-[18px] font-medium uppercase text-black tablet:text-[20px]">
+            <div className="flex items-center justify-between" style={{ marginBottom: 22 }}>
+              <p className="font-inter text-[18px] font-semibold uppercase tracking-[0.03em] text-white tablet:text-[20px]">
                 {card.label}
               </p>
-              <FeatureIcon id={card.id} size={28} />
+              <FeatureIcon id={card.id} size={26} color="#DB3B2B" />
             </div>
-            <p className="w-full font-inter text-[15px] font-normal text-black tablet:text-[16px]" style={{ lineHeight: 1.5 }}>
-              {card.description}
+            <p className="w-full font-inter text-[15px] font-normal text-white/70 tablet:text-[16px]" style={{ lineHeight: 1.55, marginBottom: 26 }}>
+              {card.desc}
             </p>
+            <div className="mt-auto">
+              <LogoTiles logos={card.logos} />
+            </div>
           </div>
         ))}
       </div>

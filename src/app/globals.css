@@ -205,12 +205,13 @@ body {
 /* ─── Stack card gradient backgrounds ─── */
 
 /* Tienda en línea — clean warm-red accent anchored behind the input
-   (right column). Less purple so it doesn't read muddy. */
+   (right column). Base lifted to a warm charcoal (was near-black #160a0c)
+   so the card no longer reads "muy oscuro" — warmer + more elevated. */
 .stack-bg-tienda-online {
   background:
-    radial-gradient(ellipse 65% 60% at 72% 60%, rgba(219,59,43,0.4) 0%, transparent 62%),
-    radial-gradient(ellipse 55% 50% at 30% 25%, rgba(127,29,29,0.18) 0%, transparent 60%),
-    linear-gradient(150deg, #160a0c 0%, #1a0a10 50%, #1e0b0e 100%);
+    radial-gradient(ellipse 65% 60% at 72% 60%, rgba(219,59,43,0.42) 0%, transparent 62%),
+    radial-gradient(ellipse 55% 50% at 30% 25%, rgba(127,29,29,0.20) 0%, transparent 60%),
+    linear-gradient(150deg, #2c1c1e 0%, #301a22 50%, #341c20 100%);
 }
 .stack-bg-tienda-online::after {
   content: "";
