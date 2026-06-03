@@ -99,21 +99,21 @@ export const FEATURE_CARDS = [
     id: "vende",
     label: "VENDE",
     description:
-      "En tu tienda en línea o marketplaces. Gestiona tus productos y pedidos desde un solo lugar.",
+      "Crea tu tienda en línea en segundos y maneja todos tus marketplaces desde un solo lugar.",
     icon: "/img/vende.svg",
   },
   {
     id: "cobra",
     label: "COBRA",
     description:
-      "Con tarjeta o transferencia con nuestro checkout integrado en tienda en línea o creando links de pagos.",
+      "Recibe pagos con tarjetas, SPEI, Kueski y meses sin intereses, todo desde un mismo checkout.",
     icon: "/img/cobra.svg",
   },
   {
     id: "envia",
     label: "ENVÍA",
     description:
-      "Cotiza y crea envíos con las mejores paqueterías, con los precios más bajos y el mejor servicio.",
+      "Cotiza, crea guías y rastrea tus pedidos con +10 paqueterías al mejor precio del mercado.",
     icon: "/img/envia.svg",
   },
 ];

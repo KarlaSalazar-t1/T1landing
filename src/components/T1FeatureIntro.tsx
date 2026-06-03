@@ -77,9 +77,9 @@ export default function T1FeatureIntro() {
       {/* MOBILE — 3 cards stacked */}
       <div className="flex flex-col gap-4 tablet:hidden">
         {[
-          { id: "vende", label: "VENDE", desc: "En tu tienda en línea o marketplaces" },
-          { id: "cobra", label: "COBRA", desc: "Con tarjeta o transferencia con nuestro checkout integrado o link de pago" },
-          { id: "envia", label: "ENVÍA", desc: "Cotiza y crea envíos con las mejores paqueterías y los precios más bajos" },
+          { id: "vende", label: "VENDE", desc: "Crea tu tienda en línea en segundos y maneja todos tus marketplaces desde un solo lugar." },
+          { id: "cobra", label: "COBRA", desc: "Recibe pagos con tarjetas, SPEI, Kueski y meses sin intereses, todo desde un mismo checkout." },
+          { id: "envia", label: "ENVÍA", desc: "Cotiza, crea guías y rastrea tus pedidos con +10 paqueterías al mejor precio del mercado." },
         ].map((item) => (
           <div
             key={item.id}
