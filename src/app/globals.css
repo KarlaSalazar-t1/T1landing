@@ -203,7 +203,10 @@ body {
      Safari). Slightly higher opacity to compensate for the loss of
      overlay-blend brightness. */
   opacity: 0.12;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  /* numOctaves lowered 4→2 — feTurbulence is rasterized once per card (×4) on
+     first paint and is one of the costliest SVG filters; 2 octaves is visually
+     indistinguishable at 0.12 opacity but much cheaper, cutting load-time jank. */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 /* ─── Stack card gradient backgrounds ─── */

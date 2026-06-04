@@ -161,7 +161,7 @@ export default function T1Score() {
             section from Metrics below, so the band itself can share Metrics'
             black background. */}
         <div
-          className="mx-auto overflow-hidden rounded-[24px] border border-white/[0.08]"
+          className="relative mx-auto overflow-hidden rounded-[24px] border border-white/[0.08]"
           style={{
             maxWidth: 1040,
             background: "linear-gradient(160deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.018) 100%)",
@@ -170,7 +170,20 @@ export default function T1Score() {
             boxShadow: "inset 0 1px 0 rgba(255,255,255,0.06), 0 24px 60px rgba(0,0,0,0.5)",
           }}
         >
-          <div className="p-7 tablet:p-12">
+          {/* Color blob inside the card — a deep-red glow lower-right (behind
+              the score) + a dark-blue glow upper-left, clipped by the card's
+              overflow-hidden so the interior reads with color depth instead of
+              flat glass (CEO: "añade un degradado o blob de color azul oscuro o
+              rojo dentro de la card"). */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 z-0"
+            style={{
+              background:
+                "radial-gradient(115% 95% at 100% 100%, rgba(219,59,43,0.26) 0%, rgba(219,59,43,0.10) 32%, transparent 60%), radial-gradient(95% 85% at 0% 0%, rgba(36,66,150,0.20) 0%, transparent 55%)",
+            }}
+          />
+          <div className="relative z-[1] p-7 tablet:p-12">
             {/* Heading + subheading */}
             <div className="tablet:max-w-[560px]">
               <h2

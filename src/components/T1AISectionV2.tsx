@@ -81,48 +81,19 @@ export default function T1AISectionV2() {
   return (
     <section className="relative isolate" style={{ background: "#161311" }}>
       <div className="ai-section-bg relative flex w-full flex-col overflow-hidden">
-        {/* Decorative glow blobs — warm color pops on the dark base. */}
-        <div className="pointer-events-none absolute inset-0">
-          <div
-            className="absolute"
-            style={{
-              top: "-10%",
-              left: "-8%",
-              width: 500,
-              height: 500,
-              borderRadius: "50%",
-              background:
-                "radial-gradient(circle, rgba(219,59,43,0.22) 0%, transparent 60%)",
-              filter: "blur(90px)",
-            }}
-          />
-          <div
-            className="absolute"
-            style={{
-              top: "20%",
-              right: "-12%",
-              width: 600,
-              height: 600,
-              borderRadius: "50%",
-              background:
-                "radial-gradient(circle, rgba(255,140,110,0.16) 0%, transparent 60%)",
-              filter: "blur(100px)",
-            }}
-          />
-          <div
-            className="absolute"
-            style={{
-              bottom: "-25%",
-              left: "35%",
-              width: 450,
-              height: 450,
-              borderRadius: "50%",
-              background:
-                "radial-gradient(circle, rgba(255,150,120,0.12) 0%, transparent 55%)",
-              filter: "blur(70px)",
-            }}
-          />
-        </div>
+        {/* Decorative warm glow — pre-blurred radial gradients (no filter:blur).
+            The previous three filter:blur(70–100px) blobs each forced a large
+            offscreen blur convolution on first paint, a big chunk of the IA
+            section's load-time jank. These soft-stop gradients reproduce the
+            same warm pops at a fraction of the paint cost; the base
+            .ai-section-bg already carries the main glow. */}
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(420px 420px at 8% 2%, rgba(219,59,43,0.20) 0%, rgba(219,59,43,0.06) 34%, transparent 66%), radial-gradient(520px 520px at 102% 26%, rgba(255,140,110,0.15) 0%, rgba(255,140,110,0.05) 36%, transparent 66%), radial-gradient(440px 440px at 42% 116%, rgba(255,150,120,0.11) 0%, transparent 62%)",
+          }}
+        />
 
         <div className="relative mx-auto flex w-full max-w-[var(--max-w)] flex-col items-center px-5 py-16 text-center tablet:px-6 tablet:py-24">
           {/* Big, clear headline — AI builds your online store. */}

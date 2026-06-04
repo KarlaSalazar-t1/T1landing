@@ -52,7 +52,7 @@ export default function T1Audience() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-black" style={{ paddingTop: 80, paddingBottom: 80 }}>
+    <section className="relative overflow-hidden bg-black" style={{ paddingTop: 80, paddingBottom: 124 }}>
       <div className="relative mx-auto max-w-[var(--max-w)] px-5 tablet:px-6">
         <h2
           className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
