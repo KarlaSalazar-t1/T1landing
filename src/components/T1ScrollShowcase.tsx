@@ -546,7 +546,7 @@ export default function T1ScrollShowcase() {
               tu negocio con T1?
             </h2>
             <p
-              className="mx-auto font-inter text-[15px] font-light text-white/40 tablet:text-[18px]"
+              className="mx-auto font-inter text-[15px] font-light text-white/55 tablet:text-[18px]"
               style={{ maxWidth: 500, lineHeight: 1.5, marginBottom: 40 }}
             >
               Comienza gratis y escala al ritmo de tu negocio.

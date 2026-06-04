@@ -164,7 +164,7 @@ export default function T1AISectionV2() {
               style={{ minHeight: 96, lineHeight: 1.5 }}
             />
             <div className="mt-1 flex items-center justify-between gap-3">
-              <span className="font-inter text-[12px] text-black/40">
+              <span className="font-inter text-[12px] text-black/60">
                 {prompt.length}/{MAX_PROMPT}
               </span>
               <div className="flex items-center gap-2">
@@ -194,8 +194,8 @@ export default function T1AISectionV2() {
             </div>
           </form>
 
-          {/* Reassurance line */}
-          <p className="mt-5 font-inter text-[13px] font-normal text-white/40">
+          {/* Reassurance line — white (was /40, failed WCAG AA on the dark bg). */}
+          <p className="mt-5 font-inter text-[13px] font-normal text-white/75">
             Gratis · Sin tarjeta · Lista en minutos
           </p>
         </div>

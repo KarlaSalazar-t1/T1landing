@@ -250,7 +250,7 @@ export default function T1Footer() {
                           </svg>
                         )}
                       </div>
-                      <div className="flex items-center gap-1 font-inter text-[13px] text-white/40" style={{ marginTop: 2 }}>
+                      <div className="flex items-center gap-1 font-inter text-[13px] text-white/55" style={{ marginTop: 2 }}>
                         {country.langs.map((lang, li) => (
                           <span key={lang}>
                             {li > 0 && <span className="mx-0.5 text-white/20">|</span>}
@@ -266,14 +266,14 @@ export default function T1Footer() {
           </div>
 
           {/* Legal links */}
-          <div className="flex items-center gap-2 font-inter text-[13px] text-white/35">
-            <a href="#" className="text-white/35 no-underline transition-colors hover:text-white/60">Términos y condiciones</a>
+          <div className="flex items-center gap-2 font-inter text-[13px] text-white/50">
+            <a href="#" className="text-white/50 no-underline transition-colors hover:text-white/60">Términos y condiciones</a>
             <span>|</span>
-            <a href="#" className="text-white/35 no-underline transition-colors hover:text-white/60">Privacidad</a>
+            <a href="#" className="text-white/50 no-underline transition-colors hover:text-white/60">Privacidad</a>
           </div>
 
           {/* Copyright */}
-          <span className="font-inter text-[13px] text-white/35">
+          <span className="font-inter text-[13px] text-white/50">
             © 2026 T1. Todos los derechos reservados.
           </span>
         </div>

@@ -33,10 +33,11 @@ export function useCountUp({
   const [hasStarted, setHasStarted] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
-  // IntersectionObserver — fires once when the element is even slightly
-  // in the viewport. Small negative bottom rootMargin so it kicks in just
-  // before the number is fully on screen, giving the count-up a head
-  // start instead of starting at "0" while the user is already reading.
+  // IntersectionObserver — fires once when the element is comfortably in
+  // view. A deeper negative bottom rootMargin (-25%) delays the trigger
+  // until the number has scrolled up ~a quarter of the viewport, so a
+  // quick scroll doesn't blow past the count-up before the user looks at
+  // it (CEO: "a veces bajo y ya no veo la animación").
   useEffect(() => {
     if (hasStarted) return;
     const el = ref.current;
@@ -55,7 +56,7 @@ export function useCountUp({
           observer.disconnect();
         }
       },
-      { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
+      { threshold: 0.2, rootMargin: "0px 0px -25% 0px" }
     );
 
     observer.observe(el);
