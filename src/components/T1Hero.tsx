@@ -10,15 +10,10 @@ import { HERO_DATA, LOGIN_URL } from "@/lib/constants";
    clearer "Todo en un solo lugar". */
 const ROTATING_WORDS = [
   "Crea tu tienda con IA",
-  "Cobra en línea",
-  "Envía tus pedidos",
+  "Cobra de muchas formas",
+  "Envía al mejor precio",
   "Todo en un solo lugar",
 ];
-
-// Pre-compute the longest word to anchor the container's min-width.
-// This prevents CLS when the typewriter swaps short<->long words causing
-// the heading to wrap differently on narrow viewports.
-const LONGEST_WORD = ROTATING_WORDS.reduce((a, b) => (a.length >= b.length ? a : b));
 
 function RotatingWord() {
   const [index, setIndex] = useState(0);
@@ -62,24 +57,16 @@ function RotatingWord() {
   }, [index]);
 
   return (
-    <span className="relative inline-block align-baseline">
-      {/* Invisible sizer locks the container width to the longest word so the
-          typewriter never causes layout shift (CLS) as text length changes. */}
-      <span aria-hidden="true" className="invisible whitespace-pre">
-        {LONGEST_WORD}
-      </span>
-      {/* Actual visible word, absolutely positioned over the sizer */}
-      <span className="absolute inset-0">
-        {displayedText}
-        <span
-          className="ml-0.5 inline-block w-[3px] bg-white/80"
-          style={{
-            height: "0.85em",
-            verticalAlign: "text-bottom",
-            animation: "blink 0.7s step-end infinite",
-          }}
-        />
-      </span>
+    <span>
+      {displayedText}
+      <span
+        className="ml-0.5 inline-block w-[3px] bg-white/80"
+        style={{
+          height: "0.85em",
+          verticalAlign: "text-bottom",
+          animation: "blink 0.7s step-end infinite",
+        }}
+      />
     </span>
   );
 }
@@ -173,11 +160,10 @@ export default function T1Hero() {
             <div className="pt-[90px] pb-6 tablet:pt-[140px] tablet:pb-6 lg:pt-[180px]">
               {/* Rotating eyebrow word */}
               <p
-                className="font-sora text-[38px] font-normal leading-[1.26] text-white tablet:text-[48px] lg:text-[60px]"
+                className="flex min-h-[2.7em] flex-col justify-end font-sora text-[34px] font-normal leading-[1.26] text-white tablet:min-h-[1.34em] tablet:text-[48px] lg:text-[60px]"
                 style={{
                   letterSpacing: "-0.03em",
                   marginBottom: 12,
-                  minHeight: "1.26em",
                 }}
               >
                 <RotatingWord />

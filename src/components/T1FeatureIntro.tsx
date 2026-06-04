@@ -152,8 +152,8 @@ export default function T1FeatureIntro() {
           lineHeight: "1.2em",
           textAlign: "center",
           maxWidth: 700,
-          marginTop: 24,
-          marginBottom: 36,
+          marginTop: 32,
+          marginBottom: 56,
         }}
       >
         Todo tu negocio,
