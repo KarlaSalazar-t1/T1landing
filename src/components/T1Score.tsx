@@ -17,23 +17,12 @@ const FONT = "var(--font-manrope-var), sans-serif";
  */
 
 /* The three T1 Score capabilities — same taxonomy as the mega menu so the
-   product story is consistent across the site. */
+   product story is consistent across the site. Descriptions dropped: the CEO
+   asked for less text, so each pillar is now a single clear line. */
 const PILLARS = [
-  {
-    id: "fraude",
-    title: "Prevención de fraude",
-    desc: "Bloquea transacciones fraudulentas en tiempo real.",
-  },
-  {
-    id: "riesgo",
-    title: "Análisis de riesgo",
-    desc: "Evalúa cada operación al instante y decide a quién aprobar.",
-  },
-  {
-    id: "credito",
-    title: "Evaluación crediticia",
-    desc: "Conoce la capacidad de pago con datos tradicionales y alternativos.",
-  },
+  { id: "fraude", title: "Prevención de fraude" },
+  { id: "riesgo", title: "Análisis de riesgo" },
+  { id: "credito", title: "Evaluación crediticia" },
 ];
 
 /* ── Per-pillar line icons (coral, tying into the AI section accent) ── */
@@ -72,65 +61,62 @@ function PillarIcon({ id }: { id: string }) {
   );
 }
 
-/* ── Credit-score graphic — minimal white card floating inside the band.
-   Pared down from the old dense report: header + gauge + three factor rows,
-   no footer-stats strip. Grays darkened to #6B6B6B so the small labels clear
-   WCAG AA on white. ── */
+/* ── Risk-score graphic — concentric coral rings + score + a single decision
+   pill on a soft peach surface. Replaces the old dense credit report for a
+   cleaner, more graphic read (CEO: "la imagen de score más simple, como
+   esta"). The 78 → "Transacción rechazada / Cliente de alto riesgo" tells the
+   antifraude story at a glance. ── */
 function ScoreReportCard() {
   return (
     <div
-      className="relative w-full overflow-hidden rounded-[16px] bg-white"
+      className="w-full"
       style={{
-        maxWidth: 330,
-        padding: "22px 24px",
-        boxShadow: "0 20px 50px -24px rgba(0,0,0,0.6)",
+        maxWidth: 400,
+        borderRadius: 20,
+        padding: "26px 24px",
+        background: "linear-gradient(135deg, #FCEEE8 0%, #FBE6DC 55%, #F8DCD0 100%)",
+        boxShadow: "0 24px 60px -28px rgba(180,60,43,0.45)",
         fontFamily: FONT,
       }}
     >
-      {/* Header */}
-      <div className="flex items-center justify-between" style={{ marginBottom: 18 }}>
-        <div>
-          <p className="text-[10.5px] font-medium text-[#6B6B6B]">Reporte crediticio</p>
-          <p className="text-[14px] font-bold text-[#3a3a3a]">Juan Pérez García</p>
-        </div>
-        <span className="rounded-full bg-[rgba(21,128,61,0.1)] px-2.5 py-1 text-[10px] font-bold text-[#15803D]">
-          Aprobado
-        </span>
-      </div>
-
-      {/* Score gauge */}
-      <div className="flex items-center gap-4" style={{ marginBottom: 18 }}>
-        <svg width="86" height="86" viewBox="0 0 100 100" fill="none" className="shrink-0">
-          <circle cx="50" cy="50" r="40" stroke="rgba(0,0,0,0.06)" strokeWidth="8" />
-          <circle cx="50" cy="50" r="40" stroke="#16A34A" strokeWidth="8" strokeLinecap="round" strokeDasharray="210 251" transform="rotate(-90 50 50)" />
-          <text x="50" y="48" textAnchor="middle" style={{ fontSize: 17, fontWeight: 700, fill: "#3a3a3a" }}>742</text>
-          <text x="50" y="62" textAnchor="middle" style={{ fontSize: 6.5, fontWeight: 600, fill: "#6B6B6B" }}>de 850</text>
+      {/* Stacks on mobile (rings on top, full-width pill below) so the pill
+          text never clips in the narrow column; side-by-side from tablet up. */}
+      <div className="flex flex-col items-center gap-4 tablet:flex-row">
+        {/* Concentric risk rings — score 78 */}
+        <svg width="138" height="138" viewBox="0 0 200 200" fill="none" className="shrink-0">
+          {/* faint full-circle tracks for depth */}
+          <circle cx="100" cy="100" r="80" stroke="rgba(184,59,43,0.10)" strokeWidth="11" />
+          <circle cx="100" cy="100" r="61" stroke="rgba(184,59,43,0.10)" strokeWidth="11" />
+          <circle cx="100" cy="100" r="42" stroke="rgba(184,59,43,0.10)" strokeWidth="10" />
+          {/* layered coral arcs (dark → light, varied start angles) */}
+          <circle cx="100" cy="100" r="80" stroke="#B83B2B" strokeWidth="11" strokeLinecap="round" strokeDasharray="362 141" transform="rotate(-90 100 100)" />
+          <circle cx="100" cy="100" r="61" stroke="#E25A43" strokeWidth="11" strokeLinecap="round" strokeDasharray="230 154" transform="rotate(-52 100 100)" />
+          <circle cx="100" cy="100" r="42" stroke="#FF9270" strokeWidth="10" strokeLinecap="round" strokeDasharray="124 140" transform="rotate(-124 100 100)" />
+          <text x="100" y="114" textAnchor="middle" style={{ fontSize: 46, fontWeight: 700, fill: "#2E2A28", letterSpacing: "-1px" }}>78</text>
         </svg>
-        <div>
-          <p className="text-[11px] font-medium text-[#6B6B6B]">Score crediticio</p>
-          <p className="text-[20px] font-bold text-[#16A34A]" style={{ lineHeight: 1.1 }}>Excelente</p>
-          <p className="text-[11px] text-[#6B6B6B]">Riesgo bajo de impago</p>
-        </div>
-      </div>
 
-      {/* Factores evaluados */}
-      <div>
-        <p className="text-[10.5px] font-bold text-[#3a3a3a]" style={{ marginBottom: 10 }}>Factores evaluados</p>
-        {[
-          { label: "Historial de pagos", value: "Excelente", pct: 95, color: "#16A34A" },
-          { label: "Utilización de crédito", value: "32%", pct: 68, color: "#16A34A" },
-          { label: "Datos alternativos", value: "Buena", pct: 75, color: "#E26153" },
-        ].map((row) => (
-          <div key={row.label} style={{ marginBottom: 9 }}>
-            <div className="flex items-center justify-between" style={{ marginBottom: 4 }}>
-              <span className="text-[10.5px] text-[#3a3a3a]">{row.label}</span>
-              <span className="text-[10.5px] font-bold text-[#3a3a3a]">{row.value}</span>
-            </div>
-            <div className="h-[5px] w-full overflow-hidden rounded-full bg-black/[0.05]">
-              <div className="h-full rounded-full" style={{ width: `${row.pct}%`, background: row.color }} />
-            </div>
+        {/* Decision pill */}
+        <div
+          className="flex w-full min-w-0 items-center gap-3 rounded-[14px] bg-white tablet:flex-1"
+          style={{ padding: "13px 15px", boxShadow: "0 12px 32px -18px rgba(0,0,0,0.5)" }}
+        >
+          <span
+            className="flex shrink-0 items-center justify-center rounded-full"
+            style={{ width: 38, height: 38, background: "rgba(226,97,83,0.12)" }}
+          >
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2.2l2 7.8 7.8 2-7.8 2-2 7.8-2-7.8-7.8-2 7.8-2z" fill="#E26153" />
+            </svg>
+          </span>
+          <div className="min-w-0">
+            <p className="text-[13.5px] font-bold text-[#2E2A28]" style={{ lineHeight: 1.2 }}>
+              Transacción rechazada
+            </p>
+            <p className="mt-0.5 text-[12px] text-[#6B6B6B]" style={{ lineHeight: 1.3 }}>
+              Cliente de alto riesgo
+            </p>
           </div>
-        ))}
+        </div>
       </div>
     </div>
   );
@@ -184,8 +170,8 @@ export default function T1Score() {
                 className="mt-3.5 font-inter text-[14px] font-normal text-white/65 tablet:text-[15px]"
                 style={{ letterSpacing: "-0.01em", lineHeight: 1.5, maxWidth: 500 }}
               >
-                IA y los datos de Círculo de Crédito para prevenir fraude, evaluar el
-                riesgo y conocer la capacidad de pago de tus clientes.
+                Prevén fraude y evalúa el riesgo de cada operación con IA y los
+                datos de Círculo de Crédito.
               </p>
             </div>
 
@@ -199,23 +185,15 @@ export default function T1Score() {
 
               {/* Pillars + CTA */}
               <div className="order-2 tablet:order-1">
-                <ul className="flex flex-col gap-5">
+                <ul className="flex flex-col gap-4">
                   {PILLARS.map((p) => (
-                    <li key={p.id} className="flex items-start gap-3.5">
-                      <span className="mt-[1px] shrink-0">
+                    <li key={p.id} className="flex items-center gap-3.5">
+                      <span className="shrink-0">
                         <PillarIcon id={p.id} />
                       </span>
-                      <div>
-                        <p className="font-inter text-[14px] font-semibold text-white tablet:text-[15px]">
-                          {p.title}
-                        </p>
-                        <p
-                          className="mt-1 font-inter text-[12.5px] font-normal text-white/60 tablet:text-[13px]"
-                          style={{ lineHeight: 1.45 }}
-                        >
-                          {p.desc}
-                        </p>
-                      </div>
+                      <p className="font-inter text-[15px] font-semibold text-white tablet:text-[16px]">
+                        {p.title}
+                      </p>
                     </li>
                   ))}
                 </ul>

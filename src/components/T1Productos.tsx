@@ -83,7 +83,7 @@ export default function T1Productos() {
             <div className="relative flex justify-center">
               {/* Phone-like product list */}
               <div className="relative overflow-hidden rounded-[18px]" style={{ width: 280, aspectRatio: "9/16", boxShadow: "0 20px 60px rgba(0,0,0,0.4)", border: "1px solid rgba(255,255,255,0.10)" }}>
-                <Image src="/img/list-product.svg" alt="Lista de productos" fill className="object-cover object-top" sizes="280px" priority />
+                <Image src="/img/list-product.webp" alt="Lista de productos" fill className="object-cover object-top" sizes="280px" priority />
               </div>
 
               {/* Floating product card */}

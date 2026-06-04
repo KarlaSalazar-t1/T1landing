@@ -640,7 +640,7 @@ export default function T1Solutions() {
               ) : currentSub.panel === "pos-cobro" ? (
                 <div key={`panel-m-${activeSubTab}`} className="relative flex justify-center px-6 py-4" style={{ animation: "none" }}>
                   <div className="relative overflow-hidden rounded-[14px]" style={{ width: "62%", maxWidth: 220, aspectRatio: "3 / 4", boxShadow: "0 6px 18px rgba(0,0,0,0.14)" }}>
-                    <Image src="/img/pos-carrito.svg" alt="Carrito de cobro POS" fill className="object-cover" sizes="220px" />
+                    <Image src="/img/pos-carrito.webp" alt="Carrito de cobro POS" fill className="object-cover" sizes="220px" />
                   </div>
                   <div className="absolute overflow-hidden rounded-[12px]" style={{ right: "12%", bottom: "12%", width: "42%", maxWidth: 150, aspectRatio: "3 / 4", boxShadow: "0 8px 20px rgba(0,0,0,0.18)" }}>
                     <Image src="/img/pos-cobra.png" alt="Cobro POS" fill className="object-cover" sizes="150px" />
@@ -720,7 +720,7 @@ export default function T1Solutions() {
               ) : currentSub.panel === "producto-grid" ? (
                 <div key={`panel-m-${activeSubTab}`} className="relative flex justify-center" style={{ animation: "none" }}>
                   <div className="relative overflow-hidden rounded-[10px]" style={{ width: 200, height: 320, boxShadow: "0 4px 16px rgba(0,0,0,0.06)" }}>
-                    <Image src="/img/list-product.svg" alt="" fill className="object-cover object-top" />
+                    <Image src="/img/list-product.webp" alt="" fill className="object-cover object-top" />
                   </div>
                   {/* Floating product card — lower position */}
                   <div className="absolute rounded-[10px] border border-black/[0.06] bg-white" style={{ right: 16, bottom: 40, padding: "10px 12px", boxShadow: "0 4px 16px rgba(0,0,0,0.08)", width: 130 }}>
@@ -1027,7 +1027,7 @@ export default function T1Solutions() {
                         <span className="ml-2 flex-1 rounded-full bg-black/[0.03] px-2 py-[2px] font-inter text-[8px] text-black/25">mitienda.t1.com</span>
                       </div>
                       <div className="relative" style={{ height: "calc(100% - 28px)" }}>
-                        <Image src="/img/muebles-v2.png" alt="" fill className="object-cover object-top" />
+                        <Image src="/img/muebles-v2.webp" alt="" fill className="object-cover object-top" />
                       </div>
                     </div>
                     {/* Floating prompt — on top of the store */}
@@ -1050,7 +1050,7 @@ export default function T1Solutions() {
                   /* Product list — centered image, floating cards overlapping */
                   <div className="relative flex h-full items-center justify-center bg-white">
                     <div className="relative overflow-hidden rounded-[12px]" style={{ width: 260, height: "88%", boxShadow: "0 4px 20px rgba(0,0,0,0.08)" }}>
-                      <Image src="/img/list-product.svg" alt="Lista de productos" fill className="object-cover object-top" />
+                      <Image src="/img/list-product.webp" alt="Lista de productos" fill className="object-cover object-top" />
                     </div>
                     {/* Floating card — overlapping image, lower position */}
                     <div className="absolute rounded-[12px] border border-black/[0.06] bg-white" style={{ right: 50, bottom: 60, padding: "12px 14px", boxShadow: "0 6px 24px rgba(0,0,0,0.1)", width: 155 }}>
@@ -1106,7 +1106,7 @@ export default function T1Solutions() {
                         <span className="h-[6px] w-[6px] rounded-full bg-[#28C840]" />
                       </div>
                       <div className="relative" style={{ height: "calc(100% - 28px)" }}>
-                        <Image src="/img/muebles-v2.png" alt="" fill className="object-cover object-top" />
+                        <Image src="/img/muebles-v2.webp" alt="" fill className="object-cover object-top" />
                       </div>
                     </div>
 
@@ -1621,7 +1621,7 @@ export default function T1Solutions() {
                   <div className="relative flex h-full items-center justify-center bg-white" style={{ padding: "16px 24px" }}>
                     {/* Carrito — natural ratio 713:1409 (very tall), object-contain so full screen visible */}
                     <div className="relative h-[94%]" style={{ aspectRatio: "713 / 1409", filter: "drop-shadow(0 8px 20px rgba(0,0,0,0.14))" }}>
-                      <Image src="/img/pos-carrito.svg" alt="Carrito de cobro POS" fill className="object-contain" sizes="220px" />
+                      <Image src="/img/pos-carrito.webp" alt="Carrito de cobro POS" fill className="object-contain" sizes="220px" />
                     </div>
                     {/* Cobra (overlapping, right) — kept as before */}
                     <div className="absolute overflow-hidden rounded-[14px] h-[58%]" style={{ right: 36, bottom: 40, aspectRatio: "3 / 4", boxShadow: "0 10px 22px rgba(0,0,0,0.18)" }}>

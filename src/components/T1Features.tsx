@@ -24,10 +24,10 @@ const STORE_CAROUSEL = [
 
 /* ── Animated prompt phrases + matching page images + section bg + gradient color ── */
 const PROMPT_PAGES = [
-  { text: "Quiero vender muebles de la más alta calidad.", image: "/img/muebles-v2.png", bg: "/img/fondo-modal-1.png", gradientColor: "#978478" },
-  { text: "Necesito una tienda de ropa deportiva.", image: "/img/ropa-deportiva.png", bg: "/img/fondo-modal-2.png", gradientColor: "#7FA1B6" },
-  { text: "Vendo accesorios tech y gadgets.", image: "/img/tech.png", bg: "/img/fondo-modal-3.png", gradientColor: "#7FA1B6" },
-  { text: "Mi negocio es de productos orgánicos.", image: "/img/organico-v2.png", bg: "/img/fondo-modal-4.png", gradientColor: "#998E67" },
+  { text: "Quiero vender muebles de la más alta calidad.", image: "/img/muebles-v2.webp", bg: "/img/fondo-modal-1.png", gradientColor: "#978478" },
+  { text: "Necesito una tienda de ropa deportiva.", image: "/img/ropa-deportiva.webp", bg: "/img/fondo-modal-2.png", gradientColor: "#7FA1B6" },
+  { text: "Vendo accesorios tech y gadgets.", image: "/img/tech.webp", bg: "/img/fondo-modal-3.png", gradientColor: "#7FA1B6" },
+  { text: "Mi negocio es de productos orgánicos.", image: "/img/organico-v2.webp", bg: "/img/fondo-modal-4.png", gradientColor: "#998E67" },
 ];
 
 /* ── Stat with count-up animation, used in Tienda landing ── */
@@ -482,6 +482,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                         src={store.image}
                         alt={store.name}
                         fill
+                        sizes="240px"
                         className="store-card-img object-cover transition-all duration-300"
                       />
                       {/* Hover overlay */}
@@ -876,8 +877,8 @@ const SHOWCASE_CARDS = [
       "Conecta Mercado Libre, Amazon, Shein, Sears y más en un solo lugar. Sincroniza inventario, recibe pedidos y gestiona todo desde un panel.",
     bgImage: null,
     bgCSS: "stack-bg-tienda",
-    panelLeft: "/img/card-producto.svg",
-    panelRight: "/img/lista-pedidos-t1.svg",
+    panelLeft: "/img/card-producto.webp",
+    panelRight: "/img/lista-pedidos-t1.webp",
     ctaLabel: "Conoce T1 Tienda",
     ctaHref: "https://www.t1.com/mx/tienda",
   },
@@ -888,7 +889,7 @@ const SHOWCASE_CARDS = [
       "Crea links de pago en segundos, cobra a distancia y gestiona todo desde un solo lugar.",
     bgImage: null,
     bgCSS: "stack-bg-pagos",
-    panelLeft: "/img/pagos.svg",
+    panelLeft: "/img/pagos.webp",
     panelRight: null,
     ctaLabel: "Conoce T1 Pagos",
     ctaHref: "https://t1.com/mx/pagos/",

@@ -82,7 +82,7 @@ export default function T1POS() {
             {/* Right — POS device mockup with floating sale toast */}
             <div className="relative">
               <div className="relative mx-auto" style={{ maxWidth: 420, aspectRatio: "3 / 4", filter: "drop-shadow(0 25px 60px rgba(0,0,0,0.4))" }}>
-                <Image src="/img/pos-carrito.svg" alt="Terminal punto de venta" fill className="object-contain" sizes="420px" priority />
+                <Image src="/img/pos-carrito.webp" alt="Terminal punto de venta" fill className="object-contain" sizes="420px" priority />
               </div>
 
               {/* Floating "Venta cobrada" badge */}

@@ -43,10 +43,12 @@ export default function Home() {
       >
         <T1Features />
         <T1AISectionV2 />
-        <T1Score />
         <T1Metrics />
         <T1Audience />
         <T1Solutions />
+        {/* T1Score moved below the tools carousel (T1Solutions) per CEO —
+            risk/credit intelligence reads as a closing capability, not a hero. */}
+        <T1Score />
       </div>
 
       {/* Enterprise — sticky behind the black card (same pattern as hero) */}
