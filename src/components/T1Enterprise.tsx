@@ -197,7 +197,7 @@ export default function T1Enterprise() {
                   className="flex h-[40px] w-[40px] items-center justify-center rounded-[10px] bg-white"
                   style={{ boxShadow: "0 3px 10px rgba(0,0,0,0.22)" }}
                 >
-                  <Image src={c.image} alt={c.name} width={28} height={28} className="object-contain" style={{ padding: 3 }} />
+                  <Image src={c.image} alt={c.name} width={32} height={32} className="object-contain" style={{ padding: 2 }} />
                 </div>
                 <span
                   className="whitespace-nowrap font-inter text-[14px] font-semibold text-white"
@@ -330,10 +330,10 @@ export default function T1Enterprise() {
                   <Image
                     src={c.image}
                     alt={c.name}
-                    width={isActive ? 58 : isHovered ? 46 : 40}
-                    height={isActive ? 58 : isHovered ? 46 : 40}
+                    width={isActive ? 62 : isHovered ? 52 : 46}
+                    height={isActive ? 62 : isHovered ? 52 : 46}
                     className="object-contain"
-                    style={{ padding: isActive ? 5 : 4 }}
+                    style={{ padding: isActive ? 5 : 3 }}
                   />
                 </div>
 

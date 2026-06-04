@@ -3,11 +3,9 @@
 import Image from "next/image";
 import { createPortal } from "react-dom";
 import { useEffect, useRef, useState, useCallback } from "react";
-import GlassProductCard from "@/components/showcase/GlassProductCard";
 import PedidosPanel from "@/components/showcase/PedidosPanel";
 import CotizadorPanel from "@/components/showcase/CotizadorPanel";
 import TiendaPromptPanel from "@/components/showcase/TiendaPromptPanel";
-import GlassShipmentCard from "@/components/showcase/GlassShipmentCard";
 import { useIsDesktop } from "@/hooks/useIsDesktop";
 import { useCountUp } from "@/hooks/useCountUp";
 import T1FinalCTA from "@/components/T1FinalCTA";
@@ -909,47 +907,9 @@ const SHOWCASE_CARDS = [
   },
 ];
 
-/* ── Payment methods we accept — logo tiles (replaces credit-card mockup) ── */
-const PAYMENT_METHODS = [
-  { src: "/img/icons/visa.svg", alt: "Visa" },
-  { src: "/img/icons/mastercard.svg", alt: "Mastercard" },
-  { src: "/img/icons/amex.svg", alt: "American Express" },
-  { src: "/img/icons/spei.svg", alt: "SPEI" },
-  { src: "/img/icons/kueski.svg", alt: "Kueski Pay" },
-];
-
-function PaymentMethodsGrid() {
-  return (
-    <div className="w-full" style={{ maxWidth: 420 }}>
-      <p className="font-inter text-[13px] font-medium text-white/60" style={{ marginBottom: 14 }}>
-        Acepta todas las formas de pago
-      </p>
-      <div className="flex flex-wrap gap-3">
-        {PAYMENT_METHODS.map((m) => (
-          <div
-            key={m.alt}
-            className="flex items-center justify-center rounded-[12px] bg-white"
-            style={{
-              width: 84,
-              height: 56,
-              padding: "0 14px",
-              boxShadow: "0 6px 20px rgba(0,0,0,0.18)",
-            }}
-          >
-            <Image
-              src={m.src}
-              alt={m.alt}
-              width={60}
-              height={28}
-              className="h-auto w-auto object-contain"
-              style={{ maxHeight: 30, maxWidth: 56 }}
-            />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
+/* PaymentMethodsGrid removed — the Pagos stack card now uses feature bullets,
+   matching the other cards (CEO: "agrega bullet points en todos los cards
+   stacks como en la stack card de tienda"). */
 
 /* ── External link arrow icon ── */
 /* ── Phone mockup with WhatsApp → Link de pago ── */
@@ -2073,45 +2033,42 @@ export default function T1Features() {
                       >
                         {card.description}
                       </p>
+                      {/* Feature bullets — desktop only (mobile shows the phone
+                          mockup), matching the Tienda en línea card. */}
+                      <ul className="hidden flex-col gap-2.5 tablet:flex" style={{ marginBottom: 26 }}>
+                        {[
+                          "Mercado Libre, Amazon, Walmart, Shein y más",
+                          "Inventario y precios sincronizados en automático",
+                          "Recibe y surte todos tus pedidos desde un panel",
+                          "Reportes de ventas y rendimiento en tiempo real",
+                        ].map((b) => (
+                          <li key={b} className="flex items-start gap-2.5">
+                            <span
+                              className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full"
+                              style={{ background: "rgba(255,255,255,0.14)" }}
+                            >
+                              <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
+                                <path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            </span>
+                            <span className="font-inter text-[13px] font-normal text-white/85 tablet:text-[14px]" style={{ lineHeight: 1.45 }}>
+                              {b}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
                       {card.ctaLabel && (
                         <a
                           href={card.ctaHref}
                           target={card.ctaHref?.startsWith("http") ? "_blank" : undefined}
                           rel={card.ctaHref?.startsWith("http") ? "noopener noreferrer" : undefined}
                           onClick={(e) => e.stopPropagation()}
-                          className="group/cta inline-flex items-center gap-3 font-inter text-[15px] font-semibold text-white no-underline transition-opacity hover:opacity-90 tablet:text-[16px]"
+                          className="inline-flex w-fit items-center font-inter text-[15px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
                         >
                           {card.ctaLabel}
-                          <span
-                            className="flex h-[38px] w-[38px] items-center justify-center rounded-full bg-white/15 transition-transform duration-200 group-hover/cta:translate-x-1"
-                            style={{ backdropFilter: "blur(8px)", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.18)" }}
-                          >
-                            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                              <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                          </span>
                         </a>
                       )}
                     </div>
-
-                    {/* Desktop: GlassProductCard — only mounted on desktop (Q1) */}
-                    {isDesktop !== false && (
-                      <div className="mt-6 hidden flex-1 items-center justify-center tablet:flex tablet:mt-0">
-                        <GlassProductCard
-                          imageSrc="/img/tenis-transparente.png"
-                          price="$1,345.99"
-                          title="Tenis blancos clasicos"
-                          units="1,003 unidades"
-                          marketplaces={[
-                            { src: "/img/meli-iso.svg", alt: "MercadoLibre" },
-                            { src: "/img/amazon-iso.svg", alt: "Amazon" },
-                            { src: "/img/walmart.svg", alt: "Walmart" },
-                            { src: "/img/sears-isotipo.svg", alt: "Sears" },
-                            { src: "/img/shein-iso.svg", alt: "SHEIN" },
-                          ]}
-                        />
-                      </div>
-                    )}
 
                     {/* Mobile: phone-style pedidos panel — only mounted on mobile (Q1) */}
                     {isDesktop !== true && <MobileTiendaPanel animate={tiendaVisible} />}
@@ -2138,32 +2095,41 @@ export default function T1Features() {
                       <p className="font-inter text-[13px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
                         {card.description}
                       </p>
+                      {/* Feature bullets — desktop only, matching the other cards. */}
+                      <ul className="hidden flex-col gap-2.5 tablet:flex" style={{ marginBottom: 26 }}>
+                        {[
+                          "Crea links de pago y cobra a distancia",
+                          "Acepta tarjetas, SPEI, Kueski y meses sin intereses",
+                          "Mayor aprobación con enrutamiento inteligente",
+                          "Conciliación automática de todas tus ventas",
+                        ].map((b) => (
+                          <li key={b} className="flex items-start gap-2.5">
+                            <span
+                              className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full"
+                              style={{ background: "rgba(255,255,255,0.14)" }}
+                            >
+                              <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
+                                <path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            </span>
+                            <span className="font-inter text-[13px] font-normal text-white/85 tablet:text-[14px]" style={{ lineHeight: 1.45 }}>
+                              {b}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
                       {card.ctaLabel && (
                         <a
                           href={card.ctaHref}
                           target={card.ctaHref?.startsWith("http") ? "_blank" : undefined}
                           rel={card.ctaHref?.startsWith("http") ? "noopener noreferrer" : undefined}
                           onClick={(e) => e.stopPropagation()}
-                          className="group/cta inline-flex items-center gap-3 font-inter text-[15px] font-semibold text-white no-underline transition-opacity hover:opacity-90 tablet:text-[16px]"
+                          className="inline-flex w-fit items-center font-inter text-[15px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
                         >
                           {card.ctaLabel}
-                          <span
-                            className="flex h-[38px] w-[38px] items-center justify-center rounded-full bg-white/15 transition-transform duration-200 group-hover/cta:translate-x-1"
-                            style={{ backdropFilter: "blur(8px)", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.18)" }}
-                          >
-                            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                              <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                          </span>
                         </a>
                       )}
                     </div>
-                    {/* Desktop: payment-method logos we accept (Q1) */}
-                    {isDesktop !== false && (
-                      <div className="mt-6 hidden flex-1 flex-col items-start justify-center tablet:flex tablet:mt-0">
-                        <PaymentMethodsGrid />
-                      </div>
-                    )}
 
                     {/* Mobile: phone link de pago — only mounted on mobile (Q1) */}
                     {isDesktop !== true && (
@@ -2203,32 +2169,41 @@ export default function T1Features() {
                       <p className="font-inter text-[13px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
                         {card.description}
                       </p>
+                      {/* Feature bullets — desktop only, matching the other cards. */}
+                      <ul className="hidden flex-col gap-2.5 tablet:flex" style={{ marginBottom: 26 }}>
+                        {[
+                          "Cotiza y compara +10 paqueterías al instante",
+                          "Crea guías en segundos con las mejores tarifas",
+                          "Rastrea todos tus pedidos en un solo lugar",
+                          "Sin mensualidad ni mínimo de envíos",
+                        ].map((b) => (
+                          <li key={b} className="flex items-start gap-2.5">
+                            <span
+                              className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full"
+                              style={{ background: "rgba(255,255,255,0.14)" }}
+                            >
+                              <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
+                                <path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            </span>
+                            <span className="font-inter text-[13px] font-normal text-white/85 tablet:text-[14px]" style={{ lineHeight: 1.45 }}>
+                              {b}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
                       {card.ctaLabel && (
                         <a
                           href={card.ctaHref}
                           target={card.ctaHref?.startsWith("http") ? "_blank" : undefined}
                           rel={card.ctaHref?.startsWith("http") ? "noopener noreferrer" : undefined}
                           onClick={(e) => e.stopPropagation()}
-                          className="group/cta inline-flex items-center gap-3 font-inter text-[15px] font-semibold text-white no-underline transition-opacity hover:opacity-90 tablet:text-[16px]"
+                          className="inline-flex w-fit items-center font-inter text-[15px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
                         >
                           {card.ctaLabel}
-                          <span
-                            className="flex h-[38px] w-[38px] items-center justify-center rounded-full bg-white/15 transition-transform duration-200 group-hover/cta:translate-x-1"
-                            style={{ backdropFilter: "blur(8px)", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.18)" }}
-                          >
-                            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                              <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                          </span>
                         </a>
                       )}
                     </div>
-                    {/* Desktop: GlassShipmentCard (guía) below the text */}
-                    {isDesktop !== false && (
-                      <div className="mt-6 hidden flex-1 items-center justify-center tablet:flex tablet:mt-0">
-                        <GlassShipmentCard />
-                      </div>
-                    )}
                     {/* Mobile: cotizador in a phone frame */}
                     {isDesktop !== true && (
                       <div className="pb-5 pt-2">

@@ -5,11 +5,14 @@ import { useEffect, useState } from "react";
 import { HERO_DATA, LOGIN_URL } from "@/lib/constants";
 
 /* ── Rotating words ── */
+/* IA leads the rotator (CEO: make AI obviously part of the core). "Gestiona
+   envíos" was flagged as unclear → "Envía tus pedidos". "Todo en uno" → the
+   clearer "Todo en un solo lugar". */
 const ROTATING_WORDS = [
-  "Crea tu tienda",
+  "Crea tu tienda con IA",
   "Cobra en línea",
-  "Gestiona envíos",
-  "Todo en uno",
+  "Envía tus pedidos",
+  "Todo en un solo lugar",
 ];
 
 // Pre-compute the longest word to anchor the container's min-width.

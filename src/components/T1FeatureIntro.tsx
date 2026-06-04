@@ -53,7 +53,7 @@ const CARDS: Card[] = [
   {
     id: "vende",
     label: "VENDE",
-    desc: "Crea tu tienda en línea en segundos y maneja todos tus marketplaces desde un solo lugar.",
+    desc: "Crea tu tienda en línea con IA y maneja todos tus marketplaces desde un solo lugar.",
     logos: [
       { src: "/img/logos/mercado-libre.svg", alt: "Mercado Libre" },
       { src: "/img/amazon-iso.svg", alt: "Amazon" },
@@ -87,13 +87,16 @@ const CARDS: Card[] = [
   },
 ];
 
-/* Dark, slightly-elevated card surface — replaces the flat white cards the
-   CEO called "chafa". Sits a touch lighter than the black band so the edges
-   read, with the colorful brand tiles providing the pop of color. */
+/* Glass card surface — the previous solid #242424 read as a flat, washed-out
+   gray. A translucent white fill + blur over the black band gives a darker,
+   premium "glass" panel (CEO: "obscurecer un poco o poner transparencia"),
+   while the colorful brand tiles still provide the pop of color. */
 const CARD_SURFACE: React.CSSProperties = {
-  background: "linear-gradient(160deg, #242424 0%, #181818 100%)",
-  border: "1px solid rgba(255,255,255,0.10)",
-  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.05), 0 14px 34px rgba(0,0,0,0.38)",
+  background: "rgba(255,255,255,0.045)",
+  backdropFilter: "blur(16px)",
+  WebkitBackdropFilter: "blur(16px)",
+  border: "1px solid rgba(255,255,255,0.09)",
+  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.06), 0 14px 34px rgba(0,0,0,0.42)",
 };
 
 /* White logo tiles — the brand marks pop against the dark card. */
@@ -170,7 +173,7 @@ export default function T1FeatureIntro() {
               <p className="font-inter text-[16px] font-semibold uppercase tracking-[0.04em] text-white">
                 {item.label}
               </p>
-              <FeatureIcon id={item.id} size={24} color="#DB3B2B" />
+              <FeatureIcon id={item.id} size={24} color="#FFFFFF" />
             </div>
             <p className="font-inter text-[13.5px] font-normal text-white/70" style={{ lineHeight: 1.5, marginBottom: 18 }}>
               {item.desc}
@@ -194,7 +197,7 @@ export default function T1FeatureIntro() {
               <p className="font-inter text-[18px] font-semibold uppercase tracking-[0.03em] text-white tablet:text-[20px]">
                 {card.label}
               </p>
-              <FeatureIcon id={card.id} size={26} color="#DB3B2B" />
+              <FeatureIcon id={card.id} size={26} color="#FFFFFF" />
             </div>
             <p className="w-full font-inter text-[15px] font-normal text-white/70 tablet:text-[16px]" style={{ lineHeight: 1.55, marginBottom: 26 }}>
               {card.desc}
