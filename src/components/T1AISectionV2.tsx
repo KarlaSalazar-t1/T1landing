@@ -131,7 +131,19 @@ export default function T1AISectionV2() {
             style={{ letterSpacing: "-0.02em", lineHeight: 1.1, maxWidth: 860 }}
           >
             Crea tu tienda en línea con{" "}
-            <span style={{ color: "#FF6F5E" }}>IA</span>
+            <span className="whitespace-nowrap" style={{ color: "#FF6F5E" }}>
+              IA
+              <svg
+                className="ml-1.5 inline-block h-[20px] w-[20px] tablet:h-[28px] tablet:w-[28px] lg:h-[34px] lg:w-[34px]"
+                viewBox="0 0 24 24"
+                fill="none"
+                aria-hidden="true"
+                style={{ verticalAlign: "0.12em" }}
+              >
+                <path d="M11 1.6l1.75 6.9 6.9 1.75-6.9 1.75L11 18.85 9.25 11.95 2.35 10.25 9.25 8.5 11 1.6z" fill="#FF8C6E" />
+                <path d="M19.2 13.3l.85 3.05 3.05.85-3.05.85-.85 3.05-.85-3.05-3.05-.85 3.05-.85.85-3.05z" fill="#FF8C6E" opacity="0.85" />
+              </svg>
+            </span>
           </h2>
           <p
             className="mt-5 font-inter text-[16px] font-normal text-white/65 tablet:text-[19px]"

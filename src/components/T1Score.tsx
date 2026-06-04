@@ -80,18 +80,34 @@ function ScoreReportCard() {
       {/* Stacks on mobile (rings on top, full-width pill below) so the pill
           text never clips in the narrow column; side-by-side from tablet up. */}
       <div className="flex flex-col items-center gap-4 tablet:flex-row">
-        {/* Concentric risk rings — score 78 */}
-        <svg width="138" height="138" viewBox="0 0 200 200" fill="none" className="shrink-0">
-          {/* faint full-circle tracks for depth (light, for the dark surface) */}
-          <circle cx="100" cy="100" r="80" stroke="rgba(255,255,255,0.10)" strokeWidth="11" />
-          <circle cx="100" cy="100" r="61" stroke="rgba(255,255,255,0.10)" strokeWidth="11" />
-          <circle cx="100" cy="100" r="42" stroke="rgba(255,255,255,0.10)" strokeWidth="10" />
-          {/* layered coral arcs (dark → light, varied start angles) */}
-          <circle cx="100" cy="100" r="80" stroke="#B83B2B" strokeWidth="11" strokeLinecap="round" strokeDasharray="362 141" transform="rotate(-90 100 100)" />
-          <circle cx="100" cy="100" r="61" stroke="#E25A43" strokeWidth="11" strokeLinecap="round" strokeDasharray="230 154" transform="rotate(-52 100 100)" />
-          <circle cx="100" cy="100" r="42" stroke="#FF9270" strokeWidth="10" strokeLinecap="round" strokeDasharray="124 140" transform="rotate(-124 100 100)" />
-          <text x="100" y="114" textAnchor="middle" style={{ fontSize: 46, fontWeight: 700, fill: "#FFFFFF", letterSpacing: "-1px" }}>78</text>
-        </svg>
+        {/* Concentric risk rings — score 78, on a dark red color blob that
+            gives the card interior depth now that the peach surface is gone
+            (CEO: "añade un blob de color azul oscuro o rojo dentro de la card"). */}
+        <div className="relative flex shrink-0 items-center justify-center">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute"
+            style={{
+              width: 230,
+              height: 230,
+              borderRadius: "50%",
+              background:
+                "radial-gradient(circle, rgba(219,59,43,0.42) 0%, rgba(150,42,31,0.18) 46%, transparent 72%)",
+              filter: "blur(32px)",
+            }}
+          />
+          <svg width="138" height="138" viewBox="0 0 200 200" fill="none" className="relative">
+            {/* faint full-circle tracks for depth (light, for the dark surface) */}
+            <circle cx="100" cy="100" r="80" stroke="rgba(255,255,255,0.10)" strokeWidth="11" />
+            <circle cx="100" cy="100" r="61" stroke="rgba(255,255,255,0.10)" strokeWidth="11" />
+            <circle cx="100" cy="100" r="42" stroke="rgba(255,255,255,0.10)" strokeWidth="10" />
+            {/* layered coral arcs (dark → light, varied start angles) */}
+            <circle cx="100" cy="100" r="80" stroke="#B83B2B" strokeWidth="11" strokeLinecap="round" strokeDasharray="362 141" transform="rotate(-90 100 100)" />
+            <circle cx="100" cy="100" r="61" stroke="#E25A43" strokeWidth="11" strokeLinecap="round" strokeDasharray="230 154" transform="rotate(-52 100 100)" />
+            <circle cx="100" cy="100" r="42" stroke="#FF9270" strokeWidth="10" strokeLinecap="round" strokeDasharray="124 140" transform="rotate(-124 100 100)" />
+            <text x="100" y="114" textAnchor="middle" style={{ fontSize: 46, fontWeight: 700, fill: "#FFFFFF", letterSpacing: "-1px" }}>78</text>
+          </svg>
+        </div>
 
         {/* Decision pill */}
         <div

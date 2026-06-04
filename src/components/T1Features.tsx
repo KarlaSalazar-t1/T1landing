@@ -920,6 +920,28 @@ const STACK_BACKSTOP: Record<string, string> = {
   "stack-bg-envios": "#100a18",
 };
 
+/* AI "sparkle" — the two-star ✨ motif that signals an AI-generated capability.
+   Replaces the checkmark on the Tienda en línea card's bullets (CEO: "en lugar
+   del check mark las estrellas de IA") and echoes the IA section accent. */
+function AISparkle({ size = 16, color = "#FF9E86" }: { size?: number; color?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M11 1.6l1.75 6.9 6.9 1.75-6.9 1.75L11 18.85 9.25 11.95 2.35 10.25 9.25 8.5 11 1.6z" fill={color} />
+      <path d="M19.2 13.3l.85 3.05 3.05.85-3.05.85-.85 3.05-.85-3.05-3.05-.85 3.05-.85.85-3.05z" fill={color} opacity="0.85" />
+    </svg>
+  );
+}
+
+/* Tienda en línea — AI capability bullets (CEO: "crea tu tienda con IA, crear
+   imágenes, crear productos con una foto"). Shared by the desktop list and the
+   compact mobile list so the copy stays in one place. */
+const TIENDA_AI_BULLETS = [
+  "Crea tu tienda completa con IA",
+  "Genera imágenes de tus productos",
+  "Crea productos desde una sola foto",
+  "Redacta descripciones que venden",
+];
+
 /* PaymentMethodsGrid removed — the Pagos stack card now uses feature bullets,
    matching the other cards (CEO: "agrega bullet points en todos los cards
    stacks como en la stack card de tienda"). */
@@ -1985,26 +2007,34 @@ export default function T1Features() {
                       <p className="font-inter text-[13px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
                         {card.description}
                       </p>
-                      {/* Clear feature bullets (CEO: "abajo bullet points bien
-                          claros"). Desktop only — on mobile the phone animation
-                          carries the message and bullets would crowd the card. */}
+                      {/* AI capability bullets — sparkle marker + AI copy signal
+                          these are AI-built (CEO: "bullets de IA… en lugar del
+                          check mark las estrellas de IA"). A small subtitle frames
+                          the list; a compact mobile version renders right below. */}
+                      <p className="hidden font-inter text-[12.5px] font-semibold text-white/55 tablet:block" style={{ marginBottom: 12 }}>
+                        Lo que la IA hace por ti
+                      </p>
                       <ul className="hidden flex-col gap-2.5 tablet:flex" style={{ marginBottom: 26 }}>
-                        {[
-                          "Lista para vender en minutos, sin código",
-                          "Productos, carrito y checkout incluidos",
-                          "Dominio propio y diseño creado con IA",
-                          "Se ve perfecta en cualquier dispositivo",
-                        ].map((b) => (
+                        {TIENDA_AI_BULLETS.map((b) => (
                           <li key={b} className="flex items-start gap-2.5">
-                            <span
-                              className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full"
-                              style={{ background: "rgba(255,255,255,0.14)" }}
-                            >
-                              <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
-                                <path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
-                              </svg>
+                            <span className="mt-[1px] shrink-0">
+                              <AISparkle size={16} />
                             </span>
                             <span className="font-inter text-[13px] font-normal text-white/85 tablet:text-[14px]" style={{ lineHeight: 1.45 }}>
+                              {b}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                      {/* Compact mobile bullets (3) — slim so the card stays
+                          within its fixed height; the phone animation follows. */}
+                      <ul className="flex flex-col gap-1.5 tablet:hidden" style={{ marginTop: 2, marginBottom: 6 }}>
+                        {TIENDA_AI_BULLETS.slice(0, 3).map((b) => (
+                          <li key={b} className="flex items-center gap-2">
+                            <span className="shrink-0">
+                              <AISparkle size={13} />
+                            </span>
+                            <span className="font-inter text-[12px] font-normal text-white/80" style={{ lineHeight: 1.3 }}>
                               {b}
                             </span>
                           </li>
