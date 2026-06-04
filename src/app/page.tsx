@@ -3,6 +3,7 @@ import T1Hero from "@/components/T1Hero";
 import T1FeatureIntro from "@/components/T1FeatureIntro";
 import T1Features from "@/components/T1Features";
 import T1AISectionV2 from "@/components/T1AISectionV2";
+import T1Score from "@/components/T1Score";
 import T1Metrics from "@/components/T1Metrics";
 import T1Solutions from "@/components/T1Solutions";
 import T1Enterprise from "@/components/T1Enterprise";
@@ -42,6 +43,7 @@ export default function Home() {
       >
         <T1Features />
         <T1AISectionV2 />
+        <T1Score />
         <T1Metrics />
         <T1Audience />
         <T1Solutions />
