@@ -26,14 +26,14 @@ const PILLARS = [
   { id: "credito", title: "Evaluación crediticia" },
 ];
 
-/* ── Per-pillar line icons (coral, tying into the AI section accent) ── */
+/* ── Per-pillar line icons (white per CEO — cleaner on the dark card) ── */
 function PillarIcon({ id }: { id: string }) {
   const common = {
     width: 20,
     height: 20,
     viewBox: "0 0 24 24",
     fill: "none",
-    stroke: "#FF6F5E",
+    stroke: "#FFFFFF",
     strokeWidth: 1.6,
     strokeLinecap: "round" as const,
     strokeLinejoin: "round" as const,
@@ -63,20 +63,17 @@ function PillarIcon({ id }: { id: string }) {
 }
 
 /* ── Risk-score graphic — concentric coral rings + score + a single decision
-   pill on a soft peach surface. Replaces the old dense credit report for a
-   cleaner, more graphic read (CEO: "la imagen de score más simple, como
-   esta"). The 78 → "Transacción rechazada / Cliente de alto riesgo" tells the
-   antifraude story at a glance. ── */
+   pill, floating directly on the dark card (peach backdrop removed per CEO:
+   "en la imagen que no tenga ese fondo blanco con degradado"). The white
+   decision pill stays as a focal "result" chip. The 78 → "Transacción
+   rechazada / Cliente de alto riesgo" tells the antifraude story at a glance.
+   ── */
 function ScoreReportCard() {
   return (
     <div
       className="w-full"
       style={{
         maxWidth: 400,
-        borderRadius: 20,
-        padding: "26px 24px",
-        background: "linear-gradient(135deg, #FCEEE8 0%, #FBE6DC 55%, #F8DCD0 100%)",
-        boxShadow: "0 24px 60px -28px rgba(180,60,43,0.45)",
         fontFamily: FONT,
       }}
     >
@@ -85,15 +82,15 @@ function ScoreReportCard() {
       <div className="flex flex-col items-center gap-4 tablet:flex-row">
         {/* Concentric risk rings — score 78 */}
         <svg width="138" height="138" viewBox="0 0 200 200" fill="none" className="shrink-0">
-          {/* faint full-circle tracks for depth */}
-          <circle cx="100" cy="100" r="80" stroke="rgba(184,59,43,0.10)" strokeWidth="11" />
-          <circle cx="100" cy="100" r="61" stroke="rgba(184,59,43,0.10)" strokeWidth="11" />
-          <circle cx="100" cy="100" r="42" stroke="rgba(184,59,43,0.10)" strokeWidth="10" />
+          {/* faint full-circle tracks for depth (light, for the dark surface) */}
+          <circle cx="100" cy="100" r="80" stroke="rgba(255,255,255,0.10)" strokeWidth="11" />
+          <circle cx="100" cy="100" r="61" stroke="rgba(255,255,255,0.10)" strokeWidth="11" />
+          <circle cx="100" cy="100" r="42" stroke="rgba(255,255,255,0.10)" strokeWidth="10" />
           {/* layered coral arcs (dark → light, varied start angles) */}
           <circle cx="100" cy="100" r="80" stroke="#B83B2B" strokeWidth="11" strokeLinecap="round" strokeDasharray="362 141" transform="rotate(-90 100 100)" />
           <circle cx="100" cy="100" r="61" stroke="#E25A43" strokeWidth="11" strokeLinecap="round" strokeDasharray="230 154" transform="rotate(-52 100 100)" />
           <circle cx="100" cy="100" r="42" stroke="#FF9270" strokeWidth="10" strokeLinecap="round" strokeDasharray="124 140" transform="rotate(-124 100 100)" />
-          <text x="100" y="114" textAnchor="middle" style={{ fontSize: 46, fontWeight: 700, fill: "#2E2A28", letterSpacing: "-1px" }}>78</text>
+          <text x="100" y="114" textAnchor="middle" style={{ fontSize: 46, fontWeight: 700, fill: "#FFFFFF", letterSpacing: "-1px" }}>78</text>
         </svg>
 
         {/* Decision pill */}

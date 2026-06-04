@@ -25,7 +25,7 @@ export default function Home() {
           Desktop: keeps the deep 220px bottom padding for the card-peek
           effect with the overlapping white card. */}
       <div
-        className="relative z-[5] -mt-2.5 rounded-t-[24px] bg-black pb-14 pt-10 tablet:pb-[220px]"
+        className="relative isolate z-[5] -mt-2.5 rounded-t-[24px] bg-black pb-14 pt-10 tablet:pb-[220px]"
       >
         <T1FeatureIntro />
       </div>
@@ -39,7 +39,7 @@ export default function Home() {
           navbar's scroll handler leaves isLight=false throughout.
           Desktop pulls up by 160 to keep the peek over the dark intro band. */}
       <div
-        className="relative z-10 bg-[#141414] tablet:-mt-40"
+        className="relative isolate z-10 bg-[#141414] tablet:-mt-40"
       >
         <T1Features />
         <T1AISectionV2 />

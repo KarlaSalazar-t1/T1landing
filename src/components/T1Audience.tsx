@@ -11,6 +11,7 @@ const AUDIENCES = [
     cta: "Comienza gratis",
     ctaHref: "/registro",
     image: "/img/emprendedor-v3.png",
+    glow: "rgba(224,64,47,0.55)", // red
   },
   {
     id: "pyme",
@@ -19,6 +20,7 @@ const AUDIENCES = [
     cta: "Empezar ahora",
     ctaHref: "/registro",
     image: "/img/pyme-v5.png",
+    glow: "rgba(59,110,255,0.55)", // blue
   },
   {
     id: "enterprise",
@@ -27,6 +29,7 @@ const AUDIENCES = [
     cta: "Habla con un experto",
     ctaHref: "/contacto-ventas",
     image: "/img/enterprise-v4.png",
+    glow: "rgba(224,64,47,0.55)", // red
   },
 ];
 
@@ -70,7 +73,10 @@ export default function T1Audience() {
             <div
               key={a.id}
               className="group flex flex-col overflow-hidden rounded-[20px] border border-white/[0.08]"
-              style={{ background: "#1b1714", boxShadow: "0 0 58px -20px rgba(224,64,47,0.40)" }}
+              style={{
+                background: "#1b1714",
+                boxShadow: `0 0 0 1px rgba(255,255,255,0.05), 0 0 95px -14px ${a.glow}, 0 24px 64px -30px rgba(0,0,0,0.7)`,
+              }}
             >
               {/* Image area — ~60% of card */}
               <div className="relative overflow-hidden" style={{ height: 280 }}>
@@ -121,7 +127,11 @@ export default function T1Audience() {
               <div
                 key={a.id}
                 className="flex w-[85vw] shrink-0 snap-center flex-col overflow-hidden rounded-[20px] border border-white/[0.08]"
-                style={{ background: "#1b1714", maxWidth: 340, boxShadow: "0 0 48px -20px rgba(224,64,47,0.38)" }}
+                style={{
+                  background: "#1b1714",
+                  maxWidth: 340,
+                  boxShadow: `0 0 0 1px rgba(255,255,255,0.05), 0 0 75px -14px ${a.glow}, 0 18px 50px -28px rgba(0,0,0,0.65)`,
+                }}
               >
                 {/* Image area */}
                 <div className="relative overflow-hidden" style={{ height: 220 }}>

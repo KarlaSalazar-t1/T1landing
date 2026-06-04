@@ -77,7 +77,6 @@ const CARDS: Card[] = [
       { src: "/img/logos/brands/visa.webp", alt: "Visa", w: 130, h: 96 },
       { src: "/img/logos/brands/mastercard.webp", alt: "Mastercard", w: 130, h: 96 },
       { src: "/img/logos/brands/amex.webp", alt: "American Express", w: 130, h: 96 },
-      { src: "/img/logos/brands/carnet.webp", alt: "Carnet", w: 130, h: 96 },
       { src: "/img/logos/brands/spei.webp", alt: "SPEI", w: 130, h: 96 },
       { src: "/img/logos/brands/kueski.webp", alt: "Kueski Pay", w: 130, h: 96 },
     ],

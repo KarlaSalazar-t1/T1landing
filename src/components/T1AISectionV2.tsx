@@ -79,7 +79,7 @@ export default function T1AISectionV2() {
   };
 
   return (
-    <section className="relative" style={{ background: "#161311" }}>
+    <section className="relative isolate" style={{ background: "#161311" }}>
       <div className="ai-section-bg relative flex w-full flex-col overflow-hidden">
         {/* Decorative glow blobs — warm color pops on the dark base. */}
         <div className="pointer-events-none absolute inset-0">

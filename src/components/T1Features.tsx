@@ -908,6 +908,18 @@ const SHOWCASE_CARDS = [
   },
 ];
 
+/* Opaque per-card backstop colors keyed on bgCSS. Each is the darkest base of
+   that card's CSS gradient, painted as a solid `background` on the card itself
+   so the card can NEVER be transparent — even the instant Safari fails to
+   composite the gradient layer over the sticky hero <video>, the worst case is
+   a brief solid dark card instead of the video bleeding through. */
+const STACK_BACKSTOP: Record<string, string> = {
+  "stack-bg-tienda-online": "#2c1c1e",
+  "stack-bg-tienda": "#140a14",
+  "stack-bg-pagos": "#0a0f1a",
+  "stack-bg-envios": "#100a18",
+};
+
 /* PaymentMethodsGrid removed — the Pagos stack card now uses feature bullets,
    matching the other cards (CEO: "agrega bullet points en todos los cards
    stacks como en la stack card de tienda"). */
@@ -1838,7 +1850,7 @@ export default function T1Features() {
   }, []);
 
   return (
-    <section className="stack-section-bg pb-0 pt-0 tablet:pb-10 tablet:pt-[60px]">
+    <section className="stack-section-bg isolate pb-0 pt-0 tablet:pb-10 tablet:pt-[60px]">
       {/* Mobile-only full-width divider between the dark intro section
           and the stack cards. Light hairline now that the bg is dark. */}
       <div
@@ -1869,6 +1881,12 @@ export default function T1Features() {
               marginBottom: 40,
               height: 580,
               zIndex: idx + 1,
+              // Opaque backstop + own stacking context: the card is promoted to
+              // a GPU layer by the JS 3D transform; pairing a solid base color
+              // with `isolation` guarantees the sticky hero <video> can never
+              // composite through it (Safari bleed fix).
+              background: STACK_BACKSTOP[card.bgCSS ?? ""] ?? "#141414",
+              isolation: "isolate",
               // Dark-bg legibility: a light hairline ring + a top inset
               // edge-highlight give each card a crisp lit top edge as it
               // stacks (a plain dark drop-shadow disappears on the charcoal
