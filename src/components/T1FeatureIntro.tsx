@@ -44,88 +44,90 @@ function FeatureIcon({ id, size = 28, color = "#000000" }: { id: string; size?: 
 }
 
 /* ── Card data — single source for mobile + desktop. Each card carries the
-   real brand logos of what it includes so the section is graphic, not just
-   text (CEO feedback: "que sea más gráfico, que muestre los íconos"). ── */
-type Brand = { src: string; alt: string };
-type Card = { id: string; label: string; desc: string; logos: Brand[] };
+   real brand logos of what it includes (marketplaces / payment methods /
+   couriers) as their native app-icon marks — no white container tiles, the
+   logos already bring their own color (CEO: "que los íconos no estén
+   encerrados en un contenedor blanco"). Per-card `glow` adds a soft red/blue
+   halo so the cards don't read flat on the black band. ── */
+type Brand = { src: string; alt: string; w: number; h: number };
+type Card = { id: string; label: string; desc: string; glow: string; logos: Brand[] };
 
 const CARDS: Card[] = [
   {
     id: "vende",
     label: "VENDE",
     desc: "Crea tu tienda en línea con IA y maneja todos tus marketplaces desde un solo lugar.",
+    glow: "#E0402F", // red
     logos: [
-      { src: "/img/logos/mercado-libre.svg", alt: "Mercado Libre" },
-      { src: "/img/amazon-iso.svg", alt: "Amazon" },
-      { src: "/img/tiktok-isotipo.png", alt: "TikTok Shop" },
-      { src: "/img/shein-iso.svg", alt: "Shein" },
-      { src: "/img/walmart.svg", alt: "Walmart" },
+      { src: "/img/logos/brands/mercadolibre.webp", alt: "Mercado Libre", w: 96, h: 96 },
+      { src: "/img/logos/brands/amazon.webp", alt: "Amazon", w: 96, h: 96 },
+      { src: "/img/logos/brands/tiktokshop.webp", alt: "TikTok Shop", w: 96, h: 96 },
+      { src: "/img/logos/brands/shein.webp", alt: "Shein", w: 96, h: 96 },
+      { src: "/img/logos/brands/sanborns.webp", alt: "Sanborns", w: 96, h: 96 },
+      { src: "/img/logos/brands/sears.webp", alt: "Sears", w: 96, h: 96 },
+      { src: "/img/logos/brands/walmart.webp", alt: "Walmart", w: 96, h: 96 },
     ],
   },
   {
     id: "cobra",
     label: "COBRA",
     desc: "Recibe pagos con tarjetas, SPEI, Kueski y meses sin intereses, o comparte un link de pago.",
+    glow: "#2F6BFF", // blue
     logos: [
-      { src: "/img/icons/visa.svg", alt: "Visa" },
-      { src: "/img/icons/mastercard.svg", alt: "Mastercard" },
-      { src: "/img/icons/amex.svg", alt: "American Express" },
-      { src: "/img/icons/spei.svg", alt: "SPEI" },
-      { src: "/img/icons/kueski.svg", alt: "Kueski Pay" },
+      { src: "/img/logos/brands/visa.webp", alt: "Visa", w: 130, h: 96 },
+      { src: "/img/logos/brands/mastercard.webp", alt: "Mastercard", w: 130, h: 96 },
+      { src: "/img/logos/brands/amex.webp", alt: "American Express", w: 130, h: 96 },
+      { src: "/img/logos/brands/carnet.webp", alt: "Carnet", w: 130, h: 96 },
+      { src: "/img/logos/brands/spei.webp", alt: "SPEI", w: 130, h: 96 },
+      { src: "/img/logos/brands/kueski.webp", alt: "Kueski Pay", w: 130, h: 96 },
     ],
   },
   {
     id: "envia",
     label: "ENVÍA",
     desc: "Cotiza, crea guías y rastrea tus pedidos con +10 paqueterías al mejor precio del mercado.",
+    glow: "#E0402F", // red
     logos: [
-      { src: "/img/icons/fedex-logo.svg", alt: "FedEx" },
-      { src: "/img/dhl-iso.svg", alt: "DHL" },
-      { src: "/img/icons/estafeta-logo.svg", alt: "Estafeta" },
-      { src: "/img/99min-iso.svg", alt: "99minutos" },
+      { src: "/img/logos/brands/dhl.webp", alt: "DHL", w: 96, h: 96 },
+      { src: "/img/logos/brands/99minutos.webp", alt: "99 minutos", w: 96, h: 96 },
+      { src: "/img/logos/brands/fedex.webp", alt: "FedEx", w: 96, h: 96 },
+      { src: "/img/logos/brands/paquetexpress.webp", alt: "Paquetexpress", w: 96, h: 96 },
+      { src: "/img/logos/brands/grupo-ampm.webp", alt: "Grupo ampm", w: 96, h: 96 },
     ],
   },
 ];
 
-/* Glass card surface — the previous solid #242424 read as a flat, washed-out
-   gray. A translucent white fill + blur over the black band gives a darker,
-   premium "glass" panel (CEO: "obscurecer un poco o poner transparencia"),
-   while the colorful brand tiles still provide the pop of color. */
-const CARD_SURFACE: React.CSSProperties = {
-  background: "rgba(255,255,255,0.045)",
-  backdropFilter: "blur(16px)",
-  WebkitBackdropFilter: "blur(16px)",
-  border: "1px solid rgba(255,255,255,0.09)",
-  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.06), 0 14px 34px rgba(0,0,0,0.42)",
-};
+/* Glass card surface + soft per-card glow. Translucent white fill + blur over
+   the black band gives a darker, premium "glass" panel; the colored halo
+   (red / blue) lifts it off the background. */
+function cardStyle(glow: string, padding: string): React.CSSProperties {
+  return {
+    background: "rgba(255,255,255,0.045)",
+    backdropFilter: "blur(16px)",
+    WebkitBackdropFilter: "blur(16px)",
+    border: "1px solid rgba(255,255,255,0.09)",
+    boxShadow: `inset 0 1px 0 rgba(255,255,255,0.06), 0 14px 34px rgba(0,0,0,0.42), 0 0 58px -18px ${glow}59`,
+    padding,
+  };
+}
 
-/* White logo tiles — the brand marks pop against the dark card. */
-function LogoTiles({ logos, compact = false }: { logos: Brand[]; compact?: boolean }) {
-  const tileH = compact ? 30 : 38;
-  const maxH = compact ? 16 : 20;
-  const maxW = compact ? 34 : 44;
+/* Brand logos rendered as their native app-icon marks — fixed height, width
+   auto so the wider payment-card marks keep their aspect. A soft drop-shadow
+   (follows the rounded alpha) gives depth without a container tile. */
+function LogoRow({ logos, compact = false }: { logos: Brand[]; compact?: boolean }) {
+  const h = compact ? 29 : 35;
   return (
     <div className="flex flex-wrap items-center gap-1.5 tablet:gap-2">
       {logos.map((l) => (
-        <div
+        <Image
           key={l.alt}
-          className="flex items-center justify-center rounded-[8px] bg-white"
-          style={{
-            height: tileH,
-            minWidth: tileH + 6,
-            padding: "0 8px",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.22)",
-          }}
-        >
-          <Image
-            src={l.src}
-            alt={l.alt}
-            width={44}
-            height={20}
-            className="h-auto w-auto object-contain"
-            style={{ maxHeight: maxH, maxWidth: maxW }}
-          />
-        </div>
+          src={l.src}
+          alt={l.alt}
+          width={l.w}
+          height={l.h}
+          className="object-contain"
+          style={{ height: h, width: "auto", filter: "drop-shadow(0 3px 5px rgba(0,0,0,0.4))" }}
+        />
       ))}
     </div>
   );
@@ -167,7 +169,7 @@ export default function T1FeatureIntro() {
           <div
             key={item.id}
             className="flex flex-col rounded-[12px]"
-            style={{ ...CARD_SURFACE, padding: "20px 20px" }}
+            style={cardStyle(item.glow, "20px 20px")}
           >
             <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
               <p className="font-inter text-[16px] font-semibold uppercase tracking-[0.04em] text-white">
@@ -179,7 +181,7 @@ export default function T1FeatureIntro() {
               {item.desc}
             </p>
             <div className="mt-auto">
-              <LogoTiles logos={item.logos} compact />
+              <LogoRow logos={item.logos} compact />
             </div>
           </div>
         ))}
@@ -190,8 +192,8 @@ export default function T1FeatureIntro() {
         {CARDS.map((card) => (
           <div
             key={card.id}
-            className="flex h-full flex-col rounded-[15px] transition-all duration-300 hover:scale-[1.01]"
-            style={{ ...CARD_SURFACE, padding: "34px 30px" }}
+            className="flex h-full flex-col rounded-[15px] transition-transform duration-300 hover:scale-[1.01]"
+            style={cardStyle(card.glow, "34px 30px")}
           >
             <div className="flex items-center justify-between" style={{ marginBottom: 22 }}>
               <p className="font-inter text-[18px] font-semibold uppercase tracking-[0.03em] text-white tablet:text-[20px]">
@@ -203,7 +205,7 @@ export default function T1FeatureIntro() {
               {card.desc}
             </p>
             <div className="mt-auto">
-              <LogoTiles logos={card.logos} />
+              <LogoRow logos={card.logos} />
             </div>
           </div>
         ))}

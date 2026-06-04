@@ -49,7 +49,7 @@ export default function T1Audience() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-[#141414]" style={{ paddingTop: 80, paddingBottom: 80 }}>
+    <section className="relative overflow-hidden bg-black" style={{ paddingTop: 80, paddingBottom: 80 }}>
       <div className="relative mx-auto max-w-[var(--max-w)] px-5 tablet:px-6">
         <h2
           className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
@@ -70,7 +70,7 @@ export default function T1Audience() {
             <div
               key={a.id}
               className="group flex flex-col overflow-hidden rounded-[20px] border border-white/[0.08]"
-              style={{ background: "#1b1714" }}
+              style={{ background: "#1b1714", boxShadow: "0 0 58px -20px rgba(224,64,47,0.40)" }}
             >
               {/* Image area — ~60% of card */}
               <div className="relative overflow-hidden" style={{ height: 280 }}>
@@ -121,7 +121,7 @@ export default function T1Audience() {
               <div
                 key={a.id}
                 className="flex w-[85vw] shrink-0 snap-center flex-col overflow-hidden rounded-[20px] border border-white/[0.08]"
-                style={{ background: "#1b1714", maxWidth: 340 }}
+                style={{ background: "#1b1714", maxWidth: 340, boxShadow: "0 0 48px -20px rgba(224,64,47,0.38)" }}
               >
                 {/* Image area */}
                 <div className="relative overflow-hidden" style={{ height: 220 }}>

@@ -5,10 +5,11 @@ const FONT = "var(--font-manrope-var), sans-serif";
 /**
  * T1Score — compact card band for T1's risk & credit intelligence product.
  *
- * Sits on a pure-black base (same as the Metrics section right below) so there
- * is no jarring light/dark switch between the two — the contained glass card
- * already provides all the separation it needs (CEO: "como está en card ya se
- * ve la separación, no es necesario el switch de color").
+ * Shares the warm-dark base (#141312) of the Casos de éxito (T1Enterprise)
+ * section that follows it, so the hand-off reads as one continuous surface
+ * instead of a hard edge (CEO: "que el fondo sea del color de la sección
+ * siguiente"). The contained glass card already provides all the separation
+ * it needs.
  *
  * Visual kept deliberately minimal, echoing the clean AI section: one focal
  * credit-score card on the right, a short pillar list + single CTA on the left.
@@ -124,7 +125,7 @@ function ScoreReportCard() {
 
 export default function T1Score() {
   return (
-    <section className="relative overflow-hidden" style={{ background: "#000" }}>
+    <section className="relative overflow-hidden" style={{ background: "#141312" }}>
       {/* One soft warm glow — keeps the band cohesive with the AI section
           without the previous visual clutter. */}
       <div className="pointer-events-none absolute inset-0">
