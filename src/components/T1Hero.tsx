@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { HERO_DATA, LOGIN_URL } from "@/lib/constants";
 
 /* ── Rotating words ── */
@@ -108,15 +108,41 @@ function LogoMarquee() {
   );
 }
 
-/* ── Hero video loop — cycles through 4 videos ── */
+/* ── Hero video loop ── */
 function HeroVideoLoop() {
+  const ref = useRef<HTMLVideoElement>(null);
+
+  /* Pause decoding while the hero is scrolled out of view. A 720p video that
+     keeps decoding off-screen competes with painting the stack + IA sections
+     below it (the "se tarda en cargar / saltos al cargar" jank). The
+     IntersectionObserver plays it only while the hero is actually visible.
+     The poster gives an instant first paint so there's no black flash. */
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          v.play().catch(() => {});
+        } else {
+          v.pause();
+        }
+      },
+      { threshold: 0.05 }
+    );
+    io.observe(v);
+    return () => io.disconnect();
+  }, []);
+
   return (
     <video
+      ref={ref}
       autoPlay
       loop
       muted
       playsInline
       preload="metadata"
+      poster="/img/hero-poster.jpg"
       className="absolute inset-0 h-full w-full object-cover"
       style={{ pointerEvents: "none", backgroundColor: "#000" }}
     >

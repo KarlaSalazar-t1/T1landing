@@ -149,6 +149,43 @@ const ORBIT_ICONS = [
   { src: "/img/icon-score.svg", label: "T1 Score" },
 ];
 
+/* Inner-ring feature glyphs — the small "functions" (catálogo, carrito, link
+   de pago, guías, rastreo, antifraude, reportes…) that orbit close to the core
+   and together make up the four products on the outer ring. Simple line icons,
+   no asset dependency. */
+const INNER_FEATURES = ["carrito", "catalogo", "tarjeta", "link", "guia", "rastreo", "escudo", "reportes"];
+
+function MiniFeatureIcon({ id }: { id: string }) {
+  const c = {
+    width: 13,
+    height: 13,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "rgba(255,255,255,0.92)",
+    strokeWidth: 1.7,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+  };
+  switch (id) {
+    case "carrito":
+      return (<svg {...c}><path d="M4 5h2l1.6 9.5h9.2L18.5 8H7" /><circle cx="9" cy="19" r="1.3" /><circle cx="16" cy="19" r="1.3" /></svg>);
+    case "catalogo":
+      return (<svg {...c}><rect x="3.5" y="3.5" width="7" height="7" rx="1.4" /><rect x="13.5" y="3.5" width="7" height="7" rx="1.4" /><rect x="3.5" y="13.5" width="7" height="7" rx="1.4" /><rect x="13.5" y="13.5" width="7" height="7" rx="1.4" /></svg>);
+    case "tarjeta":
+      return (<svg {...c}><rect x="2.5" y="5.5" width="19" height="13" rx="2.5" /><path d="M2.5 9.5h19" /><path d="M6 14.5h4" /></svg>);
+    case "link":
+      return (<svg {...c}><path d="M9.5 14.5l5-5" /><path d="M11 7.5l1.4-1.4a3.4 3.4 0 0 1 4.8 4.8L15.8 12.3" /><path d="M13 16.5l-1.4 1.4a3.4 3.4 0 0 1-4.8-4.8L8.2 11.7" /></svg>);
+    case "guia":
+      return (<svg {...c}><path d="M3 6.5h11v8.5H3z" /><path d="M14 9.5h3.5L21 12.5v2.5h-7" /><circle cx="7" cy="17.5" r="1.4" /><circle cx="17" cy="17.5" r="1.4" /></svg>);
+    case "rastreo":
+      return (<svg {...c}><path d="M12 21s6.5-5.2 6.5-10.5A6.5 6.5 0 0 0 5.5 10.5C5.5 15.8 12 21 12 21z" /><circle cx="12" cy="10" r="2.3" /></svg>);
+    case "escudo":
+      return (<svg {...c}><path d="M12 3l7 3v5c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6l7-3z" /><path d="M9 11.5l2 2 4-4" /></svg>);
+    default: // reportes
+      return (<svg {...c}><path d="M4 20V11" /><path d="M10 20V4" /><path d="M16 20v-6" /><path d="M3.5 20h17" /></svg>);
+  }
+}
+
 function TodoEnUnoCard() {
   // The 420×420 composition with orbit radius 180 gets clipped on small
   // phones (≤375px). Scale the whole thing down to ~70% on mobile so the
@@ -169,15 +206,31 @@ function TodoEnUnoCard() {
       <div className="absolute rounded-full border border-white/[0.07]" style={{ width: 360, height: 360 }} />
       <div className="absolute rounded-full border border-white/[0.10]" style={{ width: 262, height: 262 }} />
       <div className="absolute rounded-full border border-dashed border-white/[0.08]" style={{ width: 168, height: 168 }} />
-      {/* Inner ring of slow-spinning tick dots for extra density */}
-      <div className="absolute z-[1]" style={{ width: 262, height: 262, animation: "orbitSpin 30s linear infinite" }}>
-        {Array.from({ length: 8 }).map((_, i) => {
-          const a = (i / 8) * 360;
+      {/* Inner ring of feature chips — the small "functions" (carrito, link de
+          pago, guía de envío, escudo antifraude…) that compose the four outer
+          products. Slow counter-rotation keeps each glyph upright while the
+          ring spins (CEO: "que las cosas pequeñas formen lo del último círculo:
+          pago, envíos, tienda, score"). */}
+      <div className="absolute z-[1]" style={{ width: 262, height: 262, animation: "orbitSpin 36s linear infinite" }}>
+        {INNER_FEATURES.map((f, i) => {
+          const a = (i / INNER_FEATURES.length) * 360;
           const r = (a * Math.PI) / 180;
           const x = 131 + Math.cos(r) * 131;
           const y = 131 + Math.sin(r) * 131;
           return (
-            <span key={i} className="absolute rounded-full bg-white/25" style={{ width: 4, height: 4, left: x - 2, top: y - 2 }} />
+            <div
+              key={f}
+              className="absolute flex items-center justify-center rounded-full"
+              style={{
+                width: 30, height: 30, left: x - 15, top: y - 15,
+                background: "radial-gradient(circle at 50% 30%, rgba(255,255,255,0.13), rgba(255,255,255,0.03))",
+                border: "1px solid rgba(255,255,255,0.14)",
+                boxShadow: "inset 0 1px 0 rgba(255,255,255,0.12)",
+                animation: "orbitSpinReverse 36s linear infinite",
+              }}
+            >
+              <MiniFeatureIcon id={f} />
+            </div>
           );
         })}
       </div>

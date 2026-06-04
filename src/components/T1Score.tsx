@@ -77,9 +77,10 @@ function ScoreReportCard() {
         fontFamily: FONT,
       }}
     >
-      {/* Stacks on mobile (rings on top, full-width pill below) so the pill
-          text never clips in the narrow column; side-by-side from tablet up. */}
-      <div className="flex flex-col items-center gap-4 tablet:flex-row">
+      {/* Always stacked: score rings on top, the decision pill as a full-width
+          "verdict" banner directly below (CEO: "que quede el círculo con líneas
+          y abajo el card de transacción rechazada, en lugar de a un lado"). */}
+      <div className="flex flex-col items-center gap-5">
         {/* Concentric risk rings — score 78, on a dark red color blob that
             gives the card interior depth now that the peach surface is gone
             (CEO: "añade un blob de color azul oscuro o rojo dentro de la card"). */}
@@ -109,9 +110,9 @@ function ScoreReportCard() {
           </svg>
         </div>
 
-        {/* Decision pill */}
+        {/* Decision pill — full-width verdict banner below the rings */}
         <div
-          className="flex w-full min-w-0 items-center gap-3 rounded-[14px] bg-white tablet:flex-1"
+          className="flex w-full min-w-0 items-center gap-3 rounded-[14px] bg-white"
           style={{ padding: "13px 15px", boxShadow: "0 12px 32px -18px rgba(0,0,0,0.5)" }}
         >
           <span

@@ -127,7 +127,7 @@ export default function T1AISectionV2() {
           {/* Oversized prompt panel — the single focal point of the section. */}
           <form
             onSubmit={handleSubmit}
-            className="ai-prompt-form mx-auto mt-9 w-full max-w-[680px] rounded-[22px] border bg-white/95 text-left backdrop-blur-sm transition-all duration-200 focus-within:border-[#DB3B2B] tablet:mt-12"
+            className="ai-prompt-form mx-auto mt-9 w-full max-w-[680px] rounded-[22px] border bg-white text-left transition-all duration-200 focus-within:border-[#DB3B2B] tablet:mt-12"
             style={{
               borderColor: "rgba(0,0,0,0.10)",
               padding: "22px 22px 18px",
@@ -177,9 +177,12 @@ export default function T1AISectionV2() {
             </div>
           </form>
 
-          {/* Reassurance line — white (was /40, failed WCAG AA on the dark bg). */}
+          {/* Reassurance line — white (was /40, failed WCAG AA on the dark bg).
+              "Sin tarjeta" dropped: it overlapped with "Gratis" and added
+              nothing (CEO). Now price / no-skill / speed — three distinct
+              value points. */}
           <p className="mt-5 font-inter text-[13px] font-normal text-white/75">
-            Gratis · Sin tarjeta · Lista en minutos
+            Gratis · Sin código · Lista en minutos
           </p>
         </div>
       </div>
