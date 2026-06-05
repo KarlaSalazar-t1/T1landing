@@ -113,7 +113,7 @@ function ScoreReportCard() {
         {/* Decision pill — full-width verdict banner below the rings */}
         <div
           className="flex w-full min-w-0 items-center gap-3 rounded-[14px] bg-white"
-          style={{ padding: "13px 15px", boxShadow: "0 12px 32px -18px rgba(0,0,0,0.5)" }}
+          style={{ maxWidth: 300, padding: "13px 15px", boxShadow: "0 12px 32px -18px rgba(0,0,0,0.5)" }}
         >
           <span
             className="flex shrink-0 items-center justify-center rounded-full"

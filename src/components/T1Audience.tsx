@@ -61,7 +61,7 @@ export default function T1Audience() {
           ¿Para quién es T1?
         </h2>
         <p
-          className="mx-auto font-inter text-[16px] font-light text-white/45 tablet:text-[18px]"
+          className="mx-auto font-inter text-[16px] font-light text-white/85 tablet:text-[18px]"
           style={{ textAlign: "center", maxWidth: 500, marginBottom: 56 }}
         >
           Una plataforma que crece contigo.
