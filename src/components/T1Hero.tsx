@@ -211,9 +211,16 @@ export default function T1Hero() {
               of floating in the middle of a black void. */}
           <div className="relative z-10 mx-auto flex w-full max-w-[var(--max-w)] flex-1 flex-col justify-center px-5 tablet:px-6">
             <div className="pt-[90px] pb-6 tablet:pt-[140px] tablet:pb-6 lg:pt-[180px]">
-              {/* Rotating eyebrow word */}
+              {/* Rotating eyebrow word — mobile sits at 28px so the longest
+                  phrase ("Vende en marketplaces") fits on a SINGLE line for all
+                  mainstream phones (≥360px wide). At 34px three of the six
+                  phrases wrapped to two lines mid-type, which read as broken /
+                  jumpy (CEO: "se ve raro cuando se va a 2 líneas"). One-line
+                  min-height keeps the eyebrow hugging the H1 with no reserved
+                  2-line gap; on a rare ~320px device a phrase may still wrap and
+                  the box grows gracefully. */}
               <p
-                className="flex min-h-[2.7em] flex-col justify-end font-sora text-[34px] font-normal leading-[1.26] text-white tablet:min-h-[1.34em] tablet:text-[48px] lg:text-[60px]"
+                className="flex min-h-[1.34em] flex-col justify-end font-sora text-[28px] font-normal leading-[1.26] text-white tablet:min-h-[1.34em] tablet:text-[48px] lg:text-[60px]"
                 style={{
                   letterSpacing: "-0.03em",
                   marginBottom: 12,
