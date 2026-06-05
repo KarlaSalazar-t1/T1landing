@@ -1016,7 +1016,7 @@ export default function T1Solutions() {
               <div
                 key={`panel-${activeTab}-${activeSubTab}`}
                 className="absolute overflow-hidden rounded-[10px]"
-                style={{ left: 410, top: 53, width: 670, height: 420, animation: "none" }}
+                style={{ left: 392, top: 53, width: 612, height: 420, animation: "none" }}
               >
                 {currentSub.panel === "tienda-ia" ? (
                   /* Tienda con IA — store preview with floating prompt on top */
