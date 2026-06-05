@@ -10,14 +10,15 @@ import { HERO_DATA, LOGIN_URL } from "@/lib/constants";
    ("listo con IA"), so the hero no longer says "IA" three times (we want it
    to read as core, not spammed). Now also surfaces the two pillars the CEO
    asked to see from the hero: "Vende en marketplaces" (sell beyond your own
-   store) and "Protégete con Score" (fraud / risk). "Todo conectado" closes on
+   store) and "Protégete del fraude" (the Score benefit, stated plainly — CEO:
+   "Protégete con Score es ambiguo si no sabes qué es Score"). "Todo conectado" closes on
    the 360 ecosystem — our real differentiator, not just an online store. */
 const ROTATING_WORDS = [
   "Crea tu tienda",
   "Vende en marketplaces",
   "Cobra en segundos",
   "Envía al mejor precio",
-  "Protégete con Score",
+  "Protégete del fraude",
   "Todo conectado",
 ];
 
