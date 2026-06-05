@@ -932,6 +932,21 @@ function AISparkle({ size = 16, color = "#FF9E86" }: { size?: number; color?: st
   );
 }
 
+/* Renders a string with the standalone word "IA" in bold (CEO: "en las stack
+   cards pon en bold IA"). Splits on the uppercase token with word boundaries so
+   accented words like "guías" or "paquetería" are never affected. */
+function withBoldIA(text: string) {
+  return text.split(/(\bIA\b)/).map((part, i) =>
+    part === "IA" ? (
+      <strong key={i} className="font-semibold text-white">
+        IA
+      </strong>
+    ) : (
+      part
+    )
+  );
+}
+
 /* Tienda en línea — AI capability bullets (CEO: "crea tu tienda con IA, crear
    imágenes, crear productos con una foto"). Shared by the desktop list and the
    compact mobile list so the copy stays in one place. */
@@ -2005,14 +2020,14 @@ export default function T1Features() {
                         {card.title}
                       </p>
                       <p className="font-inter text-[13px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
-                        {card.description}
+                        {withBoldIA(card.description)}
                       </p>
                       {/* AI capability bullets — sparkle marker + AI copy signal
                           these are AI-built (CEO: "bullets de IA… en lugar del
                           check mark las estrellas de IA"). A small subtitle frames
                           the list; a compact mobile version renders right below. */}
                       <p className="hidden font-inter text-[12.5px] font-semibold text-white/55 tablet:block" style={{ marginBottom: 12 }}>
-                        Lo que la IA hace por ti
+                        Lo que la <strong className="font-semibold text-white">IA</strong> hace por ti
                       </p>
                       <ul className="hidden flex-col gap-2.5 tablet:flex" style={{ marginBottom: 26 }}>
                         {TIENDA_AI_BULLETS.map((b) => (
@@ -2021,7 +2036,7 @@ export default function T1Features() {
                               <AISparkle size={16} />
                             </span>
                             <span className="font-inter text-[13px] font-normal text-white/85 tablet:text-[14px]" style={{ lineHeight: 1.45 }}>
-                              {b}
+                              {withBoldIA(b)}
                             </span>
                           </li>
                         ))}
@@ -2035,7 +2050,7 @@ export default function T1Features() {
                               <AISparkle size={13} />
                             </span>
                             <span className="font-inter text-[12px] font-normal text-white/80" style={{ lineHeight: 1.3 }}>
-                              {b}
+                              {withBoldIA(b)}
                             </span>
                           </li>
                         ))}
@@ -2080,7 +2095,7 @@ export default function T1Features() {
                         className="font-inter text-[13px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]"
                         style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}
                       >
-                        {card.description}
+                        {withBoldIA(card.description)}
                       </p>
                       {/* Feature bullets — desktop only (mobile shows the phone
                           mockup), matching the Tienda en línea card. */}
@@ -2110,7 +2125,7 @@ export default function T1Features() {
                               </span>
                             )}
                             <span className="font-inter text-[13px] font-normal text-white/85 tablet:text-[14px]" style={{ lineHeight: 1.45 }}>
-                              {b}
+                              {withBoldIA(b)}
                             </span>
                           </li>
                         ))}
@@ -2151,7 +2166,7 @@ export default function T1Features() {
                         {card.title}
                       </p>
                       <p className="font-inter text-[13px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
-                        {card.description}
+                        {withBoldIA(card.description)}
                       </p>
                       {/* Feature bullets — desktop only, matching the other cards. */}
                       {/* First bullet is the AI capability (✨ sparkle marker).
@@ -2180,7 +2195,7 @@ export default function T1Features() {
                               </span>
                             )}
                             <span className="font-inter text-[13px] font-normal text-white/85 tablet:text-[14px]" style={{ lineHeight: 1.45 }}>
-                              {b}
+                              {withBoldIA(b)}
                             </span>
                           </li>
                         ))}
@@ -2234,7 +2249,7 @@ export default function T1Features() {
                         {card.title}
                       </p>
                       <p className="font-inter text-[13px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
-                        {card.description}
+                        {withBoldIA(card.description)}
                       </p>
                       {/* Feature bullets — desktop only, matching the other cards. */}
                       {/* First bullet is the AI capability (✨ sparkle marker);
@@ -2263,7 +2278,7 @@ export default function T1Features() {
                               </span>
                             )}
                             <span className="font-inter text-[13px] font-normal text-white/85 tablet:text-[14px]" style={{ lineHeight: 1.45 }}>
-                              {b}
+                              {withBoldIA(b)}
                             </span>
                           </li>
                         ))}

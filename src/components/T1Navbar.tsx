@@ -67,11 +67,11 @@ function MenuColumn({ col }: { col: (typeof MEGA_MENU_COLUMNS)[number] }) {
       {/* Column header — border changes color on hover of any item in the column */}
       <a
         href={col.href}
-        className="flex items-center gap-1.5 border-b border-black/[0.08] font-inter text-[14px] font-medium text-black/90 no-underline transition-all duration-150 group-hover/col:border-[#E26153]/50 hover:text-black"
+        className="flex items-center gap-1.5 border-b border-white/[0.10] font-inter text-[14px] font-medium text-white/90 no-underline transition-all duration-150 group-hover/col:border-[#FF6F5E]/60 hover:text-white"
         style={{ paddingTop: 24, paddingBottom: 16, marginBottom: 20 }}
       >
         {col.title}
-        <span className="text-black/30 transition-all duration-150 group-hover/col:translate-x-0.5 group-hover/col:text-black/70">
+        <span className="text-white/30 transition-all duration-150 group-hover/col:translate-x-0.5 group-hover/col:text-white/70">
           <ArrowRight />
         </span>
       </a>
@@ -86,11 +86,11 @@ function MenuColumn({ col }: { col: (typeof MEGA_MENU_COLUMNS)[number] }) {
             style={{ paddingTop: 6, paddingBottom: 6 }}
           >
             <span className="flex flex-col gap-0.5">
-              <span className="flex items-center gap-1 font-inter text-[12px] font-normal text-black/70 transition-colors duration-150 group-hover/item:text-[#E26153]">
+              <span className="flex items-center gap-1 font-inter text-[12px] font-normal text-white/75 transition-colors duration-150 group-hover/item:text-[#FF6F5E]">
                 {item.title}
                 <ItemArrow />
               </span>
-              <span className="font-inter text-[12px] font-normal text-black/40 transition-colors duration-150 group-hover/item:text-black/60">
+              <span className="font-inter text-[12px] font-normal text-white/40 transition-colors duration-150 group-hover/item:text-white/65">
                 {item.desc}
               </span>
             </span>
@@ -124,6 +124,7 @@ export default function T1Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileScreen, setMobileScreen] = useState<"main" | "productos">("main");
   const [isLight, setIsLight] = useState(false);
+  const [solid, setSolid] = useState(false);
   const [hidden, setHidden] = useState(false);
 
   const close = useCallback(() => { setMenuOpen(false); setMobileOpen(false); setMobileScreen("main"); }, []);
@@ -160,6 +161,9 @@ export default function T1Navbar() {
           const rect = whiteCard.getBoundingClientRect();
           setIsLight(rect.top <= 60);
         }
+        // Solid black bar once scrolled past the hero (transparent only over
+        // the hero) so the header doesn't blend into the dark sections.
+        setSolid(y > window.innerHeight * 0.8);
         // Stay visible through the entire hero area; only allow hide once
         // the user has scrolled past it. Show again on scroll up.
         const delta = y - lastY;
@@ -176,8 +180,10 @@ export default function T1Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /* Determine visual mode — menu open now uses light style */
-  const darkMode = !isLight && !menuOpen && !mobileOpen;
+  /* Determine visual mode. Text is white whenever the bar reads dark — over the
+     hero, scrolled (solid black), or with a menu open (the menus are dark now
+     too). Only light mode (white-card pages, menu closed) uses dark text. */
+  const darkMode = !isLight || menuOpen || mobileOpen;
   const textClass = darkMode
     ? "text-white/80 hover:text-white"
     : "text-black/70 hover:text-black";
@@ -190,14 +196,22 @@ export default function T1Navbar() {
         className="fixed left-0 right-0 top-0 z-[100] transition-transform duration-300 ease-out"
         style={{
           background: menuOpen || mobileOpen
-            ? "rgba(255,255,255,0.98)"
+            ? "#0a0a0a"
             : isLight
               ? "rgba(255,255,255,0.92)"
-              : "linear-gradient(180deg, rgba(0,0,0,0.4) 44%, rgba(102,102,102,0) 100%)",
+              : solid
+                ? "#000000"
+                : "linear-gradient(180deg, rgba(0,0,0,0.4) 44%, rgba(102,102,102,0) 100%)",
           backdropFilter: "none",
           WebkitBackdropFilter: "none",
           padding: "10px 12px",
-          boxShadow: (isLight || menuOpen || mobileOpen) ? "0 1px 0 rgba(0,0,0,0.06)" : "none",
+          // White hairline + drop shadow draw the bar's bottom edge so a black
+          // header never disappears into the dark sections below it.
+          boxShadow: (menuOpen || mobileOpen || solid)
+            ? "0 1px 0 rgba(255,255,255,0.08), 0 8px 24px rgba(0,0,0,0.5)"
+            : isLight
+              ? "0 1px 0 rgba(0,0,0,0.06)"
+              : "none",
           // Hide on scroll down, show on scroll up. Never hide while a menu is open.
           transform:
             hidden && !menuOpen && !mobileOpen
@@ -252,7 +266,7 @@ export default function T1Navbar() {
             {/* Hamburger button - mobile only */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className={`flex cursor-pointer items-center justify-center border-none bg-transparent p-1 transition-colors duration-150 tablet:hidden ${mobileOpen ? "text-black" : darkMode ? "text-white" : "text-black"}`}
+              className={`flex cursor-pointer items-center justify-center border-none bg-transparent p-1 transition-colors duration-150 tablet:hidden ${darkMode ? "text-white" : "text-black"}`}
             >
               <HamburgerIcon open={mobileOpen} />
             </button>
@@ -262,7 +276,7 @@ export default function T1Navbar() {
 
       {/* Mobile drawer */}
       <div
-        className={`fixed inset-0 top-[60px] z-[90] overflow-hidden bg-white transition-all duration-300 tablet:hidden ${
+        className={`fixed inset-0 top-[60px] z-[90] overflow-hidden bg-[#1b1714] transition-all duration-300 tablet:hidden ${
           mobileOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0 pointer-events-none"
         }`}
       >
@@ -280,7 +294,7 @@ export default function T1Navbar() {
             <div className="flex flex-col px-6 py-6">
               <button
                 onClick={() => setMobileScreen("productos")}
-                className="flex cursor-pointer items-center justify-between border-b border-black/[0.06] bg-transparent py-4 font-inter text-[16px] font-medium text-black"
+                className="flex cursor-pointer items-center justify-between border-b border-white/[0.08] bg-transparent py-4 font-inter text-[16px] font-medium text-white"
               >
                 <span>Productos</span>
                 <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
@@ -291,14 +305,14 @@ export default function T1Navbar() {
                 <a
                   key={link.label}
                   href={link.href}
-                  className="border-b border-black/[0.06] py-4 font-inter text-[16px] font-medium text-black no-underline"
+                  className="border-b border-white/[0.08] py-4 font-inter text-[16px] font-medium text-white no-underline"
                 >
                   {link.label}
                 </a>
               ))}
               <a
                 href={LOGIN_URL}
-                className="border-b border-black/[0.06] py-4 font-inter text-[16px] font-medium text-black/70 no-underline"
+                className="border-b border-white/[0.08] py-4 font-inter text-[16px] font-medium text-white/70 no-underline"
               >
                 Iniciar sesión
               </a>
@@ -317,7 +331,7 @@ export default function T1Navbar() {
               {/* Back header */}
               <button
                 onClick={() => setMobileScreen("main")}
-                className="flex cursor-pointer items-center gap-2 border-b border-black/[0.06] bg-transparent px-6 py-4 font-inter text-[14px] font-medium text-black/60"
+                className="flex cursor-pointer items-center gap-2 border-b border-white/[0.08] bg-transparent px-6 py-4 font-inter text-[14px] font-medium text-white/60"
               >
                 <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
                   <path d="M10 4L6 8L10 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -328,8 +342,8 @@ export default function T1Navbar() {
               {/* Product columns stacked vertically */}
               <div className="flex flex-col">
                 {MEGA_MENU_COLUMNS.map((col) => (
-                  <div key={col.title} className="border-b border-black/[0.06] px-6 py-5">
-                    <a href={col.href} className="font-inter text-[15px] font-semibold text-black no-underline">
+                  <div key={col.title} className="border-b border-white/[0.08] px-6 py-5">
+                    <a href={col.href} className="font-inter text-[15px] font-semibold text-white no-underline">
                       {col.title}
                     </a>
                     <div className="mt-3 flex flex-col gap-3">
@@ -339,8 +353,8 @@ export default function T1Navbar() {
                           href={item.href || "#"}
                           className="block no-underline"
                         >
-                          <span className="block font-inter text-[13px] font-medium text-black/75">{item.title}</span>
-                          <span className="mt-0.5 block font-inter text-[12px] font-light text-black/45">{item.desc}</span>
+                          <span className="block font-inter text-[13px] font-medium text-white/80">{item.title}</span>
+                          <span className="mt-0.5 block font-inter text-[12px] font-light text-white/45">{item.desc}</span>
                         </a>
                       ))}
                     </div>
@@ -359,7 +373,7 @@ export default function T1Navbar() {
 
       {/* Mega Menu - desktop only */}
       <div
-        className={`fixed left-0 right-0 top-[60px] z-[60] hidden overflow-hidden border-t border-black/[0.06] bg-white shadow-[0_12px_40px_rgba(0,0,0,0.08)] tablet:block ${
+        className={`fixed left-0 right-0 top-[60px] z-[60] hidden overflow-hidden border-t border-white/[0.08] bg-[#1b1714] shadow-[0_24px_50px_rgba(0,0,0,0.55)] tablet:block ${
           menuOpen ? "tablet:block animate-slide-down" : "!hidden"
         }`}
       >
@@ -370,9 +384,9 @@ export default function T1Navbar() {
           ))}
 
           {/* Sidebar */}
-          <div className="relative w-[270px] shrink-0 bg-[#F6F6F6] px-6 pb-8 pt-6">
-            <div className="absolute bottom-0 left-full top-0 w-screen bg-[#F6F6F6]" />
-            <p className="mb-3 font-inter text-[11px] font-semibold uppercase tracking-[0.06em] text-black/40">
+          <div className="relative w-[270px] shrink-0 bg-[#242019] px-6 pb-8 pt-6">
+            <div className="absolute bottom-0 left-full top-0 w-screen bg-[#242019]" />
+            <p className="mb-3 font-inter text-[11px] font-semibold uppercase tracking-[0.06em] text-white/40">
               Casos de exito
             </p>
             <div className="mb-5 cursor-pointer overflow-hidden rounded-[10px]">
@@ -381,20 +395,20 @@ export default function T1Navbar() {
                 alt="Caso de exito"
                 className="block h-[100px] w-full rounded-[10px] object-cover"
               />
-              <p className="pt-2 font-inter text-[12px] font-medium text-black/50">
+              <p className="pt-2 font-inter text-[12px] font-medium text-white/55">
                 {MEGA_MENU_SIDEBAR.caseStudy.text}
               </p>
             </div>
-            <p className="mb-3 font-inter text-[11px] font-semibold uppercase tracking-[0.06em] text-black/40">
+            <p className="mb-3 font-inter text-[11px] font-semibold uppercase tracking-[0.06em] text-white/40">
               Novedades recientes
             </p>
             <ul className="list-none">
               {MEGA_MENU_SIDEBAR.news.map((n) => (
                 <li
                   key={n}
-                  className="flex cursor-pointer items-center gap-2 py-1 font-inter text-[13px] font-medium text-black/60 transition-colors duration-150 hover:text-black"
+                  className="flex cursor-pointer items-center gap-2 py-1 font-inter text-[13px] font-medium text-white/60 transition-colors duration-150 hover:text-white"
                 >
-                  <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-black/30" />
+                  <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-white/30" />
                   {n}
                 </li>
               ))}
@@ -403,10 +417,10 @@ export default function T1Navbar() {
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-black/[0.06]">
+        <div className="border-t border-white/[0.08]">
           <div className="mx-auto flex max-w-[var(--max-w)] gap-0 px-6">
             <div className="flex flex-1 items-center px-5 first:pl-0" style={{ paddingTop: 20, paddingBottom: 20 }}>
-              <span className="font-inter text-[12px] font-medium text-black/40">
+              <span className="font-inter text-[12px] font-medium text-white/40">
                 ¿Como quieres empezar?
               </span>
             </div>
@@ -414,18 +428,18 @@ export default function T1Navbar() {
               <a
                 key={opt.title}
                 href={opt.href}
-                className="group/bottom flex flex-1 items-center justify-between px-5 no-underline transition-colors duration-150 hover:bg-black/[0.02]"
+                className="group/bottom flex flex-1 items-center justify-between px-5 no-underline transition-colors duration-150 hover:bg-white/[0.04]"
                 style={{ paddingTop: 20, paddingBottom: 20 }}
               >
                 <div>
-                  <p className="font-inter text-[14px] font-semibold text-black/80 transition-colors duration-150 group-hover/bottom:text-[#E26153]">
+                  <p className="font-inter text-[14px] font-semibold text-white/85 transition-colors duration-150 group-hover/bottom:text-[#FF6F5E]">
                     {opt.title}
                   </p>
-                  <p className="font-inter text-[12px] text-black/40">
+                  <p className="font-inter text-[12px] text-white/40">
                     {opt.desc}
                   </p>
                 </div>
-                <span className="text-[20px] text-black/20 transition-all duration-150 group-hover/bottom:translate-x-[3px] group-hover/bottom:text-[#E26153]">
+                <span className="text-[20px] text-white/25 transition-all duration-150 group-hover/bottom:translate-x-[3px] group-hover/bottom:text-[#FF6F5E]">
                   ›
                 </span>
               </a>
