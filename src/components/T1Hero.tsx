@@ -5,12 +5,14 @@ import { useEffect, useRef, useState } from "react";
 import { HERO_DATA, LOGIN_URL } from "@/lib/constants";
 
 /* ── Rotating words ── */
-/* IA leads the rotator (CEO: make AI obviously part of the core). Tightened
-   per CEO: "Cobra de muchas formas" → "Cobra en segundos" (speed) and "Todo
-   en un solo lugar" → "Todo conectado" (the all-in-one / 360 ecosystem
-   angle — our real differentiator, not just an online store). */
+/* The rotator cycles the three pillars + the all-in-one angle WITHOUT
+   repeating "IA" — IA now lives once, fixed and core, in the H1 below
+   ("listo con IA"), so the hero no longer says "IA" three times (we want it
+   to read as core, not spammed). "Cobra en segundos" (speed) and "Todo
+   conectado" (the 360 ecosystem — our real differentiator, not just an
+   online store). */
 const ROTATING_WORDS = [
-  "Crea tu tienda con IA",
+  "Crea tu tienda",
   "Cobra en segundos",
   "Envía al mejor precio",
   "Todo conectado",
@@ -196,7 +198,11 @@ export default function T1Hero() {
                 <RotatingWord />
               </p>
 
-              {/* Main heading */}
+              {/* Main heading — IA lives here, once and fixed (CEO: "nacimos
+                  con IA, es core"). "listo con IA" ties to the north star
+                  (negocio listo en minutos) and reads cleanly in Spanish,
+                  unlike the "nacido con IA" calque of AI-native. The rotator
+                  and subtitle no longer repeat "IA". */}
               <h1
                 className="mb-[60px] font-sora text-[32px] font-light text-white tablet:mb-[40px] tablet:text-[40px] lg:text-[48px]"
                 style={{
@@ -207,7 +213,7 @@ export default function T1Hero() {
               >
                 Todo tu negocio,
                 <br />
-                nacido con <span style={{ color: "#FF6F5E" }}>IA</span>
+                listo con <span style={{ color: "#FF6F5E" }}>IA</span>
               </h1>
 
               {/* CTAs */}

@@ -120,8 +120,8 @@ export default function T1AISectionV2() {
             className="mt-5 font-inter text-[16px] font-normal text-white/65 tablet:text-[19px]"
             style={{ letterSpacing: "-0.01em", lineHeight: 1.45, maxWidth: 600 }}
           >
-            En segundos tienes una tienda completa: productos, diseño y pagos
-            listos para vender.
+            En segundos tienes una tienda completa —con productos, diseño y
+            pagos— lista para vender.
           </p>
 
           {/* Oversized prompt panel — the single focal point of the section. */}
@@ -163,14 +163,19 @@ export default function T1AISectionV2() {
                     <path d="M8 12.5V14.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                   </svg>
                 </button>
+                {/* Icon-only send button — the up-arrow "send to AI" pattern
+                    (ChatGPT/Claude-style), a coral circle matching the voice
+                    button's footprint. aria-label keeps it accessible without
+                    a visible "Crear mi tienda" label. */}
                 <button
                   type="submit"
                   disabled={!prompt.trim()}
-                  className="inline-flex h-[42px] items-center gap-2 rounded-full bg-[#DB3B2B] px-5 font-inter text-[14px] font-semibold text-white transition-all duration-200 hover:bg-[#C0332A] disabled:cursor-not-allowed disabled:opacity-40 tablet:text-[15px]"
+                  aria-label="Crear mi tienda"
+                  title="Crear mi tienda"
+                  className="flex h-[42px] w-[42px] items-center justify-center rounded-full bg-[#DB3B2B] text-white transition-all duration-200 hover:bg-[#C0332A] disabled:cursor-not-allowed disabled:opacity-40"
                 >
-                  Crear mi tienda
-                  <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
-                    <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+                  <svg width="17" height="17" viewBox="0 0 16 16" fill="none">
+                    <path d="M8 13V3.5M8 3.5L4 7.5M8 3.5L12 7.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </button>
               </div>

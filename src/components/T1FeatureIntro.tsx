@@ -171,7 +171,7 @@ export default function T1FeatureIntro() {
             style={cardStyle(item.glow, "20px 20px")}
           >
             <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
-              <p className="font-inter text-[16px] font-semibold uppercase tracking-[0.04em] text-white">
+              <p className="font-inter text-[16px] font-medium uppercase tracking-[0.04em] text-white">
                 {item.label}
               </p>
               <FeatureIcon id={item.id} size={24} color="#FFFFFF" />
@@ -195,7 +195,7 @@ export default function T1FeatureIntro() {
             style={cardStyle(card.glow, "34px 30px")}
           >
             <div className="flex items-center justify-between" style={{ marginBottom: 22 }}>
-              <p className="font-inter text-[18px] font-semibold uppercase tracking-[0.03em] text-white tablet:text-[20px]">
+              <p className="font-inter text-[18px] font-medium uppercase tracking-[0.03em] text-white tablet:text-[20px]">
                 {card.label}
               </p>
               <FeatureIcon id={card.id} size={26} color="#FFFFFF" />

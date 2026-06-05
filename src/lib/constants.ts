@@ -81,15 +81,17 @@ export const MEGA_MENU_BOTTOM = [
 // ── Hero ──
 export const HERO_DATA = {
   eyebrowWord: "Envía",
-  heading: "Todo tu negocio,\nnacido con IA",
+  heading: "Todo tu negocio,\nlisto con IA",
   cta: "Comienza gratis",
   ctaSecondary: "Iniciar sesión",
   ctaHref: SIGNUP_URL,
-  // AI-native framing (CEO: "nacimos con IA, es core, así está pensado — no lo
-  // adaptamos"). The subtitle leads with the prompt-first magic but spans the
-  // whole 360 ecosystem (tienda + pagos + envíos), our real differentiator —
-  // not just an online store. Social proof lives in the metrics band below.
-  subtitle: "Describe lo que vendes y la IA lo deja todo listo: tienda, pagos y envíos.",
+  // IA lives once, fixed and core, in the H1 ("listo con IA") — CEO: "nacimos
+  // con IA, es core". To avoid saying "IA" three times, the rotator and this
+  // subtitle drop the word; the subtitle keeps the embodied voice ("lo
+  // dejamos todo listo") instead of naming the AI — we want to FEEL like the
+  // AI, not reference it. Spans the whole 360 ecosystem (tienda + pagos +
+  // envíos), our real differentiator — not just an online store.
+  subtitle: "Describe lo que vendes y lo dejamos todo listo: tienda, pagos y envíos.",
 };
 
 // ── Feature cards (Todo tu negocio) ──
