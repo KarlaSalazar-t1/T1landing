@@ -24,7 +24,7 @@ interface UseCountUpOptions {
  */
 export function useCountUp({
   end,
-  duration = 1300,
+  duration = 2000,
   prefix = "",
   suffix = "",
   decimals = 0,
@@ -33,11 +33,13 @@ export function useCountUp({
   const [hasStarted, setHasStarted] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
-  // IntersectionObserver — fires once when the element is comfortably in
-  // view. A deeper negative bottom rootMargin (-25%) delays the trigger
-  // until the number has scrolled up ~a quarter of the viewport, so a
-  // quick scroll doesn't blow past the count-up before the user looks at
-  // it (CEO: "a veces bajo y ya no veo la animación").
+  // IntersectionObserver — fires once when the element first enters view.
+  // A shallow negative bottom rootMargin (-8%) lets the count-up kick off
+  // as soon as the number is comfortably on-screen, instead of sitting at
+  // 0 while it scrolls a quarter of the way up (CEO: "veo el 0 y se tarda
+  // en empezar"). If a fast scroll lands past the section, the observer
+  // still fires immediately on observe() because it's already intersecting,
+  // so the animation is never missed.
   useEffect(() => {
     if (hasStarted) return;
     const el = ref.current;
@@ -56,7 +58,7 @@ export function useCountUp({
           observer.disconnect();
         }
       },
-      { threshold: 0.2, rootMargin: "0px 0px -25% 0px" }
+      { threshold: 0.2, rootMargin: "0px 0px -8% 0px" }
     );
 
     observer.observe(el);
@@ -79,17 +81,18 @@ export function useCountUp({
     let raf = 0;
     const startTime = performance.now();
 
-    // easeOutExpo — slows down dramatically near the end so the final
-    // digit lands with weight. Better than easeOutCubic for big-number
-    // reveals where the last 10% is the punch line.
-    function easeOutExpo(t: number) {
-      return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+    // easeOutCubic — spreads the motion evenly across the whole duration
+    // and only gently decelerates at the end. easeOutExpo was too extreme
+    // here: ~75% of the count landed in the first ~250ms, so the number
+    // *snapped* up and then crawled, which read as "muy rápido" (CEO).
+    function easeOutCubic(t: number) {
+      return 1 - Math.pow(1 - t, 3);
     }
 
     function tick(now: number) {
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      const eased = easeOutExpo(progress);
+      const eased = easeOutCubic(progress);
       setValue(eased * end);
 
       if (progress < 1) {

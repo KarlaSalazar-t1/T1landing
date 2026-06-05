@@ -5,14 +5,15 @@ import { useEffect, useRef, useState } from "react";
 import { HERO_DATA, LOGIN_URL } from "@/lib/constants";
 
 /* ── Rotating words ── */
-/* IA leads the rotator (CEO: make AI obviously part of the core). "Gestiona
-   envíos" was flagged as unclear → "Envía tus pedidos". "Todo en uno" → the
-   clearer "Todo en un solo lugar". */
+/* IA leads the rotator (CEO: make AI obviously part of the core). Tightened
+   per CEO: "Cobra de muchas formas" → "Cobra en segundos" (speed) and "Todo
+   en un solo lugar" → "Todo conectado" (the all-in-one / 360 ecosystem
+   angle — our real differentiator, not just an online store). */
 const ROTATING_WORDS = [
   "Crea tu tienda con IA",
-  "Cobra de muchas formas",
+  "Cobra en segundos",
   "Envía al mejor precio",
-  "Todo en un solo lugar",
+  "Todo conectado",
 ];
 
 function RotatingWord() {
@@ -204,9 +205,9 @@ export default function T1Hero() {
                   maxWidth: 580,
                 }}
               >
-                La plataforma del
+                Todo tu negocio,
                 <br />
-                comercio moderno
+                nacido con <span style={{ color: "#FF6F5E" }}>IA</span>
               </h1>
 
               {/* CTAs */}

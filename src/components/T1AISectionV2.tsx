@@ -101,9 +101,9 @@ export default function T1AISectionV2() {
             className="font-sora text-[30px] font-light text-white tablet:text-[44px] lg:text-[56px]"
             style={{ letterSpacing: "-0.02em", lineHeight: 1.1, maxWidth: 860 }}
           >
-            Crea tu tienda en línea con{" "}
+            De una frase a{" "}
             <span className="whitespace-nowrap" style={{ color: "#FF6F5E" }}>
-              IA
+              tu tienda
               <svg
                 className="ml-1.5 inline-block h-[20px] w-[20px] tablet:h-[28px] tablet:w-[28px] lg:h-[34px] lg:w-[34px]"
                 viewBox="0 0 24 24"
@@ -120,8 +120,8 @@ export default function T1AISectionV2() {
             className="mt-5 font-inter text-[16px] font-normal text-white/65 tablet:text-[19px]"
             style={{ letterSpacing: "-0.01em", lineHeight: 1.45, maxWidth: 600 }}
           >
-            Describe lo que vendes y nuestra inteligencia artificial construye tu
-            tienda completa en segundos.
+            En segundos tienes una tienda completa: productos, diseño y pagos
+            listos para vender.
           </p>
 
           {/* Oversized prompt panel — the single focal point of the section. */}
@@ -177,12 +177,12 @@ export default function T1AISectionV2() {
             </div>
           </form>
 
-          {/* Reassurance line — white (was /40, failed WCAG AA on the dark bg).
-              "Sin tarjeta" dropped: it overlapped with "Gratis" and added
-              nothing (CEO). Now price / no-skill / speed — three distinct
-              value points. */}
+          {/* Reassurance line — white for WCAG AA on the dark bg. Reworked per
+              CEO to speed / no-skill / ecosystem: "Gratis" dropped (the section
+              already reads free) in favour of "Todo conectado", reinforcing the
+              360 all-in-one angle. */}
           <p className="mt-5 font-inter text-[13px] font-normal text-white/75">
-            Gratis · Sin código · Lista en minutos
+            Lista en minutos · Sin código · Todo conectado
           </p>
         </div>
       </div>

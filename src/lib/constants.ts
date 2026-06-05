@@ -81,14 +81,15 @@ export const MEGA_MENU_BOTTOM = [
 // ── Hero ──
 export const HERO_DATA = {
   eyebrowWord: "Envía",
-  heading: "La plataforma del\ncomercio moderno",
+  heading: "Todo tu negocio,\nnacido con IA",
   cta: "Comienza gratis",
   ctaSecondary: "Iniciar sesión",
   ctaHref: SIGNUP_URL,
-  // Lead with the AI + all-in-one value prop (CEO feedback: push AI hard and
-  // make "todo en un solo lugar" obvious from the hero). Social proof lives in
-  // the metrics band below.
-  subtitle: "Crea tu tienda con IA y vende, cobra y envía desde un solo lugar.",
+  // AI-native framing (CEO: "nacimos con IA, es core, así está pensado — no lo
+  // adaptamos"). The subtitle leads with the prompt-first magic but spans the
+  // whole 360 ecosystem (tienda + pagos + envíos), our real differentiator —
+  // not just an online store. Social proof lives in the metrics band below.
+  subtitle: "Describe lo que vendes y la IA lo deja todo listo: tienda, pagos y envíos.",
 };
 
 // ── Feature cards (Todo tu negocio) ──
