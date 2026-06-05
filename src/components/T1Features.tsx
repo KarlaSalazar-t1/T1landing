@@ -2097,6 +2097,19 @@ export default function T1Features() {
                       >
                         {withBoldIA(card.description)}
                       </p>
+                      {/* Mobile: just the IA capability bullet (✨) — desktop
+                          shows the full list; mobile highlights the AI value
+                          without crowding the fixed-height card. */}
+                      <ul className="flex flex-col gap-1.5 tablet:hidden" style={{ marginTop: 2, marginBottom: 14 }}>
+                        <li className="flex items-center gap-2">
+                          <span className="shrink-0">
+                            <AISparkle size={13} />
+                          </span>
+                          <span className="font-inter text-[12px] font-normal text-white/80" style={{ lineHeight: 1.3 }}>
+                            {withBoldIA("Crea y optimiza tus publicaciones con IA")}
+                          </span>
+                        </li>
+                      </ul>
                       {/* Feature bullets — desktop only (mobile shows the phone
                           mockup), matching the Tienda en línea card. */}
                       {/* First bullet is the AI capability (✨ sparkle marker,
@@ -2168,6 +2181,19 @@ export default function T1Features() {
                       <p className="font-inter text-[13px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
                         {withBoldIA(card.description)}
                       </p>
+                      {/* Mobile: just the IA capability bullet (✨) — desktop
+                          shows the full list; mobile highlights the AI value
+                          without crowding the fixed-height card. */}
+                      <ul className="flex flex-col gap-1.5 tablet:hidden" style={{ marginTop: 2, marginBottom: 14 }}>
+                        <li className="flex items-center gap-2">
+                          <span className="shrink-0">
+                            <AISparkle size={13} />
+                          </span>
+                          <span className="font-inter text-[12px] font-normal text-white/80" style={{ lineHeight: 1.3 }}>
+                            {withBoldIA("Más pagos aprobados con enrutamiento por IA")}
+                          </span>
+                        </li>
+                      </ul>
                       {/* Feature bullets — desktop only, matching the other cards. */}
                       {/* First bullet is the AI capability (✨ sparkle marker).
                           Replaces the old "enrutamiento inteligente" bullet — the
@@ -2251,6 +2277,19 @@ export default function T1Features() {
                       <p className="font-inter text-[13px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
                         {withBoldIA(card.description)}
                       </p>
+                      {/* Mobile: just the IA capability bullet (✨) — desktop
+                          shows the full list; mobile highlights the AI value
+                          without crowding the fixed-height card. */}
+                      <ul className="flex flex-col gap-1.5 tablet:hidden" style={{ marginTop: 2, marginBottom: 14 }}>
+                        <li className="flex items-center gap-2">
+                          <span className="shrink-0">
+                            <AISparkle size={13} />
+                          </span>
+                          <span className="font-inter text-[12px] font-normal text-white/80" style={{ lineHeight: 1.3 }}>
+                            {withBoldIA("La IA elige la mejor paquetería para cada envío")}
+                          </span>
+                        </li>
+                      </ul>
                       {/* Feature bullets — desktop only, matching the other cards. */}
                       {/* First bullet is the AI capability (✨ sparkle marker);
                           the rest keep the checkmark. */}
