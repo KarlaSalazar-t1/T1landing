@@ -80,8 +80,6 @@ export const MEGA_MENU_BOTTOM = [
 
 // ── Hero ──
 export const HERO_DATA = {
-  eyebrowWord: "Envía",
-  heading: "Todo tu negocio,\nlisto con IA",
   cta: "Comienza gratis",
   ctaSecondary: "Iniciar sesión",
   ctaHref: SIGNUP_URL,
@@ -91,37 +89,8 @@ export const HERO_DATA = {
   // dejamos todo listo") instead of naming the AI — we want to FEEL like the
   // AI, not reference it. Spans the whole 360 ecosystem (tienda + pagos +
   // envíos), our real differentiator — not just an online store.
-  subtitle: "Describe lo que vendes y lo dejamos todo listo: tienda, pagos y envíos.",
+  subtitle: "Describe tu negocio y lo dejamos todo listo para vender, cobrar y enviar.",
 };
-
-// ── Feature cards (Todo tu negocio) ──
-export const FEATURES_HEADING = "Todo tu negocio, en un solo lugar";
-export const FEATURES_SUBTITLE =
-  "Vende, cobra y envía con una sola plataforma.";
-
-export const FEATURE_CARDS = [
-  {
-    id: "vende",
-    label: "VENDE",
-    description:
-      "Crea tu tienda en línea en segundos y maneja todos tus marketplaces desde un solo lugar.",
-    icon: "/img/vende.svg",
-  },
-  {
-    id: "cobra",
-    label: "COBRA",
-    description:
-      "Recibe pagos con tarjetas, SPEI, Kueski y meses sin intereses, todo desde un mismo checkout.",
-    icon: "/img/cobra.svg",
-  },
-  {
-    id: "envia",
-    label: "ENVÍA",
-    description:
-      "Cotiza, crea guías y rastrea tus pedidos con +10 paqueterías al mejor precio del mercado.",
-    icon: "/img/envia.svg",
-  },
-];
 
 // ── Footer ──
 export const FOOTER_SOLUTIONS = [

@@ -118,26 +118,46 @@ function LogoMarquee() {
 function HeroVideoLoop() {
   const ref = useRef<HTMLVideoElement>(null);
 
-  /* Pause decoding while the hero is scrolled out of view. A 720p video that
-     keeps decoding off-screen competes with painting the stack + IA sections
-     below it (the "se tarda en cargar / saltos al cargar" jank). The
-     IntersectionObserver plays it only while the hero is actually visible.
-     The poster gives an instant first paint so there's no black flash. */
+  /* Pause decoding AND hide the layer once the hero is scrolled past.
+     The hero is `position: sticky top-0 z-0`, so the <video> stays pinned at
+     the top of the viewport BEHIND every dark section for the whole page — it
+     is never geometrically off-screen, so an IntersectionObserver on the video
+     never fires. Two problems follow from that pinned live layer:
+       (1) a 720p video that keeps decoding competes with painting the stack +
+           IA sections below it (the "se tarda en cargar" jank);
+       (2) on fast scroll-ups it bleeds through for a few frames before the
+           opaque dark sections re-composite over it ("veo el video abajo").
+     So we gate on scroll position instead: once we've scrolled roughly one
+     viewport down (hero is ~88vh and fully covered by then), pause + flip
+     `visibility:hidden` so there's no live layer left to bleed or decode.
+     Coming back up restores it instantly (poster gives the first paint, no
+     black flash). rAF-throttled, passive listener. */
   useEffect(() => {
     const v = ref.current;
     if (!v) return;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          v.play().catch(() => {});
-        } else {
-          v.pause();
-        }
-      },
-      { threshold: 0.05 }
-    );
-    io.observe(v);
-    return () => io.disconnect();
+    let ticking = false;
+    let hidden = false;
+    const apply = () => {
+      ticking = false;
+      const past = window.scrollY > window.innerHeight * 0.92;
+      if (past === hidden) return;
+      hidden = past;
+      if (past) {
+        v.pause();
+        v.style.visibility = "hidden";
+      } else {
+        v.style.visibility = "visible";
+        v.play().catch(() => {});
+      }
+    };
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(apply);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    apply();
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
