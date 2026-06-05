@@ -84,12 +84,12 @@ export const HERO_DATA = {
   ctaSecondary: "Iniciar sesión",
   ctaHref: SIGNUP_URL,
   // IA lives once, fixed and core, in the H1 ("listo con IA") — CEO: "nacimos
-  // con IA, es core". To avoid saying "IA" three times, the rotator and this
-  // subtitle drop the word; the subtitle keeps the embodied voice ("lo
-  // dejamos todo listo") instead of naming the AI — we want to FEEL like the
-  // AI, not reference it. Spans the whole 360 ecosystem (tienda + pagos +
-  // envíos), our real differentiator — not just an online store.
-  subtitle: "Describe tu negocio y lo dejamos todo listo para vender, cobrar y enviar.",
+  // con IA, es core". The subtitle stays general and platform-wide instead of
+  // the old "describe tu negocio" prompt voice, which read as the Tienda-only
+  // store builder (CEO: "va muy dirigido a tienda"). It now spans the whole
+  // 360 ecosystem with equal weight on the three pillars — vender / cobrar /
+  // enviar — our real differentiator, not just an online store.
+  subtitle: "Todo lo que tu negocio necesita para vender, cobrar y enviar.",
 };
 
 // ── Footer ──
