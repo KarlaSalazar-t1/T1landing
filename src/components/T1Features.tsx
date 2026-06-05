@@ -951,7 +951,7 @@ function withBoldIA(text: string) {
    imágenes, crear productos con una foto"). Shared by the desktop list and the
    compact mobile list so the copy stays in one place. */
 const TIENDA_AI_BULLETS = [
-  "Crea tu tienda completa con IA",
+  "Crea tu tienda completa en minutos",
   "Genera imágenes de tus productos",
   "Crea productos desde una sola foto",
   "Redacta descripciones que venden",

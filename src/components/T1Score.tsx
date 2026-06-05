@@ -191,15 +191,16 @@ export default function T1Score() {
                 className="font-sora text-[24px] font-light text-white tablet:text-[30px] lg:text-[34px]"
                 style={{ letterSpacing: "-0.02em", lineHeight: 1.15 }}
               >
-                Crece con confianza con{" "}
+                Protégete del fraude con{" "}
                 <span style={{ color: "#FF6F5E" }}>T1&nbsp;Score</span>
               </h2>
               <p
                 className="mt-3.5 font-inter text-[14px] font-normal text-white/65 tablet:text-[15px]"
                 style={{ letterSpacing: "-0.01em", lineHeight: 1.5, maxWidth: 500 }}
               >
-                Prevén fraude y evalúa el riesgo de cada operación con IA y los
-                datos de Círculo de Crédito.
+                Analiza el riesgo de cada cliente y transacción —con IA y datos
+                de Círculo de Crédito— para aceptar ventas con confianza y evitar
+                fraudes.
               </p>
             </div>
 

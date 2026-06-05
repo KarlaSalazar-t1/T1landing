@@ -157,9 +157,9 @@ export default function T1FeatureIntro() {
           marginBottom: 56,
         }}
       >
-        Todo tu negocio,
+        Todo en
         <br className="tablet:hidden" />{" "}
-        en un solo lugar
+        un solo lugar
       </h2>
 
       {/* MOBILE — 3 cards stacked */}
