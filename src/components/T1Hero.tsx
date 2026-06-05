@@ -5,16 +5,19 @@ import { useEffect, useRef, useState } from "react";
 import { HERO_DATA, LOGIN_URL } from "@/lib/constants";
 
 /* ── Rotating words ── */
-/* The rotator cycles the three pillars + the all-in-one angle WITHOUT
+/* The rotator cycles the ecosystem pillars + the all-in-one angle WITHOUT
    repeating "IA" — IA now lives once, fixed and core, in the H1 below
    ("listo con IA"), so the hero no longer says "IA" three times (we want it
-   to read as core, not spammed). "Cobra en segundos" (speed) and "Todo
-   conectado" (the 360 ecosystem — our real differentiator, not just an
-   online store). */
+   to read as core, not spammed). Now also surfaces the two pillars the CEO
+   asked to see from the hero: "Vende en marketplaces" (sell beyond your own
+   store) and "Protégete con Score" (fraud / risk). "Todo conectado" closes on
+   the 360 ecosystem — our real differentiator, not just an online store. */
 const ROTATING_WORDS = [
   "Crea tu tienda",
+  "Vende en marketplaces",
   "Cobra en segundos",
   "Envía al mejor precio",
+  "Protégete con Score",
   "Todo conectado",
 ];
 
@@ -260,7 +263,7 @@ export default function T1Hero() {
               (mt-auto) so on tall desktops it sits low instead of
               floating in the middle of empty black. */}
           <div className="relative z-10 mt-auto" style={{ paddingTop: 10, paddingBottom: 30 }}>
-            <div className="mx-auto max-w-[var(--max-w)] px-4 tablet:px-6">
+            <div className="mx-auto max-w-[var(--max-w)] px-5 tablet:px-6">
               <LogoMarquee />
             </div>
           </div>

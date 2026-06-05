@@ -1893,7 +1893,7 @@ export default function T1Features() {
           grows beyond 100svh, leaving ~80px below each card) shows the
           stack-section-bg charcoal instead of flashing a light gray. */}
       <div className="bg-transparent">
-      <div className="stack-card-container relative mx-auto max-w-[var(--max-w)] px-4 tablet:px-6">
+      <div className="stack-card-container relative mx-auto max-w-[var(--max-w)] px-5 tablet:px-6">
         {SHOWCASE_CARDS.map((card, idx) => (
           <div
             key={card.id}
@@ -2084,22 +2084,31 @@ export default function T1Features() {
                       </p>
                       {/* Feature bullets — desktop only (mobile shows the phone
                           mockup), matching the Tienda en línea card. */}
+                      {/* First bullet is the AI capability (✨ sparkle marker,
+                          like the Tienda card); the rest keep the checkmark. */}
                       <ul className="hidden flex-col gap-2.5 tablet:flex" style={{ marginBottom: 26 }}>
                         {[
+                          "Crea y optimiza tus publicaciones con IA",
                           "Mercado Libre, Amazon, Walmart, Shein y más",
                           "Inventario y precios sincronizados en automático",
                           "Recibe y surte todos tus pedidos desde un panel",
                           "Reportes de ventas y rendimiento en tiempo real",
-                        ].map((b) => (
+                        ].map((b, i) => (
                           <li key={b} className="flex items-start gap-2.5">
-                            <span
-                              className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full"
-                              style={{ background: "rgba(255,255,255,0.14)" }}
-                            >
-                              <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
-                                <path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
-                              </svg>
-                            </span>
+                            {i === 0 ? (
+                              <span className="mt-[1px] shrink-0">
+                                <AISparkle size={16} />
+                              </span>
+                            ) : (
+                              <span
+                                className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full"
+                                style={{ background: "rgba(255,255,255,0.14)" }}
+                              >
+                                <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
+                                  <path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                              </span>
+                            )}
                             <span className="font-inter text-[13px] font-normal text-white/85 tablet:text-[14px]" style={{ lineHeight: 1.45 }}>
                               {b}
                             </span>
@@ -2145,22 +2154,31 @@ export default function T1Features() {
                         {card.description}
                       </p>
                       {/* Feature bullets — desktop only, matching the other cards. */}
+                      {/* First bullet is the AI capability (✨ sparkle marker).
+                          Replaces the old "enrutamiento inteligente" bullet — the
+                          smart routing IS the AI, now labelled as such. */}
                       <ul className="hidden flex-col gap-2.5 tablet:flex" style={{ marginBottom: 26 }}>
                         {[
+                          "Más pagos aprobados con enrutamiento por IA",
                           "Crea links de pago y cobra a distancia",
                           "Acepta tarjetas, SPEI, Kueski y meses sin intereses",
-                          "Mayor aprobación con enrutamiento inteligente",
                           "Conciliación automática de todas tus ventas",
-                        ].map((b) => (
+                        ].map((b, i) => (
                           <li key={b} className="flex items-start gap-2.5">
-                            <span
-                              className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full"
-                              style={{ background: "rgba(255,255,255,0.14)" }}
-                            >
-                              <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
-                                <path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
-                              </svg>
-                            </span>
+                            {i === 0 ? (
+                              <span className="mt-[1px] shrink-0">
+                                <AISparkle size={16} />
+                              </span>
+                            ) : (
+                              <span
+                                className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full"
+                                style={{ background: "rgba(255,255,255,0.14)" }}
+                              >
+                                <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
+                                  <path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                              </span>
+                            )}
                             <span className="font-inter text-[13px] font-normal text-white/85 tablet:text-[14px]" style={{ lineHeight: 1.45 }}>
                               {b}
                             </span>
@@ -2219,22 +2237,31 @@ export default function T1Features() {
                         {card.description}
                       </p>
                       {/* Feature bullets — desktop only, matching the other cards. */}
+                      {/* First bullet is the AI capability (✨ sparkle marker);
+                          the rest keep the checkmark. */}
                       <ul className="hidden flex-col gap-2.5 tablet:flex" style={{ marginBottom: 26 }}>
                         {[
+                          "La IA elige la mejor paquetería para cada envío",
                           "Cotiza y compara +10 paqueterías al instante",
                           "Crea guías en segundos con las mejores tarifas",
                           "Rastrea todos tus pedidos en un solo lugar",
                           "Sin mensualidad ni mínimo de envíos",
-                        ].map((b) => (
+                        ].map((b, i) => (
                           <li key={b} className="flex items-start gap-2.5">
-                            <span
-                              className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full"
-                              style={{ background: "rgba(255,255,255,0.14)" }}
-                            >
-                              <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
-                                <path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
-                              </svg>
-                            </span>
+                            {i === 0 ? (
+                              <span className="mt-[1px] shrink-0">
+                                <AISparkle size={16} />
+                              </span>
+                            ) : (
+                              <span
+                                className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full"
+                                style={{ background: "rgba(255,255,255,0.14)" }}
+                              >
+                                <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
+                                  <path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                              </span>
+                            )}
                             <span className="font-inter text-[13px] font-normal text-white/85 tablet:text-[14px]" style={{ lineHeight: 1.45 }}>
                               {b}
                             </span>

@@ -104,7 +104,7 @@ function cardStyle(glow: string, padding: string): React.CSSProperties {
     background: "rgba(255,255,255,0.045)",
     backdropFilter: "blur(16px)",
     WebkitBackdropFilter: "blur(16px)",
-    border: "1px solid rgba(255,255,255,0.05)",
+    border: "1px solid rgba(255,255,255,0.12)",
     boxShadow: `inset 0 1px 0 rgba(255,255,255,0.04), 0 14px 34px rgba(0,0,0,0.42), 0 0 58px -18px ${glow}59`,
     padding,
   };

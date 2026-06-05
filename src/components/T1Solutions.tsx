@@ -274,8 +274,11 @@ export default function T1Solutions() {
 
         {/* Single card — responsive
             Carousel: card + peek edges wrapped in one animated container so they
-            slide together when activeTab changes (no misalignment during transition). */}
-        <div className="relative mx-auto" style={{ maxWidth: 1120 }}>
+            slide together when activeTab changes (no misalignment during transition).
+            Width 1040 = the shared "inset card" size (matches T1Score): full-width
+            sections span the --max-w frame, single rounded panels sit inset at 1040
+            so the page reads with 2 deliberate container sizes, not random margins. */}
+        <div className="relative mx-auto" style={{ maxWidth: 1040 }}>
           <div
             key={`carousel-${activeTab}`}
             className="relative"
