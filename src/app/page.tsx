@@ -25,7 +25,7 @@ export default function Home() {
           Desktop: keeps the deep 220px bottom padding for the card-peek
           effect with the overlapping white card. */}
       <div
-        className="relative isolate z-[5] -mt-2.5 rounded-t-[24px] bg-black pb-44 pt-10 tablet:pb-[220px]"
+        className="relative isolate z-[5] -mt-2.5 rounded-t-[24px] bg-black pb-32 pt-10 tablet:pb-[300px]"
       >
         <T1FeatureIntro />
       </div>

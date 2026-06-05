@@ -2073,7 +2073,7 @@ export default function T1Features() {
                   {/* AI prompt panel — anchored to the LEFT edge of its
                       column (the column is visually on the left of the
                       card now because of flex-row-reverse). */}
-                  <div className="hidden w-1/2 items-end justify-start tablet:flex" style={{ paddingTop: 60 }}>
+                  <div className="hidden w-1/2 items-end justify-start pl-6 lg:pl-10 tablet:flex" style={{ paddingTop: 60 }}>
                     <TiendaPromptPanel animate={tiendaOnlineVisible} />
                   </div>
                   {/* Mobile: phone-framed landing animation */}
@@ -2150,7 +2150,7 @@ export default function T1Features() {
 
                   {/* Right column: channels-then-orders desktop panel (Q1) */}
                   {isDesktop !== false && (
-                    <div className="hidden w-1/2 items-end justify-end tablet:flex" style={{ paddingTop: 60 }}>
+                    <div className="hidden w-1/2 items-end justify-end pr-6 lg:pr-10 tablet:flex" style={{ paddingTop: 60 }}>
                       <DesktopTiendaPanel animate={tiendaVisible} />
                     </div>
                   )}
@@ -2224,7 +2224,7 @@ export default function T1Features() {
                   {/* Right column: phone mockup — only mounted on desktop (Q1) */}
                   {isDesktop !== false && (
                     <div className="hidden w-1/2 items-center justify-center overflow-hidden tablet:flex">
-                      <div style={{ marginTop: 40, marginBottom: -80 }}>
+                      <div style={{ marginTop: 40, marginBottom: -25 }}>
                         <div
                           className="relative"
                           style={{
@@ -2304,7 +2304,7 @@ export default function T1Features() {
                   </div>
                   {/* CotizadorPanel — matches Marketplaces panel width (w-1/2) */}
                   {isDesktop !== false && (
-                    <div className="hidden w-1/2 items-end justify-end tablet:flex" style={{ paddingTop: 60 }}>
+                    <div className="hidden w-1/2 items-end justify-end pr-6 lg:pr-10 tablet:flex" style={{ paddingTop: 60 }}>
                       <CotizadorPanel animate={enviosVisible} />
                     </div>
                   )}
