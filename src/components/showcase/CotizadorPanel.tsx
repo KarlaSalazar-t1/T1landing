@@ -97,12 +97,25 @@ export default function CotizadorPanel({ animate, mobile = false }: { animate: b
   useEffect(() => {
     if (!animate) { setStage(0); return; }
     const timers: ReturnType<typeof setTimeout>[] = [];
-    // Stretch the cadence so each form field reveal has time to read.
-    // Was 600 + i*700 (max ~3.5s) — now 800 + i*1100 (max ~6.3s).
-    [1, 2, 3, 4, 5].forEach((s, i) => {
-      timers.push(setTimeout(() => setStage(s as Stage), 800 + i * 1100));
-    });
-    return () => timers.forEach(clearTimeout);
+    let cancelled = false;
+    // One pass fills the form fields, then reveals the results table; after a
+    // hold we reset and replay so the panel LOOPS — every other stack card
+    // animation repeats, this was the only one that ran a single time
+    // (CEO: "es la única de todas las stack que no se repite").
+    // Cadence: stages 1..5 at 800 + i*1100 (results visible at ~5.2s), hold
+    // the table ~3.8s so it can be read, then restart.
+    const RESULTS_AT = 800 + 4 * 1100; // 5200ms — stage 5 reveal
+    const HOLD = 3800;                  // dwell on results before looping
+    const run = () => {
+      if (cancelled) return;
+      setStage(0);
+      [1, 2, 3, 4, 5].forEach((s, i) => {
+        timers.push(setTimeout(() => setStage(s as Stage), 800 + i * 1100));
+      });
+      timers.push(setTimeout(run, RESULTS_AT + HOLD));
+    };
+    run();
+    return () => { cancelled = true; timers.forEach(clearTimeout); };
   }, [animate]);
 
   // ── Mobile: phone-framed version (rounded card + iOS status bar) ──
