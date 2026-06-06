@@ -602,7 +602,7 @@ export default function T1ScrollShowcase() {
               className="mx-auto font-inter text-[15px] font-light text-white/55 tablet:text-[18px]"
               style={{ maxWidth: 500, lineHeight: 1.5, marginBottom: 40 }}
             >
-              Comienza gratis y escala al ritmo de tu negocio.
+              Comienza gratis y haz crecer tu negocio con T1.
             </p>
             <a
               href={SIGNUP_URL}
