@@ -478,7 +478,11 @@ export default function T1ScrollShowcase() {
       <div
         ref={containerRef}
         className="hidden tablet:block"
-        style={{ height: `${WORDS.length * 100}vh` }}
+        /* 60vh per word (was 100vh) so the four words/cards don't demand four
+           full screens of scroll — the CEO felt the block "necesita mucho
+           scroll". At 60vh each (~240vh total) every word still gets ample
+           scroll distance to register its transition, just snappier. */
+        style={{ height: `${WORDS.length * 60}vh` }}
       >
         <div className="sticky top-0 flex items-center" style={{ height: "100vh" }}>
           <div className="mx-auto flex max-w-[var(--max-w)] items-center px-6" style={{ width: "100%" }}>
@@ -573,13 +577,14 @@ export default function T1ScrollShowcase() {
       {/* ── Mobile — vertical scroll with fade-in/out transitions ── */}
       <MobileScrollSections cards={cards} />
 
-      {/* ── CTA — final brand moment, sized at ~3/4 of full viewport so
-          the section doesn't dominate the scroll. Inner sticky matches
-          the container height so the reveal still feels centered. ── */}
-      <div ref={ctaRef} className="h-[75vh] tablet:h-[82vh]">
+      {/* ── CTA — final brand moment. Trimmed from 75/82vh to 62/68vh so the
+          closing headline isn't floating in a near-empty screen (CEO: "muchos
+          espacios"). Inner sticky matches the mobile height so the reveal still
+          centers; the few vh of slack on tablet are harmless. ── */}
+      <div ref={ctaRef} className="h-[62vh] tablet:h-[68vh]">
         <div
           className="sticky top-0 flex items-center justify-center"
-          style={{ height: "75vh" }}
+          style={{ height: "62vh" }}
         >
           <div
             className="flex flex-col items-center text-center px-6"

@@ -233,7 +233,7 @@ export default function T1Solutions() {
   }, []);
 
   return (
-    <section className="overflow-x-hidden bg-[#141414]" style={{ paddingTop: 100, paddingBottom: 60 }}>
+    <section className="overflow-x-hidden bg-[#141414]" style={{ paddingTop: 76, paddingBottom: 56 }}>
       <div className="mx-auto max-w-[var(--max-w)] px-5 tablet:px-6">
         {/* Heading */}
         <h2
