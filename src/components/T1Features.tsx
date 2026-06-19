@@ -286,38 +286,75 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                 </div>
               )}
               {pageMode ? (
-                /* ── pageMode: 2-column hero (text left, preview right) ── */
+                /* ── pageMode hero: prompt input on top, live store-preview
+                       animation below (CEO: "en el hero el input del prompt y
+                       abajo la animación que tenemos ahora"). Single centered
+                       column; the typed prompt drives the preview that builds
+                       below it. ── */
                 <div
-                  className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] tablet:gap-12"
+                  className="mx-auto flex max-w-[820px] flex-col items-center text-center"
                   style={{ paddingTop: 100, paddingBottom: 24 }}
                 >
-                  {/* Left: title + description + CTA */}
-                  <div>
-                    <h1
-                      className="font-sora text-[32px] font-normal text-white tablet:text-[48px]"
-                      style={{ lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: 18 }}
+                  <h1
+                    className="font-sora text-[32px] font-normal text-white tablet:text-[48px]"
+                    style={{ lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: 16 }}
+                  >
+                    Crea tu tienda con IA en segundos
+                  </h1>
+                  <p
+                    className="font-inter text-[16px] font-light text-white/80 tablet:text-[19px]"
+                    style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 560 }}
+                  >
+                    Cuéntanos de qué trata tu negocio y nuestra IA creará tu tienda online lista para vender en menos de 2 minutos.
+                  </p>
+
+                  {/* Prompt input — live-typed; mirrors the prompt that drives
+                      the preview animation below. */}
+                  <div className="w-full" style={{ maxWidth: 640 }}>
+                    <div
+                      className="relative rounded-[20px] border border-white/15 bg-white text-left"
+                      style={{ boxShadow: "0 16px 50px rgba(0,0,0,0.18)" }}
                     >
-                      Crea tu tienda con IA en segundos
-                    </h1>
-                    <p
-                      className="font-inter text-[17px] font-light text-white/80 tablet:text-[19px]"
-                      style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 480 }}
-                    >
-                      Cuéntanos de qué trata tu negocio y nuestra IA creará tu tienda online lista para vender en menos de 2 minutos.
-                    </p>
-                    <div className="flex flex-wrap items-center gap-3">
-                      <a
-                        href="#"
-                        className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
-                      >
-                        Crear mi tienda
-                      </a>
-                      <span className="font-inter text-[13px] text-white/55">Sin tarjeta · Empieza gratis</span>
+                      {/* Sparkle */}
+                      <div className="pointer-events-none absolute left-5 top-5 hidden tablet:flex h-[28px] w-[28px] items-center justify-center rounded-full" style={{ background: "rgba(219,59,43,0.10)" }}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                          <path d="M12 3L14 9L20 11L14 13L12 19L10 13L4 11L10 9L12 3Z" stroke="#DB3B2B" strokeWidth="1.5" strokeLinejoin="round" fill="rgba(219,59,43,0.18)" />
+                        </svg>
+                      </div>
+                      {/* Live-typed prompt area */}
+                      <div className="px-6 pt-6 tablet:pl-16 tablet:pr-7 tablet:pt-7" style={{ minHeight: 96 }}>
+                        <p className="font-inter text-[16px] text-black/85 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
+                          {displayedText || (
+                            <span className="text-black/35">Cuéntanos de qué trata tu negocio…</span>
+                          )}
+                          <span
+                            className="ml-0.5 inline-block w-[2px] bg-[#DB3B2B] align-text-bottom"
+                            style={{ height: 18, animation: "blink 0.8s step-end infinite" }}
+                          />
+                        </p>
+                      </div>
+                      {/* Bottom row — char counter + submit */}
+                      <div className="flex items-center justify-between px-6 pb-5 pt-4 tablet:pl-16 tablet:pr-5">
+                        <span className="font-inter text-[12px] text-black/35">{(displayedText || "").length}/500</span>
+                        <a
+                          href="#"
+                          className="inline-flex h-[44px] items-center gap-2 rounded-full bg-[#DB3B2B] px-5 font-inter text-[14px] font-semibold text-white no-underline transition-all duration-200 hover:scale-[1.03] hover:bg-[#C0332A]"
+                        >
+                          Crear con IA
+                          <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                            <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </a>
+                      </div>
                     </div>
+                    <p className="font-inter text-[13px] text-white/55" style={{ marginTop: 12 }}>
+                      Sin tarjeta · Empieza gratis
+                    </p>
                   </div>
 
-                  {/* Right: store preview with floating prompt */}
-                  <div className="relative">
+                  {/* Animation — the live store preview (same build/scroll
+                      animation as before, now placed below the input). */}
+                  <div className="relative w-full" style={{ maxWidth: 760, marginTop: 36 }}>
                     <div
                       className="rounded-[18px]"
                       style={{
@@ -342,34 +379,6 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                             className="block w-full"
                             style={{ animation: "fadeSlideIn 0.5s ease-out" }}
                           />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Floating AI prompt card — bottom-left of preview, desktop only */}
-                    <div
-                      className="absolute hidden rounded-[16px] bg-white tablet:block"
-                      style={{
-                        left: -32,
-                        bottom: -24,
-                        width: 320,
-                        padding: "18px 20px",
-                        boxShadow: "0 12px 36px rgba(0,0,0,0.18)",
-                      }}
-                    >
-                      <p className="font-inter text-[14px] font-normal text-black/80" style={{ minHeight: 44 }}>
-                        {displayedText}
-                        <span
-                          className="ml-0.5 inline-block w-[2px] bg-black/60"
-                          style={{ height: 16, verticalAlign: "text-bottom", animation: "blink 0.8s step-end infinite" }}
-                        />
-                      </p>
-                      <div className="mt-3 flex items-center justify-between">
-                        <span className="font-inter text-[11px] text-black/30">{displayedText.length}/500</span>
-                        <div className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-[#E26153]">
-                          <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
-                            <path d="M7 11V3M7 3L4 6M7 3L10 6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
                         </div>
                       </div>
                     </div>
