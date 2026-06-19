@@ -59,6 +59,26 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
   const [displayedText, setDisplayedText] = useState("");
   const [scrollY, setScrollY] = useState(0);
 
+  // "Todo incluido" carousel — arrow + dot navigation
+  const incluyeRef = useRef<HTMLDivElement>(null);
+  const [incluyeIdx, setIncluyeIdx] = useState(0);
+  const incluyeStep = () => {
+    const el = incluyeRef.current;
+    const card = el?.querySelector<HTMLElement>(".tienda-card");
+    return card ? card.offsetWidth + 16 : (el?.clientWidth ?? 0) * 0.8;
+  };
+  const scrollIncluye = useCallback((dir: number) => {
+    incluyeRef.current?.scrollBy({ left: dir * incluyeStep(), behavior: "smooth" });
+  }, []);
+  const goIncluye = useCallback((i: number) => {
+    incluyeRef.current?.scrollTo({ left: i * incluyeStep(), behavior: "smooth" });
+  }, []);
+  const onIncluyeScroll = () => {
+    const el = incluyeRef.current;
+    if (!el) return;
+    setIncluyeIdx(Math.round(el.scrollLeft / Math.max(1, incluyeStep())));
+  };
+
   // Lock body scroll — only in modal mode
   useEffect(() => {
     if (pageMode) return;
@@ -300,7 +320,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                        below it. ── */
                 <div
                   className="mx-auto flex max-w-[820px] flex-col items-center text-center"
-                  style={{ paddingTop: 100, paddingBottom: 24 }}
+                  style={{ paddingTop: 140, paddingBottom: 24 }}
                 >
                   <h1
                     className="font-sora text-[32px] font-normal text-white tablet:text-[48px]"
@@ -526,94 +546,71 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                   </div>
                 </section>
 
-                {/* ── Act III — "Hoy basta una frase": mirrors the original hero
-                       treatment — the per-prompt store image as the section
-                       background, the store preview simulation, and the live
-                       typing prompt card (CEO). ── */}
-                <section className="relative px-5 py-24 tablet:px-10 tablet:py-32">
-                  {/* Per-prompt background image (same asset as the old hero) */}
-                  <div className="absolute inset-0 z-0 overflow-hidden">
-                    <Image
-                      key={PROMPT_PAGES[visiblePageIdx].bg}
-                      src={PROMPT_PAGES[visiblePageIdx].bg}
-                      alt=""
-                      fill
-                      className="object-cover"
-                      style={{ animation: "fadeSlideIn 0.6s ease-out" }}
-                    />
-                    {/* Dark overlay so the headline reads but the image stays visible */}
-                    <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.74) 0%, rgba(0,0,0,0.42) 45%, rgba(0,0,0,0.62) 100%)" }} />
-                  </div>
-
-                  <div className="relative z-10 mx-auto max-w-[var(--max-w)]">
-                    {/* Headline */}
-                    <div data-modal-animate className="mx-auto max-w-[820px] text-center" style={{ marginBottom: 48 }}>
-                      <h2 className="font-sora text-[32px] font-light text-white tablet:text-[44px] lg:text-[56px]" style={{ letterSpacing: "-1.5px", lineHeight: 1.05, marginBottom: 20 }}>
-                        Hoy basta una <span className="relative inline-block">
-                          frase
-                          <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 8, background: "rgba(219,59,43,0.45)", borderRadius: 4, zIndex: -1 }} />
-                        </span>.
-                      </h2>
-                      <p className="font-inter text-[16px] font-light text-white/75 tablet:text-[19px]" style={{ lineHeight: 1.5, maxWidth: 620, margin: "0 auto" }}>
-                        Le dices a la IA qué vendes y arma una tienda hecha para ti. Estructura, copy, secciones y diseño coherentes con tu marca.
-                      </p>
-                    </div>
-
-                    {/* Store preview simulation + live typing prompt card */}
-                    <div data-modal-animate className="relative mx-auto" style={{ maxWidth: 760 }}>
-                      <div
-                        className="rounded-[18px]"
-                        style={{
-                          padding: 10,
-                          background: "rgba(255,255,255,0.25)",
-                          backdropFilter: "blur(20px)",
-                          WebkitBackdropFilter: "blur(20px)",
-                          border: "1px solid rgba(255,255,255,0.35)",
-                          boxShadow: "0 20px 60px rgba(0,0,0,0.3)",
-                        }}
-                      >
-                        <div className="overflow-hidden rounded-[12px]" style={{ aspectRatio: "16/10" }}>
-                          <div
-                            className="transition-transform duration-1000 ease-in-out"
-                            style={{ transform: `translateY(-${scrollY}px)` }}
-                          >
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              key={PROMPT_PAGES[visiblePageIdx].image}
-                              src={PROMPT_PAGES[visiblePageIdx].image}
-                              alt="Vista previa tienda"
-                              className="block w-full"
-                              style={{ animation: "fadeSlideIn 0.5s ease-out" }}
-                            />
-                          </div>
-                        </div>
+                {/* ── Act III — "Hoy basta una frase": white-bg 2-column hero
+                       layout — title + text on the LEFT, the live store-preview
+                       + typing prompt animation on the RIGHT (CEO). ── */}
+                <section className="relative overflow-hidden bg-white px-5 py-24 tablet:px-10 tablet:py-32">
+                  <div className="relative mx-auto max-w-[var(--max-w)]">
+                    <div className="grid grid-cols-1 items-center gap-12 tablet:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] tablet:gap-16">
+                      {/* Left: title + text */}
+                      <div data-modal-animate>
+                        <h2 className="font-sora text-[32px] font-light text-black tablet:text-[44px] lg:text-[52px]" style={{ letterSpacing: "-1.5px", lineHeight: 1.05, marginBottom: 20 }}>
+                          Hoy basta una <span className="relative inline-block">
+                            frase
+                            <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 8, background: "rgba(219,59,43,0.18)", borderRadius: 4, zIndex: -1 }} />
+                          </span>.
+                        </h2>
+                        <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[19px]" style={{ lineHeight: 1.55, maxWidth: 480 }}>
+                          Le dices a la IA qué vendes y arma una tienda hecha para ti. Estructura, copy, secciones y diseño coherentes con tu marca.
+                        </p>
                       </div>
 
-                      {/* Floating live-typed prompt card — desktop */}
-                      <div
-                        className="absolute hidden rounded-[16px] bg-white tablet:block"
-                        style={{ left: -28, bottom: -26, width: 340, padding: "18px 20px", boxShadow: "0 16px 40px rgba(0,0,0,0.28)" }}
-                      >
-                        <p className="font-inter text-[14px] font-normal text-black/80" style={{ minHeight: 44 }}>
-                          {displayedText || <span className="text-black/35">Cuéntanos de qué trata tu negocio…</span>}
-                          <span className="ml-0.5 inline-block w-[2px] bg-[#DB3B2B]" style={{ height: 16, verticalAlign: "text-bottom", animation: "blink 0.8s step-end infinite" }} />
-                        </p>
-                        <div className="mt-3 flex items-center justify-between">
-                          <span className="font-inter text-[11px] text-black/30">{(displayedText || "").length}/500</span>
-                          <div className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-[#DB3B2B]">
-                            <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
-                              <path d="M7 11V3M7 3L4 6M7 3L10 6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
+                      {/* Right: store preview simulation + live typing prompt card */}
+                      <div data-modal-animate className="relative">
+                        <div
+                          className="overflow-hidden rounded-[18px] border border-black/[0.06] bg-white"
+                          style={{ padding: 10, boxShadow: "0 24px 70px rgba(0,0,0,0.12)" }}
+                        >
+                          <div className="overflow-hidden rounded-[12px]" style={{ aspectRatio: "16/10" }}>
+                            <div className="transition-transform duration-1000 ease-in-out" style={{ transform: `translateY(-${scrollY}px)` }}>
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img
+                                key={PROMPT_PAGES[visiblePageIdx].image}
+                                src={PROMPT_PAGES[visiblePageIdx].image}
+                                alt="Vista previa tienda"
+                                className="block w-full"
+                                style={{ animation: "fadeSlideIn 0.5s ease-out" }}
+                              />
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      {/* Mobile: typed prompt below the preview */}
-                      <div className="mt-4 rounded-[14px] bg-white tablet:hidden" style={{ padding: "14px 16px", boxShadow: "0 10px 30px rgba(0,0,0,0.25)" }}>
-                        <p className="font-inter text-[13px] text-black/80" style={{ minHeight: 38 }}>
-                          {displayedText || <span className="text-black/35">Cuéntanos de qué trata tu negocio…</span>}
-                          <span className="ml-0.5 inline-block w-[2px] bg-[#DB3B2B]" style={{ height: 14, verticalAlign: "text-bottom", animation: "blink 0.8s step-end infinite" }} />
-                        </p>
+                        {/* Floating live-typed prompt card — desktop */}
+                        <div
+                          className="absolute hidden rounded-[16px] border border-black/[0.06] bg-white tablet:block"
+                          style={{ left: -28, bottom: -26, width: 320, padding: "18px 20px", boxShadow: "0 16px 40px rgba(0,0,0,0.16)" }}
+                        >
+                          <p className="font-inter text-[14px] font-normal text-black/80" style={{ minHeight: 44 }}>
+                            {displayedText || <span className="text-black/35">Cuéntanos de qué trata tu negocio…</span>}
+                            <span className="ml-0.5 inline-block w-[2px] bg-[#DB3B2B]" style={{ height: 16, verticalAlign: "text-bottom", animation: "blink 0.8s step-end infinite" }} />
+                          </p>
+                          <div className="mt-3 flex items-center justify-between">
+                            <span className="font-inter text-[11px] text-black/30">{(displayedText || "").length}/500</span>
+                            <div className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-[#DB3B2B]">
+                              <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+                                <path d="M7 11V3M7 3L4 6M7 3L10 6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Mobile: typed prompt below the preview */}
+                        <div className="mt-4 rounded-[14px] border border-black/[0.06] bg-white tablet:hidden" style={{ padding: "14px 16px", boxShadow: "0 10px 30px rgba(0,0,0,0.10)" }}>
+                          <p className="font-inter text-[13px] text-black/80" style={{ minHeight: 38 }}>
+                            {displayedText || <span className="text-black/35">Cuéntanos de qué trata tu negocio…</span>}
+                            <span className="ml-0.5 inline-block w-[2px] bg-[#DB3B2B]" style={{ height: 14, verticalAlign: "text-bottom", animation: "blink 0.8s step-end infinite" }} />
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -676,6 +673,8 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                         desktop; cards snap into place (CEO: "que sean cards pero
                         que sea un carrusel"). Scrollbar hidden. */}
                     <div
+                      ref={incluyeRef}
+                      onScroll={onIncluyeScroll}
                       data-modal-animate
                       className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
                       style={{ scrollPaddingLeft: 0 }}
@@ -799,6 +798,38 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                         <h3 className="font-sora text-[17px] font-normal text-black" style={{ marginBottom: 6 }}>Métricas en tiempo real</h3>
                         <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>Dashboard de ventas, tráfico y comportamiento desde el día uno.</p>
                       </div>
+                    </div>
+
+                    {/* Carousel controls — arrows + dot indicators */}
+                    <div className="mt-7 flex items-center justify-center gap-4">
+                      <button
+                        type="button"
+                        onClick={() => scrollIncluye(-1)}
+                        aria-label="Anterior"
+                        className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-black/10 bg-white text-black/70 transition-colors hover:border-black/25 hover:text-black"
+                      >
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                      </button>
+                      <div className="flex items-center gap-2">
+                        {[0, 1, 2, 3, 4, 5].map((i) => (
+                          <button
+                            key={i}
+                            type="button"
+                            onClick={() => goIncluye(i)}
+                            aria-label={`Ir a la tarjeta ${i + 1}`}
+                            className="cursor-pointer rounded-full border-none p-0 transition-all duration-200"
+                            style={{ width: incluyeIdx === i ? 22 : 8, height: 8, background: incluyeIdx === i ? "#DB3B2B" : "rgba(0,0,0,0.18)" }}
+                          />
+                        ))}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => scrollIncluye(1)}
+                        aria-label="Siguiente"
+                        className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-black/10 bg-white text-black/70 transition-colors hover:border-black/25 hover:text-black"
+                      >
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                      </button>
                     </div>
                   </div>
                 </section>
