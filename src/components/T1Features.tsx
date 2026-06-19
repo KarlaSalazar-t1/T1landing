@@ -249,9 +249,10 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                      the store preview animation now lives in the "Hoy basta una
                      frase" section below). */
                   <>
-                    <div className="absolute" style={{ top: "-12%", left: "6%", width: 540, height: 540, borderRadius: "50%", background: "radial-gradient(circle, rgba(219,59,43,0.30) 0%, transparent 60%)", filter: "blur(90px)" }} />
-                    <div className="absolute" style={{ top: "0%", right: "-6%", width: 480, height: 480, borderRadius: "50%", background: "radial-gradient(circle, rgba(139,92,246,0.24) 0%, transparent 60%)", filter: "blur(90px)" }} />
-                    <div className="absolute" style={{ bottom: "-8%", left: "32%", width: 520, height: 520, borderRadius: "50%", background: "radial-gradient(circle, rgba(99,102,241,0.20) 0%, transparent 62%)", filter: "blur(100px)" }} />
+                    {/* Red + blue color blobs over black for an IA-gradient feel */}
+                    <div className="absolute" style={{ top: "-14%", left: "2%", width: 560, height: 560, borderRadius: "50%", background: "radial-gradient(circle, rgba(219,59,43,0.40) 0%, transparent 62%)", filter: "blur(90px)" }} />
+                    <div className="absolute" style={{ top: "-6%", right: "-8%", width: 520, height: 520, borderRadius: "50%", background: "radial-gradient(circle, rgba(56,120,255,0.36) 0%, transparent 62%)", filter: "blur(90px)" }} />
+                    <div className="absolute" style={{ bottom: "-10%", left: "34%", width: 540, height: 540, borderRadius: "50%", background: "radial-gradient(circle, rgba(139,92,246,0.26) 0%, transparent 64%)", filter: "blur(100px)" }} />
                     {/* Bottom fade to solid black to fuse with the next section */}
                     <div aria-hidden className="absolute inset-x-0 bottom-0" style={{ height: "45%", background: "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.6) 60%, #000 100%)" }} />
                   </>
@@ -525,29 +526,51 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                   </div>
                 </section>
 
-                {/* ── Act III — The shift: Magic moment with live AI demo ── */}
-                <section className="relative overflow-hidden bg-white px-5 py-24 tablet:px-10 tablet:py-32">
-                  <div className="relative mx-auto max-w-[var(--max-w)]">
+                {/* ── Act III — "Hoy basta una frase": mirrors the original hero
+                       treatment — the per-prompt store image as the section
+                       background, the store preview simulation, and the live
+                       typing prompt card (CEO). ── */}
+                <section className="relative px-5 py-24 tablet:px-10 tablet:py-32">
+                  {/* Per-prompt background image (same asset as the old hero) */}
+                  <div className="absolute inset-0 z-0 overflow-hidden">
+                    <Image
+                      key={PROMPT_PAGES[visiblePageIdx].bg}
+                      src={PROMPT_PAGES[visiblePageIdx].bg}
+                      alt=""
+                      fill
+                      className="object-cover"
+                      style={{ animation: "fadeSlideIn 0.6s ease-out" }}
+                    />
+                    {/* Dark overlay so the headline reads but the image stays visible */}
+                    <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.74) 0%, rgba(0,0,0,0.42) 45%, rgba(0,0,0,0.62) 100%)" }} />
+                  </div>
+
+                  <div className="relative z-10 mx-auto max-w-[var(--max-w)]">
                     {/* Headline */}
-                    <div data-modal-animate className="mx-auto max-w-[820px] text-center" style={{ marginBottom: 64 }}>
-                      <h2 className="font-sora text-[32px] font-light text-black tablet:text-[44px] lg:text-[56px]" style={{ letterSpacing: "-1.5px", lineHeight: 1.05, marginBottom: 20 }}>
+                    <div data-modal-animate className="mx-auto max-w-[820px] text-center" style={{ marginBottom: 48 }}>
+                      <h2 className="font-sora text-[32px] font-light text-white tablet:text-[44px] lg:text-[56px]" style={{ letterSpacing: "-1.5px", lineHeight: 1.05, marginBottom: 20 }}>
                         Hoy basta una <span className="relative inline-block">
                           frase
-                          <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 8, background: "rgba(219,59,43,0.18)", borderRadius: 4, zIndex: -1 }} />
+                          <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 8, background: "rgba(219,59,43,0.45)", borderRadius: 4, zIndex: -1 }} />
                         </span>.
                       </h2>
-                      <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[19px]" style={{ lineHeight: 1.5, maxWidth: 620, margin: "0 auto" }}>
+                      <p className="font-inter text-[16px] font-light text-white/75 tablet:text-[19px]" style={{ lineHeight: 1.5, maxWidth: 620, margin: "0 auto" }}>
                         Le dices a la IA qué vendes y arma una tienda hecha para ti. Estructura, copy, secciones y diseño coherentes con tu marca.
                       </p>
                     </div>
 
-                    {/* Live store preview — the build/scroll animation that used
-                        to sit in the hero prompt. Driven by the same typed prompt
-                        as the hero input above, so it stays in sync. */}
-                    <div data-modal-animate className="relative mx-auto" style={{ maxWidth: 880 }}>
+                    {/* Store preview simulation + live typing prompt card */}
+                    <div data-modal-animate className="relative mx-auto" style={{ maxWidth: 760 }}>
                       <div
-                        className="overflow-hidden rounded-[18px] border border-black/[0.06] bg-white"
-                        style={{ padding: 10, boxShadow: "0 24px 70px rgba(0,0,0,0.12)" }}
+                        className="rounded-[18px]"
+                        style={{
+                          padding: 10,
+                          background: "rgba(255,255,255,0.25)",
+                          backdropFilter: "blur(20px)",
+                          WebkitBackdropFilter: "blur(20px)",
+                          border: "1px solid rgba(255,255,255,0.35)",
+                          boxShadow: "0 20px 60px rgba(0,0,0,0.3)",
+                        }}
                       >
                         <div className="overflow-hidden rounded-[12px]" style={{ aspectRatio: "16/10" }}>
                           <div
@@ -565,12 +588,32 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                           </div>
                         </div>
                       </div>
-                      {/* Caption — which prompt the AI is rendering right now */}
-                      <div className="mt-5 flex items-center justify-center gap-2 text-center">
-                        <span className="font-inter text-[13px] text-black/40">Generando:</span>
-                        <span className="font-inter text-[13px] font-medium text-black/70">
-                          {PROMPT_PAGES[visiblePageIdx].text.replace(/\.$/, "")}
-                        </span>
+
+                      {/* Floating live-typed prompt card — desktop */}
+                      <div
+                        className="absolute hidden rounded-[16px] bg-white tablet:block"
+                        style={{ left: -28, bottom: -26, width: 340, padding: "18px 20px", boxShadow: "0 16px 40px rgba(0,0,0,0.28)" }}
+                      >
+                        <p className="font-inter text-[14px] font-normal text-black/80" style={{ minHeight: 44 }}>
+                          {displayedText || <span className="text-black/35">Cuéntanos de qué trata tu negocio…</span>}
+                          <span className="ml-0.5 inline-block w-[2px] bg-[#DB3B2B]" style={{ height: 16, verticalAlign: "text-bottom", animation: "blink 0.8s step-end infinite" }} />
+                        </p>
+                        <div className="mt-3 flex items-center justify-between">
+                          <span className="font-inter text-[11px] text-black/30">{(displayedText || "").length}/500</span>
+                          <div className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-[#DB3B2B]">
+                            <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+                              <path d="M7 11V3M7 3L4 6M7 3L10 6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Mobile: typed prompt below the preview */}
+                      <div className="mt-4 rounded-[14px] bg-white tablet:hidden" style={{ padding: "14px 16px", boxShadow: "0 10px 30px rgba(0,0,0,0.25)" }}>
+                        <p className="font-inter text-[13px] text-black/80" style={{ minHeight: 38 }}>
+                          {displayedText || <span className="text-black/35">Cuéntanos de qué trata tu negocio…</span>}
+                          <span className="ml-0.5 inline-block w-[2px] bg-[#DB3B2B]" style={{ height: 14, verticalAlign: "text-bottom", animation: "blink 0.8s step-end infinite" }} />
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -593,10 +636,10 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                       <div aria-hidden className="pointer-events-none absolute hidden lg:block" style={{ left: "12.5%", right: "12.5%", top: 30, height: 1, background: "linear-gradient(90deg, transparent 0%, rgba(219,59,43,0.25) 12%, rgba(219,59,43,0.25) 88%, transparent 100%)" }} />
 
                       {[
-                        { n: "01", title: "Describe tu negocio", desc: "Cuéntale a la IA qué vendes, a quién y con qué tono. Una frase basta." },
-                        { n: "02", title: "La IA crea tu tienda", desc: "Genera estructura, secciones, copy y diseño coherente con tu marca." },
-                        { n: "03", title: "Personaliza al detalle", desc: "Ajusta colores, tipografías, productos y secciones con un editor visual." },
-                        { n: "04", title: "Publica y vende", desc: "Conecta dominio y pasarela. Empieza a recibir pedidos el mismo día." },
+                        { n: "01", title: "Describe y la IA crea tu tienda", desc: "Cuéntale a la IA qué vendes y arma tu tienda: estructura, secciones, copy y diseño." },
+                        { n: "02", title: "Carga tus productos", desc: "Sube tus productos o deja que la IA arme títulos, descripciones y variantes." },
+                        { n: "03", title: "Activa métodos de pago", desc: "Acepta tarjetas, SPEI, efectivo y meses sin intereses en unos clics." },
+                        { n: "04", title: "Establece tarifas de envío", desc: "Configura paqueterías y tarifas para empezar a entregar tus pedidos." },
                       ].map((s, i) => (
                         <div
                           key={s.n}
@@ -629,10 +672,16 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                       </p>
                     </div>
 
-                    {/* 3-col uniform grid — each card has a compact visual at top */}
-                    <div data-modal-animate className="grid grid-cols-1 gap-4 tablet:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+                    {/* Horizontal carousel — swipeable on mobile, scrollable on
+                        desktop; cards snap into place (CEO: "que sean cards pero
+                        que sea un carrusel"). Scrollbar hidden. */}
+                    <div
+                      data-modal-animate
+                      className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+                      style={{ scrollPaddingLeft: 0 }}
+                    >
                       {/* 1. Diseño responsive */}
-                      <div data-stagger style={{ ["--i" as string]: 0 }} className="tienda-card flex flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
+                      <div data-stagger style={{ ["--i" as string]: 0 }} className="tienda-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
                         <div className="relative mb-5 flex h-[110px] items-center justify-center overflow-hidden rounded-[10px]">
                           {/* desktop frame */}
                           <div className="absolute left-1/2 top-1/2 -translate-x-[calc(50%+22px)] -translate-y-1/2 rounded-[6px] border border-black/[0.08] bg-white" style={{ width: 110, height: 70 }}>
@@ -662,7 +711,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                       </div>
 
                       {/* 2. Checkout integrado */}
-                      <div data-stagger style={{ ["--i" as string]: 1 }} className="tienda-card flex flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
+                      <div data-stagger style={{ ["--i" as string]: 1 }} className="tienda-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
                         <div className="relative mb-5 flex h-[110px] items-center justify-center overflow-hidden rounded-[10px]" style={{ padding: 12 }}>
                           <div className="w-full max-w-[180px] rounded-[8px] border border-black/[0.06] bg-white p-2.5">
                             <p className="font-inter text-[8px] text-black/40" style={{ marginBottom: 2 }}>Tarjeta</p>
@@ -677,7 +726,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                       </div>
 
                       {/* 3. SEO out of the box */}
-                      <div data-stagger style={{ ["--i" as string]: 2 }} className="tienda-card flex flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
+                      <div data-stagger style={{ ["--i" as string]: 2 }} className="tienda-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
                         <div className="relative mb-5 flex h-[110px] items-center justify-center overflow-hidden rounded-[10px]" style={{ padding: 12 }}>
                           <div className="w-full max-w-[200px] rounded-[8px] border border-black/[0.06] bg-white p-2.5">
                             <div className="flex items-center gap-1.5" style={{ marginBottom: 5 }}>
@@ -694,7 +743,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                       </div>
 
                       {/* 4. Catálogo inteligente */}
-                      <div data-stagger style={{ ["--i" as string]: 3 }} className="tienda-card flex flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
+                      <div data-stagger style={{ ["--i" as string]: 3 }} className="tienda-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
                         <div className="relative mb-5 flex h-[110px] items-center justify-center overflow-hidden rounded-[10px]" style={{ padding: 12 }}>
                           <div className="flex w-full max-w-[210px] items-center gap-2 rounded-[8px] border border-black/[0.06] bg-white p-2">
                             <div className="flex h-[44px] w-[44px] shrink-0 items-center justify-center overflow-hidden rounded-[5px] border border-black/[0.05] bg-white">
@@ -715,7 +764,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                       </div>
 
                       {/* 5. Dominio personalizado */}
-                      <div data-stagger style={{ ["--i" as string]: 4 }} className="tienda-card flex flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
+                      <div data-stagger style={{ ["--i" as string]: 4 }} className="tienda-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
                         <div className="relative mb-5 flex h-[110px] items-center justify-center overflow-hidden rounded-[10px]" style={{ padding: 12 }}>
                           <div className="flex w-full max-w-[210px] items-center gap-1.5 rounded-full border border-black/[0.08] bg-white px-2.5 py-1.5">
                             <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="black" strokeOpacity="0.4" strokeWidth="1.5" /><path d="M3 12h18 M12 3c2 2.5 3 5.7 3 9s-1 6.5-3 9c-2-2.5-3-5.7-3-9s1-6.5 3-9z" stroke="black" strokeOpacity="0.4" strokeWidth="1.5" strokeLinecap="round" /></svg>
@@ -732,7 +781,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                       </div>
 
                       {/* 6. Métricas en tiempo real */}
-                      <div data-stagger style={{ ["--i" as string]: 5 }} className="tienda-card flex flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
+                      <div data-stagger style={{ ["--i" as string]: 5 }} className="tienda-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
                         <div className="relative mb-5 flex h-[110px] items-center justify-center overflow-hidden rounded-[10px]" style={{ padding: 12 }}>
                           <div className="w-full max-w-[200px] rounded-[8px] border border-black/[0.06] bg-white p-2.5">
                             <div className="flex items-center justify-between" style={{ marginBottom: 4 }}>
