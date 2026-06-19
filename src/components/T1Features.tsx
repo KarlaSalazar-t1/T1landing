@@ -240,34 +240,40 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
             {/* ── Section 1: Crea tu tienda con IA — bg changes per prompt ── */}
             {/* Background covers header + section 1 together */}
             <div className={`relative overflow-hidden ${pageMode ? "bg-black pb-24" : "pb-8"}`}>
-              {/* Per-prompt background image — changes only after typing completes */}
+              {/* Hero backdrop */}
               <div className="absolute inset-0 z-0">
-                <Image
-                  key={PROMPT_PAGES[visiblePageIdx].bg}
-                  src={PROMPT_PAGES[visiblePageIdx].bg}
-                  alt=""
-                  fill
-                  className="object-cover"
-                  style={{ animation: "fadeSlideIn 0.6s ease-out" }}
-                />
-                {/* Gradient overlay: color → transparent for blending */}
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    background: `linear-gradient(180deg, ${PROMPT_PAGES[visiblePageIdx].gradientColor} 0%, ${PROMPT_PAGES[visiblePageIdx].gradientColor}cc 20%, transparent 55%)`,
-                    transition: "background 0.6s ease-out",
-                  }}
-                />
-                {/* Bottom black gradient — fuses hero with the black "Inspírate" carousel section (pageMode only) */}
-                {pageMode && (
-                  <div
-                    aria-hidden
-                    className="absolute inset-x-0 bottom-0"
-                    style={{
-                      height: "55%",
-                      background: "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.35) 45%, rgba(0,0,0,0.85) 80%, #000 100%)",
-                    }}
-                  />
+                {pageMode ? (
+                  /* AI-style backdrop: pure black with soft color blobs + a faint
+                     radial glow — no store image (CEO: hero on black with IA-style
+                     color blobs/gradient; just text + prompt input + example tags;
+                     the store preview animation now lives in the "Hoy basta una
+                     frase" section below). */
+                  <>
+                    <div className="absolute" style={{ top: "-12%", left: "6%", width: 540, height: 540, borderRadius: "50%", background: "radial-gradient(circle, rgba(219,59,43,0.30) 0%, transparent 60%)", filter: "blur(90px)" }} />
+                    <div className="absolute" style={{ top: "0%", right: "-6%", width: 480, height: 480, borderRadius: "50%", background: "radial-gradient(circle, rgba(139,92,246,0.24) 0%, transparent 60%)", filter: "blur(90px)" }} />
+                    <div className="absolute" style={{ bottom: "-8%", left: "32%", width: 520, height: 520, borderRadius: "50%", background: "radial-gradient(circle, rgba(99,102,241,0.20) 0%, transparent 62%)", filter: "blur(100px)" }} />
+                    {/* Bottom fade to solid black to fuse with the next section */}
+                    <div aria-hidden className="absolute inset-x-0 bottom-0" style={{ height: "45%", background: "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.6) 60%, #000 100%)" }} />
+                  </>
+                ) : (
+                  <>
+                    {/* Per-prompt background image (modal mode) — changes after typing */}
+                    <Image
+                      key={PROMPT_PAGES[visiblePageIdx].bg}
+                      src={PROMPT_PAGES[visiblePageIdx].bg}
+                      alt=""
+                      fill
+                      className="object-cover"
+                      style={{ animation: "fadeSlideIn 0.6s ease-out" }}
+                    />
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        background: `linear-gradient(180deg, ${PROMPT_PAGES[visiblePageIdx].gradientColor} 0%, ${PROMPT_PAGES[visiblePageIdx].gradientColor}cc 20%, transparent 55%)`,
+                        transition: "background 0.6s ease-out",
+                      }}
+                    />
+                  </>
                 )}
               </div>
               <div className={pageMode ? "relative z-10 mx-auto max-w-[var(--max-w)] px-5 tablet:px-3" : "relative z-10 px-5 tablet:px-10"}>
@@ -347,40 +353,18 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                         </a>
                       </div>
                     </div>
-                    <p className="font-inter text-[13px] text-white/55" style={{ marginTop: 12 }}>
-                      Sin tarjeta · Empieza gratis
-                    </p>
-                  </div>
-
-                  {/* Animation — the live store preview (same build/scroll
-                      animation as before, now placed below the input). */}
-                  <div className="relative w-full" style={{ maxWidth: 760, marginTop: 36 }}>
-                    <div
-                      className="rounded-[18px]"
-                      style={{
-                        padding: 10,
-                        background: "rgba(255,255,255,0.25)",
-                        backdropFilter: "blur(20px)",
-                        WebkitBackdropFilter: "blur(20px)",
-                        border: "1px solid rgba(255,255,255,0.35)",
-                        boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
-                      }}
-                    >
-                      <div className="overflow-hidden rounded-[12px]" style={{ aspectRatio: "16/10" }}>
-                        <div
-                          className="transition-transform duration-1000 ease-in-out"
-                          style={{ transform: `translateY(-${scrollY}px)` }}
+                    {/* Example tags — quick prompt chips */}
+                    <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+                      <span className="font-inter text-[12px] text-white/45" style={{ marginRight: 4 }}>Prueba con:</span>
+                      {PROMPT_PAGES.map((p) => (
+                        <button
+                          key={p.text}
+                          type="button"
+                          className="rounded-full border border-white/15 bg-white/[0.06] px-3 py-1.5 font-inter text-[12px] text-white/70 transition-all duration-150 hover:border-[#E26153]/50 hover:bg-[rgba(226,97,83,0.12)] hover:text-white"
                         >
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            key={PROMPT_PAGES[visiblePageIdx].image}
-                            src={PROMPT_PAGES[visiblePageIdx].image}
-                            alt="Vista previa tienda"
-                            className="block w-full"
-                            style={{ animation: "fadeSlideIn 0.5s ease-out" }}
-                          />
-                        </div>
-                      </div>
+                          {p.text.replace(/\.$/, "")}
+                        </button>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -557,54 +541,36 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                       </p>
                     </div>
 
-                    {/* Live AI prompt input — like t1.com/mx/tienda */}
-                    <div data-modal-animate className="mx-auto" style={{ maxWidth: 720 }}>
-                      <div className="relative rounded-[20px] border border-black/[0.08] bg-white" style={{ boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
-                        {/* Sparkle decoration on the left */}
-                        <div className="pointer-events-none absolute left-5 top-5 hidden tablet:flex h-[28px] w-[28px] items-center justify-center rounded-full" style={{ background: "rgba(219,59,43,0.10)" }}>
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                            <path d="M12 3L14 9L20 11L14 13L12 19L10 13L4 11L10 9L12 3Z" stroke="#DB3B2B" strokeWidth="1.5" strokeLinejoin="round" fill="rgba(219,59,43,0.18)" />
-                          </svg>
-                        </div>
-                        {/* Live-typed prompt area */}
-                        <div className="px-6 pt-6 tablet:pl-16 tablet:pr-7 tablet:pt-7" style={{ minHeight: 120 }}>
-                          <p className="font-inter text-[16px] text-black/85 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-                            {displayedText || (
-                              <span className="text-black/35">Cuéntanos de qué trata tu negocio…</span>
-                            )}
-                            <span
-                              className="ml-0.5 inline-block w-[2px] bg-[#DB3B2B] align-text-bottom"
-                              style={{ height: 18, animation: "blink 0.8s step-end infinite" }}
-                            />
-                          </p>
-                        </div>
-                        {/* Bottom row — char counter + submit */}
-                        <div className="flex items-center justify-between px-6 pb-5 pt-4 tablet:pl-16 tablet:pr-5">
-                          <span className="font-inter text-[12px] text-black/35">{(displayedText || "").length}/500</span>
-                          <a
-                            href="#"
-                            className="inline-flex h-[44px] items-center gap-2 rounded-full bg-[#DB3B2B] px-5 font-inter text-[14px] font-semibold text-white no-underline transition-all duration-200 hover:scale-[1.03] hover:bg-[#C0332A]"
+                    {/* Live store preview — the build/scroll animation that used
+                        to sit in the hero prompt. Driven by the same typed prompt
+                        as the hero input above, so it stays in sync. */}
+                    <div data-modal-animate className="relative mx-auto" style={{ maxWidth: 880 }}>
+                      <div
+                        className="overflow-hidden rounded-[18px] border border-black/[0.06] bg-white"
+                        style={{ padding: 10, boxShadow: "0 24px 70px rgba(0,0,0,0.12)" }}
+                      >
+                        <div className="overflow-hidden rounded-[12px]" style={{ aspectRatio: "16/10" }}>
+                          <div
+                            className="transition-transform duration-1000 ease-in-out"
+                            style={{ transform: `translateY(-${scrollY}px)` }}
                           >
-                            Crear con IA
-                            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                              <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                          </a>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              key={PROMPT_PAGES[visiblePageIdx].image}
+                              src={PROMPT_PAGES[visiblePageIdx].image}
+                              alt="Vista previa tienda"
+                              className="block w-full"
+                              style={{ animation: "fadeSlideIn 0.5s ease-out" }}
+                            />
+                          </div>
                         </div>
                       </div>
-
-                      {/* Quick prompt chips */}
-                      <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
-                        <span className="font-inter text-[12px] text-black/45" style={{ marginRight: 4 }}>Prueba con:</span>
-                        {PROMPT_PAGES.map((p) => (
-                          <button
-                            key={p.text}
-                            type="button"
-                            className="rounded-full border border-black/[0.08] bg-white px-3 py-1.5 font-inter text-[12px] text-black/65 transition-all duration-150 hover:border-[#DB3B2B]/40 hover:bg-[rgba(219,59,43,0.04)] hover:text-[#DB3B2B]"
-                          >
-                            {p.text.replace(/\.$/, "")}
-                          </button>
-                        ))}
+                      {/* Caption — which prompt the AI is rendering right now */}
+                      <div className="mt-5 flex items-center justify-center gap-2 text-center">
+                        <span className="font-inter text-[13px] text-black/40">Generando:</span>
+                        <span className="font-inter text-[13px] font-medium text-black/70">
+                          {PROMPT_PAGES[visiblePageIdx].text.replace(/\.$/, "")}
+                        </span>
                       </div>
                     </div>
                   </div>
