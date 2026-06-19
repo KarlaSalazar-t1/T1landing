@@ -466,8 +466,10 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
             </div>
 
             {/* ── Section 2: Inspírate — carousel ── */}
-            {/* In pageMode: black bg fuses with the hero's bottom black gradient. data-white-card stays so navbar still goes light when next white section enters. */}
-            <div className={`${pageMode ? "bg-black pt-4 pb-16 tablet:pt-6 tablet:pb-20" : "py-12"}`} data-modal-animate>
+            {/* No data-modal-animate here: this carousel must be visible from the
+                start (peeking above the fold) so it's obvious there's content to
+                scroll to — otherwise the hero looks like the whole page. */}
+            <div className={`${pageMode ? "bg-black pt-4 pb-16 tablet:pt-6 tablet:pb-20" : "py-12"}`}>
               <h3
                 className={`font-sora text-[22px] font-light text-center px-5 tablet:text-[28px] tablet:px-10 ${pageMode ? "text-white" : "text-black"}`}
                 style={{ marginBottom: 32, letterSpacing: "-0.02em" }}
@@ -499,13 +501,19 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                         sizes="240px"
                         className="store-card-img object-cover transition-all duration-300"
                       />
-                      {/* Hover overlay */}
+                      {/* Hover overlay — name + "Ver tienda" pill. The whole card
+                          is the link, so the pill is a visual button (no nested <a>). */}
                       <div
-                        className="store-card-overlay absolute inset-0 z-[2] flex flex-col items-center justify-center"
-                        style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.55) 100%)", opacity: 0, transition: "opacity 0.3s ease" }}
+                        className="store-card-overlay absolute inset-0 z-[2] flex flex-col items-center justify-center gap-3.5 px-4 text-center"
+                        style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.7) 100%)", opacity: 0, transition: "opacity 0.3s ease" }}
                       >
-                        <p className="font-sora text-[22px] font-normal text-white" style={{ letterSpacing: "-0.01em" }}>{store.name}</p>
-                        <p className="mt-1 font-inter text-[13px] text-white/85">Visitar tienda →</p>
+                        <p className="font-sora text-[22px] font-medium text-white" style={{ letterSpacing: "-0.01em" }}>{store.name}</p>
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 font-inter text-[13px] font-semibold text-black">
+                          Ver tienda
+                          <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+                            <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </span>
                       </div>
                     </a>
                   ))}
@@ -644,8 +652,6 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                           className="tienda-card relative rounded-[18px] border border-black/[0.06] bg-white p-7"
                           style={{ ["--i" as string]: i }}
                         >
-                          {/* Step dot above the card on desktop, connecting to the line */}
-                          <span aria-hidden className="step-dot absolute hidden h-[10px] w-[10px] rounded-full bg-[#DB3B2B] lg:block" style={{ left: 28, top: 25, boxShadow: "0 0 0 6px rgba(219,59,43,0.12)" }} />
                           <span className="font-sora text-[40px] font-light text-[#DB3B2B]" style={{ display: "block", marginTop: 28, marginBottom: 12, letterSpacing: "-0.04em", lineHeight: 1 }}>
                             {s.n}
                           </span>
