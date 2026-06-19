@@ -589,37 +589,31 @@ body {
   transition: opacity 0.15s linear;
 }
 
-/* ─── Full-screen stack cards (for product sublandings — pasarela, marketplaces) ───
-   Same sticky+scale pattern as .stack-card but always full viewport on desktop too. */
+/* ─── Full-screen blocks (for product sublandings — pasarela, marketplaces) ───
+   The sticky stack-card effect (cards pinning + sliding over + scale/dim) was
+   removed on the SUBLANDINGS only (CEO/UX); the main landing keeps its effect
+   via the separate `.stack-card` class. These full-viewport blocks now flow
+   normally one after another: position static (so the per-card `top` offsets
+   are ignored and nothing overlaps), no scale transform, no dim overlay. Height
+   stays 100vh so each block's `h-full` content keeps centering, and total
+   scroll is unchanged — only the stacking animation is gone. The `useFSStackCards`
+   hook still sets --stack-scale/--stack-dim but they're now inert. */
 .fs-stack-card-container { position: relative; }
 .fs-stack-card {
   --stack-scale: 1;
   --stack-dim: 0;
-  position: sticky;
+  position: static;
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
-  transform: scale(var(--stack-scale));
+  transform: none;
   transform-origin: 50% 0;
-  will-change: transform;
   backface-visibility: hidden;
   isolation: isolate;
   contain: layout paint;
 }
-.fs-stack-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: #000;
-  opacity: var(--stack-dim);
-  pointer-events: none;
-  z-index: 50;
-  transition: opacity 0.15s linear;
-}
-@media (prefers-reduced-motion: reduce) {
-  .fs-stack-card { transform: none !important; }
-  .fs-stack-card::after { display: none; }
-}
+/* Dim overlay disabled — no underlying card to darken anymore. */
+.fs-stack-card::after { display: none; }
 
 /* ─── Stack cards: full-viewport on mobile, preserves sticky stack behavior ─── */
 @media (max-width: 767px) {
