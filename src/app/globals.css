@@ -514,14 +514,14 @@ body {
   animation-play-state: paused;
 }
 
-/* Hover overlay reveal — name + "Ver tienda" + image dim are driven by React
-   state (hoveredStore) so they survive the typewriter re-renders; this :hover
-   rule is just a CSS fallback. */
+/* Hover overlay reveal — name + "Ver tienda" + image dim. Pure CSS :hover so
+   it works as the cards auto-scroll under the cursor (a moving element won't
+   fire JS mouseenter). */
 .store-card:hover .store-card-overlay {
   opacity: 1 !important;
 }
 .store-card:hover .store-card-img {
-  filter: blur(2px) brightness(0.7);
+  filter: blur(2px) brightness(0.7) !important;
 }
 
 /* 3D coverflow mode — JS sets transform/opacity per card every frame, but
@@ -533,10 +533,13 @@ body {
   transform-origin: center center;
   will-change: transform, opacity;
 }
-/* JS skips writing hovered cards; this rule then takes over via cascade */
+/* The rAF loop keeps writing inline transform/opacity to a card that scrolls
+   under a stationary cursor (its JS mouseenter never fires), so these need
+   !important to win over that inline style and bring the hovered card — and
+   thus its overlay — to full size/opacity. */
 .carousel-3d .store-carousel > a:hover {
-  transform: perspective(1100px) translateZ(0) rotateY(0deg) scale(1.06);
-  opacity: 1;
+  transform: perspective(1100px) translateZ(0) rotateY(0deg) scale(1.06) !important;
+  opacity: 1 !important;
   z-index: 5;
   box-shadow: 0 18px 50px rgba(0,0,0,0.45);
 }

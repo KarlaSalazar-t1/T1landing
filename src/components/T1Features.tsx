@@ -347,9 +347,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                       {/* Live-typed prompt area */}
                       <div className="px-6 pt-6 tablet:pl-7 tablet:pr-7 tablet:pt-7" style={{ minHeight: 96 }}>
                         <p className="font-inter text-[16px] text-black/85 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-                          {displayedText || (
-                            <span className="text-black/35">Cuéntanos de qué trata tu negocio…</span>
-                          )}
+                          {displayedText}
                           <span
                             className="ml-0.5 inline-block w-[2px] bg-[#DB3B2B] align-text-bottom"
                             style={{ height: 18, animation: "blink 0.8s step-end infinite" }}
@@ -530,7 +528,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
               <>
                 {/* ── Act II — Conflict: "Antes" (subdued, sets the tension) ── */}
                 {/* data-white-card: triggers navbar light mode when this section reaches the top */}
-                <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32" data-white-card data-tienda-act-2>
+                <section className="relative bg-white px-5 pt-24 pb-14 tablet:px-10 tablet:pt-32 tablet:pb-20" data-white-card data-tienda-act-2>
                   <div className="mx-auto max-w-[var(--max-w)]">
                     <div data-modal-animate className="mx-auto text-center" style={{ marginBottom: 48 }}>
                       <h2 className="font-sora text-[26px] font-light text-black tablet:text-[34px] lg:text-[40px] whitespace-nowrap" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>
@@ -561,16 +559,13 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                 {/* ── Act III — "Hoy basta una frase": white-bg 2-column hero
                        layout — title + text on the LEFT, the live store-preview
                        + typing prompt animation on the RIGHT (CEO). ── */}
-                <section className="relative overflow-hidden bg-white px-5 py-24 tablet:px-10 tablet:py-32">
+                <section className="relative overflow-hidden bg-white px-5 pt-14 pb-24 tablet:px-10 tablet:pt-20 tablet:pb-32">
                   <div className="relative mx-auto max-w-[var(--max-w)]">
                     <div className="grid grid-cols-1 items-center gap-12 tablet:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] tablet:gap-16">
                       {/* Left: title + text */}
                       <div data-modal-animate>
                         <h2 className="font-sora text-[32px] font-light text-black tablet:text-[44px] lg:text-[52px]" style={{ letterSpacing: "-1.5px", lineHeight: 1.05, marginBottom: 20 }}>
-                          Hoy basta una <span className="relative inline-block">
-                            frase
-                            <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 8, background: "rgba(219,59,43,0.18)", borderRadius: 4, zIndex: -1 }} />
-                          </span>.
+                          Hoy basta una frase.
                           <span className="ml-2 inline-flex translate-y-1 items-center">
                             <AISparkle size={30} color="#E26153" />
                           </span>
