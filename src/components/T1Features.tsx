@@ -59,10 +59,6 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
   const [displayedText, setDisplayedText] = useState("");
   const [scrollY, setScrollY] = useState(0);
 
-  // "Inspírate" store carousel — which card is hovered (drives the overlay +
-  // pause via React state so they survive the constant typewriter re-renders).
-  const [hoveredStore, setHoveredStore] = useState<number | null>(null);
-
   // "Todo incluido" carousel — arrow + dot navigation
   const incluyeRef = useRef<HTMLDivElement>(null);
   const [incluyeIdx, setIncluyeIdx] = useState(0);
@@ -348,14 +344,8 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                       className="relative rounded-[20px] border border-white/15 bg-white text-left"
                       style={{ boxShadow: "0 16px 50px rgba(0,0,0,0.18)" }}
                     >
-                      {/* Sparkle */}
-                      <div className="pointer-events-none absolute left-5 top-5 hidden tablet:flex h-[28px] w-[28px] items-center justify-center rounded-full" style={{ background: "rgba(219,59,43,0.10)" }}>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                          <path d="M12 3L14 9L20 11L14 13L12 19L10 13L4 11L10 9L12 3Z" stroke="#DB3B2B" strokeWidth="1.5" strokeLinejoin="round" fill="rgba(219,59,43,0.18)" />
-                        </svg>
-                      </div>
                       {/* Live-typed prompt area */}
-                      <div className="px-6 pt-6 tablet:pl-16 tablet:pr-7 tablet:pt-7" style={{ minHeight: 96 }}>
+                      <div className="px-6 pt-6 tablet:pl-7 tablet:pr-7 tablet:pt-7" style={{ minHeight: 96 }}>
                         <p className="font-inter text-[16px] text-black/85 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
                           {displayedText || (
                             <span className="text-black/35">Cuéntanos de qué trata tu negocio…</span>
@@ -367,7 +357,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                         </p>
                       </div>
                       {/* Bottom row — char counter + submit */}
-                      <div className="flex items-center justify-between px-6 pb-5 pt-4 tablet:pl-16 tablet:pr-5">
+                      <div className="flex items-center justify-between px-6 pb-5 pt-4 tablet:pl-7 tablet:pr-5">
                         <span className="font-inter text-[12px] text-black/35">{(displayedText || "").length}/500</span>
                         <a
                           href="#"
@@ -489,7 +479,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                 <div className={`pointer-events-none absolute right-0 top-0 z-10 h-full w-20 ${pageMode ? "bg-gradient-to-l from-black to-transparent" : "bg-gradient-to-l from-white/80 to-transparent"}`} />
                 <div
                   className="store-carousel flex items-center gap-5"
-                  style={{ padding: "20px 40px", animationPlayState: hoveredStore !== null ? "paused" : "running" }}
+                  style={{ padding: "20px 40px" }}
                 >
                   {STORE_CAROUSEL.map((store, i) => (
                     <a
@@ -497,8 +487,6 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                       href={store.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      onMouseEnter={() => setHoveredStore(i)}
-                      onMouseLeave={() => setHoveredStore((prev) => (prev === i ? null : prev))}
                       className="store-card relative shrink-0 rounded-[16px] no-underline transition-all duration-300 hover:scale-[1.06] hover:shadow-[0_12px_40px_rgba(0,0,0,0.2)]"
                       style={{ width: 240, height: 280, overflow: "hidden" }}
                     >
@@ -508,15 +496,15 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                         fill
                         sizes="240px"
                         className="store-card-img object-cover transition-all duration-300"
-                        style={{ filter: hoveredStore === i ? "blur(2px) brightness(0.7)" : "none" }}
                       />
                       {/* Hover overlay — store name (underlined) + "Ver tienda"
-                          pill. The whole card is the link, so the pill is a
-                          visual button (no nested <a>). Driven by React state so
-                          it survives the constant typewriter re-renders. */}
+                          pill. Reveal + carousel pause are pure CSS :hover so they
+                          work even as the cards auto-scroll under the cursor (a
+                          moving element won't fire JS mouseenter). The whole card
+                          is the link, so the pill is a visual button (no nested <a>). */}
                       <div
                         className="store-card-overlay absolute inset-0 z-[2] flex flex-col items-center justify-center gap-4 px-4 text-center"
-                        style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.72) 100%)", opacity: hoveredStore === i ? 1 : 0, transition: "opacity 0.3s ease" }}
+                        style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.72) 100%)", opacity: 0, transition: "opacity 0.3s ease" }}
                       >
                         <p
                           className="font-sora text-[24px] font-medium text-white"
@@ -550,7 +538,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                       </h2>
                     </div>
 
-                    <div data-modal-animate className="grid grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
+                    <div data-modal-animate className="flex flex-wrap justify-center gap-5">
                       {[
                         { title: "Semanas de espera", desc: "Cotizaciones, ida y vuelta con agencias, prototipos que no convencían." },
                         { title: "Costos opacos", desc: "Diseño, hosting, plugins, integraciones. La cuenta nunca paraba de subir." },
@@ -559,7 +547,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                         <div
                           key={p.title}
                           data-stagger
-                          className="rounded-[18px] border border-black/[0.07] bg-white p-7 shadow-[0_4px_20px_rgba(0,0,0,0.05)] transition-shadow duration-200 hover:shadow-[0_8px_28px_rgba(0,0,0,0.08)]"
+                          className="w-full max-w-[300px] tablet:w-[280px] rounded-[18px] border border-black/[0.07] bg-white p-7 shadow-[0_4px_20px_rgba(0,0,0,0.05)] transition-shadow duration-200 hover:shadow-[0_8px_28px_rgba(0,0,0,0.08)]"
                           style={{ ["--i" as string]: i }}
                         >
                           <h3 className="font-sora text-[18px] font-normal text-black/70" style={{ marginBottom: 6 }}>{p.title}</h3>
