@@ -444,6 +444,15 @@ body {
   box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
 
+/* "Todo incluido" carousel cards — a CONSTANT shadow (same at rest and on
+   hover) so no single card reads as uniquely clickable, and the carousel
+   container carries vertical padding (py-7) so this shadow isn't clipped by
+   the horizontal-scroll overflow. */
+.incluye-card {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  transition: box-shadow 0.25s ease-out, border-color 0.25s ease-out;
+}
+
 /* Step number arrow connector (between step cards on desktop) */
 @keyframes stepDotPulse {
   0%, 100% { opacity: 0.3; transform: scale(1); }
@@ -505,7 +514,9 @@ body {
   animation-play-state: paused;
 }
 
-/* Hover overlay reveal — name + "Visitar tienda" appears, image dims/blurs */
+/* Hover overlay reveal — name + "Ver tienda" + image dim are driven by React
+   state (hoveredStore) so they survive the typewriter re-renders; this :hover
+   rule is just a CSS fallback. */
 .store-card:hover .store-card-overlay {
   opacity: 1 !important;
 }

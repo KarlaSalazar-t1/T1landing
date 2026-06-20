@@ -59,6 +59,10 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
   const [displayedText, setDisplayedText] = useState("");
   const [scrollY, setScrollY] = useState(0);
 
+  // "Inspírate" store carousel — which card is hovered (drives the overlay +
+  // pause via React state so they survive the constant typewriter re-renders).
+  const [hoveredStore, setHoveredStore] = useState<number | null>(null);
+
   // "Todo incluido" carousel — arrow + dot navigation
   const incluyeRef = useRef<HTMLDivElement>(null);
   const [incluyeIdx, setIncluyeIdx] = useState(0);
@@ -114,7 +118,9 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
     cards.forEach((card) => {
       const enter = () => {
         hovered.add(card);
-        // Clear inline transform/opacity so CSS :hover rule applies
+        // Clear inline transform/opacity so the CSS :hover rule applies. The
+        // name/CTA overlay + carousel pause are driven by React state
+        // (hoveredStore) so they survive the typewriter re-renders.
         card.style.removeProperty("transform");
         card.style.removeProperty("opacity");
       };
@@ -483,7 +489,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                 <div className={`pointer-events-none absolute right-0 top-0 z-10 h-full w-20 ${pageMode ? "bg-gradient-to-l from-black to-transparent" : "bg-gradient-to-l from-white/80 to-transparent"}`} />
                 <div
                   className="store-carousel flex items-center gap-5"
-                  style={{ padding: "20px 40px" }}
+                  style={{ padding: "20px 40px", animationPlayState: hoveredStore !== null ? "paused" : "running" }}
                 >
                   {STORE_CAROUSEL.map((store, i) => (
                     <a
@@ -491,6 +497,8 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                       href={store.url}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onMouseEnter={() => setHoveredStore(i)}
+                      onMouseLeave={() => setHoveredStore((prev) => (prev === i ? null : prev))}
                       className="store-card relative shrink-0 rounded-[16px] no-underline transition-all duration-300 hover:scale-[1.06] hover:shadow-[0_12px_40px_rgba(0,0,0,0.2)]"
                       style={{ width: 240, height: 280, overflow: "hidden" }}
                     >
@@ -500,15 +508,23 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                         fill
                         sizes="240px"
                         className="store-card-img object-cover transition-all duration-300"
+                        style={{ filter: hoveredStore === i ? "blur(2px) brightness(0.7)" : "none" }}
                       />
-                      {/* Hover overlay — name + "Ver tienda" pill. The whole card
-                          is the link, so the pill is a visual button (no nested <a>). */}
+                      {/* Hover overlay — store name (underlined) + "Ver tienda"
+                          pill. The whole card is the link, so the pill is a
+                          visual button (no nested <a>). Driven by React state so
+                          it survives the constant typewriter re-renders. */}
                       <div
-                        className="store-card-overlay absolute inset-0 z-[2] flex flex-col items-center justify-center gap-3.5 px-4 text-center"
-                        style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.7) 100%)", opacity: 0, transition: "opacity 0.3s ease" }}
+                        className="store-card-overlay absolute inset-0 z-[2] flex flex-col items-center justify-center gap-4 px-4 text-center"
+                        style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.72) 100%)", opacity: hoveredStore === i ? 1 : 0, transition: "opacity 0.3s ease" }}
                       >
-                        <p className="font-sora text-[22px] font-medium text-white" style={{ letterSpacing: "-0.01em" }}>{store.name}</p>
-                        <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 font-inter text-[13px] font-semibold text-black">
+                        <p
+                          className="font-sora text-[24px] font-medium text-white"
+                          style={{ letterSpacing: "-0.01em", borderBottom: "2px solid rgba(255,255,255,0.85)", paddingBottom: 5 }}
+                        >
+                          {store.name}
+                        </p>
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-5 py-2.5 font-inter text-[13px] font-semibold text-black">
                           Ver tienda
                           <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
                             <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
@@ -526,7 +542,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
               <>
                 {/* ── Act II — Conflict: "Antes" (subdued, sets the tension) ── */}
                 {/* data-white-card: triggers navbar light mode when this section reaches the top */}
-                <section className="relative bg-[#F6F6F6] px-5 py-24 tablet:px-10 tablet:py-32" data-white-card data-tienda-act-2>
+                <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32" data-white-card data-tienda-act-2>
                   <div className="mx-auto max-w-[var(--max-w)]">
                     <div data-modal-animate className="mx-auto text-center" style={{ marginBottom: 48 }}>
                       <h2 className="font-sora text-[26px] font-light text-black tablet:text-[34px] lg:text-[40px] whitespace-nowrap" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>
@@ -543,7 +559,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                         <div
                           key={p.title}
                           data-stagger
-                          className="rounded-[18px] border border-black/[0.06] bg-white p-7 transition-shadow duration-200 hover:shadow-[0_0_25px_2px_rgba(0,0,0,0.04)]"
+                          className="rounded-[18px] border border-black/[0.07] bg-white p-7 shadow-[0_4px_20px_rgba(0,0,0,0.05)] transition-shadow duration-200 hover:shadow-[0_8px_28px_rgba(0,0,0,0.08)]"
                           style={{ ["--i" as string]: i }}
                         >
                           <h3 className="font-sora text-[18px] font-normal text-black/70" style={{ marginBottom: 6 }}>{p.title}</h3>
@@ -567,6 +583,9 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                             frase
                             <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 8, background: "rgba(219,59,43,0.18)", borderRadius: 4, zIndex: -1 }} />
                           </span>.
+                          <span className="ml-2 inline-flex translate-y-1 items-center">
+                            <AISparkle size={30} color="#E26153" />
+                          </span>
                         </h2>
                         <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[19px]" style={{ lineHeight: 1.55, maxWidth: 480 }}>
                           Le dices a la IA qué vendes y arma una tienda hecha para ti. Estructura, copy, secciones y diseño coherentes con tu marca.
@@ -682,11 +701,11 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                       ref={incluyeRef}
                       onScroll={onIncluyeScroll}
                       data-modal-animate
-                      className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+                      className="flex gap-4 overflow-x-auto snap-x snap-mandatory px-1 py-8 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
                       style={{ scrollPaddingLeft: 0 }}
                     >
                       {/* 1. Diseño responsive */}
-                      <div data-stagger style={{ ["--i" as string]: 0 }} className="tienda-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
+                      <div data-stagger style={{ ["--i" as string]: 0 }} className="incluye-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
                         <div className="relative mb-5 flex h-[110px] items-center justify-center overflow-hidden rounded-[10px]">
                           {/* desktop frame */}
                           <div className="absolute left-1/2 top-1/2 -translate-x-[calc(50%+22px)] -translate-y-1/2 rounded-[6px] border border-black/[0.08] bg-white" style={{ width: 110, height: 70 }}>
@@ -716,7 +735,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                       </div>
 
                       {/* 2. Checkout integrado */}
-                      <div data-stagger style={{ ["--i" as string]: 1 }} className="tienda-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
+                      <div data-stagger style={{ ["--i" as string]: 1 }} className="incluye-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
                         <div className="relative mb-5 flex h-[110px] items-center justify-center overflow-hidden rounded-[10px]" style={{ padding: 12 }}>
                           <div className="w-full max-w-[180px] rounded-[8px] border border-black/[0.06] bg-white p-2.5">
                             <p className="font-inter text-[8px] text-black/40" style={{ marginBottom: 2 }}>Tarjeta</p>
@@ -731,7 +750,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                       </div>
 
                       {/* 3. SEO out of the box */}
-                      <div data-stagger style={{ ["--i" as string]: 2 }} className="tienda-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
+                      <div data-stagger style={{ ["--i" as string]: 2 }} className="incluye-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
                         <div className="relative mb-5 flex h-[110px] items-center justify-center overflow-hidden rounded-[10px]" style={{ padding: 12 }}>
                           <div className="w-full max-w-[200px] rounded-[8px] border border-black/[0.06] bg-white p-2.5">
                             <div className="flex items-center gap-1.5" style={{ marginBottom: 5 }}>
@@ -748,7 +767,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                       </div>
 
                       {/* 4. Catálogo inteligente */}
-                      <div data-stagger style={{ ["--i" as string]: 3 }} className="tienda-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
+                      <div data-stagger style={{ ["--i" as string]: 3 }} className="incluye-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
                         <div className="relative mb-5 flex h-[110px] items-center justify-center overflow-hidden rounded-[10px]" style={{ padding: 12 }}>
                           <div className="flex w-full max-w-[210px] items-center gap-2 rounded-[8px] border border-black/[0.06] bg-white p-2">
                             <div className="flex h-[44px] w-[44px] shrink-0 items-center justify-center overflow-hidden rounded-[5px] border border-black/[0.05] bg-white">
@@ -769,7 +788,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                       </div>
 
                       {/* 5. Dominio personalizado */}
-                      <div data-stagger style={{ ["--i" as string]: 4 }} className="tienda-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
+                      <div data-stagger style={{ ["--i" as string]: 4 }} className="incluye-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
                         <div className="relative mb-5 flex h-[110px] items-center justify-center overflow-hidden rounded-[10px]" style={{ padding: 12 }}>
                           <div className="flex w-full max-w-[210px] items-center gap-1.5 rounded-full border border-black/[0.08] bg-white px-2.5 py-1.5">
                             <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="black" strokeOpacity="0.4" strokeWidth="1.5" /><path d="M3 12h18 M12 3c2 2.5 3 5.7 3 9s-1 6.5-3 9c-2-2.5-3-5.7-3-9s1-6.5 3-9z" stroke="black" strokeOpacity="0.4" strokeWidth="1.5" strokeLinecap="round" /></svg>
@@ -786,7 +805,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                       </div>
 
                       {/* 6. Métricas en tiempo real */}
-                      <div data-stagger style={{ ["--i" as string]: 5 }} className="tienda-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
+                      <div data-stagger style={{ ["--i" as string]: 5 }} className="incluye-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
                         <div className="relative mb-5 flex h-[110px] items-center justify-center overflow-hidden rounded-[10px]" style={{ padding: 12 }}>
                           <div className="w-full max-w-[200px] rounded-[8px] border border-black/[0.06] bg-white p-2.5">
                             <div className="flex items-center justify-between" style={{ marginBottom: 4 }}>
