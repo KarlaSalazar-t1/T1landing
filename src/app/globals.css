@@ -504,44 +504,12 @@ body {
   scrollbar-width: none;
 }
 
-/* Store carousel */
+/* Store carousel — auto-scroll marquee. Pause + hover overlay are handled in
+   the StoreCarousel React component (elementFromPoint hover detection), not via
+   CSS :hover, so they work reliably as cards move under a stationary cursor. */
 .store-carousel {
   animation: storeScroll 25s linear infinite;
   width: max-content;
-}
-
-.store-carousel:hover {
-  animation-play-state: paused;
-}
-
-/* Hover overlay reveal — name + "Ver tienda" + image dim. Pure CSS :hover so
-   it works as the cards auto-scroll under the cursor (a moving element won't
-   fire JS mouseenter). */
-.store-card:hover .store-card-overlay {
-  opacity: 1 !important;
-}
-.store-card:hover .store-card-img {
-  filter: blur(2px) brightness(0.7) !important;
-}
-
-/* 3D coverflow mode — JS sets transform/opacity per card every frame, but
-   skips writing hovered cards so CSS hover state can own the transform. */
-.carousel-3d { perspective: 1100px; }
-.carousel-3d .store-carousel { transform-style: preserve-3d; }
-.carousel-3d .store-carousel > a {
-  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease;
-  transform-origin: center center;
-  will-change: transform, opacity;
-}
-/* The rAF loop keeps writing inline transform/opacity to a card that scrolls
-   under a stationary cursor (its JS mouseenter never fires), so these need
-   !important to win over that inline style and bring the hovered card — and
-   thus its overlay — to full size/opacity. */
-.carousel-3d .store-carousel > a:hover {
-  transform: perspective(1100px) translateZ(0) rotateY(0deg) scale(1.06) !important;
-  opacity: 1 !important;
-  z-index: 5;
-  box-shadow: 0 18px 50px rgba(0,0,0,0.45);
 }
 
 @keyframes storeScroll {

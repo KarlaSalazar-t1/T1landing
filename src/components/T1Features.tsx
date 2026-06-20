@@ -22,6 +22,97 @@ const STORE_CAROUSEL = [
   { name: "Orgánica MX", image: "/img/tienda-4.png", url: "#" },
 ];
 
+/* ── Store carousel ──────────────────────────────────────────────────────────
+   Self-contained component so ProductModal's constant typewriter re-renders
+   never touch it. Hover is detected with elementFromPoint on the STATIONARY
+   container (fired from onMouseMove), which is reliable even while the cards
+   auto-scroll under a still cursor — the old approach relied on each moving
+   card's :hover / mouseenter, which browsers don't fire for elements that move
+   under a stationary pointer. State-driven, so the overlay + pause always show.
+*/
+function StoreCarousel({ dark }: { dark: boolean }) {
+  const [paused, setPaused] = useState(false);
+  const [hovered, setHovered] = useState<number | null>(null);
+
+  const onMove = (e: React.MouseEvent) => {
+    const el = document.elementFromPoint(e.clientX, e.clientY) as HTMLElement | null;
+    const card = el?.closest<HTMLElement>("[data-store-idx]");
+    setHovered(card ? Number(card.dataset.storeIdx) : null);
+  };
+
+  return (
+    <div
+      className="relative"
+      style={{ overflow: "clip" }}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => {
+        setPaused(false);
+        setHovered(null);
+      }}
+      onMouseMove={onMove}
+    >
+      <div className={`pointer-events-none absolute left-0 top-0 z-10 h-full w-20 ${dark ? "bg-gradient-to-r from-black to-transparent" : "bg-gradient-to-r from-white/80 to-transparent"}`} />
+      <div className={`pointer-events-none absolute right-0 top-0 z-10 h-full w-20 ${dark ? "bg-gradient-to-l from-black to-transparent" : "bg-gradient-to-l from-white/80 to-transparent"}`} />
+      <div
+        className="store-carousel flex items-center gap-5"
+        style={{ padding: "20px 40px", animationPlayState: paused ? "paused" : "running" }}
+      >
+        {STORE_CAROUSEL.map((store, i) => {
+          const isHovered = hovered === i;
+          return (
+            <a
+              key={`${store.name}-${i}`}
+              data-store-idx={i}
+              href={store.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative shrink-0 overflow-hidden rounded-[16px] no-underline"
+              style={{
+                width: 240,
+                height: 280,
+                transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                transform: isHovered ? "scale(1.05)" : "scale(1)",
+                boxShadow: isHovered ? "0 18px 50px rgba(0,0,0,0.45)" : "none",
+                zIndex: isHovered ? 5 : 1,
+              }}
+            >
+              <Image
+                src={store.image}
+                alt={store.name}
+                fill
+                sizes="240px"
+                className="object-cover"
+                style={{ filter: isHovered ? "blur(2px) brightness(0.6)" : "none", transition: "filter 0.3s ease" }}
+              />
+              <div
+                className="pointer-events-none absolute inset-0 z-[2] flex flex-col items-center justify-center gap-4 px-4 text-center"
+                style={{
+                  background: "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.72) 100%)",
+                  opacity: isHovered ? 1 : 0,
+                  transition: "opacity 0.3s ease",
+                }}
+              >
+                <p
+                  className="font-sora text-[24px] font-medium text-white"
+                  style={{ letterSpacing: "-0.01em", borderBottom: "2px solid rgba(255,255,255,0.85)", paddingBottom: 5 }}
+                >
+                  {store.name}
+                </p>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-5 py-2.5 font-inter text-[13px] font-semibold text-black">
+                  Ver tienda
+                  <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+                    <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 /* ── Animated prompt phrases + matching page images + section bg + gradient color ── */
 const PROMPT_PAGES = [
   { text: "Quiero vender muebles de la más alta calidad.", image: "/img/muebles-v2.webp", bg: "/img/fondo-modal-1.png", gradientColor: "#978478" },
@@ -52,7 +143,6 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
   };
   const title = titles[cardId] || cardId;
   const scrollRef = useRef<HTMLDivElement>(null);
-  const carouselRef = useRef<HTMLDivElement>(null);
 
   const [pageIdx, setPageIdx] = useState(0);
   const [visiblePageIdx, setVisiblePageIdx] = useState(0); // only changes after typing done
@@ -86,82 +176,8 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
     return () => { document.body.style.overflow = ""; };
   }, [pageMode]);
 
-  // ── Carousel 3D coverflow — center cards larger, sides smaller (pageMode only) ──
-  useEffect(() => {
-    if (!pageMode) return;
-    const wrap = carouselRef.current;
-    if (!wrap) return;
-
-    // Respect reduced motion
-    if (typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
-      return;
-    }
-
-    let rafId = 0;
-    let visible = true;
-    const hovered = new Set<HTMLElement>();
-
-    const ioVisibility = new IntersectionObserver(
-      ([entry]) => { visible = entry.isIntersecting; },
-      { threshold: 0 }
-    );
-    ioVisibility.observe(wrap);
-
-    // Track hover so we don't fight the CSS hover transform
-    const cards = Array.from(wrap.querySelectorAll<HTMLElement>(".store-carousel > a"));
-    const enterHandlers = new Map<HTMLElement, () => void>();
-    const leaveHandlers = new Map<HTMLElement, () => void>();
-    cards.forEach((card) => {
-      const enter = () => {
-        hovered.add(card);
-        // Clear inline transform/opacity so the CSS :hover rule applies. The
-        // name/CTA overlay + carousel pause are driven by React state
-        // (hoveredStore) so they survive the typewriter re-renders.
-        card.style.removeProperty("transform");
-        card.style.removeProperty("opacity");
-      };
-      const leave = () => hovered.delete(card);
-      card.addEventListener("mouseenter", enter);
-      card.addEventListener("mouseleave", leave);
-      enterHandlers.set(card, enter);
-      leaveHandlers.set(card, leave);
-    });
-
-    function tick() {
-      if (visible && wrap) {
-        const rect = wrap.getBoundingClientRect();
-        const center = rect.left + rect.width / 2;
-        const half = rect.width / 2 || 1;
-        cards.forEach((card) => {
-          // Skip hovered cards — let CSS hover own the transform
-          if (hovered.has(card)) return;
-          const cr = card.getBoundingClientRect();
-          const cardCenter = cr.left + cr.width / 2;
-          const dist = (cardCenter - center) / half; // -1 .. 1 across the carousel
-          const clamped = Math.max(-1, Math.min(1, dist));
-          const scale = 1 - Math.abs(clamped) * 0.22;
-          const rotateY = clamped * -14;
-          const tz = -Math.abs(clamped) * 60;
-          const opacity = 1 - Math.abs(clamped) * 0.35;
-          card.style.transform = `perspective(1100px) translateZ(${tz}px) rotateY(${rotateY}deg) scale(${scale})`;
-          card.style.opacity = String(opacity);
-        });
-      }
-      rafId = requestAnimationFrame(tick);
-    }
-    rafId = requestAnimationFrame(tick);
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      ioVisibility.disconnect();
-      cards.forEach((card) => {
-        const e = enterHandlers.get(card);
-        const l = leaveHandlers.get(card);
-        if (e) card.removeEventListener("mouseenter", e);
-        if (l) card.removeEventListener("mouseleave", l);
-      });
-    };
-  }, [pageMode]);
+  // (The store carousel is now the self-contained <StoreCarousel> component —
+  // no coverflow rAF loop here anymore.)
 
   // Scroll-triggered animations — modal uses inner scroll container; pageMode uses viewport
   useEffect(() => {
@@ -471,56 +487,8 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                 Inspírate con algunas tiendas creadas con T1
               </h3>
 
-              {/* Carousel — overflow visible so hover scale isn't clipped */}
-              <div ref={carouselRef} className={`relative ${pageMode ? "carousel-3d" : ""}`} style={{ overflow: "clip" }}>
-                <div className={`pointer-events-none absolute left-0 top-0 z-10 h-full w-20 ${pageMode ? "bg-gradient-to-r from-black to-transparent" : "bg-gradient-to-r from-white/80 to-transparent"}`} />
-                <div className={`pointer-events-none absolute right-0 top-0 z-10 h-full w-20 ${pageMode ? "bg-gradient-to-l from-black to-transparent" : "bg-gradient-to-l from-white/80 to-transparent"}`} />
-                <div
-                  className="store-carousel flex items-center gap-5"
-                  style={{ padding: "20px 40px" }}
-                >
-                  {STORE_CAROUSEL.map((store, i) => (
-                    <a
-                      key={`${store.name}-${i}`}
-                      href={store.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="store-card relative shrink-0 rounded-[16px] no-underline transition-all duration-300 hover:scale-[1.06] hover:shadow-[0_12px_40px_rgba(0,0,0,0.2)]"
-                      style={{ width: 240, height: 280, overflow: "hidden" }}
-                    >
-                      <Image
-                        src={store.image}
-                        alt={store.name}
-                        fill
-                        sizes="240px"
-                        className="store-card-img object-cover transition-all duration-300"
-                      />
-                      {/* Hover overlay — store name (underlined) + "Ver tienda"
-                          pill. Reveal + carousel pause are pure CSS :hover so they
-                          work even as the cards auto-scroll under the cursor (a
-                          moving element won't fire JS mouseenter). The whole card
-                          is the link, so the pill is a visual button (no nested <a>). */}
-                      <div
-                        className="store-card-overlay absolute inset-0 z-[2] flex flex-col items-center justify-center gap-4 px-4 text-center"
-                        style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.72) 100%)", opacity: 0, transition: "opacity 0.3s ease" }}
-                      >
-                        <p
-                          className="font-sora text-[24px] font-medium text-white"
-                          style={{ letterSpacing: "-0.01em", borderBottom: "2px solid rgba(255,255,255,0.85)", paddingBottom: 5 }}
-                        >
-                          {store.name}
-                        </p>
-                        <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-5 py-2.5 font-inter text-[13px] font-semibold text-black">
-                          Ver tienda
-                          <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
-                            <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
-                        </span>
-                      </div>
-                    </a>
-                  ))}
-                </div>
-              </div>
+              {/* Carousel — self-contained component (see StoreCarousel) */}
+              <StoreCarousel dark={pageMode} />
             </div>
 
             {/* ── pageMode-only storytelling sections ── */}
@@ -538,9 +506,9 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
 
                     <div data-modal-animate className="flex flex-wrap justify-center gap-5">
                       {[
-                        { title: "Semanas de espera", desc: "Cotizaciones, ida y vuelta con agencias, prototipos que no convencían." },
-                        { title: "Costos opacos", desc: "Diseño, hosting, plugins, integraciones. La cuenta nunca paraba de subir." },
-                        { title: "Resultados inciertos", desc: "Lanzar y rezar. Sin métricas claras, sin SEO, sin saber si convertiría." },
+                        { title: "Semanas de espera", desc: "Cotizaciones, ida y vuelta con agencias, prototipos que no convencían.", icon: "clock" },
+                        { title: "Costos opacos", desc: "Diseño, hosting, plugins, integraciones. La cuenta nunca paraba de subir.", icon: "money" },
+                        { title: "Resultados inciertos", desc: "Lanzar y rezar. Sin métricas claras, sin SEO, sin saber si convertiría.", icon: "question" },
                       ].map((p, i) => (
                         <div
                           key={p.title}
@@ -548,6 +516,33 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                           className="w-full max-w-[300px] tablet:w-[280px] rounded-[18px] border border-black/[0.07] bg-white p-7 shadow-[0_4px_20px_rgba(0,0,0,0.05)] transition-shadow duration-200 hover:shadow-[0_8px_28px_rgba(0,0,0,0.08)]"
                           style={{ ["--i" as string]: i }}
                         >
+                          <div
+                            className="mb-5 flex h-[44px] w-[44px] items-center justify-center rounded-[12px]"
+                            style={{ background: "rgba(219,59,43,0.08)" }}
+                          >
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#DB3B2B" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                              {p.icon === "clock" && (
+                                <>
+                                  <circle cx="12" cy="12" r="9" />
+                                  <path d="M12 7.5V12l3 2" />
+                                </>
+                              )}
+                              {p.icon === "money" && (
+                                <>
+                                  <rect x="2.5" y="6" width="19" height="12" rx="2.5" />
+                                  <circle cx="12" cy="12" r="2.6" />
+                                  <path d="M6 9.5v5M18 9.5v5" />
+                                </>
+                              )}
+                              {p.icon === "question" && (
+                                <>
+                                  <circle cx="12" cy="12" r="9" />
+                                  <path d="M9.6 9.6a2.4 2.4 0 0 1 4.4 1.3c0 1.6-2 1.9-2 3.1" />
+                                  <path d="M12 17.2v.01" />
+                                </>
+                              )}
+                            </svg>
+                          </div>
                           <h3 className="font-sora text-[18px] font-normal text-black/70" style={{ marginBottom: 6 }}>{p.title}</h3>
                           <p className="font-inter text-[14px] font-light text-black/50" style={{ lineHeight: 1.6 }}>{p.desc}</p>
                         </div>
@@ -601,7 +596,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                           style={{ left: -28, bottom: -26, width: 320, padding: "18px 20px", boxShadow: "0 16px 40px rgba(0,0,0,0.16)" }}
                         >
                           <p className="font-inter text-[14px] font-normal text-black/80" style={{ minHeight: 44 }}>
-                            {displayedText || <span className="text-black/35">Cuéntanos de qué trata tu negocio…</span>}
+                            {displayedText}
                             <span className="ml-0.5 inline-block w-[2px] bg-[#DB3B2B]" style={{ height: 16, verticalAlign: "text-bottom", animation: "blink 0.8s step-end infinite" }} />
                           </p>
                           <div className="mt-3 flex items-center justify-between">
@@ -617,7 +612,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                         {/* Mobile: typed prompt below the preview */}
                         <div className="mt-4 rounded-[14px] border border-black/[0.06] bg-white tablet:hidden" style={{ padding: "14px 16px", boxShadow: "0 10px 30px rgba(0,0,0,0.10)" }}>
                           <p className="font-inter text-[13px] text-black/80" style={{ minHeight: 38 }}>
-                            {displayedText || <span className="text-black/35">Cuéntanos de qué trata tu negocio…</span>}
+                            {displayedText}
                             <span className="ml-0.5 inline-block w-[2px] bg-[#DB3B2B]" style={{ height: 14, verticalAlign: "text-bottom", animation: "blink 0.8s step-end infinite" }} />
                           </p>
                         </div>
