@@ -507,7 +507,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                     <div data-modal-animate className="flex flex-wrap justify-center gap-5">
                       {[
                         { title: "Semanas de espera", desc: "Cotizaciones, ida y vuelta con agencias, prototipos que no convencían.", icon: "clock" },
-                        { title: "Costos opacos", desc: "Diseño, hosting, plugins, integraciones. La cuenta nunca paraba de subir.", icon: "money" },
+                        { title: "Costos elevados", desc: "Diseño, hosting, plugins, integraciones. La cuenta nunca paraba de subir.", icon: "money" },
                         { title: "Resultados inciertos", desc: "Lanzar y rezar. Sin métricas claras, sin SEO, sin saber si convertiría.", icon: "question" },
                       ].map((p, i) => (
                         <div
@@ -516,11 +516,8 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                           className="w-full max-w-[300px] tablet:w-[280px] rounded-[18px] border border-black/[0.07] bg-white p-7 shadow-[0_4px_20px_rgba(0,0,0,0.05)] transition-shadow duration-200 hover:shadow-[0_8px_28px_rgba(0,0,0,0.08)]"
                           style={{ ["--i" as string]: i }}
                         >
-                          <div
-                            className="mb-5 flex h-[44px] w-[44px] items-center justify-center rounded-[12px]"
-                            style={{ background: "rgba(219,59,43,0.08)" }}
-                          >
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#DB3B2B" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                          <div className="mb-4 flex h-[30px] w-[30px] items-center justify-center">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                               {p.icon === "clock" && (
                                 <>
                                   <circle cx="12" cy="12" r="9" />
@@ -679,8 +676,8 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                       ref={incluyeRef}
                       onScroll={onIncluyeScroll}
                       data-modal-animate
-                      className="flex gap-4 overflow-x-auto snap-x snap-mandatory px-1 py-8 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
-                      style={{ scrollPaddingLeft: 0 }}
+                      className="flex gap-7 overflow-x-auto snap-x snap-mandatory px-6 py-8 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+                      style={{ scrollPaddingLeft: 24, scrollPaddingRight: 24 }}
                     >
                       {/* 1. Diseño responsive */}
                       <div data-stagger style={{ ["--i" as string]: 0 }} className="incluye-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
