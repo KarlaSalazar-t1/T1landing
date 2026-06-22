@@ -126,6 +126,128 @@ const PROMPT_PAGES = [
   { text: "Mi negocio es de productos orgánicos.", image: "/img/organico-v2.webp", bg: "/img/fondo-modal-4.png", gradientColor: "#998E67" },
 ];
 
+/* ── Hero prompt input ───────────────────────────────────────────────────────
+   Self-contained so it owns its own typing loop (independent of the PROMPT_PAGES
+   preview that drives "Hoy basta una frase"). "Quiero vender " stays fixed; the
+   category suffix types in char-by-char, holds, deletes, and rotates. ── */
+const HERO_PROMPT_PREFIX = "Quiero vender ";
+const HERO_PROMPT_SUFFIXES = [
+  "ropa de mujer",
+  "productos de belleza y maquillaje",
+  "comida casera y postres",
+  "bisutería y accesorios",
+  "zapatos y bolsas",
+  "ropa de bebé y niño",
+  "fundas y accesorios para celular",
+  "productos para mascotas",
+  "ropa deportiva y fitness",
+  "perfumes y fragancias",
+  "artículos de decoración para el hogar",
+  "suplementos y vitaminas",
+  "lencería y ropa interior",
+  "artículos de papelería y regalos",
+  "productos de limpieza del hogar",
+  "plantas y macetas",
+  "joyería de plata y accesorios",
+  "productos naturistas y herbolaria",
+  "ropa de hombre",
+  "electrónicos y accesorios tech",
+];
+const HERO_PROMPT_CHIPS = ["Moda", "Deportes", "Belleza", "Joyería", "Electrónica", "Hogar"];
+const HERO_TYPING_SPEED = 100;
+const HERO_DELETE_SPEED = 50;
+const HERO_DELAY_BETWEEN = 2000;
+const HERO_PAUSE_AFTER_COMPLETE = 1500;
+
+function HeroPromptInput() {
+  const [idx, setIdx] = useState(0);
+  const [suffix, setSuffix] = useState("");
+
+  useEffect(() => {
+    const full = HERO_PROMPT_SUFFIXES[idx];
+    let char = 0;
+    let deleting = false;
+    let t: ReturnType<typeof setTimeout>;
+    const tick = () => {
+      if (!deleting) {
+        char++;
+        setSuffix(full.slice(0, char));
+        if (char >= full.length) {
+          // Fully typed — hold, then start deleting.
+          t = setTimeout(() => {
+            deleting = true;
+            tick();
+          }, HERO_PAUSE_AFTER_COMPLETE);
+          return;
+        }
+        t = setTimeout(tick, HERO_TYPING_SPEED);
+      } else {
+        char--;
+        setSuffix(full.slice(0, char));
+        if (char <= 0) {
+          // Cleared — wait, then advance to the next message.
+          t = setTimeout(() => setIdx((p) => (p + 1) % HERO_PROMPT_SUFFIXES.length), HERO_DELAY_BETWEEN);
+          return;
+        }
+        t = setTimeout(tick, HERO_DELETE_SPEED);
+      }
+    };
+    t = setTimeout(tick, 400);
+    return () => clearTimeout(t);
+  }, [idx]);
+
+  const charCount = HERO_PROMPT_PREFIX.length + suffix.length;
+
+  return (
+    <div className="w-full" style={{ maxWidth: 640 }}>
+      {/* Field starts in a focused state — coral ring + border. */}
+      <div
+        className="relative rounded-[20px] border bg-white text-left"
+        style={{
+          borderColor: "rgba(219,59,43,0.55)",
+          boxShadow: "0 16px 50px rgba(0,0,0,0.18), 0 0 0 4px rgba(219,59,43,0.10)",
+        }}
+      >
+        <div className="px-6 pt-6 tablet:pl-7 tablet:pr-7 tablet:pt-7" style={{ minHeight: 96 }}>
+          <p className="font-inter text-[16px] text-black/85 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
+            {HERO_PROMPT_PREFIX}
+            {suffix}
+            <span
+              className="ml-0.5 inline-block w-[2px] bg-[#DB3B2B] align-text-bottom"
+              style={{ height: 18, animation: "blink 0.8s step-end infinite" }}
+            />
+          </p>
+        </div>
+        <div className="flex items-center justify-between px-6 pb-5 pt-4 tablet:pl-7 tablet:pr-5">
+          <span className="font-inter text-[12px] text-black/35">{charCount}/500</span>
+          <a
+            href="#"
+            className="inline-flex h-[44px] items-center gap-2 rounded-full bg-[#DB3B2B] px-5 font-inter text-[14px] font-semibold text-white no-underline transition-all duration-200 hover:scale-[1.03] hover:bg-[#C0332A]"
+          >
+            Crear con IA
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </a>
+        </div>
+      </div>
+      {/* Suggestion chips */}
+      <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+        <span className="font-inter text-[12px] text-white/45" style={{ marginRight: 4 }}>Prueba con:</span>
+        {HERO_PROMPT_CHIPS.map((c) => (
+          <button
+            key={c}
+            type="button"
+            className="rounded-full border border-white/15 bg-white/[0.06] px-3.5 py-1.5 font-inter text-[12px] text-white/70 transition-all duration-150 hover:border-[#E26153]/50 hover:bg-[rgba(226,97,83,0.12)] hover:text-white"
+          >
+            {c}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /* ── Stat with count-up animation, used in Tienda landing ── */
 function CountStat({ end, prefix = "", suffix = "", label, decimals = 0 }: { end: number; prefix?: string; suffix?: string; label: string; decimals?: number }) {
   const { ref, display } = useCountUp({ end, prefix, suffix, decimals, duration: 1800 });
@@ -358,51 +480,8 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                     Cuéntanos de qué trata tu negocio y nuestra IA creará tu tienda online lista para vender en menos de 2 minutos.
                   </p>
 
-                  {/* Prompt input — live-typed; mirrors the prompt that drives
-                      the preview animation below. */}
-                  <div className="w-full" style={{ maxWidth: 640 }}>
-                    <div
-                      className="relative rounded-[20px] border border-white/15 bg-white text-left"
-                      style={{ boxShadow: "0 16px 50px rgba(0,0,0,0.18)" }}
-                    >
-                      {/* Live-typed prompt area */}
-                      <div className="px-6 pt-6 tablet:pl-7 tablet:pr-7 tablet:pt-7" style={{ minHeight: 96 }}>
-                        <p className="font-inter text-[16px] text-black/85 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-                          {displayedText}
-                          <span
-                            className="ml-0.5 inline-block w-[2px] bg-[#DB3B2B] align-text-bottom"
-                            style={{ height: 18, animation: "blink 0.8s step-end infinite" }}
-                          />
-                        </p>
-                      </div>
-                      {/* Bottom row — char counter + submit */}
-                      <div className="flex items-center justify-between px-6 pb-5 pt-4 tablet:pl-7 tablet:pr-5">
-                        <span className="font-inter text-[12px] text-black/35">{(displayedText || "").length}/500</span>
-                        <a
-                          href="#"
-                          className="inline-flex h-[44px] items-center gap-2 rounded-full bg-[#DB3B2B] px-5 font-inter text-[14px] font-semibold text-white no-underline transition-all duration-200 hover:scale-[1.03] hover:bg-[#C0332A]"
-                        >
-                          Crear con IA
-                          <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                            <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
-                        </a>
-                      </div>
-                    </div>
-                    {/* Example tags — quick prompt chips */}
-                    <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
-                      <span className="font-inter text-[12px] text-white/45" style={{ marginRight: 4 }}>Prueba con:</span>
-                      {PROMPT_PAGES.map((p) => (
-                        <button
-                          key={p.text}
-                          type="button"
-                          className="rounded-full border border-white/15 bg-white/[0.06] px-3 py-1.5 font-inter text-[12px] text-white/70 transition-all duration-150 hover:border-[#E26153]/50 hover:bg-[rgba(226,97,83,0.12)] hover:text-white"
-                        >
-                          {p.text.replace(/\.$/, "")}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
+                  {/* Prompt input — self-contained typing loop (see HeroPromptInput) */}
+                  <HeroPromptInput />
                 </div>
               ) : (
                 <>
