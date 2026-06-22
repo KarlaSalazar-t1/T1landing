@@ -13,7 +13,7 @@ const MARKETPLACES = [
   { name: "Walmart", src: "/img/walmart.svg" },
   { name: "SHEIN", src: "/img/shein-iso.svg" },
   { name: "Sears", src: "/img/sears-isotipo.svg" },
-  { name: "TikTok Shop", src: "/img/tiktok-isotipo.png" },
+  { name: "TikTok Shop", src: "/img/tiktok.svg" },
   { name: "Shopify", src: "/img/shopify.svg" },
 ];
 
@@ -23,9 +23,9 @@ const MARKETPLACES_GRID = [
   { name: "Walmart", src: "/img/walmart.svg" },
   { name: "SHEIN", src: "/img/shein-iso.svg" },
   { name: "Sears", src: "/img/sears-isotipo.svg" },
-  { name: "Sanborns", src: "/img/logos/sanborns.svg" },
+  { name: "Sanborns", src: "/img/sanborns-iso.svg" },
   { name: "AliExpress", src: "/img/aliexpress.svg" },
-  { name: "TikTok Shop", src: "/img/tiktok-isotipo.png" },
+  { name: "TikTok Shop", src: "/img/tiktok.svg" },
   { name: "Total Play", src: "/img/totalplay.svg" },
   { name: "Shopify", src: "/img/shopify.svg" },
   { name: "Tienda Nube", src: "/img/tiendanube.svg" },
@@ -192,8 +192,6 @@ function MpPublishPanel() {
     return () => clearInterval(id);
   }, []);
 
-  const n = active.filter(Boolean).length;
-
   return (
     <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 18, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
       <p className="font-sora text-[14px] font-medium text-black" style={{ marginBottom: 14 }}>Administrar publicación</p>
@@ -206,38 +204,31 @@ function MpPublishPanel() {
           <p className="font-inter text-[10px] text-black/50">Importado de 4 marketplaces</p>
         </div>
       </div>
-      <div className="flex flex-col gap-2">
+      <p className="font-inter text-[12px] font-semibold text-black/80" style={{ marginBottom: 12 }}>Publicar en:</p>
+      <div className="flex flex-col gap-3.5">
         {MANAGE_CHANNELS.map((c, i) => {
           const on = active[i];
           return (
-            <div key={c.name} className="flex items-center gap-3 rounded-[10px] border border-black/[0.05] px-3 py-2">
+            <div key={c.name} className="flex items-center gap-3">
+              {/* Checkbox (red when active) — no switch */}
+              <span
+                className="flex h-[20px] w-[20px] shrink-0 items-center justify-center rounded-[6px] border-2 transition-all duration-200"
+                style={{ borderColor: on ? "#DB3B2B" : "rgba(0,0,0,0.22)", background: on ? "#DB3B2B" : "#fff" }}
+              >
+                {on && (
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                    <path d="M3 8L6.5 11.5L13 4.5" stroke="white" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                )}
+              </span>
               <div className="flex h-[26px] w-[26px] shrink-0 items-center justify-center overflow-hidden rounded-[6px]">
-                <Image src={`/img/${c.src}`} alt="" width={22} height={22} className="object-contain" />
+                <Image src={`/img/${c.src}`} alt="" width={24} height={24} className="object-contain" />
               </div>
-              <span className="flex-1 font-inter text-[12px] font-medium text-black/80">{c.name}</span>
-              <span
-                className="rounded-full px-2 py-0.5 font-inter text-[9px] font-bold transition-colors duration-200"
-                style={on ? { color: "#16A34A", background: "rgba(34,197,94,0.12)" } : { color: "#6B7280", background: "rgba(0,0,0,0.05)" }}
-              >
-                {on ? "Activo" : "Inactivo"}
-              </span>
-              {/* Toggle switch */}
-              <span
-                className="relative inline-block h-[18px] w-[32px] shrink-0 rounded-full transition-colors duration-200"
-                style={{ background: on ? "#16A34A" : "rgba(0,0,0,0.18)" }}
-              >
-                <span
-                  className="absolute top-[2px] h-[14px] w-[14px] rounded-full bg-white transition-all duration-200"
-                  style={{ left: on ? 16 : 2, boxShadow: "0 1px 2px rgba(0,0,0,0.2)" }}
-                />
-              </span>
+              <span className="font-inter text-[13px] font-medium text-black/85">{c.name}</span>
             </div>
           );
         })}
       </div>
-      <p className="font-inter text-[11px] font-medium text-black/50" style={{ marginTop: 14, textAlign: "center" }}>
-        Activo en <span className="font-bold text-black/75 tabular-nums">{n}</span> de {MANAGE_CHANNELS.length} marketplaces
-      </p>
     </div>
   );
 }
