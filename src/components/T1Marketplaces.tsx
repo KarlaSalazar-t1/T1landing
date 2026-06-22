@@ -279,10 +279,9 @@ export default function T1Marketplaces() {
                 {MARKETPLACES.slice(0, 6).map((mp, i) => (
                   <div
                     key={i}
-                    className="flex h-[64px] items-center justify-center rounded-[14px] bg-white"
-                    style={{ border: "1px solid rgba(255,255,255,0.10)", boxShadow: "0 4px 14px rgba(0,0,0,0.18)" }}
+                    className="flex h-[64px] items-center justify-center"
                   >
-                    <Image src={mp.src} alt={mp.name} width={42} height={42} className="object-contain" />
+                    <Image src={mp.src} alt={mp.name} width={52} height={52} className="object-contain" />
                   </div>
                 ))}
               </div>
@@ -367,10 +366,10 @@ export default function T1Marketplaces() {
                 ].map(({ mp, pctX, pctY }, i) => (
                   <div
                     key={i}
-                    className="absolute flex h-[52px] w-[52px] items-center justify-center overflow-hidden rounded-[12px] bg-white"
-                    style={{ left: `${pctX}%`, top: `${pctY}%`, transform: "translate(-50%, -50%)", boxShadow: "0 6px 18px rgba(0,0,0,0.22)" }}
+                    className="absolute flex h-[52px] w-[52px] items-center justify-center"
+                    style={{ left: `${pctX}%`, top: `${pctY}%`, transform: "translate(-50%, -50%)" }}
                   >
-                    <Image src={mp.src} alt={mp.name} width={46} height={46} className="object-contain" />
+                    <Image src={mp.src} alt={mp.name} width={52} height={52} className="h-full w-full object-contain" />
                   </div>
                 ))}
               </div>
@@ -430,6 +429,9 @@ export default function T1Marketplaces() {
               </div>
             ))}
           </div>
+          <p className="mx-auto text-center font-sora text-[20px] font-light text-black tablet:text-[26px]" style={{ marginTop: 48, letterSpacing: "-0.02em" }}>
+            Con T1, <span className="text-[#DB3B2B]">olvídate de todo esto.</span>
+          </p>
         </div>
       </section>
 
@@ -440,11 +442,11 @@ export default function T1Marketplaces() {
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div>
-                <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
+                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 14 }}>
                   Un solo inventario para todos tus canales
                 </h3>
-                <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                  Tu inventario se actualiza al instante en todos los marketplaces conectados. Adiós a las sobreventas.
+                <p className="font-inter text-[14px] font-light text-black/55 tablet:text-[15px]" style={{ lineHeight: 1.55, marginBottom: 22 }}>
+                  Se actualiza al instante en todos tus canales. Adiós a las sobreventas.
                 </p>
                 <ul className="flex flex-col gap-2.5">
                   {["Inventario unificado entre tu tienda y marketplaces", "Actualización en tiempo real al vender"].map((it) => (
@@ -469,11 +471,11 @@ export default function T1Marketplaces() {
               </div>
 
               <div className="order-1 tablet:order-2">
-                <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
+                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 14 }}>
                   Todos tus pedidos en un solo panel
                 </h3>
-                <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                  Procesa pedidos de todos los marketplaces sin saltar entre plataformas. Etiqueta, factura y envía desde un solo lugar.
+                <p className="font-inter text-[14px] font-light text-black/55 tablet:text-[15px]" style={{ lineHeight: 1.55, marginBottom: 22 }}>
+                  Procesa los pedidos de todos tus canales sin saltar entre plataformas.
                 </p>
                 <ul className="flex flex-col gap-2.5">
                   {["Vista unificada de pedidos por canal", "Filtra por estado, marketplace o cliente", "Genera guías de envío en segundos"].map((it) => (
@@ -493,11 +495,11 @@ export default function T1Marketplaces() {
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div>
-                <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
+                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 14 }}>
                   Controla dónde se vende cada producto
                 </h3>
-                <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                  Importa los productos que ya tienes en cada marketplace y decide dónde se venden: activa o pausa cada producto por canal en segundos.
+                <p className="font-inter text-[14px] font-light text-black/55 tablet:text-[15px]" style={{ lineHeight: 1.55, marginBottom: 22 }}>
+                  Importa tus productos y decide en qué canales se venden: actívalos o pausa en segundos.
                 </p>
                 <ul className="flex flex-col gap-2.5">
                   {["Importa tus publicaciones de SHEIN, Amazon y más", "Activa o pausa cada producto por marketplace"].map((it) => (
