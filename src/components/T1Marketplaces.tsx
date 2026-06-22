@@ -6,26 +6,30 @@ import { SIGNUP_URL } from "@/lib/constants";
 import { useFSStackCards } from "@/hooks/useFSStackCards";
 import T1FinalCTA from "@/components/T1FinalCTA";
 
-/* ── Marketplace icons (used in hero tree + grid) ── */
+/* ── Sales-channel icons (real T1 channels) ── */
 const MARKETPLACES = [
-  { name: "MercadoLibre", src: "/img/meli-iso.svg" },
+  { name: "Mercado Libre", src: "/img/meli-iso.svg" },
   { name: "Amazon", src: "/img/amazon-iso.svg" },
-  { name: "Sears", src: "/img/sears-isotipo.svg" },
-  { name: "SHEIN", src: "/img/shein-iso.svg" },
   { name: "Walmart", src: "/img/walmart.svg" },
-  { name: "Shopify", src: "/img/shein-iso.svg" },
-  { name: "Liverpool", src: "/img/sears-isotipo.svg" },
+  { name: "SHEIN", src: "/img/shein-iso.svg" },
+  { name: "Sears", src: "/img/sears-isotipo.svg" },
+  { name: "TikTok Shop", src: "/img/tiktok-isotipo.png" },
+  { name: "Shopify", src: "/img/shopify.svg" },
 ];
 
 const MARKETPLACES_GRID = [
-  { name: "MercadoLibre", src: "/img/meli-iso.svg" },
+  { name: "Mercado Libre", src: "/img/meli-iso.svg" },
   { name: "Amazon", src: "/img/amazon-iso.svg" },
   { name: "Walmart", src: "/img/walmart.svg" },
   { name: "SHEIN", src: "/img/shein-iso.svg" },
   { name: "Sears", src: "/img/sears-isotipo.svg" },
-  { name: "Liverpool", src: "/img/sears-isotipo.svg" },
-  { name: "Shopify", src: "/img/shein-iso.svg" },
+  { name: "Sanborns", src: "/img/logos/sanborns.svg" },
+  { name: "AliExpress", src: "/img/aliexpress.svg" },
   { name: "TikTok Shop", src: "/img/tiktok-isotipo.png" },
+  { name: "Total Play", src: "/img/totalplay.svg" },
+  { name: "Shopify", src: "/img/shopify.svg" },
+  { name: "Tienda Nube", src: "/img/tiendanube.svg" },
+  { name: "WooCommerce", src: "/img/woocommerce.svg" },
 ];
 
 /* ── Status pill colour: all grey except Entregado (green) / Cancelado (red) ─ */
@@ -65,7 +69,8 @@ function MpInventoryPanel() {
     return () => clearInterval(id);
   }, []);
 
-  const cols = "1.5fr 0.7fr 0.85fr 0.5fr 0.6fr";
+  // minmax(0,…) so every row's columns line up regardless of content length
+  const cols = "minmax(0,1.5fr) minmax(0,0.7fr) minmax(0,0.85fr) minmax(0,0.5fr) minmax(0,0.6fr)";
 
   return (
     <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 18, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
@@ -82,9 +87,9 @@ function MpInventoryPanel() {
         const flashColor = flash?.dir === "up" ? "#16A34A" : "#DB3B2B";
         return (
           <div key={row.sku} className="grid items-center gap-2 py-2.5" style={{ gridTemplateColumns: cols, borderBottom: i < INVENTORY_ROWS.length - 1 ? "1px solid rgba(0,0,0,0.04)" : "none" }}>
-            <div className="flex items-center gap-2.5">
+            <div className="flex min-w-0 items-center gap-2.5">
               <div className="h-[32px] w-[32px] shrink-0 rounded-[7px] border border-black/[0.06]" style={{ background: "linear-gradient(135deg, #F1EFEE 0%, #E4E1DF 100%)" }} />
-              <p className="truncate font-inter text-[12px] font-semibold text-black">{row.name}</p>
+              <p className="min-w-0 truncate font-inter text-[12px] font-semibold text-black">{row.name}</p>
             </div>
             <span className="w-fit rounded-full bg-[rgba(34,197,94,0.12)] px-2 py-0.5 font-inter text-[9px] font-bold text-[#16A34A]">Activo</span>
             <div>
@@ -129,7 +134,7 @@ function MpOrdersPanel() {
     return () => clearInterval(id);
   }, []);
 
-  const cols = "0.8fr 1.15fr 1.2fr 0.7fr 0.95fr";
+  const cols = "minmax(0,0.8fr) minmax(0,1.15fr) minmax(0,1.2fr) minmax(0,0.7fr) minmax(0,0.95fr)";
 
   return (
     <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 18, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
@@ -150,13 +155,13 @@ function MpOrdersPanel() {
             style={{ gridTemplateColumns: cols, borderBottom: i < orders.length - 1 ? "1px solid rgba(0,0,0,0.04)" : "none", animation: i === 0 ? "fadeSlideIn 0.45s ease-out" : undefined }}
           >
             <span className="font-inter text-[11px] font-medium text-black/55 tabular-nums">#{ORDER_ID_BASE + o.k}</span>
-            <div className="flex items-center gap-1.5">
+            <div className="flex min-w-0 items-center gap-1.5">
               <div className="flex h-[22px] w-[22px] shrink-0 items-center justify-center overflow-hidden rounded-[5px] border border-black/[0.05] bg-white">
                 <Image src={`/img/${o.ch}`} alt="" width={16} height={16} className="object-contain" />
               </div>
-              <span className="truncate font-inter text-[11px] text-black/65">{o.chName}</span>
+              <span className="min-w-0 truncate font-inter text-[11px] text-black/65">{o.chName}</span>
             </div>
-            <span className="truncate font-inter text-[12px] font-semibold text-black">{o.customer}</span>
+            <span className="min-w-0 truncate font-inter text-[12px] font-semibold text-black">{o.customer}</span>
             <span className="font-inter text-[12px] font-semibold text-black tabular-nums">{o.total}</span>
             <span className="w-fit rounded-full px-2 py-0.5 font-inter text-[9px] font-bold" style={{ color: st.color, background: st.bg }}>{o.status}</span>
           </div>
@@ -462,7 +467,7 @@ export default function T1Marketplaces() {
                   Importa los productos que ya tienes en cada marketplace y decide dónde se venden: activa o pausa cada producto por canal en segundos.
                 </p>
                 <ul className="flex flex-col gap-2.5">
-                  {["Importa tus publicaciones de SHEIN, Amazon y más", "Activa o pausa cada producto por marketplace", "Los cambios se reflejan al instante en cada canal"].map((it) => (
+                  {["Importa tus publicaciones de SHEIN, Amazon y más", "Activa o pausa cada producto por marketplace"].map((it) => (
                     <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                       {it}
@@ -481,10 +486,10 @@ export default function T1Marketplaces() {
         <div className="mx-auto max-w-[var(--max-w)]">
           <div className="mx-auto max-w-[640px] text-center" style={{ marginBottom: 48 }}>
             <h2 className="font-sora text-[26px] font-light text-black tablet:text-[34px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15, marginBottom: 12 }}>
-              Más de 10 marketplaces conectados
+Conecta todos tus canales de venta
             </h2>
             <p className="font-inter text-[15px] font-light text-black/60 tablet:text-[17px]" style={{ lineHeight: 1.6 }}>
-              Conecta los principales canales del comercio en México y Latinoamérica.
+Marketplaces, tiendas y redes: gestiona todas tus ventas desde un solo lugar.
             </p>
           </div>
 
@@ -514,7 +519,7 @@ export default function T1Marketplaces() {
           </div>
           <div className="flex flex-col gap-3">
             {[
-              { q: "¿Qué marketplaces puedo conectar?", a: "MercadoLibre, Amazon, Walmart, SHEIN, Sears, Liverpool, Shopify, TikTok Shop y más de 10 canales totales." },
+              { q: "¿Qué canales de venta puedo conectar?", a: "Mercado Libre, Amazon, Walmart, SHEIN, Sears, Sanborns, AliExpress, TikTok Shop, Total Play, Shopify, Tienda Nube, WooCommerce y más." },
               { q: "¿Necesito tener cuenta en cada marketplace?", a: "Sí, necesitas una cuenta de vendedor en cada marketplace donde quieras publicar. T1 te ayuda con la configuración y conecta cada cuenta una sola vez." },
               { q: "¿Cómo se sincroniza el inventario?", a: "En tiempo real. Cada venta en cualquier canal descuenta el inventario en menos de 2 segundos en todos los demás. Adiós sobreventas." },
               { q: "¿Puedo tener precios diferentes por canal?", a: "Sí. Cada SKU puede tener un precio distinto en cada marketplace para optimizar margen según las comisiones de cada plataforma." },
