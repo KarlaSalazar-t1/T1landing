@@ -829,7 +829,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                             <p className="font-inter text-[7.5px] text-black/50" style={{ lineHeight: 1.4 }}>Encuentra todo lo que necesitas...</p>
                           </div>
                         </div>
-                        <h3 className="font-sora text-[17px] font-normal text-black" style={{ marginBottom: 6 }}>SEO out of the box</h3>
+                        <h3 className="font-sora text-[17px] font-normal text-black" style={{ marginBottom: 6 }}>Optimizado para SEO</h3>
                         <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>Estructura, metadatos y velocidad pensados para Google.</p>
                       </div>
 

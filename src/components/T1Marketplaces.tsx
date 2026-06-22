@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
 import { useFSStackCards } from "@/hooks/useFSStackCards";
 import T1FinalCTA from "@/components/T1FinalCTA";
@@ -27,6 +27,208 @@ const MARKETPLACES_GRID = [
   { name: "Shopify", src: "/img/shein-iso.svg" },
   { name: "TikTok Shop", src: "/img/tiktok-isotipo.png" },
 ];
+
+/* ── Animated panel 1 — Inventario (stock ticks up/down) ──────────────────── */
+const INVENTORY_ROWS = [
+  { name: "Tenis blancos clásicos", sku: "TBC-042", price: "$1,345", channels: "3/3", start: 24 },
+  { name: "Playera básica oversize", sku: "PB-101", price: "$299", channels: "2/3", start: 87 },
+  { name: "Sudadera hoodie premium", sku: "SH-220", price: "$899", channels: "3/3", start: 12 },
+  { name: "Gorra snapback negra", sku: "GS-088", price: "$249", channels: "2/3", start: 41 },
+];
+
+function MpInventoryPanel() {
+  const [stock, setStock] = useState(() => INVENTORY_ROWS.map((r) => r.start));
+  const [flash, setFlash] = useState<{ idx: number; dir: "up" | "down" } | null>(null);
+
+  useEffect(() => {
+    let tick = 0;
+    const id = setInterval(() => {
+      const idx = tick % INVENTORY_ROWS.length;
+      // Every 3rd touch on a row is a restock (up), otherwise a sale (down).
+      const up = tick % 3 === 0;
+      tick++;
+      setStock((prev) =>
+        prev.map((s, k) => {
+          if (k !== idx) return s;
+          return up ? s + (6 + (tick % 5)) : Math.max(1, s - (1 + (tick % 2)));
+        })
+      );
+      setFlash({ idx, dir: up ? "up" : "down" });
+      window.setTimeout(() => setFlash(null), 650);
+    }, 1500);
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 18, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
+      <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
+        <p className="font-sora text-[14px] font-medium text-black">Mis productos</p>
+        <span className="rounded-full bg-[rgba(34,197,94,0.12)] px-2 py-0.5 font-inter text-[10px] font-bold text-[#16A34A]">Sincronizado</span>
+      </div>
+      {/* Column header */}
+      <div className="grid items-center gap-2 border-b border-black/[0.06] pb-2" style={{ gridTemplateColumns: "1.7fr 0.8fr 0.7fr 0.7fr" }}>
+        <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Producto</span>
+        <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Inventario</span>
+        <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Canales</span>
+        <span className="text-right font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Precio</span>
+      </div>
+      {INVENTORY_ROWS.map((row, i) => {
+        const isFlash = flash?.idx === i;
+        const flashColor = flash?.dir === "up" ? "#16A34A" : "#DB3B2B";
+        return (
+          <div key={row.sku} className="grid items-center gap-2 py-2.5" style={{ gridTemplateColumns: "1.7fr 0.8fr 0.7fr 0.7fr", borderBottom: i < INVENTORY_ROWS.length - 1 ? "1px solid rgba(0,0,0,0.04)" : "none" }}>
+            <div className="flex items-center gap-2.5">
+              <div className="h-[34px] w-[34px] shrink-0 rounded-[7px] border border-black/[0.06]" style={{ background: "linear-gradient(135deg, #F1EFEE 0%, #E4E1DF 100%)" }} />
+              <div className="min-w-0">
+                <p className="truncate font-inter text-[12px] font-semibold text-black">{row.name}</p>
+                <span className="mt-0.5 inline-block rounded-full bg-[rgba(34,197,94,0.12)] px-1.5 py-px font-inter text-[8px] font-bold text-[#16A34A]">Activo</span>
+              </div>
+            </div>
+            <div>
+              <span
+                className="font-sora text-[13px] font-semibold tabular-nums transition-colors duration-300"
+                style={{ color: isFlash ? flashColor : "#111" }}
+              >
+                {stock[i]}
+              </span>
+              <span className="font-inter text-[10px] text-black/40"> uds</span>
+            </div>
+            <span className="font-inter text-[11px] font-medium text-black/55 tabular-nums">{row.channels}</span>
+            <span className="text-right font-inter text-[12px] font-semibold text-black tabular-nums">{row.price}</span>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+/* ── Animated panel 2 — Pedidos (new orders slide in) ─────────────────────── */
+type MpOrder = { k: number; ch: string; chName: string; customer: string; total: string; status: string; color: string; bg: string };
+const ORDER_POOL: Omit<MpOrder, "k">[] = [
+  { ch: "meli-iso.svg", chName: "Mercado Libre", customer: "María González", total: "$1,345", status: "Por enviar", color: "#B45309", bg: "rgba(245,158,11,0.12)" },
+  { ch: "amazon-iso.svg", chName: "Amazon", customer: "Carlos Ruiz", total: "$892", status: "En camino", color: "#1D4ED8", bg: "rgba(59,130,246,0.12)" },
+  { ch: "shein-iso.svg", chName: "SHEIN", customer: "Ana Pérez", total: "$2,150", status: "Pagado", color: "#16A34A", bg: "rgba(34,197,94,0.12)" },
+  { ch: "walmart.svg", chName: "Walmart", customer: "Luis Hernández", total: "$456", status: "Por enviar", color: "#B45309", bg: "rgba(245,158,11,0.12)" },
+  { ch: "sears-isotipo.svg", chName: "Sears", customer: "Sofía Ramírez", total: "$729", status: "Pagado", color: "#16A34A", bg: "rgba(34,197,94,0.12)" },
+  { ch: "amazon-iso.svg", chName: "Amazon", customer: "Diego Torres", total: "$1,099", status: "En camino", color: "#1D4ED8", bg: "rgba(59,130,246,0.12)" },
+  { ch: "meli-iso.svg", chName: "Mercado Libre", customer: "Valeria Cruz", total: "$389", status: "Pagado", color: "#16A34A", bg: "rgba(34,197,94,0.12)" },
+];
+
+function MpOrdersPanel() {
+  const [orders, setOrders] = useState<MpOrder[]>(() => ORDER_POOL.slice(0, 4).map((o, k) => ({ ...o, k })));
+  const [count, setCount] = useState(42);
+
+  useEffect(() => {
+    let i = 4;
+    const id = setInterval(() => {
+      const next = ORDER_POOL[i % ORDER_POOL.length];
+      const k = i;
+      i++;
+      setOrders((prev) => [{ ...next, k }, ...prev.slice(0, 3)]);
+      setCount((c) => c + 1);
+    }, 2400);
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 18, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
+      <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
+        <p className="font-sora text-[14px] font-medium text-black">Mis pedidos</p>
+        <span className="rounded-full bg-[rgba(219,59,43,0.10)] px-2 py-0.5 font-inter text-[10px] font-bold text-[#DB3B2B] tabular-nums">{count} nuevos</span>
+      </div>
+      <div className="flex flex-col gap-2">
+        {orders.map((o, i) => (
+          <div
+            key={o.k}
+            className="flex items-center gap-3 rounded-[10px] border border-black/[0.05] bg-[#FAFAF9] px-3 py-2.5"
+            style={i === 0 ? { animation: "fadeSlideIn 0.45s ease-out" } : undefined}
+          >
+            <div className="flex h-[28px] w-[28px] shrink-0 items-center justify-center overflow-hidden rounded-[6px] border border-black/[0.05] bg-white">
+              <Image src={`/img/${o.ch}`} alt="" width={20} height={20} className="object-contain" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="truncate font-inter text-[12px] font-semibold text-black">{o.customer}</p>
+              <p className="font-inter text-[10px] text-black/45">{o.chName}</p>
+            </div>
+            <span className="font-inter text-[12px] font-semibold text-black tabular-nums">{o.total}</span>
+            <span className="rounded-full px-2 py-0.5 font-inter text-[9px] font-bold" style={{ color: o.color, background: o.bg }}>{o.status}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── Animated panel 3 — Publicar (marketplaces select/deselect) ───────────── */
+const PUBLISH_CHANNELS = [
+  { src: "meli-iso.svg", name: "Mercado Libre" },
+  { src: "amazon-iso.svg", name: "Amazon" },
+  { src: "walmart.svg", name: "Walmart" },
+  { src: "shein-iso.svg", name: "SHEIN" },
+  { src: "sears-isotipo.svg", name: "Sears" },
+];
+
+function MpPublishPanel() {
+  const [checked, setChecked] = useState([true, true, false, true, false]);
+
+  useEffect(() => {
+    let i = 0;
+    const id = setInterval(() => {
+      const idx = i % PUBLISH_CHANNELS.length;
+      i++;
+      setChecked((prev) => prev.map((c, k) => (k === idx ? !c : c)));
+    }, 1400);
+    return () => clearInterval(id);
+  }, []);
+
+  const n = checked.filter(Boolean).length;
+
+  return (
+    <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 18, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
+      <p className="font-sora text-[14px] font-medium text-black" style={{ marginBottom: 14 }}>Publicar producto</p>
+      <div className="flex items-center gap-3 rounded-[10px] border border-black/[0.05] bg-[#FAFAF9] px-3 py-3" style={{ marginBottom: 16 }}>
+        <div className="flex h-[44px] w-[44px] shrink-0 items-center justify-center overflow-hidden rounded-[8px] border border-black/[0.05] bg-white">
+          <Image src="/img/tenis-transparente.png" alt="" width={36} height={28} className="object-contain" />
+        </div>
+        <div className="flex-1">
+          <p className="font-inter text-[12px] font-semibold text-black">Tenis blancos clásicos</p>
+          <p className="font-inter text-[10px] text-black/50">3 variantes · $1,345.99</p>
+        </div>
+      </div>
+      <p className="font-inter text-[11px] font-medium text-black/55" style={{ marginBottom: 10 }}>Publicar en:</p>
+      <div className="flex flex-col gap-2" style={{ marginBottom: 16 }}>
+        {PUBLISH_CHANNELS.map((c, i) => {
+          const on = checked[i];
+          return (
+            <div
+              key={c.name}
+              className="flex items-center gap-3 rounded-[10px] border px-3 py-2 transition-colors duration-200"
+              style={{ borderColor: on ? "rgba(219,59,43,0.35)" : "rgba(0,0,0,0.07)", background: on ? "rgba(219,59,43,0.03)" : "#fff" }}
+            >
+              <div
+                className="flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[5px] border transition-all duration-200"
+                style={{ borderColor: on ? "#DB3B2B" : "rgba(0,0,0,0.2)", background: on ? "#DB3B2B" : "#fff" }}
+              >
+                {on && (
+                  <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
+                    <path d="M3 8L6.5 11.5L13 4.5" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                )}
+              </div>
+              <div className="flex h-[24px] w-[24px] shrink-0 items-center justify-center overflow-hidden rounded-[6px]">
+                <Image src={`/img/${c.src}`} alt="" width={22} height={22} className="object-contain" />
+              </div>
+              <span className="font-inter text-[12px] font-medium text-black/80">{c.name}</span>
+            </div>
+          );
+        })}
+      </div>
+      <div className="flex items-center justify-center rounded-[10px] bg-[#DB3B2B] py-2.5">
+        <span className="font-inter text-[12px] font-semibold text-white tabular-nums">Publicar en {n} {n === 1 ? "canal" : "canales"}</span>
+      </div>
+    </div>
+  );
+}
 
 export default function T1Marketplaces() {
   const stackRootRef = useRef<HTMLDivElement>(null);
@@ -209,72 +411,17 @@ export default function T1Marketplaces() {
                   ))}
                 </ul>
               </div>
-              <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
-                <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
-                  <p className="font-sora text-[14px] font-medium text-black">Inventario en tiempo real</p>
-                  <span className="rounded-full bg-[rgba(34,197,94,0.12)] px-2 py-0.5 font-inter text-[10px] font-bold text-[#16A34A]">Sincronizado</span>
-                </div>
-                {[
-                  { name: "Tenis blancos clásicos", sku: "TBC-042", stock: 24, channels: ["meli-iso.svg", "amazon-iso.svg", "shein-iso.svg"] },
-                  { name: "Playera básica", sku: "PB-101", stock: 87, channels: ["meli-iso.svg", "walmart.svg", "sears-isotipo.svg"] },
-                  { name: "Sudadera hoodie", sku: "SH-220", stock: 12, channels: ["amazon-iso.svg", "shein-iso.svg"] },
-                ].map((row, i) => (
-                  <div key={row.sku} className={`flex items-center justify-between py-3 ${i < 2 ? "border-b border-black/[0.05]" : ""}`}>
-                    <div>
-                      <p className="font-inter text-[13px] font-semibold text-black">{row.name}</p>
-                      <p className="font-inter text-[11px] text-black/50">{row.sku}</p>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="flex -space-x-1.5">
-                        {row.channels.map((c, ci) => (
-                          <div key={ci} className="flex h-[20px] w-[20px] items-center justify-center overflow-hidden rounded-full border-2 border-white bg-white" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}>
-                            <Image src={`/img/${c}`} alt="" width={18} height={18} className="object-contain" />
-                          </div>
-                        ))}
-                      </div>
-                      <div className="text-right">
-                        <p className="font-inter text-[10px] text-black/45">Stock</p>
-                        <p className="font-sora text-[14px] font-semibold text-black">{row.stock}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <MpInventoryPanel />
             </div>
           </div>
         </div>
 
         {/* Block 2 — Pedidos (panel left, text right) — bg #F6F6F6 */}
-        <div className="fs-stack-card" style={{ top: 80, zIndex: 2, background: "#F6F6F6", boxShadow: "0 -4px 30px rgba(0,0,0,0.18)" }}>
+        <div className="fs-stack-card" style={{ top: 80, zIndex: 2, background: "#F6F6F6" }}>
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
-              <div className="relative order-2 overflow-hidden rounded-[18px] border border-black/[0.06] bg-white tablet:order-1" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
-                <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
-                  <p className="font-sora text-[14px] font-medium text-black">Pedidos del día</p>
-                  <span className="rounded-full bg-black/[0.05] px-2 py-0.5 font-inter text-[10px] font-medium text-black/60">42 nuevos</span>
-                </div>
-                <div className="flex flex-col gap-2.5">
-                  {[
-                    { id: "#28491", from: "meli-iso.svg", customer: "María González", amount: "$1,345.99", status: "Pagado", color: "#16A34A" },
-                    { id: "#28490", from: "amazon-iso.svg", customer: "Carlos Ruiz", amount: "$892.00", status: "Pagado", color: "#16A34A" },
-                    { id: "#28489", from: "shein-iso.svg", customer: "Ana Pérez", amount: "$2,150.50", status: "En proceso", color: "#F59E0B" },
-                    { id: "#28488", from: "walmart.svg", customer: "Luis Hernández", amount: "$456.75", status: "Pagado", color: "#16A34A" },
-                  ].map((o) => (
-                    <div key={o.id} className="flex items-center gap-3 rounded-[10px] border border-black/[0.05] bg-[#FAFAF9] px-3 py-2.5">
-                      <div className="flex h-[28px] w-[28px] shrink-0 items-center justify-center overflow-hidden rounded-[6px] border border-black/[0.05] bg-white">
-                        <Image src={`/img/${o.from}`} alt="" width={22} height={22} className="object-contain" />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p className="truncate font-inter text-[12px] font-semibold text-black">{o.customer}</p>
-                        <p className="font-inter text-[10px] text-black/50">{o.id}</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-inter text-[12px] font-semibold text-black">{o.amount}</p>
-                        <p className="font-inter text-[9px] font-bold" style={{ color: o.color }}>{o.status}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+              <div className="order-2 tablet:order-1">
+                <MpOrdersPanel />
               </div>
 
               <div className="order-1 tablet:order-2">
@@ -298,7 +445,7 @@ export default function T1Marketplaces() {
         </div>
 
         {/* Block 3 — Catálogo (text left, panel right) — bg white */}
-        <div className="fs-stack-card" style={{ top: 100, zIndex: 3, background: "#FFFFFF", boxShadow: "0 -4px 30px rgba(0,0,0,0.18)" }}>
+        <div className="fs-stack-card" style={{ top: 100, zIndex: 3, background: "#FFFFFF" }}>
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div>
@@ -317,44 +464,7 @@ export default function T1Marketplaces() {
                   ))}
                 </ul>
               </div>
-              <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
-                <p className="font-sora text-[14px] font-medium text-black" style={{ marginBottom: 14 }}>Publicar producto</p>
-                <div className="flex items-center gap-3 rounded-[10px] border border-black/[0.05] bg-[#FAFAF9] px-3 py-3" style={{ marginBottom: 16 }}>
-                  <div className="flex h-[44px] w-[44px] shrink-0 items-center justify-center overflow-hidden rounded-[8px] border border-black/[0.05] bg-white">
-                    <Image src="/img/tenis-transparente.png" alt="" width={36} height={28} className="object-contain" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-inter text-[12px] font-semibold text-black">Tenis blancos clásicos</p>
-                    <p className="font-inter text-[10px] text-black/50">3 variantes · $1,345.99</p>
-                  </div>
-                </div>
-                <p className="font-inter text-[11px] font-medium text-black/55" style={{ marginBottom: 10 }}>Selecciona canales</p>
-                <div className="grid grid-cols-3 gap-2" style={{ marginBottom: 16 }}>
-                  {[
-                    { src: "meli-iso.svg", name: "MercadoLibre", checked: true },
-                    { src: "amazon-iso.svg", name: "Amazon", checked: true },
-                    { src: "shein-iso.svg", name: "SHEIN", checked: true },
-                    { src: "walmart.svg", name: "Walmart", checked: false },
-                    { src: "sears-isotipo.svg", name: "Sears", checked: true },
-                    { src: "tiktok-isotipo.png", name: "TikTok", checked: false },
-                  ].map((c) => (
-                    <div key={c.name} className={`relative flex flex-col items-center justify-center gap-1 rounded-[8px] border bg-white py-2 ${c.checked ? "border-[#DB3B2B]" : "border-black/[0.06]"}`}>
-                      <Image src={`/img/${c.src}`} alt="" width={24} height={24} className="object-contain" />
-                      <span className="font-inter text-[8px] font-medium text-black/60">{c.name}</span>
-                      {c.checked && (
-                        <div className="absolute -right-1 -top-1 flex h-[14px] w-[14px] items-center justify-center rounded-full bg-[#DB3B2B]">
-                          <svg width="7" height="7" viewBox="0 0 16 16" fill="none">
-                            <path d="M3 8L6.5 11.5L13 4.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-                <div className="flex items-center justify-center rounded-[10px] bg-[#DB3B2B] py-2.5">
-                  <span className="font-inter text-[12px] font-semibold text-white">Publicar en 4 canales</span>
-                </div>
-              </div>
+              <MpPublishPanel />
             </div>
           </div>
         </div>
