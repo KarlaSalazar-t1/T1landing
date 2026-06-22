@@ -28,7 +28,14 @@ const MARKETPLACES_GRID = [
   { name: "TikTok Shop", src: "/img/tiktok-isotipo.png" },
 ];
 
-/* ── Animated panel 1 — Inventario (stock ticks up/down) ──────────────────── */
+/* ── Status pill colour: all grey except Entregado (green) / Cancelado (red) ─ */
+function orderStatusStyle(status: string) {
+  if (status === "Entregado") return { color: "#16A34A", bg: "rgba(34,197,94,0.12)" };
+  if (status === "Cancelado") return { color: "#DC2626", bg: "rgba(220,38,38,0.10)" };
+  return { color: "#6B7280", bg: "rgba(0,0,0,0.05)" };
+}
+
+/* ── Animated panel 1 — Mis productos (inventory ticks up/down) ────────────── */
 const INVENTORY_ROWS = [
   { name: "Tenis blancos clásicos", sku: "TBC-042", price: "$1,345", channels: "3/3", start: 24 },
   { name: "Playera básica oversize", sku: "PB-101", price: "$299", channels: "2/3", start: 87 },
@@ -37,17 +44,16 @@ const INVENTORY_ROWS = [
 ];
 
 function MpInventoryPanel() {
-  const [stock, setStock] = useState(() => INVENTORY_ROWS.map((r) => r.start));
+  const [units, setUnits] = useState(() => INVENTORY_ROWS.map((r) => r.start));
   const [flash, setFlash] = useState<{ idx: number; dir: "up" | "down" } | null>(null);
 
   useEffect(() => {
     let tick = 0;
     const id = setInterval(() => {
       const idx = tick % INVENTORY_ROWS.length;
-      // Every 3rd touch on a row is a restock (up), otherwise a sale (down).
-      const up = tick % 3 === 0;
+      const up = tick % 3 === 0; // every 3rd touch is a restock (up), else a sale (down)
       tick++;
-      setStock((prev) =>
+      setUnits((prev) =>
         prev.map((s, k) => {
           if (k !== idx) return s;
           return up ? s + (6 + (tick % 5)) : Math.max(1, s - (1 + (tick % 2)));
@@ -59,15 +65,14 @@ function MpInventoryPanel() {
     return () => clearInterval(id);
   }, []);
 
+  const cols = "1.5fr 0.7fr 0.85fr 0.5fr 0.6fr";
+
   return (
     <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 18, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
-      <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
-        <p className="font-sora text-[14px] font-medium text-black">Mis productos</p>
-        <span className="rounded-full bg-[rgba(34,197,94,0.12)] px-2 py-0.5 font-inter text-[10px] font-bold text-[#16A34A]">Sincronizado</span>
-      </div>
-      {/* Column header */}
-      <div className="grid items-center gap-2 border-b border-black/[0.06] pb-2" style={{ gridTemplateColumns: "1.7fr 0.8fr 0.7fr 0.7fr" }}>
+      <p className="font-sora text-[14px] font-medium text-black" style={{ marginBottom: 14 }}>Mis productos</p>
+      <div className="grid items-center gap-2 border-b border-black/[0.06] pb-2" style={{ gridTemplateColumns: cols }}>
         <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Producto</span>
+        <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Estatus</span>
         <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Inventario</span>
         <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Canales</span>
         <span className="text-right font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Precio</span>
@@ -76,20 +81,15 @@ function MpInventoryPanel() {
         const isFlash = flash?.idx === i;
         const flashColor = flash?.dir === "up" ? "#16A34A" : "#DB3B2B";
         return (
-          <div key={row.sku} className="grid items-center gap-2 py-2.5" style={{ gridTemplateColumns: "1.7fr 0.8fr 0.7fr 0.7fr", borderBottom: i < INVENTORY_ROWS.length - 1 ? "1px solid rgba(0,0,0,0.04)" : "none" }}>
+          <div key={row.sku} className="grid items-center gap-2 py-2.5" style={{ gridTemplateColumns: cols, borderBottom: i < INVENTORY_ROWS.length - 1 ? "1px solid rgba(0,0,0,0.04)" : "none" }}>
             <div className="flex items-center gap-2.5">
-              <div className="h-[34px] w-[34px] shrink-0 rounded-[7px] border border-black/[0.06]" style={{ background: "linear-gradient(135deg, #F1EFEE 0%, #E4E1DF 100%)" }} />
-              <div className="min-w-0">
-                <p className="truncate font-inter text-[12px] font-semibold text-black">{row.name}</p>
-                <span className="mt-0.5 inline-block rounded-full bg-[rgba(34,197,94,0.12)] px-1.5 py-px font-inter text-[8px] font-bold text-[#16A34A]">Activo</span>
-              </div>
+              <div className="h-[32px] w-[32px] shrink-0 rounded-[7px] border border-black/[0.06]" style={{ background: "linear-gradient(135deg, #F1EFEE 0%, #E4E1DF 100%)" }} />
+              <p className="truncate font-inter text-[12px] font-semibold text-black">{row.name}</p>
             </div>
+            <span className="w-fit rounded-full bg-[rgba(34,197,94,0.12)] px-2 py-0.5 font-inter text-[9px] font-bold text-[#16A34A]">Activo</span>
             <div>
-              <span
-                className="font-sora text-[13px] font-semibold tabular-nums transition-colors duration-300"
-                style={{ color: isFlash ? flashColor : "#111" }}
-              >
-                {stock[i]}
+              <span className="font-sora text-[13px] font-semibold tabular-nums transition-colors duration-300" style={{ color: isFlash ? flashColor : "#111" }}>
+                {units[i]}
               </span>
               <span className="font-inter text-[10px] text-black/40"> uds</span>
             </div>
@@ -102,130 +102,137 @@ function MpInventoryPanel() {
   );
 }
 
-/* ── Animated panel 2 — Pedidos (new orders slide in) ─────────────────────── */
-type MpOrder = { k: number; ch: string; chName: string; customer: string; total: string; status: string; color: string; bg: string };
+/* ── Animated panel 2 — Mis pedidos (table; a new order slides in on top) ──── */
+type MpOrder = { k: number; ch: string; chName: string; customer: string; total: string; status: string };
 const ORDER_POOL: Omit<MpOrder, "k">[] = [
-  { ch: "meli-iso.svg", chName: "Mercado Libre", customer: "María González", total: "$1,345", status: "Por enviar", color: "#B45309", bg: "rgba(245,158,11,0.12)" },
-  { ch: "amazon-iso.svg", chName: "Amazon", customer: "Carlos Ruiz", total: "$892", status: "En camino", color: "#1D4ED8", bg: "rgba(59,130,246,0.12)" },
-  { ch: "shein-iso.svg", chName: "SHEIN", customer: "Ana Pérez", total: "$2,150", status: "Pagado", color: "#16A34A", bg: "rgba(34,197,94,0.12)" },
-  { ch: "walmart.svg", chName: "Walmart", customer: "Luis Hernández", total: "$456", status: "Por enviar", color: "#B45309", bg: "rgba(245,158,11,0.12)" },
-  { ch: "sears-isotipo.svg", chName: "Sears", customer: "Sofía Ramírez", total: "$729", status: "Pagado", color: "#16A34A", bg: "rgba(34,197,94,0.12)" },
-  { ch: "amazon-iso.svg", chName: "Amazon", customer: "Diego Torres", total: "$1,099", status: "En camino", color: "#1D4ED8", bg: "rgba(59,130,246,0.12)" },
-  { ch: "meli-iso.svg", chName: "Mercado Libre", customer: "Valeria Cruz", total: "$389", status: "Pagado", color: "#16A34A", bg: "rgba(34,197,94,0.12)" },
+  { ch: "meli-iso.svg", chName: "Mercado Libre", customer: "María González", total: "$1,345", status: "Entregado" },
+  { ch: "amazon-iso.svg", chName: "Amazon", customer: "Carlos Ruiz", total: "$892", status: "En camino" },
+  { ch: "shein-iso.svg", chName: "SHEIN", customer: "Ana Pérez", total: "$2,150", status: "Por enviar" },
+  { ch: "walmart.svg", chName: "Walmart", customer: "Luis Hernández", total: "$456", status: "Cancelado" },
+  { ch: "sears-isotipo.svg", chName: "Sears", customer: "Sofía Ramírez", total: "$729", status: "Entregado" },
+  { ch: "amazon-iso.svg", chName: "Amazon", customer: "Diego Torres", total: "$1,099", status: "Pendiente" },
+  { ch: "meli-iso.svg", chName: "Mercado Libre", customer: "Valeria Cruz", total: "$389", status: "Por enviar" },
 ];
+const ORDER_ID_BASE = 28491;
 
 function MpOrdersPanel() {
-  const [orders, setOrders] = useState<MpOrder[]>(() => ORDER_POOL.slice(0, 4).map((o, k) => ({ ...o, k })));
-  const [count, setCount] = useState(42);
+  const [orders, setOrders] = useState<MpOrder[]>(() => ORDER_POOL.slice(0, 5).map((o, k) => ({ ...o, k })));
 
   useEffect(() => {
-    let i = 4;
+    let i = 5;
     const id = setInterval(() => {
       const next = ORDER_POOL[i % ORDER_POOL.length];
       const k = i;
       i++;
-      setOrders((prev) => [{ ...next, k }, ...prev.slice(0, 3)]);
-      setCount((c) => c + 1);
+      setOrders((prev) => [{ ...next, k }, ...prev.slice(0, 4)]);
     }, 2400);
     return () => clearInterval(id);
   }, []);
 
+  const cols = "0.8fr 1.15fr 1.2fr 0.7fr 0.95fr";
+
   return (
     <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 18, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
-      <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
-        <p className="font-sora text-[14px] font-medium text-black">Mis pedidos</p>
-        <span className="rounded-full bg-[rgba(219,59,43,0.10)] px-2 py-0.5 font-inter text-[10px] font-bold text-[#DB3B2B] tabular-nums">{count} nuevos</span>
+      <p className="font-sora text-[14px] font-medium text-black" style={{ marginBottom: 14 }}>Mis pedidos</p>
+      <div className="grid items-center gap-2 border-b border-black/[0.06] pb-2" style={{ gridTemplateColumns: cols }}>
+        <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Pedido</span>
+        <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Canal</span>
+        <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Cliente</span>
+        <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Total</span>
+        <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Estado</span>
       </div>
-      <div className="flex flex-col gap-2">
-        {orders.map((o, i) => (
+      {orders.map((o, i) => {
+        const st = orderStatusStyle(o.status);
+        return (
           <div
             key={o.k}
-            className="flex items-center gap-3 rounded-[10px] border border-black/[0.05] bg-[#FAFAF9] px-3 py-2.5"
-            style={i === 0 ? { animation: "fadeSlideIn 0.45s ease-out" } : undefined}
+            className="grid items-center gap-2 py-2.5"
+            style={{ gridTemplateColumns: cols, borderBottom: i < orders.length - 1 ? "1px solid rgba(0,0,0,0.04)" : "none", animation: i === 0 ? "fadeSlideIn 0.45s ease-out" : undefined }}
           >
-            <div className="flex h-[28px] w-[28px] shrink-0 items-center justify-center overflow-hidden rounded-[6px] border border-black/[0.05] bg-white">
-              <Image src={`/img/${o.ch}`} alt="" width={20} height={20} className="object-contain" />
+            <span className="font-inter text-[11px] font-medium text-black/55 tabular-nums">#{ORDER_ID_BASE + o.k}</span>
+            <div className="flex items-center gap-1.5">
+              <div className="flex h-[22px] w-[22px] shrink-0 items-center justify-center overflow-hidden rounded-[5px] border border-black/[0.05] bg-white">
+                <Image src={`/img/${o.ch}`} alt="" width={16} height={16} className="object-contain" />
+              </div>
+              <span className="truncate font-inter text-[11px] text-black/65">{o.chName}</span>
             </div>
-            <div className="min-w-0 flex-1">
-              <p className="truncate font-inter text-[12px] font-semibold text-black">{o.customer}</p>
-              <p className="font-inter text-[10px] text-black/45">{o.chName}</p>
-            </div>
+            <span className="truncate font-inter text-[12px] font-semibold text-black">{o.customer}</span>
             <span className="font-inter text-[12px] font-semibold text-black tabular-nums">{o.total}</span>
-            <span className="rounded-full px-2 py-0.5 font-inter text-[9px] font-bold" style={{ color: o.color, background: o.bg }}>{o.status}</span>
+            <span className="w-fit rounded-full px-2 py-0.5 font-inter text-[9px] font-bold" style={{ color: st.color, background: st.bg }}>{o.status}</span>
           </div>
-        ))}
-      </div>
+        );
+      })}
     </div>
   );
 }
 
-/* ── Animated panel 3 — Publicar (marketplaces select/deselect) ───────────── */
-const PUBLISH_CHANNELS = [
+/* ── Animated panel 3 — Administrar publicación (activar / pausar por canal) ─ */
+const MANAGE_CHANNELS = [
   { src: "meli-iso.svg", name: "Mercado Libre" },
   { src: "amazon-iso.svg", name: "Amazon" },
-  { src: "walmart.svg", name: "Walmart" },
   { src: "shein-iso.svg", name: "SHEIN" },
   { src: "sears-isotipo.svg", name: "Sears" },
 ];
 
 function MpPublishPanel() {
-  const [checked, setChecked] = useState([true, true, false, true, false]);
+  const [active, setActive] = useState([true, true, false, true]);
 
   useEffect(() => {
     let i = 0;
     const id = setInterval(() => {
-      const idx = i % PUBLISH_CHANNELS.length;
+      const idx = i % MANAGE_CHANNELS.length;
       i++;
-      setChecked((prev) => prev.map((c, k) => (k === idx ? !c : c)));
-    }, 1400);
+      setActive((prev) => prev.map((c, k) => (k === idx ? !c : c)));
+    }, 1500);
     return () => clearInterval(id);
   }, []);
 
-  const n = checked.filter(Boolean).length;
+  const n = active.filter(Boolean).length;
 
   return (
     <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 18, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
-      <p className="font-sora text-[14px] font-medium text-black" style={{ marginBottom: 14 }}>Publicar producto</p>
+      <p className="font-sora text-[14px] font-medium text-black" style={{ marginBottom: 14 }}>Administrar publicación</p>
       <div className="flex items-center gap-3 rounded-[10px] border border-black/[0.05] bg-[#FAFAF9] px-3 py-3" style={{ marginBottom: 16 }}>
         <div className="flex h-[44px] w-[44px] shrink-0 items-center justify-center overflow-hidden rounded-[8px] border border-black/[0.05] bg-white">
           <Image src="/img/tenis-transparente.png" alt="" width={36} height={28} className="object-contain" />
         </div>
         <div className="flex-1">
           <p className="font-inter text-[12px] font-semibold text-black">Tenis blancos clásicos</p>
-          <p className="font-inter text-[10px] text-black/50">3 variantes · $1,345.99</p>
+          <p className="font-inter text-[10px] text-black/50">Importado de 4 marketplaces</p>
         </div>
       </div>
-      <p className="font-inter text-[11px] font-medium text-black/55" style={{ marginBottom: 10 }}>Publicar en:</p>
-      <div className="flex flex-col gap-2" style={{ marginBottom: 16 }}>
-        {PUBLISH_CHANNELS.map((c, i) => {
-          const on = checked[i];
+      <div className="flex flex-col gap-2">
+        {MANAGE_CHANNELS.map((c, i) => {
+          const on = active[i];
           return (
-            <div
-              key={c.name}
-              className="flex items-center gap-3 rounded-[10px] border px-3 py-2 transition-colors duration-200"
-              style={{ borderColor: on ? "rgba(219,59,43,0.35)" : "rgba(0,0,0,0.07)", background: on ? "rgba(219,59,43,0.03)" : "#fff" }}
-            >
-              <div
-                className="flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[5px] border transition-all duration-200"
-                style={{ borderColor: on ? "#DB3B2B" : "rgba(0,0,0,0.2)", background: on ? "#DB3B2B" : "#fff" }}
-              >
-                {on && (
-                  <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
-                    <path d="M3 8L6.5 11.5L13 4.5" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                )}
-              </div>
-              <div className="flex h-[24px] w-[24px] shrink-0 items-center justify-center overflow-hidden rounded-[6px]">
+            <div key={c.name} className="flex items-center gap-3 rounded-[10px] border border-black/[0.05] px-3 py-2">
+              <div className="flex h-[26px] w-[26px] shrink-0 items-center justify-center overflow-hidden rounded-[6px]">
                 <Image src={`/img/${c.src}`} alt="" width={22} height={22} className="object-contain" />
               </div>
-              <span className="font-inter text-[12px] font-medium text-black/80">{c.name}</span>
+              <span className="flex-1 font-inter text-[12px] font-medium text-black/80">{c.name}</span>
+              <span
+                className="rounded-full px-2 py-0.5 font-inter text-[9px] font-bold transition-colors duration-200"
+                style={on ? { color: "#16A34A", background: "rgba(34,197,94,0.12)" } : { color: "#6B7280", background: "rgba(0,0,0,0.05)" }}
+              >
+                {on ? "Activo" : "Inactivo"}
+              </span>
+              {/* Toggle switch */}
+              <span
+                className="relative inline-block h-[18px] w-[32px] shrink-0 rounded-full transition-colors duration-200"
+                style={{ background: on ? "#16A34A" : "rgba(0,0,0,0.18)" }}
+              >
+                <span
+                  className="absolute top-[2px] h-[14px] w-[14px] rounded-full bg-white transition-all duration-200"
+                  style={{ left: on ? 16 : 2, boxShadow: "0 1px 2px rgba(0,0,0,0.2)" }}
+                />
+              </span>
             </div>
           );
         })}
       </div>
-      <div className="flex items-center justify-center rounded-[10px] bg-[#DB3B2B] py-2.5">
-        <span className="font-inter text-[12px] font-semibold text-white tabular-nums">Publicar en {n} {n === 1 ? "canal" : "canales"}</span>
-      </div>
+      <p className="font-inter text-[11px] font-medium text-black/50" style={{ marginTop: 14, textAlign: "center" }}>
+        Activo en <span className="font-bold text-black/75 tabular-nums">{n}</span> de {MANAGE_CHANNELS.length} marketplaces
+      </p>
     </div>
   );
 }
@@ -257,7 +264,7 @@ export default function T1Marketplaces() {
                 className="font-inter text-[16px] font-light text-white/65 tablet:text-[19px]"
                 style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 480 }}
               >
-                Conecta Mercado Libre, Amazon, Walmart, SHEIN y más. Tu inventario, pedidos y catálogo sincronizados en tiempo real.
+                Tu inventario, pedidos y catálogo sincronizados en tiempo real.
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <a
@@ -266,7 +273,6 @@ export default function T1Marketplaces() {
                 >
                   Comenzar ahora
                 </a>
-                <span className="font-inter text-[13px] text-white/50">Sin tarjeta · Empieza gratis</span>
               </div>
             </div>
 
@@ -384,7 +390,7 @@ export default function T1Marketplaces() {
             Una sola operación, todos tus canales
           </h2>
           <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-            Olvídate de gestionar cada marketplace por separado. T1 unifica tu catálogo, inventario y pedidos en un solo panel.
+            Olvídate de saltar entre plataformas. Desde un mismo panel sincronizas tu inventario, recibes los pedidos de cada marketplace y decides en cuáles se vende cada producto.
           </p>
         </div>
       </section>
@@ -400,10 +406,10 @@ export default function T1Marketplaces() {
                   Un solo inventario para todos tus canales
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                  Tu stock se actualiza al instante en todos los marketplaces conectados. Adiós a las sobreventas y al inventario fantasma.
+                  Tu inventario se actualiza al instante en todos los marketplaces conectados. Adiós a las sobreventas.
                 </p>
                 <ul className="flex flex-col gap-2.5">
-                  {["Stock unificado entre tu tienda y marketplaces", "Actualización en tiempo real al vender", "Alertas automáticas de bajo stock"].map((it) => (
+                  {["Inventario unificado entre tu tienda y marketplaces", "Actualización en tiempo real al vender"].map((it) => (
                     <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                       {it}
@@ -432,7 +438,7 @@ export default function T1Marketplaces() {
                   Procesa pedidos de todos los marketplaces sin saltar entre plataformas. Etiqueta, factura y envía desde un solo lugar.
                 </p>
                 <ul className="flex flex-col gap-2.5">
-                  {["Vista unificada de pedidos por canal", "Filtra por estado, marketplace o cliente", "Genera guías y facturas automáticamente"].map((it) => (
+                  {["Vista unificada de pedidos por canal", "Filtra por estado, marketplace o cliente", "Genera guías de envío en segundos"].map((it) => (
                     <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                       {it}
@@ -450,13 +456,13 @@ export default function T1Marketplaces() {
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div>
                 <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
-                  Publica tu catálogo en un click
+                  Controla dónde se vende cada producto
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                  Selecciona los productos y los marketplaces. T1 los publica con título, descripción y categoría adaptados a cada canal.
+                  Importa los productos que ya tienes en cada marketplace y decide dónde se venden: activa o pausa cada producto por canal en segundos.
                 </p>
                 <ul className="flex flex-col gap-2.5">
-                  {["Mapeo automático de categorías por marketplace", "Variantes y precios diferenciados por canal", "Sincroniza cambios al instante"].map((it) => (
+                  {["Importa tus publicaciones de SHEIN, Amazon y más", "Activa o pausa cada producto por marketplace", "Los cambios se reflejan al instante en cada canal"].map((it) => (
                     <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                       {it}
@@ -510,7 +516,7 @@ export default function T1Marketplaces() {
             {[
               { q: "¿Qué marketplaces puedo conectar?", a: "MercadoLibre, Amazon, Walmart, SHEIN, Sears, Liverpool, Shopify, TikTok Shop y más de 10 canales totales." },
               { q: "¿Necesito tener cuenta en cada marketplace?", a: "Sí, necesitas una cuenta de vendedor en cada marketplace donde quieras publicar. T1 te ayuda con la configuración y conecta cada cuenta una sola vez." },
-              { q: "¿Cómo se sincroniza el inventario?", a: "En tiempo real. Cada venta en cualquier canal descuenta stock en menos de 2 segundos en todos los demás. Adiós sobreventas." },
+              { q: "¿Cómo se sincroniza el inventario?", a: "En tiempo real. Cada venta en cualquier canal descuenta el inventario en menos de 2 segundos en todos los demás. Adiós sobreventas." },
               { q: "¿Puedo tener precios diferentes por canal?", a: "Sí. Cada SKU puede tener un precio distinto en cada marketplace para optimizar margen según las comisiones de cada plataforma." },
               { q: "¿Qué pasa con las categorías de cada marketplace?", a: "T1 mapea automáticamente tus categorías a las taxonomías de cada marketplace. Tú nombras una vez, T1 traduce al lenguaje de cada canal." },
               { q: "¿Cuánto tarda en estar listo?", a: "Conexión inicial en menos de un día. Publicación de tu catálogo masivo en minutos con bulk import." },
