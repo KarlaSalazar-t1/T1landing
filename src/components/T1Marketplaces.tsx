@@ -279,10 +279,10 @@ export default function T1Marketplaces() {
                 {MARKETPLACES.slice(0, 6).map((mp, i) => (
                   <div
                     key={i}
-                    className="flex h-[64px] items-center justify-center rounded-[14px]"
-                    style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.10)" }}
+                    className="flex h-[64px] items-center justify-center rounded-[14px] bg-white"
+                    style={{ border: "1px solid rgba(255,255,255,0.10)", boxShadow: "0 4px 14px rgba(0,0,0,0.18)" }}
                   >
-                    <Image src={mp.src} alt={mp.name} width={40} height={40} className="object-contain" />
+                    <Image src={mp.src} alt={mp.name} width={42} height={42} className="object-contain" />
                   </div>
                 ))}
               </div>
@@ -367,10 +367,10 @@ export default function T1Marketplaces() {
                 ].map(({ mp, pctX, pctY }, i) => (
                   <div
                     key={i}
-                    className="absolute flex h-[52px] w-[52px] items-center justify-center overflow-hidden rounded-[12px]"
-                    style={{ left: `${pctX}%`, top: `${pctY}%`, transform: "translate(-50%, -50%)", background: "rgba(255,255,255,0.04)" }}
+                    className="absolute flex h-[52px] w-[52px] items-center justify-center overflow-hidden rounded-[12px] bg-white"
+                    style={{ left: `${pctX}%`, top: `${pctY}%`, transform: "translate(-50%, -50%)", boxShadow: "0 6px 18px rgba(0,0,0,0.22)" }}
                   >
-                    <Image src={mp.src} alt={mp.name} width={48} height={48} className="object-contain" />
+                    <Image src={mp.src} alt={mp.name} width={46} height={46} className="object-contain" />
                   </div>
                 ))}
               </div>
@@ -379,15 +379,57 @@ export default function T1Marketplaces() {
         </div>
       </section>
 
-      {/* ── Section 2: Una sola operación — header + 3 full-screen stack cards ── */}
-      <section className="relative bg-white px-5 pt-16 pb-8 tablet:px-10 tablet:pt-20 tablet:pb-10" data-white-card>
-        <div className="mx-auto max-w-[700px] text-center">
-          <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-            Una sola operación, todos tus canales
-          </h2>
-          <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-            Olvídate de saltar entre plataformas. Desde un mismo panel sincronizas tu inventario, recibes los pedidos de cada marketplace y decides en cuáles se vende cada producto.
-          </p>
+      {/* ── Section 2: Problemas — intro cards (like the Tienda "Antes" section) ── */}
+      <section className="relative bg-white px-5 pt-20 pb-12 tablet:px-10 tablet:pt-28 tablet:pb-16" data-white-card>
+        <div className="mx-auto max-w-[var(--max-w)]">
+          <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 48 }}>
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15 }}>
+              Vender en varios canales por separado tiene un costo.
+            </h2>
+          </div>
+          <div className="flex flex-wrap justify-center gap-5">
+            {[
+              { title: "Saltas entre plataformas", desc: "Entras y sales de cada marketplace para revisar ventas, pedidos e inventario.", icon: "shuffle" },
+              { title: "Necesitas más personal", desc: "Administrar cada canal por separado se vuelve un trabajo de tiempo completo.", icon: "users" },
+              { title: "Sobreventas de inventario", desc: "Sin un inventario unificado vendes lo que ya no tienes y pierdes la venta.", icon: "alert" },
+            ].map((p) => (
+              <div
+                key={p.title}
+                className="w-full tablet:w-[300px] rounded-[18px] border border-black/[0.07] bg-white p-7 shadow-[0_4px_20px_rgba(0,0,0,0.05)] transition-shadow duration-200 hover:shadow-[0_8px_28px_rgba(0,0,0,0.08)]"
+              >
+                <div className="mb-4 flex h-[30px] w-[30px] items-center justify-center">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    {p.icon === "shuffle" && (
+                      <>
+                        <path d="M16 3h5v5" />
+                        <path d="M4 20L21 3" />
+                        <path d="M21 16v5h-5" />
+                        <path d="M15 15l6 6" />
+                        <path d="M4 4l5 5" />
+                      </>
+                    )}
+                    {p.icon === "users" && (
+                      <>
+                        <circle cx="9" cy="8" r="3.2" />
+                        <path d="M3.5 20c0-3.3 2.5-5.5 5.5-5.5s5.5 2.2 5.5 5.5" />
+                        <path d="M16 5.2a3.2 3.2 0 0 1 0 5.6" />
+                        <path d="M17.5 14.8c2 .7 3.5 2.7 3.5 5.2" />
+                      </>
+                    )}
+                    {p.icon === "alert" && (
+                      <>
+                        <path d="M10.3 4.3L2.6 18a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 4.3a2 2 0 0 0-3.4 0z" />
+                        <path d="M12 9.5v4" />
+                        <path d="M12 17v.01" />
+                      </>
+                    )}
+                  </svg>
+                </div>
+                <h3 className="font-sora text-[18px] font-normal text-black" style={{ marginBottom: 6 }}>{p.title}</h3>
+                <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.6 }}>{p.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
