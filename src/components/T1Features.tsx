@@ -200,12 +200,12 @@ function HeroPromptInput() {
 
   return (
     <div className="w-full" style={{ maxWidth: 640 }}>
-      {/* Field starts in a focused state — coral ring + border. */}
+      {/* Field starts in a focused state — neutral grey ring + border. */}
       <div
         className="relative rounded-[20px] border bg-white text-left"
         style={{
-          borderColor: "rgba(219,59,43,0.55)",
-          boxShadow: "0 16px 50px rgba(0,0,0,0.18), 0 0 0 4px rgba(219,59,43,0.10)",
+          borderColor: "rgba(0,0,0,0.28)",
+          boxShadow: "0 16px 50px rgba(0,0,0,0.18), 0 0 0 4px rgba(0,0,0,0.06)",
         }}
       >
         <div className="px-6 pt-6 tablet:pl-7 tablet:pr-7 tablet:pt-7" style={{ minHeight: 96 }}>
@@ -213,7 +213,7 @@ function HeroPromptInput() {
             {HERO_PROMPT_PREFIX}
             {suffix}
             <span
-              className="ml-0.5 inline-block w-[2px] bg-[#DB3B2B] align-text-bottom"
+              className="ml-0.5 inline-block w-[2px] bg-black/45 align-text-bottom"
               style={{ height: 18, animation: "blink 0.8s step-end infinite" }}
             />
           </p>
@@ -222,11 +222,11 @@ function HeroPromptInput() {
           <span className="font-inter text-[12px] text-black/35">{charCount}/500</span>
           <a
             href="#"
-            className="inline-flex h-[44px] items-center gap-2 rounded-full bg-[#DB3B2B] px-5 font-inter text-[14px] font-semibold text-white no-underline transition-all duration-200 hover:scale-[1.03] hover:bg-[#C0332A]"
+            aria-label="Crear con IA"
+            className="inline-flex h-[44px] w-[44px] items-center justify-center rounded-full bg-[#DB3B2B] text-white no-underline transition-all duration-200 hover:scale-[1.05] hover:bg-[#C0332A]"
           >
-            Crear con IA
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-              <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </a>
         </div>
@@ -477,7 +477,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                     className="font-inter text-[16px] font-light text-white/80 tablet:text-[19px]"
                     style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 560 }}
                   >
-                    Cuéntanos de qué trata tu negocio y nuestra IA creará tu tienda online lista para vender en menos de 2 minutos.
+                    Tu tienda lista para vender, con pagos y envíos ya integrados.
                   </p>
 
                   {/* Prompt input — self-contained typing loop (see HeroPromptInput) */}

@@ -509,7 +509,7 @@ body {
    the Tailwind translate transforms on absolutely-positioned mock frames
    instead of overwriting them. */
 .incluye-visual > * {
-  scale: 1.28;
+  scale: 1.18;
 }
 
 /* Store carousel — auto-scroll marquee. Pause + hover overlay are handled in
