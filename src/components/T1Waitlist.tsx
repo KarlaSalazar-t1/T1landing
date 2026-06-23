@@ -46,9 +46,9 @@ export default function T1Waitlist() {
           lives in the footer below (same place as the rest of the site). */}
       <section className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-5 pb-20 pt-[110px] text-center">
         <div className="pointer-events-none absolute inset-0 z-0">
-          <div className="absolute" style={{ top: "-12%", left: "0%", width: 560, height: 560, borderRadius: "50%", background: "radial-gradient(circle, rgba(219,59,43,0.34) 0%, transparent 62%)", filter: "blur(100px)" }} />
-          <div className="absolute" style={{ top: "-6%", right: "-8%", width: 520, height: 520, borderRadius: "50%", background: "radial-gradient(circle, rgba(56,120,255,0.30) 0%, transparent 62%)", filter: "blur(100px)" }} />
-          <div className="absolute" style={{ bottom: "-14%", left: "38%", width: 600, height: 600, borderRadius: "50%", background: "radial-gradient(circle, rgba(139,92,246,0.22) 0%, transparent 64%)", filter: "blur(120px)" }} />
+          <div className="absolute" style={{ top: "-12%", left: "0%", width: 580, height: 580, borderRadius: "50%", background: "radial-gradient(circle, rgba(219,59,43,0.46) 0%, transparent 62%)", filter: "blur(100px)" }} />
+          <div className="absolute" style={{ top: "-6%", right: "-8%", width: 540, height: 540, borderRadius: "50%", background: "radial-gradient(circle, rgba(56,120,255,0.42) 0%, transparent 62%)", filter: "blur(100px)" }} />
+          <div className="absolute" style={{ bottom: "-14%", left: "38%", width: 620, height: 620, borderRadius: "50%", background: "radial-gradient(circle, rgba(139,92,246,0.30) 0%, transparent 64%)", filter: "blur(120px)" }} />
         </div>
 
         <div className="relative z-10 mx-auto flex w-full max-w-[620px] flex-col items-center">
