@@ -354,14 +354,21 @@ export default function T1Marketplaces() {
                   the desktop tree). */}
               <div className="relative mx-auto tablet:hidden" style={{ width: "100%", maxWidth: 300, aspectRatio: "1" }}>
                 <svg className="absolute inset-0 h-full w-full" viewBox="0 0 300 300" fill="none" preserveAspectRatio="xMidYMid meet">
+                  {/* [startX, startY, endX, endY] — lines start ~42 units out from
+                      the centre so they don't run behind the T1 node. */}
                   {[
-                    [258, 150], [204, 243], [96, 243], [42, 150], [96, 57], [204, 57],
-                  ].map(([x, y], i) => (
+                    [192, 150, 258, 150],
+                    [171, 186, 204, 243],
+                    [129, 186, 96, 243],
+                    [108, 150, 42, 150],
+                    [129, 114, 96, 57],
+                    [171, 114, 204, 57],
+                  ].map(([sx, sy, x, y], i) => (
                     <g key={i}>
-                      <line x1="150" y1="150" x2={x} y2={y} stroke="rgba(255,255,255,0.22)" strokeWidth="1" strokeDasharray="5 4" />
+                      <line x1={sx} y1={sy} x2={x} y2={y} stroke="rgba(255,255,255,0.22)" strokeWidth="1" strokeDasharray="5 4" />
                       <circle cx={x} cy={y} r="2.5" fill="rgba(255,255,255,0.4)" />
                       <circle r="2.5" fill="#E26153" opacity="0.7">
-                        <animateMotion dur={`${2 + (i % 3) * 0.4}s`} repeatCount="indefinite" path={`M150 150 L${x} ${y}`} begin={`${i * 0.25}s`} />
+                        <animateMotion dur={`${2 + (i % 3) * 0.4}s`} repeatCount="indefinite" path={`M${sx} ${sy} L${x} ${y}`} begin={`${i * 0.25}s`} />
                       </circle>
                     </g>
                   ))}
@@ -650,6 +657,18 @@ Marketplaces, tiendas y redes: gestiona todas tus ventas desde un solo lugar.
                 <p className="font-inter text-[13px] font-medium text-black/70">{mp.name}</p>
               </div>
             ))}
+          </div>
+
+          <div className="mt-12 flex justify-center">
+            <a
+              href={SIGNUP_URL}
+              className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-8 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
+            >
+              Conecta tus canales
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </a>
           </div>
         </div>
       </section>
