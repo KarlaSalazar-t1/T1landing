@@ -69,8 +69,8 @@ export default function T1Waitlist() {
           style={{ lineHeight: 1.55, marginTop: 20 }}
         >
           <p className="tablet:whitespace-nowrap">Vende en línea, cobra y envía desde una sola plataforma.</p>
-          <p className="mx-auto" style={{ marginTop: 14, maxWidth: 460 }}>
-            Aún no llegamos a Colombia, pero muy pronto: regístrate y sé de los primeros.
+          <p className="mx-auto" style={{ marginTop: 14, maxWidth: 470 }}>
+            Aún no llegamos a Colombia, pero muy pronto. Regístrate y sé de los primeros en probarlo.
           </p>
         </div>
 
@@ -90,21 +90,21 @@ export default function T1Waitlist() {
             </p>
           </div>
         ) : (
-          <form onSubmit={submit} className="mt-9 flex w-full flex-col gap-3" style={{ maxWidth: 460 }}>
+          <form onSubmit={submit} className="mt-9 flex w-full flex-col gap-3 tablet:flex-row" style={{ maxWidth: 520 }}>
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Ingresa tu correo para empezar"
-              className="h-[54px] w-full rounded-[14px] border border-white/15 bg-white/[0.04] px-5 font-inter text-[15px] text-white outline-none transition-colors placeholder:text-white/40 focus:border-white/40"
+              placeholder="Ingresa tu correo"
+              className="h-[54px] w-full flex-1 rounded-[14px] border border-white/15 bg-white/[0.04] px-5 font-inter text-[15px] text-white outline-none transition-colors placeholder:text-white/40 focus:border-white/40"
             />
             <button
               type="submit"
               disabled={!valid}
-              className="h-[54px] w-full rounded-[14px] bg-[#DB3B2B] font-inter text-[15px] font-semibold text-white transition-colors duration-150 hover:bg-[#C0332A] disabled:cursor-not-allowed disabled:bg-[#F1B0A9] disabled:hover:bg-[#F1B0A9]"
+              className="h-[54px] w-full shrink-0 rounded-[14px] bg-[#DB3B2B] px-7 font-inter text-[15px] font-semibold text-white transition-colors duration-150 hover:bg-[#C0332A] disabled:cursor-not-allowed disabled:bg-[#F1B0A9] disabled:hover:bg-[#F1B0A9] tablet:w-auto"
             >
-              Unirme a la lista de espera
+              Registrarme
             </button>
           </form>
         )}
