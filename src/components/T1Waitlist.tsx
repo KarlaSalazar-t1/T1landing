@@ -38,19 +38,17 @@ export default function T1Waitlist() {
         </span>
 
         <h1
-          className="font-sora text-[36px] font-light text-white tablet:text-[54px]"
-          style={{ letterSpacing: "-0.03em", lineHeight: 1.05, marginTop: 22 }}
+          className="font-sora text-[34px] font-light text-white tablet:text-[50px]"
+          style={{ letterSpacing: "-0.03em", lineHeight: 1.08, marginTop: 22, maxWidth: 640 }}
         >
-          Acceso anticipado
-          <br />
-          exclusivo
+          Todo tu negocio en línea, en un solo lugar
         </h1>
 
         <p
           className="font-inter text-[16px] font-light text-white/70 tablet:text-[18px]"
-          style={{ lineHeight: 1.55, marginTop: 18, maxWidth: 460 }}
+          style={{ lineHeight: 1.55, marginTop: 20, maxWidth: 520 }}
         >
-          Regístrate hoy y obtén descuentos de lanzamiento y acompañamiento durante tu integración.
+          Con T1 creas tu tienda con IA, cobras con pagos integrados y gestionas tus envíos, todo desde una sola plataforma. Aún no llegamos a Colombia: regístrate y sé de los primeros con acceso anticipado y descuentos de lanzamiento.
         </p>
 
         {done ? (
