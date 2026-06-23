@@ -113,16 +113,23 @@ export default function T1Waitlist() {
             <button
               type="submit"
               disabled={!valid}
-              className="h-[54px] w-full rounded-[14px] bg-[#DB3B2B] font-inter text-[15px] font-semibold text-white transition-all duration-150 hover:bg-[#C0332A] disabled:cursor-not-allowed disabled:opacity-45"
+              className="h-[54px] w-full rounded-[14px] bg-[#DB3B2B] font-inter text-[15px] font-semibold text-white transition-colors duration-150 hover:bg-[#C0332A] disabled:cursor-not-allowed disabled:bg-[#F1B0A9] disabled:hover:bg-[#F1B0A9]"
             >
               Unirme a la lista de espera
             </button>
           </form>
         )}
 
-        <p className="mt-7 font-inter text-[13px] font-light text-white/50" style={{ maxWidth: 460 }}>
-          Únete a +1,500 negocios en la lista de espera · Sin tarjeta de crédito
-        </p>
+        {/* Back to the IP-detected country (set dynamically; México shown as default). */}
+        <a
+          href="/"
+          className="mt-9 inline-flex items-center gap-1.5 font-inter text-[13px] font-medium text-white/55 no-underline transition-colors hover:text-white/90"
+        >
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+            <path d="M10 3L5 8L10 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          Volver a México
+        </a>
       </section>
     </main>
   );
