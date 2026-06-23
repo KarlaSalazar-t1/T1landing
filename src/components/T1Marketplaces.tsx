@@ -290,8 +290,8 @@ export default function T1Marketplaces() {
               <div className="relative hidden tablet:block" style={{ minHeight: 420 }}>
                 <svg className="absolute inset-0 h-full w-full" viewBox="0 0 500 400" fill="none" preserveAspectRatio="xMidYMid meet">
                   {/* Trunk + branches dashed */}
-                  <line x1="80" y1="200" x2="155" y2="200" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
-                  <circle cx="155" cy="200" r="3" fill="rgba(255,255,255,0.4)" />
+                  <line x1="80" y1="200" x2="125" y2="200" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
+                  <circle cx="125" cy="200" r="3" fill="rgba(255,255,255,0.4)" />
                   <line x1="200" y1="200" x2="270" y2="200" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
                   <circle cx="270" cy="200" r="3" fill="rgba(255,255,255,0.4)" />
                   <line x1="270" y1="40" x2="270" y2="360" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
@@ -312,7 +312,7 @@ export default function T1Marketplaces() {
                   <line x1="270" y1="305" x2="460" y2="305" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
                   <circle cx="460" cy="305" r="3" fill="rgba(255,255,255,0.4)" />
                   {/* Animated dots */}
-                  <circle r="3" fill="#E26153" opacity="0.7"><animateMotion dur="1.6s" repeatCount="indefinite" path="M80 200 L155 200" /></circle>
+                  <circle r="3" fill="#E26153" opacity="0.7"><animateMotion dur="1.6s" repeatCount="indefinite" path="M80 200 L125 200" /></circle>
                   <circle r="3" fill="#E26153" opacity="0.7"><animateMotion dur="1.4s" repeatCount="indefinite" path="M200 200 L270 200" /></circle>
                   <circle r="3" fill="#E26153" opacity="0.6"><animateMotion dur="2.5s" repeatCount="indefinite" path="M270 200 L270 40 L320 40" /></circle>
                   <circle r="3" fill="#E26153" opacity="0.6"><animateMotion dur="2s" repeatCount="indefinite" path="M270 200 L270 150 L320 150" begin="0.5s" /></circle>
@@ -430,7 +430,7 @@ export default function T1Marketplaces() {
             ))}
           </div>
           <p className="mx-auto text-center font-sora text-[20px] font-light text-black tablet:text-[26px]" style={{ marginTop: 48, letterSpacing: "-0.02em" }}>
-            Con T1, <span className="text-[#DB3B2B]">olvídate de todo esto.</span>
+            Con T1, olvídate de todo esto.
           </p>
         </div>
       </section>
@@ -443,7 +443,7 @@ export default function T1Marketplaces() {
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div>
                 <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 14 }}>
-                  Un solo inventario para todos tus canales
+                  Un solo inventario
                 </h3>
                 <p className="font-inter text-[14px] font-light text-black/55 tablet:text-[15px]" style={{ lineHeight: 1.55, marginBottom: 22 }}>
                   Se actualiza al instante en todos tus canales. Adiós a las sobreventas.
@@ -472,7 +472,7 @@ export default function T1Marketplaces() {
 
               <div className="order-1 tablet:order-2">
                 <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 14 }}>
-                  Todos tus pedidos en un solo panel
+                  Todos tus pedidos en un lugar
                 </h3>
                 <p className="font-inter text-[14px] font-light text-black/55 tablet:text-[15px]" style={{ lineHeight: 1.55, marginBottom: 22 }}>
                   Procesa los pedidos de todos tus canales sin saltar entre plataformas.
@@ -496,7 +496,7 @@ export default function T1Marketplaces() {
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div>
                 <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 14 }}>
-                  Controla dónde se vende cada producto
+                  Controla dónde se vende
                 </h3>
                 <p className="font-inter text-[14px] font-light text-black/55 tablet:text-[15px]" style={{ lineHeight: 1.55, marginBottom: 22 }}>
                   Importa tus productos y decide en qué canales se venden: actívalos o pausa en segundos.
