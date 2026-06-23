@@ -108,27 +108,27 @@ function MpInventoryPanel() {
         })}
       </div>
 
-      {/* Mobile: stacked product cards (like the real app) */}
+      {/* Mobile: stacked product cards (3, like the real app) */}
       <div className="flex flex-col tablet:hidden">
-        {INVENTORY_ROWS.map((row, i) => {
+        {INVENTORY_ROWS.slice(0, 3).map((row, i) => {
           const isFlash = flash?.idx === i;
           const flashColor = flash?.dir === "up" ? "#16A34A" : "#DB3B2B";
           return (
-            <div key={row.sku} className="flex items-start gap-3 py-3.5" style={{ borderBottom: i < INVENTORY_ROWS.length - 1 ? "1px solid rgba(0,0,0,0.06)" : "none" }}>
-              <span className="mt-1 h-[18px] w-[18px] shrink-0 rounded-[5px] border border-black/20" />
-              <div className="h-[46px] w-[46px] shrink-0 rounded-[10px] border border-black/[0.06]" style={{ background: "linear-gradient(135deg, #F1EFEE 0%, #E4E1DF 100%)" }} />
+            <div key={row.sku} className="flex items-start gap-2.5 py-2.5" style={{ borderBottom: i < 2 ? "1px solid rgba(0,0,0,0.06)" : "none" }}>
+              <span className="mt-0.5 h-[16px] w-[16px] shrink-0 rounded-[4px] border border-black/20" />
+              <div className="h-[40px] w-[40px] shrink-0 rounded-[9px] border border-black/[0.06]" style={{ background: "linear-gradient(135deg, #F1EFEE 0%, #E4E1DF 100%)" }} />
               <div className="min-w-0 flex-1">
-                <span className="mb-1 inline-block rounded-full bg-[rgba(34,197,94,0.12)] px-2 py-0.5 font-inter text-[10px] font-bold text-[#16A34A]">Activo</span>
-                <p className="line-clamp-2 font-inter text-[13px] font-semibold leading-snug text-black">{row.name}</p>
-                <p className="mt-1.5 font-inter text-[12px] text-black/45">{row.channels} canales de venta</p>
-                <p className="mt-1 font-inter text-[13px] text-black/75">
+                <span className="mb-0.5 inline-block rounded-full bg-[rgba(34,197,94,0.12)] px-1.5 py-px font-inter text-[9px] font-bold text-[#16A34A]">Activo</span>
+                <p className="line-clamp-2 font-inter text-[12px] font-semibold leading-snug text-black">{row.name}</p>
+                <p className="mt-1 font-inter text-[11px] text-black/45">{row.channels} canales de venta</p>
+                <p className="mt-0.5 font-inter text-[12px] text-black/75">
                   <span className="font-semibold tabular-nums transition-colors duration-300" style={{ color: isFlash ? flashColor : "#111" }}>{units[i]}</span> unidades
-                  <span className="mx-2 text-black/20">|</span>
+                  <span className="mx-1.5 text-black/20">|</span>
                   <span className="font-semibold tabular-nums text-black">{row.price}</span>
                 </p>
               </div>
-              <button type="button" className="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-full border border-black/10 text-black/40">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="6" cy="12" r="1.6" /><circle cx="12" cy="12" r="1.6" /><circle cx="18" cy="12" r="1.6" /></svg>
+              <button type="button" className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full border border-black/10 text-black/40">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="6" cy="12" r="1.6" /><circle cx="12" cy="12" r="1.6" /><circle cx="18" cy="12" r="1.6" /></svg>
               </button>
             </div>
           );
@@ -202,33 +202,35 @@ function MpOrdersPanel() {
         })}
       </div>
 
-      {/* Mobile: stacked order cards (like the real app) */}
-      <div className="flex flex-col tablet:hidden">
-        {orders.map((o, i) => {
+      {/* Mobile: stacked order cards. Fixed-height, overflow-clipped container
+          showing ~3 cards so the panel doesn't resize when a new order slides
+          in on top (the 4th card just gets clipped). */}
+      <div className="overflow-hidden tablet:hidden" style={{ height: 372 }}>
+        {orders.slice(0, 4).map((o, i) => {
           const st = orderStatusStyle(o.status);
           return (
             <div
               key={o.k}
-              className="py-4"
-              style={{ borderBottom: i < orders.length - 1 ? "1px solid rgba(0,0,0,0.06)" : "none", animation: i === 0 ? "fadeSlideIn 0.45s ease-out" : undefined }}
+              className="py-3"
+              style={{ borderBottom: "1px solid rgba(0,0,0,0.06)", animation: i === 0 ? "fadeSlideIn 0.45s ease-out" : undefined }}
             >
-              <p className="font-inter text-[11px] text-black/45">Hoy <span className="mx-1 text-black/20">|</span> {o.time} hrs</p>
-              <div className="mt-1 flex items-center justify-between gap-3">
-                <span className="min-w-0 truncate font-inter text-[14px] font-bold text-black tabular-nums">#{o.id}</span>
-                <span className="shrink-0 font-inter text-[14px] font-bold text-black tabular-nums">{o.total}</span>
+              <p className="font-inter text-[10px] text-black/45">Hoy <span className="mx-1 text-black/20">|</span> {o.time} hrs</p>
+              <div className="mt-0.5 flex items-center justify-between gap-3">
+                <span className="min-w-0 truncate font-inter text-[13px] font-bold text-black tabular-nums">#{o.id}</span>
+                <span className="shrink-0 font-inter text-[13px] font-bold text-black tabular-nums">{o.total}</span>
               </div>
-              <div className="mt-2.5 flex items-center gap-2.5">
-                <span className="rounded-full px-2.5 py-1 font-inter text-[11px] font-semibold" style={{ color: st.color, background: st.bg }}>{o.status}</span>
-                <div className="flex h-[26px] w-[26px] shrink-0 items-center justify-center overflow-hidden rounded-[7px] border border-black/[0.05] bg-white">
-                  <Image src={`/img/${o.ch}`} alt="" width={20} height={20} className="object-contain" />
+              <div className="mt-2 flex items-center gap-2">
+                <span className="rounded-full px-2 py-0.5 font-inter text-[10px] font-semibold" style={{ color: st.color, background: st.bg }}>{o.status}</span>
+                <div className="flex h-[22px] w-[22px] shrink-0 items-center justify-center overflow-hidden rounded-[6px] border border-black/[0.05] bg-white">
+                  <Image src={`/img/${o.ch}`} alt="" width={17} height={17} className="object-contain" />
                 </div>
-                <span className="font-inter text-[13px] text-black/70">{o.chName}</span>
+                <span className="font-inter text-[12px] text-black/70">{o.chName}</span>
               </div>
-              <div className="mt-2.5 flex items-center gap-2">
-                <span className="min-w-0 truncate font-inter text-[13px] text-black/70">{o.customer}</span>
+              <div className="mt-2 flex items-center gap-1.5">
+                <span className="min-w-0 truncate font-inter text-[12px] text-black/70">{o.customer}</span>
                 <span className="text-black/20">|</span>
-                <span className="shrink-0 font-inter text-[13px] font-medium text-black/80">1 producto</span>
-                <svg className="ml-auto shrink-0 text-black/35" width="14" height="14" viewBox="0 0 12 12" fill="none">
+                <span className="shrink-0 font-inter text-[12px] font-medium text-black/80">1 producto</span>
+                <svg className="ml-auto shrink-0 text-black/35" width="13" height="13" viewBox="0 0 12 12" fill="none">
                   <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
