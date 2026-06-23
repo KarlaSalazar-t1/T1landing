@@ -75,50 +75,80 @@ function MpInventoryPanel() {
   return (
     <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 18, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
       <p className="font-sora text-[14px] font-medium text-black" style={{ marginBottom: 14 }}>Mis productos</p>
-      <div className="grid items-center gap-2 border-b border-black/[0.06] pb-2" style={{ gridTemplateColumns: cols }}>
-        <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Producto</span>
-        <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Estatus</span>
-        <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Inventario</span>
-        <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Canales</span>
-        <span className="text-right font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Precio</span>
+
+      {/* Desktop: table */}
+      <div className="hidden tablet:block">
+        <div className="grid items-center gap-2 border-b border-black/[0.06] pb-2" style={{ gridTemplateColumns: cols }}>
+          <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Producto</span>
+          <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Estatus</span>
+          <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Inventario</span>
+          <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Canales</span>
+          <span className="text-right font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Precio</span>
+        </div>
+        {INVENTORY_ROWS.map((row, i) => {
+          const isFlash = flash?.idx === i;
+          const flashColor = flash?.dir === "up" ? "#16A34A" : "#DB3B2B";
+          return (
+            <div key={row.sku} className="grid items-center gap-2 py-2.5" style={{ gridTemplateColumns: cols, borderBottom: i < INVENTORY_ROWS.length - 1 ? "1px solid rgba(0,0,0,0.04)" : "none" }}>
+              <div className="flex min-w-0 items-center gap-2.5">
+                <div className="h-[32px] w-[32px] shrink-0 rounded-[7px] border border-black/[0.06]" style={{ background: "linear-gradient(135deg, #F1EFEE 0%, #E4E1DF 100%)" }} />
+                <p className="min-w-0 truncate font-inter text-[12px] font-semibold text-black">{row.name}</p>
+              </div>
+              <span className="w-fit rounded-full bg-[rgba(34,197,94,0.12)] px-2 py-0.5 font-inter text-[9px] font-bold text-[#16A34A]">Activo</span>
+              <div>
+                <span className="font-sora text-[13px] font-semibold tabular-nums transition-colors duration-300" style={{ color: isFlash ? flashColor : "#111" }}>
+                  {units[i]}
+                </span>
+                <span className="font-inter text-[10px] text-black/40"> uds</span>
+              </div>
+              <span className="font-inter text-[11px] font-medium text-black/55 tabular-nums">{row.channels}</span>
+              <span className="text-right font-inter text-[12px] font-semibold text-black tabular-nums">{row.price}</span>
+            </div>
+          );
+        })}
       </div>
-      {INVENTORY_ROWS.map((row, i) => {
-        const isFlash = flash?.idx === i;
-        const flashColor = flash?.dir === "up" ? "#16A34A" : "#DB3B2B";
-        return (
-          <div key={row.sku} className="grid items-center gap-2 py-2.5" style={{ gridTemplateColumns: cols, borderBottom: i < INVENTORY_ROWS.length - 1 ? "1px solid rgba(0,0,0,0.04)" : "none" }}>
-            <div className="flex min-w-0 items-center gap-2.5">
-              <div className="h-[32px] w-[32px] shrink-0 rounded-[7px] border border-black/[0.06]" style={{ background: "linear-gradient(135deg, #F1EFEE 0%, #E4E1DF 100%)" }} />
-              <p className="min-w-0 truncate font-inter text-[12px] font-semibold text-black">{row.name}</p>
+
+      {/* Mobile: stacked product cards (like the real app) */}
+      <div className="flex flex-col tablet:hidden">
+        {INVENTORY_ROWS.map((row, i) => {
+          const isFlash = flash?.idx === i;
+          const flashColor = flash?.dir === "up" ? "#16A34A" : "#DB3B2B";
+          return (
+            <div key={row.sku} className="flex items-start gap-3 py-3.5" style={{ borderBottom: i < INVENTORY_ROWS.length - 1 ? "1px solid rgba(0,0,0,0.06)" : "none" }}>
+              <span className="mt-1 h-[18px] w-[18px] shrink-0 rounded-[5px] border border-black/20" />
+              <div className="h-[46px] w-[46px] shrink-0 rounded-[10px] border border-black/[0.06]" style={{ background: "linear-gradient(135deg, #F1EFEE 0%, #E4E1DF 100%)" }} />
+              <div className="min-w-0 flex-1">
+                <span className="mb-1 inline-block rounded-full bg-[rgba(34,197,94,0.12)] px-2 py-0.5 font-inter text-[10px] font-bold text-[#16A34A]">Activo</span>
+                <p className="line-clamp-2 font-inter text-[13px] font-semibold leading-snug text-black">{row.name}</p>
+                <p className="mt-1.5 font-inter text-[12px] text-black/45">{row.channels} canales de venta</p>
+                <p className="mt-1 font-inter text-[13px] text-black/75">
+                  <span className="font-semibold tabular-nums transition-colors duration-300" style={{ color: isFlash ? flashColor : "#111" }}>{units[i]}</span> unidades
+                  <span className="mx-2 text-black/20">|</span>
+                  <span className="font-semibold tabular-nums text-black">{row.price}</span>
+                </p>
+              </div>
+              <button type="button" className="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-full border border-black/10 text-black/40">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="6" cy="12" r="1.6" /><circle cx="12" cy="12" r="1.6" /><circle cx="18" cy="12" r="1.6" /></svg>
+              </button>
             </div>
-            <span className="w-fit rounded-full bg-[rgba(34,197,94,0.12)] px-2 py-0.5 font-inter text-[9px] font-bold text-[#16A34A]">Activo</span>
-            <div>
-              <span className="font-sora text-[13px] font-semibold tabular-nums transition-colors duration-300" style={{ color: isFlash ? flashColor : "#111" }}>
-                {units[i]}
-              </span>
-              <span className="font-inter text-[10px] text-black/40"> uds</span>
-            </div>
-            <span className="font-inter text-[11px] font-medium text-black/55 tabular-nums">{row.channels}</span>
-            <span className="text-right font-inter text-[12px] font-semibold text-black tabular-nums">{row.price}</span>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 }
 
-/* ── Animated panel 2 — Mis pedidos (table; a new order slides in on top) ──── */
-type MpOrder = { k: number; ch: string; chName: string; customer: string; total: string; status: string };
+/* ── Animated panel 2 — Mis pedidos (table on desktop, cards on mobile) ────── */
+type MpOrder = { k: number; id: string; time: string; ch: string; chName: string; customer: string; total: string; status: string };
 const ORDER_POOL: Omit<MpOrder, "k">[] = [
-  { ch: "meli-iso.svg", chName: "Mercado Libre", customer: "María González", total: "$1,345", status: "Entregado" },
-  { ch: "amazon-iso.svg", chName: "Amazon", customer: "Carlos Ruiz", total: "$892", status: "En camino" },
-  { ch: "shein-iso.svg", chName: "SHEIN", customer: "Ana Pérez", total: "$2,150", status: "Por enviar" },
-  { ch: "walmart.svg", chName: "Walmart", customer: "Luis Hernández", total: "$456", status: "Cancelado" },
-  { ch: "sears-isotipo.svg", chName: "Sears", customer: "Sofía Ramírez", total: "$729", status: "Entregado" },
-  { ch: "amazon-iso.svg", chName: "Amazon", customer: "Diego Torres", total: "$1,099", status: "Pendiente" },
-  { ch: "meli-iso.svg", chName: "Mercado Libre", customer: "Valeria Cruz", total: "$389", status: "Por enviar" },
+  { id: "2000013668786725", time: "17:30", ch: "meli-iso.svg", chName: "Mercado Libre", customer: "Dulce Paulina Cordero", total: "$169", status: "Por enviar" },
+  { id: "2000013665470881", time: "16:48", ch: "amazon-iso.svg", chName: "Amazon", customer: "Carlos Ruiz Mendoza", total: "$892", status: "En camino" },
+  { id: "87370253", time: "15:12", ch: "sears-isotipo.svg", chName: "Sears", customer: "María Antonieta Muñoz", total: "$499", status: "Entregado" },
+  { id: "2000013660012345", time: "14:05", ch: "shein-iso.svg", chName: "SHEIN", customer: "Ana Pérez Lozano", total: "$2,150", status: "Cancelado" },
+  { id: "87360273", time: "12:33", ch: "walmart.svg", chName: "Walmart", customer: "Luis Hernández Gil", total: "$456", status: "Por enviar" },
+  { id: "2000013659012873", time: "10:57", ch: "amazon-iso.svg", chName: "Amazon", customer: "Diego Torres Vega", total: "$1,099", status: "Entregado" },
+  { id: "2000013658770421", time: "09:26", ch: "meli-iso.svg", chName: "Mercado Libre", customer: "Valeria Cruz Soto", total: "$389", status: "Por enviar" },
 ];
-const ORDER_ID_BASE = 28491;
 
 function MpOrdersPanel() {
   const [orders, setOrders] = useState<MpOrder[]>(() => ORDER_POOL.slice(0, 5).map((o, k) => ({ ...o, k })));
@@ -139,34 +169,73 @@ function MpOrdersPanel() {
   return (
     <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 18, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
       <p className="font-sora text-[14px] font-medium text-black" style={{ marginBottom: 14 }}>Mis pedidos</p>
-      <div className="grid items-center gap-2 border-b border-black/[0.06] pb-2" style={{ gridTemplateColumns: cols }}>
-        <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Pedido</span>
-        <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Canal</span>
-        <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Cliente</span>
-        <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Total</span>
-        <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Estado</span>
-      </div>
-      {orders.map((o, i) => {
-        const st = orderStatusStyle(o.status);
-        return (
-          <div
-            key={o.k}
-            className="grid items-center gap-2 py-2.5"
-            style={{ gridTemplateColumns: cols, borderBottom: i < orders.length - 1 ? "1px solid rgba(0,0,0,0.04)" : "none", animation: i === 0 ? "fadeSlideIn 0.45s ease-out" : undefined }}
-          >
-            <span className="font-inter text-[11px] font-medium text-black/55 tabular-nums">#{ORDER_ID_BASE + o.k}</span>
-            <div className="flex min-w-0 items-center gap-1.5">
-              <div className="flex h-[22px] w-[22px] shrink-0 items-center justify-center overflow-hidden rounded-[5px] border border-black/[0.05] bg-white">
-                <Image src={`/img/${o.ch}`} alt="" width={16} height={16} className="object-contain" />
+
+      {/* Desktop: table */}
+      <div className="hidden tablet:block">
+        <div className="grid items-center gap-2 border-b border-black/[0.06] pb-2" style={{ gridTemplateColumns: cols }}>
+          <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Pedido</span>
+          <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Canal</span>
+          <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Cliente</span>
+          <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Total</span>
+          <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/35">Estado</span>
+        </div>
+        {orders.map((o, i) => {
+          const st = orderStatusStyle(o.status);
+          return (
+            <div
+              key={o.k}
+              className="grid items-center gap-2 py-2.5"
+              style={{ gridTemplateColumns: cols, borderBottom: i < orders.length - 1 ? "1px solid rgba(0,0,0,0.04)" : "none", animation: i === 0 ? "fadeSlideIn 0.45s ease-out" : undefined }}
+            >
+              <span className="min-w-0 truncate font-inter text-[11px] font-medium text-black/55 tabular-nums">#{o.id}</span>
+              <div className="flex min-w-0 items-center gap-1.5">
+                <div className="flex h-[22px] w-[22px] shrink-0 items-center justify-center overflow-hidden rounded-[5px] border border-black/[0.05] bg-white">
+                  <Image src={`/img/${o.ch}`} alt="" width={16} height={16} className="object-contain" />
+                </div>
+                <span className="min-w-0 truncate font-inter text-[11px] text-black/65">{o.chName}</span>
               </div>
-              <span className="min-w-0 truncate font-inter text-[11px] text-black/65">{o.chName}</span>
+              <span className="min-w-0 truncate font-inter text-[12px] font-semibold text-black">{o.customer}</span>
+              <span className="font-inter text-[12px] font-semibold text-black tabular-nums">{o.total}</span>
+              <span className="w-fit rounded-full px-2 py-0.5 font-inter text-[9px] font-bold" style={{ color: st.color, background: st.bg }}>{o.status}</span>
             </div>
-            <span className="min-w-0 truncate font-inter text-[12px] font-semibold text-black">{o.customer}</span>
-            <span className="font-inter text-[12px] font-semibold text-black tabular-nums">{o.total}</span>
-            <span className="w-fit rounded-full px-2 py-0.5 font-inter text-[9px] font-bold" style={{ color: st.color, background: st.bg }}>{o.status}</span>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
+
+      {/* Mobile: stacked order cards (like the real app) */}
+      <div className="flex flex-col tablet:hidden">
+        {orders.map((o, i) => {
+          const st = orderStatusStyle(o.status);
+          return (
+            <div
+              key={o.k}
+              className="py-4"
+              style={{ borderBottom: i < orders.length - 1 ? "1px solid rgba(0,0,0,0.06)" : "none", animation: i === 0 ? "fadeSlideIn 0.45s ease-out" : undefined }}
+            >
+              <p className="font-inter text-[11px] text-black/45">Hoy <span className="mx-1 text-black/20">|</span> {o.time} hrs</p>
+              <div className="mt-1 flex items-center justify-between gap-3">
+                <span className="min-w-0 truncate font-inter text-[14px] font-bold text-black tabular-nums">#{o.id}</span>
+                <span className="shrink-0 font-inter text-[14px] font-bold text-black tabular-nums">{o.total}</span>
+              </div>
+              <div className="mt-2.5 flex items-center gap-2.5">
+                <span className="rounded-full px-2.5 py-1 font-inter text-[11px] font-semibold" style={{ color: st.color, background: st.bg }}>{o.status}</span>
+                <div className="flex h-[26px] w-[26px] shrink-0 items-center justify-center overflow-hidden rounded-[7px] border border-black/[0.05] bg-white">
+                  <Image src={`/img/${o.ch}`} alt="" width={20} height={20} className="object-contain" />
+                </div>
+                <span className="font-inter text-[13px] text-black/70">{o.chName}</span>
+              </div>
+              <div className="mt-2.5 flex items-center gap-2">
+                <span className="min-w-0 truncate font-inter text-[13px] text-black/70">{o.customer}</span>
+                <span className="text-black/20">|</span>
+                <span className="shrink-0 font-inter text-[13px] font-medium text-black/80">1 producto</span>
+                <svg className="ml-auto shrink-0 text-black/35" width="14" height="14" viewBox="0 0 12 12" fill="none">
+                  <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
