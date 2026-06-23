@@ -230,14 +230,18 @@ export default function T1Footer() {
                 style={{ width: 260, padding: "8px 0", animation: "fadeSlideIn 0.2s ease-out" }}
               >
                 {[
-                  { flag: "🇧🇷", name: "Brasil", langs: ["Português", "Inglés"], selected: false },
-                  { flag: "🇨🇴", name: "Colombia", langs: ["Inglés", "Español"], selected: false },
-                  { flag: "🇺🇸", name: "Estados Unidos", langs: ["Inglés", "Español"], selected: false },
-                  { flag: "🇲🇽", name: "México", langs: ["Español", "Inglés"], selected: true },
+                  { flag: "🇧🇷", name: "Brasil", langs: ["Português", "Inglés"], selected: false, href: undefined },
+                  { flag: "🇨🇴", name: "Colombia", langs: ["Inglés", "Español"], selected: false, href: "/colombia" },
+                  { flag: "🇺🇸", name: "Estados Unidos", langs: ["Inglés", "Español"], selected: false, href: undefined },
+                  { flag: "🇲🇽", name: "México", langs: ["Español", "Inglés"], selected: true, href: "/" },
                 ].map((country) => (
                   <button
                     key={country.name}
-                    onClick={() => setLangOpen(false)}
+                    onClick={() => {
+                      setLangOpen(false);
+                      // Colombia isn't live yet → its waitlist; México → home.
+                      if (country.href) window.location.href = country.href;
+                    }}
                     className="flex w-full cursor-pointer items-start gap-3 border-none bg-transparent px-5 py-3.5 text-left transition-colors hover:bg-white/5"
                   >
                     <span className="text-[18px]" style={{ marginTop: 2 }}>{country.flag}</span>
