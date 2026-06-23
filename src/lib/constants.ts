@@ -20,7 +20,7 @@ export const MEGA_MENU_COLUMNS = [
     items: [
       { title: "Tienda con IA", desc: "Crea tu tienda online en minutos", href: "/productos/t1tienda/tienda-con-ia" },
       { title: "Marketplaces", desc: "Vende en Mercado Libre, Amazon y más", href: "/productos/t1tienda/marketplaces" },
-      { title: "Productos e inventario", desc: "Stock, precios y variantes centralizados", href: "/productos/t1tienda/productos" },
+      { title: "Productos e inventario", desc: "Inventario, precios y variantes centralizados", href: "/productos/t1tienda/productos" },
       { title: "Pasarela de pagos", desc: "Optimizado para mayor conversión", href: "/productos/t1tienda/pasarela" },
       { title: "Punto de venta", desc: "Vende en tienda física y en línea", href: "/productos/t1tienda/punto-de-venta" },
       { title: "Reportería avanzada", desc: "Ventas, tráfico y rendimiento", href: "/productos/t1tienda/reportes" },

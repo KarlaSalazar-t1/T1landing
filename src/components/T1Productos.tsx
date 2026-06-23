@@ -6,6 +6,14 @@ import { SIGNUP_URL } from "@/lib/constants";
 import { useCountUp } from "@/hooks/useCountUp";
 import { useFSStackCards } from "@/hooks/useFSStackCards";
 import T1FinalCTA from "@/components/T1FinalCTA";
+import GlassProductCard from "@/components/GlassProductCard";
+
+const HERO_CARD_CHANNELS = [
+  { src: "/img/meli-iso.svg", alt: "Mercado Libre" },
+  { src: "/img/amazon-iso.svg", alt: "Amazon" },
+  { src: "/img/shein-iso.svg", alt: "SHEIN" },
+  { src: "/img/walmart.svg", alt: "Walmart" },
+];
 
 function CountStat({ end, prefix = "", suffix = "", label, decimals = 0 }: { end: number; prefix?: string; suffix?: string; label: string; decimals?: number }) {
   const { ref, display } = useCountUp({ end, prefix, suffix, decimals, duration: 1800 });
@@ -66,7 +74,7 @@ export default function T1Productos() {
                 className="font-inter text-[16px] font-light text-white/65 tablet:text-[19px]"
                 style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 480 }}
               >
-                Productos, variantes, precios y stock centralizados en un solo lugar. Cambias una vez, se actualiza en todos tus canales.
+                Productos, variantes, precios e inventario centralizados en un solo lugar. Cambias una vez, se actualiza en todos tus canales.
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <a
@@ -75,31 +83,45 @@ export default function T1Productos() {
                 >
                   Comenzar ahora
                 </a>
-                <span className="font-inter text-[13px] text-white/50">Sin tarjeta · Empieza gratis</span>
               </div>
             </div>
 
-            {/* Right — product list mock + floating product card */}
+            {/* Right — product list mock + floating glass product card */}
             <div className="relative flex justify-center">
-              {/* Phone-like product list */}
-              <div className="relative overflow-hidden rounded-[18px]" style={{ width: 280, aspectRatio: "9/16", boxShadow: "0 20px 60px rgba(0,0,0,0.4)", border: "1px solid rgba(255,255,255,0.10)" }}>
-                <Image src="/img/list-product.webp" alt="Lista de productos" fill className="object-cover object-top" sizes="280px" priority />
+              {/* Mobile: the glass product card on its own (cleaner than the phone) */}
+              <div className="flex justify-center py-2 tablet:hidden">
+                <GlassProductCard
+                  imageSrc="/img/tenis-transparente.png"
+                  price="$1,345.99"
+                  title="Tenis blancos clásicos"
+                  units="3,102 unidades · 4 canales"
+                  marketplaces={HERO_CARD_CHANNELS}
+                />
               </div>
 
-              {/* Floating product card */}
-              <div className="absolute hidden tablet:flex flex-col rounded-[16px] bg-white" style={{ right: -20, bottom: 80, width: 200, padding: "14px 16px", boxShadow: "0 14px 40px rgba(0,0,0,0.22)" }}>
-                <div className="flex items-center justify-center" style={{ marginBottom: 8 }}>
-                  <Image src="/img/tenis-transparente.png" alt="" width={70} height={56} className="object-contain" />
+              {/* Desktop: phone list + floating glass card + sync badge */}
+              <div className="relative hidden justify-center tablet:flex">
+                {/* Phone-like product list */}
+                <div className="relative overflow-hidden rounded-[18px]" style={{ width: 280, aspectRatio: "9/16", boxShadow: "0 20px 60px rgba(0,0,0,0.4)", border: "1px solid rgba(255,255,255,0.10)" }}>
+                  <Image src="/img/list-product.webp" alt="Lista de productos" fill className="object-cover object-top" sizes="280px" priority />
                 </div>
-                <p className="text-center font-inter text-[10px] text-black/55">Tenis blancos clásicos</p>
-                <p className="text-center font-sora text-[16px] font-bold text-black" style={{ letterSpacing: "-0.01em" }}>$1,345.99</p>
-                <p className="text-center font-inter text-[9px] text-black/40">3,102 unidades · 4 canales</p>
-              </div>
 
-              {/* Floating sync badge */}
-              <div className="absolute hidden tablet:flex items-center gap-2 rounded-full bg-white" style={{ left: -16, top: 90, padding: "8px 14px", boxShadow: "0 10px 28px rgba(0,0,0,0.16)" }}>
-                <span className="h-[8px] w-[8px] rounded-full bg-[#22C55E]" style={{ animation: "pulse-soft 2s ease-in-out infinite" }} />
-                <span className="font-inter text-[11px] font-semibold text-black">Sincronizado en 4 canales</span>
+                {/* Floating glass product card */}
+                <div className="absolute" style={{ right: -36, bottom: 56 }}>
+                  <GlassProductCard
+                    imageSrc="/img/tenis-transparente.png"
+                    price="$1,345.99"
+                    title="Tenis blancos clásicos"
+                    units="3,102 unidades · 4 canales"
+                    marketplaces={HERO_CARD_CHANNELS}
+                  />
+                </div>
+
+                {/* Floating sync badge */}
+                <div className="absolute flex items-center gap-2 rounded-full bg-white" style={{ left: -16, top: 90, padding: "8px 14px", boxShadow: "0 10px 28px rgba(0,0,0,0.16)" }}>
+                  <span className="h-[8px] w-[8px] rounded-full bg-[#22C55E]" style={{ animation: "pulse-soft 2s ease-in-out infinite" }} />
+                  <span className="font-inter text-[11px] font-semibold text-black">Sincronizado en 4 canales</span>
+                </div>
               </div>
             </div>
           </div>
@@ -117,9 +139,9 @@ export default function T1Productos() {
 
           <div data-modal-animate className="grid grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
             {[
-              { title: "Catálogos duplicados", desc: "Subes el mismo producto en cada plataforma. Cada cambio se vuelve un día perdido." },
-              { title: "Precios desfasados", desc: "Cambias precio en uno, olvidas en otro. Pierdes margen o vendes barato sin querer." },
-              { title: "Variantes imposibles", desc: "Tallas, colores, materiales… llevar todo manualmente es trabajo a tiempo completo." },
+              { title: "Catálogos duplicados", desc: "Subes el mismo producto en cada plataforma. Cada cambio se vuelve un día perdido.", icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="8" y="8" width="12" height="12" rx="2" stroke="#9CA3AF" strokeWidth="1.6" /><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" stroke="#9CA3AF" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
+              { title: "Precios desfasados", desc: "Cambias precio en uno, olvidas en otro. Pierdes margen o vendes barato sin querer.", icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8Z" stroke="#9CA3AF" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /><circle cx="7.5" cy="7.5" r="1.2" fill="#9CA3AF" /></svg>) },
+              { title: "Variantes imposibles", desc: "Tallas, colores, materiales… llevar todo manualmente es trabajo a tiempo completo.", icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke="#9CA3AF" strokeWidth="1.6" /><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="#9CA3AF" strokeWidth="1.6" /><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="#9CA3AF" strokeWidth="1.6" /><rect x="14" y="14" width="7" height="7" rx="1.5" stroke="#9CA3AF" strokeWidth="1.6" /></svg>) },
             ].map((p, i) => (
               <div
                 key={p.title}
@@ -127,6 +149,7 @@ export default function T1Productos() {
                 className="rounded-[18px] border border-black/[0.06] bg-white p-7 transition-shadow duration-200 hover:shadow-[0_0_25px_2px_rgba(0,0,0,0.04)]"
                 style={{ ["--i" as string]: i }}
               >
+                <div className="flex h-[40px] w-[40px] items-center justify-center rounded-[11px] bg-black/[0.04]" style={{ marginBottom: 16 }}>{p.icon}</div>
                 <h3 className="font-sora text-[18px] font-normal text-black/70" style={{ marginBottom: 6 }}>{p.title}</h3>
                 <p className="font-inter text-[14px] font-light text-black/50" style={{ lineHeight: 1.6 }}>{p.desc}</p>
               </div>
@@ -155,7 +178,7 @@ export default function T1Productos() {
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div>
                 <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
-                  Un catálogo central, sin duplicar trabajo
+                  Un solo catálogo
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
                   Sube tus productos una sola vez. Edita desde un solo lugar y se actualiza en tu tienda online, sucursales y marketplaces.
@@ -179,7 +202,7 @@ export default function T1Productos() {
                   <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/40"></span>
                   <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/40">Producto</span>
                   <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/40 text-right">Precio</span>
-                  <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/40 text-right">Stock</span>
+                  <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/40 text-right">Inv.</span>
                 </div>
                 {[
                   { name: "Tenis blancos clásicos", sku: "TBC-042", price: "$1,345.99", stock: 24, img: "/img/tenis-transparente.png" },
@@ -205,7 +228,7 @@ export default function T1Productos() {
         </div>
 
         {/* Block 2 — Variantes + precios por canal (panel left, text right) — bg #F6F6F6 */}
-        <div className="fs-stack-card" style={{ top: 80, zIndex: 2, background: "#F6F6F6", boxShadow: "0 -4px 30px rgba(0,0,0,0.18)" }}>
+        <div className="fs-stack-card" style={{ top: 80, zIndex: 2, background: "#F6F6F6" }}>
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               {/* Panel — variants editor */}
@@ -261,7 +284,7 @@ export default function T1Productos() {
 
               <div className="order-1 tablet:order-2">
                 <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
-                  Variantes y precios por canal sin esfuerzo
+                  Variantes y precios por canal
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
                   Talla, color, material, sabor… combinaciones ilimitadas. Define un precio diferente por canal para optimizar margen.
@@ -280,18 +303,18 @@ export default function T1Productos() {
         </div>
 
         {/* Block 3 — Stock en tiempo real (text left, panel right) — bg white */}
-        <div className="fs-stack-card" style={{ top: 100, zIndex: 3, background: "#FFFFFF", boxShadow: "0 -4px 30px rgba(0,0,0,0.18)" }}>
+        <div className="fs-stack-card" style={{ top: 100, zIndex: 3, background: "#FFFFFF" }}>
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div>
                 <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
-                  Stock en vivo, alertas inteligentes
+                  Inventario en vivo
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
                   Cada venta descuenta inventario al instante en todos tus canales. Alertas automáticas cuando algo está por agotarse.
                 </p>
                 <ul className="flex flex-col gap-2.5">
-                  {["Stock por sucursal y por canal", "Alerta de bajo stock configurable", "Reposición sugerida con datos de venta"].map((it) => (
+                  {["Inventario por sucursal y por canal", "Alerta de bajo inventario configurable", "Reposición sugerida con datos de venta"].map((it) => (
                     <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                       {it}
@@ -317,7 +340,7 @@ export default function T1Productos() {
                     <p className="font-sora text-[20px] font-light text-[#16A34A]" style={{ letterSpacing: "-0.02em", lineHeight: 1 }}>1,398</p>
                   </div>
                   <div className="rounded-[10px] bg-[rgba(245,158,11,0.06)] p-3">
-                    <p className="font-inter text-[9px] text-[#B45309]">Bajo stock</p>
+                    <p className="font-inter text-[9px] text-[#B45309]">Bajo inv.</p>
                     <p className="font-sora text-[20px] font-light text-[#B45309]" style={{ letterSpacing: "-0.02em", lineHeight: 1 }}>34</p>
                   </div>
                 </div>
@@ -365,7 +388,7 @@ export default function T1Productos() {
               { n: "01", title: "Sube tu producto", desc: "Una foto basta. La IA genera título, descripción y categoría." },
               { n: "02", title: "Define variantes", desc: "Talla, color, material. Combinaciones ilimitadas con un editor visual." },
               { n: "03", title: "Distribuye canales", desc: "Selecciona dónde publicar. T1 mapea categorías por marketplace." },
-              { n: "04", title: "Stock sincronizado", desc: "Cada venta actualiza inventario en todos los canales en tiempo real." },
+              { n: "04", title: "Inventario sincronizado", desc: "Cada venta actualiza inventario en todos los canales en tiempo real." },
             ].map((s, i) => (
               <div key={s.n} data-stagger className="tienda-card relative rounded-[18px] border border-black/[0.06] bg-white p-7" style={{ ["--i" as string]: i }}>
                 <span aria-hidden className="step-dot absolute hidden h-[10px] w-[10px] rounded-full bg-[#DB3B2B] lg:block" style={{ left: 28, top: 25, boxShadow: "0 0 0 6px rgba(219,59,43,0.12)" }} />
@@ -395,7 +418,7 @@ export default function T1Productos() {
               { title: "IA para fotos", desc: "Sube una imagen y obtén título, descripción y atributos al instante.", icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="#DB3B2B" strokeWidth="1.6" /><path d="M3 16l5-5 5 5 4-4 4 4" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /><circle cx="9" cy="9" r="1.5" fill="#DB3B2B" /></svg>) },
               { title: "SKUs automáticos", desc: "Generación automática de SKUs únicos por variante.", icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 5v14 M7 5v14 M11 5v14 M15 5v14 M19 5v14" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
               { title: "Categorías inteligentes", desc: "Mapeo automático a categorías de cada marketplace.", icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke="#DB3B2B" strokeWidth="1.6" /><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="#DB3B2B" strokeWidth="1.6" /><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="#DB3B2B" strokeWidth="1.6" /><rect x="14" y="14" width="7" height="7" rx="1.5" stroke="#DB3B2B" strokeWidth="1.6" /></svg>) },
-              { title: "Alertas de stock", desc: "Notificaciones cuando un producto está por agotarse.", icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /><path d="M13.7 21a2 2 0 0 1-3.4 0" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
+              { title: "Alertas de inventario", desc: "Notificaciones cuando un producto está por agotarse.", icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /><path d="M13.7 21a2 2 0 0 1-3.4 0" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
               { title: "Histórico y reportes", desc: "Análisis de rotación, productos top y baja rotación.", icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 21h18 M3 3v18" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" /><path d="M7 17l4-4 3 3 5-7" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
             ].map((f, i) => (
               <div key={f.title} data-stagger className="tienda-card flex items-start gap-4 rounded-[16px] border border-black/[0.06] bg-white p-6" style={{ ["--i" as string]: i }}>
@@ -423,7 +446,7 @@ export default function T1Productos() {
             <div data-stagger style={{ ["--i" as string]: 1 }}><CountStat end={10} prefix="+" label="canales conectables al instante" /></div>
             <div data-stagger style={{ ["--i" as string]: 2 }}>
               <p className="font-sora text-[36px] font-light text-white tablet:text-[52px]" style={{ letterSpacing: "-0.03em", marginBottom: 6, lineHeight: 1 }}>&lt; 2s</p>
-              <p className="font-inter text-[12px] font-light text-white/55 tablet:text-[13px]">para sincronizar stock entre canales</p>
+              <p className="font-inter text-[12px] font-light text-white/55 tablet:text-[13px]">para sincronizar inventario entre canales</p>
             </div>
           </div>
         </div>
@@ -441,7 +464,7 @@ export default function T1Productos() {
               { q: "¿La IA crea descripciones automáticamente?", a: "Sí. Sube una foto y la IA genera título, descripción y atributos. Tú revisas y publicas." },
               { q: "¿Cómo se manejan las variantes?", a: "Define cualquier atributo (talla, color, material…) y T1 genera todas las combinaciones automáticamente." },
               { q: "¿Puedo importar desde Shopify u otro?", a: "Sí. Importadores listos para Shopify, VTEX, WooCommerce y archivos CSV/Excel." },
-              { q: "¿El stock se actualiza en tiempo real?", a: "Sí. Cada venta en cualquier canal descuenta inventario en menos de 2 segundos en todos los demás." },
+              { q: "¿El inventario se actualiza en tiempo real?", a: "Sí. Cada venta en cualquier canal descuenta inventario en menos de 2 segundos en todos los demás." },
             ].map((f, i) => (
               <details key={f.q} data-stagger className="group rounded-[14px] border border-black/[0.06] bg-white transition-all duration-200 open:border-[rgba(219,59,43,0.2)] open:shadow-[0_4px_18px_rgba(0,0,0,0.05)]" style={{ ["--i" as string]: i }}>
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-sora text-[16px] font-normal text-black transition-colors duration-150 hover:text-[#DB3B2B]">
@@ -457,7 +480,7 @@ export default function T1Productos() {
 
       <T1FinalCTA
         title="¿Listo para centralizar tu catálogo?"
-        description="Sube tus productos una sola vez y véndelos en todos tus canales con stock sincronizado."
+        description="Sube tus productos una sola vez y véndelos en todos tus canales con inventario sincronizado."
       />
     </div>
   );
