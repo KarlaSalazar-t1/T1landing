@@ -64,12 +64,15 @@ export default function T1Waitlist() {
           Todo tu negocio en un solo lugar
         </h1>
 
-        <p
+        <div
           className="font-inter text-[16px] font-light text-white/70 tablet:text-[18px]"
-          style={{ lineHeight: 1.55, marginTop: 20, maxWidth: 470 }}
+          style={{ lineHeight: 1.55, marginTop: 20 }}
         >
-          Vende en línea, cobra y envía desde una sola plataforma. Aún no llegamos a Colombia, pero muy pronto: regístrate y sé de los primeros.
-        </p>
+          <p className="tablet:whitespace-nowrap">Vende en línea, cobra y envía desde una sola plataforma.</p>
+          <p className="mx-auto" style={{ marginTop: 14, maxWidth: 460 }}>
+            Aún no llegamos a Colombia, pero muy pronto: regístrate y sé de los primeros.
+          </p>
+        </div>
 
         {done ? (
           <div
