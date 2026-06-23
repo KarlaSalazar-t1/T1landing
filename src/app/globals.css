@@ -593,14 +593,16 @@ body {
   --stack-scale: 1;
   --stack-dim: 0;
   position: static;
-  height: 100vh;
-  height: 100dvh;
-  overflow: hidden;
+  /* Content-defined height with compact vertical padding instead of a full
+     100vh per panel — keeps the sections close together. */
+  padding: 48px 0;
   transform: none;
   transform-origin: 50% 0;
   backface-visibility: hidden;
   isolation: isolate;
-  contain: layout paint;
+}
+@media (min-width: 768px) {
+  .fs-stack-card { padding: 64px 0; }
 }
 /* Dim overlay disabled — no underlying card to darken anymore. */
 .fs-stack-card::after { display: none; }

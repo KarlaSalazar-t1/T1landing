@@ -290,8 +290,8 @@ export default function T1Marketplaces() {
               <div className="relative hidden tablet:block" style={{ minHeight: 420 }}>
                 <svg className="absolute inset-0 h-full w-full" viewBox="0 0 500 400" fill="none" preserveAspectRatio="xMidYMid meet">
                   {/* Trunk + branches dashed */}
-                  <line x1="80" y1="200" x2="125" y2="200" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
-                  <circle cx="125" cy="200" r="3" fill="rgba(255,255,255,0.4)" />
+                  <line x1="80" y1="200" x2="135" y2="200" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
+                  <circle cx="135" cy="200" r="3" fill="rgba(255,255,255,0.4)" />
                   <line x1="200" y1="200" x2="270" y2="200" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
                   <circle cx="270" cy="200" r="3" fill="rgba(255,255,255,0.4)" />
                   <line x1="270" y1="40" x2="270" y2="360" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
@@ -312,7 +312,7 @@ export default function T1Marketplaces() {
                   <line x1="270" y1="305" x2="460" y2="305" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
                   <circle cx="460" cy="305" r="3" fill="rgba(255,255,255,0.4)" />
                   {/* Animated dots */}
-                  <circle r="3" fill="#E26153" opacity="0.7"><animateMotion dur="1.6s" repeatCount="indefinite" path="M80 200 L125 200" /></circle>
+                  <circle r="3" fill="#E26153" opacity="0.7"><animateMotion dur="1.6s" repeatCount="indefinite" path="M80 200 L135 200" /></circle>
                   <circle r="3" fill="#E26153" opacity="0.7"><animateMotion dur="1.4s" repeatCount="indefinite" path="M200 200 L270 200" /></circle>
                   <circle r="3" fill="#E26153" opacity="0.6"><animateMotion dur="2.5s" repeatCount="indefinite" path="M270 200 L270 40 L320 40" /></circle>
                   <circle r="3" fill="#E26153" opacity="0.6"><animateMotion dur="2s" repeatCount="indefinite" path="M270 200 L270 150 L320 150" begin="0.5s" /></circle>
@@ -379,7 +379,7 @@ export default function T1Marketplaces() {
       </section>
 
       {/* ── Section 2: Problemas — intro cards (like the Tienda "Antes" section) ── */}
-      <section className="relative bg-white px-5 pt-20 pb-12 tablet:px-10 tablet:pt-28 tablet:pb-16" data-white-card>
+      <section className="relative bg-white px-5 pt-20 pb-6 tablet:px-10 tablet:pt-28 tablet:pb-8" data-white-card>
         <div className="mx-auto max-w-[var(--max-w)]">
           <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 48 }}>
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15 }}>
@@ -429,7 +429,7 @@ export default function T1Marketplaces() {
               </div>
             ))}
           </div>
-          <p className="mx-auto text-center font-sora text-[20px] font-light text-black tablet:text-[26px]" style={{ marginTop: 48, letterSpacing: "-0.02em" }}>
+          <p className="mx-auto text-center font-sora text-[26px] font-light text-black tablet:text-[36px]" style={{ marginTop: 48, letterSpacing: "-0.03em" }}>
             Con T1, olvídate de todo esto.
           </p>
         </div>
