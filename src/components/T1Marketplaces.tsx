@@ -13,7 +13,7 @@ const MARKETPLACES = [
   { name: "Walmart", src: "/img/walmart.svg" },
   { name: "SHEIN", src: "/img/shein-iso.svg" },
   { name: "Sears", src: "/img/sears-isotipo.svg" },
-  { name: "TikTok Shop", src: "/img/tiktok.svg" },
+  { name: "TikTok Shop", src: "/img/tiktokshop.svg" },
   { name: "Shopify", src: "/img/shopify.svg" },
 ];
 
@@ -25,7 +25,7 @@ const MARKETPLACES_GRID = [
   { name: "Sears", src: "/img/sears-isotipo.svg" },
   { name: "Sanborns", src: "/img/sanborns-iso.svg" },
   { name: "AliExpress", src: "/img/aliexpress.svg" },
-  { name: "TikTok Shop", src: "/img/tiktok.svg" },
+  { name: "TikTok Shop", src: "/img/tiktokshop.svg" },
   { name: "Total Play", src: "/img/totalplay.svg" },
   { name: "Shopify", src: "/img/shopify.svg" },
   { name: "Tienda Nube", src: "/img/tiendanube.svg" },

@@ -1,4 +1,5 @@
 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect x="0.5" y="0.5" width="31" height="31" rx="8.5" fill="white"/>
 <rect x="0.5" y="0.5" width="31" height="31" rx="8.5" stroke="#E7E7E7"/>
 <mask id="mask0_1657_1695" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="1" y="1" width="30" height="30">
 <path d="M1 9C1 4.58172 4.58172 1 9 1H23C27.4183 1 31 4.58172 31 9V23C31 27.4183 27.4183 31 23 31H9C4.58172 31 1 27.4183 1 23V9Z" fill="white"/>
