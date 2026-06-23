@@ -41,10 +41,10 @@ function orderStatusStyle(status: string) {
 
 /* ── Animated panel 1 — Mis productos (inventory ticks up/down) ────────────── */
 const INVENTORY_ROWS = [
-  { name: "Tenis blancos clásicos", sku: "TBC-042", price: "$1,345", channels: "3/3", start: 24 },
-  { name: "Playera básica oversize", sku: "PB-101", price: "$299", channels: "2/3", start: 87 },
-  { name: "Sudadera hoodie premium", sku: "SH-220", price: "$899", channels: "3/3", start: 12 },
-  { name: "Gorra snapback negra", sku: "GS-088", price: "$249", channels: "2/3", start: 41 },
+  { name: "Tenis blancos clásicos", sku: "TBC-042", price: "$1,345", channels: "3/3", start: 24, img: "/img/moda-tennis.png" },
+  { name: "Playera básica oversize", sku: "PB-101", price: "$299", channels: "2/3", start: 87, img: "/img/moda-playera.png" },
+  { name: "Sudadera hoodie premium", sku: "SH-220", price: "$899", channels: "3/3", start: 12, img: "/img/moda-hoodie.png" },
+  { name: "Gorra snapback negra", sku: "GS-088", price: "$249", channels: "2/3", start: 41, img: "/img/moda-gorra.png" },
 ];
 
 function MpInventoryPanel() {
@@ -91,7 +91,9 @@ function MpInventoryPanel() {
           return (
             <div key={row.sku} className="grid items-center gap-2 py-2.5" style={{ gridTemplateColumns: cols, borderBottom: i < INVENTORY_ROWS.length - 1 ? "1px solid rgba(0,0,0,0.04)" : "none" }}>
               <div className="flex min-w-0 items-center gap-2.5">
-                <div className="h-[32px] w-[32px] shrink-0 rounded-[7px] border border-black/[0.06]" style={{ background: "linear-gradient(135deg, #F1EFEE 0%, #E4E1DF 100%)" }} />
+                <div className="flex h-[32px] w-[32px] shrink-0 items-center justify-center overflow-hidden rounded-[7px] border border-black/[0.06] bg-white">
+                  <Image src={row.img} alt="" width={30} height={30} className="h-full w-full object-contain" />
+                </div>
                 <p className="min-w-0 truncate font-inter text-[12px] font-semibold text-black">{row.name}</p>
               </div>
               <span className="w-fit rounded-full bg-[rgba(34,197,94,0.12)] px-2 py-0.5 font-inter text-[9px] font-bold text-[#16A34A]">Activo</span>
@@ -116,7 +118,9 @@ function MpInventoryPanel() {
           return (
             <div key={row.sku} className="flex items-start gap-2.5 py-2.5" style={{ borderBottom: i < 2 ? "1px solid rgba(0,0,0,0.06)" : "none" }}>
               <span className="mt-0.5 h-[16px] w-[16px] shrink-0 rounded-[4px] border border-black/20" />
-              <div className="h-[40px] w-[40px] shrink-0 rounded-[9px] border border-black/[0.06]" style={{ background: "linear-gradient(135deg, #F1EFEE 0%, #E4E1DF 100%)" }} />
+              <div className="flex h-[40px] w-[40px] shrink-0 items-center justify-center overflow-hidden rounded-[9px] border border-black/[0.06] bg-white">
+                <Image src={row.img} alt="" width={38} height={38} className="h-full w-full object-contain" />
+              </div>
               <div className="min-w-0 flex-1">
                 <span className="mb-0.5 inline-block rounded-full bg-[rgba(34,197,94,0.12)] px-1.5 py-px font-inter text-[9px] font-bold text-[#16A34A]">Activo</span>
                 <p className="line-clamp-2 font-inter text-[12px] font-semibold leading-snug text-black">{row.name}</p>
@@ -345,16 +349,51 @@ export default function T1Marketplaces() {
 
             {/* Right — connector tree visual */}
             <div className="relative">
-              {/* Mobile: simplified compact view */}
-              <div className="grid grid-cols-3 gap-3 tablet:hidden" style={{ minHeight: 200 }}>
-                {MARKETPLACES.slice(0, 6).map((mp, i) => (
+              {/* Mobile: radial connector tree — T1 at the centre, channels
+                  around it linked by dashed lines + animated dots (same idea as
+                  the desktop tree). */}
+              <div className="relative mx-auto tablet:hidden" style={{ width: "100%", maxWidth: 300, aspectRatio: "1" }}>
+                <svg className="absolute inset-0 h-full w-full" viewBox="0 0 300 300" fill="none" preserveAspectRatio="xMidYMid meet">
+                  {[
+                    [258, 150], [204, 243], [96, 243], [42, 150], [96, 57], [204, 57],
+                  ].map(([x, y], i) => (
+                    <g key={i}>
+                      <line x1="150" y1="150" x2={x} y2={y} stroke="rgba(255,255,255,0.22)" strokeWidth="1" strokeDasharray="5 4" />
+                      <circle cx={x} cy={y} r="2.5" fill="rgba(255,255,255,0.4)" />
+                      <circle r="2.5" fill="#E26153" opacity="0.7">
+                        <animateMotion dur={`${2 + (i % 3) * 0.4}s`} repeatCount="indefinite" path={`M150 150 L${x} ${y}`} begin={`${i * 0.25}s`} />
+                      </circle>
+                    </g>
+                  ))}
+                </svg>
+
+                {/* Channel logos around the centre */}
+                {[
+                  { mp: MARKETPLACES[0], x: 86, y: 50 },
+                  { mp: MARKETPLACES[2], x: 68, y: 81 },
+                  { mp: MARKETPLACES[3], x: 32, y: 81 },
+                  { mp: MARKETPLACES[4], x: 14, y: 50 },
+                  { mp: MARKETPLACES[5], x: 32, y: 19 },
+                  { mp: MARKETPLACES[6], x: 68, y: 19 },
+                ].map(({ mp, x, y }, i) => (
                   <div
                     key={i}
-                    className="flex h-[64px] items-center justify-center"
+                    className="absolute flex h-[50px] w-[50px] items-center justify-center"
+                    style={{ left: `${x}%`, top: `${y}%`, transform: "translate(-50%, -50%)" }}
                   >
-                    <Image src={mp.src} alt={mp.name} width={52} height={52} className="object-contain" />
+                    <Image src={mp.src} alt={mp.name} width={50} height={50} className="h-full w-full object-contain" />
                   </div>
                 ))}
+
+                {/* T1 centre node */}
+                <div className="absolute" style={{ left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}>
+                  <div className="flex h-[58px] w-[58px] items-center justify-center rounded-[15px]" style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)" }}>
+                    <svg width="34" height="32" viewBox="0 0 45 44" fill="none">
+                      <path d="M27.6733 19.1041H31.4027C31.5444 19.1041 31.6388 19.1041 31.7332 19.1985V19.2457V37.7039C31.7332 38.5064 32.4885 39.0729 33.291 38.8369C35.0377 38.1288 37.3037 37.2318 38.956 36.4765C39.2392 36.3349 39.6169 36.1932 39.6169 35.6268V19.2457V19.1041V7.86867C39.6169 7.20776 39.0976 6.68848 38.4367 6.68848H35.6514C35.1321 6.68848 34.7073 7.01893 34.5184 7.491C33.3855 10.6539 31.2139 13.0143 27.9566 13.5808C24.6992 14.1473 27.6733 13.628 27.4845 13.628C26.8708 13.7224 26.4459 14.1945 26.4459 14.8082V17.8767C26.4459 18.5376 26.9652 19.0569 27.6261 19.0569L27.6733 19.1041Z" fill="#D93A26" />
+                      <path d="M32.5831 5.41411C32.4415 5.27248 32.2055 5.13086 31.9694 5.13086H4.63622C3.78648 5.13086 3.07837 5.74456 3.07837 6.54709V10.7014C3.07837 11.6927 3.2672 12.1648 4.4946 12.1648H13.6057C13.8417 12.1648 14.0305 12.3536 14.0305 12.5897V16.083V35.5326C14.0305 35.9574 14.3138 36.2879 14.7387 36.4767C15.5412 36.8072 18.3264 38.1762 19.2706 38.6955C20.2147 39.2148 21.867 38.3178 21.867 36.996V13.2506V13.0617C21.8198 12.7313 21.867 12.4008 22.1975 12.2592H22.4335H25.4076C31.9222 11.6455 32.5831 6.5943 32.6303 6.02781V5.79177C32.6303 5.65014 32.6303 5.55573 32.4887 5.46131L32.5831 5.41411Z" fill="#D93A26" />
+                    </svg>
+                  </div>
+                </div>
               </div>
 
               {/* Desktop: animated connector tree */}
