@@ -205,6 +205,10 @@ body {
 .glass-auto-tilt {
   animation: glassAutoTilt 8s ease-in-out infinite;
 }
+/* Offset the second card's float so the two don't move in lockstep. */
+.glass-auto-tilt.tilt-delay {
+  animation-delay: -4s;
+}
 @media (prefers-reduced-motion: reduce) {
   .glass-auto-tilt { animation: none; }
 }
@@ -616,7 +620,7 @@ body {
   isolation: isolate;
 }
 @media (min-width: 768px) {
-  .fs-stack-card { padding: 80px 0; }
+  .fs-stack-card { padding: 100px 0; }
 }
 /* Dim overlay disabled — no underlying card to darken anymore. */
 .fs-stack-card::after { display: none; }

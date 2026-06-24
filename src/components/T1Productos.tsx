@@ -134,9 +134,11 @@ export default function T1Productos() {
             {/* Right — two overlapping glass product cards (different product + channels) */}
             <div className="relative flex justify-center py-2 tablet:py-6">
               <div className="relative" style={{ perspective: 1000 }}>
-                {/* Back card — peeks behind on desktop */}
-                <div className="absolute hidden tablet:block" style={{ left: -172, top: -26, zIndex: 0, transform: "rotate(-8deg) scale(0.92)", opacity: 0.96 }}>
+                {/* Back card — peeks behind on desktop, also floating in 3D */}
+                <div className="absolute hidden tablet:block" style={{ left: -187, top: -26, zIndex: 0, transform: "rotate(-8deg) scale(0.92)", opacity: 0.96 }}>
                   <GlassProductCard
+                    autoTilt
+                    className="tilt-delay"
                     imageSrc="/img/playera.png"
                     price="$249.00"
                     title="Playera básica algodón"
@@ -145,8 +147,10 @@ export default function T1Productos() {
                   />
                 </div>
 
-                {/* Front card — main, auto-tilting */}
-                <div className="relative" style={{ zIndex: 1 }}>
+                {/* Front card — main, auto-tilting; leans right only on desktop
+                    (where it fans against the back card). The `rotate` property
+                    composes with the child's auto-tilt transform. */}
+                <div className="relative tablet:rotate-[20deg]" style={{ zIndex: 1 }}>
                   <GlassProductCard
                     autoTilt
                     imageSrc="/img/tenis-transparente.png"
@@ -169,7 +173,7 @@ export default function T1Productos() {
             Un catálogo, todos tus canales.
           </h2>
           <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[19px]" style={{ lineHeight: 1.5 }}>
-            Centraliza productos, variantes y precios. Distribuye con un click.
+            Centraliza productos, variantes y precios. Publícalos en todos tus canales con un click.
           </p>
         </div>
       </section>
@@ -196,34 +200,42 @@ export default function T1Productos() {
                   ))}
                 </ul>
               </div>
-              {/* Panel — product table */}
-              <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
-                <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
-                  <p className="font-sora text-[14px] font-medium text-black">Catálogo · 1,432 productos</p>
-                  <span className="rounded-full bg-[rgba(219,59,43,0.10)] px-2 py-0.5 font-inter text-[10px] font-bold text-[#DB3B2B]">+ Nuevo</span>
+              {/* Panel — product list (mirrors the real T1 "Productos" table) */}
+              <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 18, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
+                {/* filter chips */}
+                <div className="flex flex-wrap gap-1.5" style={{ marginBottom: 14 }}>
+                  {["Estatus", "Canal de venta", "Inventario", "Categoría"].map((f) => (
+                    <span key={f} className="inline-flex items-center gap-1 rounded-full border border-black/[0.10] px-2 py-1 font-inter text-[9px] text-black/55">
+                      {f}
+                      <svg width="7" height="7" viewBox="0 0 16 16" fill="none"><path d="M3 5.5L8 10.5L13 5.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                    </span>
+                  ))}
                 </div>
-                <div className="grid grid-cols-[40px_1fr_60px_50px] items-center gap-2 border-b border-black/[0.06] pb-2" style={{ marginBottom: 8 }}>
-                  <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/40"></span>
-                  <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/40">Producto</span>
-                  <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/40 text-right">Precio</span>
-                  <span className="font-inter text-[9px] font-semibold uppercase tracking-wide text-black/40 text-right">Inv.</span>
+                {/* header */}
+                <div className="grid grid-cols-[minmax(0,1.7fr)_minmax(0,0.75fr)_minmax(0,0.85fr)_minmax(0,0.5fr)_minmax(0,0.6fr)] items-center gap-1.5 border-b border-black/[0.06] pb-2" style={{ marginBottom: 6 }}>
+                  <span className="font-inter text-[8px] font-semibold uppercase tracking-wide text-black/40">Producto</span>
+                  <span className="font-inter text-[8px] font-semibold uppercase tracking-wide text-black/40">Estatus</span>
+                  <span className="font-inter text-[8px] font-semibold uppercase tracking-wide text-black/40">Inventario</span>
+                  <span className="font-inter text-[8px] font-semibold uppercase tracking-wide text-black/40 text-center">Canales</span>
+                  <span className="font-inter text-[8px] font-semibold uppercase tracking-wide text-black/40 text-right">Precio</span>
                 </div>
                 {[
-                  { name: "Tenis blancos clásicos", sku: "TBC-042", price: "$1,345.99", stock: 24, img: "/img/tenis-transparente.png" },
-                  { name: "Playera básica algodón", sku: "PB-101", price: "$249.00", stock: 87, img: "/img/tenis-transparente.png" },
-                  { name: "Sudadera hoodie premium", sku: "SH-220", price: "$890.00", stock: 12, img: "/img/tenis-transparente.png" },
-                  { name: "Mochila urbana 25L", sku: "MU-007", price: "$1,120.00", stock: 38, img: "/img/tenis-transparente.png" },
+                  { name: "Tenis blancos clásicos", units: 24, price: "$1,345.99", img: "/img/tenis-transparente.png" },
+                  { name: "Playera básica algodón", units: 87, price: "$249.00", img: "/img/tenis-transparente.png" },
+                  { name: "Sudadera hoodie premium", units: 12, price: "$890.00", img: "/img/tenis-transparente.png" },
+                  { name: "Mochila urbana 25L", units: 38, price: "$1,120.00", img: "/img/tenis-transparente.png" },
                 ].map((row, i) => (
-                  <div key={row.sku} className={`grid grid-cols-[40px_1fr_60px_50px] items-center gap-2 py-2 ${i < 3 ? "border-b border-black/[0.04]" : ""}`}>
-                    <div className="flex h-[32px] w-[32px] items-center justify-center overflow-hidden rounded-[6px] border border-black/[0.05] bg-[#FAFAF9]">
-                      <Image src={row.img} alt="" width={26} height={20} className="object-contain" />
+                  <div key={row.name} className={`grid grid-cols-[minmax(0,1.7fr)_minmax(0,0.75fr)_minmax(0,0.85fr)_minmax(0,0.5fr)_minmax(0,0.6fr)] items-center gap-1.5 py-2 ${i < 3 ? "border-b border-black/[0.04]" : ""}`}>
+                    <div className="flex min-w-0 items-center gap-2">
+                      <div className="flex h-[30px] w-[30px] shrink-0 items-center justify-center overflow-hidden rounded-[6px] border border-black/[0.05] bg-[#FAFAF9]">
+                        <Image src={row.img} alt="" width={24} height={18} className="object-contain" />
+                      </div>
+                      <p className="min-w-0 truncate font-inter text-[10px] font-semibold text-black">{row.name}</p>
                     </div>
-                    <div>
-                      <p className="font-inter text-[11px] font-semibold text-black truncate">{row.name}</p>
-                      <p className="font-inter text-[9px] text-black/45">{row.sku}</p>
-                    </div>
-                    <p className="font-inter text-[11px] font-semibold text-black text-right">{row.price}</p>
-                    <p className="font-inter text-[11px] font-semibold text-black text-right">{row.stock}</p>
+                    <span className="inline-flex w-fit items-center rounded-full bg-[rgba(34,197,94,0.10)] px-1.5 py-0.5 font-inter text-[8.5px] font-semibold text-[#16A34A]">Activo</span>
+                    <span className="font-inter text-[10px] text-black/70">{row.units} uds</span>
+                    <span className="text-center font-inter text-[10px] text-black/55">1/3</span>
+                    <span className="text-right font-inter text-[10px] font-semibold text-black">{row.price}</span>
                   </div>
                 ))}
               </div>
@@ -326,36 +338,39 @@ export default function T1Productos() {
                   ))}
                 </ul>
               </div>
-              {/* Panel — quick inventory edit (steppers) */}
-              <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
-                <div className="flex items-center justify-between" style={{ marginBottom: 16 }}>
+              {/* Panel — inventory editor (mirrors the real T1 inventory table:
+                  editable number fields per product) */}
+              <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 18, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
+                <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
                   <p className="font-sora text-[14px] font-medium text-black">Editar inventario</p>
                   <span className="rounded-full bg-[rgba(34,197,94,0.12)] px-2 py-0.5 font-inter text-[10px] font-bold text-[#16A34A]">En vivo</span>
                 </div>
-
-                <div className="flex flex-col gap-1.5">
-                  {[
-                    { name: "Tenis blancos clásicos", sku: "TBC-042", qty: 24 },
-                    { name: "Playera básica algodón", sku: "PB-101", qty: 87 },
-                    { name: "Sudadera hoodie premium", sku: "SH-220", qty: 12 },
-                    { name: "Mochila urbana 25L", sku: "MU-007", qty: 38 },
-                  ].map((row) => (
-                    <div key={row.sku} className="flex items-center gap-3 rounded-[10px] bg-[#FAFAF9] px-3 py-2">
-                      <div className="flex h-[32px] w-[32px] shrink-0 items-center justify-center overflow-hidden rounded-[6px] border border-black/[0.05] bg-white">
-                        <Image src="/img/tenis-transparente.png" alt="" width={24} height={18} className="object-contain" />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p className="font-inter text-[11px] font-semibold text-black truncate">{row.name}</p>
-                        <p className="font-inter text-[9px] text-black/45">{row.sku}</p>
-                      </div>
-                      <div className="flex items-center gap-1.5 rounded-[8px] border border-black/[0.08] bg-white px-1.5 py-1">
-                        <span className="flex h-[16px] w-[16px] items-center justify-center rounded-[4px] bg-black/[0.05] font-inter text-[13px] font-bold leading-none text-black/55">−</span>
-                        <span className="w-[26px] text-center font-inter text-[12px] font-bold text-black tabular-nums">{row.qty}</span>
-                        <span className="flex h-[16px] w-[16px] items-center justify-center rounded-[4px] bg-[rgba(219,59,43,0.10)] font-inter text-[13px] font-bold leading-none text-[#DB3B2B]">+</span>
-                      </div>
-                    </div>
-                  ))}
+                {/* header */}
+                <div className="grid grid-cols-[minmax(0,1.5fr)_minmax(0,0.8fr)_minmax(0,0.7fr)_minmax(0,0.6fr)] items-end gap-1.5 border-b border-black/[0.06] pb-2" style={{ marginBottom: 6 }}>
+                  <span className="font-inter text-[8px] font-semibold uppercase tracking-wide text-black/40">Nombre</span>
+                  <span className="text-center font-inter text-[8px] font-semibold uppercase tracking-wide text-black/40">Disponible</span>
+                  <span className="text-center font-inter text-[8px] font-semibold uppercase tracking-wide text-black/40">No vend.</span>
+                  <span className="text-center font-inter text-[8px] font-semibold uppercase tracking-wide text-black/40">Total</span>
                 </div>
+                {[
+                  { name: "Tenis blancos clásicos", avail: 10, nv: 1, total: 11 },
+                  { name: "Playera básica algodón", avail: 10, nv: 1, total: 11 },
+                  { name: "Sudadera hoodie premium", avail: 4, nv: 1, total: 5 },
+                  { name: "Mochila urbana 25L", avail: 3, nv: 1, total: 4 },
+                ].map((row, i) => (
+                  <div key={row.name} className={`grid grid-cols-[minmax(0,1.5fr)_minmax(0,0.8fr)_minmax(0,0.7fr)_minmax(0,0.6fr)] items-center gap-1.5 py-1.5 ${i < 3 ? "border-b border-black/[0.04]" : ""}`}>
+                    <div className="flex min-w-0 items-center gap-2">
+                      <div className="flex h-[28px] w-[28px] shrink-0 items-center justify-center overflow-hidden rounded-[6px] border border-black/[0.05] bg-[#FAFAF9]">
+                        <Image src="/img/tenis-transparente.png" alt="" width={22} height={16} className="object-contain" />
+                      </div>
+                      <p className="min-w-0 truncate font-inter text-[10px] font-semibold text-black">{row.name}</p>
+                    </div>
+                    {/* editable-looking number fields */}
+                    <div className="mx-auto flex h-[24px] w-[40px] items-center justify-center rounded-[6px] border border-black/[0.12] bg-white font-inter text-[10px] font-semibold text-black tabular-nums">{row.avail}</div>
+                    <div className="mx-auto flex h-[24px] w-[34px] items-center justify-center rounded-[6px] border border-black/[0.10] bg-white font-inter text-[10px] text-black/60 tabular-nums">{row.nv}</div>
+                    <div className="mx-auto flex h-[24px] w-[34px] items-center justify-center rounded-[6px] border border-black/[0.10] bg-[#FAFAF9] font-inter text-[10px] font-semibold text-black tabular-nums">{row.total}</div>
+                  </div>
+                ))}
                 <div className="mt-3 flex items-center justify-center rounded-[10px] bg-[#DB3B2B] py-2">
                   <span className="font-inter text-[11px] font-semibold text-white">Guardar cambios</span>
                 </div>
@@ -366,7 +381,7 @@ export default function T1Productos() {
       </div>
 
       {/* ── Cómo funciona ── */}
-      <section className="relative bg-[#F6F6F6] px-5 py-24 tablet:px-10 tablet:py-32">
+      <section className="relative bg-[#F6F6F6] px-5 py-[100px] tablet:px-10 tablet:py-[128px]">
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
@@ -412,7 +427,7 @@ export default function T1Productos() {
       </section>
 
       {/* ── Lo que incluye ── */}
-      <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32">
+      <section className="relative bg-white px-5 py-[100px] tablet:px-10 tablet:py-[128px]">
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
@@ -578,7 +593,7 @@ export default function T1Productos() {
       </section>
 
       {/* ── Stats ── */}
-      <section className="relative px-5 py-20 tablet:px-10 tablet:py-24" style={{ background: "linear-gradient(135deg, #1A0A0A 0%, #261515 50%, #1A0A0A 100%)" }}>
+      <section className="relative px-5 py-[100px] tablet:px-10 tablet:py-[128px]" style={{ background: "linear-gradient(135deg, #1A0A0A 0%, #261515 50%, #1A0A0A 100%)" }}>
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[640px] text-center" style={{ marginBottom: 48 }}>
             <h2 className="font-sora text-[24px] font-light text-white tablet:text-[34px]" style={{ letterSpacing: "-0.02em", lineHeight: 1.2 }}>
@@ -597,7 +612,7 @@ export default function T1Productos() {
       </section>
 
       {/* ── FAQ ── */}
-      <section className="relative bg-[#F6F6F6] px-5 py-24 tablet:px-10 tablet:py-32">
+      <section className="relative bg-[#F6F6F6] px-5 py-[100px] tablet:px-10 tablet:py-[128px]">
         <div className="mx-auto max-w-[760px]">
           <div data-modal-animate className="text-center" style={{ marginBottom: 40 }}>
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>Preguntas frecuentes</h2>
