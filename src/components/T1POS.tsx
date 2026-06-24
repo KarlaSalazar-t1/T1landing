@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
 import { useCountUp } from "@/hooks/useCountUp";
 import { useFSStackCards } from "@/hooks/useFSStackCards";
 import T1FinalCTA from "@/components/T1FinalCTA";
+import { PosDesktopScreen, PosMobileScreen } from "@/components/showcase/PosMockups";
 
 function CountStat({ end, prefix = "", suffix = "", label, decimals = 0 }: { end: number; prefix?: string; suffix?: string; label: string; decimals?: number }) {
   const { ref, display } = useCountUp({ end, prefix, suffix, decimals, duration: 1800 });
@@ -80,30 +80,12 @@ export default function T1POS() {
             {/* Right — POS on desktop + mobile, framed with the same transparent
                 glass edge as the main landing's stack cards. */}
             <div className="relative mx-auto w-full" style={{ maxWidth: 600 }}>
-              {/* Desktop POS screen */}
-              <div
-                className="relative overflow-hidden rounded-[14px]"
-                style={{
-                  aspectRatio: "961 / 490",
-                  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.12), 0 0 0 1px rgba(255,255,255,0.10), 0 24px 60px rgba(0,0,0,0.45)",
-                }}
-              >
-                <Image src="/img/carrito-desktop.svg" alt="Punto de venta en escritorio" fill className="object-cover object-left-top" sizes="(max-width: 768px) 92vw, 600px" priority />
-              </div>
+              {/* Desktop POS screen (built mock + glass frame) */}
+              <PosDesktopScreen />
 
               {/* Mobile POS app — overlaps the bottom-right corner, in front */}
-              <div
-                className="absolute overflow-hidden rounded-[20px]"
-                style={{
-                  width: "29%",
-                  aspectRatio: "360 / 558",
-                  right: "-3%",
-                  bottom: "-9%",
-                  zIndex: 2,
-                  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.16), 0 0 0 1px rgba(255,255,255,0.14), 0 18px 44px rgba(0,0,0,0.5)",
-                }}
-              >
-                <Image src="/img/carrito-movil.svg" alt="App de punto de venta" fill className="object-cover object-top" sizes="180px" />
+              <div className="absolute" style={{ width: "30%", right: "-3%", bottom: "-12%", zIndex: 2 }}>
+                <PosMobileScreen />
               </div>
 
               {/* Sync pill bridging the two devices */}
