@@ -143,10 +143,11 @@ export default function GlassProductCard({
             ))}
           </div>
 
-          {/* CTA — glassy white outline (so it doesn't compete with the page's red CTA) */}
-          <button className="w-full h-[34px] rounded-[8px] border border-white/45 bg-white/10 text-white text-[12px] font-bold font-sora backdrop-blur-sm transition-all duration-200 hover:bg-white/20 hover:scale-[1.03]">
+          {/* CTA — plain text link (not a button), so it doesn't compete with the page CTA */}
+          <span className="inline-flex items-center gap-1 font-inter text-[12px] font-semibold text-white/85 underline-offset-4 transition-colors hover:text-white hover:underline">
             {ctaLabel}
-          </button>
+            <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9 5l3 3-3 3" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
+          </span>
         </div>
       </div>
     </div>
