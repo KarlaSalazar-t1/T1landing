@@ -65,10 +65,9 @@ export default function T1Productos() {
               >
                 Tu catálogo,{" "}
                 <span className="relative inline-block">
-                  siempre sincronizado
+                  siempre sincronizado.
                   <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.30)", borderRadius: 5, zIndex: -1 }} />
                 </span>
-                .
               </h1>
               <p
                 className="font-inter text-[16px] font-light text-white/65 tablet:text-[19px]"
@@ -86,39 +85,20 @@ export default function T1Productos() {
               </div>
             </div>
 
-            {/* Right — product list mock + floating glass product card */}
-            <div className="relative flex justify-center">
-              {/* Mobile: the glass product card on its own (cleaner than the phone) */}
-              <div className="flex justify-center py-2 tablet:hidden">
+            {/* Right — glass product card (auto-tilting), with a floating sync badge accent */}
+            <div className="relative flex justify-center py-2">
+              <div className="relative" style={{ perspective: 1000 }}>
                 <GlassProductCard
+                  autoTilt
                   imageSrc="/img/tenis-transparente.png"
                   price="$1,345.99"
                   title="Tenis blancos clásicos"
                   units="3,102 unidades · 4 canales"
                   marketplaces={HERO_CARD_CHANNELS}
                 />
-              </div>
 
-              {/* Desktop: phone list + floating glass card + sync badge */}
-              <div className="relative hidden justify-center tablet:flex">
-                {/* Phone-like product list */}
-                <div className="relative overflow-hidden rounded-[18px]" style={{ width: 280, aspectRatio: "9/16", boxShadow: "0 20px 60px rgba(0,0,0,0.4)", border: "1px solid rgba(255,255,255,0.10)" }}>
-                  <Image src="/img/list-product.webp" alt="Lista de productos" fill className="object-cover object-top" sizes="280px" priority />
-                </div>
-
-                {/* Floating glass product card */}
-                <div className="absolute" style={{ right: -36, bottom: 56 }}>
-                  <GlassProductCard
-                    imageSrc="/img/tenis-transparente.png"
-                    price="$1,345.99"
-                    title="Tenis blancos clásicos"
-                    units="3,102 unidades · 4 canales"
-                    marketplaces={HERO_CARD_CHANNELS}
-                  />
-                </div>
-
-                {/* Floating sync badge */}
-                <div className="absolute flex items-center gap-2 rounded-full bg-white" style={{ left: -16, top: 90, padding: "8px 14px", boxShadow: "0 10px 28px rgba(0,0,0,0.16)" }}>
+                {/* Floating sync badge (desktop accent) */}
+                <div className="absolute hidden tablet:flex items-center gap-2 rounded-full bg-white" style={{ left: -48, top: 28, padding: "8px 14px", boxShadow: "0 10px 28px rgba(0,0,0,0.16)" }}>
                   <span className="h-[8px] w-[8px] rounded-full bg-[#22C55E]" style={{ animation: "pulse-soft 2s ease-in-out infinite" }} />
                   <span className="font-inter text-[11px] font-semibold text-black">Sincronizado en 4 canales</span>
                 </div>
@@ -132,8 +112,8 @@ export default function T1Productos() {
       <section className="relative bg-[#F6F6F6] px-5 pt-16 pb-12 tablet:px-10 tablet:pt-20 tablet:pb-16" data-white-card>
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto text-center" style={{ marginBottom: 48 }}>
-            <h2 className="font-sora text-[26px] font-light text-black tablet:text-[34px] lg:text-[40px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>
-              Subir productos no debería ser <em className="not-italic text-black/40">un trabajo aparte.</em>
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15 }}>
+              Subir productos no debería ser un trabajo aparte.
             </h2>
           </div>
 
@@ -161,7 +141,7 @@ export default function T1Productos() {
       {/* ── Stack cards intro ── */}
       <section className="relative bg-white px-5 pt-12 pb-8 tablet:px-10 tablet:pt-16 tablet:pb-10">
         <div data-modal-animate className="mx-auto max-w-[760px] text-center">
-          <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.4px", lineHeight: 1.1, marginBottom: 16 }}>
+          <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 16 }}>
             Un catálogo, todos tus canales.
           </h2>
           <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[19px]" style={{ lineHeight: 1.5 }}>
@@ -177,7 +157,7 @@ export default function T1Productos() {
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div>
-                <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
+                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
                   Un solo catálogo
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
@@ -283,7 +263,7 @@ export default function T1Productos() {
               </div>
 
               <div className="order-1 tablet:order-2">
-                <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
+                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
                   Variantes y precios por canal
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
@@ -307,7 +287,7 @@ export default function T1Productos() {
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div>
-                <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
+                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
                   Inventario en vivo
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
@@ -376,25 +356,34 @@ export default function T1Productos() {
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-              De foto a producto en línea, en minutos
+              Crea productos como prefieras
             </h2>
             <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-              Sube, edita, distribuye. Sin pelear con cada plataforma.
+              Con IA, de forma manual o de forma masiva. Tú eliges cómo cargar tu catálogo.
             </p>
           </div>
-          <div data-modal-animate className="relative grid grid-cols-1 gap-5 tablet:grid-cols-2 lg:grid-cols-4 lg:gap-6">
-            <div aria-hidden className="pointer-events-none absolute hidden lg:block" style={{ left: "12.5%", right: "12.5%", top: 30, height: 1, background: "linear-gradient(90deg, transparent 0%, rgba(219,59,43,0.25) 12%, rgba(219,59,43,0.25) 88%, transparent 100%)" }} />
+          <div data-modal-animate className="grid grid-cols-1 gap-5 tablet:grid-cols-3 lg:gap-6">
             {[
-              { n: "01", title: "Sube tu producto", desc: "Una foto basta. La IA genera título, descripción y categoría." },
-              { n: "02", title: "Define variantes", desc: "Talla, color, material. Combinaciones ilimitadas con un editor visual." },
-              { n: "03", title: "Distribuye canales", desc: "Selecciona dónde publicar. T1 mapea categorías por marketplace." },
-              { n: "04", title: "Inventario sincronizado", desc: "Cada venta actualiza inventario en todos los canales en tiempo real." },
+              {
+                title: "Con IA",
+                desc: "Sube una foto y la IA genera título, descripción, categoría y atributos al instante.",
+                icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6L12 3Z" stroke="#DB3B2B" strokeWidth="1.6" strokeLinejoin="round" /><path d="M18.5 14.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7.7-1.8Z" stroke="#DB3B2B" strokeWidth="1.4" strokeLinejoin="round" /></svg>),
+              },
+              {
+                title: "De forma manual",
+                desc: "Crea producto a producto con un editor visual, con todo el control del detalle.",
+                icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 20h16 M14.5 4.5l3 3-9.5 9.5-3.5.9.9-3.5 9.6-9.4Z" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>),
+              },
+              {
+                title: "De forma masiva",
+                desc: "Importa cientos de productos desde Excel o CSV en un solo paso.",
+                icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 16V4 M8 8l4-4 4 4 M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>),
+              },
             ].map((s, i) => (
-              <div key={s.n} data-stagger className="tienda-card relative rounded-[18px] border border-black/[0.06] bg-white p-7" style={{ ["--i" as string]: i }}>
-                <span aria-hidden className="step-dot absolute hidden h-[10px] w-[10px] rounded-full bg-[#DB3B2B] lg:block" style={{ left: 28, top: 25, boxShadow: "0 0 0 6px rgba(219,59,43,0.12)" }} />
-                <span className="font-sora text-[40px] font-light text-[#DB3B2B]" style={{ display: "block", marginTop: 28, marginBottom: 12, letterSpacing: "-0.04em", lineHeight: 1 }}>{s.n}</span>
-                <h3 className="font-sora text-[18px] font-normal text-black" style={{ marginBottom: 6 }}>{s.title}</h3>
-                <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{s.desc}</p>
+              <div key={s.title} data-stagger className="tienda-card relative rounded-[18px] border border-black/[0.06] bg-white p-8" style={{ ["--i" as string]: i }}>
+                <div className="flex h-[48px] w-[48px] items-center justify-center rounded-[14px]" style={{ background: "rgba(219,59,43,0.08)", marginBottom: 18 }}>{s.icon}</div>
+                <h3 className="font-sora text-[20px] font-normal text-black" style={{ marginBottom: 8 }}>{s.title}</h3>
+                <p className="font-inter text-[14px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{s.desc}</p>
               </div>
             ))}
           </div>
@@ -412,13 +401,11 @@ export default function T1Productos() {
               Centraliza, automatiza y escala sin agregar carga operativa.
             </p>
           </div>
-          <div data-modal-animate className="grid grid-cols-1 gap-4 tablet:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+          <div data-modal-animate className="mx-auto grid max-w-[820px] grid-cols-1 gap-4 tablet:grid-cols-2 lg:gap-5">
             {[
               { title: "Bulk import", desc: "Sube cientos de productos desde Excel o CSV en un click.", icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3v12 M8 11l4 4 4-4 M5 21h14" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
               { title: "IA para fotos", desc: "Sube una imagen y obtén título, descripción y atributos al instante.", icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="#DB3B2B" strokeWidth="1.6" /><path d="M3 16l5-5 5 5 4-4 4 4" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /><circle cx="9" cy="9" r="1.5" fill="#DB3B2B" /></svg>) },
-              { title: "SKUs automáticos", desc: "Generación automática de SKUs únicos por variante.", icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 5v14 M7 5v14 M11 5v14 M15 5v14 M19 5v14" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
               { title: "Categorías inteligentes", desc: "Mapeo automático a categorías de cada marketplace.", icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke="#DB3B2B" strokeWidth="1.6" /><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="#DB3B2B" strokeWidth="1.6" /><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="#DB3B2B" strokeWidth="1.6" /><rect x="14" y="14" width="7" height="7" rx="1.5" stroke="#DB3B2B" strokeWidth="1.6" /></svg>) },
-              { title: "Alertas de inventario", desc: "Notificaciones cuando un producto está por agotarse.", icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /><path d="M13.7 21a2 2 0 0 1-3.4 0" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
               { title: "Histórico y reportes", desc: "Análisis de rotación, productos top y baja rotación.", icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 21h18 M3 3v18" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" /><path d="M7 17l4-4 3 3 5-7" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
             ].map((f, i) => (
               <div key={f.title} data-stagger className="tienda-card flex items-start gap-4 rounded-[16px] border border-black/[0.06] bg-white p-6" style={{ ["--i" as string]: i }}>

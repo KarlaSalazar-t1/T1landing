@@ -15,6 +15,8 @@ interface GlassProductCardProps {
   marketplaces: MarketplaceIcon[];
   ctaLabel?: string;
   className?: string;
+  /** When true, the card tilts on its own (continuous 3D float) instead of on hover. */
+  autoTilt?: boolean;
 }
 
 export default function GlassProductCard({
@@ -25,6 +27,7 @@ export default function GlassProductCard({
   marketplaces,
   ctaLabel = "Ver producto",
   className = "",
+  autoTilt = false,
 }: GlassProductCardProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const spotRef = useRef<HTMLDivElement>(null);
@@ -50,13 +53,16 @@ export default function GlassProductCard({
         spot.style.setProperty("--spot-opacity", "1");
       }
 
-      const nx = (x / rect.width - 0.5) * 2;
-      const ny = (y / rect.height - 0.5) * 2;
-      const rotateX = -ny * 6;
-      const rotateY = nx * 6;
-      wrapper.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+      // In auto-tilt mode the CSS animation owns the wrapper transform — don't fight it.
+      if (!autoTilt) {
+        const nx = (x / rect.width - 0.5) * 2;
+        const ny = (y / rect.height - 0.5) * 2;
+        const rotateX = -ny * 6;
+        const rotateY = nx * 6;
+        wrapper.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+      }
     },
-    []
+    [autoTilt]
   );
 
   const handleMouseLeave = useCallback(() => {
@@ -65,14 +71,16 @@ export default function GlassProductCard({
     if (!wrapper) return;
 
     wrapper.style.setProperty("--glow-opacity", "0");
-    wrapper.style.transform =
-      "perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)";
+    if (!autoTilt) {
+      wrapper.style.transform =
+        "perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)";
+    }
 
     if (spot) {
       spot.style.setProperty("--spot-opacity", "0");
     }
     setIsHovered(false);
-  }, []);
+  }, [autoTilt]);
 
   const handleMouseEnter = useCallback(() => {
     setIsHovered(true);
@@ -81,7 +89,7 @@ export default function GlassProductCard({
   return (
     <div
       ref={wrapperRef}
-      className={`glass-card-wrapper w-[230px] cursor-pointer ${className}`}
+      className={`glass-card-wrapper w-[230px] cursor-pointer ${autoTilt ? "glass-auto-tilt" : ""} ${className}`}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onMouseEnter={handleMouseEnter}

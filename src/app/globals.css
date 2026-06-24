@@ -196,6 +196,19 @@ body {
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), inset 0 -1px 0 rgba(255,255,255,0.04), 0 12px 40px rgba(0,0,0,0.14);
 }
 
+/* Auto-tilt — continuous gentle 3D float (no hover needed). */
+@keyframes glassAutoTilt {
+  0%   { transform: perspective(900px) rotateX(5deg)  rotateY(-7deg); }
+  50%  { transform: perspective(900px) rotateX(-3deg) rotateY(7deg); }
+  100% { transform: perspective(900px) rotateX(5deg)  rotateY(-7deg); }
+}
+.glass-auto-tilt {
+  animation: glassAutoTilt 8s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .glass-auto-tilt { animation: none; }
+}
+
 /* ─── Noise/grain texture overlay ─── */
 .noise-grain {
   /* Plain alpha overlay — mix-blend-mode caused compositor glitches
