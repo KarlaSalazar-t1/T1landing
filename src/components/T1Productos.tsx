@@ -170,6 +170,106 @@ function InventoryPanel() {
   );
 }
 
+/* Block 2 panel — variant editor where changing price/cost re-derives margin & profit. */
+const VARIANT_ROWS = [
+  { v: "Rojo / Chico / Algodón", sel: false },
+  { v: "Rojo / Chico / Poliéster", sel: true },
+  { v: "Rojo / Grande / Algodón", sel: false },
+];
+
+function VariantPanel() {
+  const [price, setPrice] = useState(349);
+  const [cost, setCost] = useState(104);
+  const [bump, setBump] = useState<"price" | "cost" | null>("price");
+  useEffect(() => {
+    const prices = [349, 329, 379, 399, 359];
+    const costs = [104, 96, 118, 132, 110];
+    let i = 0;
+    const id = setInterval(() => {
+      i += 1;
+      // Alternate which input "the user" edits; the other stays, margin re-derives.
+      if (i % 2 === 1) {
+        setPrice(prices[i % prices.length]);
+        setBump("price");
+      } else {
+        setCost(costs[i % costs.length]);
+        setBump("cost");
+      }
+      setTimeout(() => setBump(null), 600);
+    }, 2600);
+    return () => clearInterval(id);
+  }, []);
+
+  const profit = Math.max(0, price - cost);
+  const margin = price > 0 ? Math.round((profit / price) * 100) : 0;
+  const money = (n: number) => `$${n.toFixed(2)}`;
+
+  return (
+    <div className="relative order-2 overflow-hidden rounded-[18px] border border-black/[0.06] bg-white tablet:order-1" style={{ padding: 18, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
+      <div className="flex items-center gap-3" style={{ marginBottom: 12 }}>
+        <div className="flex h-[40px] w-[40px] shrink-0 items-center justify-center overflow-hidden rounded-[8px] border border-black/[0.05] bg-[#FAFAF9]">
+          <Image src="/img/playera.png" alt="" width={30} height={24} className="object-contain" />
+        </div>
+        <div>
+          <p className="font-inter text-[12px] font-semibold text-black">Playera polo mujer</p>
+          <p className="font-inter text-[10px] text-black/50">3 atributos · 8 variantes</p>
+        </div>
+      </div>
+
+      {/* variant rows */}
+      <div className="flex flex-col" style={{ marginBottom: 12 }}>
+        {VARIANT_ROWS.map((row) => (
+          <div key={row.v} className={`flex items-center gap-2 rounded-[8px] px-2 py-1.5 ${row.sel ? "bg-[#FAFAF9]" : ""}`}>
+            <span className={`flex h-[13px] w-[13px] shrink-0 items-center justify-center rounded-[3px] border ${row.sel ? "border-[#DB3B2B] bg-[#DB3B2B]" : "border-black/20"}`}>
+              {row.sel && <svg width="8" height="8" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="white" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>}
+            </span>
+            <div className="flex h-[24px] w-[24px] shrink-0 items-center justify-center overflow-hidden rounded-[5px] border border-black/[0.05] bg-white">
+              <Image src="/img/playera.png" alt="" width={18} height={14} className="object-contain" />
+            </div>
+            <span className={`flex-1 font-inter text-[10.5px] ${row.sel ? "font-semibold text-black" : "text-black/65"}`}>{row.v}</span>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="black" strokeOpacity="0.3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+          </div>
+        ))}
+      </div>
+
+      {/* price + derived margin/profit */}
+      <div className="rounded-[10px] border border-black/[0.06] bg-[#FCFCFC] p-2.5">
+        <p className="font-inter text-[9px] font-semibold uppercase tracking-wider text-black/45" style={{ marginBottom: 6 }}>Precio</p>
+        <div className="flex items-center gap-2" style={{ marginBottom: 8 }}>
+          <div className="flex-1">
+            <p className="font-inter text-[8px] text-black/45" style={{ marginBottom: 2 }}>Precio base</p>
+            <div
+              className="flex h-[24px] items-center rounded-[6px] border bg-white px-2 font-inter text-[10px] font-semibold text-black tabular-nums"
+              style={{ borderColor: bump === "price" ? "rgba(219,59,43,0.40)" : "rgba(0,0,0,0.12)", animation: bump === "price" ? "countBump 0.5s ease-out" : undefined }}
+            >
+              {money(price)}
+            </div>
+          </div>
+          <div className="flex-1">
+            <p className="font-inter text-[8px] text-black/45" style={{ marginBottom: 2 }}>Costo</p>
+            <div
+              className="flex h-[24px] items-center rounded-[6px] border bg-white px-2 font-inter text-[10px] text-black/70 tabular-nums"
+              style={{ borderColor: bump === "cost" ? "rgba(219,59,43,0.40)" : "rgba(0,0,0,0.12)", animation: bump === "cost" ? "countBump 0.5s ease-out" : undefined }}
+            >
+              {money(cost)}
+            </div>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="flex-1">
+            <p className="font-inter text-[8px] text-black/45" style={{ marginBottom: 2 }}>Ganancia</p>
+            <div className="flex h-[24px] items-center justify-center rounded-[6px] bg-[rgba(34,197,94,0.10)] font-inter text-[10px] font-semibold text-[#16A34A] tabular-nums" style={{ animation: bump ? "countBump 0.5s ease-out" : undefined }}>{money(profit)}</div>
+          </div>
+          <div className="flex-1">
+            <p className="font-inter text-[8px] text-black/45" style={{ marginBottom: 2 }}>Margen</p>
+            <div className="flex h-[24px] items-center justify-center rounded-[6px] bg-[rgba(34,197,94,0.10)] font-inter text-[10px] font-semibold text-[#16A34A] tabular-nums" style={{ animation: bump ? "countBump 0.5s ease-out" : undefined }}>{margin}%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function T1Productos() {
   const rootRef = useRef<HTMLDivElement>(null);
   const stackRootRef = useRef<HTMLDivElement>(null);
@@ -347,73 +447,18 @@ export default function T1Productos() {
         <div className="fs-stack-card" style={{ top: 80, zIndex: 2, background: "#F6F6F6" }}>
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
-              {/* Panel — variant editor (mirrors the real T1: variant list + price/margin) */}
-              <div className="relative order-2 overflow-hidden rounded-[18px] border border-black/[0.06] bg-white tablet:order-1" style={{ padding: 18, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
-                <div className="flex items-center gap-3" style={{ marginBottom: 12 }}>
-                  <div className="flex h-[40px] w-[40px] shrink-0 items-center justify-center overflow-hidden rounded-[8px] border border-black/[0.05] bg-[#FAFAF9]">
-                    <Image src="/img/playera.png" alt="" width={30} height={24} className="object-contain" />
-                  </div>
-                  <div>
-                    <p className="font-inter text-[12px] font-semibold text-black">Playera polo mujer</p>
-                    <p className="font-inter text-[10px] text-black/50">3 atributos · 8 variantes</p>
-                  </div>
-                </div>
-
-                {/* variant rows */}
-                <div className="flex flex-col" style={{ marginBottom: 12 }}>
-                  {[
-                    { v: "Rojo / Chico / Algodón", sel: false },
-                    { v: "Rojo / Chico / Poliéster", sel: true },
-                    { v: "Rojo / Grande / Algodón", sel: false },
-                  ].map((row) => (
-                    <div key={row.v} className={`flex items-center gap-2 rounded-[8px] px-2 py-1.5 ${row.sel ? "bg-[#FAFAF9]" : ""}`}>
-                      <span className={`flex h-[13px] w-[13px] shrink-0 items-center justify-center rounded-[3px] border ${row.sel ? "border-[#DB3B2B] bg-[#DB3B2B]" : "border-black/20"}`}>
-                        {row.sel && <svg width="8" height="8" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="white" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>}
-                      </span>
-                      <div className="flex h-[24px] w-[24px] shrink-0 items-center justify-center overflow-hidden rounded-[5px] border border-black/[0.05] bg-white">
-                        <Image src="/img/playera.png" alt="" width={18} height={14} className="object-contain" />
-                      </div>
-                      <span className={`flex-1 font-inter text-[10.5px] ${row.sel ? "font-semibold text-black" : "text-black/65"}`}>{row.v}</span>
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="black" strokeOpacity="0.3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                    </div>
-                  ))}
-                </div>
-
-                {/* price + margin (selected variant) */}
-                <div className="rounded-[10px] border border-black/[0.06] bg-[#FCFCFC] p-2.5">
-                  <p className="font-inter text-[9px] font-semibold uppercase tracking-wider text-black/45" style={{ marginBottom: 6 }}>Precio</p>
-                  <div className="flex items-center gap-2" style={{ marginBottom: 8 }}>
-                    <div className="flex-1">
-                      <p className="font-inter text-[8px] text-black/45" style={{ marginBottom: 2 }}>Precio base</p>
-                      <div className="flex h-[24px] items-center rounded-[6px] border border-black/[0.12] bg-white px-2 font-inter text-[10px] font-semibold text-black">$349.00</div>
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-inter text-[8px] text-black/45" style={{ marginBottom: 2 }}>Costo</p>
-                      <div className="flex h-[24px] items-center rounded-[6px] border border-black/[0.12] bg-white px-2 font-inter text-[10px] text-black/70">$104.00</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="flex-1">
-                      <p className="font-inter text-[8px] text-black/45" style={{ marginBottom: 2 }}>Ganancia</p>
-                      <div className="flex h-[24px] items-center justify-center rounded-[6px] bg-[rgba(34,197,94,0.10)] font-inter text-[10px] font-semibold text-[#16A34A]">$245.00</div>
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-inter text-[8px] text-black/45" style={{ marginBottom: 2 }}>Margen</p>
-                      <div className="flex h-[24px] items-center justify-center rounded-[6px] bg-[rgba(34,197,94,0.10)] font-inter text-[10px] font-semibold text-[#16A34A]">70%</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {/* Panel — animated variant editor (price/cost → margin & profit) */}
+              <VariantPanel />
 
               <div className="order-1 tablet:order-2">
                 <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
                   Variantes y precios por canal
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                  Hasta 3 atributos —color, talla, material— con todas sus combinaciones. Define un precio diferente por canal para optimizar margen.
+                  Hasta 3 atributos —como color, talla o material— con todas sus combinaciones. Define precio, costo y margen de cada variante.
                 </p>
                 <ul className="flex flex-col gap-2.5">
-                  {["Atributos personalizables por categoría", "Precios diferenciados por marketplace", "Promociones por temporada o canal"].map((it) => (
+                  {["Atributos personalizables por categoría", "Precio, costo y margen por variante", "Precios diferenciados por marketplace"].map((it) => (
                     <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                       {it}
@@ -580,7 +625,7 @@ export default function T1Productos() {
                 </div>
               </div>
               <h3 className="font-sora text-[17px] font-normal text-black" style={{ marginBottom: 6 }}>Variantes y combinaciones</h3>
-              <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>Hasta 3 atributos —color, talla, material— con todas sus combinaciones.</p>
+              <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>Hasta 3 atributos —como color, talla o material— con todas sus combinaciones.</p>
             </div>
 
             {/* 4. Categorías inteligentes */}
