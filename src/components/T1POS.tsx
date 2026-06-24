@@ -55,12 +55,11 @@ export default function T1POS() {
                 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[60px]"
                 style={{ lineHeight: 1.05, letterSpacing: "-1.7px", marginBottom: 22 }}
               >
-                Tu sucursal{" "}
+                Tu tienda física y online,{" "}
                 <span className="relative inline-block">
-                  y tu online
+                  en la misma caja.
                   <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.30)", borderRadius: 5, zIndex: -1 }} />
                 </span>
-                , en una sola caja.
               </h1>
               <p
                 className="font-inter text-[16px] font-light text-white/65 tablet:text-[19px]"
@@ -75,32 +74,40 @@ export default function T1POS() {
                 >
                   Comenzar ahora
                 </a>
-                <span className="font-inter text-[13px] text-white/50">Sin tarjeta · Empieza gratis</span>
               </div>
             </div>
 
-            {/* Right — POS device mockup with floating sale toast */}
-            <div className="relative">
-              <div className="relative mx-auto" style={{ maxWidth: 420, aspectRatio: "3 / 4", filter: "drop-shadow(0 25px 60px rgba(0,0,0,0.4))" }}>
-                <Image src="/img/pos-carrito.webp" alt="Terminal punto de venta" fill className="object-contain" sizes="420px" priority />
+            {/* Right — POS on desktop + mobile, framed with the same transparent
+                glass edge as the main landing's stack cards. */}
+            <div className="relative mx-auto w-full" style={{ maxWidth: 600 }}>
+              {/* Desktop POS screen */}
+              <div
+                className="relative overflow-hidden rounded-[14px]"
+                style={{
+                  aspectRatio: "961 / 490",
+                  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.12), 0 0 0 1px rgba(255,255,255,0.10), 0 24px 60px rgba(0,0,0,0.45)",
+                }}
+              >
+                <Image src="/img/carrito-desktop.svg" alt="Punto de venta en escritorio" fill className="object-cover object-left-top" sizes="(max-width: 768px) 92vw, 600px" priority />
               </div>
 
-              {/* Floating "Venta cobrada" badge */}
-              <div className="absolute hidden tablet:flex items-center gap-2.5 rounded-[14px] bg-white" style={{ left: -28, top: 60, padding: "12px 16px", boxShadow: "0 14px 40px rgba(0,0,0,0.18)" }}>
-                <div className="relative flex h-[34px] w-[34px] items-center justify-center rounded-full bg-[#22C55E]">
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                    <path d="M3 8L6.5 11.5L13 4.5" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                  <span className="absolute inset-0 rounded-full" style={{ animation: "pulse-soft 2s ease-in-out infinite", boxShadow: "0 0 0 8px rgba(34,197,94,0.18)" }} />
-                </div>
-                <div>
-                  <p className="font-sora text-[13px] font-semibold text-black">Venta cobrada</p>
-                  <p className="font-inter text-[10px] text-black/50">Sucursal Centro · $1,345.99</p>
-                </div>
+              {/* Mobile POS app — overlaps the bottom-right corner, in front */}
+              <div
+                className="absolute overflow-hidden rounded-[20px]"
+                style={{
+                  width: "29%",
+                  aspectRatio: "360 / 558",
+                  right: "-3%",
+                  bottom: "-9%",
+                  zIndex: 2,
+                  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.16), 0 0 0 1px rgba(255,255,255,0.14), 0 18px 44px rgba(0,0,0,0.5)",
+                }}
+              >
+                <Image src="/img/carrito-movil.svg" alt="App de punto de venta" fill className="object-cover object-top" sizes="180px" />
               </div>
 
-              {/* Floating sync indicator */}
-              <div className="absolute hidden tablet:flex items-center gap-2 rounded-full bg-white" style={{ right: -10, bottom: 80, padding: "8px 14px", boxShadow: "0 10px 28px rgba(0,0,0,0.16)" }}>
+              {/* Sync pill bridging the two devices */}
+              <div className="absolute hidden tablet:flex items-center gap-2 rounded-full bg-white" style={{ left: -16, bottom: 28, padding: "8px 14px", zIndex: 3, boxShadow: "0 10px 28px rgba(0,0,0,0.18)" }}>
                 <span className="h-[8px] w-[8px] rounded-full bg-[#22C55E]" style={{ animation: "pulse-soft 2s ease-in-out infinite" }} />
                 <span className="font-inter text-[11px] font-semibold text-black">Sincronizado online</span>
               </div>
