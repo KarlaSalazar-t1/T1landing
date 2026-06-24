@@ -40,10 +40,10 @@ export function GlassScreen({ children, radius = 16, className = "", style }: { 
       className={className}
       style={{
         position: "relative",
-        borderRadius: radius + 5,
-        padding: 5,
-        background: "linear-gradient(155deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0.08) 42%, rgba(255,255,255,0.02) 100%)",
-        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.45), 0 0 0 1px rgba(255,255,255,0.10), 0 30px 60px rgba(0,0,0,0.5)",
+        borderRadius: radius + 9,
+        padding: 9,
+        background: "linear-gradient(155deg, rgba(255,255,255,0.42) 0%, rgba(255,255,255,0.12) 42%, rgba(255,255,255,0.04) 100%)",
+        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.55), inset 0 0 0 1px rgba(255,255,255,0.10), 0 0 0 1px rgba(255,255,255,0.10), 0 30px 60px rgba(0,0,0,0.5)",
         ...style,
       }}
     >
@@ -130,28 +130,31 @@ function PosDesktop() {
               </div>
             ))}
           </div>
-          <div className="flex flex-col overflow-hidden">
-            {DESK_PRODUCTS.map((p) => (
-              <div key={p.name} className="flex items-center gap-3 border-b border-black/[0.04]" style={{ height: 56, opacity: p.state === "out" ? 0.45 : 1 }}>
-                <div className="flex h-[40px] w-[40px] shrink-0 items-center justify-center overflow-hidden rounded-[8px] border border-black/[0.05] bg-[#FAFAF9]">
-                  <Image src={p.img} alt="" width={32} height={24} className="object-contain" />
+          {/* Auto-scrolling product list (seamless vertical marquee) */}
+          <div style={{ height: 224, overflow: "hidden" }}>
+            <div style={{ animation: "posListScroll 16s linear infinite" }}>
+              {[...DESK_PRODUCTS, ...DESK_PRODUCTS].map((p, idx) => (
+                <div key={idx} className="flex items-center gap-3 border-b border-black/[0.04]" style={{ height: 56, opacity: p.state === "out" ? 0.45 : 1 }}>
+                  <div className="flex h-[40px] w-[40px] shrink-0 items-center justify-center overflow-hidden rounded-[8px] border border-black/[0.05] bg-[#FAFAF9]">
+                    <Image src={p.img} alt="" width={32} height={24} className="object-contain" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate font-inter text-[13px] font-medium text-black">{p.name}</p>
+                    {p.state === "low" ? (
+                      <span className="mt-0.5 inline-flex rounded-[5px] bg-[rgba(245,158,11,0.12)] px-1.5 py-0.5 font-inter text-[10px] font-semibold text-[#B45309]">{p.sub}</span>
+                    ) : p.state === "out" ? (
+                      <span className="mt-0.5 inline-flex rounded-[5px] bg-[rgba(219,59,43,0.10)] px-1.5 py-0.5 font-inter text-[10px] font-semibold text-[#DB3B2B]">{p.sub}</span>
+                    ) : (
+                      <p className="font-inter text-[11px] text-black/45">{p.sub}</p>
+                    )}
+                  </div>
+                  <span className="font-inter text-[13px] font-semibold text-black">{p.price}</span>
+                  <div className="flex h-[26px] w-[26px] items-center justify-center rounded-full border border-black/[0.10]">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#9CA3AF"><circle cx="5" cy="12" r="1.6" /><circle cx="12" cy="12" r="1.6" /><circle cx="19" cy="12" r="1.6" /></svg>
+                  </div>
                 </div>
-                <div className="min-w-0 flex-1">
-                  <p className="truncate font-inter text-[13px] font-medium text-black">{p.name}</p>
-                  {p.state === "low" ? (
-                    <span className="mt-0.5 inline-flex rounded-[5px] bg-[rgba(245,158,11,0.12)] px-1.5 py-0.5 font-inter text-[10px] font-semibold text-[#B45309]">{p.sub}</span>
-                  ) : p.state === "out" ? (
-                    <span className="mt-0.5 inline-flex rounded-[5px] bg-[rgba(219,59,43,0.10)] px-1.5 py-0.5 font-inter text-[10px] font-semibold text-[#DB3B2B]">{p.sub}</span>
-                  ) : (
-                    <p className="font-inter text-[11px] text-black/45">{p.sub}</p>
-                  )}
-                </div>
-                <span className="font-inter text-[13px] font-semibold text-black">{p.price}</span>
-                <div className="flex h-[26px] w-[26px] items-center justify-center rounded-full border border-black/[0.10]">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="#9CA3AF"><circle cx="5" cy="12" r="1.6" /><circle cx="12" cy="12" r="1.6" /><circle cx="19" cy="12" r="1.6" /></svg>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 

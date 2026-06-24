@@ -55,9 +55,9 @@ export default function T1POS() {
                 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[60px]"
                 style={{ lineHeight: 1.05, letterSpacing: "-1.7px", marginBottom: 22 }}
               >
-                Tu tienda física y online,{" "}
+                El punto de venta de{" "}
                 <span className="relative inline-block">
-                  en la misma caja.
+                  tu tienda física.
                   <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.30)", borderRadius: 5, zIndex: -1 }} />
                 </span>
               </h1>
@@ -65,7 +65,7 @@ export default function T1POS() {
                 className="font-inter text-[16px] font-light text-white/65 tablet:text-[19px]"
                 style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 480 }}
               >
-                Punto de venta listo para cobrar con tarjeta, efectivo o SPEI. Inventario sincronizado con tu tienda online y control de caja al cierre.
+                Cobra tus ventas en piso con tarjeta, efectivo o SPEI usando el mismo catálogo e inventario de tu tienda en línea. Con control de caja al cierre.
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <a
@@ -394,6 +394,80 @@ export default function T1POS() {
               <p className="font-inter text-[12px] font-light text-white/55 tablet:text-[13px]">soporte en español</p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* ── Planes (POS-relevant: usuarios + sucursales) ── */}
+      <section className="relative bg-white px-5 py-[100px] tablet:px-10 tablet:py-[128px]">
+        <div className="mx-auto max-w-[var(--max-w)]">
+          <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+              Un plan para cada operación
+            </h2>
+            <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
+              Suma usuarios y sucursales conforme tu tienda crece. El punto de venta está incluido en todos.
+            </p>
+          </div>
+          <div data-modal-animate className="mx-auto grid max-w-[980px] grid-cols-1 items-stretch gap-5 tablet:grid-cols-3">
+            {[
+              {
+                name: "Inicia", price: "$0", users: "1 usuario", branches: "1 sucursal", featured: false,
+                features: ["Caja con cobros en tarjeta, efectivo y SPEI", "Inventario sincronizado con tu tienda en línea", "Control y corte de caja"],
+              },
+              {
+                name: "Crece", price: "$399", users: "5 usuarios", branches: "3 sucursales", featured: true,
+                features: ["Todo lo de Inicia", "Roles y permisos por usuario", "Reportes de ventas por sucursal"],
+              },
+              {
+                name: "Pro", price: "$899", users: "Usuarios ilimitados", branches: "Sucursales ilimitadas", featured: false,
+                features: ["Todo lo de Crece", "Administración multisucursal", "Soporte prioritario"],
+              },
+            ].map((p, i) => (
+              <div
+                key={p.name}
+                data-stagger
+                className={`relative flex flex-col rounded-[20px] p-7 ${p.featured ? "border-2 border-[#DB3B2B] bg-white" : "border border-black/[0.08] bg-white"}`}
+                style={{ ["--i" as string]: i, boxShadow: p.featured ? "0 18px 50px rgba(219,59,43,0.12)" : "0 4px 20px rgba(0,0,0,0.04)" }}
+              >
+                {p.featured && (
+                  <span className="absolute right-6 top-7 rounded-full bg-[rgba(219,59,43,0.10)] px-2.5 py-1 font-inter text-[11px] font-bold text-[#DB3B2B]">Recomendado</span>
+                )}
+                <p className="font-sora text-[18px] font-medium text-black" style={{ marginBottom: 10 }}>{p.name}</p>
+                <div className="flex items-end gap-1" style={{ marginBottom: 20 }}>
+                  <span className="font-sora text-[40px] font-light text-black" style={{ letterSpacing: "-0.03em", lineHeight: 1 }}>{p.price}</span>
+                  <span className="font-inter text-[14px] text-black/50" style={{ marginBottom: 4 }}>/mes</span>
+                </div>
+                {/* usuarios + sucursales (the POS-relevant dimensions) */}
+                <div className="flex flex-col gap-2.5 rounded-[14px] bg-[#FAFAF9] p-4" style={{ marginBottom: 20 }}>
+                  <div className="flex items-center gap-2.5">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DB3B2B" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="3.4" /><path d="M5 20a7 7 0 0 1 14 0" /></svg>
+                    <span className="font-inter text-[14px] font-semibold text-black">{p.users}</span>
+                  </div>
+                  <div className="flex items-center gap-2.5">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DB3B2B" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l1.5-5h15L21 9M4 9v10h16V9M4 9h16M9 19v-5h6v5" /></svg>
+                    <span className="font-inter text-[14px] font-semibold text-black">{p.branches}</span>
+                  </div>
+                </div>
+                <ul className="flex flex-col gap-2.5" style={{ marginBottom: 24 }}>
+                  {p.features.map((f) => (
+                    <li key={f} className="flex items-start gap-2.5 font-inter text-[13px] text-black/65">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="mt-0.5 shrink-0"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href={SIGNUP_URL}
+                  className={`mt-auto inline-flex items-center justify-center rounded-[12px] px-6 py-3 font-inter text-[14px] font-semibold no-underline transition-colors duration-150 ${p.featured ? "bg-[#DB3B2B] text-white hover:bg-[#C0332A]" : "border border-black/15 text-black hover:border-black/35"}`}
+                >
+                  Comenzar
+                </a>
+              </div>
+            ))}
+          </div>
+          <p className="mx-auto mt-8 text-center font-inter text-[13px] font-light text-black/45" style={{ maxWidth: 560 }}>
+            Precios de referencia. Consulta los planes y límites vigentes en t1.com.
+          </p>
         </div>
       </section>
 
