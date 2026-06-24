@@ -72,7 +72,7 @@ const SIDE_ICONS = [
 
 function PosDesktop() {
   return (
-    <div className="flex h-full w-full flex-col bg-white font-inter" style={{ width: 940, height: 478 }}>
+    <div className="flex h-full w-full flex-col bg-white font-inter" style={{ width: 940, height: 525 }}>
       {/* top bar */}
       <div className="flex items-center justify-between border-b border-black/[0.06] px-5" style={{ height: 52 }}>
         <div className="flex items-center gap-4">
@@ -131,7 +131,7 @@ function PosDesktop() {
             ))}
           </div>
           {/* Auto-scrolling product list (seamless vertical marquee) */}
-          <div style={{ height: 224, overflow: "hidden" }}>
+          <div style={{ height: 280, overflow: "hidden" }}>
             <div style={{ animation: "posListScroll 16s linear infinite" }}>
               {[...DESK_PRODUCTS, ...DESK_PRODUCTS].map((p, idx) => (
                 <div key={idx} className="flex items-center gap-3 border-b border-black/[0.04]" style={{ height: 56, opacity: p.state === "out" ? 0.45 : 1 }}>
@@ -206,7 +206,7 @@ function PosDesktop() {
 
 function PosMobile() {
   return (
-    <div className="flex h-full w-full flex-col bg-white font-inter" style={{ width: 300, height: 465 }}>
+    <div className="flex h-full w-full flex-col bg-white font-inter" style={{ width: 300, height: 510 }}>
       {/* status bar */}
       <div className="flex items-center justify-between px-5 pt-2.5" style={{ height: 30 }}>
         <span className="font-inter text-[12px] font-semibold text-black">9:41</span>
@@ -271,10 +271,200 @@ function PosMobile() {
   );
 }
 
+/* Animated checkout flow: empty cart → add products → cobrar → tarjeta → paid. */
+const CHECKOUT_ITEMS = [
+  { name: "Playera básica algodón", variant: "Talla: CH", price: "$250.00", img: "/img/playera.png" },
+  { name: "Gorra clásica bordada", variant: "Color: Negro", price: "$250.00", img: "/img/moda-gorra.png" },
+];
+
+function PosCheckoutDesktop() {
+  // 0 empty · 1 +item1 · 2 +item2 (Cobrar) · 3 método · 4 confirmar · 5 cobro exitoso
+  const [step, setStep] = useState(0);
+  useEffect(() => {
+    const durations = [1500, 900, 1400, 2200, 1700, 2700];
+    const t = setTimeout(() => setStep((step + 1) % 6), durations[step]);
+    return () => clearTimeout(t);
+  }, [step]);
+
+  const visible = step === 0 ? 0 : step === 1 ? 1 : 2;
+  const modal = step >= 3;
+
+  const RowArrow = () => (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+  );
+
+  return (
+    <div className="relative flex h-full w-full flex-col bg-white font-inter" style={{ width: 940, height: 525 }}>
+      {/* top bar */}
+      <div className="flex items-center justify-between border-b border-black/[0.06] px-5" style={{ height: 52 }}>
+        <div className="flex items-center gap-4">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="1.8"><path d="M9 4v16M4 4h16v16H4z" /></svg>
+          <span className="font-sora text-[20px] font-bold tracking-tight"><span className="text-[#DB3B2B]">T1</span><span className="text-black">pos</span></span>
+          <div className="ml-3 flex items-center gap-1.5 rounded-full border border-black/[0.10] px-2.5 py-1">
+            <span className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-[#16A34A] font-inter text-[9px] font-bold text-white">CO</span>
+            <span className="font-inter text-[13px] font-medium text-black">Chicos Ole</span>
+          </div>
+        </div>
+        <div className="h-[30px] w-[30px] rounded-full" style={{ background: "linear-gradient(135deg,#C0392B,#7B241C)" }} />
+      </div>
+
+      <div className="flex flex-1 overflow-hidden">
+        {/* sidebar */}
+        <div className="flex flex-col items-center gap-5 border-r border-black/[0.06] py-4" style={{ width: 56 }}>
+          {SIDE_ICONS.slice(0, 6).map((d, i) => (
+            <div key={i} className={`flex h-[30px] w-[30px] items-center justify-center rounded-[9px] ${i === 0 ? "bg-black/[0.05]" : ""}`}>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke={i === 0 ? "#111827" : "#9CA3AF"} strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d={d} /></svg>
+            </div>
+          ))}
+        </div>
+
+        {/* main */}
+        <div className="flex flex-1 flex-col overflow-hidden px-6 py-5" style={{ filter: modal ? "blur(1.5px)" : "none", opacity: modal ? 0.6 : 1, transition: "opacity 0.3s ease" }}>
+          <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
+            <p className="font-sora text-[22px] font-semibold text-black">La Noria Giftshop</p>
+            <div className="flex items-center gap-2 rounded-[12px] bg-[#DB3B2B] px-4 py-2.5">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2"><path d="M12 5v14M5 12h14" /></svg>
+              <span className="font-inter text-[13px] font-semibold text-white">Crear producto</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 rounded-[12px] border border-black/[0.10] px-4" style={{ height: 44, marginBottom: 14 }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="1.8"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4-4" /></svg>
+            <span className="font-inter text-[14px] text-black/40">Búsqueda</span>
+          </div>
+          {DESK_PRODUCTS.map((p, idx) => (
+            <div key={p.name} className="flex items-center gap-3 border-b border-black/[0.04]" style={{ height: 56, opacity: p.state === "out" ? 0.45 : 1 }}>
+              <div className="flex h-[40px] w-[40px] shrink-0 items-center justify-center overflow-hidden rounded-[8px] border border-black/[0.05] bg-[#FAFAF9]">
+                <Image src={p.img} alt="" width={32} height={24} className="object-contain" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="truncate font-inter text-[13px] font-medium text-black">{p.name}</p>
+                <p className="font-inter text-[11px] text-black/45">{p.sub}</p>
+              </div>
+              <span className="font-inter text-[13px] font-semibold text-black">{p.price}</span>
+              {/* the first two products "drop" into the cart as steps advance */}
+              <div className="flex h-[26px] w-[26px] items-center justify-center rounded-full" style={{ background: idx < visible ? "#DB3B2B" : "transparent", border: idx < visible ? "none" : "1px solid rgba(0,0,0,0.10)", transition: "background 0.3s ease" }}>
+                {idx < visible
+                  ? <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="white" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  : <svg width="14" height="14" viewBox="0 0 24 24" fill="#9CA3AF"><circle cx="5" cy="12" r="1.6" /><circle cx="12" cy="12" r="1.6" /><circle cx="19" cy="12" r="1.6" /></svg>}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* cart */}
+        <div className="flex flex-col border-l border-black/[0.06] px-4 py-4" style={{ width: 248 }}>
+          <div className="flex items-center justify-between" style={{ marginBottom: 12 }}>
+            <p className="font-sora text-[17px] font-semibold text-black">Carrito</p>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="1.7"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M6 7l1 13h10l1-13" /></svg>
+          </div>
+          {visible === 0 ? (
+            <div className="flex flex-1 items-center justify-center px-4 text-center">
+              <p className="font-inter text-[14px] font-medium text-black/35">No hay productos<br />en el carrito</p>
+            </div>
+          ) : (
+            <>
+              <div className="flex items-center gap-2 rounded-[10px] border border-black/[0.08] px-2.5 py-2" style={{ marginBottom: 14 }}>
+                <span className="flex h-[20px] w-[20px] items-center justify-center rounded-full bg-[#DB3B2B] font-inter text-[9px] font-bold text-white">AE</span>
+                <span className="flex-1 font-inter text-[12px] font-medium text-black">Arturo Elías</span>
+              </div>
+              {CHECKOUT_ITEMS.slice(0, visible).map((it, i) => (
+                <div key={it.name} className="flex items-start gap-2.5" style={{ marginBottom: 14, animation: i === visible - 1 ? "fadeSlideIn 0.4s ease-out" : undefined }}>
+                  <div className="relative h-[34px] w-[34px] shrink-0 overflow-hidden rounded-[7px] border border-black/[0.05] bg-[#FAFAF9]">
+                    <div className="flex h-full w-full items-center justify-center"><Image src={it.img} alt="" width={26} height={20} className="object-contain" /></div>
+                    <span className="absolute -left-1 -top-1 flex h-[15px] w-[15px] items-center justify-center rounded-full bg-[#DB3B2B] font-inter text-[8px] font-bold text-white">1</span>
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-inter text-[11.5px] font-medium leading-tight text-black">{it.name}</p>
+                    <p className="mt-0.5 font-inter text-[9.5px] text-black/45">{it.variant}</p>
+                  </div>
+                  <span className="font-inter text-[11.5px] font-semibold text-black">{it.price}</span>
+                </div>
+              ))}
+            </>
+          )}
+          <div className="mt-auto">
+            <div className="flex gap-2" style={{ marginBottom: 10 }}>
+              {[{ l: "Importe", d: "M12 6v12M9 9h4.5a1.5 1.5 0 0 1 0 3h-3a1.5 1.5 0 0 0 0 3H15" }, { l: "Descuento", d: "M9 15l6-6M9.5 9.5h.01M14.5 14.5h.01M5 5h14v14H5z" }].map((b) => (
+                <div key={b.l} className="flex flex-1 flex-col items-center gap-1 rounded-[12px] border border-black/[0.10] py-2.5" style={{ opacity: visible === 0 ? 0.5 : 1 }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B7280" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9" /><path d={b.d} /></svg>
+                  <span className="font-inter text-[11px] text-black/70">{b.l}</span>
+                </div>
+              ))}
+            </div>
+            {visible >= 2 && (
+              <div className="flex items-center justify-center rounded-[12px] bg-[#DB3B2B]" style={{ height: 44, animation: "fadeSlideIn 0.4s ease-out" }}>
+                <span className="font-inter text-[14px] font-semibold text-white">Cobrar $500.00</span>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* ── Checkout modal ── */}
+      {modal && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center" style={{ background: "rgba(0,0,0,0.28)" }}>
+          <div className="relative rounded-[20px] bg-white" style={{ width: 380, padding: "26px 26px 24px", boxShadow: "0 24px 60px rgba(0,0,0,0.25)", animation: "fadeSlideIn 0.35s ease-out" }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="1.8" className="absolute right-5 top-5"><path d="M6 6l12 12M18 6L6 18" /></svg>
+
+            {step === 3 && (
+              <>
+                <p className="text-center font-sora text-[15px] font-medium text-black/70" style={{ marginBottom: 2 }}>Monto a cobrar</p>
+                <p className="text-center font-sora text-[40px] font-semibold text-black" style={{ letterSpacing: "-0.02em", marginBottom: 14 }}>$500.00</p>
+                <p className="text-center font-inter text-[12.5px] text-black/55" style={{ marginBottom: 16 }}>Elige el método de cobro con el que finalizarás esta venta.</p>
+                {[
+                  { l: "Tarjeta", d: "M3 7h18v10H3zM3 10h18", hot: true },
+                  { l: "Efectivo", d: "M3 6h18v12H3zM7 12h.01M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z", hot: false },
+                  { l: "Transferencia", d: "M7 7h10l-3-3M17 17H7l3 3", hot: false },
+                ].map((m) => (
+                  <div key={m.l} className={`flex items-center gap-3 border-b border-black/[0.06] py-3 ${m.hot ? "" : ""}`}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={m.hot ? "#DB3B2B" : "#6B7280"} strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d={m.d} /></svg>
+                    <span className={`flex-1 font-inter text-[14px] ${m.hot ? "font-semibold text-black" : "text-black/75"}`}>{m.l}</span>
+                    <RowArrow />
+                  </div>
+                ))}
+              </>
+            )}
+
+            {step === 4 && (
+              <>
+                <p className="text-center font-sora text-[15px] font-medium text-black/70" style={{ marginBottom: 2 }}>Monto a cobrar</p>
+                <p className="text-center font-sora text-[44px] font-semibold text-black" style={{ letterSpacing: "-0.02em", marginBottom: 14 }}>$500.00</p>
+                <p className="text-center font-inter text-[13px] text-black/60" style={{ marginBottom: 16 }}>Realiza el cobro con tu terminal bancaria</p>
+                <div className="flex items-center justify-center rounded-[12px] bg-[#DB3B2B]" style={{ height: 46 }}>
+                  <span className="font-inter text-[14px] font-semibold text-white">Confirmar pago</span>
+                </div>
+              </>
+            )}
+
+            {step === 5 && (
+              <>
+                <div className="mx-auto flex h-[56px] w-[56px] items-center justify-center rounded-full bg-[#22C55E]" style={{ marginBottom: 12 }}>
+                  <svg width="26" height="26" viewBox="0 0 16 16" fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                </div>
+                <p className="text-center font-sora text-[15px] font-medium text-black/70" style={{ marginBottom: 2 }}>Cobro exitoso</p>
+                <p className="text-center font-sora text-[38px] font-semibold text-black" style={{ letterSpacing: "-0.02em", marginBottom: 4 }}>$500.00</p>
+                <p className="text-center font-inter text-[12.5px] text-black/55" style={{ marginBottom: 16 }}>No. de pedido 123455678</p>
+                <div className="flex gap-2">
+                  <div className="flex flex-1 items-center justify-center rounded-[12px] border border-black/[0.12] py-2.5">
+                    <span className="font-inter text-[13px] font-medium text-black/75">Ver detalles</span>
+                  </div>
+                  <div className="flex flex-1 items-center justify-center rounded-[12px] bg-[#DB3B2B] py-2.5">
+                    <span className="font-inter text-[13px] font-semibold text-white">Finalizar</span>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function PosDesktopScreen() {
   return (
     <GlassScreen radius={13}>
-      <ScaledMock designW={940} designH={478}>
+      <ScaledMock designW={940} designH={525}>
         <PosDesktop />
       </ScaledMock>
     </GlassScreen>
@@ -284,8 +474,18 @@ export function PosDesktopScreen() {
 export function PosMobileScreen() {
   return (
     <GlassScreen radius={22}>
-      <ScaledMock designW={300} designH={465}>
+      <ScaledMock designW={300} designH={510}>
         <PosMobile />
+      </ScaledMock>
+    </GlassScreen>
+  );
+}
+
+export function PosCheckoutScreen() {
+  return (
+    <GlassScreen radius={13}>
+      <ScaledMock designW={940} designH={525}>
+        <PosCheckoutDesktop />
       </ScaledMock>
     </GlassScreen>
   );
