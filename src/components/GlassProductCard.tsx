@@ -143,8 +143,8 @@ export default function GlassProductCard({
             ))}
           </div>
 
-          {/* CTA — brand red */}
-          <button className="w-full h-[34px] rounded-[8px] bg-[#DB3B2B] text-white text-[12px] font-bold font-sora transition-all duration-200 hover:bg-[#C0332A] hover:scale-[1.03] hover:shadow-[0_4px_15px_rgba(219,59,43,0.4)]">
+          {/* CTA — glassy white outline (so it doesn't compete with the page's red CTA) */}
+          <button className="w-full h-[34px] rounded-[8px] border border-white/45 bg-white/10 text-white text-[12px] font-bold font-sora backdrop-blur-sm transition-all duration-200 hover:bg-white/20 hover:scale-[1.03]">
             {ctaLabel}
           </button>
         </div>

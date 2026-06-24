@@ -38,25 +38,45 @@ export default function T1Productos() {
   const stackRootRef = useRef<HTMLDivElement>(null);
   useFSStackCards(stackRootRef);
 
-  // "Todo lo que tu catálogo necesita" carousel — arrow + dot navigation
+  // "Todo lo que tu catálogo necesita" carousel — arrow + dot navigation.
+  // Dot count is derived from how many snap positions are actually reachable
+  // (cards visible at once vary by viewport), not one-per-card.
   const incluyeRef = useRef<HTMLDivElement>(null);
   const [incluyeIdx, setIncluyeIdx] = useState(0);
+  const [incluyePages, setIncluyePages] = useState(1);
   const incluyeStep = () => {
     const el = incluyeRef.current;
     const card = el?.querySelector<HTMLElement>(".incluye-card");
     return card ? card.offsetWidth + 28 : (el?.clientWidth ?? 0) * 0.8;
   };
+  const incluyeLastIndex = () => {
+    const el = incluyeRef.current;
+    if (!el) return 0;
+    const step = Math.max(1, incluyeStep());
+    return Math.max(0, Math.round((el.scrollWidth - el.clientWidth) / step));
+  };
   const scrollIncluye = useCallback((dir: number) => {
     incluyeRef.current?.scrollBy({ left: dir * incluyeStep(), behavior: "smooth" });
   }, []);
   const goIncluye = useCallback((i: number) => {
-    incluyeRef.current?.scrollTo({ left: i * incluyeStep(), behavior: "smooth" });
+    const el = incluyeRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    // Snap the last dot to the true end so the final card is fully visible.
+    el.scrollTo({ left: i >= incluyeLastIndex() ? max : i * incluyeStep(), behavior: "smooth" });
   }, []);
   const onIncluyeScroll = () => {
     const el = incluyeRef.current;
     if (!el) return;
-    setIncluyeIdx(Math.round(el.scrollLeft / Math.max(1, incluyeStep())));
+    const step = Math.max(1, incluyeStep());
+    setIncluyeIdx(Math.min(incluyeLastIndex(), Math.round(el.scrollLeft / step)));
   };
+  useEffect(() => {
+    const update = () => setIncluyePages(incluyeLastIndex() + 1);
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -115,7 +135,7 @@ export default function T1Productos() {
             <div className="relative flex justify-center py-2 tablet:py-6">
               <div className="relative" style={{ perspective: 1000 }}>
                 {/* Back card — peeks behind on desktop */}
-                <div className="absolute hidden tablet:block" style={{ left: -120, top: -18, zIndex: 0, transform: "rotate(-7deg) scale(0.93)", opacity: 0.96 }}>
+                <div className="absolute hidden tablet:block" style={{ left: -172, top: -26, zIndex: 0, transform: "rotate(-8deg) scale(0.92)", opacity: 0.96 }}>
                   <GlassProductCard
                     imageSrc="/img/playera.png"
                     price="$249.00"
@@ -534,12 +554,12 @@ export default function T1Productos() {
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </button>
             <div className="flex items-center gap-2">
-              {[0, 1, 2, 3, 4].map((i) => (
+              {Array.from({ length: incluyePages }).map((_, i) => (
                 <button
                   key={i}
                   type="button"
                   onClick={() => goIncluye(i)}
-                  aria-label={`Ir a la tarjeta ${i + 1}`}
+                  aria-label={`Ir a la posición ${i + 1}`}
                   className="cursor-pointer rounded-full border-none p-0 transition-all duration-200"
                   style={{ width: incluyeIdx === i ? 22 : 8, height: 8, background: incluyeIdx === i ? "#DB3B2B" : "rgba(0,0,0,0.18)" }}
                 />
