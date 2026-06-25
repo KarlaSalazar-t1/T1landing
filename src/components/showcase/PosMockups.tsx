@@ -72,7 +72,7 @@ const SIDE_ICONS = [
 
 function PosDesktop() {
   return (
-    <div className="flex h-full w-full flex-col bg-white font-inter" style={{ width: 940, height: 570 }}>
+    <div className="flex h-full w-full flex-col bg-white font-inter" style={{ width: 940, height: 620 }}>
       {/* top bar */}
       <div className="flex items-center justify-between border-b border-black/[0.06] px-5" style={{ height: 52 }}>
         <div className="flex items-center gap-4">
@@ -131,7 +131,7 @@ function PosDesktop() {
             ))}
           </div>
           {/* Auto-scrolling product list (seamless vertical marquee) */}
-          <div style={{ height: 330, overflow: "hidden" }}>
+          <div style={{ height: 390, overflow: "hidden" }}>
             <div style={{ animation: "posListScroll 16s linear infinite" }}>
               {[...DESK_PRODUCTS, ...DESK_PRODUCTS].map((p, idx) => (
                 <div key={idx} className="flex items-center gap-3 border-b border-black/[0.04]" style={{ height: 56, opacity: p.state === "out" ? 0.45 : 1 }}>
@@ -206,7 +206,7 @@ function PosDesktop() {
 
 function PosMobile() {
   return (
-    <div className="flex h-full w-full flex-col bg-white font-inter" style={{ width: 300, height: 560 }}>
+    <div className="flex h-full w-full flex-col bg-white font-inter" style={{ width: 300, height: 615 }}>
       {/* status bar */}
       <div className="flex items-center justify-between px-5 pt-2.5" style={{ height: 30 }}>
         <span className="font-inter text-[12px] font-semibold text-black">9:41</span>
@@ -304,7 +304,7 @@ function PosCheckoutDesktop() {
   );
 
   return (
-    <div className="relative flex h-full w-full flex-col bg-white font-inter" style={{ width: 940, height: 570 }}>
+    <div className="relative flex h-full w-full flex-col bg-white font-inter" style={{ width: 940, height: 620 }}>
       {/* top bar */}
       <div className="flex items-center justify-between border-b border-black/[0.06] px-5" style={{ height: 52 }}>
         <div className="flex items-center gap-4">
@@ -341,8 +341,8 @@ function PosCheckoutDesktop() {
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="1.8"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4-4" /></svg>
             <span className="font-inter text-[14px] text-black/40">Búsqueda</span>
           </div>
-          {DESK_PRODUCTS.map((p, idx) => (
-            <div key={p.name} className="flex items-center gap-3 border-b border-black/[0.04]" style={{ height: 56, opacity: p.state === "out" ? 0.45 : 1 }}>
+          {DESK_PRODUCTS.map((p) => (
+            <div key={p.name} className="relative flex items-center gap-3 border-b border-black/[0.04]" style={{ height: 56, opacity: p.state === "out" ? 0.45 : 1 }}>
               <div className="flex h-[40px] w-[40px] shrink-0 items-center justify-center overflow-hidden rounded-[8px] border border-black/[0.05] bg-[#FAFAF9]">
                 <Image src={p.img} alt="" width={32} height={24} className="object-contain" />
               </div>
@@ -351,12 +351,12 @@ function PosCheckoutDesktop() {
                 <p className="font-inter text-[11px] text-black/45">{p.sub}</p>
               </div>
               <span className="font-inter text-[13px] font-semibold text-black">{p.price}</span>
-              {/* the first two products "drop" into the cart as steps advance */}
-              <div className="flex h-[26px] w-[26px] items-center justify-center rounded-full" style={{ background: idx < visible ? "#DB3B2B" : "transparent", border: idx < visible ? "none" : "1px solid rgba(0,0,0,0.10)", transition: "background 0.3s ease" }}>
-                {idx < visible
-                  ? <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="white" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                  : <svg width="14" height="14" viewBox="0 0 24 24" fill="#9CA3AF"><circle cx="5" cy="12" r="1.6" /><circle cx="12" cy="12" r="1.6" /><circle cx="19" cy="12" r="1.6" /></svg>}
+              <div className="flex h-[26px] w-[26px] items-center justify-center rounded-full border border-black/[0.10]">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#9CA3AF"><circle cx="5" cy="12" r="1.6" /><circle cx="12" cy="12" r="1.6" /><circle cx="19" cy="12" r="1.6" /></svg>
               </div>
+              {/* tap lands on the product being added to the cart */}
+              {p.name === "Playera básica algodón" && step === 0 && <Tap left="32%" top="50%" />}
+              {p.name === "Gorra clásica bordada" && step === 1 && <Tap left="32%" top="50%" />}
             </div>
           ))}
         </div>
@@ -417,6 +417,7 @@ function PosCheckoutDesktop() {
           <div className="relative rounded-[20px] bg-white" style={{ width: 380, padding: "26px 26px 24px", boxShadow: "0 24px 60px rgba(0,0,0,0.25)", animation: "fadeSlideIn 0.35s ease-out" }}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="1.8" className="absolute right-5 top-5"><path d="M6 6l12 12M18 6L6 18" /></svg>
 
+            <div key={step} style={{ animation: "modalContentFade 0.32s ease-out" }}>
             {step === 3 && (
               <>
                 <p className="text-center font-sora text-[15px] font-medium text-black/70" style={{ marginBottom: 2 }}>Monto a cobrar</p>
@@ -467,6 +468,7 @@ function PosCheckoutDesktop() {
                 </div>
               </>
             )}
+            </div>
           </div>
         </div>
       )}
@@ -477,7 +479,7 @@ function PosCheckoutDesktop() {
 export function PosDesktopScreen() {
   return (
     <GlassScreen radius={13}>
-      <ScaledMock designW={940} designH={570}>
+      <ScaledMock designW={940} designH={620}>
         <PosDesktop />
       </ScaledMock>
     </GlassScreen>
@@ -487,7 +489,7 @@ export function PosDesktopScreen() {
 export function PosMobileScreen() {
   return (
     <GlassScreen radius={22}>
-      <ScaledMock designW={300} designH={560}>
+      <ScaledMock designW={300} designH={615}>
         <PosMobile />
       </ScaledMock>
     </GlassScreen>
@@ -497,7 +499,7 @@ export function PosMobileScreen() {
 export function PosCheckoutScreen() {
   return (
     <GlassScreen radius={13}>
-      <ScaledMock designW={940} designH={570}>
+      <ScaledMock designW={940} designH={620}>
         <PosCheckoutDesktop />
       </ScaledMock>
     </GlassScreen>
