@@ -684,7 +684,7 @@ export function PosDesktopScreen() {
 
 export function PosCheckoutMobileScreen() {
   return (
-    <GlassScreen radius={26}>
+    <GlassScreen radius={16}>
       <ScaledMock designW={300} designH={620}>
         <PosCheckoutMobile />
       </ScaledMock>
@@ -694,7 +694,7 @@ export function PosCheckoutMobileScreen() {
 
 export function PosMobileScreen() {
   return (
-    <GlassScreen radius={22}>
+    <GlassScreen radius={16}>
       <ScaledMock designW={300} designH={615}>
         <PosMobile />
       </ScaledMock>

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
 import { useCountUp } from "@/hooks/useCountUp";
@@ -342,26 +343,29 @@ export default function T1POS() {
               Descarga la app o ábrela en la web
             </p>
             <div className="grid grid-cols-1 items-stretch gap-5 tablet:grid-cols-2">
-              {/* Card 1 — Descarga la app */}
-              <div className="flex flex-col items-center justify-center rounded-[20px] border border-black/[0.08] bg-white px-7 py-8 text-center" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.04)" }}>
-                <div className="flex h-[96px] w-[96px] items-center justify-center rounded-[14px] border border-black/[0.10] bg-white" style={{ padding: 10, marginBottom: 18 }}>
-                  <svg width="76" height="76" viewBox="0 0 56 56" fill="#111827" aria-label="QR de descarga">
-                    <path d="M0 0h20v20H0zM4 4v12h12V4zM7 7h6v6H7z" />
-                    <path d="M36 0h20v20H36zM40 4v12h12V4zM43 7h6v6h-6z" />
-                    <path d="M0 36h20v20H0zM4 40v12h12V40zM7 43h6v6H7z" />
-                    <path d="M24 0h4v4h-4zM30 0h2v6h-6V4h4zM24 8h6v4h-4v4h-2zM32 8h4v4h-4zM24 16h8v4h-4v-2h-4z" />
-                    <path d="M36 24h4v4h-4zM44 24h4v8h-4v-4h-4v-2h4zM50 24h6v4h-4v2h-2zM36 32h6v4h-2v4h-4zM44 36h4v4h4v4h-8zM52 32h4v8h-4zM24 24h6v4h-2v2h-4zM24 32h4v4h4v4h-8zM30 40h6v4h-4v4h-2zM36 48h8v4h-8zM48 48h8v4h-8z" />
-                  </svg>
-                </div>
-                <div className="flex flex-wrap items-center justify-center gap-2.5">
-                  <a href={SIGNUP_URL} className="inline-flex items-center gap-1.5 rounded-[10px] bg-black px-3.5 py-2 no-underline transition-opacity hover:opacity-90">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.6 7.1c-.9.05-2 .6-2.6 1.3-.6.6-1.1 1.6-.9 2.5 1 .08 2-.5 2.6-1.2.6-.7 1-1.7.9-2.6zM19 16.8c-.3.8-.5 1.1-.9 1.8-.6.9-1.4 2-2.4 2-.9 0-1.1-.6-2.3-.6-1.2 0-1.5.6-2.3.6-1 0-1.7-1-2.3-1.9-1.7-2.5-1.9-5.5-.8-7 .8-1.1 2-1.7 3.1-1.7 1.2 0 1.9.6 2.9.6.9 0 1.5-.6 2.9-.6 1 0 2.1.6 2.9 1.5-2.6 1.4-2.2 5.1.5 5.7z" /></svg>
-                    <span className="text-left leading-none text-white"><span className="block font-inter text-[7px] opacity-80">Descárgala en</span><span className="block font-inter text-[11px] font-semibold">App Store</span></span>
-                  </a>
-                  <a href={SIGNUP_URL} className="inline-flex items-center gap-1.5 rounded-[10px] bg-black px-3.5 py-2 no-underline transition-opacity hover:opacity-90">
-                    <svg width="15" height="15" viewBox="0 0 24 24"><path d="M3.6 2.3l11 9.7-11 9.7c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z" fill="#4285F4" /><path d="M16.8 9.1l-2.2 2.9 2.2 2.9 3.5-2c.7-.4.7-1.4 0-1.8l-3.5-2z" fill="#FBBC04" /><path d="M14.6 12l-11 9.7c.4.2.9.2 1.3 0l11.9-6.8-2.2-2.9z" fill="#34A853" /><path d="M14.6 12l2.2-2.9L4.9 2.3c-.4-.2-.9-.2-1.3 0l11 9.7z" fill="#EA4335" /></svg>
-                    <span className="text-left leading-none text-white"><span className="block font-inter text-[7px] opacity-80">Disponible en</span><span className="block font-inter text-[11px] font-semibold">Google Play</span></span>
-                  </a>
+              {/* Card 1 — Descarga la app (un QR por plataforma) */}
+              <div className="flex flex-col items-center justify-center rounded-[20px] border border-black/[0.08] bg-white px-7 py-8" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.04)" }}>
+                <div className="flex items-start justify-center gap-6">
+                  {[
+                    { label: "iOS", logo: (<svg width="14" height="14" viewBox="0 0 24 24" fill="#111827"><path d="M17.6 7.1c-.9.05-2 .6-2.6 1.3-.6.6-1.1 1.6-.9 2.5 1 .08 2-.5 2.6-1.2.6-.7 1-1.7.9-2.6zM19 16.8c-.3.8-.5 1.1-.9 1.8-.6.9-1.4 2-2.4 2-.9 0-1.1-.6-2.3-.6-1.2 0-1.5.6-2.3.6-1 0-1.7-1-2.3-1.9-1.7-2.5-1.9-5.5-.8-7 .8-1.1 2-1.7 3.1-1.7 1.2 0 1.9.6 2.9.6.9 0 1.5-.6 2.9-.6 1 0 2.1.6 2.9 1.5-2.6 1.4-2.2 5.1.5 5.7z" /></svg>) },
+                    { label: "Android", logo: (<svg width="14" height="14" viewBox="0 0 24 24"><path d="M3.6 2.3l11 9.7-11 9.7c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z" fill="#4285F4" /><path d="M16.8 9.1l-2.2 2.9 2.2 2.9 3.5-2c.7-.4.7-1.4 0-1.8l-3.5-2z" fill="#FBBC04" /><path d="M14.6 12l-11 9.7c.4.2.9.2 1.3 0l11.9-6.8-2.2-2.9z" fill="#34A853" /><path d="M14.6 12l2.2-2.9L4.9 2.3c-.4-.2-.9-.2-1.3 0l11 9.7z" fill="#EA4335" /></svg>) },
+                  ].map((q) => (
+                    <div key={q.label} className="flex flex-col items-center">
+                      <div className="flex h-[92px] w-[92px] items-center justify-center rounded-[14px] border border-black/[0.10] bg-white" style={{ padding: 9 }}>
+                        <svg width="74" height="74" viewBox="0 0 56 56" fill="#111827" aria-label={`QR ${q.label}`}>
+                          <path d="M0 0h20v20H0zM4 4v12h12V4zM7 7h6v6H7z" />
+                          <path d="M36 0h20v20H36zM40 4v12h12V4zM43 7h6v6h-6z" />
+                          <path d="M0 36h20v20H0zM4 40v12h12V40zM7 43h6v6H7z" />
+                          <path d="M24 0h4v4h-4zM30 0h2v6h-6V4h4zM24 8h6v4h-4v4h-2zM32 8h4v4h-4zM24 16h8v4h-4v-2h-4z" />
+                          <path d="M36 24h4v4h-4zM44 24h4v8h-4v-4h-4v-2h4zM50 24h6v4h-4v2h-2zM36 32h6v4h-2v4h-4zM44 36h4v4h4v4h-8zM52 32h4v8h-4zM24 24h6v4h-2v2h-4zM24 32h4v4h4v4h-8zM30 40h6v4h-4v4h-2zM36 48h8v4h-8zM48 48h8v4h-8z" />
+                        </svg>
+                      </div>
+                      <div className="mt-2.5 flex items-center gap-1.5">
+                        {q.logo}
+                        <span className="font-inter text-[12.5px] font-semibold text-black">{q.label}</span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -404,6 +408,43 @@ export default function T1POS() {
                   <h3 className="font-sora text-[16px] font-normal text-black" style={{ marginBottom: 4 }}>{f.title}</h3>
                   <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{f.desc}</p>
                 </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Ecosistema T1 ── */}
+      <section className="relative bg-[#F6F6F6] px-5 py-[100px] tablet:px-10 tablet:py-[128px]">
+        <div className="mx-auto max-w-[var(--max-w)]">
+          <div data-modal-animate className="mx-auto max-w-[700px] text-center" style={{ marginBottom: 56 }}>
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+              Tu caja es parte del ecosistema T1
+            </h2>
+            <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
+              T1pos se conecta con toda tu operación: tienda en línea, pagos y envíos, en una sola plataforma.
+            </p>
+          </div>
+          <div data-modal-animate className="relative mx-auto flex max-w-[760px] flex-wrap items-start justify-center gap-x-7 gap-y-8 tablet:gap-x-12">
+            <div aria-hidden className="pointer-events-none absolute left-[10%] right-[10%] top-[34px] hidden h-px tablet:block" style={{ background: "linear-gradient(90deg, transparent, rgba(0,0,0,0.12) 14%, rgba(0,0,0,0.12) 86%, transparent)" }} />
+            {[
+              { name: "Tienda en línea", img: "/img/icon-tienda.svg" },
+              { name: "Pagos", img: "/img/icon-pagos.svg" },
+              { name: "T1pos", pos: true },
+              { name: "Envíos", img: "/img/icon-envios.svg" },
+              { name: "Score", img: "/img/icon-score.svg" },
+            ].map((n, i) => (
+              <div key={n.name} data-stagger className="relative flex w-[92px] flex-col items-center" style={{ ["--i" as string]: i }}>
+                {n.pos ? (
+                  <div className="flex h-[68px] w-[68px] items-center justify-center rounded-[20px] bg-[#DB3B2B]" style={{ boxShadow: "0 12px 26px rgba(219,59,43,0.30)" }}>
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2l-2 4v13a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6l-2-4z" /><path d="M4 6h16M15.5 10a3.5 3.5 0 0 1-7 0" /></svg>
+                  </div>
+                ) : (
+                  <div className="flex h-[68px] w-[68px] items-center justify-center rounded-[20px] border border-black/[0.07] bg-white" style={{ boxShadow: "0 6px 18px rgba(0,0,0,0.05)" }}>
+                    <Image src={n.img!} alt="" width={34} height={34} />
+                  </div>
+                )}
+                <span className={`mt-3 text-center font-inter text-[13px] ${n.pos ? "font-semibold text-black" : "text-black/65"}`}>{n.name}</span>
               </div>
             ))}
           </div>
