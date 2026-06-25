@@ -337,48 +337,43 @@ export default function T1POS() {
             ))}
           </div>
 
-          {/* Download / open CTAs — heading + two equal-sized cards */}
-          <div data-modal-animate className="mx-auto mt-12 max-w-[720px]">
-            <p className="text-center font-inter text-[15px] font-medium text-black/65" style={{ marginBottom: 18 }}>
+          {/* Download / open CTAs — three compact rows */}
+          <div data-modal-animate className="mx-auto mt-12 flex max-w-[420px] flex-col gap-3">
+            <p className="text-center font-inter text-[15px] font-medium text-black/65" style={{ marginBottom: 4 }}>
               Descarga la app o ábrela en la web
             </p>
-            <div className="grid grid-cols-1 items-stretch gap-5 tablet:grid-cols-2">
-              {/* Card 1 — Descarga la app (un QR por plataforma) */}
-              <div className="flex flex-col items-center justify-center rounded-[20px] border border-black/[0.08] bg-white px-7 py-8" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.04)" }}>
-                <div className="flex items-start justify-center gap-6">
-                  {[
-                    { label: "iOS", logo: (<svg width="14" height="14" viewBox="0 0 24 24" fill="#111827"><path d="M17.6 7.1c-.9.05-2 .6-2.6 1.3-.6.6-1.1 1.6-.9 2.5 1 .08 2-.5 2.6-1.2.6-.7 1-1.7.9-2.6zM19 16.8c-.3.8-.5 1.1-.9 1.8-.6.9-1.4 2-2.4 2-.9 0-1.1-.6-2.3-.6-1.2 0-1.5.6-2.3.6-1 0-1.7-1-2.3-1.9-1.7-2.5-1.9-5.5-.8-7 .8-1.1 2-1.7 3.1-1.7 1.2 0 1.9.6 2.9.6.9 0 1.5-.6 2.9-.6 1 0 2.1.6 2.9 1.5-2.6 1.4-2.2 5.1.5 5.7z" /></svg>) },
-                    { label: "Android", logo: (<svg width="14" height="14" viewBox="0 0 24 24"><path d="M3.6 2.3l11 9.7-11 9.7c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z" fill="#4285F4" /><path d="M16.8 9.1l-2.2 2.9 2.2 2.9 3.5-2c.7-.4.7-1.4 0-1.8l-3.5-2z" fill="#FBBC04" /><path d="M14.6 12l-11 9.7c.4.2.9.2 1.3 0l11.9-6.8-2.2-2.9z" fill="#34A853" /><path d="M14.6 12l2.2-2.9L4.9 2.3c-.4-.2-.9-.2-1.3 0l11 9.7z" fill="#EA4335" /></svg>) },
-                  ].map((q) => (
-                    <div key={q.label} className="flex flex-col items-center">
-                      <div className="flex h-[92px] w-[92px] items-center justify-center rounded-[14px] border border-black/[0.10] bg-white" style={{ padding: 9 }}>
-                        <svg width="74" height="74" viewBox="0 0 56 56" fill="#111827" aria-label={`QR ${q.label}`}>
-                          <path d="M0 0h20v20H0zM4 4v12h12V4zM7 7h6v6H7z" />
-                          <path d="M36 0h20v20H36zM40 4v12h12V4zM43 7h6v6h-6z" />
-                          <path d="M0 36h20v20H0zM4 40v12h12V40zM7 43h6v6H7z" />
-                          <path d="M24 0h4v4h-4zM30 0h2v6h-6V4h4zM24 8h6v4h-4v4h-2zM32 8h4v4h-4zM24 16h8v4h-4v-2h-4z" />
-                          <path d="M36 24h4v4h-4zM44 24h4v8h-4v-4h-4v-2h4zM50 24h6v4h-4v2h-2zM36 32h6v4h-2v4h-4zM44 36h4v4h4v4h-8zM52 32h4v8h-4zM24 24h6v4h-2v2h-4zM24 32h4v4h4v4h-8zM30 40h6v4h-4v4h-2zM36 48h8v4h-8zM48 48h8v4h-8z" />
-                        </svg>
-                      </div>
-                      <div className="mt-2.5 flex items-center gap-1.5">
-                        {q.logo}
-                        <span className="font-inter text-[12.5px] font-semibold text-black">{q.label}</span>
-                      </div>
-                    </div>
-                  ))}
+            {[
+              { label: "Descárgala para Android", sub: "Escanea el QR · Google Play", logo: (<svg width="20" height="20" viewBox="0 0 24 24"><path d="M3.6 2.3l11 9.7-11 9.7c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z" fill="#4285F4" /><path d="M16.8 9.1l-2.2 2.9 2.2 2.9 3.5-2c.7-.4.7-1.4 0-1.8l-3.5-2z" fill="#FBBC04" /><path d="M14.6 12l-11 9.7c.4.2.9.2 1.3 0l11.9-6.8-2.2-2.9z" fill="#34A853" /><path d="M14.6 12l2.2-2.9L4.9 2.3c-.4-.2-.9-.2-1.3 0l11 9.7z" fill="#EA4335" /></svg>) },
+              { label: "Descárgala para iOS", sub: "Escanea el QR · App Store", logo: (<svg width="18" height="18" viewBox="0 0 24 24" fill="#111827"><path d="M17.6 7.1c-.9.05-2 .6-2.6 1.3-.6.6-1.1 1.6-.9 2.5 1 .08 2-.5 2.6-1.2.6-.7 1-1.7.9-2.6zM19 16.8c-.3.8-.5 1.1-.9 1.8-.6.9-1.4 2-2.4 2-.9 0-1.1-.6-2.3-.6-1.2 0-1.5.6-2.3.6-1 0-1.7-1-2.3-1.9-1.7-2.5-1.9-5.5-.8-7 .8-1.1 2-1.7 3.1-1.7 1.2 0 1.9.6 2.9.6.9 0 1.5-.6 2.9-.6 1 0 2.1.6 2.9 1.5-2.6 1.4-2.2 5.1.5 5.7z" /></svg>) },
+            ].map((q) => (
+              <div key={q.label} className="flex items-center gap-3.5 rounded-[16px] border border-black/[0.08] bg-white p-3" style={{ boxShadow: "0 4px 16px rgba(0,0,0,0.04)" }}>
+                <div className="flex h-[58px] w-[58px] shrink-0 items-center justify-center rounded-[10px] border border-black/[0.10] bg-white" style={{ padding: 6 }}>
+                  <svg width="46" height="46" viewBox="0 0 56 56" fill="#111827" aria-label={q.label}>
+                    <path d="M0 0h20v20H0zM4 4v12h12V4zM7 7h6v6H7z" />
+                    <path d="M36 0h20v20H36zM40 4v12h12V4zM43 7h6v6h-6z" />
+                    <path d="M0 36h20v20H0zM4 40v12h12V40zM7 43h6v6H7z" />
+                    <path d="M24 0h4v4h-4zM30 0h2v6h-6V4h4zM24 8h6v4h-4v4h-2zM32 8h4v4h-4zM24 16h8v4h-4v-2h-4z" />
+                    <path d="M36 24h4v4h-4zM44 24h4v8h-4v-4h-4v-2h4zM50 24h6v4h-4v2h-2zM36 32h6v4h-2v4h-4zM44 36h4v4h4v4h-8zM52 32h4v8h-4zM24 24h6v4h-2v2h-4zM24 32h4v4h4v4h-8zM30 40h6v4h-4v4h-2zM36 48h8v4h-8zM48 48h8v4h-8z" />
+                  </svg>
                 </div>
+                <div className="min-w-0 flex-1">
+                  <p className="font-sora text-[14px] font-medium text-black">{q.label}</p>
+                  <p className="font-inter text-[12px] text-black/50">{q.sub}</p>
+                </div>
+                <span className="shrink-0 pr-1">{q.logo}</span>
               </div>
-
-              {/* Card 2 — Versión web (black line icon, no background) */}
-              <a href={SIGNUP_URL} className="flex flex-col items-center justify-center rounded-[20px] border border-black/[0.08] bg-white px-7 py-8 text-center no-underline transition-colors hover:border-black/25" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.04)" }}>
-                <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#111827" strokeWidth="1.5" style={{ marginBottom: 18 }}><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.6 2.7 2.6 15.3 0 18M12 3c-2.6 2.7-2.6 15.3 0 18" strokeLinecap="round" /></svg>
-                <p className="font-inter text-[13px] text-black/55" style={{ marginBottom: 18, maxWidth: 230 }}>Visítalo en web desde cualquier dispositivo</p>
-                <span className="inline-flex items-center gap-1.5 rounded-[11px] bg-black px-5 py-2.5 font-inter text-[13px] font-semibold text-white">
-                  Ir a la versión web
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9 5l3 3-3 3" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                </span>
-              </a>
-            </div>
+            ))}
+            {/* Web — compact row */}
+            <a href={SIGNUP_URL} className="flex items-center gap-3.5 rounded-[16px] border border-black/[0.08] bg-white p-3 no-underline transition-colors hover:border-black/25" style={{ boxShadow: "0 4px 16px rgba(0,0,0,0.04)" }}>
+              <div className="flex h-[58px] w-[58px] shrink-0 items-center justify-center rounded-[10px] border border-black/[0.10] bg-white">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#111827" strokeWidth="1.5"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.6 2.7 2.6 15.3 0 18M12 3c-2.6 2.7-2.6 15.3 0 18" strokeLinecap="round" /></svg>
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="font-sora text-[14px] font-medium text-black">Ábrela en la web</p>
+                <p className="font-inter text-[12px] text-black/50">Visítalo desde cualquier dispositivo</p>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0 mr-1"><path d="M4 8h8M9 5l3 3-3 3" stroke="#DB3B2B" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </a>
           </div>
         </div>
       </section>
@@ -422,7 +417,7 @@ export default function T1POS() {
               Tu caja es parte del ecosistema T1
             </h2>
             <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-              T1pos se conecta con toda tu operación: tienda en línea, pagos y envíos, en una sola plataforma.
+              T1pos no trabaja solo: comparte catálogo, inventario y clientes con el resto de T1 para que manejes todo tu negocio desde un solo lugar.
             </p>
           </div>
           <div data-modal-animate className="relative mx-auto flex max-w-[760px] flex-wrap items-start justify-center gap-x-7 gap-y-8 tablet:gap-x-12">
@@ -448,6 +443,20 @@ export default function T1POS() {
               </div>
             ))}
           </div>
+
+          {/* What being part of the ecosystem actually gives you */}
+          <div data-modal-animate className="mx-auto mt-14 grid max-w-[920px] grid-cols-1 gap-5 tablet:grid-cols-3">
+            {[
+              { t: "Un solo catálogo", d: "Lo que vendes en piso usa el mismo catálogo e inventario de tu tienda en línea. Cambias una vez y se actualiza en todos lados." },
+              { t: "Cobros conectados", d: "Cobra en caja, en línea o con links de pago de T1 Pagos. Todas tus ventas en un mismo lugar." },
+              { t: "Envíos a un click", d: "Genera guías con T1 Envíos desde la misma plataforma para lo que vendes en línea." },
+            ].map((b, i) => (
+              <div key={b.t} data-stagger className="rounded-[18px] border border-black/[0.07] bg-white p-6" style={{ ["--i" as string]: i, boxShadow: "0 4px 20px rgba(0,0,0,0.04)" }}>
+                <h3 className="font-sora text-[16px] font-normal text-black" style={{ marginBottom: 6 }}>{b.t}</h3>
+                <p className="font-inter text-[13.5px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{b.d}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -470,31 +479,23 @@ export default function T1POS() {
         </div>
       </section>
 
-      {/* ── Planes (POS-relevant: usuarios + sucursales) ── */}
+      {/* ── Planes ── */}
       <section className="relative bg-white px-5 py-[100px] tablet:px-10 tablet:py-[128px]">
         <div className="mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
+          <div data-modal-animate className="mx-auto max-w-[700px] text-center" style={{ marginBottom: 48 }}>
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
               Un plan para cada operación
             </h2>
             <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-              Suma usuarios y sucursales conforme tu tienda crece. El punto de venta está incluido en todos.
+              Todos los planes incluyen la plataforma completa. Solo eliges cuántos usuarios y sucursales necesitas.
             </p>
           </div>
-          <div data-modal-animate className="mx-auto grid max-w-[980px] grid-cols-1 items-stretch gap-5 tablet:grid-cols-3">
+          {/* plan cards — differ only in usuarios + sucursales */}
+          <div data-modal-animate className="mx-auto grid max-w-[900px] grid-cols-1 items-stretch gap-5 tablet:grid-cols-3">
             {[
-              {
-                name: "Inicia", price: "$0", users: "1 usuario", branches: "1 sucursal", featured: false,
-                features: ["Caja con cobros en tarjeta, efectivo y SPEI", "Inventario sincronizado con tu tienda en línea", "Control y corte de caja"],
-              },
-              {
-                name: "Crece", price: "$399", users: "5 usuarios", branches: "3 sucursales", featured: true,
-                features: ["Todo lo de Inicia", "Roles y permisos por usuario", "Reportes de ventas por sucursal"],
-              },
-              {
-                name: "Pro", price: "$899", users: "Usuarios ilimitados", branches: "Sucursales ilimitadas", featured: false,
-                features: ["Todo lo de Crece", "Administración multisucursal", "Soporte prioritario"],
-              },
+              { name: "Inicia", price: "$0", users: "1 usuario", branches: "1 sucursal", featured: false },
+              { name: "Crece", price: "$399", users: "5 usuarios", branches: "3 sucursales", featured: true },
+              { name: "Pro", price: "$899", users: "Usuarios ilimitados", branches: "Sucursales ilimitadas", featured: false },
             ].map((p, i) => (
               <div
                 key={p.name}
@@ -510,8 +511,7 @@ export default function T1POS() {
                   <span className="font-sora text-[40px] font-light text-black" style={{ letterSpacing: "-0.03em", lineHeight: 1 }}>{p.price}</span>
                   <span className="font-inter text-[14px] text-black/50" style={{ marginBottom: 4 }}>/mes</span>
                 </div>
-                {/* usuarios + sucursales (the POS-relevant dimensions) */}
-                <div className="flex flex-col gap-2.5 rounded-[14px] bg-[#FAFAF9] p-4" style={{ marginBottom: 20 }}>
+                <div className="flex flex-col gap-2.5 rounded-[14px] bg-[#FAFAF9] p-4" style={{ marginBottom: 22 }}>
                   <div className="flex items-center gap-2.5">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DB3B2B" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="3.4" /><path d="M5 20a7 7 0 0 1 14 0" /></svg>
                     <span className="font-inter text-[14px] font-semibold text-black">{p.users}</span>
@@ -521,14 +521,6 @@ export default function T1POS() {
                     <span className="font-inter text-[14px] font-semibold text-black">{p.branches}</span>
                   </div>
                 </div>
-                <ul className="flex flex-col gap-2.5" style={{ marginBottom: 24 }}>
-                  {p.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 font-inter text-[13px] text-black/65">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="mt-0.5 shrink-0"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                      {f}
-                    </li>
-                  ))}
-                </ul>
                 <a
                   href={SIGNUP_URL}
                   className={`mt-auto inline-flex items-center justify-center rounded-[12px] px-6 py-3 font-inter text-[14px] font-semibold no-underline transition-colors duration-150 ${p.featured ? "bg-[#DB3B2B] text-white hover:bg-[#C0332A]" : "border border-black/15 text-black hover:border-black/35"}`}
@@ -538,6 +530,46 @@ export default function T1POS() {
               </div>
             ))}
           </div>
+
+          {/* Todos los planes incluyen — the full platform (same in every plan) */}
+          <div data-modal-animate className="mx-auto mt-6 max-w-[900px] rounded-[20px] border border-black/[0.08] bg-[#FAFAF9] p-7 tablet:p-9">
+            <p className="text-center font-sora text-[16px] font-medium text-black" style={{ marginBottom: 18 }}>
+              Todos los planes incluyen la plataforma completa
+            </p>
+            <div className="grid grid-cols-1 gap-x-8 gap-y-3 tablet:grid-cols-2 lg:grid-cols-3">
+              {[
+                "Cobros con tarjeta, efectivo y SPEI",
+                "Hasta 18 meses sin intereses",
+                "Inventario sincronizado con tu tienda en línea",
+                "Control y corte de caja",
+                "Roles y permisos por usuario",
+                "Reportes de ventas",
+                "Tickets digitales por WhatsApp y email",
+                "Promociones y descuentos en caja",
+                "Devoluciones y reembolsos",
+              ].map((f) => (
+                <div key={f} className="flex items-start gap-2.5 font-inter text-[13.5px] text-black/70">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="mt-0.5 shrink-0"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  {f}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Cross-sell — POS también activa tu tienda en línea */}
+          <div data-modal-animate className="mx-auto mt-5 flex max-w-[900px] flex-col items-center gap-4 rounded-[20px] border border-[rgba(219,59,43,0.25)] p-6 text-center tablet:flex-row tablet:items-center tablet:gap-5 tablet:text-left" style={{ background: "rgba(219,59,43,0.04)" }}>
+            <span className="flex h-[48px] w-[48px] shrink-0 items-center justify-center rounded-[14px] bg-white" style={{ boxShadow: "0 4px 14px rgba(0,0,0,0.06)" }}>
+              <Image src="/img/icon-tienda.svg" alt="" width={28} height={28} />
+            </span>
+            <div className="flex-1">
+              <p className="font-sora text-[15px] font-semibold text-black" style={{ marginBottom: 3 }}>También activas tu Tienda en línea</p>
+              <p className="font-inter text-[13.5px] font-light text-black/60" style={{ lineHeight: 1.55 }}>
+                Con cualquier plan de T1pos vendes en tu local y por internet con el mismo catálogo e inventario. Sin contratar nada aparte.
+              </p>
+            </div>
+            <span className="shrink-0 rounded-full bg-[rgba(34,197,94,0.12)] px-3 py-1 font-inter text-[12px] font-bold text-[#16A34A]">Incluido</span>
+          </div>
+
           <p className="mx-auto mt-8 text-center font-inter text-[13px] font-light text-black/45" style={{ maxWidth: 560 }}>
             Precios de referencia. Consulta los planes y límites vigentes en t1.com.
           </p>
