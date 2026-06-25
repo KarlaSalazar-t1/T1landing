@@ -120,7 +120,7 @@ export default function T1POS() {
                   Tarjeta, efectivo, SPEI o transferencia desde una sola terminal. Tu cliente paga como prefiera, tú cobras siempre.
                 </p>
                 <ul className="flex flex-col gap-2.5">
-                  {["Cobra con tarjeta, efectivo o SPEI", "Hasta 18 meses sin intereses", "Comprobante digital al instante"].map((it) => (
+                  {["Cobra con tarjeta, efectivo o SPEI", "Cobros en una sola terminal", "Comprobante digital al instante"].map((it) => (
                     <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                       {it}
@@ -337,11 +337,12 @@ export default function T1POS() {
             ))}
           </div>
 
-          {/* Download / open CTAs — three compact rows */}
-          <div data-modal-animate className="mx-auto mt-12 flex max-w-[420px] flex-col gap-3">
-            <p className="text-center font-inter text-[15px] font-medium text-black/65" style={{ marginBottom: 4 }}>
+          {/* Download / open CTAs — three compact buttons, side by side */}
+          <div data-modal-animate className="mx-auto mt-12 max-w-[880px]">
+            <p className="text-center font-inter text-[15px] font-medium text-black/65" style={{ marginBottom: 18 }}>
               Descarga la app o ábrela en la web
             </p>
+            <div className="grid grid-cols-1 gap-3 tablet:grid-cols-3">
             {[
               { label: "Descárgala para Android", sub: "Escanea el QR · Google Play", logo: (<svg width="20" height="20" viewBox="0 0 24 24"><path d="M3.6 2.3l11 9.7-11 9.7c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z" fill="#4285F4" /><path d="M16.8 9.1l-2.2 2.9 2.2 2.9 3.5-2c.7-.4.7-1.4 0-1.8l-3.5-2z" fill="#FBBC04" /><path d="M14.6 12l-11 9.7c.4.2.9.2 1.3 0l11.9-6.8-2.2-2.9z" fill="#34A853" /><path d="M14.6 12l2.2-2.9L4.9 2.3c-.4-.2-.9-.2-1.3 0l11 9.7z" fill="#EA4335" /></svg>) },
               { label: "Descárgala para iOS", sub: "Escanea el QR · App Store", logo: (<svg width="18" height="18" viewBox="0 0 24 24" fill="#111827"><path d="M17.6 7.1c-.9.05-2 .6-2.6 1.3-.6.6-1.1 1.6-.9 2.5 1 .08 2-.5 2.6-1.2.6-.7 1-1.7.9-2.6zM19 16.8c-.3.8-.5 1.1-.9 1.8-.6.9-1.4 2-2.4 2-.9 0-1.1-.6-2.3-.6-1.2 0-1.5.6-2.3.6-1 0-1.7-1-2.3-1.9-1.7-2.5-1.9-5.5-.8-7 .8-1.1 2-1.7 3.1-1.7 1.2 0 1.9.6 2.9.6.9 0 1.5-.6 2.9-.6 1 0 2.1.6 2.9 1.5-2.6 1.4-2.2 5.1.5 5.7z" /></svg>) },
@@ -374,6 +375,7 @@ export default function T1POS() {
               </div>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0 mr-1"><path d="M4 8h8M9 5l3 3-3 3" stroke="#DB3B2B" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </a>
+            </div>
           </div>
         </div>
       </section>
@@ -487,7 +489,7 @@ export default function T1POS() {
               Un plan para cada operación
             </h2>
             <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-              Todos los planes incluyen la plataforma completa. Solo eliges cuántos usuarios y sucursales necesitas.
+              Todos los planes incluyen la plataforma completa. Solo elige cuántos usuarios y sucursales necesitas.
             </p>
           </div>
           {/* plan cards — differ only in usuarios + sucursales */}
@@ -532,14 +534,13 @@ export default function T1POS() {
           </div>
 
           {/* Todos los planes incluyen — the full platform (same in every plan) */}
-          <div data-modal-animate className="mx-auto mt-6 max-w-[900px] rounded-[20px] border border-black/[0.08] bg-[#FAFAF9] p-7 tablet:p-9">
+          <div data-modal-animate className="mx-auto mt-6 max-w-[900px] rounded-[20px] border border-black/[0.08] bg-white p-7 tablet:p-9" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.04)" }}>
             <p className="text-center font-sora text-[16px] font-medium text-black" style={{ marginBottom: 18 }}>
               Todos los planes incluyen la plataforma completa
             </p>
             <div className="grid grid-cols-1 gap-x-8 gap-y-3 tablet:grid-cols-2 lg:grid-cols-3">
               {[
                 "Cobros con tarjeta, efectivo y SPEI",
-                "Hasta 18 meses sin intereses",
                 "Inventario sincronizado con tu tienda en línea",
                 "Control y corte de caja",
                 "Roles y permisos por usuario",
