@@ -337,9 +337,7 @@ export default function T1POS() {
             </p>
             <div className="grid grid-cols-1 items-stretch gap-5 tablet:grid-cols-2">
               {/* Card 1 — Descarga la app */}
-              <div className="flex flex-col items-center rounded-[20px] border border-black/[0.08] bg-white px-7 py-8 text-center" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.04)" }}>
-                <p className="font-sora text-[16px] font-medium text-black" style={{ marginBottom: 4 }}>Descarga la app</p>
-                <p className="font-inter text-[12.5px] text-black/50" style={{ marginBottom: 18 }}>Escanea el QR o elige tu tienda</p>
+              <div className="flex flex-col items-center justify-center rounded-[20px] border border-black/[0.08] bg-white px-7 py-8 text-center" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.04)" }}>
                 <div className="flex h-[96px] w-[96px] items-center justify-center rounded-[14px] border border-black/[0.10] bg-white" style={{ padding: 10, marginBottom: 18 }}>
                   <svg width="76" height="76" viewBox="0 0 56 56" fill="#111827" aria-label="QR de descarga">
                     <path d="M0 0h20v20H0zM4 4v12h12V4zM7 7h6v6H7z" />
@@ -363,9 +361,8 @@ export default function T1POS() {
 
               {/* Card 2 — Versión web (black line icon, no background) */}
               <a href={SIGNUP_URL} className="flex flex-col items-center justify-center rounded-[20px] border border-black/[0.08] bg-white px-7 py-8 text-center no-underline transition-colors hover:border-black/25" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.04)" }}>
-                <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#111827" strokeWidth="1.5" style={{ marginBottom: 16 }}><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.6 2.7 2.6 15.3 0 18M12 3c-2.6 2.7-2.6 15.3 0 18" strokeLinecap="round" /></svg>
-                <p className="font-sora text-[16px] font-medium text-black" style={{ marginBottom: 4 }}>Versión web</p>
-                <p className="font-inter text-[12.5px] text-black/50" style={{ marginBottom: 18, maxWidth: 220 }}>Úsala desde el navegador, sin instalar nada.</p>
+                <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#111827" strokeWidth="1.5" style={{ marginBottom: 18 }}><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.6 2.7 2.6 15.3 0 18M12 3c-2.6 2.7-2.6 15.3 0 18" strokeLinecap="round" /></svg>
+                <p className="font-inter text-[13px] text-black/55" style={{ marginBottom: 18, maxWidth: 230 }}>Visítalo en web desde cualquier dispositivo</p>
                 <span className="inline-flex items-center gap-1.5 rounded-[11px] bg-black px-5 py-2.5 font-inter text-[13px] font-semibold text-white">
                   Ir a la versión web
                   <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9 5l3 3-3 3" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
