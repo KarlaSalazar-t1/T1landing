@@ -72,7 +72,7 @@ const SIDE_ICONS = [
 
 function PosDesktop() {
   return (
-    <div className="flex h-full w-full flex-col bg-white font-inter" style={{ width: 940, height: 525 }}>
+    <div className="flex h-full w-full flex-col bg-white font-inter" style={{ width: 940, height: 570 }}>
       {/* top bar */}
       <div className="flex items-center justify-between border-b border-black/[0.06] px-5" style={{ height: 52 }}>
         <div className="flex items-center gap-4">
@@ -131,7 +131,7 @@ function PosDesktop() {
             ))}
           </div>
           {/* Auto-scrolling product list (seamless vertical marquee) */}
-          <div style={{ height: 280, overflow: "hidden" }}>
+          <div style={{ height: 330, overflow: "hidden" }}>
             <div style={{ animation: "posListScroll 16s linear infinite" }}>
               {[...DESK_PRODUCTS, ...DESK_PRODUCTS].map((p, idx) => (
                 <div key={idx} className="flex items-center gap-3 border-b border-black/[0.04]" style={{ height: 56, opacity: p.state === "out" ? 0.45 : 1 }}>
@@ -174,8 +174,8 @@ function PosDesktop() {
             { name: "Gorra clásica bordada", variant: "Color: Negro", qty: 2, price: "$658.00", img: "/img/moda-gorra.png" },
           ].map((it) => (
             <div key={it.name} className="flex items-start gap-2.5" style={{ marginBottom: 14 }}>
-              <div className="relative h-[34px] w-[34px] shrink-0 overflow-hidden rounded-[7px] border border-black/[0.05] bg-[#FAFAF9]">
-                <div className="flex h-full w-full items-center justify-center"><Image src={it.img} alt="" width={26} height={20} className="object-contain" /></div>
+              <div className="relative h-[34px] w-[34px] shrink-0">
+                <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-[7px] border border-black/[0.05] bg-[#FAFAF9]"><Image src={it.img} alt="" width={26} height={20} className="object-contain" /></div>
                 <span className="absolute -left-1 -top-1 flex h-[15px] w-[15px] items-center justify-center rounded-full bg-[#DB3B2B] font-inter text-[8px] font-bold text-white">{it.qty}</span>
               </div>
               <div className="min-w-0 flex-1">
@@ -206,7 +206,7 @@ function PosDesktop() {
 
 function PosMobile() {
   return (
-    <div className="flex h-full w-full flex-col bg-white font-inter" style={{ width: 300, height: 510 }}>
+    <div className="flex h-full w-full flex-col bg-white font-inter" style={{ width: 300, height: 560 }}>
       {/* status bar */}
       <div className="flex items-center justify-between px-5 pt-2.5" style={{ height: 30 }}>
         <span className="font-inter text-[12px] font-semibold text-black">9:41</span>
@@ -271,6 +271,16 @@ function PosMobile() {
   );
 }
 
+/* Tap indicator — ripple + cursor showing where the click lands. */
+function Tap({ left = "50%", top = "50%" }: { left?: number | string; top?: number | string }) {
+  return (
+    <span className="pointer-events-none absolute z-[6]" style={{ left, top }}>
+      <span className="absolute rounded-full" style={{ left: -17, top: -17, width: 34, height: 34, border: "2.5px solid rgba(219,59,43,0.85)", animation: "tapRipple 1.1s ease-out infinite" }} />
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="#111827" stroke="white" strokeWidth="1.4" strokeLinejoin="round" style={{ position: "absolute", left: 1, top: 1, filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.35))" }}><path d="M5 2.5l6 17.5 2.3-7.2L20.5 10.5z" /></svg>
+    </span>
+  );
+}
+
 /* Animated checkout flow: empty cart → add products → cobrar → tarjeta → paid. */
 const CHECKOUT_ITEMS = [
   { name: "Playera básica algodón", variant: "Talla: CH", price: "$250.00", img: "/img/playera.png" },
@@ -294,7 +304,7 @@ function PosCheckoutDesktop() {
   );
 
   return (
-    <div className="relative flex h-full w-full flex-col bg-white font-inter" style={{ width: 940, height: 525 }}>
+    <div className="relative flex h-full w-full flex-col bg-white font-inter" style={{ width: 940, height: 570 }}>
       {/* top bar */}
       <div className="flex items-center justify-between border-b border-black/[0.06] px-5" style={{ height: 52 }}>
         <div className="flex items-center gap-4">
@@ -369,8 +379,8 @@ function PosCheckoutDesktop() {
               </div>
               {CHECKOUT_ITEMS.slice(0, visible).map((it, i) => (
                 <div key={it.name} className="flex items-start gap-2.5" style={{ marginBottom: 14, animation: i === visible - 1 ? "fadeSlideIn 0.4s ease-out" : undefined }}>
-                  <div className="relative h-[34px] w-[34px] shrink-0 overflow-hidden rounded-[7px] border border-black/[0.05] bg-[#FAFAF9]">
-                    <div className="flex h-full w-full items-center justify-center"><Image src={it.img} alt="" width={26} height={20} className="object-contain" /></div>
+                  <div className="relative h-[34px] w-[34px] shrink-0">
+                    <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-[7px] border border-black/[0.05] bg-[#FAFAF9]"><Image src={it.img} alt="" width={26} height={20} className="object-contain" /></div>
                     <span className="absolute -left-1 -top-1 flex h-[15px] w-[15px] items-center justify-center rounded-full bg-[#DB3B2B] font-inter text-[8px] font-bold text-white">1</span>
                   </div>
                   <div className="min-w-0 flex-1">
@@ -392,8 +402,9 @@ function PosCheckoutDesktop() {
               ))}
             </div>
             {visible >= 2 && (
-              <div className="flex items-center justify-center rounded-[12px] bg-[#DB3B2B]" style={{ height: 44, animation: "fadeSlideIn 0.4s ease-out" }}>
+              <div className="relative flex items-center justify-center rounded-[12px] bg-[#DB3B2B]" style={{ height: 44, animation: "fadeSlideIn 0.4s ease-out" }}>
                 <span className="font-inter text-[14px] font-semibold text-white">Cobrar $500.00</span>
+                {step === 2 && <Tap left="64%" top="56%" />}
               </div>
             )}
           </div>
@@ -416,10 +427,11 @@ function PosCheckoutDesktop() {
                   { l: "Efectivo", d: "M3 6h18v12H3zM7 12h.01M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z", hot: false },
                   { l: "Transferencia", d: "M7 7h10l-3-3M17 17H7l3 3", hot: false },
                 ].map((m) => (
-                  <div key={m.l} className={`flex items-center gap-3 border-b border-black/[0.06] py-3 ${m.hot ? "" : ""}`}>
+                  <div key={m.l} className="relative flex items-center gap-3 border-b border-black/[0.06] py-3">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={m.hot ? "#DB3B2B" : "#6B7280"} strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d={m.d} /></svg>
                     <span className={`flex-1 font-inter text-[14px] ${m.hot ? "font-semibold text-black" : "text-black/75"}`}>{m.l}</span>
                     <RowArrow />
+                    {m.hot && <Tap left="86%" top="50%" />}
                   </div>
                 ))}
               </>
@@ -430,8 +442,9 @@ function PosCheckoutDesktop() {
                 <p className="text-center font-sora text-[15px] font-medium text-black/70" style={{ marginBottom: 2 }}>Monto a cobrar</p>
                 <p className="text-center font-sora text-[44px] font-semibold text-black" style={{ letterSpacing: "-0.02em", marginBottom: 14 }}>$500.00</p>
                 <p className="text-center font-inter text-[13px] text-black/60" style={{ marginBottom: 16 }}>Realiza el cobro con tu terminal bancaria</p>
-                <div className="flex items-center justify-center rounded-[12px] bg-[#DB3B2B]" style={{ height: 46 }}>
+                <div className="relative flex items-center justify-center rounded-[12px] bg-[#DB3B2B]" style={{ height: 46 }}>
                   <span className="font-inter text-[14px] font-semibold text-white">Confirmar pago</span>
+                  <Tap left="62%" top="56%" />
                 </div>
               </>
             )}
@@ -464,7 +477,7 @@ function PosCheckoutDesktop() {
 export function PosDesktopScreen() {
   return (
     <GlassScreen radius={13}>
-      <ScaledMock designW={940} designH={525}>
+      <ScaledMock designW={940} designH={570}>
         <PosDesktop />
       </ScaledMock>
     </GlassScreen>
@@ -474,7 +487,7 @@ export function PosDesktopScreen() {
 export function PosMobileScreen() {
   return (
     <GlassScreen radius={22}>
-      <ScaledMock designW={300} designH={510}>
+      <ScaledMock designW={300} designH={560}>
         <PosMobile />
       </ScaledMock>
     </GlassScreen>
@@ -484,7 +497,7 @@ export function PosMobileScreen() {
 export function PosCheckoutScreen() {
   return (
     <GlassScreen radius={13}>
-      <ScaledMock designW={940} designH={525}>
+      <ScaledMock designW={940} designH={570}>
         <PosCheckoutDesktop />
       </ScaledMock>
     </GlassScreen>

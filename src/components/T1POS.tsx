@@ -124,7 +124,7 @@ export default function T1POS() {
                   Tarjeta, efectivo, SPEI o transferencia desde una sola terminal. Tu cliente paga como prefiera, tú cobras siempre.
                 </p>
                 <ul className="flex flex-col gap-2.5">
-                  {["Lectura de tarjeta NFC y chip", "Comprobante digital o impreso", "Hasta 18 meses sin intereses"].map((it) => (
+                  {["Cobra con tarjeta, efectivo o SPEI", "Hasta 18 meses sin intereses", "Comprobante digital al instante"].map((it) => (
                     <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                       {it}
@@ -203,7 +203,7 @@ export default function T1POS() {
                   Cada venta en sucursal descuenta stock online en segundos. Adiós sobreventas, hola tranquilidad.
                 </p>
                 <ul className="flex flex-col gap-2.5">
-                  {["Stock unificado tienda física + online", "Alertas de bajo stock por sucursal", "Transferencias entre sucursales en un click"].map((it) => (
+                  {["Inventario unificado: tienda física y online", "Transferencias entre sucursales en un click"].map((it) => (
                     <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                       {it}
@@ -227,7 +227,7 @@ export default function T1POS() {
                   Control de caja con detalle de cobros, devoluciones y efectivo. Cuadres precisos sin pelear con hojas de cálculo.
                 </p>
                 <ul className="flex flex-col gap-2.5">
-                  {["Apertura y cierre de turno por vendedor", "Detalle de ingresos y retiros de efectivo", "Reporte por sucursal y por método de pago"].map((it) => (
+                  {["Apertura y cierre de turno por vendedor", "Detalle de ingresos y retiros de efectivo", "Saldo en vivo según ventas y movimientos"].map((it) => (
                     <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                       {it}
@@ -235,51 +235,38 @@ export default function T1POS() {
                   ))}
                 </ul>
               </div>
-              {/* Panel — control de caja */}
+              {/* Panel — Control de caja (mirrors the real T1pos screen) */}
               <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
-                <div className="flex items-center justify-between" style={{ marginBottom: 16 }}>
-                  <p className="font-sora text-[14px] font-medium text-black">Cierre de caja · Hoy</p>
-                  <span className="rounded-full bg-black/[0.05] px-2 py-0.5 font-inter text-[10px] font-medium text-black/60">Sucursal Centro</span>
+                <p className="font-sora text-[14px] font-medium text-black" style={{ marginBottom: 14 }}>Control de caja</p>
+                <div className="text-center" style={{ marginBottom: 14 }}>
+                  <p className="font-sora text-[30px] font-semibold text-black" style={{ letterSpacing: "-0.02em", lineHeight: 1 }}>$5,234.00</p>
+                  <p className="mt-1 font-inter text-[10px] text-black/45">Saldo según ventas y movimientos</p>
                 </div>
-                <div className="rounded-[12px] border border-black/[0.05] bg-[#FAFAF9]" style={{ padding: "16px 18px", marginBottom: 12 }}>
-                  <p className="font-inter text-[10px] text-black/45">Total cobrado</p>
-                  <p className="font-sora text-[28px] font-light text-black" style={{ letterSpacing: "-0.025em", lineHeight: 1, marginBottom: 4 }}>$48,250.00</p>
-                  <p className="font-inter text-[11px] text-[#16A34A] font-bold">42 ventas · 8 horas operadas</p>
+                <div className="flex gap-2" style={{ marginBottom: 14 }}>
+                  <div className="flex flex-1 items-center justify-center rounded-[10px] border border-black/[0.12] py-2 font-inter text-[11px] font-medium text-black/70">Retirar efectivo</div>
+                  <div className="flex flex-1 items-center justify-center rounded-[10px] border border-black/[0.12] py-2 font-inter text-[11px] font-medium text-black/70">Ingresar efectivo</div>
                 </div>
-                <div className="grid grid-cols-2 gap-2" style={{ marginBottom: 12 }}>
-                  <div className="flex items-center gap-3 rounded-[10px] bg-[rgba(34,197,94,0.06)] px-3 py-2.5">
-                    <div className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-[rgba(34,197,94,0.14)]">
-                      <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 13V3M8 3L4 7M8 3L12 7" stroke="#22C55E" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                    </div>
-                    <div>
-                      <p className="font-inter text-[9px] text-black/50">Efectivo ingresado</p>
-                      <p className="font-inter text-[12px] font-bold text-black">+$8,420.00</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3 rounded-[10px] bg-[rgba(219,59,43,0.06)] px-3 py-2.5">
-                    <div className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-[rgba(219,59,43,0.12)]">
-                      <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 3V13M8 13L4 9M8 13L12 9" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                    </div>
-                    <div>
-                      <p className="font-inter text-[9px] text-black/50">Efectivo retirado</p>
-                      <p className="font-inter text-[12px] font-bold text-black">−$1,250.00</p>
-                    </div>
-                  </div>
+                <div className="flex items-center justify-between" style={{ marginBottom: 6 }}>
+                  <span className="font-inter text-[11px] font-semibold text-black">Movimientos</span>
+                  <span className="font-inter text-[10px] font-medium text-black/45 underline">Ver detalles</span>
                 </div>
-                <div className="flex flex-col gap-1.5">
+                <div className="rounded-[10px] border border-black/[0.06] bg-[#FCFCFC] px-3 py-1" style={{ marginBottom: 14 }}>
                   {[
-                    { label: "Tarjeta", amount: "$32,180", pct: 67 },
-                    { label: "Efectivo", amount: "$11,420", pct: 24 },
-                    { label: "SPEI", amount: "$4,650", pct: 9 },
-                  ].map((m) => (
-                    <div key={m.label} className="flex items-center gap-3 rounded-[8px] bg-[#FAFAF9] px-3 py-2">
-                      <span className="font-inter text-[11px] text-black/65 w-[60px]">{m.label}</span>
-                      <div className="h-[5px] flex-1 overflow-hidden rounded-full bg-black/[0.05]">
-                        <div className="h-full rounded-full bg-[#DB3B2B]" style={{ width: `${m.pct}%` }} />
-                      </div>
-                      <span className="font-inter text-[11px] font-semibold text-black w-[64px] text-right">{m.amount}</span>
+                    { l: "Pagos en efectivo", a: "$2,434.00" },
+                    { l: "Devoluciones en efectivo", a: "$2,434.00" },
+                    { l: "Ingresos manuales", a: "$0.00" },
+                    { l: "Retiros manuales", a: "$2,434.00" },
+                    { l: "Pagos con tarjeta", a: "$2,434.00" },
+                    { l: "Pago personalizado 1", a: "$540.00" },
+                  ].map((m, i) => (
+                    <div key={m.l} className={`flex items-center justify-between py-1.5 ${i < 5 ? "border-b border-black/[0.04]" : ""}`}>
+                      <span className="font-inter text-[11px] text-black/65">{m.l}</span>
+                      <span className="font-inter text-[11px] font-semibold text-black">{m.a}</span>
                     </div>
                   ))}
+                </div>
+                <div className="flex items-center justify-center rounded-[10px] bg-[#DB3B2B] py-2.5">
+                  <span className="font-inter text-[12px] font-semibold text-white">Cerrar caja</span>
                 </div>
               </div>
             </div>
@@ -341,6 +328,41 @@ export default function T1POS() {
               </div>
             ))}
           </div>
+
+          {/* Download / open CTAs */}
+          <div data-modal-animate className="mx-auto mt-12 flex max-w-[680px] flex-col items-center gap-5 tablet:flex-row tablet:justify-center tablet:gap-7">
+            {/* QR to download */}
+            <div className="flex items-center gap-3">
+              <div className="flex h-[72px] w-[72px] items-center justify-center rounded-[12px] border border-black/[0.10] bg-white" style={{ padding: 8 }}>
+                <svg width="56" height="56" viewBox="0 0 56 56" fill="#111827" aria-label="QR de descarga">
+                  <path d="M0 0h20v20H0zM4 4v12h12V4zM7 7h6v6H7z" />
+                  <path d="M36 0h20v20H36zM40 4v12h12V4zM43 7h6v6h-6z" />
+                  <path d="M0 36h20v20H0zM4 40v12h12V40zM7 43h6v6H7z" />
+                  <path d="M24 0h4v4h-4zM30 0h2v6h-6V4h4zM24 8h6v4h-4v4h-2zM32 8h4v4h-4zM24 16h8v4h-4v-2h-4z" />
+                  <path d="M36 24h4v4h-4zM44 24h4v8h-4v-4h-4v-2h4zM50 24h6v4h-4v2h-2zM36 32h6v4h-2v4h-4zM44 36h4v4h4v4h-8zM52 32h4v8h-4zM24 24h6v4h-2v2h-4zM24 32h4v4h4v4h-8zM30 40h6v4h-4v4h-2zM36 48h8v4h-8zM48 48h8v4h-8z" />
+                </svg>
+              </div>
+              <p className="font-inter text-[13px] font-light text-black/55" style={{ maxWidth: 130, lineHeight: 1.4 }}>Escanea para descargar la app</p>
+            </div>
+
+            {/* store + web buttons */}
+            <div className="flex flex-col items-center gap-3">
+              <div className="flex flex-wrap items-center justify-center gap-2.5">
+                <a href={SIGNUP_URL} className="inline-flex items-center gap-2 rounded-[11px] bg-black px-4 py-2.5 no-underline transition-opacity hover:opacity-90">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.6 7.1c-.9.05-2 .6-2.6 1.3-.6.6-1.1 1.6-.9 2.5 1 .08 2-.5 2.6-1.2.6-.7 1-1.7.9-2.6zM19 16.8c-.3.8-.5 1.1-.9 1.8-.6.9-1.4 2-2.4 2-.9 0-1.1-.6-2.3-.6-1.2 0-1.5.6-2.3.6-1 0-1.7-1-2.3-1.9-1.7-2.5-1.9-5.5-.8-7 .8-1.1 2-1.7 3.1-1.7 1.2 0 1.9.6 2.9.6.9 0 1.5-.6 2.9-.6 1 0 2.1.6 2.9 1.5-2.6 1.4-2.2 5.1.5 5.7z" /></svg>
+                  <span className="text-left leading-none text-white"><span className="block font-inter text-[8px] opacity-80">Descárgala en</span><span className="block font-inter text-[13px] font-semibold">App Store</span></span>
+                </a>
+                <a href={SIGNUP_URL} className="inline-flex items-center gap-2 rounded-[11px] bg-black px-4 py-2.5 no-underline transition-opacity hover:opacity-90">
+                  <svg width="17" height="17" viewBox="0 0 24 24"><path d="M3.6 2.3l11 9.7-11 9.7c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z" fill="#4285F4" /><path d="M16.8 9.1l-2.2 2.9 2.2 2.9 3.5-2c.7-.4.7-1.4 0-1.8l-3.5-2z" fill="#FBBC04" /><path d="M14.6 12l-11 9.7c.4.2.9.2 1.3 0l11.9-6.8-2.2-2.9z" fill="#34A853" /><path d="M14.6 12l2.2-2.9L4.9 2.3c-.4-.2-.9-.2-1.3 0l11 9.7z" fill="#EA4335" /></svg>
+                  <span className="text-left leading-none text-white"><span className="block font-inter text-[8px] opacity-80">Disponible en</span><span className="block font-inter text-[13px] font-semibold">Google Play</span></span>
+                </a>
+              </div>
+              <a href={SIGNUP_URL} className="inline-flex items-center gap-1.5 font-inter text-[14px] font-semibold text-[#DB3B2B] no-underline transition-colors hover:text-[#C0332A]">
+                O ábrela en la web
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9 5l3 3-3 3" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -362,7 +384,6 @@ export default function T1POS() {
               { title: "Promociones", desc: "Cupones, 2x1 y descuentos directo en caja.", icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M21 11.5V7l-9-4-9 4v9l9 4 9-4v-1.5" stroke="#DB3B2B" strokeWidth="1.6" strokeLinejoin="round" /><circle cx="14" cy="14" r="2" stroke="#DB3B2B" strokeWidth="1.6" /></svg>) },
               { title: "Multi-vendedor", desc: "Cuentas por colaborador con permisos y reportes.", icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="#DB3B2B" strokeWidth="1.6" /><circle cx="17" cy="9" r="2.5" stroke="#DB3B2B" strokeWidth="1.6" /><path d="M3 19c0-3.3 2.7-6 6-6s6 2.7 6 6 M14 14a5 5 0 0 1 7 5" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
               { title: "Devoluciones", desc: "Procesa cambios y reembolsos sin fricción.", icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 1 0 3-6.7 M3 4v5h5" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-              { title: "Reportes por sucursal", desc: "Compara ventas, vendedores y métodos en vivo.", icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 21h18" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" /><rect x="5" y="12" width="3.5" height="7" rx="1" stroke="#DB3B2B" strokeWidth="1.6" /><rect x="10.5" y="8" width="3.5" height="11" rx="1" stroke="#DB3B2B" strokeWidth="1.6" /><rect x="16" y="4" width="3.5" height="15" rx="1" stroke="#DB3B2B" strokeWidth="1.6" /></svg>) },
             ].map((f, i) => (
               <div key={f.title} data-stagger className="tienda-card flex items-start gap-4 rounded-[16px] border border-black/[0.06] bg-white p-6" style={{ ["--i" as string]: i }}>
                 <div className="flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-[12px]" style={{ background: "rgba(219,59,43,0.08)" }}>{f.icon}</div>
@@ -478,9 +499,8 @@ export default function T1POS() {
           <div data-modal-animate className="flex flex-col gap-3">
             {[
               { q: "¿Funciona sin conexión a internet?", a: "Sí. El POS opera offline y sincroniza ventas e inventario en cuanto recupera conexión." },
-              { q: "¿Necesito hardware especial?", a: "Funciona en tablet, PC o terminal POS. Te ayudamos a elegir el equipo según tu volumen." },
-              { q: "¿Cómo se actualiza el inventario online?", a: "Cada venta en sucursal descuenta stock online en tiempo real. Sin acciones manuales." },
-              { q: "¿Puedo emitir factura desde el POS?", a: "Sí. Facturación CFDI 4.0 directo desde la caja con datos del cliente." },
+              { q: "¿Necesito hardware especial?", a: "No. Funciona en tus dispositivos Android, iPhone, iPad y navegador web." },
+              { q: "¿Cómo se actualiza el inventario?", a: "Cada venta en sucursal descuenta inventario en tiempo real. Sin acciones manuales." },
               { q: "¿Cuánto tarda en operar mi sucursal?", a: "Configuración inicial en menos de un día. Capacitación a tu equipo incluida." },
             ].map((f, i) => (
               <details key={f.q} data-stagger className="group rounded-[14px] border border-black/[0.06] bg-white transition-all duration-200 open:border-[rgba(219,59,43,0.2)] open:shadow-[0_4px_18px_rgba(0,0,0,0.05)]" style={{ ["--i" as string]: i }}>
