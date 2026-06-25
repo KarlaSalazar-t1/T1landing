@@ -5,7 +5,7 @@ import { SIGNUP_URL } from "@/lib/constants";
 import { useCountUp } from "@/hooks/useCountUp";
 import { useFSStackCards } from "@/hooks/useFSStackCards";
 import T1FinalCTA from "@/components/T1FinalCTA";
-import { PosDesktopScreen, PosMobileScreen, PosCheckoutScreen } from "@/components/showcase/PosMockups";
+import { PosDesktopScreen, PosMobileScreen, PosCheckoutScreen, PosCheckoutMobileScreen } from "@/components/showcase/PosMockups";
 
 function CountStat({ end, prefix = "", suffix = "", label, decimals = 0 }: { end: number; prefix?: string; suffix?: string; label: string; decimals?: number }) {
   const { ref, display } = useCountUp({ end, prefix, suffix, decimals, duration: 1800 });
@@ -279,7 +279,13 @@ export default function T1POS() {
             </p>
           </div>
           <div data-modal-animate className="mx-auto" style={{ maxWidth: 760 }}>
-            <PosCheckoutScreen />
+            {/* Desktop flow on tablet+, the phone flow on mobile */}
+            <div className="hidden tablet:block">
+              <PosCheckoutScreen />
+            </div>
+            <div className="mx-auto tablet:hidden" style={{ maxWidth: 270 }}>
+              <PosCheckoutMobileScreen />
+            </div>
           </div>
           <div data-modal-animate className="mt-12 flex justify-center">
             <a
