@@ -330,48 +330,48 @@ export default function T1POS() {
             ))}
           </div>
 
-          {/* Download / open CTAs */}
-          <div data-modal-animate className="mx-auto mt-12 flex max-w-[820px] flex-col items-center justify-center gap-5 tablet:flex-row tablet:gap-6">
-            {/* Download the app — QR + store badges grouped together */}
-            <div className="flex items-center gap-4 rounded-[18px] border border-black/[0.08] bg-white p-5" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.04)" }}>
-              <div className="flex h-[78px] w-[78px] shrink-0 items-center justify-center rounded-[12px] border border-black/[0.10] bg-white" style={{ padding: 8 }}>
-                <svg width="60" height="60" viewBox="0 0 56 56" fill="#111827" aria-label="QR de descarga">
-                  <path d="M0 0h20v20H0zM4 4v12h12V4zM7 7h6v6H7z" />
-                  <path d="M36 0h20v20H36zM40 4v12h12V4zM43 7h6v6h-6z" />
-                  <path d="M0 36h20v20H0zM4 40v12h12V40zM7 43h6v6H7z" />
-                  <path d="M24 0h4v4h-4zM30 0h2v6h-6V4h4zM24 8h6v4h-4v4h-2zM32 8h4v4h-4zM24 16h8v4h-4v-2h-4z" />
-                  <path d="M36 24h4v4h-4zM44 24h4v8h-4v-4h-4v-2h4zM50 24h6v4h-4v2h-2zM36 32h6v4h-2v4h-4zM44 36h4v4h4v4h-8zM52 32h4v8h-4zM24 24h6v4h-2v2h-4zM24 32h4v4h4v4h-8zM30 40h6v4h-4v4h-2zM36 48h8v4h-8zM48 48h8v4h-8z" />
-                </svg>
-              </div>
-              <div>
-                <p className="font-sora text-[14px] font-medium text-black" style={{ marginBottom: 2 }}>Descarga la app</p>
-                <p className="font-inter text-[11.5px] text-black/50" style={{ marginBottom: 10 }}>Escanea el QR o elige tu tienda</p>
-                <div className="flex flex-wrap gap-2">
-                  <a href={SIGNUP_URL} className="inline-flex items-center gap-1.5 rounded-[9px] bg-black px-3 py-2 no-underline transition-opacity hover:opacity-90">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M17.6 7.1c-.9.05-2 .6-2.6 1.3-.6.6-1.1 1.6-.9 2.5 1 .08 2-.5 2.6-1.2.6-.7 1-1.7.9-2.6zM19 16.8c-.3.8-.5 1.1-.9 1.8-.6.9-1.4 2-2.4 2-.9 0-1.1-.6-2.3-.6-1.2 0-1.5.6-2.3.6-1 0-1.7-1-2.3-1.9-1.7-2.5-1.9-5.5-.8-7 .8-1.1 2-1.7 3.1-1.7 1.2 0 1.9.6 2.9.6.9 0 1.5-.6 2.9-.6 1 0 2.1.6 2.9 1.5-2.6 1.4-2.2 5.1.5 5.7z" /></svg>
+          {/* Download / open CTAs — heading + two equal-sized cards */}
+          <div data-modal-animate className="mx-auto mt-12 max-w-[720px]">
+            <p className="text-center font-inter text-[15px] font-medium text-black/65" style={{ marginBottom: 18 }}>
+              Descarga la app o ábrela en la web
+            </p>
+            <div className="grid grid-cols-1 items-stretch gap-5 tablet:grid-cols-2">
+              {/* Card 1 — Descarga la app */}
+              <div className="flex flex-col items-center rounded-[20px] border border-black/[0.08] bg-white px-7 py-8 text-center" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.04)" }}>
+                <p className="font-sora text-[16px] font-medium text-black" style={{ marginBottom: 4 }}>Descarga la app</p>
+                <p className="font-inter text-[12.5px] text-black/50" style={{ marginBottom: 18 }}>Escanea el QR o elige tu tienda</p>
+                <div className="flex h-[96px] w-[96px] items-center justify-center rounded-[14px] border border-black/[0.10] bg-white" style={{ padding: 10, marginBottom: 18 }}>
+                  <svg width="76" height="76" viewBox="0 0 56 56" fill="#111827" aria-label="QR de descarga">
+                    <path d="M0 0h20v20H0zM4 4v12h12V4zM7 7h6v6H7z" />
+                    <path d="M36 0h20v20H36zM40 4v12h12V4zM43 7h6v6h-6z" />
+                    <path d="M0 36h20v20H0zM4 40v12h12V40zM7 43h6v6H7z" />
+                    <path d="M24 0h4v4h-4zM30 0h2v6h-6V4h4zM24 8h6v4h-4v4h-2zM32 8h4v4h-4zM24 16h8v4h-4v-2h-4z" />
+                    <path d="M36 24h4v4h-4zM44 24h4v8h-4v-4h-4v-2h4zM50 24h6v4h-4v2h-2zM36 32h6v4h-2v4h-4zM44 36h4v4h4v4h-8zM52 32h4v8h-4zM24 24h6v4h-2v2h-4zM24 32h4v4h4v4h-8zM30 40h6v4h-4v4h-2zM36 48h8v4h-8zM48 48h8v4h-8z" />
+                  </svg>
+                </div>
+                <div className="flex flex-wrap items-center justify-center gap-2.5">
+                  <a href={SIGNUP_URL} className="inline-flex items-center gap-1.5 rounded-[10px] bg-black px-3.5 py-2 no-underline transition-opacity hover:opacity-90">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.6 7.1c-.9.05-2 .6-2.6 1.3-.6.6-1.1 1.6-.9 2.5 1 .08 2-.5 2.6-1.2.6-.7 1-1.7.9-2.6zM19 16.8c-.3.8-.5 1.1-.9 1.8-.6.9-1.4 2-2.4 2-.9 0-1.1-.6-2.3-.6-1.2 0-1.5.6-2.3.6-1 0-1.7-1-2.3-1.9-1.7-2.5-1.9-5.5-.8-7 .8-1.1 2-1.7 3.1-1.7 1.2 0 1.9.6 2.9.6.9 0 1.5-.6 2.9-.6 1 0 2.1.6 2.9 1.5-2.6 1.4-2.2 5.1.5 5.7z" /></svg>
                     <span className="text-left leading-none text-white"><span className="block font-inter text-[7px] opacity-80">Descárgala en</span><span className="block font-inter text-[11px] font-semibold">App Store</span></span>
                   </a>
-                  <a href={SIGNUP_URL} className="inline-flex items-center gap-1.5 rounded-[9px] bg-black px-3 py-2 no-underline transition-opacity hover:opacity-90">
-                    <svg width="14" height="14" viewBox="0 0 24 24"><path d="M3.6 2.3l11 9.7-11 9.7c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z" fill="#4285F4" /><path d="M16.8 9.1l-2.2 2.9 2.2 2.9 3.5-2c.7-.4.7-1.4 0-1.8l-3.5-2z" fill="#FBBC04" /><path d="M14.6 12l-11 9.7c.4.2.9.2 1.3 0l11.9-6.8-2.2-2.9z" fill="#34A853" /><path d="M14.6 12l2.2-2.9L4.9 2.3c-.4-.2-.9-.2-1.3 0l11 9.7z" fill="#EA4335" /></svg>
+                  <a href={SIGNUP_URL} className="inline-flex items-center gap-1.5 rounded-[10px] bg-black px-3.5 py-2 no-underline transition-opacity hover:opacity-90">
+                    <svg width="15" height="15" viewBox="0 0 24 24"><path d="M3.6 2.3l11 9.7-11 9.7c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z" fill="#4285F4" /><path d="M16.8 9.1l-2.2 2.9 2.2 2.9 3.5-2c.7-.4.7-1.4 0-1.8l-3.5-2z" fill="#FBBC04" /><path d="M14.6 12l-11 9.7c.4.2.9.2 1.3 0l11.9-6.8-2.2-2.9z" fill="#34A853" /><path d="M14.6 12l2.2-2.9L4.9 2.3c-.4-.2-.9-.2-1.3 0l11 9.7z" fill="#EA4335" /></svg>
                     <span className="text-left leading-none text-white"><span className="block font-inter text-[7px] opacity-80">Disponible en</span><span className="block font-inter text-[11px] font-semibold">Google Play</span></span>
                   </a>
                 </div>
               </div>
+
+              {/* Card 2 — Versión web (black line icon, no background) */}
+              <a href={SIGNUP_URL} className="flex flex-col items-center justify-center rounded-[20px] border border-black/[0.08] bg-white px-7 py-8 text-center no-underline transition-colors hover:border-black/25" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.04)" }}>
+                <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#111827" strokeWidth="1.5" style={{ marginBottom: 16 }}><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.6 2.7 2.6 15.3 0 18M12 3c-2.6 2.7-2.6 15.3 0 18" strokeLinecap="round" /></svg>
+                <p className="font-sora text-[16px] font-medium text-black" style={{ marginBottom: 4 }}>Versión web</p>
+                <p className="font-inter text-[12.5px] text-black/50" style={{ marginBottom: 18, maxWidth: 220 }}>Úsala desde el navegador, sin instalar nada.</p>
+                <span className="inline-flex items-center gap-1.5 rounded-[11px] bg-black px-5 py-2.5 font-inter text-[13px] font-semibold text-white">
+                  Ir a la versión web
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9 5l3 3-3 3" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                </span>
+              </a>
             </div>
-
-            <span className="font-inter text-[13px] text-black/35">o</span>
-
-            {/* Open on the web — clearly separate action */}
-            <a href={SIGNUP_URL} className="inline-flex items-center gap-3 rounded-[18px] border border-black/[0.12] bg-white px-6 py-4 no-underline transition-colors hover:border-black/30" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.04)" }}>
-              <span className="flex h-[40px] w-[40px] items-center justify-center rounded-[12px]" style={{ background: "rgba(219,59,43,0.08)" }}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#DB3B2B" strokeWidth="1.6"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18" strokeLinecap="round" /></svg>
-              </span>
-              <span className="text-left">
-                <span className="block font-sora text-[14px] font-medium text-black">Ábrela en la web</span>
-                <span className="block font-inter text-[11.5px] text-black/50">Sin instalar nada</span>
-              </span>
-              <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9 5l3 3-3 3" stroke="#DB3B2B" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            </a>
           </div>
         </div>
       </section>
