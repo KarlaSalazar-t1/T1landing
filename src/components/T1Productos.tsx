@@ -372,7 +372,7 @@ export default function T1Productos() {
             <div className="relative flex justify-center py-2 tablet:py-6">
               <div className="relative" style={{ perspective: 1000 }}>
                 {/* Back card — peeks behind on desktop, also floating in 3D */}
-                <div className="absolute hidden tablet:block" style={{ left: -187, top: -26, zIndex: 0, transform: "rotate(-8deg) scale(0.92)", opacity: 0.96 }}>
+                <div className="absolute hidden tablet:block" style={{ left: -202, top: -46, zIndex: 0, transform: "rotate(-8deg) scale(0.92)", opacity: 0.96 }}>
                   <GlassProductCard
                     autoTilt
                     className="tilt-delay"
@@ -387,7 +387,7 @@ export default function T1Productos() {
                 {/* Front card — main, auto-tilting; leans right only on desktop
                     (where it fans against the back card). The `rotate` property
                     composes with the child's auto-tilt transform. */}
-                <div className="relative tablet:rotate-[20deg]" style={{ zIndex: 1 }}>
+                <div className="relative tablet:rotate-[20deg]" style={{ zIndex: 1, marginTop: 15 }}>
                   <GlassProductCard
                     autoTilt
                     imageSrc="/img/tenis-transparente.png"
