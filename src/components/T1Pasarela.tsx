@@ -6,6 +6,7 @@ import { SIGNUP_URL } from "@/lib/constants";
 import { useCountUp } from "@/hooks/useCountUp";
 import { useFSStackCards } from "@/hooks/useFSStackCards";
 import T1FinalCTA from "@/components/T1FinalCTA";
+import { CheckoutHeroScreen, PagoFlowScreen } from "@/components/showcase/PagoMockups";
 
 /* ── Animated count stat (white-on-dark, used in stats strip) ── */
 function CountStat({ end, prefix = "", suffix = "", label, decimals = 0 }: { end: number; prefix?: string; suffix?: string; label: string; decimals?: number }) {
@@ -80,101 +81,12 @@ export default function T1Pasarela() {
                 >
                   Comenzar ahora
                 </a>
-                <span className="font-inter text-[13px] text-white/50">Sin tarjeta · Empieza gratis</span>
               </div>
             </div>
 
-            {/* Right — checkout terminal mock with approval pulse */}
-            <div className="relative">
-              {/* Glass-frame checkout */}
-              <div
-                className="relative mx-auto rounded-[20px]"
-                style={{
-                  maxWidth: 460,
-                  padding: 16,
-                  background: "rgba(255,255,255,0.06)",
-                  backdropFilter: "blur(20px)",
-                  WebkitBackdropFilter: "blur(20px)",
-                  border: "1px solid rgba(255,255,255,0.12)",
-                  boxShadow: "0 20px 60px rgba(0,0,0,0.35)",
-                }}
-              >
-                {/* Inner checkout card */}
-                <div className="rounded-[14px] bg-white" style={{ padding: "22px 24px", fontFamily: "Inter, sans-serif" }}>
-                  <div className="flex items-center justify-between" style={{ marginBottom: 18 }}>
-                    <span className="font-sora text-[13px] font-medium text-black/55">Total a pagar</span>
-                    <span className="rounded-full bg-[rgba(34,197,94,0.12)] px-2 py-0.5 text-[10px] font-bold text-[#16A34A]">Seguro · TLS</span>
-                  </div>
-                  <p className="font-sora text-[36px] font-light text-black" style={{ letterSpacing: "-0.025em", lineHeight: 1, marginBottom: 16 }}>
-                    $1,345.99 <span className="text-[14px] text-black/40">MXN</span>
-                  </p>
-
-                  {/* Method tabs */}
-                  <div className="grid grid-cols-3 gap-2" style={{ marginBottom: 16 }}>
-                    {[
-                      { label: "Tarjeta", active: true },
-                      { label: "SPEI", active: false },
-                      { label: "OXXO", active: false },
-                    ].map((m) => (
-                      <div
-                        key={m.label}
-                        className={`flex items-center justify-center rounded-[8px] py-2 text-[11px] font-semibold ${m.active ? "border border-[#DB3B2B] bg-[rgba(219,59,43,0.06)] text-[#DB3B2B]" : "border border-black/[0.08] bg-white text-black/55"}`}
-                      >
-                        {m.label}
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Card form */}
-                  <div className="rounded-[10px] border border-black/[0.08] bg-white" style={{ padding: "12px 14px", marginBottom: 8 }}>
-                    <p className="text-[9px] text-black/40">Número de tarjeta</p>
-                    <div className="flex items-center justify-between">
-                      <p className="font-mono text-[14px] tracking-wider text-black">4242  4242  4242  4242</p>
-                      <div className="flex items-center gap-1">
-                        <span className="text-[10px] font-bold text-[#1A1F71]">VISA</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-2" style={{ marginBottom: 14 }}>
-                    <div className="rounded-[10px] border border-black/[0.08] bg-white" style={{ padding: "8px 12px" }}>
-                      <p className="text-[9px] text-black/40">Vence</p>
-                      <p className="font-mono text-[12px] text-black">12 / 28</p>
-                    </div>
-                    <div className="rounded-[10px] border border-black/[0.08] bg-white" style={{ padding: "8px 12px" }}>
-                      <p className="text-[9px] text-black/40">CVC</p>
-                      <p className="font-mono text-[12px] text-black">•••</p>
-                    </div>
-                  </div>
-
-                  {/* Pay button */}
-                  <div className="flex items-center justify-center rounded-[10px] bg-[#DB3B2B] py-3">
-                    <span className="font-inter text-[13px] font-semibold text-white">Pagar $1,345.99</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Floating "Aprobado" badge with pulse */}
-              <div className="absolute hidden tablet:flex items-center gap-2.5 rounded-[14px] bg-white" style={{ left: -28, bottom: 60, padding: "12px 16px", boxShadow: "0 14px 40px rgba(0,0,0,0.18)" }}>
-                <div className="relative flex h-[34px] w-[34px] items-center justify-center rounded-full bg-[#22C55E]">
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                    <path d="M3 8L6.5 11.5L13 4.5" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                  <span className="absolute inset-0 rounded-full" style={{ animation: "pulse-soft 2s ease-in-out infinite", boxShadow: "0 0 0 8px rgba(34,197,94,0.18)" }} />
-                </div>
-                <div>
-                  <p className="font-sora text-[13px] font-semibold text-black">Pago aprobado</p>
-                  <p className="font-inter text-[10px] text-black/50">en 1.2s · Banco BBVA</p>
-                </div>
-              </div>
-
-              {/* Floating method icons row (top-right) */}
-              <div className="absolute right-0 top-0 hidden tablet:flex items-center gap-2 rounded-full bg-white px-3 py-2" style={{ boxShadow: "0 10px 28px rgba(0,0,0,0.16)", transform: "translate(10%, -30%)" }}>
-                <span className="text-[10px] font-bold text-[#1A1F71]">VISA</span>
-                <span className="text-[10px] font-bold text-[#EB001B]">●●</span>
-                <span className="text-[10px] font-bold text-black/70">AMEX</span>
-                <span className="text-[10px] font-bold text-[#E10E0E]">OXXO</span>
-                <span className="text-[10px] font-bold text-black/70">SPEI</span>
-              </div>
+            {/* Right — checkout screen mock */}
+            <div className="relative mx-auto w-full" style={{ maxWidth: 580 }}>
+              <CheckoutHeroScreen />
             </div>
           </div>
         </div>
@@ -439,39 +351,9 @@ export default function T1Pasarela() {
               </ul>
             </div>
 
-            {/* Right — express checkout mock */}
-            <div data-modal-animate className="relative mx-auto w-full" style={{ maxWidth: 380 }}>
-              <div aria-hidden className="pointer-events-none absolute -inset-6 -z-10 rounded-full" style={{ background: "radial-gradient(circle at center, rgba(219,59,43,0.12) 0%, transparent 70%)", filter: "blur(30px)" }} />
-              <div className="rounded-[20px] border border-black/[0.06] bg-white p-6" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.12)" }}>
-                <div className="flex items-center justify-between" style={{ marginBottom: 18 }}>
-                  <span className="font-inter text-[13px] text-black/55">Total a pagar</span>
-                  <span className="font-sora text-[22px] font-semibold text-black" style={{ letterSpacing: "-0.02em" }}>$1,345.99</span>
-                </div>
-                <div className="flex items-center justify-center gap-2 rounded-[14px] bg-[#DB3B2B] py-4" style={{ boxShadow: "0 10px 26px rgba(219,59,43,0.32)" }}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M13 2L4 14h6l-1 8 9-12h-6z" /></svg>
-                  <span className="font-inter text-[15px] font-semibold text-white">Pagar con T1</span>
-                </div>
-                <p className="mt-3 text-center font-inter text-[12px] text-black/50">Pago en 1 toque con tus datos guardados</p>
-                <div className="my-5 flex items-center gap-3">
-                  <span className="h-px flex-1 bg-black/[0.08]" />
-                  <span className="font-inter text-[11px] text-black/40">o paga con tarjeta</span>
-                  <span className="h-px flex-1 bg-black/[0.08]" />
-                </div>
-                <div className="flex items-center gap-3 rounded-[12px] border border-black/[0.08] bg-[#FAFAF9] px-3.5 py-3">
-                  <div className="flex h-[30px] w-[40px] items-center justify-center rounded-[6px] bg-white" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}>
-                    <svg width="22" height="14" viewBox="0 0 24 16" fill="none"><rect width="24" height="16" rx="2.5" fill="#1A1F71" /><path d="M9.5 11L11 5h1.6l-1.5 6zM15.6 5.2c-.3-.1-.8-.2-1.4-.2-1.5 0-2.6.8-2.6 1.9 0 .8.8 1.3 1.4 1.6.6.3.8.5.8.7 0 .4-.5.6-.9.6-.6 0-.9-.1-1.4-.3l-.2-.1-.2 1.3c.3.1.9.3 1.6.3 1.6 0 2.6-.8 2.6-2 0-.7-.4-1.2-1.3-1.6-.5-.3-.9-.5-.9-.8 0-.3.3-.5.9-.5.5 0 .9.1 1.1.2z" fill="white" /></svg>
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="font-inter text-[12.5px] font-semibold text-black">Visa •••• 4242</p>
-                    <p className="font-inter text-[11px] text-black/50">Datos guardados de forma segura</p>
-                  </div>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#22C55E" /><path d="M8 12.5L11 15.5L16 9" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                </div>
-              </div>
-              <div className="absolute flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5" style={{ right: -14, top: 28, boxShadow: "0 10px 26px rgba(0,0,0,0.14)" }}>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="#DB3B2B"><path d="M13 2L4 14h6l-1 8 9-12h-6z" /></svg>
-                <span className="font-inter text-[11px] font-semibold text-black">1 toque</span>
-              </div>
+            {/* Right — animated Pago con T1 flow */}
+            <div data-modal-animate className="relative mx-auto w-full" style={{ maxWidth: 560 }}>
+              <PagoFlowScreen />
             </div>
           </div>
         </div>
