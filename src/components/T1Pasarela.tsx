@@ -412,20 +412,17 @@ export default function T1Pasarela() {
         </div>
       </div>
 
-      {/* ── Pago con T1 — express checkout button ── */}
-      <section className="relative overflow-hidden bg-white px-5 py-[100px] tablet:px-10 tablet:py-[128px]">
-        <div className="mx-auto max-w-[var(--max-w)]">
+      {/* ── Pago con T1 — express checkout button (dark) ── */}
+      <section className="relative overflow-hidden px-5 py-[100px] tablet:px-10 tablet:py-[128px]" style={{ background: "linear-gradient(135deg, #1A1212 0%, #261515 50%, #1A0A0A 100%)" }}>
+        <div aria-hidden className="pointer-events-none absolute -top-24 -left-24 h-[440px] w-[440px] rounded-full" style={{ background: "radial-gradient(circle at center, rgba(219,59,43,0.16) 0%, transparent 65%)", filter: "blur(50px)" }} />
+        <div className="relative mx-auto max-w-[var(--max-w)]">
           <div className="grid grid-cols-1 items-center gap-12 tablet:grid-cols-2 tablet:gap-16">
             {/* Left — copy */}
             <div data-modal-animate>
-              <span className="inline-flex items-center gap-2 rounded-full border border-[rgba(219,59,43,0.20)] bg-[rgba(219,59,43,0.05)] px-3 py-1.5 font-inter text-[12px] font-semibold text-[#DB3B2B]" style={{ marginBottom: 18 }}>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="#DB3B2B"><path d="M13 2L4 14h6l-1 8 9-12h-6z" /></svg>
-                Pago con T1
-              </span>
-              <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 16 }}>
+              <h2 className="font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 16 }}>
                 Compra en un toque, en cualquier negocio
               </h2>
-              <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 480 }}>
+              <p className="font-inter text-[16px] font-light text-white/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 480 }}>
                 El botón de pago express de T1. Tus clientes guardan sus datos una sola vez y vuelven a comprar al instante en todo el ecosistema. Menos fricción, más conversión.
               </p>
               <ul className="flex flex-col gap-3">
@@ -434,8 +431,8 @@ export default function T1Pasarela() {
                   "Vuelven a pagar con un toque, sin teclear de nuevo",
                   "Funciona en cualquier negocio que use T1",
                 ].map((it) => (
-                  <li key={it} className="flex items-start gap-3 font-inter text-[15px] text-black/70">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="mt-0.5 shrink-0"><circle cx="12" cy="12" r="11" fill="rgba(219,59,43,0.10)" /><path d="M7 12.5L10.5 16L17 8.5" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  <li key={it} className="flex items-start gap-3 font-inter text-[15px] text-white/75">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="mt-0.5 shrink-0"><circle cx="12" cy="12" r="11" fill="rgba(219,59,43,0.22)" /><path d="M7 12.5L10.5 16L17 8.5" stroke="#FF7363" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                     {it}
                   </li>
                 ))}
@@ -534,27 +531,27 @@ export default function T1Pasarela() {
             {[
               {
                 title: "3D Secure", desc: "Autenticación adicional cuando el riesgo lo amerita, sin romper conversión.",
-                icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 6v6c0 5 3.5 8.5 9 10 5.5-1.5 9-5 9-10V6l-9-4z" stroke="#DB3B2B" strokeWidth="1.6" strokeLinejoin="round" /><path d="M9 12l2 2 4-4" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>),
+                icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 6v6c0 5 3.5 8.5 9 10 5.5-1.5 9-5 9-10V6l-9-4z" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round" /><path d="M9 12l2 2 4-4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>),
               },
               {
                 title: "Meses sin intereses", desc: "Hasta 18 MSI con todos los bancos sin comisión adicional.",
-                icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2" stroke="#DB3B2B" strokeWidth="1.6" /><path d="M3 10h18 M7 15h2 M12 15h2 M17 15h0" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" /></svg>),
+                icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2" stroke="#111827" strokeWidth="1.6" /><path d="M3 10h18 M7 15h2 M12 15h2 M17 15h0" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>),
               },
               {
                 title: "Cobros recurrentes", desc: "Suscripciones, membresías y planes con tokenización segura.",
-                icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 0 1 15-6.7L21 8 M21 12a9 9 0 0 1-15 6.7L3 16 M21 3v5h-5 M3 21v-5h5" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>),
+                icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 0 1 15-6.7L21 8 M21 12a9 9 0 0 1-15 6.7L3 16 M21 3v5h-5 M3 21v-5h5" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>),
               },
               {
                 title: "Conciliación automática", desc: "Cierra cuadres con tu banco sin pelear con hojas de cálculo.",
-                icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /><rect x="3" y="3" width="18" height="18" rx="2" stroke="#DB3B2B" strokeWidth="1.6" /></svg>),
+                icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /><rect x="3" y="3" width="18" height="18" rx="2" stroke="#111827" strokeWidth="1.6" /></svg>),
               },
               {
                 title: "Reportes en vivo", desc: "Aprobación, conversión y devoluciones en un dashboard claro.",
-                icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 21h18" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" /><rect x="5" y="12" width="3.5" height="7" rx="1" stroke="#DB3B2B" strokeWidth="1.6" /><rect x="10.5" y="8" width="3.5" height="11" rx="1" stroke="#DB3B2B" strokeWidth="1.6" /><rect x="16" y="4" width="3.5" height="15" rx="1" stroke="#DB3B2B" strokeWidth="1.6" /></svg>),
+                icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 21h18" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /><rect x="5" y="12" width="3.5" height="7" rx="1" stroke="#111827" strokeWidth="1.6" /><rect x="10.5" y="8" width="3.5" height="11" rx="1" stroke="#111827" strokeWidth="1.6" /><rect x="16" y="4" width="3.5" height="15" rx="1" stroke="#111827" strokeWidth="1.6" /></svg>),
               },
               {
                 title: "Disputas y contracargos", desc: "Gestiona reclamaciones desde el panel. Evidencia automática.",
-                icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 9v4 M12 17h.01" stroke="#DB3B2B" strokeWidth="1.8" strokeLinecap="round" /><path d="M10.3 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.7 3.86a2 2 0 0 0-3.39 0z" stroke="#DB3B2B" strokeWidth="1.6" strokeLinejoin="round" /></svg>),
+                icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 9v4 M12 17h.01" stroke="#111827" strokeWidth="1.8" strokeLinecap="round" /><path d="M10.3 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.7 3.86a2 2 0 0 0-3.39 0z" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round" /></svg>),
               },
             ].map((f, i) => (
               <div
@@ -563,7 +560,7 @@ export default function T1Pasarela() {
                 className="tienda-card flex items-start gap-4 rounded-[16px] border border-black/[0.06] bg-white p-6"
                 style={{ ["--i" as string]: i }}
               >
-                <div className="flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-[12px]" style={{ background: "rgba(219,59,43,0.08)" }}>
+                <div className="flex h-[40px] w-[40px] shrink-0 items-center justify-center">
                   {f.icon}
                 </div>
                 <div>
