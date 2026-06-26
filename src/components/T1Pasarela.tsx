@@ -181,19 +181,18 @@ export default function T1Pasarela() {
       </section>
 
       {/* ── Section 2 — Antes vs Hoy compact transition ── */}
-      <section className="relative bg-[#F6F6F6] px-5 pt-16 pb-12 tablet:px-10 tablet:pt-20 tablet:pb-16" data-white-card>
+      <section className="relative bg-white px-5 pt-16 pb-12 tablet:px-10 tablet:pt-20 tablet:pb-16" data-white-card>
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[760px] text-center" style={{ marginBottom: 56 }}>
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-              Cada checkout abandonado{" "}
-              <em className="not-italic text-black/40">es venta perdida.</em>
+              Cada checkout abandonado es venta perdida.
             </h2>
             <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55, maxWidth: 580, margin: "0 auto" }}>
               Tarjetas declinadas, métodos limitados y formularios largos cuestan ventas todos los días.
             </p>
           </div>
 
-          <div data-modal-animate className="grid grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
+          <div data-modal-animate className="mx-auto grid max-w-[820px] grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
             {[
               { stat: "1 de 4", label: "compras se abandona en el checkout" },
               { stat: "12%", label: "de tarjetas se declinan en LATAM" },
@@ -216,7 +215,7 @@ export default function T1Pasarela() {
       {/* ── Section 3 — Header for stack cards ── */}
       <section className="relative bg-white px-5 pt-12 pb-8 tablet:px-10 tablet:pt-16 tablet:pb-10">
         <div data-modal-animate className="mx-auto max-w-[760px] text-center">
-          <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.4px", lineHeight: 1.1, marginBottom: 16 }}>
+          <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 16 }}>
             Una pasarela diseñada para convertir.
           </h2>
           <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[19px]" style={{ lineHeight: 1.5 }}>
@@ -235,8 +234,8 @@ export default function T1Pasarela() {
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div>
-                <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
-                  Acepta cualquier método de pago
+                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
+                  Todos los métodos de pago
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
                   Tarjetas, transferencia, efectivo y wallets. Tu cliente paga como prefiera, tú cobras siempre desde un solo lugar.
@@ -286,7 +285,7 @@ export default function T1Pasarela() {
         {/* Block 2 — Enrutamiento (panel left, text right) — bg #F6F6F6 */}
         <div
           className="fs-stack-card"
-          style={{ top: 80, zIndex: 2, background: "#F6F6F6", boxShadow: "0 -4px 30px rgba(0,0,0,0.18)" }}
+          style={{ top: 80, zIndex: 2, background: "#F6F6F6" }}
         >
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
@@ -330,8 +329,8 @@ export default function T1Pasarela() {
               </div>
 
               <div className="order-1 tablet:order-2">
-                <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
-                  Enrutamiento inteligente para más aprobación
+                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
+                  Más pagos aprobados
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
                   T1 dirige cada transacción al procesador con mayor probabilidad de aprobación. Sin que tu cliente lo note.
@@ -352,13 +351,13 @@ export default function T1Pasarela() {
         {/* Block 3 — Antifraude (text left, panel right) — bg white */}
         <div
           className="fs-stack-card"
-          style={{ top: 100, zIndex: 3, background: "#FFFFFF", boxShadow: "0 -4px 30px rgba(0,0,0,0.18)" }}
+          style={{ top: 100, zIndex: 3, background: "#FFFFFF" }}
         >
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div>
-                <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
-                  Antifraude que no detiene tus ventas
+                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
+                  Antifraude inteligente
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
                   Score de riesgo por transacción con T1 Score. Detiene fraude real sin bloquear clientes legítimos.
@@ -412,6 +411,74 @@ export default function T1Pasarela() {
           </div>
         </div>
       </div>
+
+      {/* ── Pago con T1 — express checkout button ── */}
+      <section className="relative overflow-hidden bg-white px-5 py-[100px] tablet:px-10 tablet:py-[128px]">
+        <div className="mx-auto max-w-[var(--max-w)]">
+          <div className="grid grid-cols-1 items-center gap-12 tablet:grid-cols-2 tablet:gap-16">
+            {/* Left — copy */}
+            <div data-modal-animate>
+              <span className="inline-flex items-center gap-2 rounded-full border border-[rgba(219,59,43,0.20)] bg-[rgba(219,59,43,0.05)] px-3 py-1.5 font-inter text-[12px] font-semibold text-[#DB3B2B]" style={{ marginBottom: 18 }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="#DB3B2B"><path d="M13 2L4 14h6l-1 8 9-12h-6z" /></svg>
+                Pago con T1
+              </span>
+              <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 16 }}>
+                Compra en un toque, en cualquier negocio
+              </h2>
+              <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 480 }}>
+                El botón de pago express de T1. Tus clientes guardan sus datos una sola vez y vuelven a comprar al instante en todo el ecosistema. Menos fricción, más conversión.
+              </p>
+              <ul className="flex flex-col gap-3">
+                {[
+                  "Guardan tarjeta y dirección una sola vez",
+                  "Vuelven a pagar con un toque, sin teclear de nuevo",
+                  "Funciona en cualquier negocio que use T1",
+                ].map((it) => (
+                  <li key={it} className="flex items-start gap-3 font-inter text-[15px] text-black/70">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="mt-0.5 shrink-0"><circle cx="12" cy="12" r="11" fill="rgba(219,59,43,0.10)" /><path d="M7 12.5L10.5 16L17 8.5" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                    {it}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Right — express checkout mock */}
+            <div data-modal-animate className="relative mx-auto w-full" style={{ maxWidth: 380 }}>
+              <div aria-hidden className="pointer-events-none absolute -inset-6 -z-10 rounded-full" style={{ background: "radial-gradient(circle at center, rgba(219,59,43,0.12) 0%, transparent 70%)", filter: "blur(30px)" }} />
+              <div className="rounded-[20px] border border-black/[0.06] bg-white p-6" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.12)" }}>
+                <div className="flex items-center justify-between" style={{ marginBottom: 18 }}>
+                  <span className="font-inter text-[13px] text-black/55">Total a pagar</span>
+                  <span className="font-sora text-[22px] font-semibold text-black" style={{ letterSpacing: "-0.02em" }}>$1,345.99</span>
+                </div>
+                <div className="flex items-center justify-center gap-2 rounded-[14px] bg-[#DB3B2B] py-4" style={{ boxShadow: "0 10px 26px rgba(219,59,43,0.32)" }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M13 2L4 14h6l-1 8 9-12h-6z" /></svg>
+                  <span className="font-inter text-[15px] font-semibold text-white">Pagar con T1</span>
+                </div>
+                <p className="mt-3 text-center font-inter text-[12px] text-black/50">Pago en 1 toque con tus datos guardados</p>
+                <div className="my-5 flex items-center gap-3">
+                  <span className="h-px flex-1 bg-black/[0.08]" />
+                  <span className="font-inter text-[11px] text-black/40">o paga con tarjeta</span>
+                  <span className="h-px flex-1 bg-black/[0.08]" />
+                </div>
+                <div className="flex items-center gap-3 rounded-[12px] border border-black/[0.08] bg-[#FAFAF9] px-3.5 py-3">
+                  <div className="flex h-[30px] w-[40px] items-center justify-center rounded-[6px] bg-white" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}>
+                    <svg width="22" height="14" viewBox="0 0 24 16" fill="none"><rect width="24" height="16" rx="2.5" fill="#1A1F71" /><path d="M9.5 11L11 5h1.6l-1.5 6zM15.6 5.2c-.3-.1-.8-.2-1.4-.2-1.5 0-2.6.8-2.6 1.9 0 .8.8 1.3 1.4 1.6.6.3.8.5.8.7 0 .4-.5.6-.9.6-.6 0-.9-.1-1.4-.3l-.2-.1-.2 1.3c.3.1.9.3 1.6.3 1.6 0 2.6-.8 2.6-2 0-.7-.4-1.2-1.3-1.6-.5-.3-.9-.5-.9-.8 0-.3.3-.5.9-.5.5 0 .9.1 1.1.2z" fill="white" /></svg>
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-inter text-[12.5px] font-semibold text-black">Visa •••• 4242</p>
+                    <p className="font-inter text-[11px] text-black/50">Datos guardados de forma segura</p>
+                  </div>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#22C55E" /><path d="M8 12.5L11 15.5L16 9" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                </div>
+              </div>
+              <div className="absolute flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5" style={{ right: -14, top: 28, boxShadow: "0 10px 26px rgba(0,0,0,0.14)" }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="#DB3B2B"><path d="M13 2L4 14h6l-1 8 9-12h-6z" /></svg>
+                <span className="font-inter text-[11px] font-semibold text-black">1 toque</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* ── Section 4 — Cómo funciona (4 steps) ── */}
       <section className="relative bg-[#F6F6F6] px-5 py-24 tablet:px-10 tablet:py-32">
