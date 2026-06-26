@@ -10,17 +10,19 @@ import { useIsDesktop } from "@/hooks/useIsDesktop";
 import { useCountUp } from "@/hooks/useCountUp";
 import T1FinalCTA from "@/components/T1FinalCTA";
 
-/* ── Store carousel items ── */
-const STORE_CAROUSEL = [
-  { name: "Sportify", image: "/img/tienda-1.png", url: "#" },
-  { name: "Casa & Hogar", image: "/img/tienda-2.png", url: "#" },
-  { name: "TechZone", image: "/img/tienda-3.png", url: "#" },
-  { name: "Orgánica MX", image: "/img/tienda-4.png", url: "#" },
+/* ── Store carousel items — 8 unique stores, duplicated so the marquee
+   (translateX(-50%)) loops seamlessly. ── */
+const STORES = [
+  { name: "Lochwild", image: "/img/inspira-1.png", url: "https://lochwild.mx/" },
+  { name: "Pirma", image: "/img/inspira-2.png", url: "https://pirma.com.mx/" },
+  { name: "Lover Boy", image: "/img/inspira-3.png", url: "https://loverboy.mx/" },
+  { name: "Lumière", image: "/img/tienda-skincare.png", url: "#" },
   { name: "Sportify", image: "/img/tienda-1.png", url: "#" },
   { name: "Casa & Hogar", image: "/img/tienda-2.png", url: "#" },
   { name: "TechZone", image: "/img/tienda-3.png", url: "#" },
   { name: "Orgánica MX", image: "/img/tienda-4.png", url: "#" },
 ];
+const STORE_CAROUSEL = [...STORES, ...STORES];
 
 /* ── Store carousel ──────────────────────────────────────────────────────────
    Self-contained component so ProductModal's constant typewriter re-renders
@@ -123,7 +125,7 @@ const PROMPT_PAGES = [
   { text: "Tengo una tienda de skincare.", image: "/img/tienda-skincare.png", bg: "/img/fondo-modal-1.png", gradientColor: "#C7A99A" },
   { text: "Necesito una tienda de ropa deportiva.", image: "/img/tienda-deporte.png", bg: "/img/fondo-modal-2.png", gradientColor: "#7FA1B6" },
   { text: "Quiero vender ropa de moda.", image: "/img/tienda-ropa.png", bg: "/img/fondo-modal-3.png", gradientColor: "#998E67" },
-  { text: "Quiero vender muebles de la más alta calidad.", image: "/img/muebles-v2.webp", bg: "/img/fondo-modal-4.png", gradientColor: "#978478" },
+  { text: "Quiero vender muebles de la más alta calidad.", image: "/img/tienda-muebles.png", bg: "/img/fondo-modal-4.png", gradientColor: "#978478" },
 ];
 
 /* ── Hero prompt input ───────────────────────────────────────────────────────

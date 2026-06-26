@@ -564,7 +564,7 @@ body {
    the StoreCarousel React component (elementFromPoint hover detection), not via
    CSS :hover, so they work reliably as cards move under a stationary cursor. */
 .store-carousel {
-  animation: storeScroll 25s linear infinite;
+  animation: storeScroll 44s linear infinite;
   width: max-content;
 }
 
