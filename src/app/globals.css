@@ -555,6 +555,10 @@ body {
 .incluye-visual > * {
   scale: 1.18;
 }
+/* Soft gray backdrop behind the mockups (matches the Productos carousel). */
+.incluye-visual {
+  background: linear-gradient(135deg, #FBFBFB 0%, #F4F4F5 100%);
+}
 
 /* Store carousel — auto-scroll marquee. Pause + hover overlay are handled in
    the StoreCarousel React component (elementFromPoint hover detection), not via
