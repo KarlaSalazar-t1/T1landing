@@ -120,10 +120,10 @@ function StoreCarousel({ dark }: { dark: boolean }) {
 
 /* ── Animated prompt phrases + matching page images + section bg + gradient color ── */
 const PROMPT_PAGES = [
-  { text: "Quiero vender muebles de la más alta calidad.", image: "/img/muebles-v2.webp", bg: "/img/fondo-modal-1.png", gradientColor: "#978478" },
-  { text: "Necesito una tienda de ropa deportiva.", image: "/img/ropa-deportiva.webp", bg: "/img/fondo-modal-2.png", gradientColor: "#7FA1B6" },
-  { text: "Vendo accesorios tech y gadgets.", image: "/img/tech.webp", bg: "/img/fondo-modal-3.png", gradientColor: "#7FA1B6" },
-  { text: "Mi negocio es de productos orgánicos.", image: "/img/organico-v2.webp", bg: "/img/fondo-modal-4.png", gradientColor: "#998E67" },
+  { text: "Tengo una tienda de skincare.", image: "/img/tienda-skincare.png", bg: "/img/fondo-modal-1.png", gradientColor: "#C7A99A" },
+  { text: "Necesito una tienda de ropa deportiva.", image: "/img/tienda-deporte.png", bg: "/img/fondo-modal-2.png", gradientColor: "#7FA1B6" },
+  { text: "Quiero vender ropa de moda.", image: "/img/tienda-ropa.png", bg: "/img/fondo-modal-3.png", gradientColor: "#998E67" },
+  { text: "Quiero vender muebles de la más alta calidad.", image: "/img/muebles-v2.webp", bg: "/img/fondo-modal-4.png", gradientColor: "#978478" },
 ];
 
 /* ── Hero prompt input ───────────────────────────────────────────────────────
