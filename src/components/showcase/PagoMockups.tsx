@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { GlassScreen } from "@/components/showcase/PosMockups";
 
@@ -26,7 +27,12 @@ function ScaledMock({ designW, designH, children }: { designW: number; designH: 
 }
 
 const W = 940;
-const H = 560;
+const H = 670;
+
+/* Shared demo data — our own product + neutral store/customer (not the screenshots'). */
+const STORE = "Origen MX";
+const EMAIL = "ana.lopez@correo.com";
+const PRODUCT = { name: "Tenis blancos clásicos", variant: "Talla 26 · Color blanco", price: "$1,345.99", img: "/img/tenis-transparente.png" };
 
 function Tap({ left = "50%", top = "50%" }: { left?: number | string; top?: number | string }) {
   return (
@@ -37,9 +43,6 @@ function Tap({ left = "50%", top = "50%" }: { left?: number | string; top?: numb
   );
 }
 
-const Dress = ({ s = 22 }: { s?: number }) => (
-  <svg width={s} height={s} viewBox="0 0 24 24" fill="#2A3142"><path d="M9.5 2h5l.6 3.2L17 7l-1.2 1.4L18 21H6l2.2-12.6L7 7l2-1.8z" /></svg>
-);
 const VisaChip = () => (
   <div className="flex h-[22px] w-[32px] items-center justify-center rounded-[4px] bg-white" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.12)" }}>
     <svg width="24" height="15" viewBox="0 0 24 16" fill="none"><rect width="24" height="16" rx="2.5" fill="#1A1F71" /><path d="M9.5 11L11 5h1.6l-1.5 6zM15.6 5.2c-.3-.1-.8-.2-1.4-.2-1.5 0-2.6.8-2.6 1.9 0 .8.8 1.3 1.4 1.6.6.3.8.5.8.7 0 .4-.5.6-.9.6-.6 0-.9-.1-1.4-.3l-.2-.1-.2 1.3c.3.1.9.3 1.6.3 1.6 0 2.6-.8 2.6-2 0-.7-.4-1.2-1.3-1.6-.5-.3-.9-.5-.9-.8 0-.3.3-.5.9-.5.5 0 .9.1 1.1.2z" fill="white" /></svg>
@@ -47,31 +50,29 @@ const VisaChip = () => (
 );
 
 /* Right order summary — consistent across screens. */
-function Summary({ shipping, total, aplicarRed = false, sneaker = false }: { shipping: boolean; total: string; aplicarRed?: boolean; sneaker?: boolean }) {
+function Summary({ shipping, total, aplicarRed = false }: { shipping: boolean; total: string; aplicarRed?: boolean }) {
   return (
     <div className="flex flex-1 flex-col px-8 py-7">
       <div className="flex items-center gap-3.5 border-b border-black/[0.06] pb-6">
-        <div className="relative flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-[8px] bg-[#F1F1F3]">
-          {sneaker
-            ? <svg width="26" height="18" viewBox="0 0 28 16" fill="#2A3142"><path d="M2 11l3-7 4 3 7 1 9 2c1 .3 1 2 0 2H2z" /></svg>
-            : <Dress s={24} />}
+        <div className="relative flex h-[44px] w-[44px] shrink-0 items-center justify-center overflow-hidden rounded-[8px] border border-black/[0.05] bg-[#FAFAF9]">
+          <Image src={PRODUCT.img} alt="" width={34} height={26} className="object-contain" />
           <span className="absolute -bottom-1.5 -right-1.5 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-[#1A1A1A] font-inter text-[9px] font-bold text-white">1</span>
         </div>
         <div className="min-w-0 flex-1">
-          <p className="font-inter text-[13px] text-black/85 leading-tight">{sneaker ? "SNEAKERS EAST SIDE 1313" : "Vestido para Niña Pequeña Azul Marino 2887"}</p>
-          <p className="mt-0.5 font-inter text-[11.5px] text-black/45">{sneaker ? "Talla 25, Color negro-oxf" : "Talla 1 año"}</p>
+          <p className="font-inter text-[13px] text-black/85 leading-tight">{PRODUCT.name}</p>
+          <p className="mt-0.5 font-inter text-[11.5px] text-black/45">{PRODUCT.variant}</p>
         </div>
-        <span className="font-inter text-[14px] font-semibold text-black">{sneaker ? "$999.00" : "$2,396.00"}</span>
+        <span className="font-inter text-[14px] font-semibold text-black">{PRODUCT.price}</span>
       </div>
       <div className="flex items-center gap-2.5 py-6">
         <div className="flex flex-1 items-center rounded-[10px] border border-black/[0.12] px-3.5" style={{ height: 44 }}>
           <span className="font-inter text-[12.5px] text-black/40">Código de descuento o tarjeta de regalo</span>
         </div>
-        <div className={`flex items-center justify-center rounded-[10px] px-6 font-inter text-[13px] font-semibold ${aplicarRed ? "bg-[#F1B0A9] text-white" : "bg-[#AFC9F2] text-white"}`} style={{ height: 44 }}>Aplicar</div>
+        <div className={`flex items-center justify-center rounded-[10px] px-6 font-inter text-[13px] font-semibold text-white ${aplicarRed ? "bg-[#F1B0A9]" : "bg-[#AFC9F2]"}`} style={{ height: 44 }}>Aplicar</div>
       </div>
       {[
-        { l: sneaker ? "Subtotal (1 producto)" : "Subtotal ( 1 producto)", v: sneaker ? "$999.00" : "$2,396.00" },
-        ...(shipping ? [{ l: "Tarifa de envío", v: "$200.00" }, { l: "Impuestos (IVA)", v: "$383.36" }] : sneaker ? [] : [{ l: "Tarifa de envío", v: "GRATIS" }, { l: "Impuestos (IVA)", v: "$383.36" }]),
+        { l: "Subtotal ( 1 producto)", v: PRODUCT.price },
+        ...(shipping ? [{ l: "Tarifa de envío", v: "$200.00" }, { l: "Impuestos (IVA)", v: "$215.36" }] : []),
       ].map((r) => (
         <div key={r.l} className="flex items-center justify-between py-1.5">
           <span className="font-inter text-[13.5px] text-black/65">{r.l}</span>
@@ -95,51 +96,48 @@ function Topbar({ logo }: { logo: React.ReactNode }) {
   );
 }
 const T1Logo = () => <span className="font-sora text-[26px] font-extrabold text-[#DB3B2B]">T1</span>;
-const ChicosLogo = () => <span className="font-sora text-[15px] font-bold leading-tight text-[#C0392B]">Chicos<br />Olé</span>;
-const PirmaLogo = () => <span className="font-sora text-[15px] font-semibold tracking-wide text-black">PIRMA</span>;
+const StoreLogo = () => <span className="font-sora text-[17px] font-bold text-black">{STORE}</span>;
 
-/* Field helpers */
 const Field = ({ ph }: { ph: string }) => (
   <div className="flex items-center rounded-[11px] border border-black/[0.12] px-3.5" style={{ height: 44 }}>
     <span className="font-inter text-[13px] text-black/40">{ph}</span>
   </div>
 );
 
-/* ── img1: filled checkout (used in hero + flow final) ── */
+/* ── Filled checkout (hero + flow final) ── */
 function CheckoutFilled() {
   return (
     <div className="flex h-full w-full flex-col bg-white font-inter" style={{ width: W, height: H }}>
       <Topbar logo={<T1Logo />} />
       <div className="flex flex-1 overflow-hidden">
-        {/* left */}
         <div className="flex flex-col px-9 py-7" style={{ width: 0.56 * W }}>
           <div className="flex items-center justify-between" style={{ marginBottom: 8 }}>
             <div className="flex items-center gap-2.5">
-              <span className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-[#1A1A1A] font-inter text-[10px] font-bold text-white">LC</span>
-              <span className="font-inter text-[14px] text-black/80">luiscervantes@gmail.com</span>
+              <span className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-[#1A1A1A] font-inter text-[10px] font-bold text-white">AL</span>
+              <span className="font-inter text-[14px] text-black/80">{EMAIL}</span>
             </div>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="#9CA3AF"><circle cx="5" cy="12" r="1.6" /><circle cx="12" cy="12" r="1.6" /><circle cx="19" cy="12" r="1.6" /></svg>
           </div>
-          <div className="flex items-center gap-2.5" style={{ marginBottom: 18 }}>
+          <div className="flex items-center gap-2.5" style={{ marginBottom: 20 }}>
             <span className="h-[15px] w-[15px] rounded-[3px] border border-black/25" />
             <span className="font-inter text-[12.5px] text-black/55">Deseo recibir las últimas ofertas y novedades.</span>
           </div>
-          <p className="font-sora text-[22px] font-semibold text-black" style={{ marginBottom: 12 }}>Entrega</p>
-          <div className="overflow-hidden rounded-[12px] border border-black/[0.12]" style={{ marginBottom: 16 }}>
-            <div className="flex items-center gap-2.5 border-b border-black/[0.08] px-4" style={{ height: 50 }}>
+          <p className="font-sora text-[22px] font-semibold text-black" style={{ marginBottom: 14 }}>Entrega</p>
+          <div className="overflow-hidden rounded-[12px] border border-black/[0.12]" style={{ marginBottom: 18 }}>
+            <div className="flex items-center gap-2.5 border-b border-black/[0.08] px-4" style={{ height: 52 }}>
               <span className="flex h-[18px] w-[18px] items-center justify-center rounded-full border-[5px] border-[#1A1A1A]" />
               <span className="font-inter text-[14px] font-medium text-black">Envío a domicilio</span>
             </div>
-            <div className="flex items-center gap-2.5 px-4" style={{ height: 50 }}>
+            <div className="flex items-center gap-2.5 px-4" style={{ height: 52 }}>
               <span className="h-[18px] w-[18px] rounded-full border-2 border-black/20" />
               <span className="font-inter text-[14px] text-black/60">Recoger en tienda</span>
             </div>
           </div>
           {[
-            { l: "Enviar a", v: "Luis Cervantes, Lago Zurich 34, C.P. 11310, Ampliación granada, Miguel Hidalgo,…" },
+            { l: "Enviar a", v: "Ana López, Lago Zurich 34, C.P. 11310, Ampliación Granada, Miguel Hidalgo,…" },
             { l: "Método de envío", v: "2 - 3 días hábiles  |  Gratis" },
           ].map((r) => (
-            <div key={r.l} className="border-b border-black/[0.07] pb-3.5" style={{ marginBottom: 14 }}>
+            <div key={r.l} className="border-b border-black/[0.07] pb-4" style={{ marginBottom: 16 }}>
               <div className="flex items-center gap-1.5" style={{ marginBottom: 6 }}>
                 <span className="font-inter text-[13px] text-black/45">{r.l}</span>
                 <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="#9CA3AF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -147,7 +145,7 @@ function CheckoutFilled() {
               <p className="truncate font-inter text-[13px] text-black/70">{r.v}</p>
             </div>
           ))}
-          <div className="border-b border-black/[0.07] pb-3.5" style={{ marginBottom: 16 }}>
+          <div className="border-b border-black/[0.07] pb-4" style={{ marginBottom: 18 }}>
             <div className="flex items-center gap-1.5" style={{ marginBottom: 8 }}>
               <span className="font-inter text-[13px] text-black/45">Método de pago</span>
               <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="#9CA3AF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -158,12 +156,11 @@ function CheckoutFilled() {
             <span className="h-[15px] w-[15px] rounded-[3px] border border-black/25" />
             <span className="font-inter text-[13px] text-black/60">Solicitar factura</span>
           </div>
-          <div className="relative flex items-center justify-center rounded-[12px] bg-[#DB3B2B]" style={{ height: 52 }}>
-            <span className="font-inter text-[15px] font-semibold text-white">Pagar ahora</span>
+          <div className="relative mt-auto flex shrink-0 items-center justify-center rounded-[14px] bg-[#DB3B2B]" style={{ height: 60 }}>
+            <span className="font-inter text-[16px] font-semibold text-white">Pagar ahora</span>
           </div>
         </div>
-        {/* right */}
-        <div className="flex border-l border-black/[0.06]" style={{ width: 0.44 * W }}><Summary shipping total="$2,629.36" aplicarRed /></div>
+        <div className="flex border-l border-black/[0.06]" style={{ width: 0.44 * W }}><Summary shipping total="$1,761.35" aplicarRed /></div>
       </div>
     </div>
   );
@@ -194,21 +191,16 @@ function PagoFlow() {
         </div>
       ) : (
         <>
-          <Topbar logo={step === 2 ? <PirmaLogo /> : <ChicosLogo />} />
+          <Topbar logo={<StoreLogo />} />
           <div className="flex flex-1 overflow-hidden">
             <div key={step} className="flex flex-col px-9 py-7" style={{ width: 0.56 * W, animation: "modalContentFade 0.35s ease-out" }}>
               {/* step 0 — express store */}
               {step === 0 && (
                 <>
                   <p className="text-center font-inter text-[13px] font-medium text-black/55" style={{ marginBottom: 12 }}>Pago exprés</p>
-                  <div className="flex gap-3" style={{ marginBottom: 18 }}>
-                    <div className="relative flex flex-1 items-center justify-center gap-1.5 rounded-[12px] bg-[#DB3B2B]" style={{ height: 56 }}>
-                      <span className="font-inter text-[15px] font-semibold text-white">Paga con</span><span className="font-sora text-[16px] font-extrabold text-white">T1</span>
-                      <Tap left="62%" top="54%" />
-                    </div>
-                    <div className="flex flex-1 items-center justify-center rounded-[12px] bg-[#FFC439]" style={{ height: 56 }}>
-                      <span className="font-sora text-[17px] font-bold italic text-[#253B80]">Pay<span className="text-[#179BD7]">Pal</span></span>
-                    </div>
+                  <div className="relative flex items-center justify-center gap-1.5 rounded-[12px] bg-[#DB3B2B]" style={{ height: 58, marginBottom: 18 }}>
+                    <span className="font-inter text-[15px] font-semibold text-white">Paga con</span><span className="font-sora text-[16px] font-extrabold text-white">T1</span>
+                    <Tap left="58%" top="54%" />
                   </div>
                   <div className="flex items-center gap-3" style={{ marginBottom: 18 }}><span className="h-px flex-1 bg-black/[0.10]" /><span className="font-inter text-[11px] text-black/35">o</span><span className="h-px flex-1 bg-black/[0.10]" /></div>
                   <div className="flex items-center justify-between" style={{ marginBottom: 12 }}>
@@ -217,15 +209,15 @@ function PagoFlow() {
                   </div>
                   <div className="flex flex-col gap-3">
                     <Field ph="Correo electrónico" />
-                    <Field ph="🇲🇽  +52   Número celular" />
+                    <Field ph="+52   Número celular" />
                   </div>
-                  <p className="font-sora text-[19px] font-semibold text-black" style={{ marginTop: 20, marginBottom: 12 }}>Entrega</p>
+                  <p className="font-sora text-[19px] font-semibold text-black" style={{ marginTop: 22, marginBottom: 12 }}>Entrega</p>
                   <div className="overflow-hidden rounded-[12px] border border-black/[0.12]">
-                    <div className="flex items-center gap-2.5 border-b border-black/[0.08] px-4" style={{ height: 48 }}>
+                    <div className="flex items-center gap-2.5 border-b border-black/[0.08] px-4" style={{ height: 50 }}>
                       <span className="flex h-[18px] w-[18px] items-center justify-center rounded-full border-[5px] border-[#1A1A1A]" />
                       <span className="font-inter text-[14px] font-medium text-black">Envío a domicilio</span>
                     </div>
-                    <div className="flex items-center gap-2.5 px-4" style={{ height: 48 }}>
+                    <div className="flex items-center gap-2.5 px-4" style={{ height: 50 }}>
                       <span className="h-[18px] w-[18px] rounded-full border-2 border-black/20" />
                       <span className="font-inter text-[14px] text-black/60">Recoger en tienda</span>
                     </div>
@@ -235,13 +227,13 @@ function PagoFlow() {
               {/* step 1 — login card */}
               {step === 1 && (
                 <div className="flex flex-1 items-center justify-center">
-                  <div className="w-full rounded-[18px] border border-black/[0.08] px-8 py-8 text-center" style={{ maxWidth: 360, boxShadow: "0 18px 50px rgba(0,0,0,0.10)" }}>
-                    <p className="font-sora text-[19px] font-semibold text-black" style={{ marginBottom: 14 }}>Chicosole.com</p>
+                  <div className="w-full rounded-[18px] border border-black/[0.08] px-8 py-9 text-center" style={{ maxWidth: 360, boxShadow: "0 18px 50px rgba(0,0,0,0.10)" }}>
+                    <p className="font-sora text-[19px] font-semibold text-black" style={{ marginBottom: 16 }}>origenmx.com</p>
                     <p className="font-sora text-[15px] font-medium text-black" style={{ marginBottom: 4 }}>Inicia sesión o crea una cuenta</p>
-                    <p className="font-inter text-[12px] text-black/50" style={{ marginBottom: 16 }}>Ingresa tu correo electrónico para iniciar sesión o crear una cuenta</p>
-                    <div className="flex items-center rounded-[11px] border border-black/[0.12] px-3.5" style={{ height: 46, marginBottom: 14 }}><span className="font-inter text-[13px] text-black/70">luiscervantes@gmail.com</span></div>
-                    <div className="flex items-center gap-2.5" style={{ marginBottom: 16 }}><span className="h-[15px] w-[15px] rounded-[3px] border border-black/25" /><span className="font-inter text-[12.5px] text-black/55">Mantener sesión iniciada</span></div>
-                    <div className="relative flex items-center justify-center gap-1.5 rounded-[12px] bg-[#DB3B2B]" style={{ height: 48 }}>
+                    <p className="font-inter text-[12px] text-black/50" style={{ marginBottom: 18 }}>Ingresa tu correo electrónico para iniciar sesión o crear una cuenta</p>
+                    <div className="flex items-center rounded-[11px] border border-black/[0.12] px-3.5" style={{ height: 48, marginBottom: 14 }}><span className="font-inter text-[13px] text-black/70">{EMAIL}</span></div>
+                    <div className="flex items-center gap-2.5" style={{ marginBottom: 18 }}><span className="h-[15px] w-[15px] rounded-[3px] border border-black/25" /><span className="font-inter text-[12.5px] text-black/55">Mantener sesión iniciada</span></div>
+                    <div className="relative flex items-center justify-center gap-1.5 rounded-[12px] bg-[#DB3B2B]" style={{ height: 50 }}>
                       <span className="font-inter text-[14px] font-semibold text-white">Continuar con</span><span className="font-sora text-[15px] font-extrabold text-white">T1</span>
                       <Tap left="64%" top="52%" />
                     </div>
@@ -252,13 +244,13 @@ function PagoFlow() {
               {step === 2 && (
                 <div className="flex flex-1 items-center justify-center">
                   <div className="w-full rounded-[18px] border border-black/[0.08]" style={{ maxWidth: 380, boxShadow: "0 18px 50px rgba(0,0,0,0.10)" }}>
-                    <p className="border-b border-black/[0.07] px-7 py-4 font-inter text-[14px] text-black/80">karla.salazar@t1.com</p>
-                    <div className="px-7 py-6 text-center">
+                    <p className="border-b border-black/[0.07] px-7 py-4 font-inter text-[14px] text-black/80">{EMAIL}</p>
+                    <div className="px-7 py-7 text-center">
                       <p className="font-sora text-[16px] font-semibold text-black" style={{ marginBottom: 6 }}>Confirma tu correo electrónico</p>
-                      <p className="font-inter text-[12.5px] text-black/55" style={{ marginBottom: 18, lineHeight: 1.5 }}>Introduce el código que se envió a tu correo para verificar tu cuenta.</p>
-                      <div className="flex justify-center gap-2" style={{ marginBottom: 16 }}>
+                      <p className="font-inter text-[12.5px] text-black/55" style={{ marginBottom: 20, lineHeight: 1.5 }}>Introduce el código que se envió a tu correo para verificar tu cuenta.</p>
+                      <div className="flex justify-center gap-2" style={{ marginBottom: 18 }}>
                         {[0, 1, 2, 3, 4, 5].map((b) => (
-                          <span key={b} className={`flex h-[44px] w-[40px] items-center justify-center rounded-[10px] border-2 ${b === 0 ? "border-[#DB3B2B]" : "border-black/[0.12]"} font-sora text-[16px] font-semibold text-black`}>{b < 2 ? (b === 0 ? "8" : "4") : ""}</span>
+                          <span key={b} className={`flex h-[46px] w-[42px] items-center justify-center rounded-[10px] border-2 ${b === 0 ? "border-[#DB3B2B]" : "border-black/[0.12]"} font-sora text-[16px] font-semibold text-black`}>{b < 2 ? (b === 0 ? "8" : "4") : ""}</span>
                         ))}
                       </div>
                       <span className="font-inter text-[13px] font-semibold text-[#DB3B2B]">Reenviar código</span>
@@ -268,7 +260,7 @@ function PagoFlow() {
               )}
             </div>
             <div className="flex border-l border-black/[0.06]" style={{ width: 0.44 * W }}>
-              <Summary shipping={false} total={step === 2 ? "$999.00" : "$2,396.00"} sneaker={step === 2} />
+              <Summary shipping={false} total={PRODUCT.price} />
             </div>
           </div>
         </>
