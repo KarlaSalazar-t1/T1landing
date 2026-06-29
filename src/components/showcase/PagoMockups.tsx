@@ -105,7 +105,7 @@ const Field = ({ ph }: { ph: string }) => (
 );
 
 /* ── Filled checkout (hero + flow final) ── */
-function CheckoutFilled() {
+function CheckoutFilled({ tapPay = false }: { tapPay?: boolean }) {
   return (
     <div className="flex h-full w-full flex-col bg-white font-inter" style={{ width: W, height: H }}>
       <Topbar logo={<T1Logo />} />
@@ -158,6 +158,7 @@ function CheckoutFilled() {
           </div>
           <div className="relative mt-auto flex shrink-0 items-center justify-center rounded-[14px] bg-[#DB3B2B]" style={{ height: 60 }}>
             <span className="font-inter text-[16px] font-semibold text-white">Pagar ahora</span>
+            {tapPay && <Tap left="50%" top="50%" />}
           </div>
         </div>
         <div className="flex border-l border-black/[0.06]" style={{ width: 0.44 * W }}><Summary shipping total="$1,761.35" aplicarRed /></div>
@@ -175,19 +176,29 @@ export function CheckoutHeroScreen() {
 }
 
 /* ── Animated "Pago con T1" flow: express → login → OTP → filled ── */
+const OTP_CODE = ["8", "4", "2", "7", "3", "6"];
+
 function PagoFlow() {
   const [step, setStep] = useState(0);
+  const [otp, setOtp] = useState(0);
   useEffect(() => {
-    const d = [2200, 2000, 1900, 2600];
+    const d = [2200, 2000, 2400, 2600];
     const t = setTimeout(() => setStep((step + 1) % 4), d[step]);
     return () => clearTimeout(t);
+  }, [step]);
+  // Type the OTP digits one by one while on the OTP step.
+  useEffect(() => {
+    if (step !== 2) { setOtp(0); return; }
+    let n = 0;
+    const id = setInterval(() => { n += 1; setOtp(n); if (n >= 6) clearInterval(id); }, 240);
+    return () => clearInterval(id);
   }, [step]);
 
   return (
     <div className="relative flex h-full w-full flex-col bg-white font-inter" style={{ width: W, height: H }}>
       {step === 3 ? (
         <div key="filled" style={{ animation: "modalContentFade 0.35s ease-out", height: "100%" }}>
-          <CheckoutFilled />
+          <CheckoutFilled tapPay />
         </div>
       ) : (
         <>
@@ -250,7 +261,7 @@ function PagoFlow() {
                       <p className="font-inter text-[12.5px] text-black/55" style={{ marginBottom: 20, lineHeight: 1.5 }}>Introduce el código que se envió a tu correo para verificar tu cuenta.</p>
                       <div className="flex justify-center gap-2" style={{ marginBottom: 18 }}>
                         {[0, 1, 2, 3, 4, 5].map((b) => (
-                          <span key={b} className={`flex h-[46px] w-[42px] items-center justify-center rounded-[10px] border-2 ${b === 0 ? "border-[#DB3B2B]" : "border-black/[0.12]"} font-sora text-[16px] font-semibold text-black`}>{b < 2 ? (b === 0 ? "8" : "4") : ""}</span>
+                          <span key={b} className={`flex h-[46px] w-[42px] items-center justify-center rounded-[10px] border-2 ${b === otp ? "border-[#DB3B2B]" : "border-black/[0.12]"} font-sora text-[16px] font-semibold text-black`} style={{ animation: b === otp - 1 ? "countBump 0.3s ease-out" : undefined }}>{b < otp ? OTP_CODE[b] : ""}</span>
                         ))}
                       </div>
                       <span className="font-inter text-[13px] font-semibold text-[#DB3B2B]">Reenviar código</span>
