@@ -8,6 +8,7 @@ import CotizadorPanel from "@/components/showcase/CotizadorPanel";
 import TiendaPromptPanel from "@/components/showcase/TiendaPromptPanel";
 import { useIsDesktop } from "@/hooks/useIsDesktop";
 import { useCountUp } from "@/hooks/useCountUp";
+import { SIGNUP_URL } from "@/lib/constants";
 import T1FinalCTA from "@/components/T1FinalCTA";
 
 /* ── Store carousel items — 8 unique stores, duplicated so the marquee
@@ -156,6 +157,39 @@ const HERO_PROMPT_SUFFIXES = [
   "electrónicos y accesorios tech",
 ];
 const HERO_PROMPT_CHIPS = ["Moda", "Deportes", "Belleza", "Joyería", "Electrónica", "Hogar"];
+// Clicking a chip pre-fills the prompt with a random phrase from its category.
+const CHIP_PROMPTS: Record<string, string[]> = {
+  Moda: [
+    "Quiero vender ropa de mujer moderna y elegante",
+    "Necesito una tienda de streetwear para jóvenes",
+    "Quiero vender ropa de moda con envío a todo México",
+  ],
+  Deportes: [
+    "Quiero vender ropa deportiva y accesorios de fitness",
+    "Necesito una tienda de suplementos y equipo de gym",
+    "Quiero vender tenis y calzado deportivo",
+  ],
+  Belleza: [
+    "Quiero vender productos de skincare y cuidado facial",
+    "Necesito una tienda de maquillaje y cosméticos",
+    "Quiero vender perfumes y fragancias importadas",
+  ],
+  Joyería: [
+    "Quiero vender joyería de plata hecha a mano",
+    "Necesito una tienda de accesorios y bisutería",
+    "Quiero vender anillos y collares personalizados",
+  ],
+  Electrónica: [
+    "Quiero vender accesorios y gadgets para celular",
+    "Necesito una tienda de electrónicos y tecnología",
+    "Quiero vender audífonos y bocinas bluetooth",
+  ],
+  Hogar: [
+    "Quiero vender artículos de decoración para el hogar",
+    "Necesito una tienda de plantas y macetas",
+    "Quiero vender velas aromáticas y textiles para casa",
+  ],
+};
 const HERO_TYPING_SPEED = 100;
 const HERO_DELETE_SPEED = 50;
 const HERO_DELAY_BETWEEN = 2000;
@@ -164,8 +198,10 @@ const HERO_PAUSE_AFTER_COMPLETE = 1500;
 function HeroPromptInput() {
   const [idx, setIdx] = useState(0);
   const [suffix, setSuffix] = useState("");
+  const [filled, setFilled] = useState<string | null>(null); // set when a chip is clicked
 
   useEffect(() => {
+    if (filled) return; // paused once the user pre-fills from a chip
     const full = HERO_PROMPT_SUFFIXES[idx];
     let char = 0;
     let deleting = false;
@@ -196,9 +232,10 @@ function HeroPromptInput() {
     };
     t = setTimeout(tick, 400);
     return () => clearTimeout(t);
-  }, [idx]);
+  }, [idx, filled]);
 
-  const charCount = HERO_PROMPT_PREFIX.length + suffix.length;
+  const displayText = filled ?? `${HERO_PROMPT_PREFIX}${suffix}`;
+  const charCount = displayText.length;
 
   return (
     <div className="w-full" style={{ maxWidth: 640 }}>
@@ -212,8 +249,7 @@ function HeroPromptInput() {
       >
         <div className="px-6 pt-6 tablet:pl-7 tablet:pr-7 tablet:pt-7" style={{ minHeight: 96 }}>
           <p className="font-inter text-[16px] text-black/85 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-            {HERO_PROMPT_PREFIX}
-            {suffix}
+            {displayText}
             <span
               className="ml-0.5 inline-block w-[2px] bg-black/45 align-text-bottom"
               style={{ height: 18, animation: "blink 0.8s step-end infinite" }}
@@ -240,7 +276,11 @@ function HeroPromptInput() {
           <button
             key={c}
             type="button"
-            className="rounded-full border border-white/15 bg-white/[0.06] px-3.5 py-1.5 font-inter text-[12px] text-white/70 transition-all duration-150 hover:border-[#E26153]/50 hover:bg-[rgba(226,97,83,0.12)] hover:text-white"
+            onClick={() => {
+              const arr = CHIP_PROMPTS[c];
+              setFilled(arr[Math.floor(Math.random() * arr.length)]);
+            }}
+            className="cursor-pointer rounded-full border border-white/15 bg-white/[0.06] px-3.5 py-1.5 font-inter text-[12px] text-white/70 transition-all duration-150 hover:border-[#E26153]/50 hover:bg-[rgba(226,97,83,0.12)] hover:text-white"
           >
             {c}
           </button>
@@ -281,21 +321,50 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
   // "Todo incluido" carousel — arrow + dot navigation
   const incluyeRef = useRef<HTMLDivElement>(null);
   const [incluyeIdx, setIncluyeIdx] = useState(0);
+  const [incluyePages, setIncluyePages] = useState(1);
   const incluyeStep = () => {
     const el = incluyeRef.current;
-    const card = el?.querySelector<HTMLElement>(".tienda-card");
-    return card ? card.offsetWidth + 16 : (el?.clientWidth ?? 0) * 0.8;
+    const card = el?.querySelector<HTMLElement>(".incluye-card");
+    return card ? card.offsetWidth + 28 : (el?.clientWidth ?? 0) * 0.8;
   };
-  const scrollIncluye = useCallback((dir: number) => {
-    incluyeRef.current?.scrollBy({ left: dir * incluyeStep(), behavior: "smooth" });
+  // Scroll one PAGE per click — a page is however many whole cards fit in view.
+  // This keeps 1 click = 1 dot and every stop shows full cards; the final stop
+  // snaps to the true end so the last card is fully visible.
+  const incluyePageStep = () => {
+    const el = incluyeRef.current;
+    if (!el) return 1;
+    const step = Math.max(1, incluyeStep());
+    const visible = Math.max(1, Math.floor(el.clientWidth / step));
+    return visible * step;
+  };
+  useEffect(() => {
+    const el = incluyeRef.current;
+    if (!el) return;
+    const calc = () => {
+      const ps = Math.max(1, incluyePageStep());
+      const maxScroll = el.scrollWidth - el.clientWidth;
+      setIncluyePages(maxScroll <= 1 ? 1 : Math.ceil(maxScroll / ps) + 1);
+    };
+    calc();
+    const ro = new ResizeObserver(calc);
+    ro.observe(el);
+    return () => ro.disconnect();
   }, []);
   const goIncluye = useCallback((i: number) => {
-    incluyeRef.current?.scrollTo({ left: i * incluyeStep(), behavior: "smooth" });
-  }, []);
+    const el = incluyeRef.current;
+    if (!el) return;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    const target = i >= incluyePages - 1 ? maxScroll : i * incluyePageStep();
+    el.scrollTo({ left: Math.min(target, maxScroll), behavior: "smooth" });
+  }, [incluyePages]);
+  const scrollIncluye = useCallback((dir: number) => {
+    goIncluye(Math.max(0, Math.min(incluyePages - 1, incluyeIdx + dir)));
+  }, [goIncluye, incluyeIdx, incluyePages]);
   const onIncluyeScroll = () => {
     const el = incluyeRef.current;
     if (!el) return;
-    setIncluyeIdx(Math.round(el.scrollLeft / Math.max(1, incluyeStep())));
+    const atEnd = el.scrollLeft >= el.scrollWidth - el.clientWidth - 2;
+    setIncluyeIdx(atEnd ? incluyePages - 1 : Math.min(incluyePages - 1, Math.round(el.scrollLeft / Math.max(1, incluyePageStep()))));
   };
 
   // Lock body scroll — only in modal mode
@@ -570,7 +639,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                 className={`font-sora text-[22px] font-light text-center px-5 tablet:text-[28px] tablet:px-10 ${pageMode ? "text-white" : "text-black"}`}
                 style={{ marginBottom: 32, letterSpacing: "-0.02em" }}
               >
-                Inspírate con algunas tiendas creadas con T1
+                Explora tiendas que ya venden con T1
               </h3>
 
               {/* Carousel — self-contained component (see StoreCarousel) */}
@@ -651,6 +720,12 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                         <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[19px]" style={{ lineHeight: 1.55, maxWidth: 480 }}>
                           Le dices a la IA qué vendes y arma una tienda hecha para ti. Estructura, copy, secciones y diseño coherentes con tu marca.
                         </p>
+                        <a
+                          href={SIGNUP_URL}
+                          className="mt-8 inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
+                        >
+                          Crear mi tienda con IA
+                        </a>
                       </div>
 
                       {/* Right: store preview simulation + live typing prompt card */}
@@ -905,7 +980,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
                       </button>
                       <div className="flex items-center gap-2">
-                        {[0, 1, 2, 3, 4, 5].map((i) => (
+                        {Array.from({ length: incluyePages }, (_, i) => i).map((i) => (
                           <button
                             key={i}
                             type="button"
@@ -967,7 +1042,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                         { q: "¿Necesito saber programar?", a: "No. La IA crea tu tienda y el editor visual te permite ajustar todo sin código." },
                         { q: "¿Cuánto tarda en estar lista?", a: "Menos de 2 minutos para la primera versión. Puedes seguir personalizándola sin límite." },
                         { q: "¿Puedo usar mi propio dominio?", a: "Sí. Conecta tu dominio existente o usa uno de cortesía mientras decides." },
-                        { q: "¿Qué incluye el plan gratis?", a: "Tienda completa con checkout, hasta cierto volumen de pedidos al mes y soporte en español." },
+                        { q: "¿Cómo recibo el dinero de mis ventas?", a: "Cada venta entra a tu cuenta de T1 Pagos. Con SPEI y transferencias el pago se acredita en minutos, y con tarjeta se confirma al momento; en ambos casos el dinero queda disponible para retiro al día siguiente hábil (T+1)." },
                       ].map((f, i) => (
                         <details
                           key={f.q}

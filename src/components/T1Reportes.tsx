@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
 import { useCountUp } from "@/hooks/useCountUp";
 import { useFSStackCards } from "@/hooks/useFSStackCards";
@@ -14,6 +14,276 @@ function CountStat({ end, prefix = "", suffix = "", label, decimals = 0 }: { end
         {display}
       </p>
       <p className="font-inter text-[12px] font-light text-white/55 tablet:text-[13px]">{label}</p>
+    </div>
+  );
+}
+
+/* ── Animation helpers ── */
+function useCycle(len: number, ms: number) {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setI((p) => (p + 1) % len), ms);
+    return () => clearInterval(id);
+  }, [len, ms]);
+  return i;
+}
+
+function AnimNumber({ value, prefix = "", className, style }: { value: number; prefix?: string; className?: string; style?: CSSProperties }) {
+  const [disp, setDisp] = useState(0);
+  const fromRef = useRef(0);
+  useEffect(() => {
+    const from = fromRef.current;
+    const to = value;
+    const dur = 900;
+    let raf = 0;
+    let startT = 0;
+    const tick = (t: number) => {
+      if (!startT) startT = t;
+      const p = Math.min(1, (t - startT) / dur);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setDisp(from + (to - from) * eased);
+      if (p < 1) raf = requestAnimationFrame(tick);
+      else fromRef.current = to;
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [value]);
+  return (
+    <span className={className} style={style}>
+      {prefix}
+      {Math.round(disp).toLocaleString("en-US")}
+    </span>
+  );
+}
+
+const EASE = "cubic-bezier(0.22,1,0.36,1)";
+
+/* ── Hero dashboard (animated) ── */
+const HERO_BARS = [
+  [35, 52, 28, 64, 48, 78, 90],
+  [48, 40, 62, 45, 72, 58, 84],
+  [30, 58, 44, 70, 52, 66, 95],
+];
+const HERO_TOTAL = [284920, 312540, 296180];
+const HERO_PCT = ["↑ 24%", "↑ 31%", "↑ 18%"];
+const HERO_CH_NAMES = ["Tienda online", "MercadoLibre", "Sucursales"];
+const HERO_CH_VAL = [
+  [136761, 79778, 68381],
+  [158420, 92140, 61980],
+  [144990, 85320, 65870],
+];
+const HERO_CH_PCT = [
+  [48, 28, 24],
+  [51, 30, 19],
+  [49, 29, 22],
+];
+
+function HeroDashboard() {
+  const i = useCycle(HERO_BARS.length, 2400);
+  const bars = HERO_BARS[i];
+  return (
+    <div className="rounded-[14px] bg-white" style={{ padding: "20px 22px" }}>
+      <div className="flex items-center justify-between" style={{ marginBottom: 12 }}>
+        <div>
+          <p className="font-inter text-[10px] text-black/45">Ventas · 7 días</p>
+          <AnimNumber value={HERO_TOTAL[i]} prefix="$" className="font-sora text-[26px] font-light text-black" style={{ letterSpacing: "-0.025em", lineHeight: 1, display: "block" }} />
+        </div>
+        <span className="rounded-full bg-[rgba(34,197,94,0.12)] px-2.5 py-1 font-inter text-[11px] font-bold text-[#16A34A]" style={{ transition: "all 0.4s ease" }}>{HERO_PCT[i]}</span>
+      </div>
+      <div className="flex h-[80px] items-end gap-1.5" style={{ marginBottom: 12 }}>
+        {bars.map((h, idx) => (
+          <div key={idx} className="flex-1 rounded-t-[3px]" style={{ height: `${h}%`, background: idx === bars.length - 1 ? "#DB3B2B" : "rgba(219,59,43,0.18)", transition: `height 0.7s ${EASE}` }} />
+        ))}
+      </div>
+      <div className="flex flex-col gap-1.5">
+        {HERO_CH_NAMES.map((name, idx) => (
+          <div key={name} className="flex items-center gap-2.5">
+            <span className="font-inter text-[10px] text-black/65 w-[80px]">{name}</span>
+            <div className="h-[5px] flex-1 overflow-hidden rounded-full bg-black/[0.05]">
+              <div className="h-full rounded-full bg-[#DB3B2B]" style={{ width: `${HERO_CH_PCT[i][idx]}%`, transition: `width 0.7s ${EASE}` }} />
+            </div>
+            <AnimNumber value={HERO_CH_VAL[i][idx]} prefix="$" className="font-inter text-[10px] font-semibold text-black w-[60px] text-right" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── Live sales panel (animated) ── */
+const LIVE_HOURLY = [
+  [12, 18, 25, 32, 40, 55, 48, 62, 70, 58, 78, 85, 65, 50],
+  [20, 28, 22, 44, 52, 48, 66, 58, 74, 82, 70, 90, 60, 55],
+  [16, 22, 34, 28, 46, 60, 54, 70, 64, 78, 88, 76, 68, 58],
+];
+const LIVE_KPI = [
+  [48250, 42, 1148],
+  [51420, 45, 1142],
+  [46980, 40, 1174],
+];
+const LIVE_KPI_CHG = [
+  ["+12%", "+8%", "−3%"],
+  ["+18%", "+11%", "−1%"],
+  ["+9%", "+6%", "+2%"],
+];
+const LIVE_KPI_COLOR = [
+  ["#16A34A", "#16A34A", "#DC2626"],
+  ["#16A34A", "#16A34A", "#DC2626"],
+  ["#16A34A", "#16A34A", "#16A34A"],
+];
+const LIVE_LABELS = ["Ventas", "Pedidos", "Ticket prom."];
+
+function LiveSalesPanel() {
+  const i = useCycle(LIVE_HOURLY.length, 2200);
+  const hourly = LIVE_HOURLY[i];
+  const kpi = LIVE_KPI[i];
+  return (
+    <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
+      <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
+        <p className="font-sora text-[14px] font-medium text-black">Resumen del día</p>
+        <span className="flex items-center gap-1.5 rounded-full bg-[rgba(34,197,94,0.12)] px-2 py-0.5 font-inter text-[10px] font-bold text-[#16A34A]">
+          <span className="h-[6px] w-[6px] rounded-full bg-[#16A34A]" style={{ animation: "pulse-soft 1.6s ease-in-out infinite" }} />
+          En vivo
+        </span>
+      </div>
+      <div className="grid grid-cols-3 gap-2" style={{ marginBottom: 14 }}>
+        {LIVE_LABELS.map((label, idx) => (
+          <div key={label} className="rounded-[10px] bg-[#FAFAF9] p-3">
+            <p className="font-inter text-[9px] text-black/45">{label}</p>
+            <AnimNumber value={kpi[idx]} prefix={idx === 1 ? "" : "$"} className="font-sora text-[16px] font-light text-black" style={{ letterSpacing: "-0.02em", lineHeight: 1, marginBottom: 2, display: "block" }} />
+            <p className="font-inter text-[9px] font-bold" style={{ color: LIVE_KPI_COLOR[i][idx], transition: "color 0.4s ease" }}>{LIVE_KPI_CHG[i][idx]}</p>
+          </div>
+        ))}
+      </div>
+      <p className="font-inter text-[10px] font-semibold uppercase tracking-wider text-black/45" style={{ marginBottom: 8 }}>Por hora</p>
+      <div className="flex h-[80px] items-end gap-1">
+        {hourly.map((h, idx) => (
+          <div key={idx} className="flex-1 rounded-t-[2px]" style={{ height: `${h}%`, background: idx >= 11 ? "rgba(219,59,43,0.30)" : "#DB3B2B", transition: `height 0.7s ${EASE}` }} />
+        ))}
+      </div>
+      <div className="mt-1 flex justify-between font-inter text-[8px] text-black/40">
+        <span>9am</span><span>12pm</span><span>3pm</span><span>6pm</span><span>10pm</span>
+      </div>
+    </div>
+  );
+}
+
+/* ── Channel comparison panel (animated fill + change) ── */
+const CH_DATA = [
+  [
+    { ch: "Tienda online", val: 136761, pct: 48, color: "#DB3B2B", change: "+24%" },
+    { ch: "MercadoLibre", val: 79778, pct: 28, color: "#FFE600", change: "+18%" },
+    { ch: "Amazon", val: 42165, pct: 15, color: "#FF9900", change: "+9%" },
+    { ch: "Sucursales", val: 26216, pct: 9, color: "#22C55E", change: "+5%" },
+  ],
+  [
+    { ch: "Tienda online", val: 158940, pct: 52, color: "#DB3B2B", change: "+29%" },
+    { ch: "MercadoLibre", val: 84300, pct: 27, color: "#FFE600", change: "+21%" },
+    { ch: "Amazon", val: 48720, pct: 14, color: "#FF9900", change: "+12%" },
+    { ch: "Sucursales", val: 21040, pct: 7, color: "#22C55E", change: "+3%" },
+  ],
+  [
+    { ch: "Tienda online", val: 147250, pct: 50, color: "#DB3B2B", change: "+26%" },
+    { ch: "MercadoLibre", val: 88110, pct: 29, color: "#FFE600", change: "+19%" },
+    { ch: "Amazon", val: 39980, pct: 13, color: "#FF9900", change: "+7%" },
+    { ch: "Sucursales", val: 24360, pct: 8, color: "#22C55E", change: "+6%" },
+  ],
+];
+const PIE_C = 2 * Math.PI * 48;
+
+function ChannelComparePanel() {
+  const [started, setStarted] = useState(false);
+  const i = useCycle(CH_DATA.length, 2800);
+  useEffect(() => {
+    const t = setTimeout(() => setStarted(true), 150);
+    return () => clearTimeout(t);
+  }, []);
+  const rows = CH_DATA[i];
+  let acc = 0;
+  const segs = rows.map((r) => {
+    const len = started ? (r.pct / 100) * PIE_C : 0;
+    const seg = { len, offset: -acc };
+    acc += len;
+    return seg;
+  });
+  return (
+    <div className="relative order-2 overflow-hidden rounded-[18px] border border-black/[0.06] bg-white tablet:order-1" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
+      <div className="flex items-center justify-between" style={{ marginBottom: 16 }}>
+        <p className="font-sora text-[14px] font-medium text-black">Desempeño por canal</p>
+        <span className="rounded-full bg-black/[0.05] px-2 py-0.5 font-inter text-[10px] font-medium text-black/60">Últimos 30 días</span>
+      </div>
+      {rows.map((c) => (
+        <div key={c.ch} className="flex items-center gap-3 py-2.5" style={{ borderBottom: "1px solid rgba(0,0,0,0.04)" }}>
+          <span className="h-[10px] w-[10px] rounded-full" style={{ background: c.color }} />
+          <span className="font-inter text-[12px] text-black/70 flex-1">{c.ch}</span>
+          <AnimNumber value={c.val} prefix="$" className="font-inter text-[12px] font-semibold text-black" />
+          <span className="rounded-full bg-[rgba(34,197,94,0.10)] px-1.5 py-0.5 font-inter text-[9px] font-bold text-[#16A34A]">{c.change}</span>
+        </div>
+      ))}
+      <div className="flex items-center justify-center" style={{ marginTop: 16 }}>
+        <svg width="120" height="120" viewBox="0 0 120 120" className="-rotate-90">
+          {rows.map((c, idx) => (
+            <circle
+              key={c.ch}
+              cx="60"
+              cy="60"
+              r="48"
+              fill="none"
+              stroke={c.color}
+              strokeWidth="14"
+              strokeDasharray={`${segs[idx].len} ${PIE_C}`}
+              strokeDashoffset={segs[idx].offset}
+              style={{ transition: `stroke-dasharray 0.9s ${EASE}, stroke-dashoffset 0.9s ${EASE}` }}
+            />
+          ))}
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+/* ── AI insights feed (rotating) ── */
+const INSIGHTS = [
+  { tag: "Oportunidad", tagColor: "#16A34A", tagBg: "rgba(34,197,94,0.10)", title: "Tus ventas suben 38% los viernes", desc: "Considera lanzar promociones específicas los viernes para maximizar el efecto." },
+  { tag: "Alerta", tagColor: "#B45309", tagBg: "rgba(245,158,11,0.10)", title: "El producto TBC-042 baja 18% MoM", desc: "Revisa precio, stock o foto. Está perdiendo tracción vs el mes pasado." },
+  { tag: "Tendencia", tagColor: "#8B5CF6", tagBg: "rgba(139,92,246,0.10)", title: "Marketplaces crecen 24%", desc: "MercadoLibre y Amazon están escalando. Aumenta inventario en estos canales." },
+  { tag: "Oportunidad", tagColor: "#16A34A", tagBg: "rgba(34,197,94,0.10)", title: "Tu ticket promedio sube a $1,174", desc: "Los clientes compran más por orden. Prueba bundles para reforzar la tendencia." },
+  { tag: "Alerta", tagColor: "#B45309", tagBg: "rgba(245,158,11,0.10)", title: "Carrito abandonado en 31%", desc: "El costo de envío aparece tarde en el checkout. Muéstralo antes para reducir fricción." },
+  { tag: "Tendencia", tagColor: "#8B5CF6", tagBg: "rgba(139,92,246,0.10)", title: "Tus reseñas mejoran a 4.7★", desc: "La satisfacción sube este mes. Aprovecha para pedir más opiniones a tus clientes." },
+];
+
+function AIInsightsPanel() {
+  const [start, setStart] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setStart((s) => (s + 1) % INSIGHTS.length), 2600);
+    return () => clearInterval(id);
+  }, []);
+  const visible = [0, 1, 2].map((k) => (start + k) % INSIGHTS.length);
+  return (
+    <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
+      <div className="flex items-center gap-2" style={{ marginBottom: 16 }}>
+        <div className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-[rgba(139,92,246,0.12)]">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 3L14 9L20 11L14 13L12 19L10 13L4 11L10 9L12 3Z" stroke="#8B5CF6" strokeWidth="1.6" strokeLinejoin="round" fill="rgba(139,92,246,0.15)" /></svg>
+        </div>
+        <p className="font-sora text-[14px] font-medium text-black">Insights de hoy</p>
+      </div>
+      <div className="flex flex-col gap-2.5">
+        {visible.map((pi) => {
+          const ins = INSIGHTS[pi];
+          return (
+            <div key={pi} className="rounded-[12px] border border-black/[0.06] bg-[#FAFAF9] px-3.5 py-3" style={{ animation: "fadeSlideIn 0.5s ease-out both" }}>
+              <span className="inline-block rounded-full px-2 py-0.5 font-inter text-[9px] font-bold" style={{ background: ins.tagBg, color: ins.tagColor, marginBottom: 6 }}>{ins.tag}</span>
+              <p className="font-inter text-[12px] font-semibold text-black" style={{ marginBottom: 3 }}>{ins.title}</p>
+              <p className="font-inter text-[10px] text-black/55" style={{ lineHeight: 1.5 }}>{ins.desc}</p>
+            </div>
+          );
+        })}
+      </div>
+      <div className="mt-3 flex items-center gap-2 rounded-[10px] border border-black/[0.08] bg-white px-3 py-2.5">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 3L14 9L20 11L14 13L12 19L10 13L4 11L10 9L12 3Z" stroke="#8B5CF6" strokeWidth="1.6" strokeLinejoin="round" fill="rgba(139,92,246,0.15)" /></svg>
+        <span className="font-inter text-[11px] text-black/45 flex-1">Pregúntale a tu data...</span>
+        <span className="rounded-full bg-[rgba(139,92,246,0.10)] px-2 py-0.5 font-inter text-[9px] font-bold text-[#8B5CF6]">IA</span>
+      </div>
     </div>
   );
 }
@@ -47,7 +317,7 @@ export default function T1Reportes() {
       >
         <div aria-hidden className="pointer-events-none absolute -top-32 -right-32 h-[480px] w-[480px] rounded-full" style={{ background: "radial-gradient(circle at center, rgba(219,59,43,0.15) 0%, transparent 65%)", filter: "blur(40px)" }} />
         <div className="relative mx-auto max-w-[var(--max-w)]">
-          <div className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] tablet:gap-12">
+          <div className="grid grid-cols-1 items-center gap-10 tablet:min-h-[420px] tablet:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] tablet:gap-12">
             <div>
               <h1
                 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[60px]"
@@ -58,19 +328,18 @@ export default function T1Reportes() {
                   datos reales
                   <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.30)", borderRadius: 5, zIndex: -1 }} />
                 </span>
-                , no con suposiciones.
+                .
               </h1>
               <p
                 className="font-inter text-[16px] font-light text-white/65 tablet:text-[19px]"
-                style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 480 }}
+                style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 440 }}
               >
-                Dashboards de ventas, tráfico y rendimiento por canal. Toda la operación de tu negocio en gráficas claras y exportables.
+                Ventas, tráfico y rendimiento por canal en gráficas claras y exportables.
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <a href={SIGNUP_URL} className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
                   Comenzar ahora
                 </a>
-                <span className="font-inter text-[13px] text-white/50">Sin tarjeta · Empieza gratis</span>
               </div>
             </div>
 
@@ -88,37 +357,7 @@ export default function T1Reportes() {
                   boxShadow: "0 20px 60px rgba(0,0,0,0.35)",
                 }}
               >
-                <div className="rounded-[14px] bg-white" style={{ padding: "20px 22px" }}>
-                  <div className="flex items-center justify-between" style={{ marginBottom: 12 }}>
-                    <div>
-                      <p className="font-inter text-[10px] text-black/45">Ventas · 7 días</p>
-                      <p className="font-sora text-[26px] font-light text-black" style={{ letterSpacing: "-0.025em", lineHeight: 1 }}>$284,920</p>
-                    </div>
-                    <span className="rounded-full bg-[rgba(34,197,94,0.12)] px-2.5 py-1 font-inter text-[11px] font-bold text-[#16A34A]">↑ 24%</span>
-                  </div>
-                  {/* Bar chart */}
-                  <div className="flex h-[80px] items-end gap-1.5" style={{ marginBottom: 12 }}>
-                    {[35, 52, 28, 64, 48, 78, 90].map((h, i) => (
-                      <div key={i} className="flex-1 rounded-t-[3px]" style={{ height: `${h}%`, background: i === 6 ? "#DB3B2B" : "rgba(219,59,43,0.18)" }} />
-                    ))}
-                  </div>
-                  {/* Channel breakdown */}
-                  <div className="flex flex-col gap-1.5">
-                    {[
-                      { name: "Tienda online", pct: 48, val: "$136,761" },
-                      { name: "MercadoLibre", pct: 28, val: "$79,778" },
-                      { name: "Sucursales", pct: 24, val: "$68,381" },
-                    ].map((c) => (
-                      <div key={c.name} className="flex items-center gap-2.5">
-                        <span className="font-inter text-[10px] text-black/65 w-[80px]">{c.name}</span>
-                        <div className="h-[5px] flex-1 overflow-hidden rounded-full bg-black/[0.05]">
-                          <div className="h-full rounded-full bg-[#DB3B2B]" style={{ width: `${c.pct}%` }} />
-                        </div>
-                        <span className="font-inter text-[10px] font-semibold text-black w-[60px] text-right">{c.val}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                <HeroDashboard />
               </div>
 
               {/* Floating insight badge */}
@@ -143,20 +382,21 @@ export default function T1Reportes() {
       </section>
 
       {/* ── Antes ── */}
-      <section className="relative bg-[#F6F6F6] px-5 pt-16 pb-12 tablet:px-10 tablet:pt-20 tablet:pb-16" data-white-card>
+      <section className="relative bg-white px-5 pt-16 pb-12 tablet:px-10 tablet:pt-20 tablet:pb-16" data-white-card>
         <div className="mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="mx-auto text-center" style={{ marginBottom: 48 }}>
+          <div className="mx-auto text-center" style={{ marginBottom: 48, animation: "fadeSlideIn 0.6s ease-out both" }}>
             <h2 className="font-sora text-[26px] font-light text-black tablet:text-[34px] lg:text-[40px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>
-              Datos disponibles, decisiones <em className="not-italic text-black/40">en la oscuridad.</em>
+              Tienes los datos, pero no las respuestas.
             </h2>
           </div>
           <div data-modal-animate className="grid grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
             {[
-              { title: "Reportes a destiempo", desc: "Cierras el mes y descubres lo que pasó. Para cuando reaccionas, ya es tarde." },
-              { title: "Datos por todos lados", desc: "Una pestaña para online, otra para POS, otra para marketplaces. Nada se cruza." },
-              { title: "Sin contexto, sin acción", desc: "Tablas con números pero sin entender qué los explica ni qué hacer al respecto." },
+              { title: "Reportes a destiempo", desc: "Cierras el mes y descubres lo que pasó. Para cuando reaccionas, ya es tarde.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#111827" strokeWidth="1.6" /><path d="M12 7v5l3 2" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+              { title: "Datos por todos lados", desc: "Una pestaña para online, otra para POS, otra para marketplaces. Nada se cruza.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke="#111827" strokeWidth="1.6" /><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="#111827" strokeWidth="1.6" /><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="#111827" strokeWidth="1.6" /><rect x="14" y="14" width="7" height="7" rx="1.5" stroke="#111827" strokeWidth="1.6" /></svg>) },
+              { title: "Sin contexto, sin acción", desc: "Tablas con números pero sin entender qué los explica ni qué hacer al respecto.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#111827" strokeWidth="1.6" /><path d="M9.5 9.5a2.5 2.5 0 0 1 4.5 1.5c0 1.7-2 2-2 3.5" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /><circle cx="12" cy="17.5" r="0.6" fill="#111827" stroke="#111827" strokeWidth="0.8" /></svg>) },
             ].map((p, i) => (
               <div key={p.title} data-stagger className="rounded-[18px] border border-black/[0.06] bg-white p-7 transition-shadow duration-200 hover:shadow-[0_0_25px_2px_rgba(0,0,0,0.04)]" style={{ ["--i" as string]: i }}>
+                <div className="flex h-[40px] w-[40px] items-center justify-center" style={{ marginBottom: 16 }}>{p.icon}</div>
                 <h3 className="font-sora text-[18px] font-normal text-black/70" style={{ marginBottom: 6 }}>{p.title}</h3>
                 <p className="font-inter text-[14px] font-light text-black/50" style={{ lineHeight: 1.6 }}>{p.desc}</p>
               </div>
@@ -200,72 +440,17 @@ export default function T1Reportes() {
                 </ul>
               </div>
               {/* Panel — KPI cards + chart */}
-              <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
-                <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
-                  <p className="font-sora text-[14px] font-medium text-black">Resumen del día</p>
-                  <span className="rounded-full bg-[rgba(34,197,94,0.12)] px-2 py-0.5 font-inter text-[10px] font-bold text-[#16A34A]">En vivo</span>
-                </div>
-                <div className="grid grid-cols-3 gap-2" style={{ marginBottom: 14 }}>
-                  {[
-                    { label: "Ventas", value: "$48,250", change: "+12%", color: "#16A34A" },
-                    { label: "Pedidos", value: "42", change: "+8%", color: "#16A34A" },
-                    { label: "Ticket prom.", value: "$1,148", change: "−3%", color: "#DC2626" },
-                  ].map((k) => (
-                    <div key={k.label} className="rounded-[10px] bg-[#FAFAF9] p-3">
-                      <p className="font-inter text-[9px] text-black/45">{k.label}</p>
-                      <p className="font-sora text-[16px] font-light text-black" style={{ letterSpacing: "-0.02em", lineHeight: 1, marginBottom: 2 }}>{k.value}</p>
-                      <p className="font-inter text-[9px] font-bold" style={{ color: k.color }}>{k.change}</p>
-                    </div>
-                  ))}
-                </div>
-                {/* Hourly chart */}
-                <p className="font-inter text-[10px] font-semibold uppercase tracking-wider text-black/45" style={{ marginBottom: 8 }}>Por hora</p>
-                <div className="flex h-[80px] items-end gap-1">
-                  {[12, 18, 25, 32, 40, 55, 48, 62, 70, 58, 78, 85, 65, 50].map((h, i) => (
-                    <div key={i} className="flex-1 rounded-t-[2px]" style={{ height: `${h}%`, background: i >= 11 ? "rgba(219,59,43,0.30)" : "#DB3B2B" }} />
-                  ))}
-                </div>
-                <div className="mt-1 flex justify-between font-inter text-[8px] text-black/40">
-                  <span>9am</span><span>12pm</span><span>3pm</span><span>6pm</span><span>10pm</span>
-                </div>
-              </div>
+              <LiveSalesPanel />
             </div>
           </div>
         </div>
 
         {/* Block 2 — Comparativa por canal (panel left, text right) — bg #F6F6F6 */}
-        <div className="fs-stack-card" style={{ top: 80, zIndex: 2, background: "#F6F6F6", boxShadow: "0 -4px 30px rgba(0,0,0,0.18)" }}>
+        <div className="fs-stack-card" style={{ top: 80, zIndex: 2, background: "#F6F6F6" }}>
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               {/* Panel — channel comparison */}
-              <div className="relative order-2 overflow-hidden rounded-[18px] border border-black/[0.06] bg-white tablet:order-1" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
-                <div className="flex items-center justify-between" style={{ marginBottom: 16 }}>
-                  <p className="font-sora text-[14px] font-medium text-black">Desempeño por canal</p>
-                  <span className="rounded-full bg-black/[0.05] px-2 py-0.5 font-inter text-[10px] font-medium text-black/60">Últimos 30 días</span>
-                </div>
-                {[
-                  { ch: "Tienda online", val: "$136,761", pct: 48, color: "#DB3B2B", change: "+24%" },
-                  { ch: "MercadoLibre", val: "$79,778", pct: 28, color: "#FFE600", txt: "#1A1A1A", change: "+18%" },
-                  { ch: "Amazon", val: "$42,165", pct: 15, color: "#FF9900", change: "+9%" },
-                  { ch: "Sucursales", val: "$26,216", pct: 9, color: "#22C55E", change: "+5%" },
-                ].map((c) => (
-                  <div key={c.ch} className="flex items-center gap-3 py-2.5" style={{ borderBottom: "1px solid rgba(0,0,0,0.04)" }}>
-                    <span className="h-[10px] w-[10px] rounded-full" style={{ background: c.color }} />
-                    <span className="font-inter text-[12px] text-black/70 flex-1">{c.ch}</span>
-                    <span className="font-inter text-[12px] font-semibold text-black">{c.val}</span>
-                    <span className="rounded-full bg-[rgba(34,197,94,0.10)] px-1.5 py-0.5 font-inter text-[9px] font-bold text-[#16A34A]">{c.change}</span>
-                  </div>
-                ))}
-                {/* Pie chart visual */}
-                <div className="mt-4 flex items-center justify-center" style={{ marginTop: 16 }}>
-                  <svg width="120" height="120" viewBox="0 0 120 120" className="-rotate-90">
-                    <circle cx="60" cy="60" r="48" fill="none" stroke="#DB3B2B" strokeWidth="14" strokeDasharray="144.8 301.6" />
-                    <circle cx="60" cy="60" r="48" fill="none" stroke="#FFE600" strokeWidth="14" strokeDasharray="84.5 301.6" strokeDashoffset="-144.8" />
-                    <circle cx="60" cy="60" r="48" fill="none" stroke="#FF9900" strokeWidth="14" strokeDasharray="45.2 301.6" strokeDashoffset="-229.3" />
-                    <circle cx="60" cy="60" r="48" fill="none" stroke="#22C55E" strokeWidth="14" strokeDasharray="27.1 301.6" strokeDashoffset="-274.5" />
-                  </svg>
-                </div>
-              </div>
+              <ChannelComparePanel />
 
               <div className="order-1 tablet:order-2">
                 <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
@@ -288,7 +473,7 @@ export default function T1Reportes() {
         </div>
 
         {/* Block 3 — IA insights (text left, panel right) — bg white */}
-        <div className="fs-stack-card" style={{ top: 100, zIndex: 3, background: "#FFFFFF", boxShadow: "0 -4px 30px rgba(0,0,0,0.18)" }}>
+        <div className="fs-stack-card" style={{ top: 100, zIndex: 3, background: "#FFFFFF" }}>
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div>
@@ -308,51 +493,7 @@ export default function T1Reportes() {
                 </ul>
               </div>
               {/* Panel — AI insights feed */}
-              <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
-                <div className="flex items-center gap-2" style={{ marginBottom: 16 }}>
-                  <div className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-[rgba(139,92,246,0.12)]">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 3L14 9L20 11L14 13L12 19L10 13L4 11L10 9L12 3Z" stroke="#8B5CF6" strokeWidth="1.6" strokeLinejoin="round" fill="rgba(139,92,246,0.15)" /></svg>
-                  </div>
-                  <p className="font-sora text-[14px] font-medium text-black">Insights de hoy</p>
-                </div>
-                <div className="flex flex-col gap-2.5">
-                  {[
-                    {
-                      tag: "Oportunidad",
-                      tagColor: "#16A34A",
-                      tagBg: "rgba(34,197,94,0.10)",
-                      title: "Tus ventas suben 38% los viernes",
-                      desc: "Considera lanzar promociones específicas los viernes para maximizar el efecto.",
-                    },
-                    {
-                      tag: "Alerta",
-                      tagColor: "#B45309",
-                      tagBg: "rgba(245,158,11,0.10)",
-                      title: "El producto TBC-042 baja 18% MoM",
-                      desc: "Revisa precio, stock o foto. Está perdiendo tracción vs el mes pasado.",
-                    },
-                    {
-                      tag: "Tendencia",
-                      tagColor: "#8B5CF6",
-                      tagBg: "rgba(139,92,246,0.10)",
-                      title: "Marketplaces crecen 24%",
-                      desc: "MercadoLibre y Amazon están escalando. Aumenta inventario en estos canales.",
-                    },
-                  ].map((ins) => (
-                    <div key={ins.title} className="rounded-[12px] border border-black/[0.06] bg-[#FAFAF9] px-3.5 py-3">
-                      <span className="inline-block rounded-full px-2 py-0.5 font-inter text-[9px] font-bold" style={{ background: ins.tagBg, color: ins.tagColor, marginBottom: 6 }}>{ins.tag}</span>
-                      <p className="font-inter text-[12px] font-semibold text-black" style={{ marginBottom: 3 }}>{ins.title}</p>
-                      <p className="font-inter text-[10px] text-black/55" style={{ lineHeight: 1.5 }}>{ins.desc}</p>
-                    </div>
-                  ))}
-                </div>
-                {/* Ask in natural language */}
-                <div className="mt-3 flex items-center gap-2 rounded-[10px] border border-black/[0.08] bg-white px-3 py-2.5">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 3L14 9L20 11L14 13L12 19L10 13L4 11L10 9L12 3Z" stroke="#8B5CF6" strokeWidth="1.6" strokeLinejoin="round" fill="rgba(139,92,246,0.15)" /></svg>
-                  <span className="font-inter text-[11px] text-black/45 flex-1">Pregúntale a tu data...</span>
-                  <span className="rounded-full bg-[rgba(139,92,246,0.10)] px-2 py-0.5 font-inter text-[9px] font-bold text-[#8B5CF6]">IA</span>
-                </div>
-              </div>
+              <AIInsightsPanel />
             </div>
           </div>
         </div>
@@ -378,12 +519,19 @@ export default function T1Reportes() {
               { n: "04", title: "Actúa con IA", desc: "Insights priorizados con sugerencias accionables para crecer más rápido." },
             ].map((s, i) => (
               <div key={s.n} data-stagger className="tienda-card relative rounded-[18px] border border-black/[0.06] bg-white p-7" style={{ ["--i" as string]: i }}>
-                <span aria-hidden className="step-dot absolute hidden h-[10px] w-[10px] rounded-full bg-[#DB3B2B] lg:block" style={{ left: 28, top: 25, boxShadow: "0 0 0 6px rgba(219,59,43,0.12)" }} />
                 <span className="font-sora text-[40px] font-light text-[#DB3B2B]" style={{ display: "block", marginTop: 28, marginBottom: 12, letterSpacing: "-0.04em", lineHeight: 1 }}>{s.n}</span>
                 <h3 className="font-sora text-[18px] font-normal text-black" style={{ marginBottom: 6 }}>{s.title}</h3>
                 <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{s.desc}</p>
               </div>
             ))}
+          </div>
+          <div data-modal-animate className="mt-12 flex justify-center">
+            <a
+              href={SIGNUP_URL}
+              className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
+            >
+              Comenzar ahora
+            </a>
           </div>
         </div>
       </section>
@@ -401,21 +549,29 @@ export default function T1Reportes() {
           </div>
           <div data-modal-animate className="grid grid-cols-1 gap-4 tablet:grid-cols-2 lg:grid-cols-3 lg:gap-5">
             {[
-              { title: "Dashboards prediseñados", desc: "Ventas, tráfico, productos, clientes y más, listos para usar.", icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="10" rx="1.5" stroke="#DB3B2B" strokeWidth="1.6" /><rect x="13" y="3" width="8" height="6" rx="1.5" stroke="#DB3B2B" strokeWidth="1.6" /><rect x="3" y="15" width="8" height="6" rx="1.5" stroke="#DB3B2B" strokeWidth="1.6" /><rect x="13" y="11" width="8" height="10" rx="1.5" stroke="#DB3B2B" strokeWidth="1.6" /></svg>) },
-              { title: "Exportación a Excel/CSV", desc: "Descarga cualquier reporte en un click para análisis externo.", icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z M14 3v5h5" stroke="#DB3B2B" strokeWidth="1.6" strokeLinejoin="round" /><path d="M9 13l3 3 4-4" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-              { title: "Reportes programados", desc: "Recíbelos en tu email diario, semanal o mensual sin abrir nada.", icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#DB3B2B" strokeWidth="1.6" /><path d="M12 7v5l3 2" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-              { title: "Alertas configurables", desc: "Notificaciones cuando un KPI cae o sube fuera del rango.", icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /><path d="M13.7 21a2 2 0 0 1-3.4 0" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
-              { title: "Reportes personalizados", desc: "Crea tus propias vistas con drag & drop. Comparte con tu equipo.", icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M11 4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6 M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-              { title: "API y BI integrations", desc: "Conecta a Power BI, Looker o tu propio sistema vía API.", icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M16 18l6-6-6-6 M8 6l-6 6 6 6" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+              { title: "Dashboards prediseñados", desc: "Ventas, tráfico, productos, clientes y más, listos para usar.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="10" rx="1.5" stroke="#111827" strokeWidth="1.6" /><rect x="13" y="3" width="8" height="6" rx="1.5" stroke="#111827" strokeWidth="1.6" /><rect x="3" y="15" width="8" height="6" rx="1.5" stroke="#111827" strokeWidth="1.6" /><rect x="13" y="11" width="8" height="10" rx="1.5" stroke="#111827" strokeWidth="1.6" /></svg>) },
+              { title: "Exportación a Excel/CSV", desc: "Descarga cualquier reporte en un click para análisis externo.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z M14 3v5h5" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round" /><path d="M9 13l3 3 4-4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+              { title: "Reportes programados", desc: "Recíbelos en tu email diario, semanal o mensual sin abrir nada.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#111827" strokeWidth="1.6" /><path d="M12 7v5l3 2" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+              { title: "Alertas configurables", desc: "Notificaciones cuando un KPI cae o sube fuera del rango.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /><path d="M13.7 21a2 2 0 0 1-3.4 0" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
+              { title: "Reportes personalizados", desc: "Crea tus propias vistas con drag & drop. Comparte con tu equipo.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M11 4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6 M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+              { title: "API y BI integrations", desc: "Conecta a Power BI, Looker o tu propio sistema vía API.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M16 18l6-6-6-6 M8 6l-6 6 6 6" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
             ].map((f, i) => (
               <div key={f.title} data-stagger className="tienda-card flex items-start gap-4 rounded-[16px] border border-black/[0.06] bg-white p-6" style={{ ["--i" as string]: i }}>
-                <div className="flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-[12px]" style={{ background: "rgba(219,59,43,0.08)" }}>{f.icon}</div>
+                <div className="flex h-[40px] w-[40px] shrink-0 items-center justify-center">{f.icon}</div>
                 <div>
                   <h3 className="font-sora text-[16px] font-normal text-black" style={{ marginBottom: 4 }}>{f.title}</h3>
                   <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{f.desc}</p>
                 </div>
               </div>
             ))}
+          </div>
+          <div data-modal-animate className="mt-12 flex justify-center">
+            <a
+              href={SIGNUP_URL}
+              className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
+            >
+              Conectar mis canales
+            </a>
           </div>
         </div>
       </section>

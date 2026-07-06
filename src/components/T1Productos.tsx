@@ -240,7 +240,7 @@ function VariantPanel() {
             <p className="font-inter text-[8px] text-black/45" style={{ marginBottom: 2 }}>Precio base</p>
             <div
               className="flex h-[24px] items-center rounded-[6px] border bg-white px-2 font-inter text-[10px] font-semibold text-black tabular-nums"
-              style={{ borderColor: bump === "price" ? "rgba(219,59,43,0.40)" : "rgba(0,0,0,0.12)", animation: bump === "price" ? "countBump 0.5s ease-out" : undefined }}
+              style={{ borderColor: bump === "price" ? "rgba(219,59,43,0.40)" : "rgba(0,0,0,0.12)", transition: "border-color 0.3s ease", animation: bump === "price" ? "bumpSubtle 0.45s ease-out" : undefined }}
             >
               {money(price)}
             </div>
@@ -249,7 +249,7 @@ function VariantPanel() {
             <p className="font-inter text-[8px] text-black/45" style={{ marginBottom: 2 }}>Costo</p>
             <div
               className="flex h-[24px] items-center rounded-[6px] border bg-white px-2 font-inter text-[10px] text-black/70 tabular-nums"
-              style={{ borderColor: bump === "cost" ? "rgba(219,59,43,0.40)" : "rgba(0,0,0,0.12)", animation: bump === "cost" ? "countBump 0.5s ease-out" : undefined }}
+              style={{ borderColor: bump === "cost" ? "rgba(219,59,43,0.40)" : "rgba(0,0,0,0.12)", transition: "border-color 0.3s ease", animation: bump === "cost" ? "bumpSubtle 0.45s ease-out" : undefined }}
             >
               {money(cost)}
             </div>
@@ -258,11 +258,11 @@ function VariantPanel() {
         <div className="flex items-center gap-2">
           <div className="flex-1">
             <p className="font-inter text-[8px] text-black/45" style={{ marginBottom: 2 }}>Ganancia</p>
-            <div className="flex h-[24px] items-center justify-center rounded-[6px] bg-[rgba(34,197,94,0.10)] font-inter text-[10px] font-semibold text-[#16A34A] tabular-nums" style={{ animation: bump ? "countBump 0.5s ease-out" : undefined }}>{money(profit)}</div>
+            <div className="flex h-[24px] items-center justify-center rounded-[6px] bg-[rgba(34,197,94,0.10)] font-inter text-[10px] font-semibold text-[#16A34A] tabular-nums" style={{ animation: bump ? "bumpSubtle 0.45s ease-out" : undefined }}>{money(profit)}</div>
           </div>
           <div className="flex-1">
             <p className="font-inter text-[8px] text-black/45" style={{ marginBottom: 2 }}>Margen</p>
-            <div className="flex h-[24px] items-center justify-center rounded-[6px] bg-[rgba(34,197,94,0.10)] font-inter text-[10px] font-semibold text-[#16A34A] tabular-nums" style={{ animation: bump ? "countBump 0.5s ease-out" : undefined }}>{margin}%</div>
+            <div className="flex h-[24px] items-center justify-center rounded-[6px] bg-[rgba(34,197,94,0.10)] font-inter text-[10px] font-semibold text-[#16A34A] tabular-nums" style={{ animation: bump ? "bumpSubtle 0.45s ease-out" : undefined }}>{margin}%</div>
           </div>
         </div>
       </div>
@@ -339,7 +339,7 @@ export default function T1Productos() {
       >
         <div aria-hidden className="pointer-events-none absolute -top-32 -right-32 h-[480px] w-[480px] rounded-full" style={{ background: "radial-gradient(circle at center, rgba(219,59,43,0.15) 0%, transparent 65%)", filter: "blur(40px)" }} />
         <div className="relative mx-auto max-w-[var(--max-w)]">
-          <div className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] tablet:gap-12">
+          <div className="grid grid-cols-1 items-center gap-10 tablet:min-h-[420px] tablet:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] tablet:gap-12">
             {/* Left */}
             <div>
               <h1
@@ -369,7 +369,7 @@ export default function T1Productos() {
             </div>
 
             {/* Right — two overlapping glass product cards (different product + channels) */}
-            <div className="relative flex justify-center py-2 tablet:py-6">
+            <div className="relative flex justify-center py-2 tablet:py-0">
               <div className="relative" style={{ perspective: 1000 }}>
                 {/* Back card — peeks behind on desktop, also floating in 3D */}
                 <div className="absolute hidden tablet:block" style={{ left: -202, top: -46, zIndex: 0, transform: "rotate(-8deg) scale(0.92)", opacity: 0.96 }}>
@@ -404,8 +404,8 @@ export default function T1Productos() {
       </section>
 
       {/* ── Stack cards intro ── */}
-      <section className="relative bg-white px-5 pt-12 pb-8 tablet:px-10 tablet:pt-16 tablet:pb-10">
-        <div data-modal-animate className="mx-auto max-w-[760px] text-center">
+      <section className="relative bg-white px-5 pt-10 pb-6 tablet:px-10 tablet:pt-14 tablet:pb-8">
+        <div className="mx-auto max-w-[760px] text-center" style={{ animation: "fadeSlideIn 0.6s ease-out both" }}>
           <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 16 }}>
             Un catálogo, todos tus canales.
           </h2>
@@ -540,6 +540,14 @@ export default function T1Productos() {
               </div>
             ))}
           </div>
+          <div data-modal-animate className="mt-12 flex justify-center">
+            <a
+              href={SIGNUP_URL}
+              className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
+            >
+              Crear mi catálogo
+            </a>
+          </div>
         </div>
       </section>
 
@@ -548,7 +556,7 @@ export default function T1Productos() {
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-              Todo lo que tu catálogo necesita
+              Tu catálogo, siempre en orden
             </h2>
             <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
               Centraliza, automatiza y escala sin agregar carga operativa.
@@ -739,7 +747,7 @@ export default function T1Productos() {
               { q: "¿Cuántos productos puedo subir?", a: "Ilimitados. Hemos visto catálogos de cientos de miles de SKUs operando sin problemas." },
               { q: "¿La IA crea descripciones automáticamente?", a: "Sí. Sube una foto y la IA genera título, descripción y atributos. Tú revisas y publicas." },
               { q: "¿Cómo se manejan las variantes?", a: "Define cualquier atributo (talla, color, material…) y T1 genera todas las combinaciones automáticamente." },
-              { q: "¿Puedo importar desde Shopify u otro?", a: "Sí. Importadores listos para Shopify, VTEX, WooCommerce y archivos CSV/Excel." },
+              { q: "Ya tengo una tienda en línea, ¿puedo migrar mi catálogo?", a: "Sí. Importas tu catálogo e inventario desde otras plataformas o desde un archivo CSV/Excel, sin volver a capturarlo todo." },
               { q: "¿El inventario se actualiza en tiempo real?", a: "Sí. Cada venta en cualquier canal descuenta inventario en menos de 2 segundos en todos los demás." },
             ].map((f, i) => (
               <details key={f.q} data-stagger className="group rounded-[14px] border border-black/[0.06] bg-white transition-all duration-200 open:border-[rgba(219,59,43,0.2)] open:shadow-[0_4px_18px_rgba(0,0,0,0.05)]" style={{ ["--i" as string]: i }}>

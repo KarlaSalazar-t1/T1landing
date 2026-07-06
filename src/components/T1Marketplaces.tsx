@@ -248,14 +248,14 @@ function MpOrdersPanel() {
 
 /* ── Animated panel 3 — Administrar publicación (activar / pausar por canal) ─ */
 const MANAGE_CHANNELS = [
-  { src: "meli-iso.svg", name: "Mercado Libre" },
-  { src: "amazon-iso.svg", name: "Amazon" },
-  { src: "shein-iso.svg", name: "SHEIN" },
   { src: "sears-isotipo.svg", name: "Sears" },
+  { src: "sanborns-iso.svg", name: "Sanborns" },
+  { src: "icon-tienda.svg", name: "Tienda en línea" },
+  { src: "meta.png", name: "Facebook e Instagram" },
 ];
 
 function MpPublishPanel() {
-  const [active, setActive] = useState([true, true, false, true]);
+  const [active, setActive] = useState([true, false, true, true]);
 
   useEffect(() => {
     let i = 0;
@@ -276,7 +276,7 @@ function MpPublishPanel() {
         </div>
         <div className="flex-1">
           <p className="font-inter text-[12px] font-semibold text-black">Tenis blancos clásicos</p>
-          <p className="font-inter text-[10px] text-black/50">Importado de 4 marketplaces</p>
+          <p className="font-inter text-[10px] text-black/50">Importado de tus marketplaces</p>
         </div>
       </div>
       <p className="font-inter text-[12px] font-semibold text-black/80" style={{ marginBottom: 12 }}>Publicar en:</p>
@@ -496,7 +496,7 @@ export default function T1Marketplaces() {
       </section>
 
       {/* ── Section 2: Problemas — intro cards (like the Tienda "Antes" section) ── */}
-      <section className="relative bg-white px-5 pt-20 pb-6 tablet:px-10 tablet:pt-28 tablet:pb-8" data-white-card>
+      <section className="relative bg-white px-5 pt-10 pb-6 tablet:px-10 tablet:pt-14 tablet:pb-8" data-white-card>
         <div className="mx-auto max-w-[var(--max-w)]">
           <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 48 }}>
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15 }}>
@@ -613,13 +613,13 @@ export default function T1Marketplaces() {
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div>
                 <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 14 }}>
-                  Controla dónde se vende
+                  Importa tus productos y publica en tus tiendas
                 </h3>
                 <p className="font-inter text-[14px] font-light text-black/55 tablet:text-[15px]" style={{ lineHeight: 1.55, marginBottom: 22 }}>
-                  Importa tus productos y decide en qué canales se venden: actívalos o pausa en segundos.
+                  Trae tus productos ya publicados en otros marketplaces y publícalos en tus tiendas y redes, sin recapturar nada.
                 </p>
                 <ul className="flex flex-col gap-2.5">
-                  {["Importa tus publicaciones de SHEIN, Amazon y más", "Activa o pausa cada producto por marketplace"].map((it) => (
+                  {["Importa tus publicaciones de SHEIN, Amazon y Mercado Libre", "Publica en Sears, Sanborns, Facebook, Instagram y tu tienda en línea"].map((it) => (
                     <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                       {it}
@@ -684,11 +684,10 @@ Marketplaces, tiendas y redes: gestiona todas tus ventas desde un solo lugar.
           <div className="flex flex-col gap-3">
             {[
               { q: "¿Qué canales de venta puedo conectar?", a: "Mercado Libre, Amazon, Walmart, SHEIN, Sears, Sanborns, AliExpress, TikTok Shop, Total Play, Shopify, Tienda Nube, WooCommerce y más." },
-              { q: "¿Necesito tener cuenta en cada marketplace?", a: "Sí, necesitas una cuenta de vendedor en cada marketplace donde quieras publicar. T1 te ayuda con la configuración y conecta cada cuenta una sola vez." },
+              { q: "¿Necesito tener cuenta en cada marketplace?", a: "Sí, necesitas una cuenta de vendedor en cada marketplace que quieras conectar. T1 te ayuda con la configuración y conecta cada cuenta una sola vez." },
               { q: "¿Cómo se sincroniza el inventario?", a: "En tiempo real. Cada venta en cualquier canal descuenta el inventario en menos de 2 segundos en todos los demás. Adiós sobreventas." },
               { q: "¿Puedo tener precios diferentes por canal?", a: "Sí. Cada SKU puede tener un precio distinto en cada marketplace para optimizar margen según las comisiones de cada plataforma." },
               { q: "¿Qué pasa con las categorías de cada marketplace?", a: "T1 mapea automáticamente tus categorías a las taxonomías de cada marketplace. Tú nombras una vez, T1 traduce al lenguaje de cada canal." },
-              { q: "¿Cuánto tarda en estar listo?", a: "Conexión inicial en menos de un día. Publicación de tu catálogo masivo en minutos con bulk import." },
             ].map((f) => (
               <details
                 key={f.q}

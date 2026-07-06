@@ -426,6 +426,12 @@ body {
   40% { transform: scale(1.12); }
 }
 
+/* Subtle value-update cue — gentle, no overlap */
+@keyframes bumpSubtle {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
 /* Fade + slide in from bottom */
 @keyframes fadeSlideIn {
   from { opacity: 0; transform: translateY(12px); }

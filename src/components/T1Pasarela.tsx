@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
 import { useCountUp } from "@/hooks/useCountUp";
 import { useFSStackCards } from "@/hooks/useFSStackCards";
@@ -17,6 +17,310 @@ function CountStat({ end, prefix = "", suffix = "", label, decimals = 0 }: { end
         {display}
       </p>
       <p className="font-inter text-[12px] font-light text-white/55 tablet:text-[13px]">{label}</p>
+    </div>
+  );
+}
+
+/* ── Small count-up helper for the risk score ── */
+function AnimScore({ value }: { value: number }) {
+  const [disp, setDisp] = useState(value);
+  const fromRef = useRef(value);
+  useEffect(() => {
+    const from = fromRef.current;
+    const to = value;
+    const dur = 800;
+    let raf = 0;
+    let st = 0;
+    const tick = (t: number) => {
+      if (!st) st = t;
+      const p = Math.min(1, (t - st) / dur);
+      setDisp(Math.round(from + (to - from) * (1 - Math.pow(1 - p, 3))));
+      if (p < 1) raf = requestAnimationFrame(tick);
+      else fromRef.current = to;
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [value]);
+  return <>{disp}</>;
+}
+
+/* ── Block 1 panel — payment methods, animated like the checkout ── */
+type PayMethod = {
+  id: string; label: string; logo: "cards" | "paypal" | "img"; img?: string; h?: number;
+  kind: "card" | "note"; note?: string; detailIcon?: "barcode" | "card";
+};
+const PAY_METHODS: PayMethod[] = [
+  { id: "card", label: "Tarjetas de crédito o débito", logo: "cards", kind: "card" },
+  { id: "spei", label: "Transferencia bancaria", logo: "img", img: "/img/icons/spei.svg", h: 13, kind: "note", note: "Al dar click en pagar te mostraremos los datos para efectuar tu pago." },
+  { id: "oxxo", label: "Oxxo Pay", logo: "img", img: "/img/oxxo.jpg", h: 18, kind: "note", detailIcon: "barcode", note: "Con el código de barras generado, tienes 2 días para pagar en cualquier tienda Oxxo. Una vez realizado el pago, el status de tu pedido se actualizará en 1 o 2 días hábiles." },
+  { id: "kueski", label: "Kueski Pay", logo: "img", img: "/img/icons/kueski.svg", h: 14, kind: "note", note: "Al dar click en pagar, te redirigiremos a Kueski para completar tu compra." },
+  { id: "paypal", label: "PayPal", logo: "paypal", kind: "note", detailIcon: "card", note: "Después de hacer clic en “Pagar con PayPal”, se te redirigirá a PayPal para completar tu compra de forma segura." },
+];
+
+function MethodLogo({ m }: { m: PayMethod }) {
+  if (m.logo === "cards")
+    return (
+      <div className="flex items-center gap-1.5">
+        <Image src="/img/icons/visa.svg" alt="Visa" width={26} height={12} className="h-[12px] w-auto" />
+        <Image src="/img/icons/mastercard.svg" alt="Mastercard" width={18} height={12} className="h-[14px] w-auto" />
+        <Image src="/img/icons/amex.svg" alt="Amex" width={18} height={12} className="h-[12px] w-auto" />
+        <span className="font-sora text-[9px] font-extrabold tracking-tight text-[#E10E0E]">CARNET</span>
+      </div>
+    );
+  if (m.logo === "paypal")
+    return (
+      <span className="font-sora text-[13px] font-bold italic">
+        <span style={{ color: "#003087" }}>Pay</span>
+        <span style={{ color: "#009CDE" }}>Pal</span>
+      </span>
+    );
+  return <Image src={m.img!} alt="" width={44} height={m.h} className="w-auto object-contain" style={{ height: m.h }} />;
+}
+
+function MethodDetail({ m }: { m: PayMethod }) {
+  if (m.kind === "card")
+    return (
+      <div className="flex flex-col gap-2">
+        <p className="font-inter text-[9px] font-semibold uppercase tracking-wider text-black/40">Tarjeta guardada</p>
+        <div className="flex items-center gap-2.5 rounded-[8px] border border-black/[0.10] bg-white px-3 py-2.5">
+          <span className="flex h-[16px] w-[16px] shrink-0 items-center justify-center rounded-full border border-[#DB3B2B]"><span className="h-[8px] w-[8px] rounded-full bg-[#DB3B2B]" /></span>
+          <Image src="/img/icons/visa.svg" alt="Visa" width={26} height={14} className="h-[14px] w-auto" />
+          <div className="flex-1 leading-tight">
+            <p className="font-inter text-[11px] font-semibold text-black">Visa terminada en 4242</p>
+            <p className="font-inter text-[9px] text-black/45">Luis Cervantes Robles</p>
+          </div>
+        </div>
+        <div className="flex items-center justify-between rounded-[8px] border border-black/[0.10] bg-white px-3 py-2.5">
+          <span className="font-inter text-[11px] text-black/60">Meses sin intereses</span>
+          <span className="flex items-center gap-1 font-inter text-[11px] font-semibold text-black">
+            3 meses
+            <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M3 4.5L6 7.5L9 4.5" stroke="rgba(0,0,0,0.4)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+          </span>
+        </div>
+      </div>
+    );
+  // note — centered message, with an optional icon (like the real checkout)
+  return (
+    <div className="flex h-full flex-col items-center justify-center px-2 text-center">
+      {m.detailIcon === "barcode" && (
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" style={{ marginBottom: 8 }}>
+          <path d="M4 8V6a2 2 0 0 1 2-2h2 M16 4h2a2 2 0 0 1 2 2v2 M20 16v2a2 2 0 0 1-2 2h-2 M8 20H6a2 2 0 0 1-2-2v-2" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M8 8v8 M11 8v8 M14 8v8 M16.5 8v8" stroke="#111827" strokeWidth="1.4" strokeLinecap="round" />
+        </svg>
+      )}
+      {m.detailIcon === "card" && (
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" style={{ marginBottom: 8 }}>
+          <rect x="3" y="6" width="18" height="12" rx="2" stroke="#111827" strokeWidth="1.6" />
+          <path d="M3 10h18" stroke="#111827" strokeWidth="1.6" />
+        </svg>
+      )}
+      <p className="font-inter text-[11px] text-black/55" style={{ lineHeight: 1.5, maxWidth: 250 }}>{m.note}</p>
+    </div>
+  );
+}
+
+function PaymentMethodsPanel() {
+  const [sel, setSel] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setSel((s) => (s + 1) % PAY_METHODS.length), 2200);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
+      <p className="font-sora text-[14px] font-medium text-black" style={{ marginBottom: 14 }}>Método de pago</p>
+      <div className="flex flex-col gap-1.5">
+        {PAY_METHODS.map((m, i) => {
+          const active = sel === i;
+          return (
+            <div
+              key={m.id}
+              className="overflow-hidden rounded-[10px] border bg-white"
+              style={{
+                borderColor: active ? "rgba(219,59,43,0.45)" : "rgba(0,0,0,0.08)",
+                boxShadow: active ? "0 4px 14px rgba(219,59,43,0.10)" : "none",
+                transition: "border-color 0.35s ease, box-shadow 0.35s ease",
+              }}
+            >
+              <div className="flex items-center gap-3 px-3 py-2.5">
+                <span className="flex h-[17px] w-[17px] shrink-0 items-center justify-center rounded-full border" style={{ borderColor: active ? "#DB3B2B" : "rgba(0,0,0,0.25)", transition: "border-color 0.3s ease" }}>
+                  <span className="h-[9px] w-[9px] rounded-full" style={{ background: "#DB3B2B", transform: active ? "scale(1)" : "scale(0)", transition: "transform 0.3s cubic-bezier(0.34,1.56,0.64,1)" }} />
+                </span>
+                <span className="flex-1 font-inter text-[12px] text-black" style={{ fontWeight: active ? 600 : 400 }}>{m.label}</span>
+                <MethodLogo m={m} />
+              </div>
+              {/* Detail expands INSIDE the selected card. Exactly one card is active,
+                  and its detail zone is a fixed height, so the panel never resizes. */}
+              {active && (
+                <div className="border-t border-black/[0.06]" style={{ height: 150, overflow: "hidden" }}>
+                  <div key={sel} className="h-full px-3.5 py-3" style={{ animation: "fadeSlideIn 0.35s ease-out both" }}>
+                    <MethodDetail m={m} />
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ── Block 2 panel — score routing (cybersource / claroscore / prosa) ── */
+const ROUTING_SCENARIOS: { win: number; pct: [number, number, number] }[] = [
+  { win: 1, pct: [88, 96, 82] },
+  { win: 0, pct: [94, 90, 79] },
+  { win: 2, pct: [85, 91, 97] },
+];
+const ROUTING_NAMES = ["Cybersource", "ClaroScore", "Prosa"];
+// Geometry in a 400×220 coordinate space. The SVG stretches to the same box
+// (preserveAspectRatio="none") and the cards are positioned in % of that same
+// box, so lines and cards stay aligned at any container width.
+const VBW = 400;
+const VBH = 220;
+const NODE_TOP = [20, 90, 160]; // card top (px == viewBox-y, since height is 1:1)
+const NODE_CY = [40, 110, 180]; // card vertical center
+const CARD_LEFT = 172; // viewBox-x of card left edge
+const CARD_RIGHT = 288; // viewBox-x of card right edge
+const INPUT_X = 40; // viewBox-x of the input node center (= 10%)
+const SUCCESS_PCT = 84; // success node left edge, in % of the diagram width
+const SUCCESS_X = (SUCCESS_PCT / 100) * VBW; // line ends exactly at that edge (same % → aligned at any width)
+
+function RoutingPanel() {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setI((s) => (s + 1) % ROUTING_SCENARIOS.length), 2600);
+    return () => clearInterval(id);
+  }, []);
+  const sc = ROUTING_SCENARIOS[i];
+  const win = sc.win;
+  return (
+    <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
+      <p className="font-sora text-[14px] font-medium text-black" style={{ marginBottom: 16 }}>Enrutamiento por score</p>
+      <div className="relative" style={{ height: VBH }}>
+        <svg className="absolute inset-0 h-full w-full" viewBox={`0 0 ${VBW} ${VBH}`} fill="none" preserveAspectRatio="none">
+          {NODE_CY.map((cy, idx) => {
+            const active = idx === win;
+            const dy = active ? 0 : idx < win ? -8 : 8;
+            return (
+              <line key={idx} x1="40" y1="110" x2={active ? CARD_LEFT : CARD_LEFT - 8} y2={cy + dy} stroke={active ? "#DB3B2B" : "rgba(0,0,0,0.12)"} strokeWidth={active ? 2 : 1.5} strokeDasharray={active ? undefined : "5 5"} style={{ transition: "stroke 0.5s ease" }} />
+            );
+          })}
+          <line x1={CARD_RIGHT} y1={NODE_CY[win]} x2={SUCCESS_X} y2="110" stroke="#DB3B2B" strokeWidth="2" style={{ transition: "all 0.5s ease" }} />
+          <circle key={`dot-${i}`} r="4" fill="#DB3B2B">
+            <animateMotion dur="1.6s" repeatCount="indefinite" path={`M${INPUT_X} 110 L${CARD_LEFT} ${NODE_CY[win]} L${CARD_RIGHT} ${NODE_CY[win]} L${SUCCESS_X} 110`} />
+          </circle>
+        </svg>
+        <div className="absolute flex h-[40px] w-[40px] items-center justify-center rounded-[10px] border border-black/[0.08] bg-white" style={{ left: "calc(10% - 20px)", top: 90, boxShadow: "0 2px 8px rgba(0,0,0,0.06)" }}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2" stroke="#DB3B2B" strokeWidth="1.6" /><path d="M3 10h18" stroke="#DB3B2B" strokeWidth="1.6" /></svg>
+        </div>
+        {ROUTING_NAMES.map((name, idx) => {
+          const active = idx === win;
+          const dy = active ? 0 : idx < win ? -8 : 8;
+          return (
+            <div
+              key={name}
+              className="absolute flex flex-col items-center justify-center rounded-[10px] border bg-white px-2"
+              style={{ left: `${(CARD_LEFT / VBW) * 100}%`, width: `${((CARD_RIGHT - CARD_LEFT) / VBW) * 100}%`, top: NODE_TOP[idx], height: 40, borderColor: active ? "#DB3B2B" : "rgba(0,0,0,0.08)", background: "#fff", opacity: active ? 1 : 0.5, boxShadow: active ? "0 4px 14px rgba(219,59,43,0.18)" : "none", transform: `translateY(${dy}px) scale(${active ? 1 : 0.95})`, transition: "all 0.5s cubic-bezier(0.22,1,0.36,1)" }}
+            >
+              <p className="font-inter text-[10px] font-semibold text-black">{name}</p>
+              <p className="font-inter text-[8px]" style={{ color: active ? "#16A34A" : "rgba(0,0,0,0.5)" }}>Aprobación {sc.pct[idx]}%</p>
+            </div>
+          );
+        })}
+        <div className="absolute flex h-[40px] w-[40px] items-center justify-center rounded-[10px] bg-[rgba(34,197,94,0.10)]" style={{ left: `${SUCCESS_PCT}%`, top: 90 }}>
+          <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="#16A34A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        </div>
+      </div>
+      <div className="mt-2 flex items-center gap-2 rounded-[10px] bg-[rgba(34,197,94,0.08)] px-3 py-2">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="#16A34A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        <span className="font-inter text-[11px] font-medium text-[#16A34A]">Enrutado a {ROUTING_NAMES[win]} · {sc.pct[win]}% de aprobación</span>
+      </div>
+    </div>
+  );
+}
+
+/* ── Block 3 panel — antifraud, cycles through risk scenarios ── */
+type Sig = { state: "ok" | "warn" | "bad"; label: string };
+const FRAUD_SCENARIOS: { score: number; ring: string; badge: string; badgeBg: string; badgeColor: string; tx: string; decision: string; signals: Sig[] }[] = [
+  {
+    score: 94, ring: "#22C55E", badge: "Bajo riesgo", badgeBg: "rgba(34,197,94,0.12)", badgeColor: "#16A34A",
+    tx: "$1,345.99 · Visa •• 4242", decision: "Aprobada en 87ms",
+    signals: [
+      { state: "ok", label: "Identidad verificada" },
+      { state: "ok", label: "IP coherente con dirección" },
+      { state: "ok", label: "Histórico positivo del cliente" },
+      { state: "ok", label: "Velocidad de compra normal" },
+    ],
+  },
+  {
+    score: 63, ring: "#F59E0B", badge: "Riesgo medio", badgeBg: "rgba(245,158,11,0.14)", badgeColor: "#B45309",
+    tx: "$4,890.00 · Mastercard •• 8821", decision: "3D Secure solicitado",
+    signals: [
+      { state: "ok", label: "Identidad verificada" },
+      { state: "warn", label: "IP en otra ciudad" },
+      { state: "ok", label: "Tarjeta sin reportes" },
+      { state: "warn", label: "Monto mayor al habitual" },
+    ],
+  },
+  {
+    score: 21, ring: "#EF4444", badge: "Alto riesgo", badgeBg: "rgba(239,68,68,0.12)", badgeColor: "#DC2626",
+    tx: "$8,250.00 · Amex •• 1007", decision: "Transacción detenida",
+    signals: [
+      { state: "bad", label: "Identidad no verificada" },
+      { state: "bad", label: "IP de proxy / VPN detectada" },
+      { state: "warn", label: "Tarjeta nueva sin histórico" },
+      { state: "bad", label: "5 intentos en 1 minuto" },
+    ],
+  },
+];
+const RING_C = 2 * Math.PI * 38;
+
+function SigIcon({ state }: { state: "ok" | "warn" | "bad" }) {
+  if (state === "ok")
+    return <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="#16A34A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>;
+  if (state === "warn")
+    return <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 2.5L15 14H1L8 2.5z" stroke="#B45309" strokeWidth="1.4" strokeLinejoin="round" /><path d="M8 7v3M8 12h.01" stroke="#B45309" strokeWidth="1.4" strokeLinecap="round" /></svg>;
+  return <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="#DC2626" strokeWidth="2" strokeLinecap="round" /></svg>;
+}
+
+function AntifraudPanel() {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setI((s) => (s + 1) % FRAUD_SCENARIOS.length), 2900);
+    return () => clearInterval(id);
+  }, []);
+  const sc = FRAUD_SCENARIOS[i];
+  return (
+    <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
+      <div className="flex items-center justify-between" style={{ marginBottom: 16 }}>
+        <p className="font-sora text-[14px] font-medium text-black">Análisis de riesgo</p>
+        <span className="rounded-full px-2 py-0.5 font-inter text-[10px] font-bold" style={{ background: sc.badgeBg, color: sc.badgeColor, transition: "background-color 0.4s ease, color 0.4s ease" }}>{sc.badge}</span>
+      </div>
+      <div className="flex items-center gap-5" style={{ marginBottom: 16 }}>
+        <div className="relative flex h-[90px] w-[90px] shrink-0 items-center justify-center">
+          <svg width="90" height="90" viewBox="0 0 90 90" className="absolute inset-0 -rotate-90">
+            <circle cx="45" cy="45" r="38" stroke="rgba(0,0,0,0.06)" strokeWidth="6" fill="none" />
+            <circle cx="45" cy="45" r="38" stroke={sc.ring} strokeWidth="6" fill="none" strokeLinecap="round" strokeDasharray={`${(sc.score / 100) * RING_C} ${RING_C}`} style={{ transition: "stroke-dasharray 0.8s cubic-bezier(0.22,1,0.36,1), stroke 0.5s ease" }} />
+          </svg>
+          <div className="text-center">
+            <p className="font-sora text-[24px] font-light text-black" style={{ lineHeight: 1, letterSpacing: "-0.02em" }}><AnimScore value={sc.score} /></p>
+            <p className="font-inter text-[8px] font-medium text-black/45">/100</p>
+          </div>
+        </div>
+        <div key={i} style={{ animation: "fadeSlideIn 0.4s ease-out both" }}>
+          <p className="font-inter text-[10px] text-black/45" style={{ marginBottom: 2 }}>Transacción</p>
+          <p className="font-inter text-[12px] font-semibold text-black">{sc.tx}</p>
+          <p className="font-inter text-[10px] font-medium" style={{ color: sc.badgeColor }}>{sc.decision}</p>
+        </div>
+      </div>
+      <div key={`sig-${i}`} className="flex flex-col gap-1.5" style={{ animation: "fadeSlideIn 0.45s ease-out both" }}>
+        {sc.signals.map((s) => (
+          <div key={s.label} className="flex items-center gap-2 rounded-[8px] bg-[#FAFAF9] px-2.5 py-1.5">
+            <SigIcon state={s.state} />
+            <span className="font-inter text-[11px] text-black/70">{s.label}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -54,25 +358,24 @@ export default function T1Pasarela() {
         {/* Ambient red glow */}
         <div aria-hidden className="pointer-events-none absolute -top-32 -right-32 h-[480px] w-[480px] rounded-full" style={{ background: "radial-gradient(circle at center, rgba(219,59,43,0.15) 0%, transparent 65%)", filter: "blur(40px)" }} />
         <div className="relative mx-auto max-w-[var(--max-w)]">
-          <div className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] tablet:gap-12">
+          <div className="grid grid-cols-1 items-center gap-10 tablet:min-h-[420px] tablet:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] tablet:gap-12">
             {/* Left — title + CTA */}
             <div>
               <h1
                 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[60px]"
                 style={{ lineHeight: 1.05, letterSpacing: "-1.7px", marginBottom: 22 }}
               >
-                Cobra más,{" "}
-                <span className="relative inline-block">
-                  pierde menos
+                Aprueba más pagos y{" "}
+                <span className="relative inline-block whitespace-nowrap">
+                  aumenta tus ventas.
                   <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.30)", borderRadius: 5, zIndex: -1 }} />
                 </span>
-                .
               </h1>
               <p
                 className="font-inter text-[16px] font-light text-white/65 tablet:text-[19px]"
                 style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 480 }}
               >
-                Pasarela diseñada para convertir: enrutamiento inteligente, antifraude y +10 métodos de pago en un solo checkout.
+                Un checkout que envía cada pago por la ruta con más probabilidad de aprobarse, bloquea fraudes y acepta +10 métodos de pago. Así se rechazan menos pagos y vendes más.
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <a
@@ -93,9 +396,9 @@ export default function T1Pasarela() {
       </section>
 
       {/* ── Section 2 — Antes vs Hoy compact transition ── */}
-      <section className="relative bg-white px-5 pt-16 pb-12 tablet:px-10 tablet:pt-20 tablet:pb-16" data-white-card>
+      <section className="relative bg-white px-5 pt-10 pb-12 tablet:px-10 tablet:pt-14 tablet:pb-16" data-white-card>
         <div className="mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="mx-auto max-w-[760px] text-center" style={{ marginBottom: 56 }}>
+          <div className="mx-auto max-w-[760px] text-center" style={{ marginBottom: 56, animation: "fadeSlideIn 0.6s ease-out both" }}>
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
               Cada checkout abandonado es venta perdida.
             </h2>
@@ -127,8 +430,8 @@ export default function T1Pasarela() {
       {/* ── Section 3 — Header for stack cards ── */}
       <section className="relative bg-white px-5 pt-12 pb-8 tablet:px-10 tablet:pt-16 tablet:pb-10">
         <div data-modal-animate className="mx-auto max-w-[760px] text-center">
-          <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 16 }}>
-            Una pasarela diseñada para convertir.
+          <h2 className="font-sora text-[28px] font-light text-black tablet:whitespace-nowrap tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 16 }}>
+            Diseñado para convertir más.
           </h2>
           <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[19px]" style={{ lineHeight: 1.5 }}>
             Cada detalle pensado para que más clientes terminen de comprar.
@@ -161,35 +464,7 @@ export default function T1Pasarela() {
                   ))}
                 </ul>
               </div>
-              <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
-                <p className="font-sora text-[14px] font-medium text-black" style={{ marginBottom: 16 }}>Métodos disponibles</p>
-                <div className="grid grid-cols-3 gap-2.5">
-                  {[
-                    { name: "Visa", color: "#1A1F71" },
-                    { name: "Mastercard", color: "#EB001B", icon: "circle" },
-                    { name: "AMEX", color: "#016FD0" },
-                    { name: "OXXO", color: "#E10E0E" },
-                    { name: "SPEI", color: "#0A6FB4" },
-                    { name: "MSI 18x", color: "#DB3B2B", badge: true },
-                  ].map((m) => (
-                    <div key={m.name} className="flex h-[64px] items-center justify-center rounded-[10px] border border-black/[0.06] bg-[#FAFAF9]">
-                      {m.icon === "circle" ? (
-                        <div className="flex items-center">
-                          <span className="h-[16px] w-[16px] rounded-full" style={{ background: "#EB001B", marginRight: -6 }} />
-                          <span className="h-[16px] w-[16px] rounded-full" style={{ background: "#F79E1B", opacity: 0.85 }} />
-                        </div>
-                      ) : m.badge ? (
-                        <span className="rounded-[6px] bg-[rgba(219,59,43,0.10)] px-2 py-1 font-inter text-[10px] font-bold" style={{ color: m.color }}>{m.name}</span>
-                      ) : (
-                        <span className="font-sora text-[12px] font-bold tracking-wide" style={{ color: m.color }}>{m.name}</span>
-                      )}
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-3 flex items-center justify-center rounded-[10px] border border-dashed border-black/[0.12] py-2.5">
-                  <span className="font-inter text-[11px] text-black/45">+ 4 métodos más</span>
-                </div>
-              </div>
+              <PaymentMethodsPanel />
             </div>
           </div>
         </div>
@@ -201,43 +476,8 @@ export default function T1Pasarela() {
         >
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
-              <div className="relative order-2 overflow-hidden rounded-[18px] border border-black/[0.06] bg-white tablet:order-1" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
-                <p className="font-sora text-[14px] font-medium text-black" style={{ marginBottom: 16 }}>Enrutamiento por procesador</p>
-                <div className="relative" style={{ minHeight: 220 }}>
-                  <svg className="absolute inset-0 h-full w-full" viewBox="0 0 400 220" fill="none" preserveAspectRatio="xMidYMid meet">
-                    <line x1="40" y1="110" x2="180" y2="60" stroke="rgba(219,59,43,0.35)" strokeWidth="1.5" strokeDasharray="4 4" />
-                    <line x1="40" y1="110" x2="180" y2="110" stroke="#DB3B2B" strokeWidth="2" />
-                    <line x1="40" y1="110" x2="180" y2="160" stroke="rgba(0,0,0,0.15)" strokeWidth="1.5" strokeDasharray="4 4" />
-                    <line x1="280" y1="60" x2="360" y2="110" stroke="rgba(0,0,0,0.15)" strokeWidth="1.5" strokeDasharray="4 4" />
-                    <line x1="280" y1="110" x2="360" y2="110" stroke="#DB3B2B" strokeWidth="2" />
-                    <line x1="280" y1="160" x2="360" y2="110" stroke="rgba(0,0,0,0.15)" strokeWidth="1.5" strokeDasharray="4 4" />
-                    <circle r="4" fill="#DB3B2B"><animateMotion dur="2s" repeatCount="indefinite" path="M40 110 L180 110 L280 110 L360 110" /></circle>
-                  </svg>
-                  <div className="absolute flex h-[40px] w-[40px] items-center justify-center rounded-[10px] border border-black/[0.08] bg-white" style={{ left: 4, top: 90, boxShadow: "0 2px 8px rgba(0,0,0,0.06)" }}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2" stroke="#DB3B2B" strokeWidth="1.6" /><path d="M3 10h18" stroke="#DB3B2B" strokeWidth="1.6" /></svg>
-                  </div>
-                  {[
-                    { y: 40, name: "Procesador A", subtitle: "Aprobación 88%", dim: true },
-                    { y: 90, name: "Procesador B", subtitle: "Aprobación 96%", dim: false },
-                    { y: 140, name: "Procesador C", subtitle: "Aprobación 79%", dim: true },
-                  ].map((p) => (
-                    <div
-                      key={p.name}
-                      className={`absolute flex w-[100px] flex-col items-center justify-center rounded-[10px] border bg-white px-2 py-2 ${p.dim ? "border-black/[0.06] opacity-50" : "border-[#DB3B2B]"}`}
-                      style={{ left: 180, top: p.y, boxShadow: p.dim ? "none" : "0 4px 14px rgba(219,59,43,0.18)" }}
-                    >
-                      <p className="font-inter text-[10px] font-semibold text-black">{p.name}</p>
-                      <p className="font-inter text-[8px] text-black/50">{p.subtitle}</p>
-                    </div>
-                  ))}
-                  <div className="absolute flex h-[40px] w-[40px] items-center justify-center rounded-[10px] bg-[rgba(34,197,94,0.10)]" style={{ right: 4, top: 90 }}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 21h18 M5 10v8 M9 10v8 M15 10v8 M19 10v8 M3 10l9-6 9 6v0 H3z" stroke="#16A34A" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                  </div>
-                </div>
-                <div className="mt-2 flex items-center gap-2 rounded-[10px] bg-[rgba(34,197,94,0.08)] px-3 py-2">
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="#16A34A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                  <span className="font-inter text-[11px] font-medium text-[#16A34A]">+24% de aprobación con enrutamiento</span>
-                </div>
+              <div className="order-2 tablet:order-1">
+                <RoutingPanel />
               </div>
 
               <div className="order-1 tablet:order-2">
@@ -283,42 +523,7 @@ export default function T1Pasarela() {
                   ))}
                 </ul>
               </div>
-              <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
-                <div className="flex items-center justify-between" style={{ marginBottom: 16 }}>
-                  <p className="font-sora text-[14px] font-medium text-black">Análisis de riesgo</p>
-                  <span className="rounded-full bg-[rgba(34,197,94,0.12)] px-2 py-0.5 font-inter text-[10px] font-bold text-[#16A34A]">Bajo riesgo</span>
-                </div>
-                <div className="flex items-center gap-5" style={{ marginBottom: 16 }}>
-                  <div className="relative flex h-[90px] w-[90px] shrink-0 items-center justify-center">
-                    <svg width="90" height="90" viewBox="0 0 90 90" className="absolute inset-0 -rotate-90">
-                      <circle cx="45" cy="45" r="38" stroke="rgba(0,0,0,0.06)" strokeWidth="6" fill="none" />
-                      <circle cx="45" cy="45" r="38" stroke="#22C55E" strokeWidth="6" fill="none" strokeLinecap="round" strokeDasharray={`${(94/100)*238.76} 238.76`} />
-                    </svg>
-                    <div className="text-center">
-                      <p className="font-sora text-[24px] font-light text-black" style={{ lineHeight: 1, letterSpacing: "-0.02em" }}>94</p>
-                      <p className="font-inter text-[8px] font-medium text-black/45">/100</p>
-                    </div>
-                  </div>
-                  <div>
-                    <p className="font-inter text-[10px] text-black/45" style={{ marginBottom: 2 }}>Transacción</p>
-                    <p className="font-inter text-[12px] font-semibold text-black">$1,345.99 · Visa •• 4242</p>
-                    <p className="font-inter text-[10px] text-black/55">Decisión en 87ms</p>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  {[
-                    "Identidad verificada",
-                    "IP coherente con dirección",
-                    "Histórico positivo del cliente",
-                    "Velocidad de transacciones normal",
-                  ].map((label) => (
-                    <div key={label} className="flex items-center gap-2 rounded-[8px] bg-[#FAFAF9] px-2.5 py-1.5">
-                      <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="#16A34A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                      <span className="font-inter text-[11px] text-black/70">{label}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <AntifraudPanel />
             </div>
           </div>
         </div>
@@ -349,6 +554,12 @@ export default function T1Pasarela() {
                   </li>
                 ))}
               </ul>
+              <a
+                href={SIGNUP_URL}
+                className="mt-8 inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
+              >
+                Activar Pago con T1
+              </a>
             </div>
 
             {/* Right — animated Pago con T1 flow */}
@@ -385,7 +596,6 @@ export default function T1Pasarela() {
                 className="tienda-card relative rounded-[18px] border border-black/[0.06] bg-white p-7"
                 style={{ ["--i" as string]: i }}
               >
-                <span aria-hidden className="step-dot absolute hidden h-[10px] w-[10px] rounded-full bg-[#DB3B2B] lg:block" style={{ left: 28, top: 25, boxShadow: "0 0 0 6px rgba(219,59,43,0.12)" }} />
                 <span className="font-sora text-[40px] font-light text-[#DB3B2B]" style={{ display: "block", marginTop: 28, marginBottom: 12, letterSpacing: "-0.04em", lineHeight: 1 }}>
                   {s.n}
                 </span>
@@ -402,7 +612,7 @@ export default function T1Pasarela() {
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-              Todo incluido en tu pasarela
+              Todo incluido en tu checkout
             </h2>
             <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
               Cada herramienta lista desde el primer cobro.
@@ -451,6 +661,14 @@ export default function T1Pasarela() {
                 </div>
               </div>
             ))}
+          </div>
+          <div data-modal-animate className="mt-12 flex justify-center">
+            <a
+              href={SIGNUP_URL}
+              className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
+            >
+              Crear mi pasarela
+            </a>
           </div>
         </div>
       </section>
@@ -517,7 +735,7 @@ export default function T1Pasarela() {
 
       {/* ── Final CTA — scroll-reveal pattern like the main T1 landing ── */}
       <T1FinalCTA
-        title="¿Listo para cobrar mejor?"
+        title="¿Listo para vender más?"
         description="Activa tu pasarela en minutos. Empieza a cobrar con la tasa de aprobación más alta de México."
       />
     </div>
