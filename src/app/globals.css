@@ -385,6 +385,12 @@ body {
       #141414 100%);
 }
 
+/* Movimiento flotante MUY sutil para las burbujas de métodos de pago. */
+@keyframes payFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
 @keyframes blobFloat {
   0%, 100% { transform: translate(0, 0) scale(1); opacity: 1; }
   33% { transform: translate(30px, -20px) scale(1.1); opacity: 0.8; }

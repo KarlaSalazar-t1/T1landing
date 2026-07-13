@@ -64,7 +64,6 @@ function MethodLogo({ m }: { m: PayMethod }) {
         <Image src="/img/icons/visa.svg" alt="Visa" width={26} height={12} className="h-[12px] w-auto" />
         <Image src="/img/icons/mastercard.svg" alt="Mastercard" width={18} height={12} className="h-[14px] w-auto" />
         <Image src="/img/icons/amex.svg" alt="Amex" width={18} height={12} className="h-[12px] w-auto" />
-        <span className="font-sora text-[9px] font-extrabold tracking-tight text-[#E10E0E]">CARNET</span>
       </div>
     );
   if (m.logo === "paypal")
@@ -388,32 +387,33 @@ export default function T1Pasarela() {
             </div>
 
             {/* Right — checkout panel (más angosto y un poco más alto) con la
-                bolsa asomándose detrás y burbujas flotantes de métodos de pago. */}
+                bolsa asomándose ~50% por la izquierda y burbujas circulares
+                (blanco translúcido) de métodos de pago. */}
             <div className="relative mx-auto flex w-full items-center justify-center" style={{ maxWidth: 560 }}>
-              {/* Bolsa asomándose detrás del panel (arriba a la derecha) */}
-              <div aria-hidden className="pointer-events-none absolute z-0" style={{ width: 300, right: -20, top: -78, transform: "rotate(6deg)" }}>
+              {/* Bolsa grande asomándose ~50% por la izquierda del panel */}
+              <div aria-hidden className="pointer-events-none absolute z-0" style={{ width: 440, left: -135, top: -18, transform: "rotate(-6deg)" }}>
                 <Image src="/img/bolsa-hero.png" alt="" width={803} height={831} className="h-auto w-full" style={{ filter: "drop-shadow(0 26px 54px rgba(0,0,0,0.45))" }} />
               </div>
 
-              {/* Panel checkout */}
-              <div className="relative z-[2] w-full" style={{ maxWidth: 460, transform: "scaleY(1.08)" }}>
+              {/* Panel checkout — más angosto y un poco más alto */}
+              <div className="relative z-[2] w-full" style={{ maxWidth: 415, transform: "scaleY(1.15)" }}>
                 <CheckoutHeroScreen />
               </div>
 
-              {/* Burbujas flotantes de métodos de pago (chip oscuro, logo claro) */}
+              {/* Burbujas circulares (blanco translúcido) con movimiento sutil */}
               {[
-                { src: "/img/logos/brands/visa.webp", left: "-3%", top: "-4%", dur: "7s", d: "0s" },
-                { src: "/img/logos/brands/mastercard.webp", left: "-7%", top: "56%", dur: "8s", d: "0.6s" },
-                { src: "/img/logos/brands/spei.webp", left: "13%", top: "90%", dur: "9s", d: "0.3s" },
-                { src: "/img/logos/brands/amex.webp", left: "82%", top: "84%", dur: "7.5s", d: "0.4s" },
-                { src: "/img/logos/brands/kueski.webp", left: "86%", top: "50%", dur: "8.5s", d: "0.8s" },
+                { src: "/img/logos/brands/visa.webp", left: "82%", top: "-4%", dur: "8s", d: "0s" },
+                { src: "/img/logos/brands/mastercard.webp", left: "90%", top: "42%", dur: "9s", d: "0.6s" },
+                { src: "/img/logos/brands/spei.webp", left: "78%", top: "88%", dur: "9.5s", d: "0.3s" },
+                { src: "/img/logos/brands/amex.webp", left: "34%", top: "94%", dur: "8.5s", d: "0.4s" },
+                { src: "/img/logos/brands/kueski.webp", left: "6%", top: "92%", dur: "10s", d: "0.8s" },
               ].map((b, i) => (
                 <div
                   key={i}
-                  className="absolute z-[3] flex h-[54px] w-[62px] items-center justify-center rounded-[15px] border border-white/12 backdrop-blur-md"
-                  style={{ left: b.left, top: b.top, background: "rgba(24,20,26,0.92)", boxShadow: "0 14px 30px rgba(0,0,0,0.4)", animation: `blobFloat ${b.dur} ease-in-out ${b.d} infinite` }}
+                  className="absolute z-[3] flex h-[58px] w-[58px] items-center justify-center rounded-full border border-white/40 backdrop-blur-md"
+                  style={{ left: b.left, top: b.top, background: "rgba(255,255,255,0.82)", boxShadow: "0 14px 30px rgba(0,0,0,0.25)", animation: `payFloat ${b.dur} ease-in-out ${b.d} infinite` }}
                 >
-                  <Image src={b.src} alt="" width={80} height={56} className="h-[24px] w-auto object-contain" />
+                  <Image src={b.src} alt="" width={80} height={56} className="h-[22px] w-auto object-contain" />
                 </div>
               ))}
             </div>
@@ -494,30 +494,34 @@ export default function T1Pasarela() {
           </div>
         </div>
 
-        {/* Block 3 — Antifraude (text left, panel right) — bg white */}
+        {/* Block 3 — Antifraude inteligente: título + descripción centrados + 3 cards */}
         <div
           className="fs-stack-card"
           style={{ top: 100, zIndex: 3, background: "#FFFFFF" }}
         >
-          <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
-            <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
-              <div>
-                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
-                  Antifraude inteligente
-                </h3>
-                <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                  Score de riesgo por transacción con T1 Score. Detiene fraude real sin bloquear clientes legítimos.
-                </p>
-                <ul className="flex flex-col gap-2.5">
-                  {["Análisis de +200 señales por transacción", "Decisión en menos de 100ms", "3D Secure cuando lo necesitas"].map((it) => (
-                    <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                      {it}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <AntifraudPanel />
+          <div className="mx-auto flex h-full max-w-[var(--max-w)] flex-col items-center justify-center px-5 tablet:px-10">
+            <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 48 }}>
+              <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+                Antifraude inteligente
+              </h2>
+              <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
+                Score de riesgo por transacción con T1 Score. Detiene fraude real sin bloquear clientes legítimos.
+              </p>
+            </div>
+            <div className="grid w-full max-w-[980px] grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
+              {[
+                { title: "+200 señales por pago", desc: "Analizamos cientos de datos en cada transacción para detectar fraude real.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#111827" strokeWidth="1.6" /><path d="M20 20l-4-4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
+                { title: "Decisión en <100ms", desc: "El score se calcula al instante, sin afectar la experiencia del cliente.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#111827" strokeWidth="1.6" /><path d="M12 7v5l3 2" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+                { title: "3D Secure a la medida", desc: "Autenticación adicional solo cuando el riesgo de la compra lo amerita.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 6v6c0 5 3.5 8.5 9 10 5.5-1.5 9-5 9-10V6l-9-4z" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round" /><path d="M9 12l2 2 4-4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+              ].map((c) => (
+                <div key={c.title} className="rounded-[16px] border border-black/[0.07] bg-white p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
+                  <div className="mb-4 flex h-[44px] w-[44px] items-center justify-center rounded-[12px] bg-[rgba(219,59,43,0.07)]">
+                    {c.icon}
+                  </div>
+                  <h3 className="font-sora text-[18px] font-normal text-black" style={{ marginBottom: 6 }}>{c.title}</h3>
+                  <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.6 }}>{c.desc}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -601,58 +605,44 @@ export default function T1Pasarela() {
         </div>
       </section>
 
-      {/* ── Section 5 — Lo que incluye (clean grid with icons) ── */}
-      <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32">
+      {/* ── Section 5 — Administra y mejora tu operación (sección oscura, 3 cards) ── */}
+      <section className="relative px-5 py-24 tablet:px-10 tablet:py-32" style={{ background: "linear-gradient(180deg, #000000 0%, #140a0a 100%)" }}>
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-              Todo incluido en tu checkout
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+              Administra y mejora tu operación
             </h2>
-            <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-              Cada herramienta lista desde el primer cobro.
+            <p className="font-inter text-[16px] font-light text-white/55 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
+              Las herramientas para operar tus cobros con control total.
             </p>
           </div>
 
-          <div data-modal-animate className="grid grid-cols-1 gap-4 tablet:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+          <div data-modal-animate className="mx-auto grid max-w-[1040px] grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
             {[
               {
-                title: "3D Secure", desc: "Autenticación adicional cuando el riesgo lo amerita, sin romper conversión.",
-                icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 6v6c0 5 3.5 8.5 9 10 5.5-1.5 9-5 9-10V6l-9-4z" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round" /><path d="M9 12l2 2 4-4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>),
+                title: "Disputas y contracargos", desc: "Gestiona reclamaciones desde el panel, con evidencia automática para ganar más casos.",
+                icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 9v4 M12 17h.01" stroke="#FF7363" strokeWidth="1.8" strokeLinecap="round" /><path d="M10.3 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.7 3.86a2 2 0 0 0-3.39 0z" stroke="#FF7363" strokeWidth="1.6" strokeLinejoin="round" /></svg>),
               },
               {
-                title: "Meses sin intereses", desc: "Hasta 18 MSI con todos los bancos sin comisión adicional.",
-                icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2" stroke="#111827" strokeWidth="1.6" /><path d="M3 10h18 M7 15h2 M12 15h2 M17 15h0" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>),
+                title: "Reportes en vivo", desc: "Aprobación, conversión y devoluciones en un dashboard claro y en tiempo real.",
+                icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M3 21h18" stroke="#FF7363" strokeWidth="1.6" strokeLinecap="round" /><rect x="5" y="12" width="3.5" height="7" rx="1" stroke="#FF7363" strokeWidth="1.6" /><rect x="10.5" y="8" width="3.5" height="11" rx="1" stroke="#FF7363" strokeWidth="1.6" /><rect x="16" y="4" width="3.5" height="15" rx="1" stroke="#FF7363" strokeWidth="1.6" /></svg>),
               },
               {
-                title: "Cobros recurrentes", desc: "Suscripciones, membresías y planes con tokenización segura.",
-                icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 0 1 15-6.7L21 8 M21 12a9 9 0 0 1-15 6.7L3 16 M21 3v5h-5 M3 21v-5h5" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>),
-              },
-              {
-                title: "Conciliación automática", desc: "Cierra cuadres con tu banco sin pelear con hojas de cálculo.",
-                icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /><rect x="3" y="3" width="18" height="18" rx="2" stroke="#111827" strokeWidth="1.6" /></svg>),
-              },
-              {
-                title: "Reportes en vivo", desc: "Aprobación, conversión y devoluciones en un dashboard claro.",
-                icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 21h18" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /><rect x="5" y="12" width="3.5" height="7" rx="1" stroke="#111827" strokeWidth="1.6" /><rect x="10.5" y="8" width="3.5" height="11" rx="1" stroke="#111827" strokeWidth="1.6" /><rect x="16" y="4" width="3.5" height="15" rx="1" stroke="#111827" strokeWidth="1.6" /></svg>),
-              },
-              {
-                title: "Disputas y contracargos", desc: "Gestiona reclamaciones desde el panel. Evidencia automática.",
-                icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 9v4 M12 17h.01" stroke="#111827" strokeWidth="1.8" strokeLinecap="round" /><path d="M10.3 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.7 3.86a2 2 0 0 0-3.39 0z" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round" /></svg>),
+                title: "3D Secure", desc: "Autenticación adicional cuando el riesgo lo amerita, sin romper la conversión.",
+                icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 6v6c0 5 3.5 8.5 9 10 5.5-1.5 9-5 9-10V6l-9-4z" stroke="#FF7363" strokeWidth="1.6" strokeLinejoin="round" /><path d="M9 12l2 2 4-4" stroke="#FF7363" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>),
               },
             ].map((f, i) => (
               <div
                 key={f.title}
                 data-stagger
-                className="tienda-card flex items-start gap-4 rounded-[16px] border border-black/[0.06] bg-white p-6"
+                className="rounded-[18px] border border-white/[0.08] bg-[#121214] p-6"
                 style={{ ["--i" as string]: i }}
               >
-                <div className="flex h-[40px] w-[40px] shrink-0 items-center justify-center">
+                <div className="mb-5 flex h-[48px] w-[48px] items-center justify-center rounded-[13px] bg-[rgba(219,59,43,0.10)]">
                   {f.icon}
                 </div>
-                <div>
-                  <h3 className="font-sora text-[16px] font-normal text-black" style={{ marginBottom: 4 }}>{f.title}</h3>
-                  <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{f.desc}</p>
-                </div>
+                <h3 className="font-sora text-[18px] font-normal text-white" style={{ marginBottom: 8 }}>{f.title}</h3>
+                <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.6 }}>{f.desc}</p>
               </div>
             ))}
           </div>
