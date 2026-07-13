@@ -367,7 +367,7 @@ export default function T1Pasarela() {
               >
                 Aprueba más pagos y{" "}
                 <span className="relative inline-block whitespace-nowrap">
-                  aumenta tus ventas.
+                  vende más.
                   <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.30)", borderRadius: 5, zIndex: -1 }} />
                 </span>
               </h1>
@@ -375,7 +375,7 @@ export default function T1Pasarela() {
                 className="font-inter text-[16px] font-light text-white/65 tablet:text-[19px]"
                 style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 480 }}
               >
-                Un checkout que envía cada pago por la ruta con más probabilidad de aprobarse, bloquea fraudes y acepta +10 métodos de pago. Así se rechazan menos pagos y vendes más.
+                Nuestro checkout convierte más, te protege de posibles fraudes y contracargos.
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <a
@@ -387,24 +387,49 @@ export default function T1Pasarela() {
               </div>
             </div>
 
-            {/* Right — checkout screen mock */}
-            <div className="relative mx-auto w-full" style={{ maxWidth: 580 }}>
-              <CheckoutHeroScreen />
+            {/* Right — checkout panel (más angosto y un poco más alto) con la
+                bolsa asomándose detrás y burbujas flotantes de métodos de pago. */}
+            <div className="relative mx-auto flex w-full items-center justify-center" style={{ maxWidth: 560 }}>
+              {/* Bolsa asomándose detrás del panel (arriba a la derecha) */}
+              <div aria-hidden className="pointer-events-none absolute z-0" style={{ width: 300, right: -20, top: -78, transform: "rotate(6deg)" }}>
+                <Image src="/img/bolsa-hero.png" alt="" width={803} height={831} className="h-auto w-full" style={{ filter: "drop-shadow(0 26px 54px rgba(0,0,0,0.45))" }} />
+              </div>
+
+              {/* Panel checkout */}
+              <div className="relative z-[2] w-full" style={{ maxWidth: 460, transform: "scaleY(1.08)" }}>
+                <CheckoutHeroScreen />
+              </div>
+
+              {/* Burbujas flotantes de métodos de pago (chip oscuro, logo claro) */}
+              {[
+                { src: "/img/logos/brands/visa.webp", left: "-3%", top: "-4%", dur: "7s", d: "0s" },
+                { src: "/img/logos/brands/mastercard.webp", left: "-7%", top: "56%", dur: "8s", d: "0.6s" },
+                { src: "/img/logos/brands/spei.webp", left: "13%", top: "90%", dur: "9s", d: "0.3s" },
+                { src: "/img/logos/brands/amex.webp", left: "82%", top: "84%", dur: "7.5s", d: "0.4s" },
+                { src: "/img/logos/brands/kueski.webp", left: "86%", top: "50%", dur: "8.5s", d: "0.8s" },
+              ].map((b, i) => (
+                <div
+                  key={i}
+                  className="absolute z-[3] flex h-[54px] w-[62px] items-center justify-center rounded-[15px] border border-white/12 backdrop-blur-md"
+                  style={{ left: b.left, top: b.top, background: "rgba(24,20,26,0.92)", boxShadow: "0 14px 30px rgba(0,0,0,0.4)", animation: `blobFloat ${b.dur} ease-in-out ${b.d} infinite` }}
+                >
+                  <Image src={b.src} alt="" width={80} height={56} className="h-[24px] w-auto object-contain" />
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* ── Section 2 — Antes vs Hoy compact transition ── */}
-      <section className="relative bg-white px-5 pt-10 pb-12 tablet:px-10 tablet:pt-14 tablet:pb-16" data-white-card>
-        <div className="mx-auto max-w-[var(--max-w)]">
+      <section className="relative overflow-hidden bg-white px-5 pt-10 pb-12 tablet:px-10 tablet:pt-14 tablet:pb-16" data-white-card>
+        {/* toque sutil de rojo oscuro */}
+        <div aria-hidden className="pointer-events-none absolute" style={{ top: "-14%", right: "-6%", width: 580, height: 580, borderRadius: "50%", background: "radial-gradient(circle, rgba(125,26,26,0.07) 0%, transparent 62%)", filter: "blur(30px)" }} />
+        <div className="relative mx-auto max-w-[var(--max-w)]">
           <div className="mx-auto max-w-[760px] text-center" style={{ marginBottom: 56, animation: "fadeSlideIn 0.6s ease-out both" }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15 }}>
               Cada checkout abandonado es venta perdida.
             </h2>
-            <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55, maxWidth: 580, margin: "0 auto" }}>
-              Tarjetas declinadas, métodos limitados y formularios largos cuestan ventas todos los días.
-            </p>
           </div>
 
           <div data-modal-animate className="mx-auto grid max-w-[820px] grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
@@ -465,37 +490,6 @@ export default function T1Pasarela() {
                 </ul>
               </div>
               <PaymentMethodsPanel />
-            </div>
-          </div>
-        </div>
-
-        {/* Block 2 — Enrutamiento (panel left, text right) — bg #F6F6F6 */}
-        <div
-          className="fs-stack-card"
-          style={{ top: 80, zIndex: 2, background: "#F6F6F6" }}
-        >
-          <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
-            <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
-              <div className="order-2 tablet:order-1">
-                <RoutingPanel />
-              </div>
-
-              <div className="order-1 tablet:order-2">
-                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
-                  Más pagos aprobados
-                </h3>
-                <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                  T1 dirige cada transacción al procesador con mayor probabilidad de aprobación. Sin que tu cliente lo note.
-                </p>
-                <ul className="flex flex-col gap-2.5">
-                  {["Reintentos automáticos en otro procesador", "Optimiza por banco emisor, monto y país", "Reduce declinaciones hasta un 24%"].map((it) => (
-                    <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                      {it}
-                    </li>
-                  ))}
-                </ul>
-              </div>
             </div>
           </div>
         </div>
@@ -571,7 +565,7 @@ export default function T1Pasarela() {
       </section>
 
       {/* ── Section 4 — Cómo funciona (4 steps) ── */}
-      <section className="relative bg-[#F6F6F6] px-5 py-24 tablet:px-10 tablet:py-32">
+      <section className="relative bg-[#FBFBFB] px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
@@ -684,23 +678,23 @@ export default function T1Pasarela() {
 
           <div data-modal-animate className="grid grid-cols-1 gap-10 text-center tablet:grid-cols-3">
             <div data-stagger style={{ ["--i" as string]: 0 }}>
-              <CountStat end={97} prefix="" suffix="%" label="aprobación promedio" />
+              <CountStat end={90} prefix=">" suffix="%" label="aprobación promedio" />
             </div>
             <div data-stagger style={{ ["--i" as string]: 1 }}>
-              <CountStat end={24} prefix="+" suffix="%" label="conversión vs estándar" />
+              <CountStat end={18} prefix="+" suffix="%" label="conversión con el botón T1 Pagos" />
             </div>
             <div data-stagger style={{ ["--i" as string]: 2 }}>
-              <CountStat end={10} prefix="+" label="métodos de pago disponibles" />
+              <CountStat end={0.3} suffix="%" decimals={1} label="la menor tasa de fraude del mercado" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Section 7 — FAQ ── */}
-      <section className="relative bg-[#F6F6F6] px-5 py-24 tablet:px-10 tablet:py-32">
+      {/* ── Section 7 — FAQ (fondo oscuro) ── */}
+      <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[760px]">
           <div data-modal-animate className="text-center" style={{ marginBottom: 40 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[36px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>
               Preguntas frecuentes
             </h2>
           </div>
@@ -715,16 +709,16 @@ export default function T1Pasarela() {
               <details
                 key={f.q}
                 data-stagger
-                className="group rounded-[14px] border border-black/[0.06] bg-white transition-all duration-200 open:border-[rgba(219,59,43,0.2)] open:shadow-[0_4px_18px_rgba(0,0,0,0.05)]"
+                className="group rounded-[14px] border border-white/[0.08] bg-white/[0.03] transition-all duration-200 open:border-[rgba(219,59,43,0.4)] open:bg-white/[0.05]"
                 style={{ ["--i" as string]: i }}
               >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-sora text-[16px] font-normal text-black transition-colors duration-150 hover:text-[#DB3B2B]">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-sora text-[16px] font-normal text-white transition-colors duration-150 hover:text-[#FF6F5E]">
                   {f.q}
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="shrink-0 text-black/40 transition-transform duration-300 group-open:rotate-180 group-open:text-[#DB3B2B]">
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="shrink-0 text-white/40 transition-transform duration-300 group-open:rotate-180 group-open:text-[#FF6F5E]">
                     <path d="M3 5.5L8 10.5L13 5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </summary>
-                <p className="px-6 pb-5 font-inter text-[14px] font-light text-black/65" style={{ lineHeight: 1.65 }}>
+                <p className="px-6 pb-5 font-inter text-[14px] font-light text-white/60" style={{ lineHeight: 1.65 }}>
                   {f.a}
                 </p>
               </details>

@@ -3,6 +3,7 @@ export const SIGNUP_URL = "/registro";
 export const LOGIN_URL = "/login";
 export const SALES_URL = "/contacto-ventas";
 export const CASES_URL = "/casos-de-exito";
+export const BLOG_URL = "/blog";
 
 // ── Navigation ──
 export const NAV_LINKS = [
@@ -89,7 +90,7 @@ export const HERO_DATA = {
   // store builder (CEO: "va muy dirigido a tienda"). It now spans the whole
   // 360 ecosystem with equal weight on the three pillars — vender / cobrar /
   // enviar — our real differentiator, not just an online store.
-  subtitle: "Todo lo que tu negocio necesita para vender, cobrar y enviar.",
+  subtitle: "Todo en un solo lugar · Sin código · Vende desde el día 1",
 };
 
 // ── Footer ──
@@ -103,6 +104,7 @@ export const FOOTER_SOLUTIONS = [
 export const FOOTER_COMPANY = [
   { label: "¿Qué es T1?", href: "/por-que-t1" },
   { label: "Únete a T1", href: SIGNUP_URL },
-  { label: "Historias de éxito", href: CASES_URL },
+  { label: "Casos de éxito", href: CASES_URL },
+  { label: "Blog", href: BLOG_URL },
   { label: "Contacto", href: SALES_URL },
 ];

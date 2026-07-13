@@ -1,10 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
 import { useCountUp } from "@/hooks/useCountUp";
-import { useFSStackCards } from "@/hooks/useFSStackCards";
 import T1FinalCTA from "@/components/T1FinalCTA";
 
 function CountStat({ end, prefix = "", suffix = "", label, decimals = 0 }: { end: number; prefix?: string; suffix?: string; label: string; decimals?: number }) {
@@ -19,22 +18,330 @@ function CountStat({ end, prefix = "", suffix = "", label, decimals = 0 }: { end
   );
 }
 
-/* Carriers — using initials for the visual since no logos are imported */
-const CARRIERS = [
-  { name: "FedEx", color: "#4D148C", letter: "F" },
-  { name: "DHL", color: "#FFCC00", txt: "#1A1A1A", letter: "D" },
-  { name: "Estafeta", color: "#E60000", letter: "E" },
-  { name: "Paquetexpress", color: "#0066CC", letter: "P" },
-  { name: "Redpack", color: "#E10E0E", letter: "R" },
-  { name: "Sendex", color: "#1A8FE3", letter: "S" },
-  { name: "AFIMEX", color: "#22C55E", letter: "A" },
-  { name: "99Minutos", color: "#FF6B00", letter: "99" },
+/* Panel "Dimensiones del paquete" con efecto de escritura en autoplay */
+function DimensionesPanel({ className = "", variant = "card" }: { className?: string; variant?: "card" | "phone" }) {
+  const NOMBRE = "Caja para botas";
+  const FIELDS = [
+    { label: "Largo", value: "23", unit: "cm" },
+    { label: "Alto", value: "45", unit: "cm" },
+    { label: "Ancho", value: "25", unit: "cm" },
+    { label: "Peso", value: "2", unit: "kg" },
+  ];
+  // Se llenan uno por uno (secuencial): Nombre → Largo → Alto → Ancho → Peso.
+  const ORDER_LENS = [NOMBRE.length, ...FIELDS.map((f) => f.value.length)];
+  const OFFSETS = ORDER_LENS.map((_, i) => ORDER_LENS.slice(0, i).reduce((a, b) => a + b, 0));
+  const TOTAL = ORDER_LENS.reduce((a, b) => a + b, 0);
+  const HOLD = 14; // ticks que mantiene todo lleno antes de reiniciar
+  const [p, setP] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setP((prev) => (prev >= TOTAL + HOLD ? 0 : prev + 1));
+    }, 190);
+    return () => clearInterval(id);
+  }, [TOTAL]);
+
+  const sliced = (order: number, s: string) => s.slice(0, Math.max(0, Math.min(s.length, p - OFFSETS[order])));
+  const caret = (order: number, s: string) => {
+    const local = p - OFFSETS[order];
+    return p <= TOTAL && local >= 0 && local < s.length;
+  };
+
+  const content = (
+    <>
+      <p className="text-[18px] font-semibold text-black" style={{ marginBottom: 18 }}>Dimensiones del paquete</p>
+
+      {/* Selected template chip */}
+      <div className="flex items-center justify-between rounded-[10px] border border-black/[0.1] bg-white px-3.5 py-3" style={{ marginBottom: 18 }}>
+        <span className="text-[13px] text-black/80">Caja para bota</span>
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 4L12 12M12 4L4 12" stroke="rgba(0,0,0,0.4)" strokeWidth="1.4" strokeLinecap="round" /></svg>
+      </div>
+
+      {/* Template name (typing) */}
+      <label className="block text-[12px] text-black/55" style={{ marginBottom: 6 }}>Nombre de plantilla</label>
+      <div className="rounded-[10px] border border-black/[0.1] bg-white px-3.5 py-3" style={{ marginBottom: 18 }}>
+        {sliced(0, NOMBRE) === "" && !caret(0, NOMBRE) ? (
+          <span className="text-[13px] text-black/35">Caja para botas</span>
+        ) : (
+          <span className="text-[13px] text-black/80">{sliced(0, NOMBRE)}{caret(0, NOMBRE) && <span className="type-caret" />}</span>
+        )}
+      </div>
+
+      {/* Dimensions (typing) */}
+      <div className="grid grid-cols-2 gap-3 tablet:grid-cols-4" style={{ marginBottom: 16 }}>
+        {FIELDS.map((f, i) => (
+          <div key={f.label}>
+            <label className="block text-[12px] text-black/55" style={{ marginBottom: 6 }}>{f.label}</label>
+            <div className="flex items-center justify-between rounded-[10px] border border-black/[0.1] bg-white px-3 py-2.5">
+              <span className="text-[13px] text-black/80">{sliced(i + 1, f.value)}{caret(i + 1, f.value) && <span className="type-caret" />}</span>
+              <span className="text-[11px] text-black/35">{f.unit}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Checkboxes */}
+      <div className="flex flex-col gap-2.5">
+        {["Guardar cambios en esta plantilla", "Guardar como una nueva plantilla"].map((c) => (
+          <label key={c} className="flex items-center gap-2.5 text-[13px] text-black/70">
+            <span className="h-[16px] w-[16px] shrink-0 rounded-[4px] border border-black/20 bg-white" />
+            {c}
+          </label>
+        ))}
+      </div>
+    </>
+  );
+
+  if (variant === "phone") {
+    return <div className={className}><PhoneShell>{content}</PhoneShell></div>;
+  }
+
+  return (
+    <div
+      className={`relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white ${className}`}
+      style={{ padding: 24, boxShadow: "0 16px 50px rgba(0,0,0,0.08)", fontFamily: "var(--font-manrope-var), 'Manrope', sans-serif" }}
+    >
+      {content}
+    </div>
+  );
+}
+
+/* Brand logos for the hero orbit (real SVG icons) */
+const ORBIT = [
+  { name: "FedEx", logo: "/img/carriers/fedex.svg" },
+  { name: "DHL", logo: "/img/carriers/dhl.svg" },
+  { name: "Paquetexpress", logo: "/img/carriers/paquetexpress.svg" },
+  { name: "UPS", logo: "/img/carriers/ups.svg" },
+  { name: "99 Minutos", logo: "/img/carriers/99min.svg" },
+  { name: "Grupo ampm", logo: "/img/carriers/ampm.svg" },
+  { name: "J&T Express", logo: "/img/carriers/jtexpress.svg" },
+  { name: "Estafeta", logo: "/img/carriers/estafeta.svg" },
 ];
+
+/* Hero visual — radar circular (mismo estilo que reglas) */
+function RadarFlow() {
+  const C = 240;
+  const R = 180;
+  const LOGOS = [
+    "/img/carriers/fedex.svg",
+    "/img/carriers/dhl.svg",
+    "/img/carriers/estafeta.svg",
+    "/img/carriers/paquetexpress.svg",
+    "/img/carriers/ups.svg",
+    "/img/carriers/99min.svg",
+  ];
+  const NODES = LOGOS.map((logo, i) => {
+    const a = ((-90 + i * 60) * Math.PI) / 180;
+    return { logo, x: C + R * Math.cos(a), y: C + R * Math.sin(a) };
+  });
+
+  return (
+    <div className="relative mx-auto w-full" style={{ maxWidth: 480, aspectRatio: "1 / 1" }}>
+      {/* Rotating radar sweep */}
+      <div
+        aria-hidden
+        className="radar-sweep pointer-events-none absolute left-1/2 top-1/2 rounded-full"
+        style={{
+          width: "78%",
+          height: "78%",
+          background: "conic-gradient(from 0deg, rgba(219,59,43,0.26) 0deg, rgba(219,59,43,0.06) 36deg, transparent 70deg, transparent 360deg)",
+          maskImage: "radial-gradient(circle, #000 64%, transparent 100%)",
+          WebkitMaskImage: "radial-gradient(circle, #000 64%, transparent 100%)",
+        }}
+      />
+
+      {/* Rings, spokes + particles */}
+      <svg className="absolute inset-0 h-full w-full" viewBox="0 0 480 480" fill="none" preserveAspectRatio="xMidYMid meet">
+        {[72, 126, 180].map((r) => (
+          <circle key={r} cx={C} cy={C} r={r} stroke="rgba(255,255,255,0.12)" strokeWidth="1" strokeDasharray="3 5" />
+        ))}
+        {NODES.map((n, i) => (
+          <line key={i} x1={C} y1={C} x2={n.x} y2={n.y} stroke="rgba(255,255,255,0.16)" strokeWidth="1" strokeDasharray="4 4" />
+        ))}
+        {NODES.map((n, i) => (
+          <circle key={i} r="2.6" fill="#E26153" opacity="0.85">
+            <animateMotion dur="2.6s" repeatCount="indefinite" path={`M${C} ${C} L${n.x} ${n.y}`} begin={`${i * 0.45}s`} />
+          </circle>
+        ))}
+      </svg>
+
+      {/* Carrier nodes around the ring */}
+      {NODES.map((n, i) => (
+        <div key={i} className="absolute" style={{ left: `${(n.x / 480) * 100}%`, top: `${(n.y / 480) * 100}%`, transform: "translate(-50%, -50%)" }}>
+          <span aria-hidden className="carrier-ping absolute left-1/2 top-1/2 h-[46px] w-[46px] -translate-x-1/2 -translate-y-1/2 rounded-[12px]" style={{ animationDelay: `${i}s` }} />
+          <img src={n.logo} alt="Paquetería" width={46} height={46} className="relative h-[46px] w-[46px] object-contain" style={{ filter: "drop-shadow(0 8px 20px rgba(0,0,0,0.4))" }} />
+        </div>
+      ))}
+
+      {/* T1 hub at center */}
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div aria-hidden className="absolute left-1/2 top-1/2 -z-10 h-[150px] w-[150px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: "radial-gradient(circle, rgba(219,59,43,0.40) 0%, transparent 70%)" }} />
+        <div className="flex h-[72px] w-[72px] items-center justify-center rounded-[18px]" style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.15)", boxShadow: "0 8px 34px rgba(219,59,43,0.35)" }}>
+          <svg width="40" height="38" viewBox="0 0 45 44" fill="none">
+            <path d="M27.6733 19.1041H31.4027C31.5444 19.1041 31.6388 19.1041 31.7332 19.1985V19.2457V37.7039C31.7332 38.5064 32.4885 39.0729 33.291 38.8369C35.0377 38.1288 37.3037 37.2318 38.956 36.4765C39.2392 36.3349 39.6169 36.1932 39.6169 35.6268V19.2457V19.1513V19.1041V7.86867C39.6169 7.20776 39.0976 6.68848 38.4367 6.68848H35.6514C35.1321 6.68848 34.7073 7.01893 34.5184 7.491C33.3855 10.6539 31.2139 13.0143 27.9566 13.5808C24.6992 14.1473 27.6733 13.628 27.4845 13.628C26.8708 13.7224 26.4459 14.1945 26.4459 14.8082V17.8767C26.4459 18.5376 26.9652 19.0569 27.6261 19.0569L27.6733 19.1041Z" fill="#D93A26" />
+            <path d="M32.5831 5.41411C32.4415 5.27248 32.2055 5.13086 31.9694 5.13086H4.63622C3.78648 5.13086 3.07837 5.74456 3.07837 6.54709V10.7014C3.07837 11.6927 3.2672 12.1648 4.4946 12.1648H13.6057C13.8417 12.1648 14.0305 12.3536 14.0305 12.5897V16.083V35.5326C14.0305 35.9574 14.3138 36.2879 14.7387 36.4767C15.5412 36.8072 18.3264 38.1762 19.2706 38.6955C20.2147 39.2148 21.867 38.3178 21.867 36.996V13.2506V13.0617C21.8198 12.7313 21.867 12.4008 22.1975 12.2592H22.4335H25.4076C31.9222 11.6455 32.5831 6.5943 32.6303 6.02781V5.93339V5.79177C32.6303 5.65014 32.6303 5.55573 32.4887 5.46131L32.5831 5.41411Z" fill="#D93A26" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* Marco de teléfono reutilizable (status bar + bordes redondeados) — SOLO responsive */
+function PhoneShell({ children }: { children: React.ReactNode }) {
+  const MANROPE = "var(--font-manrope-var), 'Manrope', sans-serif";
+  return (
+    <div className="mx-auto w-full" style={{ maxWidth: 340, fontFamily: MANROPE }}>
+      <div
+        className="relative overflow-hidden bg-white"
+        style={{ borderRadius: 44, border: "1px solid rgba(0,0,0,0.08)", boxShadow: "0 30px 80px rgba(0,0,0,0.45)" }}
+      >
+        {/* Contenido */}
+        <div className="px-5 pt-7 pb-7">{children}</div>
+      </div>
+    </div>
+  );
+}
+
+/* Mockup de teléfono "Cotizador" — SOLO se muestra en versión mobile/responsive */
+function CotizadorPhone() {
+  const BR = "#C0453A";
+  const FILTERS = ["Paquetería", "Tipo de servicio", "Ventajas"];
+  const OPTIONS = [
+    { brand: "fedex", name: "Fedex", sub: "Mismo día / 24H", eta: "2 días hábiles", etaSub: "Mié - 24/ene/24", price: "$143.00", highlight: true },
+    { brand: "fedex", name: "Fedex", sub: "Servicio express", eta: "2 días hábiles", etaSub: "Mié - 24/ene/24", price: "$143.00", highlight: false },
+  ];
+
+  const Chevron = () => (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" className="shrink-0"><path d="M6 9l6 6 6-6" stroke="rgba(0,0,0,0.5)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+  );
+
+  return (
+    <PhoneShell>
+      {/* Filtros */}
+      <div className="flex flex-wrap gap-2" style={{ marginBottom: 4 }}>
+            {FILTERS.map((f) => (
+              <span key={f} className="flex items-center gap-1.5 rounded-full border px-3.5 py-2 text-[12px] font-medium text-black/75" style={{ borderColor: "rgba(0,0,0,0.14)" }}>
+                {f}
+                <Chevron />
+              </span>
+            ))}
+          </div>
+
+          {/* Resultados */}
+          {OPTIONS.map((o, i) => (
+            <div key={i} className="relative overflow-hidden" style={{ borderTop: "1px solid rgba(0,0,0,0.08)", paddingTop: 18, paddingBottom: 18 }}>
+              {/* Shimmer sweep del resultado destacado (mismo efecto que desktop) */}
+              {o.highlight && (
+                <span aria-hidden className="cotiza-sweep pointer-events-none absolute inset-y-0 left-0 z-20 w-1/2" style={{ background: "linear-gradient(100deg, transparent 0%, rgba(219,59,43,0.14) 50%, transparent 100%)" }} />
+              )}
+              {/* Cabecera: logo + nombre + servicio */}
+              <div className="flex items-center gap-3">
+                <img src={`/img/carriers/${o.brand}.svg`} alt={o.name} width={52} height={52} className="h-[52px] w-[52px] shrink-0" />
+                <div className="min-w-0">
+                  <p className="text-[17px] font-bold text-black leading-tight">{o.name}</p>
+                  <p className="text-[14px] text-black/55" style={{ marginTop: 2 }}>{o.sub}</p>
+                </div>
+              </div>
+
+              {/* Entrega estimada / Precio */}
+              <div className="flex justify-between" style={{ marginTop: 16 }}>
+                <div>
+                  <span className="block text-[13px] text-black/45">Entrega estimada:</span>
+                  <span className="block text-[18px] font-bold text-black" style={{ marginTop: 2 }}>{o.eta}</span>
+                  <span className="block text-[12px] text-black/40" style={{ marginTop: 1 }}>{o.etaSub}</span>
+                </div>
+                <div className="text-right">
+                  <span className="block text-[13px] text-black/45">Precio:</span>
+                  <span className={`block text-[18px] font-bold text-black ${o.highlight ? "price-pop" : ""}`} style={{ marginTop: 2 }}>
+                    {o.price}<span className="ml-1 text-[11px] font-medium text-black/45">MXN</span>
+                  </span>
+                </div>
+              </div>
+
+              {/* Botón */}
+              <button className="mt-4 w-full rounded-[12px] py-3.5 text-[15px] font-semibold text-white" style={{ background: BR }}>
+                Crear envío
+              </button>
+            </div>
+          ))}
+    </PhoneShell>
+  );
+}
+
+/* Panel "Cronograma" (auto-scroll) — variant "card" (desktop) / "phone" (responsive) */
+function CronogramaPanel({ className = "", variant = "card" }: { className?: string; variant?: "card" | "phone" }) {
+  const EVENTS = [
+    { chip: "Ayer", title: "Devolución #5127-RE01 rechazada — no vale", time: "12:20:39 p.m." },
+    { title: "Devolución #5127-RE01 solicitada — 2 artículos", time: "12:19:49 p.m." },
+    { icon: "box", title: "Paquete entregado · Recibió: test lopez quiroz", time: "12:02:59 p.m." },
+    { icon: "truck", title: "Evento de envío: delivered · #5127-SH1 · Mexico City · Package delivered successfully", time: "12:02:59 p.m." },
+    { title: "Guía manual almacenada QA-Manual · QA-1782237769", time: "12:02:55 p.m." },
+    { title: "Pedido preparado", time: "12:02:33 p.m." },
+    { title: "Orden marcada como pagada · $292.0 via manual", time: "12:02:29 p.m." },
+  ];
+
+  const header = (
+    <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
+      <p className="text-[16px] font-semibold text-black">Cronograma</p>
+      <span className="rounded-[10px] border border-black/[0.12] px-3 py-1.5 text-[11px] font-medium text-black/70">Agregar un comentario</span>
+    </div>
+  );
+
+  const track = (
+    <div className="crono-track flex flex-col">
+      {[...EVENTS, ...EVENTS].map((e, i) => (
+        <div key={i} className="relative flex gap-3" style={{ paddingBottom: 20 }}>
+          {/* dotted connector */}
+          <span aria-hidden className="absolute" style={{ left: 9, top: 22, bottom: -2, borderLeft: "2px dotted rgba(0,0,0,0.16)" }} />
+          {/* node */}
+          <div className="relative z-10 flex w-[20px] shrink-0 justify-center" style={{ paddingTop: 3 }}>
+            {e.icon === "box" ? (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" stroke="#1A1A1A" strokeWidth="1.5" strokeLinejoin="round" /><path d="M4 7.5l8 4.5 8-4.5M12 12v9" stroke="#1A1A1A" strokeWidth="1.5" strokeLinejoin="round" /></svg>
+            ) : e.icon === "truck" ? (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="1" y="6" width="13" height="10" rx="1" stroke="#1A1A1A" strokeWidth="1.5" /><path d="M14 9h4l3 3v4h-7M4 16a2 2 0 1 0 4 0 2 2 0 0 0-4 0zM15 16a2 2 0 1 0 4 0 2 2 0 0 0-4 0z" stroke="#1A1A1A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            ) : (
+              <span className="h-[9px] w-[9px] rounded-full bg-[#1A1A1A]" style={{ marginTop: 2 }} />
+            )}
+          </div>
+          {/* content */}
+          <div className="flex-1" style={{ minWidth: 0 }}>
+            {e.chip && <span className="mb-1.5 inline-block rounded-[6px] bg-black/[0.06] px-2 py-0.5 text-[11px] font-medium text-black/55">{e.chip}</span>}
+            <p className="text-[12.5px] text-black/85" style={{ lineHeight: 1.4 }}>{e.title}</p>
+            <p className="text-[11px] text-black/40" style={{ marginTop: 2 }}>{e.time}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
+  const mask = "linear-gradient(to bottom, transparent 0, #000 16px, #000 calc(100% - 22px), transparent 100%)";
+
+  if (variant === "phone") {
+    return (
+      <div className={className}>
+        <PhoneShell>
+          {header}
+          <div className="relative overflow-hidden" style={{ height: 300, maskImage: mask, WebkitMaskImage: mask }}>
+            {track}
+          </div>
+        </PhoneShell>
+      </div>
+    );
+  }
+
+  return (
+    <div className={`relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white ${className}`} style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)", height: 318.5, display: "flex", flexDirection: "column", fontFamily: "var(--font-manrope-var), 'Manrope', sans-serif" }}>
+      {header}
+      <div className="relative flex-1 overflow-hidden" style={{ maskImage: mask, WebkitMaskImage: mask }}>
+        {track}
+      </div>
+    </div>
+  );
+}
 
 export default function T1Multipaqueteria() {
   const rootRef = useRef<HTMLDivElement>(null);
-  const stackRootRef = useRef<HTMLDivElement>(null);
-  useFSStackCards(stackRootRef);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -55,128 +362,61 @@ export default function T1Multipaqueteria() {
     <div ref={rootRef} className="w-full">
       {/* ── Hero — text left, carriers connected visual right ── */}
       <section
-        className="relative overflow-hidden px-5 pt-28 pb-16 tablet:px-10 tablet:pt-36 tablet:pb-24"
-        style={{ background: "linear-gradient(135deg, #1A1212 0%, #261515 50%, #1A0A0A 100%)" }}
+        className="relative flex items-center px-5 pt-28 pb-16 tablet:px-10 tablet:pt-20 tablet:pb-10 tablet:h-[660px]"
+        style={{ background: "linear-gradient(135deg, #261515 0%, #1A0A0A 40%, #261515 100%)" }}
       >
-        <div aria-hidden className="pointer-events-none absolute -top-32 -right-32 h-[480px] w-[480px] rounded-full" style={{ background: "radial-gradient(circle at center, rgba(219,59,43,0.15) 0%, transparent 65%)", filter: "blur(40px)" }} />
-        <div className="relative mx-auto max-w-[var(--max-w)]">
+        <div className="mx-auto w-full max-w-[var(--max-w)]">
           <div className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] tablet:gap-12">
             <div>
               <h1
-                className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[60px]"
-                style={{ lineHeight: 1.05, letterSpacing: "-1.7px", marginBottom: 22 }}
+                className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[56px]"
+                style={{ lineHeight: 1.05, letterSpacing: "-1.5px", marginBottom: 22 }}
               >
-                Conecta{" "}
+                Envía a +25<br />
                 <span className="relative inline-block">
-                  +25 paqueterías
+                  paqueterías
                   <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.30)", borderRadius: 5, zIndex: -1 }} />
                 </span>
-                {" "}en un click.
+                {" "}en<br />
+                un click.
               </h1>
               <p
                 className="font-inter text-[16px] font-light text-white/65 tablet:text-[19px]"
                 style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 480 }}
               >
-                Cotiza, genera guías y rastrea desde un solo panel. Mejor tarifa, mejor tiempo, mejor servicio para cada envío.
+                Cotiza, genera guías y rastrea desde un solo panel.
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <a href={SIGNUP_URL} className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
                   Comenzar ahora
                 </a>
-                <span className="font-inter text-[13px] text-white/50">Sin tarjeta · Empieza gratis</span>
               </div>
             </div>
 
-            {/* Right — T1 hub with carriers radiating */}
-            <div className="relative" style={{ minHeight: 420 }}>
-              <svg className="absolute inset-0 h-full w-full" viewBox="0 0 500 420" fill="none" preserveAspectRatio="xMidYMid meet">
-                {/* Lines from T1 to each carrier */}
-                {[
-                  { x2: 80, y2: 50 },
-                  { x2: 420, y2: 50 },
-                  { x2: 30, y2: 200 },
-                  { x2: 470, y2: 200 },
-                  { x2: 80, y2: 350 },
-                  { x2: 420, y2: 350 },
-                  { x2: 250, y2: 30 },
-                  { x2: 250, y2: 380 },
-                ].map((p, i) => (
-                  <line key={i} x1="250" y1="210" x2={p.x2} y2={p.y2} stroke="rgba(255,255,255,0.18)" strokeWidth="1" strokeDasharray="4 4" />
-                ))}
-                {/* Animated dots radiating outward */}
-                {[
-                  { x: 80, y: 50, dur: 2 },
-                  { x: 420, y: 50, dur: 2.4, delay: 0.3 },
-                  { x: 30, y: 200, dur: 1.8, delay: 0.5 },
-                  { x: 470, y: 200, dur: 2.2, delay: 0.7 },
-                  { x: 80, y: 350, dur: 2.6, delay: 0.4 },
-                  { x: 420, y: 350, dur: 2, delay: 0.6 },
-                  { x: 250, y: 30, dur: 2.3, delay: 0.2 },
-                  { x: 250, y: 380, dur: 2.1, delay: 0.8 },
-                ].map((p, i) => (
-                  <circle key={i} r="3" fill="#E26153" opacity="0.7">
-                    <animateMotion dur={`${p.dur}s`} repeatCount="indefinite" path={`M250 210 L${p.x} ${p.y}`} begin={`${p.delay || 0}s`} />
-                  </circle>
-                ))}
-              </svg>
-
-              {/* T1 hub at center */}
-              <div className="absolute" style={{ left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}>
-                <div className="flex h-[68px] w-[68px] items-center justify-center rounded-[16px]" style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)", boxShadow: "0 8px 30px rgba(219,59,43,0.25)" }}>
-                  <svg width="38" height="36" viewBox="0 0 45 44" fill="none">
-                    <path d="M27.6733 19.1041H31.4027C31.5444 19.1041 31.6388 19.1041 31.7332 19.1985V19.2457V37.7039C31.7332 38.5064 32.4885 39.0729 33.291 38.8369C35.0377 38.1288 37.3037 37.2318 38.956 36.4765C39.2392 36.3349 39.6169 36.1932 39.6169 35.6268V19.2457V19.1513V19.1041V7.86867C39.6169 7.20776 39.0976 6.68848 38.4367 6.68848H35.6514C35.1321 6.68848 34.7073 7.01893 34.5184 7.491C33.3855 10.6539 31.2139 13.0143 27.9566 13.5808C24.6992 14.1473 27.6733 13.628 27.4845 13.628C26.8708 13.7224 26.4459 14.1945 26.4459 14.8082V17.8767C26.4459 18.5376 26.9652 19.0569 27.6261 19.0569L27.6733 19.1041Z" fill="#D93A26" />
-                    <path d="M32.5831 5.41411C32.4415 5.27248 32.2055 5.13086 31.9694 5.13086H4.63622C3.78648 5.13086 3.07837 5.74456 3.07837 6.54709V10.7014C3.07837 11.6927 3.2672 12.1648 4.4946 12.1648H13.6057C13.8417 12.1648 14.0305 12.3536 14.0305 12.5897V16.083V35.5326C14.0305 35.9574 14.3138 36.2879 14.7387 36.4767C15.5412 36.8072 18.3264 38.1762 19.2706 38.6955C20.2147 39.2148 21.867 38.3178 21.867 36.996V13.2506V13.0617C21.8198 12.7313 21.867 12.4008 22.1975 12.2592H22.4335H25.4076C31.9222 11.6455 32.5831 6.5943 32.6303 6.02781V5.93339V5.79177C32.6303 5.65014 32.6303 5.55573 32.4887 5.46131L32.5831 5.41411Z" fill="#D93A26" />
-                  </svg>
-                </div>
-              </div>
-
-              {/* Carrier badges around T1 */}
-              {[
-                { x: 80, y: 50, c: CARRIERS[0] },
-                { x: 420, y: 50, c: CARRIERS[1] },
-                { x: 30, y: 200, c: CARRIERS[2] },
-                { x: 470, y: 200, c: CARRIERS[3] },
-                { x: 80, y: 350, c: CARRIERS[4] },
-                { x: 420, y: 350, c: CARRIERS[5] },
-                { x: 250, y: 30, c: CARRIERS[6] },
-                { x: 250, y: 380, c: CARRIERS[7] },
-              ].map((p, i) => (
-                <div
-                  key={i}
-                  className="absolute flex h-[52px] w-[52px] items-center justify-center rounded-[12px]"
-                  style={{
-                    left: `${(p.x / 500) * 100}%`,
-                    top: `${(p.y / 420) * 100}%`,
-                    transform: "translate(-50%, -50%)",
-                    background: p.c.color,
-                    boxShadow: "0 8px 24px rgba(0,0,0,0.35)",
-                  }}
-                >
-                  <span className="font-sora text-[16px] font-bold" style={{ color: p.c.txt || "#FFFFFF", letterSpacing: "-0.02em" }}>{p.c.letter}</span>
-                </div>
-              ))}
-            </div>
+            {/* Right — radar circular (igual que reglas) */}
+            <RadarFlow />
           </div>
         </div>
       </section>
 
       {/* ── Antes ── */}
-      <section className="relative bg-[#F6F6F6] px-5 pt-16 pb-12 tablet:px-10 tablet:pt-20 tablet:pb-16" data-white-card>
+      <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32" data-white-card>
         <div className="mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="mx-auto text-center" style={{ marginBottom: 48 }}>
-            <h2 className="font-sora text-[26px] font-light text-black tablet:text-[34px] lg:text-[40px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>
-              Negociar con cada paquetería <em className="not-italic text-black/40">no debería ser tu trabajo.</em>
+          <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15 }}>
+              Negociar con cada paquetería <em className="not-italic text-black">no debería ser tu trabajo.</em>
             </h2>
           </div>
-          <div data-modal-animate className="grid grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
+          <div data-modal-animate className="flex flex-wrap justify-center gap-5">
             {[
-              { title: "Tarifas opacas", desc: "Cada paquetería con su tabla. Comparar manualmente toma horas." },
-              { title: "Contratos individuales", desc: "Negociaciones directas con cada carrier, descuentos sólo a alto volumen." },
-              { title: "Plataformas separadas", desc: "Una para FedEx, otra para DHL, otra para Estafeta. Todo desconectado." },
+              { title: "Tarifas poco claras", desc: "Cada paquetería con su tabla. Comparar manualmente toma horas.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="18" rx="2" stroke="#0E0E0E" strokeWidth="1.6" /><path d="M8 8h8M8 12h8M8 16h5" stroke="#0E0E0E" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
+              { title: "Contratos individuales", desc: "Negociaciones directas con cada carrier, descuentos sólo a alto volumen.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 3h10l6 5v13H4V3z" stroke="#0E0E0E" strokeWidth="1.6" strokeLinejoin="round" /><path d="M14 3v5h6M8 13h8M8 17h5" stroke="#0E0E0E" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+              { title: "Plataformas separadas", desc: "Una para FedEx, otra para DHL, otra para Estafeta. Todo desconectado.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M16 3h5v5M21 3l-7 7M8 21H3v-5M3 21l7-7M21 16v5h-5M14 14l7 7M3 8V3h5M10 10 3 3" stroke="#0E0E0E" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
             ].map((p, i) => (
-              <div key={p.title} data-stagger className="rounded-[18px] border border-black/[0.06] bg-white p-7 transition-shadow duration-200 hover:shadow-[0_0_25px_2px_rgba(0,0,0,0.04)]" style={{ ["--i" as string]: i }}>
-                <h3 className="font-sora text-[18px] font-normal text-black/70" style={{ marginBottom: 6 }}>{p.title}</h3>
-                <p className="font-inter text-[14px] font-light text-black/50" style={{ lineHeight: 1.6 }}>{p.desc}</p>
+              <div key={p.title} data-stagger className="w-full max-w-[300px] rounded-[18px] border border-black/[0.06] bg-white p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(0,0,0,0.07)]" style={{ ["--i" as string]: i }}>
+                <div style={{ marginBottom: 24 }}>{p.icon}</div>
+                <h3 className="font-sora text-[18px] font-normal text-black" style={{ marginBottom: 8 }}>{p.title}</h3>
+                <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.6 }}>{p.desc}</p>
               </div>
             ))}
           </div>
@@ -186,27 +426,24 @@ export default function T1Multipaqueteria() {
       {/* ── Stack cards intro ── */}
       <section className="relative bg-white px-5 pt-12 pb-8 tablet:px-10 tablet:pt-16 tablet:pb-10">
         <div data-modal-animate className="mx-auto max-w-[760px] text-center">
-          <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.4px", lineHeight: 1.1, marginBottom: 16 }}>
-            Una sola integración, +25 paqueterías.
+          <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.4px", lineHeight: 1.1 }}>
+            Una sola integración.
           </h2>
-          <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[19px]" style={{ lineHeight: 1.5 }}>
-            Cotiza, genera guías y rastrea sin saltar entre plataformas.
-          </p>
         </div>
       </section>
 
       {/* ── Stack cards ── */}
-      <div ref={stackRootRef} className="fs-stack-card-container relative bg-white">
+      <div className="relative bg-white">
         {/* Block 1 — Cotiza al instante (text left, panel right) — bg white, no shadow */}
-        <div className="fs-stack-card" style={{ top: 60, zIndex: 1, background: "#FFFFFF" }}>
-          <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
+        <div className="px-5 py-20 tablet:px-10 tablet:py-28" style={{ background: "#FFFFFF" }} data-modal-animate>
+          <div className="mx-auto flex max-w-[var(--max-w)] items-center">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div>
                 <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
-                  Cotiza con todas las paqueterías al mismo tiempo
+                  Cotiza con múltiples paqueterías
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                  Compara precios y tiempos en un solo paso. Elige el balance perfecto entre costo, velocidad y servicio.
+                  Compara precios y tiempos en un solo paso.
                 </p>
                 <ul className="flex flex-col gap-2.5">
                   {["Cotización en menos de 2 segundos", "Tarifas T1 con descuento por volumen agregado", "Comparación clara entre paqueterías"].map((it) => (
@@ -217,77 +454,103 @@ export default function T1Multipaqueteria() {
                   ))}
                 </ul>
               </div>
-              {/* Panel — quote comparison */}
-              <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
-                <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
-                  <p className="font-sora text-[14px] font-medium text-black">Cotización CDMX → Monterrey</p>
-                  <span className="rounded-full bg-black/[0.05] px-2 py-0.5 font-inter text-[10px] font-medium text-black/60">2.3 kg</span>
-                </div>
-                <div className="flex flex-col gap-2">
-                  {[
-                    { c: CARRIERS[0], time: "Mañana", price: "$189.00", best: false },
-                    { c: CARRIERS[1], time: "Mañana", price: "$172.50", best: true, label: "Mejor precio" },
-                    { c: CARRIERS[3], time: "Hoy 8pm", price: "$245.00", best: false, label: "Más rápido" },
-                    { c: CARRIERS[4], time: "2 días", price: "$148.00", best: false },
-                    { c: CARRIERS[7], time: "Hoy", price: "$198.50", best: false },
-                  ].map((q, i) => (
-                    <div key={i} className={`flex items-center gap-3 rounded-[10px] border px-3 py-2.5 ${q.best ? "border-[#DB3B2B] bg-[rgba(219,59,43,0.04)]" : "border-black/[0.06] bg-[#FAFAF9]"}`}>
-                      <div className="flex h-[32px] w-[32px] shrink-0 items-center justify-center rounded-[6px]" style={{ background: q.c.color }}>
-                        <span className="font-sora text-[12px] font-bold" style={{ color: q.c.txt || "#FFFFFF" }}>{q.c.letter}</span>
+              {/* Panel — mobile: mockup de teléfono "Cotizador" (solo responsive) */}
+              <div className="tablet:hidden">
+                <CotizadorPhone />
+              </div>
+              {/* Panel — desktop: quote comparison table */}
+              <div className="relative hidden overflow-hidden rounded-[18px] border border-black/[0.06] bg-white tablet:block" style={{ padding: 16, boxShadow: "0 16px 50px rgba(0,0,0,0.08)", fontFamily: "var(--font-manrope-var), 'Manrope', sans-serif" }}>
+                {(() => {
+                  const cols = "1.55fr 1fr 1.35fr 0.85fr";
+                  const QIcon = () => (
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="rgba(0,0,0,0.3)" strokeWidth="1.6" /><path d="M9.5 9.5a2.5 2.5 0 1 1 3.2 2.4c-.5.2-.7.5-.7 1v.6" stroke="rgba(0,0,0,0.4)" strokeWidth="1.5" strokeLinecap="round" /><circle cx="12" cy="16.5" r="0.8" fill="rgba(0,0,0,0.4)" /></svg>
+                  );
+                  const rows = [
+                    { brand: "fedex", name: "Fedex", svc: "Mismo día / 24H", badge: "spark", highlight: true },
+                    { brand: "fedex", name: "Fedex", svc: "Servicio express", badge: null, highlight: false },
+                    { brand: "dhl", name: "DHL", svc: "Servicio express", badge: null, highlight: false },
+                    { brand: "paquetexpress", name: "Paquetexpress", svc: "Servicio express", badge: "star", highlight: false },
+                    { brand: "ups", name: "UPS", svc: "Servicio express", badge: "bolt", highlight: false },
+                  ];
+                  return (
+                    <>
+                      {/* Header */}
+                      <div className="grid items-center gap-2 px-3 py-2.5" style={{ gridTemplateColumns: cols }}>
+                        <span className="text-[10px] font-medium text-black/55">Paquetería</span>
+                        <span className="flex items-center gap-1 text-[10px] font-medium text-black/55">Entrega estimada<QIcon /></span>
+                        <span className="flex items-center gap-1 text-[10px] font-medium text-black/55">Envío de paquetes<QIcon /></span>
+                        <span className="text-right text-[10px] font-medium text-black/55">Precio</span>
                       </div>
-                      <div className="flex-1">
-                        <p className="font-inter text-[12px] font-semibold text-black">{q.c.name}</p>
-                        <p className="font-inter text-[10px] text-black/55">Entrega {q.time}</p>
+                      {/* Rows */}
+                      <div className="flex flex-col gap-2">
+                        {rows.map((r, i) => (
+                          <div
+                            key={i}
+                            className="relative grid items-center gap-2 overflow-hidden rounded-[12px] border px-3 py-3"
+                            style={{ gridTemplateColumns: cols, borderColor: r.highlight ? "#DB3B2B" : "rgba(0,0,0,0.07)", background: "#FFFFFF" }}
+                          >
+                            {/* Shimmer sweep (highlighted row) */}
+                            {r.highlight && (
+                              <span aria-hidden className="cotiza-sweep pointer-events-none absolute inset-y-0 left-0 z-20 w-1/2" style={{ background: "linear-gradient(100deg, transparent 0%, rgba(219,59,43,0.16) 50%, transparent 100%)" }} />
+                            )}
+                            {/* Paquetería */}
+                            <div className="flex min-w-0 items-center gap-2">
+                              <img src={`/img/carriers/${r.brand}.svg`} alt={r.name} width={28} height={28} className="h-[28px] w-[28px] shrink-0 object-contain" />
+                              <div className="min-w-0">
+                                <p className="flex items-center gap-1 truncate text-[11px] font-bold text-black">
+                                  {r.name}
+                                  {r.badge === "spark" && <span className="flex h-[14px] w-[14px] items-center justify-center rounded-full" style={{ background: "rgba(59,130,246,0.14)" }}><svg width="8" height="8" viewBox="0 0 24 24" fill="none"><path d="M12 3l1.6 5.4L19 10l-5.4 1.6L12 17l-1.6-5.4L5 10l5.4-1.6L12 3z" fill="#3B82F6" /></svg></span>}
+                                  {r.badge === "star" && <span className="flex h-[14px] w-[14px] items-center justify-center rounded-full" style={{ background: "rgba(34,197,94,0.14)" }}><svg width="8" height="8" viewBox="0 0 24 24" fill="none"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9 6.8 19.1l1-5.8L3.5 9.2l5.9-.9L12 3z" stroke="#16A34A" strokeWidth="2" strokeLinejoin="round" /></svg></span>}
+                                  {r.badge === "bolt" && <span className="flex h-[14px] w-[14px] items-center justify-center rounded-full" style={{ background: "rgba(245,158,11,0.16)" }}><svg width="8" height="8" viewBox="0 0 24 24" fill="none"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" fill="#F59E0B" /></svg></span>}
+                                </p>
+                                <p className="truncate text-[10px] text-black/55">{r.svc}</p>
+                              </div>
+                            </div>
+                            {/* Entrega estimada */}
+                            <div>
+                              <p className="text-[11px] font-semibold text-black/80">2 días hábiles</p>
+                              <p className="text-[9px] text-black/45">Mié - 24/ene/24</p>
+                            </div>
+                            {/* Envío de paquetes */}
+                            <div className="flex flex-col gap-1">
+                              <span className="flex items-center gap-1 text-[10px] text-black/70">
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="11" height="18" rx="1" stroke="#DB3B2B" strokeWidth="1.6" /><path d="M15 8h4a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1h-4M7.5 7h2M7.5 11h2M7.5 15h2" stroke="#DB3B2B" strokeWidth="1.4" strokeLinecap="round" /></svg>
+                                Solo dejar en sucursal
+                              </span>
+                              <span className="flex items-center gap-1 text-[10px] text-black/70">
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><rect x="1" y="6" width="13" height="10" rx="1" stroke="#DB3B2B" strokeWidth="1.6" /><path d="M14 9h4l3 3v4h-7M4 16a2 2 0 1 0 4 0 2 2 0 0 0-4 0zM15 16a2 2 0 1 0 4 0 2 2 0 0 0-4 0z" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                                Recolección
+                              </span>
+                            </div>
+                            {/* Precio */}
+                            <span className="text-right text-[12px] font-bold text-black">
+                              <span className={r.highlight ? "price-pop" : undefined}>$143.00</span>
+                              <span className="ml-0.5 text-[8px] font-medium text-black/45">MXN</span>
+                            </span>
+                          </div>
+                        ))}
                       </div>
-                      {q.label && (
-                        <span className={`rounded-full px-2 py-0.5 font-inter text-[9px] font-bold ${q.best ? "bg-[rgba(219,59,43,0.10)] text-[#DB3B2B]" : "bg-[rgba(34,197,94,0.10)] text-[#16A34A]"}`}>
-                          {q.label}
-                        </span>
-                      )}
-                      <span className="font-sora text-[14px] font-bold text-black w-[64px] text-right">{q.price}</span>
-                    </div>
-                  ))}
-                </div>
+                    </>
+                  );
+                })()}
               </div>
             </div>
           </div>
         </div>
 
-        {/* Block 2 — Asignación automática (panel left, text right) — bg #F6F6F6 */}
-        <div className="fs-stack-card" style={{ top: 80, zIndex: 2, background: "#F6F6F6", boxShadow: "0 -4px 30px rgba(0,0,0,0.18)" }}>
-          <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
+        {/* Block 2 — Asignación automática (panel left, text right) — bg #FBFBFB */}
+        <div className="px-5 py-20 tablet:px-10 tablet:py-28" style={{ background: "#FBFBFB" }} data-modal-animate>
+          <div className="mx-auto flex max-w-[var(--max-w)] items-center">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
-              {/* Panel — rules engine */}
-              <div className="relative order-2 overflow-hidden rounded-[18px] border border-black/[0.06] bg-white tablet:order-1" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
-                <p className="font-sora text-[14px] font-medium text-black" style={{ marginBottom: 16 }}>Reglas de envío</p>
-                <div className="flex flex-col gap-2">
-                  {[
-                    { cond: "Si CP empieza con 0", action: "Estafeta · Express", color: CARRIERS[2].color },
-                    { cond: "Si peso > 5kg", action: "Paquetexpress · Sobrepeso", color: CARRIERS[3].color },
-                    { cond: "Si total > $2,000", action: "FedEx · Asegurado", color: CARRIERS[0].color },
-                    { cond: "Si entrega es CDMX", action: "99Minutos · Same day", color: CARRIERS[7].color },
-                    { cond: "Default", action: "Mejor precio del día", color: "#DB3B2B" },
-                  ].map((r, i) => (
-                    <div key={i} className="flex items-center gap-2 rounded-[10px] border border-black/[0.06] bg-[#FAFAF9] px-3 py-2.5">
-                      <span className="font-inter text-[10px] font-semibold text-black/65 uppercase tracking-wide w-[20px]">SI</span>
-                      <span className="font-inter text-[11px] text-black/70 flex-1">{r.cond}</span>
-                      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="rgba(0,0,0,0.3)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                      <span className="rounded-[6px] px-2 py-0.5 font-inter text-[10px] font-bold text-white" style={{ background: r.color }}>{r.action}</span>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-3 flex items-center gap-2 rounded-[10px] bg-[rgba(34,197,94,0.08)] px-3 py-2">
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="#16A34A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                  <span className="font-inter text-[11px] font-medium text-[#16A34A]">Última semana: 1,243 envíos asignados automáticamente</span>
-                </div>
-              </div>
+              <DimensionesPanel variant="phone" className="order-2 tablet:hidden" />
+              <DimensionesPanel className="hidden tablet:block tablet:order-1" />
 
               <div className="order-1 tablet:order-2">
                 <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
-                  Asignación automática con reglas inteligentes
+                  Asignación automática inteligente
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                  Define una vez tus reglas y T1 elige por ti. La paquetería correcta para cada pedido, sin clicks manuales.
+                  Automatiza la asignación de paqueterías con reglas inteligentes.
                 </p>
                 <ul className="flex flex-col gap-2.5">
                   {["Reglas por CP, peso, dimensión o monto", "Optimización por costo, tiempo o servicio", "Reasignación automática si una paquetería falla"].map((it) => (
@@ -303,15 +566,15 @@ export default function T1Multipaqueteria() {
         </div>
 
         {/* Block 3 — Rastreo (text left, panel right) — bg white */}
-        <div className="fs-stack-card" style={{ top: 100, zIndex: 3, background: "#FFFFFF", boxShadow: "0 -4px 30px rgba(0,0,0,0.18)" }}>
-          <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
+        <div className="px-5 py-20 tablet:px-10 tablet:py-28" style={{ background: "#FFFFFF" }} data-modal-animate>
+          <div className="mx-auto flex max-w-[var(--max-w)] items-center">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div>
                 <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
-                  Rastrea todas tus guías en un solo lugar
+                  Rastrea todos tus envíos
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                  El estado de cada envío en tiempo real, sin importar la paquetería. Notifica a tu cliente automáticamente.
+                  Consulta el estado de cada envío desde un solo panel.
                 </p>
                 <ul className="flex flex-col gap-2.5">
                   {["Estatus unificado de todas las paqueterías", "Notificaciones automáticas por WhatsApp y email", "Detección de demoras antes que tu cliente"].map((it) => (
@@ -322,130 +585,38 @@ export default function T1Multipaqueteria() {
                   ))}
                 </ul>
               </div>
-              {/* Panel — tracking timeline */}
-              <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
-                <div className="flex items-center justify-between" style={{ marginBottom: 16 }}>
-                  <div>
-                    <p className="font-sora text-[14px] font-medium text-black">Guía #FD928473201</p>
-                    <p className="font-inter text-[10px] text-black/45">FedEx · Express</p>
-                  </div>
-                  <span className="rounded-full bg-[rgba(34,197,94,0.12)] px-2 py-0.5 font-inter text-[10px] font-bold text-[#16A34A]">En camino</span>
-                </div>
-
-                {/* Timeline */}
-                <div className="relative">
-                  {[
-                    { time: "Hoy · 14:32", status: "En reparto", desc: "Saliendo a la dirección final", active: true },
-                    { time: "Hoy · 06:18", status: "En sucursal destino", desc: "MTY Centro de distribución", done: true },
-                    { time: "Ayer · 22:40", status: "En tránsito", desc: "Saliendo de CDMX", done: true },
-                    { time: "Ayer · 16:05", status: "Recolectado", desc: "Pickup desde tu sucursal", done: true },
-                  ].map((t, i, arr) => (
-                    <div key={i} className="relative flex gap-3 pb-3">
-                      {i < arr.length - 1 && <span className="absolute left-[7px] top-[18px] bottom-0 w-px bg-black/[0.08]" />}
-                      <div className={`relative z-10 mt-1 h-[14px] w-[14px] shrink-0 rounded-full ${t.active ? "bg-[#DB3B2B]" : t.done ? "bg-[#22C55E]" : "bg-black/15"}`}>
-                        {t.active && <span className="absolute inset-0 rounded-full" style={{ animation: "pulse-soft 2s ease-in-out infinite", boxShadow: "0 0 0 5px rgba(219,59,43,0.18)" }} />}
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between">
-                          <p className={`font-inter text-[12px] ${t.active ? "font-bold text-black" : "font-semibold text-black/75"}`}>{t.status}</p>
-                          <span className="font-inter text-[9px] text-black/45">{t.time}</span>
-                        </div>
-                        <p className="font-inter text-[10px] text-black/55">{t.desc}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Customer notify */}
-                <div className="mt-2 flex items-center gap-2 rounded-[10px] bg-[#FAFAF9] px-3 py-2">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="#22C55E" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                  <span className="font-inter text-[11px] text-black/65">Cliente notificado por WhatsApp</span>
-                </div>
+              {/* Panel — Cronograma: teléfono en responsive, tarjeta en desktop */}
+              <CronogramaPanel variant="phone" className="tablet:hidden" />
+              <div className="hidden tablet:block">
+                <CronogramaPanel />
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ── Cómo funciona ── */}
-      <section className="relative bg-[#F6F6F6] px-5 py-24 tablet:px-10 tablet:py-32">
-        <div className="mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-              De pedido a entrega, sin fricción
-            </h2>
-            <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-              Cuatro pasos automáticos para cada envío.
-            </p>
-          </div>
-          <div data-modal-animate className="relative grid grid-cols-1 gap-5 tablet:grid-cols-2 lg:grid-cols-4 lg:gap-6">
-            <div aria-hidden className="pointer-events-none absolute hidden lg:block" style={{ left: "12.5%", right: "12.5%", top: 30, height: 1, background: "linear-gradient(90deg, transparent 0%, rgba(219,59,43,0.25) 12%, rgba(219,59,43,0.25) 88%, transparent 100%)" }} />
-            {[
-              { n: "01", title: "Cotiza", desc: "Compara precios y tiempos entre +25 paqueterías al instante." },
-              { n: "02", title: "Genera guía", desc: "Etiqueta lista para imprimir en menos de 5 segundos." },
-              { n: "03", title: "Programa pickup", desc: "Solicita recolección desde tu sucursal o bodega." },
-              { n: "04", title: "Rastrea y notifica", desc: "Estatus unificado y avisos automáticos a tu cliente." },
-            ].map((s, i) => (
-              <div key={s.n} data-stagger className="tienda-card relative rounded-[18px] border border-black/[0.06] bg-white p-7" style={{ ["--i" as string]: i }}>
-                <span aria-hidden className="step-dot absolute hidden h-[10px] w-[10px] rounded-full bg-[#DB3B2B] lg:block" style={{ left: 28, top: 25, boxShadow: "0 0 0 6px rgba(219,59,43,0.12)" }} />
-                <span className="font-sora text-[40px] font-light text-[#DB3B2B]" style={{ display: "block", marginTop: 28, marginBottom: 12, letterSpacing: "-0.04em", lineHeight: 1 }}>{s.n}</span>
-                <h3 className="font-sora text-[18px] font-normal text-black" style={{ marginBottom: 6 }}>{s.title}</h3>
-                <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{s.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Lo que incluye ── */}
-      <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32">
-        <div className="mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-              Todo lo que necesita tu logística
-            </h2>
-            <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-              Sin contratos individuales, sin pelear con cada paquetería.
-            </p>
-          </div>
-          <div data-modal-animate className="grid grid-cols-1 gap-4 tablet:grid-cols-2 lg:grid-cols-3 lg:gap-5">
-            {[
-              { title: "Tarifas T1", desc: "Descuento por volumen agregado, sin volumen mínimo de tu lado.", icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 1V23M17 5H9.5a3.5 3.5 0 0 0 0 7H14.5a3.5 3.5 0 0 1 0 7H6" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-              { title: "Generación de guías", desc: "Etiquetas en PDF o ZPL para impresión térmica directa.", icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="14" rx="2" stroke="#DB3B2B" strokeWidth="1.6" /><path d="M5 7v6 M9 7v6 M13 7v6 M17 7v6 M3 21h18" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
-              { title: "Recolecciones", desc: "Programa pickup desde tu sucursal o bodega con un click.", icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="2" y="8" width="14" height="9" rx="1" stroke="#DB3B2B" strokeWidth="1.6" /><path d="M16 12h4l2 3v2h-6 M5 17a2 2 0 1 0 4 0 2 2 0 0 0-4 0z M16 17a2 2 0 1 0 4 0 2 2 0 0 0-4 0z" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-              { title: "Control de calidad", desc: "Detecta retrasos y problemas antes que tu cliente reclame.", icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 6v6c0 5 3.5 8.5 9 10 5.5-1.5 9-5 9-10V6l-9-4z" stroke="#DB3B2B" strokeWidth="1.6" strokeLinejoin="round" /><path d="M9 12l2 2 4-4" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-              { title: "Notificaciones automáticas", desc: "Avisos por WhatsApp y email a tu cliente sin que tengas que hacer nada.", icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-              { title: "Reportes logísticos", desc: "Tiempos de entrega, costos y desempeño por paquetería.", icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 21h18" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" /><rect x="5" y="12" width="3.5" height="7" rx="1" stroke="#DB3B2B" strokeWidth="1.6" /><rect x="10.5" y="8" width="3.5" height="11" rx="1" stroke="#DB3B2B" strokeWidth="1.6" /><rect x="16" y="4" width="3.5" height="15" rx="1" stroke="#DB3B2B" strokeWidth="1.6" /></svg>) },
-            ].map((f, i) => (
-              <div key={f.title} data-stagger className="tienda-card flex items-start gap-4 rounded-[16px] border border-black/[0.06] bg-white p-6" style={{ ["--i" as string]: i }}>
-                <div className="flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-[12px]" style={{ background: "rgba(219,59,43,0.08)" }}>{f.icon}</div>
-                <div>
-                  <h3 className="font-sora text-[16px] font-normal text-black" style={{ marginBottom: 4 }}>{f.title}</h3>
-                  <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{f.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── Carriers grid ── */}
-      <section className="relative bg-[#F6F6F6] px-5 py-24 tablet:px-10 tablet:py-32">
+      <section className="relative bg-[#FBFBFB] px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[640px] text-center" style={{ marginBottom: 48 }}>
             <h2 className="font-sora text-[26px] font-light text-black tablet:text-[34px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15, marginBottom: 12 }}>
-              +25 paqueterías conectadas
+              Más de 25 paqueterías conectadas
             </h2>
             <p className="font-inter text-[15px] font-light text-black/60 tablet:text-[17px]" style={{ lineHeight: 1.6 }}>
               Las principales nacionales e internacionales, con tarifas T1 incluidas.
             </p>
           </div>
           <div data-modal-animate className="grid grid-cols-2 gap-4 tablet:grid-cols-4 tablet:gap-5">
-            {CARRIERS.map((mp) => (
+            {ORBIT.map((mp) => (
               <div key={mp.name} className="flex flex-col items-center justify-center rounded-[16px] border border-black/[0.06] bg-white py-8 transition-all duration-200 hover:border-black/[0.12] hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
-                <div className="mb-3 flex h-[56px] w-[56px] items-center justify-center rounded-[12px]" style={{ background: mp.color }}>
-                  <span className="font-sora text-[20px] font-bold" style={{ color: mp.txt || "#FFFFFF", letterSpacing: "-0.02em" }}>{mp.letter}</span>
-                </div>
+                <img
+                  src={mp.logo}
+                  alt={mp.name}
+                  width={56}
+                  height={56}
+                  className="mb-3 h-[56px] w-[56px] object-contain"
+                  style={{ filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.12))" }}
+                />
                 <p className="font-inter text-[13px] font-medium text-black/70">{mp.name}</p>
               </div>
             ))}
@@ -453,27 +624,9 @@ export default function T1Multipaqueteria() {
         </div>
       </section>
 
-      {/* ── Stats ── */}
-      <section className="relative px-5 py-20 tablet:px-10 tablet:py-24" style={{ background: "linear-gradient(135deg, #1A0A0A 0%, #261515 50%, #1A0A0A 100%)" }}>
-        <div className="mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="mx-auto max-w-[640px] text-center" style={{ marginBottom: 48 }}>
-            <h2 className="font-sora text-[24px] font-light text-white tablet:text-[34px]" style={{ letterSpacing: "-0.02em", lineHeight: 1.2 }}>
-              Logística sin fricción.
-            </h2>
-          </div>
-          <div data-modal-animate className="grid grid-cols-1 gap-10 text-center tablet:grid-cols-3">
-            <div data-stagger style={{ ["--i" as string]: 0 }}><CountStat end={25} prefix="+" label="paqueterías conectadas" /></div>
-            <div data-stagger style={{ ["--i" as string]: 1 }}><CountStat end={30} prefix="−" suffix="%" label="costo promedio vs tarifas directas" /></div>
-            <div data-stagger style={{ ["--i" as string]: 2 }}>
-              <p className="font-sora text-[36px] font-light text-white tablet:text-[52px]" style={{ letterSpacing: "-0.03em", marginBottom: 6, lineHeight: 1 }}>&lt; 5s</p>
-              <p className="font-inter text-[12px] font-light text-white/55 tablet:text-[13px]">para generar una guía</p>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* ── FAQ ── */}
-      <section className="relative bg-[#F6F6F6] px-5 py-24 tablet:px-10 tablet:py-32">
+      <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32" data-white-card>
         <div className="mx-auto max-w-[760px]">
           <div data-modal-animate className="text-center" style={{ marginBottom: 40 }}>
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>Preguntas frecuentes</h2>

@@ -360,14 +360,16 @@ export default function T1Reportes() {
                 <HeroDashboard />
               </div>
 
-              {/* Floating insight badge */}
-              <div className="absolute hidden tablet:flex items-start gap-2.5 rounded-[14px] bg-white" style={{ left: -28, bottom: 40, width: 240, padding: "12px 14px", boxShadow: "0 14px 40px rgba(0,0,0,0.18)" }}>
-                <div className="flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-full bg-[rgba(139,92,246,0.12)]">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 3L14 9L20 11L14 13L12 19L10 13L4 11L10 9L12 3Z" stroke="#8B5CF6" strokeWidth="1.6" strokeLinejoin="round" fill="rgba(139,92,246,0.15)" /></svg>
+              {/* Floating mini-chart badge */}
+              <div className="absolute hidden tablet:block rounded-[14px] bg-white" style={{ left: -28, bottom: 40, width: 210, padding: "13px 15px", boxShadow: "0 14px 40px rgba(0,0,0,0.18)" }}>
+                <div className="flex items-center justify-between" style={{ marginBottom: 10 }}>
+                  <p className="font-sora text-[11px] font-semibold text-black">Ventas de la semana</p>
+                  <span className="rounded-full bg-[rgba(34,197,94,0.12)] px-1.5 py-0.5 font-inter text-[9px] font-bold text-[#16A34A]">+18%</span>
                 </div>
-                <div>
-                  <p className="font-sora text-[11px] font-semibold text-black" style={{ marginBottom: 2 }}>Insight de IA</p>
-                  <p className="font-inter text-[10px] text-black/55" style={{ lineHeight: 1.45 }}>Tus ventas suben 38% los viernes. Considera campañas para esos días.</p>
+                <div className="flex items-end gap-1.5" style={{ height: 46 }}>
+                  {[42, 60, 50, 76, 58, 90, 72].map((h, i) => (
+                    <span key={i} className="flex-1 rounded-[2px]" style={{ height: `${h}%`, background: i === 5 ? "#DB3B2B" : "rgba(219,59,43,0.28)" }} />
+                  ))}
                 </div>
               </div>
 
@@ -445,8 +447,8 @@ export default function T1Reportes() {
           </div>
         </div>
 
-        {/* Block 2 — Comparativa por canal (panel left, text right) — bg #F6F6F6 */}
-        <div className="fs-stack-card" style={{ top: 80, zIndex: 2, background: "#F6F6F6" }}>
+        {/* Block 2 — Comparativa por canal (panel left, text right) — bg #FBFBFB */}
+        <div className="fs-stack-card" style={{ top: 80, zIndex: 2, background: "#FBFBFB" }}>
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               {/* Panel — channel comparison */}
@@ -472,7 +474,8 @@ export default function T1Reportes() {
           </div>
         </div>
 
-        {/* Block 3 — IA insights (text left, panel right) — bg white */}
+        {/* Block 3 — IA insights (oculto) */}
+        {false && (
         <div className="fs-stack-card" style={{ top: 100, zIndex: 3, background: "#FFFFFF" }}>
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
@@ -497,26 +500,26 @@ export default function T1Reportes() {
             </div>
           </div>
         </div>
+        )}
       </div>
 
       {/* ── Cómo funciona ── */}
-      <section className="relative bg-[#F6F6F6] px-5 py-24 tablet:px-10 tablet:py-32">
+      <section className="relative bg-[#FBFBFB] px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
               De los datos a la decisión, sin escalas
             </h2>
             <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-              Cuatro pasos para que tus reportes sean útiles desde el primer día.
+              Tres pasos para que tus reportes sean útiles desde el primer día.
             </p>
           </div>
-          <div data-modal-animate className="relative grid grid-cols-1 gap-5 tablet:grid-cols-2 lg:grid-cols-4 lg:gap-6">
-            <div aria-hidden className="pointer-events-none absolute hidden lg:block" style={{ left: "12.5%", right: "12.5%", top: 30, height: 1, background: "linear-gradient(90deg, transparent 0%, rgba(219,59,43,0.25) 12%, rgba(219,59,43,0.25) 88%, transparent 100%)" }} />
+          <div data-modal-animate className="relative grid grid-cols-1 gap-5 tablet:grid-cols-3 lg:gap-6">
+            <div aria-hidden className="pointer-events-none absolute hidden lg:block" style={{ left: "16.6%", right: "16.6%", top: 30, height: 1, background: "linear-gradient(90deg, transparent 0%, rgba(219,59,43,0.25) 12%, rgba(219,59,43,0.25) 88%, transparent 100%)" }} />
             {[
               { n: "01", title: "Conecta tus canales", desc: "Tienda online, sucursales y marketplaces se sincronizan al instante." },
               { n: "02", title: "Visualiza en tiempo real", desc: "Dashboards listos con KPIs clave: ventas, tráfico, conversión, ticket." },
               { n: "03", title: "Compara y filtra", desc: "Cruza canales, periodos y categorías. Encuentra qué funciona y qué no." },
-              { n: "04", title: "Actúa con IA", desc: "Insights priorizados con sugerencias accionables para crecer más rápido." },
             ].map((s, i) => (
               <div key={s.n} data-stagger className="tienda-card relative rounded-[18px] border border-black/[0.06] bg-white p-7" style={{ ["--i" as string]: i }}>
                 <span className="font-sora text-[40px] font-light text-[#DB3B2B]" style={{ display: "block", marginTop: 28, marginBottom: 12, letterSpacing: "-0.04em", lineHeight: 1 }}>{s.n}</span>
@@ -576,7 +579,8 @@ export default function T1Reportes() {
         </div>
       </section>
 
-      {/* ── Stats ── */}
+      {/* ── Stats (oculto) ── */}
+      {false && (
       <section className="relative px-5 py-20 tablet:px-10 tablet:py-24" style={{ background: "linear-gradient(135deg, #1A0A0A 0%, #261515 50%, #1A0A0A 100%)" }}>
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[640px] text-center" style={{ marginBottom: 48 }}>
@@ -597,9 +601,10 @@ export default function T1Reportes() {
           </div>
         </div>
       </section>
+      )}
 
       {/* ── FAQ ── */}
-      <section className="relative bg-[#F6F6F6] px-5 py-24 tablet:px-10 tablet:py-32">
+      <section className="relative bg-[#FBFBFB] px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[760px]">
           <div data-modal-animate className="text-center" style={{ marginBottom: 40 }}>
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>Preguntas frecuentes</h2>

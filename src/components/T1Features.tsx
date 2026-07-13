@@ -6,10 +6,13 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import PedidosPanel from "@/components/showcase/PedidosPanel";
 import CotizadorPanel from "@/components/showcase/CotizadorPanel";
 import TiendaPromptPanel from "@/components/showcase/TiendaPromptPanel";
+import { PosCheckoutMobileScreen } from "@/components/showcase/PosMockups";
 import { useIsDesktop } from "@/hooks/useIsDesktop";
 import { useCountUp } from "@/hooks/useCountUp";
 import { SIGNUP_URL } from "@/lib/constants";
 import T1FinalCTA from "@/components/T1FinalCTA";
+import StoreShowcase from "@/components/StoreShowcase";
+import TodoIncluidoDark from "@/components/TodoIncluidoDark";
 
 /* ── Store carousel items — 8 unique stores, duplicated so the marquee
    (translateX(-50%)) loops seamlessly. ── */
@@ -539,16 +542,17 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                   style={{ paddingTop: 140, paddingBottom: 24 }}
                 >
                   <h1
-                    className="font-sora text-[32px] font-normal text-white tablet:text-[48px]"
+                    className="font-sora text-[32px] font-normal text-white tablet:text-[44px]"
                     style={{ lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: 16 }}
                   >
-                    Crea tu tienda con IA en segundos
+                    Crea tu tienda en menos de un minuto
                   </h1>
                   <p
                     className="font-inter text-[16px] font-light text-white/80 tablet:text-[19px]"
                     style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 560 }}
                   >
-                    Tu tienda lista para vender, con pagos y envíos ya integrados.
+                    Describe tu negocio y T1 genera una tienda lista para vender,
+                    cobrar y enviar.
                   </p>
 
                   {/* Prompt input — self-contained typing loop (see HeroPromptInput) */}
@@ -559,10 +563,10 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                   <div className="flex flex-col gap-4 tablet:flex-row tablet:items-start tablet:justify-between tablet:gap-6" style={{ marginBottom: 28, paddingTop: 0 }}>
                     <div>
                       <h3 className="font-sora text-[22px] font-normal text-white tablet:text-[28px]" style={{ marginBottom: 8 }}>
-                        Crea tu tienda con IA en segundos
+                        Crea tu tienda en menos de un minuto
                       </h3>
                       <p className="font-inter text-[17px] font-normal text-white/80" style={{ lineHeight: 1.6 }}>
-                        Cuéntanos de que trata tu negocio y nuestra IA creará tu tienda en menos de 2 minutos.
+                        Cuéntanos de que trata tu negocio y nuestra IA creará tu tienda en menos de un minuto.
                       </p>
                     </div>
                     <a
@@ -636,14 +640,15 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                 scroll to — otherwise the hero looks like the whole page. */}
             <div className={`${pageMode ? "bg-black pt-4 pb-16 tablet:pt-6 tablet:pb-20" : "py-12"}`}>
               <h3
-                className={`font-sora text-[22px] font-light text-center px-5 tablet:text-[28px] tablet:px-10 ${pageMode ? "text-white" : "text-black"}`}
-                style={{ marginBottom: 32, letterSpacing: "-0.02em" }}
+                className={`font-sora text-[32px] font-light text-center px-5 tablet:text-[44px] tablet:px-10 ${pageMode ? "text-white" : "text-black"}`}
+                style={{ marginBottom: 64, letterSpacing: "-0.02em" }}
               >
                 Explora tiendas que ya venden con T1
               </h3>
 
-              {/* Carousel — self-contained component (see StoreCarousel) */}
-              <StoreCarousel dark={pageMode} />
+              {/* Store showcase — desktop + mobile mockup on the left, store
+                  info (name, resumen, link) on the right; rotates 3 stores. */}
+              <StoreShowcase dark={pageMode} />
             </div>
 
             {/* ── pageMode-only storytelling sections ── */}
@@ -654,7 +659,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                 <section className="relative bg-white px-5 pt-24 pb-14 tablet:px-10 tablet:pt-32 tablet:pb-20" data-white-card data-tienda-act-2>
                   <div className="mx-auto max-w-[var(--max-w)]">
                     <div data-modal-animate className="mx-auto text-center" style={{ marginBottom: 48 }}>
-                      <h2 className="font-sora text-[26px] font-light text-black tablet:text-[34px] lg:text-[40px] tablet:whitespace-nowrap" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>
+                      <h2 className="font-sora text-[32px] font-light text-black tablet:text-[44px] tablet:whitespace-nowrap" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>
                         Antes, lanzar una tienda tomaba meses.
                       </h2>
                     </div>
@@ -711,7 +716,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                     <div className="grid grid-cols-1 items-center gap-12 tablet:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] tablet:gap-16">
                       {/* Left: title + text */}
                       <div data-modal-animate>
-                        <h2 className="font-sora text-[32px] font-light text-black tablet:text-[44px] lg:text-[52px]" style={{ letterSpacing: "-1.5px", lineHeight: 1.05, marginBottom: 20 }}>
+                        <h2 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-1.5px", lineHeight: 1.05, marginBottom: 20 }}>
                           Hoy basta una frase.
                           <span className="ml-2 inline-flex translate-y-1 items-center">
                             <AISparkle size={30} color="#E26153" />
@@ -788,7 +793,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                 </section>
 
                 {/* ── Cómo funciona — 4 steps with connector line ── */}
-                <section className="relative bg-[#F6F6F6] px-5 py-24 tablet:px-10 tablet:py-32">
+                <section className="relative bg-[#FBFBFB] px-5 py-24 tablet:px-10 tablet:py-32">
                   <div className="mx-auto max-w-[var(--max-w)]">
                     <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
                       <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
@@ -826,7 +831,8 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                   </div>
                 </section>
 
-                {/* ── Lo que incluye — 3-col grid with compact visuals (no bento) ── */}
+                {/* ── Lo que incluye — versión fondo blanco (oculta; se usa la oscura TodoIncluidoDark) ── */}
+                {false && (
                 <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32">
                   <div className="mx-auto max-w-[var(--max-w)]">
                     <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
@@ -845,127 +851,152 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                       ref={incluyeRef}
                       onScroll={onIncluyeScroll}
                       data-modal-animate
-                      className="flex gap-7 overflow-x-auto snap-x snap-mandatory px-6 py-8 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+                      className="flex gap-7 overflow-x-auto snap-x snap-mandatory px-6 pt-14 pb-8 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
                       style={{ scrollPaddingLeft: 24, scrollPaddingRight: 24 }}
                     >
-                      {/* 1. Diseño responsive */}
-                      <div data-stagger style={{ ["--i" as string]: 0 }} className="incluye-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
-                        <div className="incluye-visual relative mb-6 flex h-[150px] items-center justify-center overflow-hidden rounded-[10px]">
-                          {/* desktop frame */}
-                          <div className="absolute left-1/2 top-1/2 -translate-x-[calc(50%+22px)] -translate-y-1/2 rounded-[6px] border border-black/[0.08] bg-white" style={{ width: 110, height: 70 }}>
-                            <div className="flex items-center gap-[3px] border-b border-black/[0.05] px-1.5 py-1">
-                              <span className="h-[3px] w-[3px] rounded-full bg-[#FF5F57]" />
-                              <span className="h-[3px] w-[3px] rounded-full bg-[#FEBC2E]" />
-                              <span className="h-[3px] w-[3px] rounded-full bg-[#28C840]" />
+                      {/* 1. Diseño responsive — browser + phone (real store) */}
+                      <div data-stagger style={{ ["--i" as string]: 0, boxShadow: "0 26px 60px -34px rgba(0,0,0,0.4)", background: "radial-gradient(86% 76% at 85% 38%, rgba(219,59,43,0.17) 0%, transparent 62%), radial-gradient(72% 66% at 10% 92%, rgba(116,88,214,0.16) 0%, transparent 62%), linear-gradient(158deg, #17151b 0%, #100e13 100%)" }} className="incluye-card incluye-dark-card flex shrink-0 snap-start w-[80vw] max-w-[320px] tablet:w-[320px] flex-col rounded-[24px] border border-white/[0.07]">
+                        <div className="relative flex h-[214px] items-center justify-center">
+                          {/* Browser */}
+                          <div className="absolute left-[22px] top-[-14px] z-10 w-[188px] overflow-hidden rounded-[11px] border border-white/12 bg-white/[0.06] backdrop-blur-md" style={{ boxShadow: "0 18px 36px rgba(0,0,0,0.45)" }}>
+                            <div className="flex items-center gap-1.5 px-2.5 py-1.5">
+                              <span className="h-[5px] w-[5px] rounded-full bg-white/30" />
+                              <span className="h-[5px] w-[5px] rounded-full bg-white/22" />
+                              <span className="h-[5px] w-[5px] rounded-full bg-white/16" />
+                              <div className="ml-1 flex-1 rounded-full bg-white/[0.12] py-0.5 text-center"><span className="font-inter text-[7px] text-white/60">www.mi-tienda.com</span></div>
                             </div>
-                            <div className="flex flex-col gap-1 px-1.5 py-1.5">
-                              <div className="h-[3px] w-3/4 rounded-full bg-black/15" />
-                              <div className="h-[3px] w-1/2 rounded-full bg-black/10" />
-                              <div className="mt-0.5 h-[14px] w-full rounded-[2px] bg-[rgba(219,59,43,0.18)]" />
+                            <div className="relative w-full" style={{ height: 132 }}>
+                              <Image src="/img/moda-banner-desktop.png" alt="" fill className="object-cover" sizes="200px" />
                             </div>
                           </div>
-                          {/* phone frame */}
-                          <div className="absolute left-1/2 top-1/2 translate-x-[calc(50%-2px)] -translate-y-1/2 rounded-[8px] border-2 border-white bg-white" style={{ width: 38, height: 70, boxShadow: "0 4px 12px rgba(0,0,0,0.10)" }}>
-                            <div className="flex h-full flex-col items-center justify-center gap-1 px-1.5">
-                              <div className="h-[2px] w-3/4 rounded-full bg-black/15" />
-                              <div className="h-[2px] w-1/2 rounded-full bg-black/10" />
-                              <div className="mt-1 h-[10px] w-full rounded-[2px] bg-[rgba(219,59,43,0.22)]" />
-                              <div className="h-[2px] w-2/3 rounded-full bg-black/10" />
+                          {/* Phone — overlaps bottom-right */}
+                          <div className="absolute bottom-[10px] right-[20px] z-20 overflow-hidden rounded-[15px] border-[3px] border-[#0b0a0e] bg-[#0b0a0e]" style={{ width: 78, height: 150, boxShadow: "0 16px 30px rgba(0,0,0,0.55)" }}>
+                            <div className="relative h-full w-full overflow-hidden rounded-[12px]">
+                              <Image src="/img/moda-banner-mobile.png" alt="" fill className="object-cover" style={{ objectPosition: "50% 0%" }} sizes="90px" />
                             </div>
                           </div>
                         </div>
-                        <h3 className="font-sora text-[17px] font-normal text-black" style={{ marginBottom: 6 }}>Diseño responsive</h3>
-                        <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>Tu tienda se ve perfecta en cualquier dispositivo, sin esfuerzo.</p>
+                        <div className="px-6 pb-7 pt-1">
+                          <h3 className="font-sora text-[21px] font-normal text-white" style={{ marginBottom: 8, letterSpacing: "-0.01em" }}>Diseño responsive</h3>
+                          <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.55 }}>Tu tienda se ve perfecta en cualquier dispositivo, sin esfuerzo.</p>
+                        </div>
                       </div>
 
                       {/* 2. Checkout integrado */}
-                      <div data-stagger style={{ ["--i" as string]: 1 }} className="incluye-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
-                        <div className="incluye-visual relative mb-6 flex h-[150px] items-center justify-center overflow-hidden rounded-[10px]" style={{ padding: 12 }}>
-                          <div className="w-full max-w-[180px] rounded-[8px] border border-black/[0.06] bg-white p-2.5">
-                            <p className="font-inter text-[8px] text-black/40" style={{ marginBottom: 2 }}>Tarjeta</p>
-                            <p className="font-inter text-[11px] font-medium text-black" style={{ marginBottom: 6 }}>•••• •••• •••• 4242</p>
-                            <div className="flex items-center justify-center rounded-[5px] bg-[#DB3B2B] py-1">
-                              <span className="font-inter text-[9px] font-semibold text-white">Pagar $1,345.99</span>
+                      <div data-stagger style={{ ["--i" as string]: 1, boxShadow: "0 26px 60px -34px rgba(0,0,0,0.4)", background: "radial-gradient(86% 76% at 85% 38%, rgba(219,59,43,0.17) 0%, transparent 62%), radial-gradient(72% 66% at 10% 92%, rgba(116,88,214,0.16) 0%, transparent 62%), linear-gradient(158deg, #17151b 0%, #100e13 100%)" }} className="incluye-card incluye-dark-card flex shrink-0 snap-start w-[80vw] max-w-[320px] tablet:w-[320px] flex-col rounded-[24px] border border-white/[0.07]">
+                        <div className="relative flex h-[214px] items-start justify-center">
+                          {/* Floating product — pops out above the card */}
+                          <Image src="/img/tenis-transparente.png" alt="" width={140} height={104} className="pointer-events-none absolute left-1/2 top-[-34px] z-20 -translate-x-1/2 object-contain" style={{ filter: "drop-shadow(0 16px 22px rgba(0,0,0,0.55))" }} />
+                          {/* Glass checkout panel */}
+                          <div className="relative z-10 w-[200px] rounded-[16px] border border-white/12 bg-white/[0.10] p-3.5 backdrop-blur-md" style={{ marginTop: 46 }}>
+                            <p className="text-center font-inter text-[19px] font-bold text-white" style={{ marginBottom: 10, letterSpacing: "-0.01em" }}>$1,345.99</p>
+                            <div className="flex items-center gap-2 rounded-[11px] bg-white/[0.13] px-2.5 py-2" style={{ marginBottom: 9 }}>
+                              <span className="flex items-center rounded-[3px] bg-white px-1.5 py-1"><span className="font-inter text-[8px] font-extrabold italic text-[#1434CB]">VISA</span></span>
+                              <div className="leading-tight">
+                                <p className="font-inter text-[10px] font-medium text-white">Miguel Luna</p>
+                                <p className="font-inter text-[9px] text-white/55">•••• 1234</p>
+                              </div>
+                            </div>
+                            <div className="flex items-center justify-center rounded-full bg-[#DB3B2B] py-1.5">
+                              <span className="font-inter text-[10px] font-semibold text-white">Pagar</span>
                             </div>
                           </div>
                         </div>
-                        <h3 className="font-sora text-[17px] font-normal text-black" style={{ marginBottom: 6 }}>Checkout integrado</h3>
-                        <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>Pasarela de pagos lista, optimizada para conversión.</p>
+                        <div className="px-6 pb-7 pt-1">
+                          <h3 className="font-sora text-[21px] font-normal text-white" style={{ marginBottom: 8, letterSpacing: "-0.01em" }}>Checkout integrado</h3>
+                          <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.55 }}>Pasarela de pagos lista, optimizada para conversión.</p>
+                        </div>
                       </div>
 
-                      {/* 3. SEO out of the box */}
-                      <div data-stagger style={{ ["--i" as string]: 2 }} className="incluye-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
-                        <div className="incluye-visual relative mb-6 flex h-[150px] items-center justify-center overflow-hidden rounded-[10px]" style={{ padding: 12 }}>
-                          <div className="w-full max-w-[200px] rounded-[8px] border border-black/[0.06] bg-white p-2.5">
-                            <div className="flex items-center gap-1.5" style={{ marginBottom: 5 }}>
-                              <svg width="11" height="11" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.99.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.09a6.6 6.6 0 0 1 0-4.18V7.07H2.18a11 11 0 0 0 0 9.86l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1A11 11 0 0 0 2.18 7.07l3.66 2.84C6.71 7.31 9.14 5.38 12 5.38z"/></svg>
-                              <p className="font-inter text-[8px] text-black/45">tienda.t1.com</p>
-                            </div>
-                            <p className="font-inter text-[11px] font-medium text-[#1A0DAB]" style={{ marginBottom: 1 }}>Tienda | T1</p>
-                            <p className="font-inter text-[7.5px] text-[#006621]" style={{ marginBottom: 3 }}>tienda.t1.com</p>
-                            <p className="font-inter text-[7.5px] text-black/50" style={{ lineHeight: 1.4 }}>Encuentra todo lo que necesitas...</p>
+                      {/* 3. SEO — search result + Google mark popping above */}
+                      <div data-stagger style={{ ["--i" as string]: 2, boxShadow: "0 26px 60px -34px rgba(0,0,0,0.4)", background: "radial-gradient(86% 76% at 85% 38%, rgba(219,59,43,0.17) 0%, transparent 62%), radial-gradient(72% 66% at 10% 92%, rgba(116,88,214,0.16) 0%, transparent 62%), linear-gradient(158deg, #17151b 0%, #100e13 100%)" }} className="incluye-card incluye-dark-card flex shrink-0 snap-start w-[80vw] max-w-[320px] tablet:w-[320px] flex-col rounded-[24px] border border-white/[0.07]">
+                        <div className="relative flex h-[214px] items-center justify-center">
+                          {/* Google mark — pops out above */}
+                          <div className="absolute left-1/2 top-[-24px] z-20 flex h-[48px] w-[48px] -translate-x-1/2 items-center justify-center rounded-full bg-white" style={{ boxShadow: "0 8px 20px rgba(0,0,0,0.3)" }}>
+                            <svg width="24" height="24" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.99.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.09a6.6 6.6 0 0 1 0-4.18V7.07H2.18a11 11 0 0 0 0 9.86l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1A11 11 0 0 0 2.18 7.07l3.66 2.84C6.71 7.31 9.14 5.38 12 5.38z"/></svg>
+                          </div>
+                          <div className="mt-[26px] w-[216px] rounded-[13px] border border-white/12 bg-white/[0.08] p-3.5 backdrop-blur-md">
+                            <p className="font-inter text-[13px] font-medium text-[#8AB4F8]">Mi tienda | T1</p>
+                            <p className="font-inter text-[9.5px] text-[#6EC58A]" style={{ marginTop: 2, marginBottom: 6 }}>mitienda.t1.com</p>
+                            <p className="font-inter text-[9.5px] text-white/45" style={{ lineHeight: 1.5 }}>Encuentra todo lo que necesitas en un solo lugar, con envíos y pagos incluidos.</p>
                           </div>
                         </div>
-                        <h3 className="font-sora text-[17px] font-normal text-black" style={{ marginBottom: 6 }}>Optimizado para SEO</h3>
-                        <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>Estructura, metadatos y velocidad pensados para Google.</p>
+                        <div className="px-6 pb-7 pt-1">
+                          <h3 className="font-sora text-[21px] font-normal text-white" style={{ marginBottom: 8, letterSpacing: "-0.01em" }}>Optimizado para SEO</h3>
+                          <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.55 }}>Estructura, metadatos y velocidad pensados para Google.</p>
+                        </div>
                       </div>
 
-                      {/* 4. Catálogo inteligente */}
-                      <div data-stagger style={{ ["--i" as string]: 3 }} className="incluye-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
-                        <div className="incluye-visual relative mb-6 flex h-[150px] items-center justify-center overflow-hidden rounded-[10px]" style={{ padding: 12 }}>
-                          <div className="flex w-full max-w-[210px] items-center gap-2 rounded-[8px] border border-black/[0.06] bg-white p-2">
-                            <div className="flex h-[44px] w-[44px] shrink-0 items-center justify-center overflow-hidden rounded-[5px] border border-black/[0.05] bg-white">
-                              <Image src="/img/tenis-transparente.png" alt="" width={36} height={28} className="object-contain" />
+                      {/* 4. Catálogo inteligente — product card + IA badge popping above */}
+                      <div data-stagger style={{ ["--i" as string]: 3, boxShadow: "0 26px 60px -34px rgba(0,0,0,0.4)", background: "radial-gradient(86% 76% at 85% 38%, rgba(219,59,43,0.17) 0%, transparent 62%), radial-gradient(72% 66% at 10% 92%, rgba(116,88,214,0.16) 0%, transparent 62%), linear-gradient(158deg, #17151b 0%, #100e13 100%)" }} className="incluye-card incluye-dark-card flex shrink-0 snap-start w-[80vw] max-w-[320px] tablet:w-[320px] flex-col rounded-[24px] border border-white/[0.07]">
+                        <div className="relative flex h-[214px] items-center justify-center">
+                          {/* IA badge — pops out above */}
+                          <div className="absolute left-[46px] top-[-14px] z-20 inline-flex items-center gap-1 rounded-full px-2.5 py-1" style={{ background: "linear-gradient(135deg, #A78BFA 0%, #7C5AE0 100%)", boxShadow: "0 8px 18px rgba(124,90,220,0.45)" }}>
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M12 3L14 9L20 11L14 13L12 19L10 13L4 11L10 9L12 3Z" fill="#fff" /></svg>
+                            <span className="font-inter text-[9px] font-semibold text-white">Generado con IA</span>
+                          </div>
+                          {/* Product card */}
+                          <div className="mt-[8px] w-[196px] rounded-[14px] border border-white/12 bg-white/[0.09] p-3 backdrop-blur-md">
+                            <div className="mb-2.5 flex h-[94px] w-full items-center justify-center overflow-hidden rounded-[10px] bg-white/90">
+                              <Image src="/img/tenis-transparente.png" alt="" width={132} height={92} className="object-contain" />
                             </div>
-                            <div className="flex-1">
-                              <p className="font-inter text-[10px] font-semibold text-black" style={{ marginBottom: 1 }}>Tenis blancos</p>
-                              <p className="font-inter text-[8px] text-black/50" style={{ marginBottom: 2 }}>$1,345.99</p>
-                              <span className="inline-flex items-center gap-1 rounded-full bg-[rgba(139,92,246,0.10)] px-1.5 py-0.5">
-                                <svg width="7" height="7" viewBox="0 0 24 24" fill="none"><path d="M12 3L14 9L20 11L14 13L12 19L10 13L4 11L10 9L12 3Z" stroke="#8B5CF6" strokeWidth="2" strokeLinejoin="round" fill="rgba(139,92,246,0.2)" /></svg>
-                                <span className="font-inter text-[7px] font-semibold text-[#8B5CF6]">IA</span>
-                              </span>
-                            </div>
+                            <p className="font-inter text-[13px] font-semibold text-white">Tennis clásicos</p>
+                            <p className="font-inter text-[11px] text-white/55" style={{ marginTop: 2 }}>$1,345.99</p>
                           </div>
                         </div>
-                        <h3 className="font-sora text-[17px] font-normal text-black" style={{ marginBottom: 6 }}>Catálogo inteligente</h3>
-                        <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>Sube fotos y la IA arma título, descripción y variantes.</p>
+                        <div className="px-6 pb-7 pt-1">
+                          <h3 className="font-sora text-[21px] font-normal text-white" style={{ marginBottom: 8, letterSpacing: "-0.01em" }}>Catálogo inteligente</h3>
+                          <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.55 }}>Sube fotos y la IA arma título, descripción y variantes.</p>
+                        </div>
                       </div>
 
-                      {/* 5. Dominio personalizado */}
-                      <div data-stagger style={{ ["--i" as string]: 4 }} className="incluye-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
-                        <div className="incluye-visual relative mb-6 flex h-[150px] items-center justify-center overflow-hidden rounded-[10px]" style={{ padding: 12 }}>
-                          <div className="flex w-full max-w-[210px] items-center gap-1.5 rounded-full border border-black/[0.08] bg-white px-2.5 py-1.5">
-                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="black" strokeOpacity="0.4" strokeWidth="1.5" /><path d="M3 12h18 M12 3c2 2.5 3 5.7 3 9s-1 6.5-3 9c-2-2.5-3-5.7-3-9s1-6.5 3-9z" stroke="black" strokeOpacity="0.4" strokeWidth="1.5" strokeLinecap="round" /></svg>
-                            <span className="font-inter text-[10px] text-black/50">https://</span>
-                            <span className="font-inter text-[10px] font-medium text-black">mitienda</span>
-                            <span className="font-inter text-[10px] text-black/50">.com</span>
-                            <div className="ml-auto flex items-center gap-1 rounded-full bg-[rgba(34,197,94,0.12)] px-1.5 py-0.5">
-                              <span className="h-[5px] w-[5px] rounded-full bg-[#22C55E]" />
+                      {/* 5. Dominio personalizado — browser popping above */}
+                      <div data-stagger style={{ ["--i" as string]: 4, boxShadow: "0 26px 60px -34px rgba(0,0,0,0.4)", background: "radial-gradient(86% 76% at 85% 38%, rgba(219,59,43,0.17) 0%, transparent 62%), radial-gradient(72% 66% at 10% 92%, rgba(116,88,214,0.16) 0%, transparent 62%), linear-gradient(158deg, #17151b 0%, #100e13 100%)" }} className="incluye-card incluye-dark-card flex shrink-0 snap-start w-[80vw] max-w-[320px] tablet:w-[320px] flex-col rounded-[24px] border border-white/[0.07]">
+                        <div className="relative flex h-[214px] items-center justify-center">
+                          <div className="absolute left-1/2 top-[-30px] z-20 w-[256px] -translate-x-1/2 overflow-hidden rounded-[13px] border border-white/15 bg-white/[0.07] backdrop-blur-md" style={{ boxShadow: "0 22px 44px rgba(0,0,0,0.45)" }}>
+                            <div className="flex items-center gap-2.5 px-3 py-2.5">
+                              <div className="flex gap-1.5">
+                                <span className="h-[7px] w-[7px] rounded-full bg-white/30" />
+                                <span className="h-[7px] w-[7px] rounded-full bg-white/22" />
+                                <span className="h-[7px] w-[7px] rounded-full bg-white/16" />
+                              </div>
+                              <div className="flex-1 rounded-full bg-white/[0.13] py-1 text-center">
+                                <span className="font-inter text-[9px] text-white/70">www.mi-tienda.com</span>
+                              </div>
+                            </div>
+                            <div className="relative w-full" style={{ height: 190 }}>
+                              <Image src="/img/moda-banner-desktop.png" alt="" fill className="object-cover" style={{ objectPosition: "62% center" }} sizes="260px" />
                             </div>
                           </div>
                         </div>
-                        <h3 className="font-sora text-[17px] font-normal text-black" style={{ marginBottom: 6 }}>Dominio personalizado</h3>
-                        <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>Conecta tu dominio en minutos o usa uno de cortesía.</p>
+                        <div className="px-6 pb-7 pt-1">
+                          <h3 className="font-sora text-[21px] font-normal text-white" style={{ marginBottom: 8, letterSpacing: "-0.01em" }}>Dominio personalizado</h3>
+                          <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.55 }}>Conecta tu dominio en minutos o usa uno de cortesía.</p>
+                        </div>
                       </div>
 
                       {/* 6. Métricas en tiempo real */}
-                      <div data-stagger style={{ ["--i" as string]: 5 }} className="incluye-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
-                        <div className="incluye-visual relative mb-6 flex h-[150px] items-center justify-center overflow-hidden rounded-[10px]" style={{ padding: 12 }}>
-                          <div className="w-full max-w-[200px] rounded-[8px] border border-black/[0.06] bg-white p-2.5">
-                            <div className="flex items-center justify-between" style={{ marginBottom: 4 }}>
-                              <span className="font-inter text-[8px] text-black/50">Ventas · 7 días</span>
-                              <span className="font-inter text-[9px] font-bold text-[#22C55E]">↑ 24%</span>
-                            </div>
-                            <p className="font-sora text-[16px] font-light text-black" style={{ letterSpacing: "-0.02em", marginBottom: 6, lineHeight: 1 }}>$284,920</p>
-                            <div className="flex h-[28px] items-end gap-1">
-                              {[35, 52, 28, 64, 48, 78, 90].map((h, i) => (
-                                <div key={i} className="flex-1 rounded-t-[2px]" style={{ height: `${h}%`, background: i === 6 ? "#DB3B2B" : "rgba(219,59,43,0.18)" }} />
-                              ))}
+                      <div data-stagger style={{ ["--i" as string]: 5, boxShadow: "0 26px 60px -34px rgba(0,0,0,0.4)", background: "radial-gradient(86% 76% at 85% 38%, rgba(219,59,43,0.17) 0%, transparent 62%), radial-gradient(72% 66% at 10% 92%, rgba(116,88,214,0.16) 0%, transparent 62%), linear-gradient(158deg, #17151b 0%, #100e13 100%)" }} className="incluye-card incluye-dark-card flex shrink-0 snap-start w-[80vw] max-w-[320px] tablet:w-[320px] flex-col rounded-[24px] border border-white/[0.07]">
+                        <div className="relative flex h-[214px] items-end justify-center">
+                          {/* Bars — the tall ones break out above the card top */}
+                          <div className="absolute z-10 flex items-end justify-center gap-[7px]" style={{ left: 28, right: 28, bottom: 42, height: 200 }}>
+                            {[42, 58, 36, 70, 54, 84, 72, 100].map((h, i) => (
+                              <div key={i} className="flex-1 rounded-t-[4px]" style={{ height: `${h}%`, background: "linear-gradient(180deg, #E24A38 0%, #B0271B 100%)" }} />
+                            ))}
+                          </div>
+                          {/* Glass sales panel */}
+                          <div className="relative z-20 w-[222px] rounded-[14px] border border-white/14 bg-white/[0.12] p-3.5 backdrop-blur-md" style={{ marginBottom: 14, boxShadow: "0 14px 30px rgba(0,0,0,0.35)" }}>
+                            <p className="font-inter text-[10px] text-white/60" style={{ marginBottom: 5 }}>Ventas · Últimos 7 días</p>
+                            <div className="flex items-center gap-2.5">
+                              <p className="font-sora text-[23px] font-light text-white" style={{ letterSpacing: "-0.02em", lineHeight: 1 }}>$285,982</p>
+                              <span className="rounded-full bg-[rgba(74,222,128,0.18)] px-2 py-0.5 font-inter text-[10px] font-semibold text-[#4ADE80]">+23%</span>
                             </div>
                           </div>
                         </div>
-                        <h3 className="font-sora text-[17px] font-normal text-black" style={{ marginBottom: 6 }}>Métricas en tiempo real</h3>
-                        <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>Dashboard de ventas, tráfico y comportamiento desde el día uno.</p>
+                        <div className="px-6 pb-7 pt-1">
+                          <h3 className="font-sora text-[21px] font-normal text-white" style={{ marginBottom: 8, letterSpacing: "-0.01em" }}>Métricas en tiempo real</h3>
+                          <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.55 }}>Dashboard de ventas, tráfico y comportamiento desde el día uno.</p>
+                        </div>
                       </div>
                     </div>
 
@@ -1002,38 +1033,39 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                     </div>
                   </div>
                 </section>
+                )}
+
+                {/* ── Todo incluido desde el día uno (fondo oscuro, continúa con métricas) ── */}
+                <TodoIncluidoDark />
 
                 {/* ── Stats with count-up ── */}
-                <section className="relative px-5 py-20 tablet:px-10 tablet:py-24" style={{ background: "linear-gradient(135deg, #1A0A0A 0%, #261515 50%, #1A0A0A 100%)" }}>
+                <section className="relative px-5 py-20 tablet:px-10 tablet:py-24" style={{ background: "linear-gradient(180deg, #140a0a 0%, #1c0e0e 100%)" }}>
                   <div className="mx-auto max-w-[var(--max-w)]">
                     <div data-modal-animate className="mx-auto max-w-[640px] text-center" style={{ marginBottom: 48 }}>
-                      <h2 className="font-sora text-[24px] font-light text-white tablet:text-[34px]" style={{ letterSpacing: "-0.02em", lineHeight: 1.2 }}>
+                      <h2 className="font-sora text-[32px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.02em", lineHeight: 1.2 }}>
                         Los números hablan.
                       </h2>
                     </div>
 
                     <div data-modal-animate className="grid grid-cols-1 gap-10 text-center tablet:grid-cols-3">
                       <div data-stagger style={{ ["--i" as string]: 0 }}>
-                        <CountStat end={2} prefix="<" suffix=" min" label="para tu primera tienda" />
+                        <CountStat end={1} prefix="<" suffix=" min" label="para crear tu tienda" />
                       </div>
                       <div data-stagger style={{ ["--i" as string]: 1 }}>
-                        <CountStat end={50} prefix="+" suffix="K" label="tiendas creadas con T1" />
+                        <CountStat end={6} prefix="+" suffix=" mil" label="tiendas creadas con T1" />
                       </div>
                       <div data-stagger style={{ ["--i" as string]: 2 }}>
-                        <p className="font-sora text-[36px] font-light text-white tablet:text-[52px]" style={{ letterSpacing: "-0.03em", marginBottom: 6, lineHeight: 1 }}>
-                          24/7
-                        </p>
-                        <p className="font-inter text-[12px] font-light text-white/55 tablet:text-[13px]">soporte en español</p>
+                        <CountStat end={5} prefix="+" label="métodos de pago" />
                       </div>
                     </div>
                   </div>
                 </section>
 
-                {/* ── FAQ ── */}
-                <section className="relative bg-[#F6F6F6] px-5 py-24 tablet:px-10 tablet:py-32">
+                {/* ── FAQ (fondo oscuro) ── */}
+                <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
                   <div className="mx-auto max-w-[760px]">
                     <div data-modal-animate className="text-center" style={{ marginBottom: 40 }}>
-                      <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>
+                      <h2 className="font-sora text-[32px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>
                         Preguntas frecuentes
                       </h2>
                     </div>
@@ -1047,16 +1079,16 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                         <details
                           key={f.q}
                           data-stagger
-                          className="group rounded-[14px] border border-black/[0.06] bg-white transition-all duration-200 open:border-[rgba(219,59,43,0.2)] open:shadow-[0_4px_18px_rgba(0,0,0,0.05)]"
+                          className="group rounded-[14px] border border-white/[0.08] bg-white/[0.03] transition-all duration-200 open:border-[rgba(219,59,43,0.4)] open:bg-white/[0.05]"
                           style={{ ["--i" as string]: i }}
                         >
-                          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-sora text-[16px] font-normal text-black transition-colors duration-150 hover:text-[#DB3B2B]">
+                          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-sora text-[16px] font-normal text-white transition-colors duration-150 hover:text-[#FF6F5E]">
                             {f.q}
-                            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="shrink-0 text-black/40 transition-transform duration-300 group-open:rotate-180 group-open:text-[#DB3B2B]">
+                            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="shrink-0 text-white/40 transition-transform duration-300 group-open:rotate-180 group-open:text-[#FF6F5E]">
                               <path d="M3 5.5L8 10.5L13 5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                           </summary>
-                          <p className="px-6 pb-5 font-inter text-[14px] font-light text-black/65" style={{ lineHeight: 1.65 }}>
+                          <p className="px-6 pb-5 font-inter text-[14px] font-light text-white/60" style={{ lineHeight: 1.65 }}>
                             {f.a}
                           </p>
                         </details>
@@ -1119,6 +1151,18 @@ const SHOWCASE_CARDS = [
     ctaHref: "https://t1.com/mx/pagos/",
   },
   {
+    id: "t1pos",
+    title: "Punto de venta",
+    description:
+      "Vende en tu tienda física con el mismo catálogo e inventario. Cobra en persona, haz cortes de caja y entrega tickets al instante.",
+    bgImage: null,
+    bgCSS: "stack-bg-pos",
+    panelLeft: null,
+    panelRight: null,
+    ctaLabel: "Conoce T1 POS",
+    ctaHref: "/productos/t1tienda/punto-de-venta",
+  },
+  {
     id: "t1envios",
     title: "Envíos",
     description:
@@ -1142,6 +1186,7 @@ const STACK_BACKSTOP: Record<string, string> = {
   "stack-bg-tienda": "#140a14",
   "stack-bg-pagos": "#0a0f1a",
   "stack-bg-envios": "#100a18",
+  "stack-bg-pos": "#170b12",
 };
 
 /* AI "sparkle" — the two-star ✨ motif that signals an AI-generated capability.
@@ -2111,7 +2156,7 @@ export default function T1Features() {
   }, []);
 
   return (
-    <section className="stack-section-bg isolate pb-16 pt-0 tablet:pb-24 tablet:pt-[60px]">
+    <section className="stack-section-bg isolate pb-[60px] pt-0 tablet:pb-[60px] tablet:pt-[60px]">
       {/* Mobile-only full-width divider between the dark intro section
           and the stack cards. Light hairline now that the bg is dark. */}
       <div
@@ -2120,9 +2165,11 @@ export default function T1Features() {
         style={{ height: 1, width: "100%", background: "rgba(255,255,255,0.08)" }}
       />
 
-      {/* Desktop keeps a small gap above the stack cards. */}
-      <div className="mx-auto hidden max-w-[var(--max-w)] px-5 tablet:block tablet:px-6" style={{ paddingTop: 40 }}>
-        {/* Heading and subtitle live in T1FeatureIntro now. */}
+      {/* Section heading */}
+      <div className="mx-auto max-w-[var(--max-w)] px-5 text-center tablet:px-6" style={{ paddingTop: 44 }}>
+        <h2 className="mx-auto font-sora text-[26px] font-light text-white tablet:whitespace-nowrap tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.2, marginBottom: 44 }}>
+          Todo lo que tu negocio necesita
+        </h2>
       </div>
 
 
@@ -2164,6 +2211,8 @@ export default function T1Features() {
                 window.open("https://www.t1.com/mx/envios", "_blank", "noopener,noreferrer");
               } else if (card.id === "t1tienda" || card.id === "t1tienda-en-linea") {
                 window.open("https://www.t1.com/mx/tienda", "_blank", "noopener,noreferrer");
+              } else if (card.id === "t1pos") {
+                window.location.href = "/productos/t1tienda/punto-de-venta";
               } else {
                 setModalCard(card.id);
               }
@@ -2571,6 +2620,66 @@ export default function T1Features() {
                       <CotizadorPanel animate={enviosVisible} />
                     </div>
                   )}
+                </div>
+              ) : card.id === "t1pos" ? (
+                /* ── Punto de venta — checkout animation panel on the LEFT,
+                       text on the RIGHT (same semi-cut screen + glass border
+                       style as the other cards). ── */
+                <div className="flex h-full w-full flex-col tablet:flex-row-reverse">
+                  {/* Text column (visually RIGHT) */}
+                  <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:p-8 lg:p-10">
+                    <div style={{ maxWidth: 420 }}>
+                      <p className="font-sora text-[18px] font-normal text-white tablet:text-[22px] lg:text-[26px]">
+                        {card.title}
+                      </p>
+                      <p className="font-inter text-[13px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
+                        {card.description}
+                      </p>
+                      <ul className="hidden flex-col gap-2.5 tablet:flex" style={{ marginBottom: 26 }}>
+                        {[
+                          "Vende en persona con el mismo catálogo e inventario",
+                          "Cobra con tarjeta, efectivo, SPEI y transferencia",
+                          "Corte de caja y control por sucursal",
+                          "Tickets por WhatsApp, SMS o correo",
+                        ].map((b) => (
+                          <li key={b} className="flex items-start gap-2.5">
+                            <span className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full" style={{ background: "rgba(255,255,255,0.14)" }}>
+                              <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
+                                <path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            </span>
+                            <span className="font-inter text-[13px] font-normal text-white/85 tablet:text-[14px]" style={{ lineHeight: 1.45 }}>
+                              {b}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                      {card.ctaLabel && (
+                        <a
+                          href={card.ctaHref}
+                          onClick={(e) => e.stopPropagation()}
+                          className="inline-flex w-fit items-center font-inter text-[15px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
+                        >
+                          {card.ctaLabel}
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                  {/* Panel column (visually LEFT) — the same checkout animation
+                      as the POS sublanding ("Marca y cobra en segundos"), in its
+                      phone frame. Anchored to the TOP so the screen bleeds off the
+                      BOTTOM edge (semi-cut screen + GlassScreen border). The mock's
+                      action buttons sit raised (extra bottom padding inside the
+                      phone) so they stay visible above the cut. */}
+                  <div className="hidden w-1/2 items-start justify-center overflow-hidden tablet:flex" style={{ paddingTop: 44 }}>
+                    <div style={{ width: "100%", maxWidth: 300 }}>
+                      <PosCheckoutMobileScreen liftButtons />
+                    </div>
+                  </div>
+                  {/* Mobile: checkout phone mock */}
+                  <div className="mx-auto px-5 pb-5 pt-2 tablet:hidden" style={{ maxWidth: 270 }}>
+                    <PosCheckoutMobileScreen />
+                  </div>
                 </div>
               ) : (
                 /* ── Single panel layout (fallback) ── */

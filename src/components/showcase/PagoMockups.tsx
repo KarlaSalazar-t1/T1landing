@@ -128,7 +128,13 @@ function Topbar({ logo }: { logo: React.ReactNode }) {
     </div>
   );
 }
-const T1Logo = () => <span className="font-sora text-[26px] font-extrabold text-[#DB3B2B]">T1</span>;
+const T1Mark = ({ size = 24, fill = "#DB3B2B" }: { size?: number; fill?: string }) => (
+  <svg width={size} height={Math.round((size * 44) / 45)} viewBox="0 0 45 44" fill="none" aria-label="T1">
+    <path d="M27.6733 19.1041H31.4027C31.5444 19.1041 31.6388 19.1041 31.7332 19.1985C31.7332 19.1985 31.7332 19.1985 31.7332 19.2457V37.7039C31.7332 38.5064 32.4885 39.0729 33.291 38.8369C35.0377 38.1288 37.3037 37.2318 38.956 36.4765C39.2392 36.3349 39.6169 36.1932 39.6169 35.6268V19.2457C39.6169 19.2457 39.6169 19.1985 39.6169 19.1513C39.6169 19.1041 39.6169 19.1041 39.6169 19.1041V7.86867C39.6169 7.20776 39.0976 6.68848 38.4367 6.68848H35.6514C35.1321 6.68848 34.7073 7.01893 34.5184 7.491C33.3855 10.6539 31.2139 13.0143 27.9566 13.5808C24.6992 14.1473 27.6733 13.628 27.4845 13.628C26.8708 13.7224 26.4459 14.1945 26.4459 14.8082V17.8767C26.4459 18.5376 26.9652 19.0569 27.6261 19.0569L27.6733 19.1041Z" fill={fill} />
+    <path d="M32.5831 5.41411C32.4415 5.27248 32.2055 5.13086 31.9694 5.13086H4.63622C3.78648 5.13086 3.07837 5.74456 3.07837 6.54709V10.7014C3.07837 11.6927 3.2672 12.1648 4.4946 12.1648H13.6057C13.8417 12.1648 14.0305 12.3536 14.0305 12.5897V16.083V35.5326C14.0305 35.9574 14.3138 36.2879 14.7387 36.4767C15.5412 36.8072 18.3264 38.1762 19.2706 38.6955C20.2147 39.2148 21.867 38.3178 21.867 36.996V13.2506C21.867 13.2034 21.867 13.0617 21.867 13.0617C21.8198 12.7313 21.867 12.4008 22.1975 12.2592C22.2919 12.2592 22.3391 12.2592 22.4335 12.2592H25.4076C31.9222 11.6455 32.5831 6.5943 32.6303 6.02781C32.6303 6.02781 32.6303 5.9806 32.6303 5.93339V5.79177C32.6303 5.65014 32.6303 5.55573 32.4887 5.46131L32.5831 5.41411Z" fill={fill} />
+  </svg>
+);
+const T1Logo = () => <T1Mark size={30} />;
 const StoreLogo = () => <span className="font-sora text-[17px] font-bold text-black">{STORE}</span>;
 
 const Field = ({ ph }: { ph: string }) => (
@@ -240,7 +246,7 @@ function PagoFlow() {
                 <>
                   <p className="text-center font-inter text-[13px] font-medium text-black/55" style={{ marginBottom: 12 }}>Pago exprés</p>
                   <div className="relative flex items-center justify-center gap-1.5 rounded-[12px] bg-[#DB3B2B]" style={{ height: 58, marginBottom: 18 }}>
-                    <span className="font-inter text-[15px] font-semibold text-white">Paga con</span><span className="font-sora text-[16px] font-extrabold text-white">T1</span>
+                    <span className="font-inter text-[15px] font-semibold text-white">Paga con</span><T1Mark size={24} fill="#fff" />
                     <Tap left="58%" top="54%" />
                   </div>
                   <div className="flex items-center gap-3" style={{ marginBottom: 18 }}><span className="h-px flex-1 bg-black/[0.10]" /><span className="font-inter text-[11px] text-black/35">o</span><span className="h-px flex-1 bg-black/[0.10]" /></div>
@@ -265,7 +271,7 @@ function PagoFlow() {
                     <div className="flex items-center rounded-[11px] border border-black/[0.12] px-3.5" style={{ height: 48, marginBottom: 14 }}><span className="font-inter text-[13px] text-black/70">{EMAIL}</span></div>
                     <div className="flex items-center gap-2.5" style={{ marginBottom: 18 }}><span className="h-[15px] w-[15px] rounded-[3px] border border-black/25" /><span className="font-inter text-[12.5px] text-black/55">Mantener sesión iniciada</span></div>
                     <div className="relative flex items-center justify-center gap-1.5 rounded-[12px] bg-[#DB3B2B]" style={{ height: 50 }}>
-                      <span className="font-inter text-[14px] font-semibold text-white">Continuar con</span><span className="font-sora text-[15px] font-extrabold text-white">T1</span>
+                      <span className="font-inter text-[14px] font-semibold text-white">Continuar con</span><T1Mark size={22} fill="#fff" />
                       <Tap left="64%" top="52%" />
                     </div>
                   </div>

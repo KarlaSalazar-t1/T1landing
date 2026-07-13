@@ -186,7 +186,7 @@ function MiniFeatureIcon({ id }: { id: string }) {
   }
 }
 
-function TodoEnUnoCard() {
+export function TodoEnUnoCard() {
   // The 420×420 composition with orbit radius 180 gets clipped on small
   // phones (≤375px). Scale the whole thing down to ~70% on mobile so the
   // orbiting icons stay fully visible without rewriting the geometry.

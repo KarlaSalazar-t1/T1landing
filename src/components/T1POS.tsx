@@ -2,11 +2,12 @@
 
 import Image from "next/image";
 import { useEffect, useRef } from "react";
-import { SIGNUP_URL } from "@/lib/constants";
+import { SIGNUP_URL, SALES_URL } from "@/lib/constants";
 import { useCountUp } from "@/hooks/useCountUp";
 import { useFSStackCards } from "@/hooks/useFSStackCards";
 import T1FinalCTA from "@/components/T1FinalCTA";
-import { PosDesktopScreen, PosMobileScreen, PosCheckoutScreen, PosCheckoutMobileScreen } from "@/components/showcase/PosMockups";
+import { PosHeroScreen, PosCheckoutScreen, PosCheckoutMobileScreen, NegocioFlowScreen } from "@/components/showcase/PosMockups";
+import { TodoEnUnoCard } from "@/components/T1ScrollShowcase";
 
 function CountStat({ end, prefix = "", suffix = "", label, decimals = 0 }: { end: number; prefix?: string; suffix?: string; label: string; decimals?: number }) {
   const { ref, display } = useCountUp({ end, prefix, suffix, decimals, duration: 1800 });
@@ -16,6 +17,74 @@ function CountStat({ end, prefix = "", suffix = "", label, decimals = 0 }: { end
         {display}
       </p>
       <p className="font-inter text-[12px] font-light text-white/55 tablet:text-[13px]">{label}</p>
+    </div>
+  );
+}
+
+/* Catalog panel — product edit form: single price (base/oferta/costo/margen)
+   and inventory PER SUCURSAL (stock varies by branch, price does not). */
+function Field({ label, value, hint = false, placeholder }: { label: string; value?: string; hint?: boolean; placeholder?: string }) {
+  return (
+    <div className="min-w-0">
+      <div className="flex items-center gap-1" style={{ marginBottom: 5 }}>
+        <span className="font-inter text-[11px] text-black/55">{label}</span>
+        {hint && <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="1.8"><circle cx="12" cy="12" r="9" /><path d="M9.5 9.5a2.5 2.5 0 0 1 4.5 1.5c0 1.7-2 2-2 3.2M12 17.5h.01" strokeLinecap="round" /></svg>}
+      </div>
+      <div className="flex items-center gap-1.5 rounded-[9px] border border-black/[0.12] px-2.5" style={{ height: 34 }}>
+        <span className="font-inter text-[12px] text-black/40">$</span>
+        <span className={`font-inter text-[12.5px] ${value ? "text-black/85" : "text-black/35"}`}>{value ?? placeholder}</span>
+      </div>
+    </div>
+  );
+}
+
+function InventoryPanel() {
+  const SUCS = [
+    { n: "Correo Mayor", star: true, u: "1" },
+    { n: "Sucursal 10", star: false, u: "" },
+    { n: "Sucursal 9", star: false, u: "" },
+  ];
+  return (
+    <div className="relative order-2 overflow-hidden rounded-[18px] border border-black/[0.06] bg-white tablet:order-1" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
+      {/* Precio */}
+      <p className="font-sora text-[15px] font-semibold text-black" style={{ marginBottom: 14 }}>Precio</p>
+      <div className="grid grid-cols-2 gap-3" style={{ marginBottom: 12 }}>
+        <Field label="Precio base" value="3,299" />
+        <Field label="Precio oferta" hint value="1,979" />
+      </div>
+      <div className="grid grid-cols-3 gap-2.5" style={{ marginBottom: 14 }}>
+        <Field label="Costo" hint placeholder="0" />
+        <div className="min-w-0">
+          <span className="mb-[5px] block font-inter text-[11px] text-black/55">Ganancia</span>
+          <div className="flex items-center justify-center rounded-[9px] bg-[rgba(34,197,94,0.10)]" style={{ height: 34 }}><span className="font-inter text-[12.5px] font-semibold text-[#16A34A]">$1,979</span></div>
+        </div>
+        <div className="min-w-0">
+          <span className="mb-[5px] block font-inter text-[11px] text-black/55">Margen</span>
+          <div className="flex items-center justify-center rounded-[9px] bg-[rgba(34,197,94,0.10)]" style={{ height: 34 }}><span className="font-inter text-[12.5px] font-semibold text-[#16A34A]">100%</span></div>
+        </div>
+      </div>
+      <div className="flex items-center gap-2">
+        <span className="flex h-[15px] w-[15px] items-center justify-center rounded-[4px] border border-black/20" />
+        <span className="font-inter text-[12px] text-black/60">Mi producto grava IVA</span>
+      </div>
+
+      <div className="my-5 h-px bg-black/[0.07]" />
+
+      {/* Inventario por sucursal */}
+      <div className="flex items-center justify-between" style={{ marginBottom: 4 }}>
+        <p className="font-sora text-[15px] font-semibold text-black">Inventario por sucursal</p>
+      </div>
+      <p className="text-right font-inter text-[10.5px] text-black/45" style={{ marginBottom: 6 }}>Unidades disponibles</p>
+      {SUCS.map((s, i) => (
+        <div key={s.n} className={`flex items-center gap-3 py-2.5 ${i < SUCS.length - 1 ? "border-b border-black/[0.05]" : ""}`}>
+          <span className="flex flex-1 items-center gap-1.5 font-inter text-[13px] font-medium text-black">
+            {s.n}
+            {s.star && <span className="flex h-[16px] w-[16px] items-center justify-center rounded-[5px] bg-[rgba(245,158,11,0.14)]"><svg width="9" height="9" viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 18l-6 3.4 1.4-6.8L2.3 9.1l6.9-.8z" /></svg></span>}
+          </span>
+          <div className="flex w-[90px] items-center rounded-[9px] border border-black/[0.12] px-2.5" style={{ height: 34 }}><span className={`font-inter text-[12.5px] ${s.u ? "text-black/85" : "text-black/30"}`}>{s.u || "0"}</span></div>
+        </div>
+      ))}
+      <div className="mt-3 flex items-center justify-center rounded-[9px] border border-black/[0.12] py-2"><span className="font-inter text-[12px] font-medium text-black/60">Editar sucursales</span></div>
     </div>
   );
 }
@@ -49,238 +118,92 @@ export default function T1POS() {
       >
         <div aria-hidden className="pointer-events-none absolute -top-32 -right-32 h-[480px] w-[480px] rounded-full" style={{ background: "radial-gradient(circle at center, rgba(219,59,43,0.15) 0%, transparent 65%)", filter: "blur(40px)" }} />
         <div className="relative mx-auto max-w-[var(--max-w)]">
-          <div className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] tablet:gap-12">
+          <div className="grid grid-cols-1 items-center gap-10 tablet:min-h-[420px] tablet:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] tablet:items-end tablet:gap-12">
             {/* Left */}
-            <div>
+            <div className="tablet:self-center">
               <h1
                 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[60px]"
                 style={{ lineHeight: 1.05, letterSpacing: "-1.7px", marginBottom: 22 }}
               >
-                El punto de venta de{" "}
+                El punto de venta{" "}
                 <span className="relative inline-block">
-                  tu tienda física.
+                  todo en uno.
                   <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.30)", borderRadius: 5, zIndex: -1 }} />
                 </span>
               </h1>
               <p
                 className="font-inter text-[16px] font-light text-white/65 tablet:text-[19px]"
-                style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 480 }}
+                style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 500 }}
               >
-                Cobra tus ventas en piso con tarjeta, efectivo o SPEI usando el mismo catálogo e inventario de tu tienda en línea. Con control de caja al cierre.
+                Vende, cobra y controla el inventario de tu tienda física.
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <a
                   href={SIGNUP_URL}
                   className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
                 >
-                  Comenzar ahora
+                  Comienza gratis
                 </a>
               </div>
             </div>
 
-            {/* Right — POS on desktop + mobile, framed with the same transparent
-                glass edge as the main landing's stack cards. */}
-            <div className="relative mx-auto w-full" style={{ maxWidth: 600 }}>
-              {/* Desktop POS screen (built mock + glass frame) */}
-              <PosDesktopScreen />
-
-              {/* Mobile POS app — overlaps the bottom-right corner, in front */}
-              <div className="absolute" style={{ width: "30%", right: "-3%", bottom: "-12%", zIndex: 2 }}>
-                <PosMobileScreen />
-              </div>
-
+            {/* Right — POS phone (bleeds to the section's bottom edge) with the
+                animated "Crear producto" → cart → payment floats. */}
+            <div className="relative w-full tablet:-mb-24">
+              <PosHeroScreen />
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Stack cards intro ── */}
-      <section className="relative bg-white px-5 pt-12 pb-8 tablet:px-10 tablet:pt-16 tablet:pb-10">
-        <div data-modal-animate className="mx-auto max-w-[760px] text-center">
-          <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 16 }}>
-            Una caja conectada a todo tu negocio.
-          </h2>
-          <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[19px]" style={{ lineHeight: 1.5 }}>
-            Cobra, sincroniza y cierra el día sin saltar entre sistemas.
-          </p>
-        </div>
-      </section>
-
-      {/* ── Stack cards — 3 full-screen alternating panel + text ── */}
-      <div ref={stackRootRef} className="fs-stack-card-container relative bg-white">
-        {/* Block 1 — Cobra rápido (text left, panel right) — bg white, no shadow */}
-        <div className="fs-stack-card" style={{ top: 60, zIndex: 1, background: "#FFFFFF" }}>
-          <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
-            <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
-              <div>
-                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
-                  Cobra rápido
-                </h3>
-                <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                  Tarjeta, efectivo, SPEI o transferencia desde una sola terminal. Tu cliente paga como prefiera, tú cobras siempre.
-                </p>
-                <ul className="flex flex-col gap-2.5">
-                  {["Cobra con tarjeta, efectivo o SPEI", "Cobros en una sola terminal", "Comprobante digital al instante"].map((it) => (
-                    <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                      {it}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              {/* Panel — "Monto a cobrar" payment selection (mirrors the real screen) */}
-              <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 26, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
-                <p className="text-center font-sora text-[15px] font-medium text-black/70" style={{ marginBottom: 2 }}>Monto a cobrar</p>
-                <p className="text-center font-sora text-[44px] font-semibold text-black" style={{ letterSpacing: "-0.02em", marginBottom: 16 }}>$500.00</p>
-                <p className="mx-auto text-center font-inter text-[13px] text-black/55" style={{ marginBottom: 18, maxWidth: 280 }}>Elige el método de cobro con el que finalizarás esta venta.</p>
-                {[
-                  { l: "Tarjeta", d: "M3 7h18v10H3zM3 10h18", hot: true },
-                  { l: "Efectivo", d: "M3 6h18v12H3zM7 12h.01M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z", hot: false },
-                  { l: "Transferencia", d: "M7 7h10l-3-3M17 17H7l3 3", hot: false },
-                ].map((m, i) => (
-                  <div key={m.l} className={`flex items-center gap-3 py-3.5 ${i < 2 ? "border-b border-black/[0.06]" : ""}`}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={m.hot ? "#DB3B2B" : "#6B7280"} strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d={m.d} /></svg>
-                    <span className={`flex-1 font-inter text-[14px] ${m.hot ? "font-semibold text-black" : "text-black/75"}`}>{m.l}</span>
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Block 2 — Inventario sincronizado (panel left, text right) — bg #F6F6F6 */}
-        <div className="fs-stack-card" style={{ top: 80, zIndex: 2, background: "#F6F6F6" }}>
-          <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
-            <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
-              {/* Panel — sucursal vs online sync */}
-              <div className="relative order-2 overflow-hidden rounded-[18px] border border-black/[0.06] bg-white tablet:order-1" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
-                <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
-                  <p className="font-sora text-[14px] font-medium text-black">Inventario en vivo</p>
-                  <span className="rounded-full bg-[rgba(34,197,94,0.12)] px-2 py-0.5 font-inter text-[10px] font-bold text-[#16A34A]">Sincronizado</span>
-                </div>
-                {[
-                  { name: "Tenis blancos clásicos", sku: "TBC-042", suc: 24, online: 12 },
-                  { name: "Playera básica", sku: "PB-101", suc: 45, online: 42 },
-                  { name: "Sudadera hoodie", sku: "SH-220", suc: 12, online: 22 },
-                ].map((row, i) => (
-                  <div key={row.sku} className={`flex items-center justify-between py-3 ${i < 2 ? "border-b border-black/[0.05]" : ""}`}>
-                    <div>
-                      <p className="font-inter text-[13px] font-semibold text-black">{row.name}</p>
-                      <p className="font-inter text-[11px] text-black/50">{row.sku}</p>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="text-right">
-                        <p className="font-inter text-[9px] text-black/45">Sucursal</p>
-                        <p className="font-sora text-[14px] font-semibold text-black">{row.suc}</p>
-                      </div>
-                      <div className="h-[24px] w-px bg-black/[0.08]" />
-                      <div className="text-right">
-                        <p className="font-inter text-[9px] text-black/45">Online</p>
-                        <p className="font-sora text-[14px] font-semibold text-black">{row.online}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-                <div className="mt-3 flex items-center gap-2 rounded-[10px] bg-[rgba(34,197,94,0.08)] px-3 py-2">
-                  <span className="h-[6px] w-[6px] rounded-full bg-[#22C55E]" style={{ animation: "pulse-soft 2s ease-in-out infinite" }} />
-                  <span className="font-inter text-[11px] font-medium text-[#16A34A]">Última sync hace 2 segundos</span>
-                </div>
-              </div>
-
-              <div className="order-1 tablet:order-2">
-                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
-                  Inventario sincronizado
-                </h3>
-                <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                  Cada venta en sucursal descuenta stock online en segundos. Adiós sobreventas, hola tranquilidad.
-                </p>
-                <ul className="flex flex-col gap-2.5">
-                  {["Inventario unificado: tienda física y online", "Transferencias entre sucursales en un click"].map((it) => (
-                    <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                      {it}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Block 3 — Control de caja (text left, panel right) — bg white */}
-        <div className="fs-stack-card" style={{ top: 100, zIndex: 3, background: "#FFFFFF" }}>
-          <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
-            <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
-              <div>
-                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
-                  Corte de caja
-                </h3>
-                <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                  Control de caja con detalle de cobros, devoluciones y efectivo. Cuadres precisos sin pelear con hojas de cálculo.
-                </p>
-                <ul className="flex flex-col gap-2.5">
-                  {["Apertura y cierre de turno por vendedor", "Detalle de ingresos y retiros de efectivo", "Saldo en vivo según ventas y movimientos"].map((it) => (
-                    <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                      {it}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              {/* Panel — Control de caja (mirrors the real T1pos screen) */}
-              <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
-                <p className="font-sora text-[14px] font-medium text-black" style={{ marginBottom: 14 }}>Control de caja</p>
-                <div className="text-center" style={{ marginBottom: 14 }}>
-                  <p className="font-sora text-[30px] font-semibold text-black" style={{ letterSpacing: "-0.02em", lineHeight: 1 }}>$5,234.00</p>
-                  <p className="mt-1 font-inter text-[10px] text-black/45">Saldo según ventas y movimientos</p>
-                </div>
-                <div className="flex gap-2" style={{ marginBottom: 14 }}>
-                  <div className="flex flex-1 items-center justify-center rounded-[10px] border border-black/[0.12] py-2 font-inter text-[11px] font-medium text-black/70">Retirar efectivo</div>
-                  <div className="flex flex-1 items-center justify-center rounded-[10px] border border-black/[0.12] py-2 font-inter text-[11px] font-medium text-black/70">Ingresar efectivo</div>
-                </div>
-                <div className="flex items-center justify-between" style={{ marginBottom: 6 }}>
-                  <span className="font-inter text-[11px] font-semibold text-black">Movimientos</span>
-                  <span className="font-inter text-[10px] font-medium text-black/45 underline">Ver detalles</span>
-                </div>
-                <div className="rounded-[10px] border border-black/[0.06] bg-[#FCFCFC] px-3 py-1" style={{ marginBottom: 14 }}>
-                  {[
-                    { l: "Pagos en efectivo", a: "$2,434.00" },
-                    { l: "Devoluciones en efectivo", a: "$2,434.00" },
-                    { l: "Ingresos manuales", a: "$0.00" },
-                    { l: "Retiros manuales", a: "$2,434.00" },
-                    { l: "Pagos con tarjeta", a: "$2,434.00" },
-                    { l: "Pago personalizado 1", a: "$540.00" },
-                  ].map((m, i) => (
-                    <div key={m.l} className={`flex items-center justify-between py-1.5 ${i < 5 ? "border-b border-black/[0.04]" : ""}`}>
-                      <span className="font-inter text-[11px] text-black/65">{m.l}</span>
-                      <span className="font-inter text-[11px] font-semibold text-black">{m.a}</span>
-                    </div>
-                  ))}
-                </div>
-                <div className="flex items-center justify-center rounded-[10px] bg-[#DB3B2B] py-2.5">
-                  <span className="font-inter text-[12px] font-semibold text-white">Cerrar caja</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* ── De carrito a ticket — animated checkout flow ── */}
-      <section className="relative overflow-hidden px-5 py-[100px] tablet:px-10 tablet:py-[128px]" style={{ background: "linear-gradient(135deg, #1A1212 0%, #261515 50%, #1A0A0A 100%)" }}>
-        <div aria-hidden className="pointer-events-none absolute -top-24 left-1/2 h-[420px] w-[420px] -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(circle at center, rgba(219,59,43,0.16) 0%, transparent 65%)", filter: "blur(50px)" }} />
-        <div className="relative mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 48 }}>
-            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-              De carrito a ticket en segundos
+      {/* ── ¿Qué es? — explainer (Vende · Cobra · Controla) ── */}
+      <section className="relative bg-white px-5 pt-10 pb-10 tablet:px-10 tablet:pt-14 tablet:pb-14">
+        <div className="mx-auto max-w-[var(--max-w)]">
+          <div className="mx-auto max-w-[760px] text-center" style={{ marginBottom: 48, animation: "fadeSlideIn 0.6s ease-out both" }}>
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[34px] lg:text-[42px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15 }}>
+              Todo tu negocio, en un solo lugar.
             </h2>
-            <p className="font-inter text-[16px] font-light text-white/65 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-              Agrega productos, cobra y entrega el ticket. Así de rápido cobran tus vendedores.
+          </div>
+          <div data-modal-animate className="grid grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
+            {[
+              {
+                title: "Vende en piso",
+                desc: "Arma cada venta con el mismo catálogo de tu tienda en línea, con inventario por sucursal.",
+                icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 8l1.5-4h13L20 8 M5 8v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8 M4 8h16 M9 12a3 3 0 0 0 6 0" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>),
+              },
+              {
+                title: "Cobra con cualquier método",
+                desc: "Efectivo, SPEI, transferencia y pagos con tarjeta o métodos personalizados. Envía tickets por WhatsApp, SMS o email.",
+                icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2" stroke="#111827" strokeWidth="1.6" /><path d="M3 10h18 M7 15h3" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>),
+              },
+              {
+                title: "Controla tu inventario",
+                desc: "Stock por sucursal, actualizado en tiempo real con cada venta en piso o en línea. Sin sobreventas.",
+                icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M3 21h18" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /><rect x="5" y="12" width="3.5" height="7" rx="1" stroke="#111827" strokeWidth="1.6" /><rect x="10.5" y="8" width="3.5" height="11" rx="1" stroke="#111827" strokeWidth="1.6" /><rect x="16" y="4" width="3.5" height="15" rx="1" stroke="#111827" strokeWidth="1.6" /></svg>),
+              },
+            ].map((f, i) => (
+              <div key={f.title} data-stagger className="tienda-card rounded-[18px] border border-black/[0.07] bg-white p-7" style={{ ["--i" as string]: i, boxShadow: "0 4px 20px rgba(0,0,0,0.04)" }}>
+                <div className="flex h-[40px] w-[40px] items-center justify-center" style={{ marginBottom: 18 }}>{f.icon}</div>
+                <h3 className="font-sora text-[19px] font-normal text-black" style={{ marginBottom: 8 }}>{f.title}</h3>
+                <p className="font-inter text-[14px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{f.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── De carrito a ticket — animated checkout flow (white) ── */}
+      <section className="relative bg-white px-5 pt-4 pb-16 tablet:px-10 tablet:pt-6 tablet:pb-20">
+        <div className="relative mx-auto max-w-[var(--max-w)]">
+          <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 44 }}>
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+              Marca y cobra en segundos.
+            </h2>
+            <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
+              Agrega productos, cobra con cualquier forma de pago y comparte el ticket al terminar. Así de rápido cobran tus vendedores.
             </p>
           </div>
           <div data-modal-animate className="mx-auto" style={{ maxWidth: 760 }}>
-            {/* Desktop flow on tablet+, the phone flow on mobile */}
             <div className="hidden tablet:block">
               <PosCheckoutScreen />
             </div>
@@ -288,7 +211,7 @@ export default function T1POS() {
               <PosCheckoutMobileScreen />
             </div>
           </div>
-          <div data-modal-animate className="mt-12 flex justify-center">
+          <div data-modal-animate className="mt-10 flex justify-center">
             <a
               href={SIGNUP_URL}
               className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-8 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
@@ -300,92 +223,136 @@ export default function T1POS() {
         </div>
       </section>
 
-      {/* ── Multiplataforma ── */}
-      <section className="relative bg-white px-5 py-[100px] tablet:px-10 tablet:py-[128px]">
+      {/* ── Administra tu catálogo (module) — gris ── */}
+      <section className="relative bg-[#FBFBFB] px-5 py-16 tablet:px-10 tablet:py-24">
         <div className="mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="mx-auto max-w-[880px] text-center" style={{ marginBottom: 56 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-              Tu caja, en cualquier pantalla
-            </h2>
-            <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px] tablet:whitespace-nowrap" style={{ lineHeight: 1.55 }}>
-              La misma caja en la computadora del mostrador y en el celular de tu equipo en piso.
-            </p>
-          </div>
-          <div data-modal-animate className="mx-auto grid max-w-[920px] grid-cols-1 gap-5 tablet:grid-cols-3">
-            {[
-              {
-                title: "App para iOS y Android",
-                desc: "Cobra desde tu celular o tablet, ideal para vender en piso o en eventos.",
-                icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="6" y="2" width="12" height="20" rx="3" /><path d="M11 18h2" /></svg>),
-              },
-              {
-                title: "Web de escritorio",
-                desc: "La caja completa en la computadora de tu mostrador, lista para operar.",
-                icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="13" rx="2" /><path d="M8 21h8M12 17v4" /></svg>),
-              },
-              {
-                title: "Responsive, sin instalar",
-                desc: "Se adapta a cualquier pantalla y funciona directo desde el navegador.",
-                icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="14" height="10" rx="2" /><rect x="17" y="8" width="5" height="12" rx="1.5" /><path d="M6 18h6" /></svg>),
-              },
-            ].map((p, i) => (
-              <div key={p.title} data-stagger className="flex flex-col items-center rounded-[20px] border border-black/[0.07] bg-white px-7 py-9 text-center" style={{ ["--i" as string]: i, boxShadow: "0 4px 20px rgba(0,0,0,0.04)" }}>
-                <div className="flex h-[56px] w-[56px] items-center justify-center rounded-[16px]" style={{ background: "rgba(219,59,43,0.08)", marginBottom: 18 }}>{p.icon}</div>
-                <h3 className="font-sora text-[18px] font-normal text-black" style={{ marginBottom: 8 }}>{p.title}</h3>
-                <p className="font-inter text-[14px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{p.desc}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Download / open CTAs — three compact buttons, side by side */}
-          <div data-modal-animate className="mx-auto mt-12 max-w-[880px]">
-            <p className="text-center font-inter text-[15px] font-medium text-black/65" style={{ marginBottom: 18 }}>
-              Descarga la app o ábrela en la web
-            </p>
-            <div className="grid grid-cols-1 gap-3 tablet:grid-cols-3">
-            {[
-              { label: "Descárgala para Android", sub: "Escanea el QR · Google Play", logo: (<svg width="20" height="20" viewBox="0 0 24 24"><path d="M3.6 2.3l11 9.7-11 9.7c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z" fill="#4285F4" /><path d="M16.8 9.1l-2.2 2.9 2.2 2.9 3.5-2c.7-.4.7-1.4 0-1.8l-3.5-2z" fill="#FBBC04" /><path d="M14.6 12l-11 9.7c.4.2.9.2 1.3 0l11.9-6.8-2.2-2.9z" fill="#34A853" /><path d="M14.6 12l2.2-2.9L4.9 2.3c-.4-.2-.9-.2-1.3 0l11 9.7z" fill="#EA4335" /></svg>) },
-              { label: "Descárgala para iOS", sub: "Escanea el QR · App Store", logo: (<svg width="18" height="18" viewBox="0 0 24 24" fill="#111827"><path d="M17.6 7.1c-.9.05-2 .6-2.6 1.3-.6.6-1.1 1.6-.9 2.5 1 .08 2-.5 2.6-1.2.6-.7 1-1.7.9-2.6zM19 16.8c-.3.8-.5 1.1-.9 1.8-.6.9-1.4 2-2.4 2-.9 0-1.1-.6-2.3-.6-1.2 0-1.5.6-2.3.6-1 0-1.7-1-2.3-1.9-1.7-2.5-1.9-5.5-.8-7 .8-1.1 2-1.7 3.1-1.7 1.2 0 1.9.6 2.9.6.9 0 1.5-.6 2.9-.6 1 0 2.1.6 2.9 1.5-2.6 1.4-2.2 5.1.5 5.7z" /></svg>) },
-            ].map((q) => (
-              <div key={q.label} className="flex items-center gap-3.5 rounded-[16px] border border-black/[0.08] bg-white p-3" style={{ boxShadow: "0 4px 16px rgba(0,0,0,0.04)" }}>
-                <div className="flex h-[58px] w-[58px] shrink-0 items-center justify-center rounded-[10px] border border-black/[0.10] bg-white" style={{ padding: 6 }}>
-                  <svg width="46" height="46" viewBox="0 0 56 56" fill="#111827" aria-label={q.label}>
-                    <path d="M0 0h20v20H0zM4 4v12h12V4zM7 7h6v6H7z" />
-                    <path d="M36 0h20v20H36zM40 4v12h12V4zM43 7h6v6h-6z" />
-                    <path d="M0 36h20v20H0zM4 40v12h12V40zM7 43h6v6H7z" />
-                    <path d="M24 0h4v4h-4zM30 0h2v6h-6V4h4zM24 8h6v4h-4v4h-2zM32 8h4v4h-4zM24 16h8v4h-4v-2h-4z" />
-                    <path d="M36 24h4v4h-4zM44 24h4v8h-4v-4h-4v-2h4zM50 24h6v4h-4v2h-2zM36 32h6v4h-2v4h-4zM44 36h4v4h4v4h-8zM52 32h4v8h-4zM24 24h6v4h-2v2h-4zM24 32h4v4h4v4h-8zM30 40h6v4h-4v4h-2zM36 48h8v4h-8zM48 48h8v4h-8z" />
-                  </svg>
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="font-sora text-[14px] font-medium text-black">{q.label}</p>
-                  <p className="font-inter text-[12px] text-black/50">{q.sub}</p>
-                </div>
-                <span className="shrink-0 pr-1">{q.logo}</span>
-              </div>
-            ))}
-            {/* Web — compact row */}
-            <a href={SIGNUP_URL} className="flex items-center gap-3.5 rounded-[16px] border border-black/[0.08] bg-white p-3 no-underline transition-colors hover:border-black/25" style={{ boxShadow: "0 4px 16px rgba(0,0,0,0.04)" }}>
-              <div className="flex h-[58px] w-[58px] shrink-0 items-center justify-center rounded-[10px] border border-black/[0.10] bg-white">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#111827" strokeWidth="1.5"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.6 2.7 2.6 15.3 0 18M12 3c-2.6 2.7-2.6 15.3 0 18" strokeLinecap="round" /></svg>
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="font-sora text-[14px] font-medium text-black">Ábrela en la web</p>
-                <p className="font-inter text-[12px] text-black/50">Visítalo desde cualquier dispositivo</p>
-              </div>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0 mr-1"><path d="M4 8h8M9 5l3 3-3 3" stroke="#DB3B2B" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            </a>
+          <div data-modal-animate className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
+            <InventoryPanel />
+            <div className="order-1 tablet:order-2">
+              <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
+                Crea y administra tu catálogo
+              </h3>
+              <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
+                Da de alta tus productos con sus variantes, precios e inventario, y mantén todo centralizado en un mismo lugar.
+              </p>
+              <ul className="flex flex-col gap-2.5">
+                {["Crea productos con variantes y sus precios", "Inventario centralizado, siempre actualizado", "El mismo catálogo en piso y en tu tienda en línea"].map((it) => (
+                  <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                    {it}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Lo que incluye ── */}
-      <section className="relative bg-[#F6F6F6] px-5 py-24 tablet:px-10 tablet:py-32">
+      {/* ── Controla todo tu negocio (panel de caja) ── */}
+      <div ref={stackRootRef} className="fs-stack-card-container relative bg-white">
+        {/* Controla tu negocio — panel de control de caja */}
+        <div className="fs-stack-card" style={{ top: 100, zIndex: 3, background: "#FFFFFF" }}>
+          <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
+            <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
+              <div>
+                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
+                  Controla todo tu negocio
+                </h3>
+                <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
+                  Administra sucursales, equipo y corte de caja desde una sola cuenta. Todo bajo control, sin pelear con hojas de cálculo.
+                </p>
+                <ul className="flex flex-col gap-2.5">
+                  {["Multi-sucursal: cada tienda con su propio inventario", "Multi-empleado: cuentas por vendedor con permisos y reportes", "Apertura y corte de caja por sucursal y turno"].map((it) => (
+                    <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                      {it}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              {/* Panel — animated flow: sucursal → PIN → cargando → caja → apertura → corte */}
+              <div className="mx-auto w-full" style={{ maxWidth: 288 }}>
+                <NegocioFlowScreen />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      {/* ── Multiplataforma — descarga (dark QR card) on white ── */}
+      <section className="relative bg-white px-5 pb-10 tablet:px-10 tablet:pb-14">
+        <div className="mx-auto max-w-[var(--max-w)]">
+          <div data-modal-animate className="mx-auto max-w-[720px]">
+            <div className="relative overflow-hidden rounded-[24px] border border-white/[0.08] px-6 py-11 text-center tablet:px-10 tablet:py-14" style={{ background: "linear-gradient(135deg, #1A1212 0%, #261515 50%, #1A0A0A 100%)", boxShadow: "0 16px 40px rgba(0,0,0,0.14)" }}>
+              {/* colored blobs */}
+              <div aria-hidden className="pointer-events-none absolute -right-12 -top-16 h-[240px] w-[240px] rounded-full" style={{ background: "radial-gradient(circle at center, rgba(219,59,43,0.38) 0%, transparent 70%)", filter: "blur(34px)" }} />
+              <div aria-hidden className="pointer-events-none absolute -bottom-16 -left-12 h-[230px] w-[230px] rounded-full" style={{ background: "radial-gradient(circle at center, rgba(255,140,60,0.24) 0%, transparent 70%)", filter: "blur(36px)" }} />
+              <div aria-hidden className="pointer-events-none absolute left-1/3 top-1/2 h-[180px] w-[180px] rounded-full" style={{ background: "radial-gradient(circle at center, rgba(130,90,255,0.16) 0%, transparent 70%)", filter: "blur(34px)" }} />
+
+              <p className="relative font-sora text-[24px] font-medium text-white tablet:text-[30px]" style={{ letterSpacing: "-0.5px", marginBottom: 8 }}>Tu POS en cualquier dispositivo</p>
+              <p className="relative font-inter text-[15px] font-light text-white/60 tablet:hidden" style={{ marginBottom: 28 }}>Descárgalo gratis o ábrelo desde la web.</p>
+              <p className="relative hidden font-inter text-[15px] font-light text-white/60 tablet:block" style={{ marginBottom: 28 }}>Descárgalo gratis escaneando el código o ábrelo desde la web.</p>
+
+              {/* Desktop → one QR per store */}
+              <div className="relative hidden flex-col items-center tablet:flex">
+                <div className="flex items-start justify-center gap-8">
+                  {[
+                    { store: "App Store", logo: (<svg width="15" height="15" viewBox="0 0 24 24" fill="#fff"><path d="M17.6 7.1c-.9.05-2 .6-2.6 1.3-.6.6-1.1 1.6-.9 2.5 1 .08 2-.5 2.6-1.2.6-.7 1-1.7.9-2.6zM19 16.8c-.3.8-.5 1.1-.9 1.8-.6.9-1.4 2-2.4 2-.9 0-1.1-.6-2.3-.6-1.2 0-1.5.6-2.3.6-1 0-1.7-1-2.3-1.9-1.7-2.5-1.9-5.5-.8-7 .8-1.1 2-1.7 3.1-1.7 1.2 0 1.9.6 2.9.6.9 0 1.5-.6 2.9-.6 1 0 2.1.6 2.9 1.5-2.6 1.4-2.2 5.1.5 5.7z" /></svg>) },
+                    { store: "Google Play", logo: (<svg width="14" height="14" viewBox="0 0 24 24"><path d="M3.6 2.3l11 9.7-11 9.7c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z" fill="#4285F4" /><path d="M16.8 9.1l-2.2 2.9 2.2 2.9 3.5-2c.7-.4.7-1.4 0-1.8l-3.5-2z" fill="#FBBC04" /><path d="M14.6 12l-11 9.7c.4.2.9.2 1.3 0l11.9-6.8-2.2-2.9z" fill="#34A853" /><path d="M14.6 12l2.2-2.9L4.9 2.3c-.4-.2-.9-.2-1.3 0l11 9.7z" fill="#EA4335" /></svg>) },
+                  ].map((q) => (
+                    <div key={q.store} className="flex flex-col items-center">
+                      <div className="flex h-[116px] w-[116px] shrink-0 items-center justify-center rounded-[16px] bg-white" style={{ padding: 12, boxShadow: "0 6px 22px rgba(0,0,0,0.3)" }}>
+                        <svg width="92" height="92" viewBox="0 0 56 56" fill="#111827" fillRule="evenodd" aria-label={`Código QR para ${q.store}`}>
+                          <path d="M0 0h20v20H0zM4 4v12h12V4zM7 7h6v6H7z" />
+                          <path d="M36 0h20v20H36zM40 4v12h12V4zM43 7h6v6h-6z" />
+                          <path d="M0 36h20v20H0zM4 40v12h12V40zM7 43h6v6H7z" />
+                          <path d="M24 0h4v4h-4zM30 0h2v6h-6V4h4zM24 8h6v4h-4v4h-2zM32 8h4v4h-4zM24 16h8v4h-4v-2h-4z" />
+                          <path d="M36 24h4v4h-4zM44 24h4v8h-4v-4h-4v-2h4zM50 24h6v4h-4v2h-2zM36 32h6v4h-2v4h-4zM44 36h4v4h4v4h-8zM52 32h4v8h-4zM24 24h6v4h-2v2h-4zM24 32h4v4h4v4h-8zM30 40h6v4h-4v4h-2zM36 48h8v4h-8zM48 48h8v4h-8z" />
+                        </svg>
+                      </div>
+                      <div className="mt-2.5 flex items-center gap-1.5">
+                        {q.logo}
+                        <span className="font-inter text-[12.5px] font-medium text-white/70">{q.store}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Mobile → tappable store buttons (white pills on dark card) */}
+              <div className="relative flex flex-col items-center justify-center gap-3 tablet:hidden">
+                <a href={SIGNUP_URL} className="flex w-full items-center justify-center gap-3 rounded-[14px] bg-white px-6 py-3 no-underline">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="#111827"><path d="M17.6 7.1c-.9.05-2 .6-2.6 1.3-.6.6-1.1 1.6-.9 2.5 1 .08 2-.5 2.6-1.2.6-.7 1-1.7.9-2.6zM19 16.8c-.3.8-.5 1.1-.9 1.8-.6.9-1.4 2-2.4 2-.9 0-1.1-.6-2.3-.6-1.2 0-1.5.6-2.3.6-1 0-1.7-1-2.3-1.9-1.7-2.5-1.9-5.5-.8-7 .8-1.1 2-1.7 3.1-1.7 1.2 0 1.9.6 2.9.6.9 0 1.5-.6 2.9-.6 1 0 2.1.6 2.9 1.5-2.6 1.4-2.2 5.1.5 5.7z" /></svg>
+                  <span className="text-left">
+                    <span className="block font-inter text-[10px] leading-none text-black/55">Descárgala en el</span>
+                    <span className="block font-sora text-[17px] font-semibold leading-tight text-black">App Store</span>
+                  </span>
+                </a>
+                <a href={SIGNUP_URL} className="flex w-full items-center justify-center gap-3 rounded-[14px] bg-white px-6 py-3 no-underline">
+                  <svg width="22" height="22" viewBox="0 0 24 24"><path d="M3.6 2.3l11 9.7-11 9.7c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z" fill="#4285F4" /><path d="M16.8 9.1l-2.2 2.9 2.2 2.9 3.5-2c.7-.4.7-1.4 0-1.8l-3.5-2z" fill="#FBBC04" /><path d="M14.6 12l-11 9.7c.4.2.9.2 1.3 0l11.9-6.8-2.2-2.9z" fill="#34A853" /><path d="M14.6 12l2.2-2.9L4.9 2.3c-.4-.2-.9-.2-1.3 0l11 9.7z" fill="#EA4335" /></svg>
+                  <span className="text-left">
+                    <span className="block font-inter text-[10px] leading-none text-black/55">Disponible en</span>
+                    <span className="block font-sora text-[17px] font-semibold leading-tight text-black">Google Play</span>
+                  </span>
+                </a>
+              </div>
+
+              <a href={SIGNUP_URL} className="relative mt-7 inline-flex items-center gap-1.5 font-inter text-[14px] font-medium text-[#FF7060] no-underline hover:gap-2.5">
+                O ábrela en la web
+                <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9 5l3 3-3 3" stroke="#FF7060" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Lo que incluye — "Tu sucursal, lista para vender" (gris) ── */}
+      <section className="relative bg-[#FBFBFB] px-5 pt-14 pb-16 tablet:px-10 tablet:pt-16 tablet:pb-20">
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-              Todo lo que necesita tu sucursal
+              Tu sucursal, lista para vender
             </h2>
             <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
               Una sola plataforma, todo lo que tu equipo en piso necesita.
@@ -393,13 +360,13 @@ export default function T1POS() {
           </div>
           <div data-modal-animate className="grid grid-cols-1 gap-4 tablet:grid-cols-2 lg:grid-cols-3 lg:gap-5">
             {[
-              { title: "Lector de código", desc: "Escaneo rápido por código de barras o QR.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 5v14 M7 5v14 M11 5v14 M15 5v14 M19 5v14 M21 5v14" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
-              { title: "Tickets digitales", desc: "Envía recibos por WhatsApp o email al instante.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 3h14a2 2 0 0 1 2 2v14l-3-3H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round" /><path d="M8 9h8 M8 13h5" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
-              { title: "Promociones", desc: "Cupones, 2x1 y descuentos directo en caja.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M21 11.5V7l-9-4-9 4v9l9 4 9-4v-1.5" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round" /><circle cx="14" cy="14" r="2" stroke="#111827" strokeWidth="1.6" /></svg>) },
+              { title: "Lector de código", desc: "Escaneo rápido por código de barras mediante escáner o la cámara de tu dispositivo.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 5v14 M7 5v14 M11 5v14 M15 5v14 M19 5v14 M21 5v14" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
+              { title: "Tickets digitales", desc: "Envía recibos por WhatsApp, SMS o email al instante.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 3h14a2 2 0 0 1 2 2v14l-3-3H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round" /><path d="M8 9h8 M8 13h5" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
+              { title: "Promociones", desc: "Descuentos directo al cobrar o automatizados.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M21 11.5V7l-9-4-9 4v9l9 4 9-4v-1.5" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round" /><circle cx="14" cy="14" r="2" stroke="#111827" strokeWidth="1.6" /></svg>) },
               { title: "Multi-vendedor", desc: "Cuentas por colaborador con permisos y reportes.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="#111827" strokeWidth="1.6" /><circle cx="17" cy="9" r="2.5" stroke="#111827" strokeWidth="1.6" /><path d="M3 19c0-3.3 2.7-6 6-6s6 2.7 6 6 M14 14a5 5 0 0 1 7 5" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
-              { title: "Devoluciones", desc: "Procesa cambios y reembolsos sin fricción.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 1 0 3-6.7 M3 4v5h5" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+              { title: "Devoluciones", desc: "Procesa reembolsos sin fricción.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 1 0 3-6.7 M3 4v5h5" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
             ].map((f, i) => (
-              <div key={f.title} data-stagger className="tienda-card flex items-start gap-4 rounded-[16px] border border-black/[0.06] bg-white p-6" style={{ ["--i" as string]: i }}>
+              <div key={f.title} data-stagger className="tienda-card flex items-start gap-4 rounded-[16px] border border-black/[0.07] bg-white p-6" style={{ ["--i" as string]: i, boxShadow: "0 4px 20px rgba(0,0,0,0.04)" }}>
                 <div className="flex h-[40px] w-[40px] shrink-0 items-center justify-center">{f.icon}</div>
                 <div>
                   <h3 className="font-sora text-[16px] font-normal text-black" style={{ marginBottom: 4 }}>{f.title}</h3>
@@ -408,61 +375,58 @@ export default function T1POS() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ── Ecosistema T1 ── */}
-      <section className="relative bg-[#F6F6F6] px-5 py-[100px] tablet:px-10 tablet:py-[128px]">
-        <div className="mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="mx-auto max-w-[700px] text-center" style={{ marginBottom: 56 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-              Tu caja es parte del ecosistema T1
-            </h2>
-            <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-              T1pos no trabaja solo: comparte catálogo, inventario y clientes con el resto de T1 para que manejes todo tu negocio desde un solo lugar.
-            </p>
-          </div>
-          <div data-modal-animate className="relative mx-auto flex max-w-[760px] flex-wrap items-start justify-center gap-x-7 gap-y-8 tablet:gap-x-12">
-            <div aria-hidden className="pointer-events-none absolute left-[10%] right-[10%] top-[34px] hidden h-px tablet:block" style={{ background: "linear-gradient(90deg, transparent, rgba(0,0,0,0.12) 14%, rgba(0,0,0,0.12) 86%, transparent)" }} />
-            {[
-              { name: "Tienda en línea", img: "/img/icon-tienda.svg" },
-              { name: "Pagos", img: "/img/icon-pagos.svg" },
-              { name: "T1pos", pos: true },
-              { name: "Envíos", img: "/img/icon-envios.svg" },
-              { name: "Score", img: "/img/icon-score.svg" },
-            ].map((n, i) => (
-              <div key={n.name} data-stagger className="relative flex w-[92px] flex-col items-center" style={{ ["--i" as string]: i }}>
-                {n.pos ? (
-                  <div className="flex h-[68px] w-[68px] items-center justify-center rounded-[20px] bg-[#DB3B2B]" style={{ boxShadow: "0 12px 26px rgba(219,59,43,0.30)" }}>
-                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2l-2 4v13a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6l-2-4z" /><path d="M4 6h16M15.5 10a3.5 3.5 0 0 1-7 0" /></svg>
-                  </div>
-                ) : (
-                  <div className="flex h-[68px] w-[68px] items-center justify-center rounded-[20px] border border-black/[0.07] bg-white" style={{ boxShadow: "0 6px 18px rgba(0,0,0,0.05)" }}>
-                    <Image src={n.img!} alt="" width={34} height={34} />
-                  </div>
-                )}
-                <span className={`mt-3 text-center font-inter text-[13px] ${n.pos ? "font-semibold text-black" : "text-black/65"}`}>{n.name}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* What being part of the ecosystem actually gives you */}
-          <div data-modal-animate className="mx-auto mt-14 grid max-w-[920px] grid-cols-1 gap-5 tablet:grid-cols-3">
-            {[
-              { t: "Un solo catálogo", d: "Lo que vendes en piso usa el mismo catálogo e inventario de tu tienda en línea. Cambias una vez y se actualiza en todos lados." },
-              { t: "Cobros conectados", d: "Cobra en caja, en línea o con links de pago de T1 Pagos. Todas tus ventas en un mismo lugar." },
-              { t: "Envíos a un click", d: "Genera guías con T1 Envíos desde la misma plataforma para lo que vendes en línea." },
-            ].map((b, i) => (
-              <div key={b.t} data-stagger className="rounded-[18px] border border-black/[0.07] bg-white p-6" style={{ ["--i" as string]: i, boxShadow: "0 4px 20px rgba(0,0,0,0.04)" }}>
-                <h3 className="font-sora text-[16px] font-normal text-black" style={{ marginBottom: 6 }}>{b.t}</h3>
-                <p className="font-inter text-[13.5px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{b.d}</p>
-              </div>
-            ))}
+          <div data-modal-animate className="mt-12 flex justify-center">
+            <a
+              href={SIGNUP_URL}
+              className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
+            >
+              Activar mi punto de venta
+            </a>
           </div>
         </div>
       </section>
 
-      {/* ── Stats ── */}
+      {/* ── Ecosistema T1 — órbita ── */}
+      <section className="relative overflow-hidden px-5 py-24 tablet:px-10 tablet:py-32" style={{ background: "linear-gradient(135deg, #1A1212 0%, #0F0808 55%, #050303 100%)" }}>
+        <div className="relative mx-auto max-w-[var(--max-w)]">
+          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-8">
+            {/* Text */}
+            <div data-modal-animate>
+              <h2 className="font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 16 }}>
+                T1 POS es parte del ecosistema T1
+              </h2>
+              <p className="font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 460 }}>
+                T1pos no trabaja solo: comparte catálogo, inventario y clientes con el resto de T1 para que manejes todo tu negocio desde un solo lugar.
+              </p>
+              <ul className="flex flex-col gap-4" style={{ marginBottom: 32 }}>
+                {[
+                  { t: "Un solo catálogo", d: "el mismo catálogo de tu tienda en línea, con inventario por sucursal." },
+                  { t: "Cobros conectados", d: "cobra en persona, en línea o con links de pago de T1 Pagos, todo en un lugar." },
+                  { t: "Envíos a un click", d: "genera guías con T1 Envíos desde la misma plataforma para tus ventas en línea." },
+                ].map((b) => (
+                  <li key={b.t} className="flex items-start gap-3">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="mt-1 shrink-0"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                    <span className="font-inter text-[14.5px] tablet:text-[15px]" style={{ lineHeight: 1.55 }}>
+                      <span className="font-medium text-white">{b.t}:</span>
+                      <span className="font-light text-white/55"> {b.d}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <a href={SIGNUP_URL} className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
+                Empezar con T1
+              </a>
+            </div>
+            {/* Orbit */}
+            <div className="flex items-center justify-center">
+              <TodoEnUnoCard />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Stats (oculto) ── */}
+      {false && (
       <section className="relative px-5 py-20 tablet:px-10 tablet:py-24" style={{ background: "linear-gradient(135deg, #1A0A0A 0%, #261515 50%, #1A0A0A 100%)" }}>
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[640px] text-center" style={{ marginBottom: 48 }}>
@@ -480,6 +444,7 @@ export default function T1POS() {
           </div>
         </div>
       </section>
+      )}
 
       {/* ── Planes ── */}
       <section className="relative bg-white px-5 py-[100px] tablet:px-10 tablet:py-[128px]">
@@ -493,25 +458,26 @@ export default function T1POS() {
             </p>
           </div>
           {/* plan cards — differ only in usuarios + sucursales */}
-          <div data-modal-animate className="mx-auto grid max-w-[900px] grid-cols-1 items-stretch gap-5 tablet:grid-cols-3">
+          <div data-modal-animate className="mx-auto grid max-w-[1040px] grid-cols-1 items-stretch gap-4 tablet:grid-cols-2 lg:grid-cols-4 lg:gap-5">
             {[
-              { name: "Inicia", price: "$0", users: "1 usuario", branches: "1 sucursal", featured: false },
-              { name: "Crece", price: "$399", users: "5 usuarios", branches: "3 sucursales", featured: true },
-              { name: "Pro", price: "$899", users: "Usuarios ilimitados", branches: "Sucursales ilimitadas", featured: false },
+              { name: "Gratuito", price: "$0", users: "1 usuario", branches: "1 sucursal", featured: false, custom: false },
+              { name: "Básico", price: "$399", users: "5 usuarios", branches: "3 sucursales", featured: false, custom: false },
+              { name: "Avanzado", price: "$899", users: "15 usuarios", branches: "10 sucursales", featured: true, custom: false },
+              { name: "Enterprise", price: "A tu medida", users: "Usuarios ilimitados", branches: "Sucursales ilimitadas", featured: false, custom: true },
             ].map((p, i) => (
               <div
                 key={p.name}
                 data-stagger
-                className={`relative flex flex-col rounded-[20px] p-7 ${p.featured ? "border-2 border-[#DB3B2B] bg-white" : "border border-black/[0.08] bg-white"}`}
+                className={`relative flex flex-col rounded-[20px] p-6 ${p.featured ? "border-2 border-[#DB3B2B] bg-white" : "border border-black/[0.08] bg-white"}`}
                 style={{ ["--i" as string]: i, boxShadow: p.featured ? "0 18px 50px rgba(219,59,43,0.12)" : "0 4px 20px rgba(0,0,0,0.04)" }}
               >
                 {p.featured && (
-                  <span className="absolute right-6 top-7 rounded-full bg-[rgba(219,59,43,0.10)] px-2.5 py-1 font-inter text-[11px] font-bold text-[#DB3B2B]">Recomendado</span>
+                  <span className="absolute right-5 top-6 rounded-full bg-[rgba(219,59,43,0.10)] px-2.5 py-1 font-inter text-[10px] font-bold text-[#DB3B2B]">Recomendado</span>
                 )}
                 <p className="font-sora text-[18px] font-medium text-black" style={{ marginBottom: 10 }}>{p.name}</p>
                 <div className="flex items-end gap-1" style={{ marginBottom: 20 }}>
-                  <span className="font-sora text-[40px] font-light text-black" style={{ letterSpacing: "-0.03em", lineHeight: 1 }}>{p.price}</span>
-                  <span className="font-inter text-[14px] text-black/50" style={{ marginBottom: 4 }}>/mes</span>
+                  <span className={`font-sora font-light text-black ${p.custom ? "text-[24px]" : "text-[40px]"}`} style={{ letterSpacing: "-0.03em", lineHeight: 1.1 }}>{p.price}</span>
+                  {!p.custom && <span className="font-inter text-[14px] text-black/50" style={{ marginBottom: 4 }}>/mes</span>}
                 </div>
                 <div className="flex flex-col gap-2.5 rounded-[14px] bg-[#FAFAF9] p-4" style={{ marginBottom: 22 }}>
                   <div className="flex items-center gap-2.5">
@@ -524,29 +490,29 @@ export default function T1POS() {
                   </div>
                 </div>
                 <a
-                  href={SIGNUP_URL}
-                  className={`mt-auto inline-flex items-center justify-center rounded-[12px] px-6 py-3 font-inter text-[14px] font-semibold no-underline transition-colors duration-150 ${p.featured ? "bg-[#DB3B2B] text-white hover:bg-[#C0332A]" : "border border-black/15 text-black hover:border-black/35"}`}
+                  href={p.custom ? SALES_URL : SIGNUP_URL}
+                  className={`mt-auto inline-flex items-center justify-center rounded-[12px] px-5 py-3 font-inter text-[14px] font-semibold no-underline transition-colors duration-150 ${p.featured ? "bg-[#DB3B2B] text-white hover:bg-[#C0332A]" : "border border-black/15 text-black hover:border-black/35"}`}
                 >
-                  Comenzar
+                  {p.custom ? "Contactar ventas" : "Comenzar"}
                 </a>
               </div>
             ))}
           </div>
 
           {/* Todos los planes incluyen — the full platform (same in every plan) */}
-          <div data-modal-animate className="mx-auto mt-6 max-w-[900px] rounded-[20px] border border-black/[0.08] bg-white p-7 tablet:p-9" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.04)" }}>
+          <div data-modal-animate className="mx-auto mt-6 max-w-[1040px] rounded-[20px] border border-black/[0.08] bg-white p-7 tablet:p-9" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.04)" }}>
             <p className="text-center font-sora text-[16px] font-medium text-black" style={{ marginBottom: 18 }}>
               Todos los planes incluyen la plataforma completa
             </p>
             <div className="grid grid-cols-1 gap-x-8 gap-y-3 tablet:grid-cols-2 lg:grid-cols-3">
               {[
                 "Cobros con tarjeta, efectivo y SPEI",
-                "Inventario sincronizado con tu tienda en línea",
+                "Inventario y precios por sucursal, en tiempo real",
                 "Control y corte de caja",
                 "Roles y permisos por usuario",
                 "Reportes de ventas",
-                "Tickets digitales por WhatsApp y email",
-                "Promociones y descuentos en caja",
+                "Tickets digitales por WhatsApp, SMS y email",
+                "Promociones y descuentos al cobrar",
                 "Devoluciones y reembolsos",
               ].map((f) => (
                 <div key={f} className="flex items-start gap-2.5 font-inter text-[13.5px] text-black/70">
@@ -558,14 +524,14 @@ export default function T1POS() {
           </div>
 
           {/* Cross-sell — POS también activa tu tienda en línea */}
-          <div data-modal-animate className="mx-auto mt-5 flex max-w-[900px] flex-col items-center gap-4 rounded-[20px] border border-[rgba(219,59,43,0.25)] p-6 text-center tablet:flex-row tablet:items-center tablet:gap-5 tablet:text-left" style={{ background: "rgba(219,59,43,0.04)" }}>
+          <div data-modal-animate className="mx-auto mt-5 flex max-w-[1040px] flex-col items-center gap-4 rounded-[20px] border border-[rgba(219,59,43,0.25)] p-6 text-center tablet:flex-row tablet:items-center tablet:gap-5 tablet:text-left" style={{ background: "rgba(219,59,43,0.04)" }}>
             <span className="flex h-[48px] w-[48px] shrink-0 items-center justify-center rounded-[14px] bg-white" style={{ boxShadow: "0 4px 14px rgba(0,0,0,0.06)" }}>
               <Image src="/img/icon-tienda.svg" alt="" width={28} height={28} />
             </span>
             <div className="flex-1">
               <p className="font-sora text-[15px] font-semibold text-black" style={{ marginBottom: 3 }}>También activas tu Tienda en línea</p>
               <p className="font-inter text-[13.5px] font-light text-black/60" style={{ lineHeight: 1.55 }}>
-                Con cualquier plan de T1pos vendes en tu local y por internet con el mismo catálogo e inventario. Sin contratar nada aparte.
+                Con cualquier plan de T1pos vendes en tu local y por internet con el mismo catálogo, con inventario por sucursal. Sin contratar nada aparte.
               </p>
             </div>
             <span className="shrink-0 rounded-full bg-[rgba(34,197,94,0.12)] px-3 py-1 font-inter text-[12px] font-bold text-[#16A34A]">Incluido</span>
@@ -578,7 +544,7 @@ export default function T1POS() {
       </section>
 
       {/* ── FAQ ── */}
-      <section className="relative bg-[#F6F6F6] px-5 py-24 tablet:px-10 tablet:py-32">
+      <section className="relative bg-[#FBFBFB] px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[760px]">
           <div data-modal-animate className="text-center" style={{ marginBottom: 40 }}>
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>Preguntas frecuentes</h2>
@@ -604,7 +570,7 @@ export default function T1POS() {
 
       <T1FinalCTA
         title="¿Listo para vender en piso?"
-        description="Activa tu punto de venta hoy. Conecta caja, inventario y reportes en una sola plataforma."
+        description="Activa tu punto de venta hoy. Conecta ventas, inventario y reportes en una sola plataforma."
       />
     </div>
   );

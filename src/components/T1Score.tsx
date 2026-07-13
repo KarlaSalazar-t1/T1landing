@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 const FONT = "var(--font-manrope-var), sans-serif";
 
 /**
@@ -157,88 +159,66 @@ export default function T1Score() {
         />
       </div>
 
-      <div className="relative mx-auto w-full max-w-[var(--max-w)] px-5 py-14 tablet:px-6 tablet:py-20">
+      <div className="relative mx-auto w-full max-w-[var(--max-w)] px-5 pb-14 pt-6 tablet:px-6 tablet:pb-20 tablet:pt-9">
         {/* Self-contained card — its own border/fill is what separates the
             section from Metrics below, so the band itself can share Metrics'
             black background. */}
         <div
           className="relative mx-auto overflow-hidden rounded-[24px] border border-white/[0.08]"
-          style={{
-            maxWidth: 1040,
-            background: "linear-gradient(160deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.018) 100%)",
-            backdropFilter: "blur(20px)",
-            WebkitBackdropFilter: "blur(20px)",
-            boxShadow: "inset 0 1px 0 rgba(255,255,255,0.06), 0 24px 60px rgba(0,0,0,0.5)",
-          }}
+          style={{ maxWidth: 1040, boxShadow: "0 24px 60px rgba(0,0,0,0.5)" }}
         >
-          {/* Color blob inside the card — a deep-red glow lower-right (behind
-              the score) + a dark-blue glow upper-left, clipped by the card's
-              overflow-hidden so the interior reads with color depth instead of
-              flat glass (CEO: "añade un degradado o blob de color azul oscuro o
-              rojo dentro de la card"). */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 z-0"
-            style={{
-              background:
-                "radial-gradient(115% 95% at 100% 100%, rgba(219,59,43,0.26) 0%, rgba(219,59,43,0.10) 32%, transparent 60%), radial-gradient(95% 85% at 0% 0%, rgba(36,66,150,0.20) 0%, transparent 55%)",
-            }}
+          {/* Full-card background — the whole T1 Score scene as one fondo */}
+          <Image
+            src="/img/bg-score-2.png"
+            alt="Score de riesgo T1 Score"
+            fill
+            className="object-cover"
+            style={{ objectPosition: "right center" }}
+            sizes="(max-width: 1100px) 100vw, 1040px"
           />
-          <div className="relative z-[1] p-7 tablet:p-12">
-            {/* Heading + subheading */}
-            <div className="tablet:max-w-[560px]">
-              <h2
-                className="font-sora text-[24px] font-light text-white tablet:text-[30px] lg:text-[34px]"
-                style={{ letterSpacing: "-0.02em", lineHeight: 1.15 }}
-              >
-                Protégete del fraude con{" "}
-                <span style={{ color: "#FF6F5E" }}>T1&nbsp;Score</span>
-              </h2>
-              <p
-                className="mt-3.5 font-inter text-[14px] font-normal text-white/65 tablet:text-[15px]"
-                style={{ letterSpacing: "-0.01em", lineHeight: 1.5, maxWidth: 500 }}
-              >
-                Analiza el riesgo de cada cliente y transacción —con IA y datos
-                de Círculo de Crédito— para aceptar ventas con confianza y evitar
-                fraudes.
-              </p>
-            </div>
+          {/* Legibility gradient over the text side */}
+          <div aria-hidden className="pointer-events-none absolute inset-0 hidden tablet:block" style={{ background: "linear-gradient(90deg, rgba(9,8,11,0.95) 0%, rgba(9,8,11,0.86) 32%, rgba(9,8,11,0.36) 56%, rgba(9,8,11,0) 78%)" }} />
+          <div aria-hidden className="pointer-events-none absolute inset-0 tablet:hidden" style={{ background: "linear-gradient(180deg, rgba(9,8,11,0.96) 0%, rgba(9,8,11,0.9) 55%, rgba(9,8,11,0.82) 100%)" }} />
 
-            {/* Two columns: pillars + CTA on the left, score card on the right.
-                On mobile the card comes first (order-1) under the intro. */}
-            <div className="mt-8 grid grid-cols-1 items-center gap-9 tablet:mt-10 tablet:grid-cols-2 tablet:gap-12">
-              {/* Score card */}
-              <div className="relative order-1 flex justify-center tablet:order-2 tablet:justify-end">
-                <ScoreReportCard />
-              </div>
+          <div className="relative z-10 p-7 tablet:p-12 tablet:max-w-[54%]">
+            <h2
+              className="font-sora text-[24px] font-light text-white tablet:text-[30px] lg:text-[34px]"
+              style={{ letterSpacing: "-0.02em", lineHeight: 1.15 }}
+            >
+              Protégete del fraude con{" "}
+              <span style={{ color: "#FF6F5E" }}>T1&nbsp;Score</span>
+            </h2>
+            <p
+              className="mt-3.5 font-inter text-[14px] font-normal text-white/70 tablet:text-[15px]"
+              style={{ letterSpacing: "-0.01em", lineHeight: 1.5, maxWidth: 440 }}
+            >
+              Analiza el riesgo de cada cliente y transacción, con IA y datos
+              de Círculo de Crédito, para aceptar ventas con confianza y evitar
+              fraudes.
+            </p>
 
-              {/* Pillars + CTA */}
-              <div className="order-2 tablet:order-1">
-                <ul className="flex flex-col gap-4">
-                  {PILLARS.map((p) => (
-                    <li key={p.id} className="flex items-center gap-3.5">
-                      <span className="shrink-0">
-                        <PillarIcon id={p.id} />
-                      </span>
-                      <p className="font-inter text-[15px] font-semibold text-white tablet:text-[16px]">
-                        {p.title}
-                      </p>
-                    </li>
-                  ))}
-                </ul>
+            <ul className="mt-8 flex flex-col gap-4">
+              {PILLARS.map((p) => (
+                <li key={p.id} className="flex items-center gap-3.5">
+                  <span className="shrink-0">
+                    <PillarIcon id={p.id} />
+                  </span>
+                  <p className="font-inter text-[15px] font-semibold text-white tablet:text-[16px]">
+                    {p.title}
+                  </p>
+                </li>
+              ))}
+            </ul>
 
-                {/* CTA — single button, trust mark removed per CEO. */}
-                <a
-                  href="/productos/t1score"
-                  className="mt-8 inline-flex h-[46px] w-fit items-center justify-center gap-2 rounded-[23px] bg-[#DB3B2B] px-6 font-inter text-[14px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A] hover:shadow-[0_4px_16px_rgba(226,97,83,0.4)] tablet:text-[15px]"
-                >
-                  Conoce T1 Score
-                  <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
-                    <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </a>
-              </div>
-            </div>
+            <a
+              href="/productos/t1score"
+              className="mt-8 inline-flex h-[46px] w-fit items-center justify-center gap-2 rounded-[23px] bg-[#DB3B2B] px-6 font-inter text-[14px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A] hover:shadow-[0_4px_16px_rgba(226,97,83,0.4)] tablet:text-[15px]"
+            >
+              Conoce T1 Score
+              <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </a>
           </div>
         </div>
       </div>
