@@ -364,9 +364,9 @@ export default function T1Pasarela() {
                 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[60px]"
                 style={{ lineHeight: 1.05, letterSpacing: "-1.7px", marginBottom: 22 }}
               >
-                Aprueba más pagos y{" "}
+                Un checkout diseñado para{" "}
                 <span className="relative inline-block whitespace-nowrap">
-                  vende más.
+                  vender más.
                   <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.30)", borderRadius: 5, zIndex: -1 }} />
                 </span>
               </h1>
@@ -374,7 +374,7 @@ export default function T1Pasarela() {
                 className="font-inter text-[16px] font-light text-white/65 tablet:text-[19px]"
                 style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 480 }}
               >
-                Nuestro checkout convierte más, te protege de posibles fraudes y contracargos.
+                Acepta tarjetas, SPEI, OXXO, wallets, MSI y pagos express con una experiencia rápida, segura y conectada a T1.
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <a
@@ -400,20 +400,21 @@ export default function T1Pasarela() {
                 <CheckoutHeroScreen />
               </div>
 
-              {/* Burbujas circulares (blanco translúcido) con movimiento sutil */}
+              {/* Burbujas circulares (blanco translúcido) alineadas al lado
+                  derecho, distribuidas de arriba a abajo (no debajo del panel). */}
               {[
-                { src: "/img/logos/brands/visa.webp", left: "82%", top: "-4%", dur: "8s", d: "0s" },
-                { src: "/img/logos/brands/mastercard.webp", left: "90%", top: "42%", dur: "9s", d: "0.6s" },
-                { src: "/img/logos/brands/spei.webp", left: "78%", top: "88%", dur: "9.5s", d: "0.3s" },
-                { src: "/img/logos/brands/amex.webp", left: "34%", top: "94%", dur: "8.5s", d: "0.4s" },
-                { src: "/img/logos/brands/kueski.webp", left: "6%", top: "92%", dur: "10s", d: "0.8s" },
+                { src: "/img/logos/brands/visa.webp", left: "82%", top: "-2%", dur: "8s", d: "0s" },
+                { src: "/img/logos/brands/mastercard.webp", left: "92%", top: "22%", dur: "9s", d: "0.6s" },
+                { src: "/img/logos/brands/spei.webp", left: "88%", top: "46%", dur: "9.5s", d: "0.3s" },
+                { src: "/img/logos/brands/amex.webp", left: "93%", top: "68%", dur: "8.5s", d: "0.4s" },
+                { src: "/img/logos/brands/kueski.webp", left: "84%", top: "90%", dur: "10s", d: "0.8s" },
               ].map((b, i) => (
                 <div
                   key={i}
-                  className="absolute z-[3] flex h-[58px] w-[58px] items-center justify-center rounded-full border border-white/40 backdrop-blur-md"
-                  style={{ left: b.left, top: b.top, background: "rgba(255,255,255,0.82)", boxShadow: "0 14px 30px rgba(0,0,0,0.25)", animation: `payFloat ${b.dur} ease-in-out ${b.d} infinite` }}
+                  className="absolute z-[3] flex h-[48px] w-[48px] items-center justify-center rounded-full border border-white/40 backdrop-blur-md"
+                  style={{ left: b.left, top: b.top, background: "rgba(255,255,255,0.82)", boxShadow: "0 12px 26px rgba(0,0,0,0.25)", animation: `payFloat ${b.dur} ease-in-out ${b.d} infinite` }}
                 >
-                  <Image src={b.src} alt="" width={80} height={56} className="h-[22px] w-auto object-contain" />
+                  <Image src={b.src} alt="" width={80} height={56} className="h-[19px] w-auto object-contain" />
                 </div>
               ))}
             </div>
@@ -455,12 +456,9 @@ export default function T1Pasarela() {
       {/* ── Section 3 — Header for stack cards ── */}
       <section className="relative bg-white px-5 pt-12 pb-8 tablet:px-10 tablet:pt-16 tablet:pb-10">
         <div data-modal-animate className="mx-auto max-w-[760px] text-center">
-          <h2 className="font-sora text-[28px] font-light text-black tablet:whitespace-nowrap tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 16 }}>
-            Diseñado para convertir más.
+          <h2 className="font-sora text-[28px] font-light text-black tablet:whitespace-nowrap tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15 }}>
+            Todo lo que necesita un checkout para convertir
           </h2>
-          <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[19px]" style={{ lineHeight: 1.5 }}>
-            Cada detalle pensado para que más clientes terminen de comprar.
-          </p>
         </div>
       </section>
 
@@ -475,10 +473,10 @@ export default function T1Pasarela() {
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div>
                 <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
-                  Todos los métodos de pago
+                  Variedad de métodos de pago
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                  Tarjetas, transferencia, efectivo y wallets. Tu cliente paga como prefiera, tú cobras siempre desde un solo lugar.
+                  Permite que tus clientes paguen como prefieran: tarjeta, SPEI, OXXO, Kueski o PayPal. Ofrece pagos de hasta 18 meses.
                 </p>
                 <ul className="flex flex-col gap-2.5">
                   {["Visa, Mastercard, AMEX y débito", "SPEI, transferencias y OXXO", "Meses sin intereses hasta 18 MSI"].map((it) => (
@@ -494,34 +492,48 @@ export default function T1Pasarela() {
           </div>
         </div>
 
-        {/* Block 3 — Antifraude inteligente: título + descripción centrados + 3 cards */}
+        {/* Block 3 — Antifraude inteligente: título a la izquierda, cards horizontales a la derecha (como "Crea productos como prefieras") */}
         <div
           className="fs-stack-card"
           style={{ top: 100, zIndex: 3, background: "#FFFFFF" }}
         >
-          <div className="mx-auto flex h-full max-w-[var(--max-w)] flex-col items-center justify-center px-5 tablet:px-10">
-            <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 48 }}>
-              <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-                Antifraude inteligente
-              </h2>
-              <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-                Score de riesgo por transacción con T1 Score. Detiene fraude real sin bloquear clientes legítimos.
-              </p>
-            </div>
-            <div className="grid w-full max-w-[980px] grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
-              {[
-                { title: "+200 señales por pago", desc: "Analizamos cientos de datos en cada transacción para detectar fraude real.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#111827" strokeWidth="1.6" /><path d="M20 20l-4-4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
-                { title: "Decisión en <100ms", desc: "El score se calcula al instante, sin afectar la experiencia del cliente.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#111827" strokeWidth="1.6" /><path d="M12 7v5l3 2" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-                { title: "3D Secure a la medida", desc: "Autenticación adicional solo cuando el riesgo de la compra lo amerita.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 6v6c0 5 3.5 8.5 9 10 5.5-1.5 9-5 9-10V6l-9-4z" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round" /><path d="M9 12l2 2 4-4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-              ].map((c) => (
-                <div key={c.title} className="rounded-[16px] border border-black/[0.07] bg-white p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
-                  <div className="mb-4 flex h-[44px] w-[44px] items-center justify-center rounded-[12px] bg-[rgba(219,59,43,0.07)]">
-                    {c.icon}
+          <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
+            <div className="grid w-full grid-cols-1 gap-10 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.35fr)] tablet:items-center tablet:gap-14">
+              {/* Left — title */}
+              <div>
+                <h2 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.12, marginBottom: 16, maxWidth: 420 }}>
+                  Antifraude inteligente
+                </h2>
+                <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 400 }}>
+                  Score de riesgo por transacción con T1 Score. Detiene fraude real sin bloquear clientes legítimos.
+                </p>
+                <a
+                  href={SIGNUP_URL}
+                  className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
+                >
+                  Comenzar ahora
+                </a>
+              </div>
+
+              {/* Right — horizontal cards: icono arriba, texto abajo */}
+              <div className="-mr-5 flex gap-5 overflow-x-auto pb-2 pr-5 tablet:mr-0 tablet:pr-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                {[
+                  { title: "+200 señales por pago", desc: "Analizamos cientos de datos en cada transacción para detectar fraude real.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#111827" strokeWidth="1.6" /><path d="M20 20l-4-4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
+                  { title: "Decisión en <100ms", desc: "El score se calcula al instante, sin afectar la experiencia del cliente.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#111827" strokeWidth="1.6" /><path d="M12 7v5l3 2" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+                  { title: "3D Secure a la medida", desc: "Autenticación adicional solo cuando el riesgo de la compra lo amerita.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 6v6c0 5 3.5 8.5 9 10 5.5-1.5 9-5 9-10V6l-9-4z" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round" /><path d="M9 12l2 2 4-4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+                ].map((c) => (
+                  <div
+                    key={c.title}
+                    className="flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-black/[0.07] bg-white p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
+                  >
+                    <div className="mb-5 flex h-[48px] w-[48px] items-center justify-center rounded-[13px] bg-[rgba(219,59,43,0.07)]">
+                      {c.icon}
+                    </div>
+                    <h3 className="font-sora text-[19px] font-normal text-black" style={{ marginBottom: 8 }}>{c.title}</h3>
+                    <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.55 }}>{c.desc}</p>
                   </div>
-                  <h3 className="font-sora text-[18px] font-normal text-black" style={{ marginBottom: 6 }}>{c.title}</h3>
-                  <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.6 }}>{c.desc}</p>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -538,13 +550,13 @@ export default function T1Pasarela() {
                 Compra en un toque
               </h2>
               <p className="font-inter text-[16px] font-light text-white/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 480 }}>
-                El botón de pago express de T1. Tus clientes guardan sus datos una sola vez y vuelven a comprar al instante en todo el ecosistema. Menos fricción, más conversión.
+                Con Pago con T1, tus clientes pueden guardar sus datos y volver a comprar más rápido en negocios que usan T1.
               </p>
               <ul className="flex flex-col gap-3">
                 {[
                   "Guardan tarjeta y dirección una sola vez",
-                  "Vuelven a pagar con un toque, sin teclear de nuevo",
-                  "Funciona en cualquier negocio que use T1",
+                  "Pagan con un toque en futuras compras",
+                  "Menos fricción, más conversión.",
                 ].map((it) => (
                   <li key={it} className="flex items-start gap-3 font-inter text-[15px] text-white/75">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="mt-0.5 shrink-0"><circle cx="12" cy="12" r="11" fill="rgba(219,59,43,0.22)" /><path d="M7 12.5L10.5 16L17 8.5" stroke="#FF7363" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -573,20 +585,20 @@ export default function T1Pasarela() {
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-              De carrito a cobro, sin fricción
+              Qué pasa detrás de cada pago.
             </h2>
             <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-              Cuatro pasos invisibles para tu cliente, optimizados detrás de cada compra.
+              T1 optimiza el cobro sin complicar la experiencia de tu cliente.
             </p>
           </div>
 
           <div data-modal-animate className="relative grid grid-cols-1 gap-5 tablet:grid-cols-2 lg:grid-cols-4 lg:gap-6">
             <div aria-hidden className="pointer-events-none absolute hidden lg:block" style={{ left: "12.5%", right: "12.5%", top: 30, height: 1, background: "linear-gradient(90deg, transparent 0%, rgba(219,59,43,0.25) 12%, rgba(219,59,43,0.25) 88%, transparent 100%)" }} />
             {[
-              { n: "01", title: "Cliente paga", desc: "Elige método y completa el formulario optimizado para conversión." },
-              { n: "02", title: "Antifraude evalúa", desc: "Score en menos de 100ms con +200 señales y machine learning." },
-              { n: "03", title: "Routing inteligente", desc: "T1 dirige al procesador con mayor probabilidad de aprobación." },
-              { n: "04", title: "Pago aprobado", desc: "Confirmación al cliente y al panel. Conciliación automática." },
+              { n: "01", title: "Tu cliente elige cómo pagar", desc: "Tarjeta, transferencia, OXXO, wallet o pago express." },
+              { n: "02", title: "T1 evalúa el riesgo", desc: "Se revisan señales de la transacción para proteger tu venta." },
+              { n: "03", title: "El pago se procesa", desc: "T1 enruta el cobro cuando aplica para mejorar la aprobación." },
+              { n: "04", title: "Recibes confirmación", desc: "El pedido se confirma y queda listo para seguimiento en tu panel." },
             ].map((s, i) => (
               <div
                 key={s.n}
@@ -610,10 +622,10 @@ export default function T1Pasarela() {
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
             <h2 className="font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-              Administra y mejora tu operación
+              Más control después de cada pago.
             </h2>
             <p className="font-inter text-[16px] font-light text-white/55 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-              Las herramientas para operar tus cobros con control total.
+              Da seguimiento a tus cobros, protege transacciones sensibles y gestiona aclaraciones desde T1.
             </p>
           </div>
 

@@ -135,7 +135,7 @@ export default function T1POS() {
                 className="font-inter text-[16px] font-light text-white/65 tablet:text-[19px]"
                 style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 500 }}
               >
-                Vende, cobra y controla el inventario de tu tienda física.
+                Vende en piso, cobra con distintos métodos y mantén tu catálogo e inventario sincronizados en T1.
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <a
@@ -169,23 +169,25 @@ export default function T1POS() {
               {
                 title: "Vende en piso",
                 desc: "Arma cada venta con el mismo catálogo de tu tienda en línea, con inventario por sucursal.",
-                icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 8l1.5-4h13L20 8 M5 8v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8 M4 8h16 M9 12a3 3 0 0 0 6 0" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>),
+                img: "/img/vende-en-piso.png",
               },
               {
                 title: "Cobra con cualquier método",
                 desc: "Efectivo, SPEI, transferencia y pagos con tarjeta o métodos personalizados. Envía tickets por WhatsApp, SMS o email.",
-                icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2" stroke="#111827" strokeWidth="1.6" /><path d="M3 10h18 M7 15h3" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>),
+                img: "/img/cobra-cualquier-metodo.png",
               },
               {
                 title: "Controla tu inventario",
                 desc: "Stock por sucursal, actualizado en tiempo real con cada venta en piso o en línea. Sin sobreventas.",
-                icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M3 21h18" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /><rect x="5" y="12" width="3.5" height="7" rx="1" stroke="#111827" strokeWidth="1.6" /><rect x="10.5" y="8" width="3.5" height="11" rx="1" stroke="#111827" strokeWidth="1.6" /><rect x="16" y="4" width="3.5" height="15" rx="1" stroke="#111827" strokeWidth="1.6" /></svg>),
+                img: "/img/controla-inventario.png",
               },
             ].map((f, i) => (
-              <div key={f.title} data-stagger className="tienda-card rounded-[18px] border border-black/[0.07] bg-white p-7" style={{ ["--i" as string]: i, boxShadow: "0 4px 20px rgba(0,0,0,0.04)" }}>
-                <div className="flex h-[40px] w-[40px] items-center justify-center" style={{ marginBottom: 18 }}>{f.icon}</div>
+              <div key={f.title} data-stagger className="tienda-card flex flex-col rounded-[20px] border border-black/[0.07] bg-white p-6" style={{ ["--i" as string]: i, boxShadow: "0 4px 20px rgba(0,0,0,0.05)" }}>
                 <h3 className="font-sora text-[19px] font-normal text-black" style={{ marginBottom: 8 }}>{f.title}</h3>
-                <p className="font-inter text-[14px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{f.desc}</p>
+                <p className="font-inter text-[14px] font-light text-black/60" style={{ lineHeight: 1.6, marginBottom: 20 }}>{f.desc}</p>
+                <div className="mt-auto overflow-hidden rounded-[14px]">
+                  <Image src={f.img} alt={f.title} width={1536} height={1024} className="block h-[220px] w-full object-cover object-top" sizes="(max-width: 768px) 100vw, 360px" />
+                </div>
               </div>
             ))}
           </div>
@@ -294,6 +296,11 @@ export default function T1POS() {
               <p className="relative font-inter text-[15px] font-light text-white/60 tablet:hidden" style={{ marginBottom: 28 }}>Descárgalo gratis o ábrelo desde la web.</p>
               <p className="relative hidden font-inter text-[15px] font-light text-white/60 tablet:block" style={{ marginBottom: 28 }}>Descárgalo gratis escaneando el código o ábrelo desde la web.</p>
 
+              {/* Imagen: el POS en distintos dispositivos */}
+              <div className="relative mx-auto overflow-hidden rounded-[16px]" style={{ maxWidth: 520, marginBottom: 32 }}>
+                <Image src="/img/pos-dispositivos.png" alt="T1 POS en distintos dispositivos" width={1536} height={1024} className="block h-auto w-full" sizes="(max-width: 768px) 100vw, 520px" />
+              </div>
+
               {/* Desktop → one QR per store */}
               <div className="relative hidden flex-col items-center tablet:flex">
                 <div className="flex items-start justify-center gap-8">
@@ -382,45 +389,6 @@ export default function T1POS() {
             >
               Activar mi punto de venta
             </a>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Ecosistema T1 — órbita ── */}
-      <section className="relative overflow-hidden px-5 py-24 tablet:px-10 tablet:py-32" style={{ background: "linear-gradient(135deg, #1A1212 0%, #0F0808 55%, #050303 100%)" }}>
-        <div className="relative mx-auto max-w-[var(--max-w)]">
-          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-8">
-            {/* Text */}
-            <div data-modal-animate>
-              <h2 className="font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 16 }}>
-                T1 POS es parte del ecosistema T1
-              </h2>
-              <p className="font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 460 }}>
-                T1pos no trabaja solo: comparte catálogo, inventario y clientes con el resto de T1 para que manejes todo tu negocio desde un solo lugar.
-              </p>
-              <ul className="flex flex-col gap-4" style={{ marginBottom: 32 }}>
-                {[
-                  { t: "Un solo catálogo", d: "el mismo catálogo de tu tienda en línea, con inventario por sucursal." },
-                  { t: "Cobros conectados", d: "cobra en persona, en línea o con links de pago de T1 Pagos, todo en un lugar." },
-                  { t: "Envíos a un click", d: "genera guías con T1 Envíos desde la misma plataforma para tus ventas en línea." },
-                ].map((b) => (
-                  <li key={b.t} className="flex items-start gap-3">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="mt-1 shrink-0"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                    <span className="font-inter text-[14.5px] tablet:text-[15px]" style={{ lineHeight: 1.55 }}>
-                      <span className="font-medium text-white">{b.t}:</span>
-                      <span className="font-light text-white/55"> {b.d}</span>
-                    </span>
-                  </li>
-                ))}
-              </ul>
-              <a href={SIGNUP_URL} className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
-                Empezar con T1
-              </a>
-            </div>
-            {/* Orbit */}
-            <div className="flex items-center justify-center">
-              <TodoEnUnoCard />
-            </div>
           </div>
         </div>
       </section>
@@ -540,6 +508,45 @@ export default function T1POS() {
           <p className="mx-auto mt-8 text-center font-inter text-[13px] font-light text-black/45" style={{ maxWidth: 560 }}>
             Precios de referencia. Consulta los planes y límites vigentes en t1.com.
           </p>
+        </div>
+      </section>
+
+      {/* ── Ecosistema T1 — órbita ── */}
+      <section className="relative overflow-hidden px-5 py-24 tablet:px-10 tablet:py-32" style={{ background: "linear-gradient(135deg, #1A1212 0%, #0F0808 55%, #050303 100%)" }}>
+        <div className="relative mx-auto max-w-[var(--max-w)]">
+          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-8">
+            {/* Text */}
+            <div data-modal-animate>
+              <h2 className="font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 16 }}>
+                T1 POS es parte del ecosistema T1
+              </h2>
+              <p className="font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 460 }}>
+                T1pos no trabaja solo: comparte catálogo, inventario y clientes con el resto de T1 para que manejes todo tu negocio desde un solo lugar.
+              </p>
+              <ul className="flex flex-col gap-4" style={{ marginBottom: 32 }}>
+                {[
+                  { t: "Un solo catálogo", d: "el mismo catálogo de tu tienda en línea, con inventario por sucursal." },
+                  { t: "Cobros conectados", d: "cobra en persona, en línea o con links de pago de T1 Pagos, todo en un lugar." },
+                  { t: "Envíos a un click", d: "genera guías con T1 Envíos desde la misma plataforma para tus ventas en línea." },
+                ].map((b) => (
+                  <li key={b.t} className="flex items-start gap-3">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="mt-1 shrink-0"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                    <span className="font-inter text-[14.5px] tablet:text-[15px]" style={{ lineHeight: 1.55 }}>
+                      <span className="font-medium text-white">{b.t}:</span>
+                      <span className="font-light text-white/55"> {b.d}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <a href={SIGNUP_URL} className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
+                Empezar con T1
+              </a>
+            </div>
+            {/* Orbit */}
+            <div className="flex items-center justify-center">
+              <TodoEnUnoCard />
+            </div>
+          </div>
         </div>
       </section>
 
