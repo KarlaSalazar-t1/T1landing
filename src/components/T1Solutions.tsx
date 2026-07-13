@@ -13,7 +13,7 @@ const TABS = [
   "Conecta marketplaces",
   "Gestiona pedidos",
   "Control de calidad",
-  "Punto de venta",
+  "Vende en persona",
 ];
 
 /* ── Sub-tab type ── */
@@ -105,7 +105,7 @@ const TAB_CARDS: TabCard[] = [
     ],
   },
   {
-    title: "PUNTO DE VENTA",
+    title: "VENDE EN TU TIENDA FÍSICA",
     description:
       "Vende en tu tienda física con un POS integrado a tu inventario, pagos y envíos. Sincroniza todo en tiempo real.",
     cta: "Empezar a vender",
@@ -233,14 +233,14 @@ export default function T1Solutions() {
   }, []);
 
   return (
-    <section className="overflow-x-hidden bg-[#141414]" style={{ paddingTop: 76, paddingBottom: 56 }}>
+    <section className="overflow-x-hidden bg-[#0F0E0D]" style={{ paddingTop: 60, paddingBottom: 100 }}>
       <div className="mx-auto max-w-[var(--max-w)] px-5 tablet:px-6">
         {/* Heading */}
         <h2
           className="font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]"
           style={{ letterSpacing: "-1.32px", textAlign: "center", marginBottom: 28 }}
         >
-          Todo lo que necesitas para operar tu negocio
+          Todo lo que puedes hacer
         </h2>
 
         {/* ── Level 1 chips OUTSIDE the card — single line.

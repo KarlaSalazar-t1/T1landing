@@ -71,7 +71,7 @@ function LandingPrompt({ typed, isActive, compact = false }: { typed: string; is
           style={{ fontSize: 30, lineHeight: 1.08, letterSpacing: "-0.025em" }}
         >
           Crea tu tienda en{" "}
-          <span style={{ color: "#DB3B2B" }}>segundos</span>
+          <span style={{ color: "#DB3B2B" }}>menos de un minuto</span>
         </h2>
         <p
           className="mt-2.5 text-center font-inter text-[12px] font-light text-black/60"
@@ -297,7 +297,7 @@ function FinalLanding({ compact = false }: { compact?: boolean }) {
       <div className="flex items-center justify-center gap-1 border-t border-black/[0.04] py-2">
         <Spark size={9} />
         <span className="font-inter text-[8px] font-semibold text-black/55">
-          Tienda creada con T1 en segundos
+          Tienda creada con T1 en menos de un minuto
         </span>
       </div>
     </div>

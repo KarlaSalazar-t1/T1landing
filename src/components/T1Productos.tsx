@@ -47,22 +47,22 @@ const PANEL_GRID = "minmax(0,1.7fr) minmax(0,0.75fr) minmax(0,0.85fr) minmax(0,0
 
 /* Block 1 panel — Productos list with rows sliding in (mirrors the real T1 table). */
 function ProductsPanel() {
-  const [rows, setRows] = useState(() => PANEL_PRODUCTS.slice(0, 4).map((p, i) => ({ ...p, _k: i })));
-  const next = useRef(4);
+  const [rows, setRows] = useState(() => PANEL_PRODUCTS.slice(0, 6).map((p, i) => ({ ...p, _k: i })));
+  const next = useRef(6);
   useEffect(() => {
     const id = setInterval(() => {
       setRows((prev) => {
         const item = PANEL_PRODUCTS[next.current % PANEL_PRODUCTS.length];
         const k = next.current;
         next.current += 1;
-        return [{ ...item, _k: k }, ...prev.slice(0, 3)];
+        return [{ ...item, _k: k }, ...prev.slice(0, 5)];
       });
     }, 2600);
     return () => clearInterval(id);
   }, []);
 
   return (
-    <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 18, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
+    <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white tablet:min-h-[400px]" style={{ padding: 18, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
       <div className="flex flex-wrap gap-1.5" style={{ marginBottom: 14 }}>
         {["Estatus", "Canal de venta", "Inventario", "Categoría"].map((f) => (
           <span key={f} className="inline-flex items-center gap-1 rounded-full border border-black/[0.10] px-2 py-1 font-inter text-[9px] text-black/55">
@@ -81,7 +81,7 @@ function ProductsPanel() {
       {rows.map((row, i) => (
         <div
           key={row._k}
-          className={`grid items-center gap-1.5 py-2 ${i < 3 ? "border-b border-black/[0.04]" : ""}`}
+          className={`grid items-center gap-1.5 py-3 ${i < 5 ? "border-b border-black/[0.04]" : ""}`}
           style={{ gridTemplateColumns: PANEL_GRID, animation: i === 0 ? "fadeSlideIn 0.45s ease-out" : undefined }}
         >
           <div className="flex min-w-0 items-center gap-2">
@@ -109,6 +109,8 @@ function InventoryPanel() {
     { name: "Playera básica algodón", img: "/img/playera.png", avail: 8, nv: 1 },
     { name: "Sudadera hoodie premium", img: "/img/moda-hoodie.png", avail: 6, nv: 1 },
     { name: "Gorra clásica bordada", img: "/img/gorra.png", avail: 4, nv: 1 },
+    { name: "Playera polo mujer", img: "/img/moda-playera.png", avail: 12, nv: 2 },
+    { name: "Mochila urbana 25L", img: "/img/moda-gorra.png", avail: 3, nv: 1 },
   ]);
   const [bump, setBump] = useState(-1);
   useEffect(() => {
@@ -129,7 +131,7 @@ function InventoryPanel() {
   }, []);
 
   return (
-    <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 18, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
+    <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white tablet:min-h-[400px]" style={{ padding: 18, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
       <p className="font-sora text-[14px] font-medium text-black" style={{ marginBottom: 14 }}>Editar inventario</p>
       <div className="grid items-end gap-1.5 border-b border-black/[0.06] pb-2" style={{ gridTemplateColumns: INVENTORY_GRID, marginBottom: 6 }}>
         <span className="font-inter text-[8px] font-semibold uppercase tracking-wide text-black/40">Nombre</span>
@@ -140,7 +142,7 @@ function InventoryPanel() {
       {rows.map((row, i) => {
         const low = row.avail < 5;
         return (
-          <div key={row.name} className={`grid items-center gap-1.5 py-1.5 ${i < 3 ? "border-b border-black/[0.04]" : ""}`} style={{ gridTemplateColumns: INVENTORY_GRID }}>
+          <div key={row.name} className={`grid items-center gap-1.5 py-2.5 ${i < 5 ? "border-b border-black/[0.04]" : ""}`} style={{ gridTemplateColumns: INVENTORY_GRID }}>
             <div className="flex min-w-0 items-center gap-2">
               <div className="flex h-[28px] w-[28px] shrink-0 items-center justify-center overflow-hidden rounded-[6px] border border-black/[0.05] bg-[#FAFAF9]">
                 <Image src={row.img} alt="" width={22} height={16} className="object-contain" />
@@ -343,20 +345,20 @@ export default function T1Productos() {
             {/* Left */}
             <div>
               <h1
-                className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[60px]"
+                className="font-sora text-[32px] font-light text-white tablet:text-[44px]"
                 style={{ lineHeight: 1.05, letterSpacing: "-1.7px", marginBottom: 22 }}
               >
-                Tu catálogo,{" "}
+                Un catálogo para{" "}
                 <span className="relative inline-block">
-                  sincronizado.
+                  todos tus canales.
                   <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.30)", borderRadius: 5, zIndex: -1 }} />
                 </span>
               </h1>
               <p
                 className="font-inter text-[16px] font-light text-white/65 tablet:text-[19px]"
-                style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 440 }}
+                style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 460 }}
               >
-                Centraliza productos, precios e inventario. Cambias una vez y se actualiza en todos tus canales.
+                Sube productos una vez, actualiza precios e inventario desde T1 y mantén tus canales sincronizados.
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <a
@@ -403,15 +405,58 @@ export default function T1Productos() {
         </div>
       </section>
 
-      {/* ── Stack cards intro ── */}
-      <section className="relative bg-white px-5 pt-10 pb-6 tablet:px-10 tablet:pt-14 tablet:pb-8">
-        <div className="mx-auto max-w-[760px] text-center" style={{ animation: "fadeSlideIn 0.6s ease-out both" }}>
-          <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 16 }}>
-            Un catálogo, todos tus canales.
+      {/* ── Intro — No actualices tus productos en cada canal ── */}
+      <section className="relative bg-white px-5 pt-16 pb-8 tablet:px-10 tablet:pt-24 tablet:pb-10">
+        <div className="mx-auto max-w-[900px] text-center" style={{ animation: "fadeSlideIn 0.6s ease-out both" }}>
+          <h2 className="font-sora text-[30px] font-light text-black tablet:whitespace-nowrap tablet:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 16 }}>
+            No actualices tus productos en cada canal.
           </h2>
           <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[19px]" style={{ lineHeight: 1.5 }}>
-            Centraliza productos, variantes y precios. Publícalos en todos tus canales con un click.
+            Con T1 cambias productos, precios e inventario una vez y lo mantienes sincronizado en tus canales conectados.
           </p>
+        </div>
+      </section>
+
+      {/* ── A: Crear productos — título a la izquierda, cards horizontales a la derecha ── */}
+      <section className="relative overflow-hidden bg-white px-5 py-[100px] tablet:px-10 tablet:py-[128px]">
+        <div className="mx-auto max-w-[var(--max-w)]">
+          <div className="grid grid-cols-1 gap-10 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.35fr)] tablet:items-center tablet:gap-14">
+            {/* Left — title */}
+            <div data-modal-animate>
+              <h2 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.12, marginBottom: 16, maxWidth: 420 }}>
+                Crea productos como prefieras
+              </h2>
+              <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 400 }}>
+                Con IA, de forma manual o de forma masiva. Tú eliges cómo cargar tu catálogo.
+              </p>
+              <a
+                href={SIGNUP_URL}
+                className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
+              >
+                Crear mi catálogo
+              </a>
+            </div>
+
+            {/* Right — horizontal cards: texto arriba, imagen abajo (sin fondo gris, más grande) */}
+            <div data-modal-animate className="-mr-5 flex gap-5 overflow-x-auto pb-2 pr-5 tablet:mr-0 tablet:pr-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+              {[
+                { title: "Con IA", desc: "Sube una foto y la IA genera título, descripción, categoría y atributos al instante.", img: "/img/crea-con-ia.png", w: 1248, h: 1024 },
+                { title: "De forma manual", desc: "Crea producto a producto con un editor visual, con todo el control del detalle.", img: "/img/crea-manual.png", w: 1269, h: 1240 },
+                { title: "De forma masiva", desc: "Importa cientos de productos desde Excel o CSV en un solo paso.", img: "/img/crea-masiva.png", w: 1190, h: 1322 },
+              ].map((s) => (
+                <div
+                  key={s.title}
+                  className="flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-black/[0.07] bg-white p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
+                >
+                  <h3 className="font-sora text-[19px] font-normal text-black" style={{ marginBottom: 8 }}>{s.title}</h3>
+                  <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.55, marginBottom: 20, minHeight: 63 }}>{s.desc}</p>
+                  <div className="mt-auto overflow-hidden rounded-[14px]">
+                    <Image src={s.img} alt={s.title} width={s.w} height={s.h} className="block h-[240px] w-full object-cover object-top" sizes="270px" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -421,15 +466,15 @@ export default function T1Productos() {
         <div className="fs-stack-card" style={{ top: 60, zIndex: 1, background: "#FFFFFF" }}>
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
-              <div>
-                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
-                  Un solo catálogo
+              <div className="tablet:order-2">
+                <h3 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
+                  Mantén tu catálogo claro y completo
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                  Sube tus productos una sola vez. Edita desde un solo lugar y se actualiza en tu tienda online, sucursales y marketplaces.
+                  Agrupa productos por categorías, atributos y variantes para venderlos correctamente en cada canal.
                 </p>
                 <ul className="flex flex-col gap-2.5">
-                  {["Carga masiva desde Excel o CSV", "IA que genera título y descripción desde una foto", "Categorías y atributos personalizables"].map((it) => (
+                  {["Variantes y combinaciones", "Categorías inteligentes", "Atributos por categoría", "Precio, costo y margen"].map((it) => (
                     <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                       {it}
@@ -437,46 +482,21 @@ export default function T1Productos() {
                   ))}
                 </ul>
               </div>
-              {/* Panel — animated Productos list */}
-              <ProductsPanel />
-            </div>
-          </div>
-        </div>
-
-        {/* Block 2 — Variantes + precios por canal (panel left, text right) — bg #F6F6F6 */}
-        <div className="fs-stack-card" style={{ top: 80, zIndex: 2, background: "#F6F6F6" }}>
-          <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
-            <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
-              {/* Panel — animated variant editor (price/cost → margin & profit) */}
-              <VariantPanel />
-
-              <div className="order-1 tablet:order-2">
-                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
-                  Variantes y precios por canal
-                </h3>
-                <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                  Hasta 3 atributos —como color, talla o material— con todas sus combinaciones. Define precio, costo y margen de cada variante.
-                </p>
-                <ul className="flex flex-col gap-2.5">
-                  {["Atributos personalizables por categoría", "Precio, costo y margen por variante", "Precios diferenciados por marketplace"].map((it) => (
-                    <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                      {it}
-                    </li>
-                  ))}
-                </ul>
+              {/* Panel — animated Productos list (izquierda en desktop) */}
+              <div className="tablet:order-1">
+                <ProductsPanel />
               </div>
             </div>
           </div>
         </div>
 
-        {/* Block 3 — Stock en tiempo real (text left, panel right) — bg white */}
-        <div className="fs-stack-card" style={{ top: 100, zIndex: 3, background: "#FFFFFF" }}>
+        {/* Block 2 — C: Sincroniza tu inventario (text left, panel right) — bg #FBFBFB */}
+        <div className="fs-stack-card" style={{ top: 80, zIndex: 2, background: "#FBFBFB" }}>
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div>
-                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
-                  Edita inventario en segundos
+                <h3 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
+                  Sincroniza tu inventario
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
                   Cada venta lo descuenta al instante en todos tus canales. Y cuando necesitas ajustar, lo cambias desde una vista pensada para hacerlo rápido.
@@ -497,68 +517,15 @@ export default function T1Productos() {
         </div>
       </div>
 
-      {/* ── Cómo funciona ── */}
-      <section className="relative bg-[#F6F6F6] px-5 py-[100px] tablet:px-10 tablet:py-[128px]">
-        <div className="mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-              Crea productos como prefieras
-            </h2>
-            <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-              Con IA, de forma manual o de forma masiva. Tú eliges cómo cargar tu catálogo.
-            </p>
-          </div>
-          <div data-modal-animate className="flex flex-wrap justify-center gap-5">
-            {[
-              {
-                title: "Con IA",
-                desc: "Sube una foto y la IA genera título, descripción, categoría y atributos al instante.",
-                icon: (<><path d="M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6L12 3Z" /><path d="M18.5 14.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7.7-1.8Z" /></>),
-              },
-              {
-                title: "De forma manual",
-                desc: "Crea producto a producto con un editor visual, con todo el control del detalle.",
-                icon: (<path d="M4 20h16 M14.5 4.5l3 3-9.5 9.5-3.5.9.9-3.5 9.6-9.4Z" />),
-              },
-              {
-                title: "De forma masiva",
-                desc: "Importa cientos de productos desde Excel o CSV en un solo paso.",
-                icon: (<path d="M12 16V4 M8 8l4-4 4 4 M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3" />),
-              },
-            ].map((s) => (
-              <div
-                key={s.title}
-                className="w-full tablet:w-[300px] rounded-[18px] border border-black/[0.07] bg-white p-7 shadow-[0_4px_20px_rgba(0,0,0,0.05)] transition-shadow duration-200 hover:shadow-[0_8px_28px_rgba(0,0,0,0.08)]"
-              >
-                <div className="mb-4 flex h-[30px] w-[30px] items-center justify-center">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                    {s.icon}
-                  </svg>
-                </div>
-                <h3 className="font-sora text-[18px] font-normal text-black" style={{ marginBottom: 6 }}>{s.title}</h3>
-                <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.6 }}>{s.desc}</p>
-              </div>
-            ))}
-          </div>
-          <div data-modal-animate className="mt-12 flex justify-center">
-            <a
-              href={SIGNUP_URL}
-              className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
-            >
-              Crear mi catálogo
-            </a>
-          </div>
-        </div>
-      </section>
 
-      {/* ── Lo que incluye ── */}
-      <section className="relative bg-white px-5 py-[100px] tablet:px-10 tablet:py-[128px]">
+      {/* ── Lo que incluye — sección oscura (como "Todo incluido" de Tienda con IA) ── */}
+      <section className="relative px-5 py-[100px] tablet:px-10 tablet:py-[128px]" style={{ background: "linear-gradient(180deg, #000000 0%, #140a0a 100%)" }}>
         <div className="mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-              Tu catálogo, siempre en orden
+          <div data-modal-animate className="mx-auto max-w-[760px] text-center" style={{ marginBottom: 56 }}>
+            <h2 className="font-sora text-[32px] font-light text-white tablet:whitespace-nowrap tablet:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+              Todo para administrar productos
             </h2>
-            <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
+            <p className="font-inter text-[16px] font-light text-white/55 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
               Centraliza, automatiza y escala sin agregar carga operativa.
             </p>
           </div>
@@ -568,119 +535,26 @@ export default function T1Productos() {
             ref={incluyeRef}
             onScroll={onIncluyeScroll}
             data-modal-animate
-            className="flex gap-7 overflow-x-auto snap-x snap-mandatory px-6 py-8 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+            className="flex gap-7 overflow-x-auto snap-x snap-mandatory px-6 pb-8 pt-20 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
             style={{ scrollPaddingLeft: 24, scrollPaddingRight: 24 }}
           >
-            {/* 1. Carga masiva */}
-            <div data-stagger style={{ ["--i" as string]: 0 }} className="incluye-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
-              <div className="incluye-visual relative mb-6 flex h-[150px] items-center justify-center overflow-hidden rounded-[10px]" style={{ background: "linear-gradient(135deg,#FBFBFB 0%,#F4F4F5 100%)", padding: 12 }}>
-                <div className="w-full max-w-[190px] rounded-[8px] border border-black/[0.07] bg-white p-2.5">
-                  <div className="mb-2 flex items-center gap-1.5">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M6 2h8l4 4v16H6z" stroke="#16A34A" strokeWidth="1.6" strokeLinejoin="round" /><path d="M9 13l2 2 4-4" stroke="#16A34A" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                    <span className="font-inter text-[9px] font-semibold text-black">productos.csv</span>
-                    <span className="ml-auto font-inter text-[8px] font-bold text-[#16A34A]">428/428</span>
-                  </div>
-                  {["Tenis blancos clásicos", "Playera básica algodón", "Sudadera hoodie premium"].map((n) => (
-                    <div key={n} className="mb-1 flex items-center gap-1.5">
-                      <span className="flex h-[10px] w-[10px] items-center justify-center rounded-full bg-[#16A34A]"><svg width="6" height="6" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
-                      <span className="font-inter text-[8px] text-black/55 truncate">{n}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <h3 className="font-sora text-[17px] font-normal text-black" style={{ marginBottom: 6 }}>Carga masiva</h3>
-              <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>Sube cientos de productos desde Excel o CSV en un solo paso.</p>
-            </div>
-
-            {/* 2. IA para fotos */}
-            <div data-stagger style={{ ["--i" as string]: 1 }} className="incluye-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
-              <div className="incluye-visual relative mb-6 flex h-[150px] items-center justify-center overflow-hidden rounded-[10px]" style={{ background: "linear-gradient(135deg,#FBFBFB 0%,#F4F4F5 100%)", padding: 12 }}>
-                <div className="flex w-full max-w-[200px] items-center gap-2 rounded-[8px] border border-black/[0.07] bg-white p-2">
-                  <div className="flex h-[46px] w-[46px] shrink-0 items-center justify-center overflow-hidden rounded-[6px] border border-black/[0.05] bg-[#FAFAF9]">
-                    <Image src="/img/tenis-transparente.png" alt="" width={38} height={28} className="object-contain" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <span className="mb-1 inline-flex items-center gap-1 rounded-full bg-[rgba(139,92,246,0.10)] px-1.5 py-0.5">
-                      <svg width="7" height="7" viewBox="0 0 24 24" fill="none"><path d="M12 3L14 9L20 11L14 13L12 19L10 13L4 11L10 9L12 3Z" stroke="#8B5CF6" strokeWidth="2" strokeLinejoin="round" fill="rgba(139,92,246,0.2)" /></svg>
-                      <span className="font-inter text-[7px] font-semibold text-[#8B5CF6]">Generado con IA</span>
-                    </span>
-                    <div className="h-[3px] w-full rounded-full bg-black/15" style={{ marginBottom: 3 }} />
-                    <div className="h-[3px] w-3/4 rounded-full bg-black/10" style={{ marginBottom: 3 }} />
-                    <div className="h-[3px] w-1/2 rounded-full bg-black/10" />
+            {[
+              { img: "/img/admin-carga-masiva.png", title: "Carga masiva", desc: "Sube cientos de productos desde Excel o CSV en un solo paso." },
+              { img: "/img/admin-ia-fotos.png", title: "IA para fotos", desc: "Sube una imagen y obtén título, descripción y atributos al instante." },
+              { img: "/img/admin-variantes.png", title: "Variantes y combinaciones", desc: "Hasta 3 atributos —como color, talla o material— con todas sus combinaciones." },
+              { img: "/img/admin-categoria.png", title: "Categorías inteligentes", desc: "Mapeo automático a la categoría correcta de cada marketplace." },
+              { img: "/img/admin-historico.png", title: "Histórico y reportes", desc: "Productos top, rotación y baja rotación con datos reales." },
+            ].map((c, i) => (
+              <div key={c.title} data-stagger style={{ ["--i" as string]: i }} className="incluye-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col rounded-[18px] border border-white/[0.08] bg-[#121214] px-6 pb-6">
+                <div className="relative" style={{ height: 150 }}>
+                  <div className="absolute left-1/2 -translate-x-1/2" style={{ top: -48, width: "100%", height: 200 }}>
+                    <Image src={c.img} alt={c.title} fill className="pointer-events-none object-contain" style={{ objectPosition: "center top", filter: "drop-shadow(0 20px 30px rgba(0,0,0,0.35))" }} sizes="300px" />
                   </div>
                 </div>
+                <h3 className="font-sora text-[17px] font-normal text-white" style={{ marginBottom: 6 }}>{c.title}</h3>
+                <p className="font-inter text-[13px] font-light text-white/55" style={{ lineHeight: 1.6 }}>{c.desc}</p>
               </div>
-              <h3 className="font-sora text-[17px] font-normal text-black" style={{ marginBottom: 6 }}>IA para fotos</h3>
-              <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>Sube una imagen y obtén título, descripción y atributos al instante.</p>
-            </div>
-
-            {/* 3. Variantes ilimitadas */}
-            <div data-stagger style={{ ["--i" as string]: 2 }} className="incluye-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
-              <div className="incluye-visual relative mb-6 flex h-[150px] items-center justify-center overflow-hidden rounded-[10px]" style={{ background: "linear-gradient(135deg,#FBFBFB 0%,#F4F4F5 100%)", padding: 12 }}>
-                <div className="w-full max-w-[190px] rounded-[8px] border border-black/[0.07] bg-white p-2.5">
-                  <p className="mb-1.5 font-inter text-[8px] font-semibold uppercase tracking-wider text-black/45">Talla</p>
-                  <div className="mb-2.5 flex flex-wrap gap-1">
-                    {["24", "25", "26", "27", "28"].map((s, i) => (
-                      <span key={s} className={`flex h-[16px] w-[20px] items-center justify-center rounded-[4px] border font-inter text-[8px] font-semibold ${i === 1 ? "border-[#DB3B2B] bg-[rgba(219,59,43,0.06)] text-[#DB3B2B]" : "border-black/[0.10] text-black/55"}`}>{s}</span>
-                    ))}
-                  </div>
-                  <p className="mb-1.5 font-inter text-[8px] font-semibold uppercase tracking-wider text-black/45">Color</p>
-                  <div className="flex gap-1.5">
-                    {["#FFFFFF", "#1A1A1A", "#D9CDB8", "#3878FF"].map((c) => (
-                      <span key={c} className="h-[14px] w-[14px] rounded-full" style={{ background: c, border: "1px solid rgba(0,0,0,0.12)" }} />
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <h3 className="font-sora text-[17px] font-normal text-black" style={{ marginBottom: 6 }}>Variantes y combinaciones</h3>
-              <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>Hasta 3 atributos —como color, talla o material— con todas sus combinaciones.</p>
-            </div>
-
-            {/* 4. Categorías inteligentes */}
-            <div data-stagger style={{ ["--i" as string]: 3 }} className="incluye-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
-              <div className="incluye-visual relative mb-6 flex h-[150px] items-center justify-center overflow-hidden rounded-[10px]" style={{ background: "linear-gradient(135deg,#FBFBFB 0%,#F4F4F5 100%)", padding: 12 }}>
-                <div className="w-full max-w-[190px] rounded-[8px] border border-black/[0.07] bg-white p-2.5">
-                  <div className="mb-2 flex items-center gap-1 font-inter text-[8px] text-black/55">
-                    <span>Ropa</span>
-                    <svg width="8" height="8" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="black" strokeOpacity="0.35" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                    <span>Calzado</span>
-                    <svg width="8" height="8" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="black" strokeOpacity="0.35" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                    <span className="font-semibold text-[#DB3B2B]">Tenis</span>
-                  </div>
-                  {[
-                    { ch: "meli-iso.svg", cat: "Ropa › Tenis" },
-                    { ch: "amazon-iso.svg", cat: "Calzado › Deportivo" },
-                  ].map((m) => (
-                    <div key={m.ch} className="mb-1 flex items-center gap-1.5 rounded-[5px] bg-[#FAFAF9] px-1.5 py-1">
-                      <Image src={`/img/${m.ch}`} alt="" width={12} height={12} className="rounded-[3px] object-contain" />
-                      <span className="font-inter text-[8px] text-black/60 truncate">{m.cat}</span>
-                      <svg width="9" height="9" viewBox="0 0 16 16" fill="none" className="ml-auto shrink-0"><path d="M3 8l3 3 7-7" stroke="#16A34A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <h3 className="font-sora text-[17px] font-normal text-black" style={{ marginBottom: 6 }}>Categorías inteligentes</h3>
-              <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>Mapeo automático a la categoría correcta de cada marketplace.</p>
-            </div>
-
-            {/* 5. Histórico y reportes */}
-            <div data-stagger style={{ ["--i" as string]: 4 }} className="incluye-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col overflow-hidden rounded-[18px] border border-black/[0.06] bg-white p-6">
-              <div className="incluye-visual relative mb-6 flex h-[150px] items-center justify-center overflow-hidden rounded-[10px]" style={{ background: "linear-gradient(135deg,#FBFBFB 0%,#F4F4F5 100%)", padding: 12 }}>
-                <div className="w-full max-w-[190px] rounded-[8px] border border-black/[0.07] bg-white p-2.5">
-                  <div className="mb-1 flex items-center justify-between">
-                    <span className="font-inter text-[8px] text-black/50">Más vendidos · 30 días</span>
-                    <span className="font-inter text-[9px] font-bold text-[#22C55E]">↑ 18%</span>
-                  </div>
-                  <div className="flex h-[40px] items-end gap-1">
-                    {[40, 62, 34, 70, 52, 84, 96].map((h, i) => (
-                      <div key={i} className="flex-1 rounded-t-[2px]" style={{ height: `${h}%`, background: i === 6 ? "#DB3B2B" : "rgba(219,59,43,0.18)" }} />
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <h3 className="font-sora text-[17px] font-normal text-black" style={{ marginBottom: 6 }}>Histórico y reportes</h3>
-              <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>Productos top, rotación y baja rotación con datos reales.</p>
-            </div>
+            ))}
           </div>
 
           {/* Carousel controls — arrows + dot indicators */}
@@ -689,7 +563,7 @@ export default function T1Productos() {
               type="button"
               onClick={() => scrollIncluye(-1)}
               aria-label="Anterior"
-              className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-black/10 bg-white text-black/70 transition-colors hover:border-black/25 hover:text-black"
+              className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/70 transition-colors hover:border-white/30 hover:text-white"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </button>
@@ -701,7 +575,7 @@ export default function T1Productos() {
                   onClick={() => goIncluye(i)}
                   aria-label={`Ir a la posición ${i + 1}`}
                   className="cursor-pointer rounded-full border-none p-0 transition-all duration-200"
-                  style={{ width: incluyeIdx === i ? 22 : 8, height: 8, background: incluyeIdx === i ? "#DB3B2B" : "rgba(0,0,0,0.18)" }}
+                  style={{ width: incluyeIdx === i ? 22 : 8, height: 8, background: incluyeIdx === i ? "#DB3B2B" : "rgba(255,255,255,0.25)" }}
                 />
               ))}
             </div>
@@ -709,7 +583,7 @@ export default function T1Productos() {
               type="button"
               onClick={() => scrollIncluye(1)}
               aria-label="Siguiente"
-              className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-black/10 bg-white text-black/70 transition-colors hover:border-black/25 hover:text-black"
+              className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/70 transition-colors hover:border-white/30 hover:text-white"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </button>
@@ -717,7 +591,8 @@ export default function T1Productos() {
         </div>
       </section>
 
-      {/* ── Stats ── */}
+      {/* ── Stats (oculto) ── */}
+      {false && (
       <section className="relative px-5 py-[100px] tablet:px-10 tablet:py-[128px]" style={{ background: "linear-gradient(135deg, #1A0A0A 0%, #261515 50%, #1A0A0A 100%)" }}>
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[640px] text-center" style={{ marginBottom: 48 }}>
@@ -726,21 +601,25 @@ export default function T1Productos() {
             </h2>
           </div>
           <div data-modal-animate className="grid grid-cols-1 gap-10 text-center tablet:grid-cols-3">
-            <div data-stagger style={{ ["--i" as string]: 0 }}><CountStat end={500} prefix="+" label="productos por hora con carga masiva" /></div>
-            <div data-stagger style={{ ["--i" as string]: 1 }}><CountStat end={10} prefix="+" label="canales conectables al instante" /></div>
+            <div data-stagger style={{ ["--i" as string]: 0 }}><CountStat end={100} prefix="hasta " label="variantes por producto" /></div>
+            <div data-stagger style={{ ["--i" as string]: 1 }}>
+              <p className="font-sora text-[40px] font-light text-white tablet:text-[56px]" style={{ letterSpacing: "-0.03em", marginBottom: 6, lineHeight: 1 }}>∞</p>
+              <p className="font-inter text-[12px] font-light text-white/55 tablet:text-[13px]">productos en tu catálogo (con plan)</p>
+            </div>
             <div data-stagger style={{ ["--i" as string]: 2 }}>
-              <p className="font-sora text-[36px] font-light text-white tablet:text-[52px]" style={{ letterSpacing: "-0.03em", marginBottom: 6, lineHeight: 1 }}>&lt; 2s</p>
-              <p className="font-inter text-[12px] font-light text-white/55 tablet:text-[13px]">para sincronizar inventario entre canales</p>
+              <p className="font-sora text-[36px] font-light text-white tablet:text-[52px]" style={{ letterSpacing: "-0.03em", marginBottom: 6, lineHeight: 1 }}>4</p>
+              <p className="font-inter text-[12px] font-light text-white/55 tablet:text-[13px]">formatos de multimedia: imagen, GIF, video y 3D</p>
             </div>
           </div>
         </div>
       </section>
+      )}
 
-      {/* ── FAQ ── */}
-      <section className="relative bg-[#F6F6F6] px-5 py-[100px] tablet:px-10 tablet:py-[128px]">
+      {/* ── FAQ (fondo oscuro) ── */}
+      <section className="relative bg-black px-5 py-[100px] tablet:px-10 tablet:py-[128px]">
         <div className="mx-auto max-w-[760px]">
           <div data-modal-animate className="text-center" style={{ marginBottom: 40 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>Preguntas frecuentes</h2>
+            <h2 className="font-sora text-[32px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>Preguntas frecuentes</h2>
           </div>
           <div data-modal-animate className="flex flex-col gap-3">
             {[
@@ -750,12 +629,12 @@ export default function T1Productos() {
               { q: "Ya tengo una tienda en línea, ¿puedo migrar mi catálogo?", a: "Sí. Importas tu catálogo e inventario desde otras plataformas o desde un archivo CSV/Excel, sin volver a capturarlo todo." },
               { q: "¿El inventario se actualiza en tiempo real?", a: "Sí. Cada venta en cualquier canal descuenta inventario en menos de 2 segundos en todos los demás." },
             ].map((f, i) => (
-              <details key={f.q} data-stagger className="group rounded-[14px] border border-black/[0.06] bg-white transition-all duration-200 open:border-[rgba(219,59,43,0.2)] open:shadow-[0_4px_18px_rgba(0,0,0,0.05)]" style={{ ["--i" as string]: i }}>
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-sora text-[16px] font-normal text-black transition-colors duration-150 hover:text-[#DB3B2B]">
+              <details key={f.q} data-stagger className="group rounded-[14px] border border-white/[0.08] bg-white/[0.03] transition-all duration-200 open:border-[rgba(219,59,43,0.4)] open:bg-white/[0.05]" style={{ ["--i" as string]: i }}>
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-sora text-[16px] font-normal text-white transition-colors duration-150 hover:text-[#FF6F5E]">
                   {f.q}
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="shrink-0 text-black/40 transition-transform duration-300 group-open:rotate-180 group-open:text-[#DB3B2B]"><path d="M3 5.5L8 10.5L13 5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="shrink-0 text-white/40 transition-transform duration-300 group-open:rotate-180 group-open:text-[#FF6F5E]"><path d="M3 5.5L8 10.5L13 5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                 </summary>
-                <p className="px-6 pb-5 font-inter text-[14px] font-light text-black/65" style={{ lineHeight: 1.65 }}>{f.a}</p>
+                <p className="px-6 pb-5 font-inter text-[14px] font-light text-white/60" style={{ lineHeight: 1.65 }}>{f.a}</p>
               </details>
             ))}
           </div>

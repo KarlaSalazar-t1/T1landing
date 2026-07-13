@@ -210,7 +210,7 @@ export default function T1Hero() {
               marquee gets pushed to the bottom on tall monitors instead
               of floating in the middle of a black void. */}
           <div className="relative z-10 mx-auto flex w-full max-w-[var(--max-w)] flex-1 flex-col justify-center px-5 tablet:px-6">
-            <div className="pt-[90px] pb-6 tablet:pt-[140px] tablet:pb-6 lg:pt-[180px]">
+            <div className="pt-[90px] pb-6 tablet:pt-[110px] tablet:pb-6 lg:pt-[144px]">
               {/* Rotating eyebrow word — mobile sits at 28px so the longest
                   phrase ("Vende en marketplaces") fits on a SINGLE line for all
                   mainstream phones (≥360px wide). At 34px three of the six
@@ -235,7 +235,7 @@ export default function T1Hero() {
                   unlike the "nacido con IA" calque of AI-native. The rotator
                   and subtitle no longer repeat "IA". */}
               <h1
-                className="mb-[60px] font-sora text-[32px] font-light text-white tablet:mb-[40px] tablet:text-[40px] lg:text-[48px]"
+                className="mb-[60px] font-sora text-[32px] font-light text-white tablet:mb-[40px] tablet:text-[44px]"
                 style={{
                   letterSpacing: "-0.03em",
                   lineHeight: "1.26em",
@@ -290,8 +290,14 @@ export default function T1Hero() {
           {/* Logo marquee — pinned to the bottom of the section
               (mt-auto) so on tall desktops it sits low instead of
               floating in the middle of empty black. */}
-          <div className="relative z-10 mt-auto" style={{ paddingTop: 10, paddingBottom: 30 }}>
+          <div className="relative z-10 mt-auto" style={{ paddingTop: 20, paddingBottom: 30 }}>
             <div className="mx-auto max-w-[var(--max-w)] px-5 tablet:px-6">
+              <p
+                className="text-center font-inter text-[13px] font-medium uppercase text-white/45 tablet:text-[14px]"
+                style={{ letterSpacing: "0.08em", marginBottom: 6 }}
+              >
+                Más de 25 mil negocios usan T1.
+              </p>
               <LogoMarquee />
             </div>
           </div>

@@ -50,14 +50,15 @@ function FeatureIcon({ id, size = 28, color = "#000000" }: { id: string; size?: 
    encerrados en un contenedor blanco"). Per-card `glow` adds a soft red/blue
    halo so the cards don't read flat on the black band. ── */
 type Brand = { src: string; alt: string; w: number; h: number };
-type Card = { id: string; label: string; desc: string; glow: string; logos: Brand[] };
+type Card = { id: string; label: string; desc: string; glow: string; image: string; iw: number; ih: number; logos: Brand[] };
 
 const CARDS: Card[] = [
   {
     id: "vende",
     label: "VENDE",
-    desc: "Crea tu tienda en línea con IA y maneja todos tus marketplaces desde un solo lugar.",
+    desc: "Crea tu tienda con IA, conecta marketplaces y gestiona tus canales de venta desde un solo lugar.",
     glow: "#E0402F", // red
+    image: "/img/card-vende-v2.png", iw: 1448, ih: 1086,
     logos: [
       { src: "/img/logos/brands/mercadolibre.webp", alt: "Mercado Libre", w: 96, h: 96 },
       { src: "/img/logos/brands/amazon.webp", alt: "Amazon", w: 96, h: 96 },
@@ -71,8 +72,9 @@ const CARDS: Card[] = [
   {
     id: "cobra",
     label: "COBRA",
-    desc: "Recibe pagos con tarjetas, SPEI, Kueski y meses sin intereses, o comparte un link de pago.",
+    desc: "Recibe pagos con tarjetas, SPEI, Kueski, ofrece meses sin intereses y links de pago para vender más fácil.",
     glow: "#2F6BFF", // blue
+    image: "/img/card-pagos-v2.png", iw: 1448, ih: 1086,
     logos: [
       { src: "/img/logos/brands/visa.webp", alt: "Visa", w: 130, h: 96 },
       { src: "/img/logos/brands/mastercard.webp", alt: "Mastercard", w: 130, h: 96 },
@@ -86,6 +88,7 @@ const CARDS: Card[] = [
     label: "ENVÍA",
     desc: "Cotiza, crea guías y rastrea tus pedidos con +10 paqueterías al mejor precio del mercado.",
     glow: "#E0402F", // red
+    image: "/img/card-envia-v2.png", iw: 1448, ih: 1086,
     logos: [
       { src: "/img/logos/brands/dhl.webp", alt: "DHL", w: 96, h: 96 },
       { src: "/img/logos/brands/99minutos.webp", alt: "99 minutos", w: 96, h: 96 },
@@ -101,11 +104,9 @@ const CARDS: Card[] = [
    (red / blue) lifts it off the background. */
 function cardStyle(glow: string, padding: string): React.CSSProperties {
   return {
-    background: "rgba(255,255,255,0.045)",
-    backdropFilter: "blur(16px)",
-    WebkitBackdropFilter: "blur(16px)",
-    border: "1px solid rgba(255,255,255,0.12)",
-    boxShadow: `inset 0 1px 0 rgba(255,255,255,0.04), 0 14px 34px rgba(0,0,0,0.42), 0 0 58px -18px ${glow}59`,
+    background: "#000000",
+    border: "1px solid rgba(255,255,255,0.08)",
+    boxShadow: `0 14px 34px rgba(0,0,0,0.5), 0 0 58px -22px ${glow}40`,
     padding,
   };
 }
@@ -143,44 +144,22 @@ function LogoRow({ logos, compact = false }: { logos: Brand[]; compact?: boolean
 export default function T1FeatureIntro() {
   return (
     <div className="relative mx-auto w-full max-w-[var(--max-w)] px-5 tablet:px-6">
-      {/* Section title sits above the cards on the dark band. Pushed
-          down a bit so it doesn't crowd the logo marquee above. Mobile
-          splits the heading into two lines for better legibility. */}
-      <h2
-        className="mx-auto font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]"
-        style={{
-          letterSpacing: "-0.03em",
-          lineHeight: "1.2em",
-          textAlign: "center",
-          maxWidth: 700,
-          marginTop: 32,
-          marginBottom: 56,
-        }}
-      >
-        Todo en
-        <br className="tablet:hidden" />{" "}
-        un solo lugar
-      </h2>
-
       {/* MOBILE — 3 cards stacked */}
       <div className="flex flex-col gap-4 tablet:hidden">
-        {CARDS.map((item) => (
+        {CARDS.map((item, i) => (
           <div
             key={item.id}
-            className="flex flex-col rounded-[12px]"
-            style={cardStyle(item.glow, "20px 20px")}
+            className="fi-reveal flex flex-col overflow-hidden rounded-[12px]"
+            style={{ ...cardStyle(item.glow, "20px 20px"), ["--fi-range" as string]: `entry ${8 + i * 5}% cover ${40 + i * 7}%` } as React.CSSProperties}
           >
-            <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
-              <p className="font-inter text-[16px] font-medium uppercase tracking-[0.04em] text-white">
-                {item.label}
-              </p>
-              <FeatureIcon id={item.id} size={24} color="#FFFFFF" />
-            </div>
-            <p className="font-inter text-[13.5px] font-normal text-white/70" style={{ lineHeight: 1.5, marginBottom: 18 }}>
+            <p className="font-inter text-[16px] font-medium uppercase tracking-[0.04em] text-white" style={{ marginBottom: 14 }}>
+              {item.label}
+            </p>
+            <p className="font-inter text-[13.5px] font-normal text-white/70" style={{ lineHeight: 1.5, marginBottom: 4, minHeight: 61 }}>
               {item.desc}
             </p>
-            <div className="mt-auto">
-              <LogoRow logos={item.logos} compact />
+            <div className="mt-auto" style={{ marginLeft: -20, marginRight: -20, marginBottom: -20 }}>
+              <Image src={item.image} alt="" width={item.iw} height={item.ih} className="block h-auto w-full" />
             </div>
           </div>
         ))}
@@ -188,23 +167,20 @@ export default function T1FeatureIntro() {
 
       {/* DESKTOP — 3-column card grid, equal heights */}
       <div className="hidden tablet:grid tablet:auto-rows-fr tablet:grid-cols-3 tablet:items-stretch tablet:gap-4 lg:gap-6">
-        {CARDS.map((card) => (
+        {CARDS.map((card, i) => (
           <div
             key={card.id}
-            className="flex h-full flex-col rounded-[15px] transition-transform duration-300 hover:scale-[1.01]"
-            style={cardStyle(card.glow, "34px 30px")}
+            className="fi-reveal flex h-full flex-col overflow-hidden rounded-[15px] transition-transform duration-300 hover:scale-[1.01]"
+            style={{ ...cardStyle(card.glow, "34px 30px"), ["--fi-range" as string]: `entry ${8 + i * 6}% cover ${42 + i * 8}%` } as React.CSSProperties}
           >
-            <div className="flex items-center justify-between" style={{ marginBottom: 22 }}>
-              <p className="font-inter text-[18px] font-medium uppercase tracking-[0.03em] text-white tablet:text-[20px]">
-                {card.label}
-              </p>
-              <FeatureIcon id={card.id} size={26} color="#FFFFFF" />
-            </div>
-            <p className="w-full font-inter text-[15px] font-normal text-white/70 tablet:text-[16px]" style={{ lineHeight: 1.55, marginBottom: 26 }}>
+            <p className="font-inter text-[18px] font-medium uppercase tracking-[0.03em] text-white tablet:text-[20px]" style={{ marginBottom: 22 }}>
+              {card.label}
+            </p>
+            <p className="w-full font-inter text-[15px] font-normal text-white/70 tablet:text-[16px]" style={{ lineHeight: 1.55, marginBottom: 8, minHeight: 76 }}>
               {card.desc}
             </p>
-            <div className="mt-auto">
-              <LogoRow logos={card.logos} />
+            <div className="mt-auto" style={{ marginLeft: -30, marginRight: -30, marginBottom: -34 }}>
+              <Image src={card.image} alt="" width={card.iw} height={card.ih} className="block h-auto w-full" />
             </div>
           </div>
         ))}

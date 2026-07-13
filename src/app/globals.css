@@ -246,11 +246,15 @@ body {
      (sticky hero video bleeding through the bottom of stack cards in
      Safari). Slightly higher opacity to compensate for the loss of
      overlay-blend brightness. */
-  opacity: 0.12;
+  opacity: 0.19;
   /* numOctaves lowered 4→2 — feTurbulence is rasterized once per card (×4) on
      first paint and is one of the costliest SVG filters; 2 octaves is visually
      indistinguishable at 0.12 opacity but much cheaper, cutting load-time jank. */
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg width='128' height='128' viewBox='0 0 128 128' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  /* Tile the noise small so the grain is fine, not a blown-up pixelated
+     texture (no background-size before = the SVG stretched over the whole card). */
+  background-size: 96px 96px;
+  background-repeat: repeat;
 }
 
 /* ─── Stack card gradient backgrounds ─── */
@@ -320,6 +324,22 @@ body {
   animation: blobFloat 12s ease-in-out infinite;
 }
 
+/* Punto de venta — warm red/violet mesh (in-store energy) */
+.stack-bg-pos {
+  background:
+    radial-gradient(ellipse 70% 60% at 28% 30%, rgba(219,59,43,0.32) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 60% at 82% 72%, rgba(139,92,246,0.22) 0%, transparent 62%),
+    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(127,29,29,0.12) 0%, transparent 55%),
+    linear-gradient(150deg, #170b12 0%, #140a16 50%, #1a0b10 100%);
+}
+.stack-bg-pos::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 40% 40% at 30% 35%, rgba(219,59,43,0.1) 0%, transparent 70%);
+  animation: blobFloat 11s ease-in-out infinite;
+}
+
 /* ─── Dark section surfaces (P3 tonality) ───
    Warm neutral darks (not pure black) so the big block reads cohesive and
    the light↔dark flips between sections go away. Reference: footer #141414. */
@@ -333,8 +353,8 @@ body {
    blobs ("negro con blobs"), kept low-opacity so the cards still dominate
    and the stacking effect stays legible against it. */
 .stack-section-bg {
+  /* Sin glow rojo a la izquierda (CEO) — sólo un azul muy sutil a la derecha. */
   background:
-    radial-gradient(60% 50% at 14% 6%, rgba(219,59,43,0.07) 0%, transparent 60%),
     radial-gradient(55% 45% at 90% 22%, rgba(59,130,246,0.05) 0%, transparent 60%),
     #141414;
 }
@@ -342,11 +362,27 @@ body {
 /* IA section — keeps the warm "AI moment" as a glow on dark instead of a
    bright peach field, so the stack→IA transition becomes dark-to-dark. */
 .ai-section-bg {
+  /* Base is a vertical gradient so the section blends into its neighbours with
+     no hard line: top = #141414 (stack cards), middle keeps the warm #161311,
+     bottom = #000 (métricas / bg-black). Warm glows sit on top. */
+  /* Base = smooth vertical dark gradient that matches the neighbours at the
+     seams (top #000 = bg-black intro band above, bottom #141414 = stack cards
+     below) with uniform dark SIDES. On top, the red lives as ONE elongated
+     horizontal oval blob centred in the section — a "blob alargado", not a
+     straight band across the full width. It fades out well before the top/bottom
+     edges so the seams stay clean. */
   background:
-    radial-gradient(110% 70% at 15% 0%, rgba(255,120,95,0.16) 0%, transparent 55%),
-    radial-gradient(90% 70% at 100% 30%, rgba(255,110,90,0.12) 0%, transparent 55%),
-    radial-gradient(120% 80% at 50% 110%, rgba(219,59,43,0.10) 0%, transparent 60%),
-    #161311;
+    radial-gradient(ellipse 68% 40% at 50% 50%,
+      rgba(107,10,10,0.95) 0%,
+      rgba(80,10,10,0.7) 30%,
+      rgba(48,10,10,0.35) 52%,
+      transparent 72%),
+    linear-gradient(180deg,
+      #000000 0%,
+      #0a0505 28%,
+      #100909 50%,
+      #120c0c 72%,
+      #141414 100%);
 }
 
 @keyframes blobFloat {
@@ -691,4 +727,199 @@ body {
   .stack-card::after {
     display: none !important;
   }
+}
+
+/* ─── "Todo en un solo lugar" — fluid scroll-linked reveal ───
+   Uses native scroll-driven animations so the cards fade + rise in sync with
+   the scroll position (scrubs smoothly, feels fluid, not a one-shot trigger).
+   Gated behind @supports so unsupported browsers just show the content
+   (never stuck invisible), and disabled for reduced-motion. */
+@keyframes fiReveal {
+  from { opacity: 0; transform: translateY(30px) scale(0.985); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@supports (animation-timeline: view()) {
+  .fi-reveal {
+    opacity: 0;
+    animation: fiReveal linear both;
+    animation-timeline: view();
+    animation-range: var(--fi-range, entry 6% cover 42%);
+    will-change: opacity, transform;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fi-reveal { opacity: 1 !important; transform: none !important; animation: none !important; }
+}
+
+/* ─── "Todo incluido" cards — dark panel with red + violet glow (Figma) ─── */
+.incluye-dark-card {
+  background:
+    radial-gradient(86% 76% at 85% 38%, rgba(219, 59, 43, 0.17) 0%, transparent 62%),
+    radial-gradient(72% 66% at 10% 92%, rgba(116, 88, 214, 0.16) 0%, transparent 62%),
+    linear-gradient(158deg, #17151b 0%, #100e13 100%);
+}
+
+/* ─── Store showcase — mobile screenshot auto-scroll preview ─── */
+@keyframes storeMobileScroll {
+  0%    { object-position: 50% 0%; }
+  50%   { object-position: 50% 100%; }
+  100%  { object-position: 50% 0%; }
+}
+.store-mobile-scroll { animation: storeMobileScroll 9s linear infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .store-mobile-scroll { animation: none; }
+}
+
+/* ─── ¿Para quién es T1? — traveling red→blue border glow ─── */
+@keyframes audienceBeamSpin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+.audience-card-wrap { position: relative; isolation: isolate; }
+.audience-beam {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 230%;
+  aspect-ratio: 1 / 1;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  /* Mostly transparent, with a bright arc that goes red → violet → blue.
+     As the layer spins, that arc travels around the card edge. Clipped to a
+     thin ring by the parent's overflow:hidden + the inner content on top, so
+     it only ever shows ON the border contour. */
+  /* Short all-red arc (solo rojo). */
+  background: conic-gradient(from 0deg,
+    transparent 0deg,
+    transparent 328deg,
+    rgba(224,64,47,0.25) 334deg,
+    #E0402F 344deg,
+    #FF6552 351deg,
+    #E0402F 357deg,
+    transparent 360deg);
+  animation: audienceBeamSpin 6s linear infinite;
+  pointer-events: none;
+  will-change: transform;
+}
+/* The card itself — 2px animated ring, clipped to the rounded rect */
+.audience-card {
+  position: relative;
+  z-index: 1;
+  border-radius: 20px;
+  padding: 2px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.07); /* faint static border where the arc isn't */
+}
+@media (prefers-reduced-motion: reduce) {
+  .audience-beam { animation: none; }
+}
+
+/* ─── Envíos sublandings: animation keyframes + helper classes ─── */
+@keyframes rastreoReveal {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cronoScroll {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50%); }
+}
+.crono-track { animation: cronoScroll 24s linear infinite; }
+
+@keyframes cotizaSweep {
+  0% { transform: translateX(-120%); opacity: 0; }
+  10% { opacity: 1; }
+  55% { opacity: 1; }
+  70% { opacity: 0; }
+  100% { transform: translateX(230%); opacity: 0; }
+}
+.cotiza-sweep { animation: cotizaSweep 3s ease-in-out infinite; }
+
+@keyframes pricePop {
+  0%, 62%, 100% { transform: scale(1); }
+  76% { transform: scale(1.2); }
+}
+.price-pop { animation: pricePop 3s ease-in-out infinite; display: inline-block; transform-origin: right center; }
+
+@keyframes flowDot {
+  0% { top: 0; opacity: 0; }
+  20% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+.flow-dot { animation: flowDot 1.4s linear infinite; }
+@media (prefers-reduced-motion: reduce) { .flow-dot { animation: none; } }
+
+@keyframes donutIn {
+  0% { opacity: 0; transform: rotate(-24deg) scale(0.9); }
+  100% { opacity: 1; transform: rotate(0deg) scale(1); }
+}
+.donut-in { animation: donutIn 0.9s cubic-bezier(0.22,1,0.36,1) both; transform-origin: center; }
+@media (prefers-reduced-motion: reduce) { .donut-in { animation: none; } }
+
+@keyframes barGrowX {
+  0% { transform: scaleX(0); }
+  55%, 100% { transform: scaleX(1); }
+}
+.bar-grow { transform-origin: left center; animation: barGrowX 3.4s ease-out infinite; }
+@media (prefers-reduced-motion: reduce) { .bar-grow { animation: none; transform: scaleX(1); } }
+
+@keyframes speedDash {
+  0% { transform: translateX(8px); opacity: 0; }
+  35% { opacity: 0.9; }
+  100% { transform: translateX(-16px); opacity: 0; }
+}
+.speed-dash { animation: speedDash 0.7s linear infinite; }
+
+@keyframes truckGo {
+  0%, 100% { transform: translateX(0) translateY(0); }
+  25% { transform: translateX(-2px) translateY(-1px); }
+  50% { transform: translateX(0) translateY(0); }
+  75% { transform: translateX(-2px) translateY(1px); }
+}
+.truck-go { animation: truckGo 0.45s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) { .speed-dash, .truck-go { animation: none; } }
+
+@keyframes pingRipple {
+  0% { transform: translate(-50%, -50%) scale(0.25); opacity: 0.7; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+}
+.ping-ripple { animation: pingRipple 3.9s ease-out infinite; }
+
+@keyframes statusPulse {
+  0%, 100% { box-shadow: 0 0 0 0 transparent; }
+  50% { box-shadow: 0 0 0 5px var(--glow); }
+}
+.status-pulse { animation: statusPulse 2.2s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) { .ping-ripple, .status-pulse { animation: none; } }
+
+@keyframes waType { 0%, 60%, 100% { opacity: 0.25; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
+.wa-dot { animation: waType 1.1s infinite ease-in-out; }
+@media (prefers-reduced-motion: reduce) { .wa-dot { animation: none; } }
+
+@keyframes caretBlink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+.type-caret { display: inline-block; width: 1.5px; height: 1em; background: #1A1A1A; margin-left: 1px; vertical-align: -2px; animation: caretBlink 0.8s step-end infinite; }
+
+@keyframes radarSpin { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+.radar-sweep { animation: radarSpin 6s linear infinite; }
+
+@keyframes carrierPing {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(219,59,43,0); transform: scale(1); }
+  10% { box-shadow: 0 0 0 9px rgba(219,59,43,0.20); transform: scale(1.08); }
+  22% { box-shadow: 0 0 0 0 rgba(219,59,43,0); transform: scale(1); }
+}
+.carrier-ping { animation: carrierPing 6s ease-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .radar-sweep, .carrier-ping { animation: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cotiza-sweep, .price-pop { animation: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .crono-track { animation: none; }
+}
+.rastreo-reveal { animation: rastreoReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .rastreo-reveal { animation: none; }
 }

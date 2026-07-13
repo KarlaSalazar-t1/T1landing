@@ -45,6 +45,8 @@ const INVENTORY_ROWS = [
   { name: "Playera básica oversize", sku: "PB-101", price: "$299", channels: "2/3", start: 87, img: "/img/moda-playera.png" },
   { name: "Sudadera hoodie premium", sku: "SH-220", price: "$899", channels: "3/3", start: 12, img: "/img/moda-hoodie.png" },
   { name: "Gorra snapback negra", sku: "GS-088", price: "$249", channels: "2/3", start: 41, img: "/img/moda-gorra.png" },
+  { name: "Playera polo mujer", sku: "PP-305", price: "$399", channels: "3/3", start: 63, img: "/img/moda-playera.png" },
+  { name: "Sudadera crop violeta", sku: "SC-142", price: "$690", channels: "2/3", start: 18, img: "/img/moda-hoodie.png" },
 ];
 
 function MpInventoryPanel() {
@@ -73,7 +75,7 @@ function MpInventoryPanel() {
   const cols = "minmax(0,1.5fr) minmax(0,0.7fr) minmax(0,0.85fr) minmax(0,0.5fr) minmax(0,0.6fr)";
 
   return (
-    <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 18, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
+    <div className="relative overflow-hidden rounded-[13px] border border-black/[0.06] bg-white tablet:min-h-[400px]" style={{ padding: 18, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
       <p className="font-sora text-[14px] font-medium text-black" style={{ marginBottom: 14 }}>Mis productos</p>
 
       {/* Desktop: table */}
@@ -89,7 +91,7 @@ function MpInventoryPanel() {
           const isFlash = flash?.idx === i;
           const flashColor = flash?.dir === "up" ? "#16A34A" : "#DB3B2B";
           return (
-            <div key={row.sku} className="grid items-center gap-2 py-2.5" style={{ gridTemplateColumns: cols, borderBottom: i < INVENTORY_ROWS.length - 1 ? "1px solid rgba(0,0,0,0.04)" : "none" }}>
+            <div key={row.sku} className="grid items-center gap-2 py-3.5" style={{ gridTemplateColumns: cols, borderBottom: i < INVENTORY_ROWS.length - 1 ? "1px solid rgba(0,0,0,0.04)" : "none" }}>
               <div className="flex min-w-0 items-center gap-2.5">
                 <div className="flex h-[32px] w-[32px] shrink-0 items-center justify-center overflow-hidden rounded-[7px] border border-black/[0.06] bg-white">
                   <Image src={row.img} alt="" width={30} height={30} className="h-full w-full object-contain" />
@@ -155,15 +157,15 @@ const ORDER_POOL: Omit<MpOrder, "k">[] = [
 ];
 
 function MpOrdersPanel() {
-  const [orders, setOrders] = useState<MpOrder[]>(() => ORDER_POOL.slice(0, 5).map((o, k) => ({ ...o, k })));
+  const [orders, setOrders] = useState<MpOrder[]>(() => ORDER_POOL.slice(0, 6).map((o, k) => ({ ...o, k })));
 
   useEffect(() => {
-    let i = 5;
+    let i = 6;
     const id = setInterval(() => {
       const next = ORDER_POOL[i % ORDER_POOL.length];
       const k = i;
       i++;
-      setOrders((prev) => [{ ...next, k }, ...prev.slice(0, 4)]);
+      setOrders((prev) => [{ ...next, k }, ...prev.slice(0, 5)]);
     }, 2400);
     return () => clearInterval(id);
   }, []);
@@ -171,7 +173,7 @@ function MpOrdersPanel() {
   const cols = "minmax(0,0.8fr) minmax(0,1.15fr) minmax(0,1.2fr) minmax(0,0.7fr) minmax(0,0.95fr)";
 
   return (
-    <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 18, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
+    <div className="relative overflow-hidden rounded-[13px] border border-black/[0.06] bg-white tablet:min-h-[400px]" style={{ padding: 18, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
       <p className="font-sora text-[14px] font-medium text-black" style={{ marginBottom: 14 }}>Mis pedidos</p>
 
       {/* Desktop: table */}
@@ -188,7 +190,7 @@ function MpOrdersPanel() {
           return (
             <div
               key={o.k}
-              className="grid items-center gap-2 py-2.5"
+              className="grid items-center gap-2 py-3.5"
               style={{ gridTemplateColumns: cols, borderBottom: i < orders.length - 1 ? "1px solid rgba(0,0,0,0.04)" : "none", animation: i === 0 ? "fadeSlideIn 0.45s ease-out" : undefined }}
             >
               <span className="min-w-0 truncate font-inter text-[11px] font-medium text-black/55 tabular-nums">#{o.id}</span>
@@ -268,7 +270,7 @@ function MpPublishPanel() {
   }, []);
 
   return (
-    <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 18, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
+    <div className="relative overflow-hidden rounded-[13px] border border-black/[0.06] bg-white tablet:min-h-[400px]" style={{ padding: 18, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
       <p className="font-sora text-[14px] font-medium text-black" style={{ marginBottom: 14 }}>Administrar publicación</p>
       <div className="flex items-center gap-3 rounded-[10px] border border-black/[0.05] bg-[#FAFAF9] px-3 py-3" style={{ marginBottom: 16 }}>
         <div className="flex h-[44px] w-[44px] shrink-0 items-center justify-center overflow-hidden rounded-[8px] border border-black/[0.05] bg-white">
@@ -326,7 +328,7 @@ export default function T1Marketplaces() {
             {/* Left — title + description + CTA */}
             <div>
               <h1
-                className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[56px]"
+                className="font-sora text-[32px] font-light text-white tablet:text-[44px]"
                 style={{ lineHeight: 1.05, letterSpacing: "-1.5px", marginBottom: 22 }}
               >
                 Vende en +10 marketplaces desde un solo lugar.
@@ -354,6 +356,13 @@ export default function T1Marketplaces() {
                   the desktop tree). */}
               <div className="relative mx-auto tablet:hidden" style={{ width: "100%", maxWidth: 300, aspectRatio: "1" }}>
                 <svg className="absolute inset-0 h-full w-full" viewBox="0 0 300 300" fill="none" preserveAspectRatio="xMidYMid meet">
+                  <defs>
+                    <radialGradient id="mpPulseM">
+                      <stop offset="0%" stopColor="#FF7A6B" stopOpacity="0.6" />
+                      <stop offset="55%" stopColor="#FF7A6B" stopOpacity="0.22" />
+                      <stop offset="100%" stopColor="#FF7A6B" stopOpacity="0" />
+                    </radialGradient>
+                  </defs>
                   {/* [startX, startY, endX, endY] — lines start ~42 units out from
                       the centre so they don't run behind the T1 node. */}
                   {[
@@ -366,6 +375,11 @@ export default function T1Marketplaces() {
                   ].map(([sx, sy, x, y], i) => (
                     <g key={i}>
                       <line x1={sx} y1={sy} x2={x} y2={y} stroke="rgba(255,255,255,0.22)" strokeWidth="1" strokeDasharray="5 4" />
+                      {/* Soft red pulse behind the icon — peaks as the dot arrives */}
+                      <circle cx={x} cy={y} r="12" fill="url(#mpPulseM)" opacity="0.12">
+                        <animate attributeName="opacity" values="0.1;0.6;0.1" keyTimes="0;0.5;1" dur={`${2 + (i % 3) * 0.4}s`} begin={`${i * 0.25}s`} repeatCount="indefinite" />
+                        <animate attributeName="r" values="9;20;9" keyTimes="0;0.5;1" dur={`${2 + (i % 3) * 0.4}s`} begin={`${i * 0.25}s`} repeatCount="indefinite" />
+                      </circle>
                       <circle cx={x} cy={y} r="2.5" fill="rgba(255,255,255,0.4)" />
                       <circle r="2.5" fill="#E26153" opacity="0.7">
                         <animateMotion dur={`${2 + (i % 3) * 0.4}s`} repeatCount="indefinite" path={`M${sx} ${sy} L${x} ${y}`} begin={`${i * 0.25}s`} />
@@ -406,6 +420,13 @@ export default function T1Marketplaces() {
               {/* Desktop: animated connector tree */}
               <div className="relative hidden tablet:block" style={{ minHeight: 420 }}>
                 <svg className="absolute inset-0 h-full w-full" viewBox="0 0 500 400" fill="none" preserveAspectRatio="xMidYMid meet">
+                  <defs>
+                    <radialGradient id="mpPulseD">
+                      <stop offset="0%" stopColor="#FF7A6B" stopOpacity="0.6" />
+                      <stop offset="55%" stopColor="#FF7A6B" stopOpacity="0.22" />
+                      <stop offset="100%" stopColor="#FF7A6B" stopOpacity="0" />
+                    </radialGradient>
+                  </defs>
                   {/* Trunk + branches dashed */}
                   <line x1="80" y1="200" x2="135" y2="200" stroke="rgba(255,255,255,0.25)" strokeWidth="1" strokeDasharray="5 4" />
                   <circle cx="135" cy="200" r="3" fill="rgba(255,255,255,0.4)" />
@@ -438,6 +459,22 @@ export default function T1Marketplaces() {
                   <circle r="3" fill="#E26153" opacity="0.6"><animateMotion dur="3s" repeatCount="indefinite" path="M270 200 L270 95 L460 95" begin="0.2s" /></circle>
                   <circle r="3" fill="#E26153" opacity="0.7"><animateMotion dur="2.5s" repeatCount="indefinite" path="M270 200 L460 200" begin="0.6s" /></circle>
                   <circle r="3" fill="#E26153" opacity="0.6"><animateMotion dur="3s" repeatCount="indefinite" path="M270 200 L270 305 L460 305" begin="0.4s" /></circle>
+                  {/* Soft red pulse behind each marketplace icon — peaks right as
+                      its travelling dot arrives (matched dur + begin). */}
+                  {[
+                    { cx: 320, cy: 40, dur: "2.5s", begin: "0s" },
+                    { cx: 320, cy: 150, dur: "2s", begin: "0.5s" },
+                    { cx: 320, cy: 260, dur: "2s", begin: "0.3s" },
+                    { cx: 320, cy: 360, dur: "2.5s", begin: "0.8s" },
+                    { cx: 460, cy: 95, dur: "3s", begin: "0.2s" },
+                    { cx: 460, cy: 200, dur: "2.5s", begin: "0.6s" },
+                    { cx: 460, cy: 305, dur: "3s", begin: "0.4s" },
+                  ].map((n, i) => (
+                    <circle key={`pulse-${i}`} cx={n.cx} cy={n.cy} r="16" fill="url(#mpPulseD)" opacity="0.12">
+                      <animate attributeName="opacity" values="0.1;0.6;0.1" keyTimes="0;0.5;1" dur={n.dur} begin={n.begin} repeatCount="indefinite" />
+                      <animate attributeName="r" values="12;27;12" keyTimes="0;0.5;1" dur={n.dur} begin={n.begin} repeatCount="indefinite" />
+                    </circle>
+                  ))}
                 </svg>
 
                 {/* Product card on the left of tree */}
@@ -496,11 +533,13 @@ export default function T1Marketplaces() {
       </section>
 
       {/* ── Section 2: Problemas — intro cards (like the Tienda "Antes" section) ── */}
-      <section className="relative bg-white px-5 pt-10 pb-6 tablet:px-10 tablet:pt-14 tablet:pb-8" data-white-card>
-        <div className="mx-auto max-w-[var(--max-w)]">
+      <section className="relative overflow-hidden bg-white px-5 pt-10 pb-6 tablet:px-10 tablet:pt-14 tablet:pb-8" data-white-card>
+        {/* toque sutil de rojo oscuro */}
+        <div aria-hidden className="pointer-events-none absolute" style={{ top: "-14%", right: "-6%", width: 580, height: 580, borderRadius: "50%", background: "radial-gradient(circle, rgba(125,26,26,0.07) 0%, transparent 62%)", filter: "blur(30px)" }} />
+        <div className="relative mx-auto max-w-[var(--max-w)]">
           <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 48 }}>
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15 }}>
-              Vender en varios canales por separado tiene un costo.
+              Vender en varios canales puede ser complicado
             </h2>
           </div>
           <div className="flex flex-wrap justify-center gap-5">
@@ -546,20 +585,124 @@ export default function T1Marketplaces() {
               </div>
             ))}
           </div>
-          <p className="mx-auto text-center font-sora text-[26px] font-light text-black tablet:text-[36px]" style={{ marginTop: 48, letterSpacing: "-0.03em" }}>
+        </div>
+      </section>
+
+      {/* ── Conecta los canales — texto centrado + iconos flotando en el espacio ── */}
+      <section className="relative flex min-h-[600px] items-center overflow-hidden bg-white px-5 py-24 tablet:min-h-[640px] tablet:px-10 tablet:py-36">
+        {/* very subtle red blob */}
+        <div
+          className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+          style={{ width: 620, height: 620, borderRadius: "50%", background: "radial-gradient(circle, rgba(219,59,43,0.06) 0%, transparent 62%)" }}
+        />
+
+        {/* DESKTOP floating scatter — icons dispersed around the centred text. */}
+        {[
+          { i: 0, l: "8%", t: "24%", s: 52, r: -8 },
+          { i: 1, l: "20%", t: "70%", s: 46, r: 7 },
+          { i: 2, l: "31%", t: "18%", s: 44, r: 5 },
+          { i: 3, l: "11%", t: "46%", s: 58, r: -6 },
+          { i: 4, l: "89%", t: "24%", s: 54, r: 8 },
+          { i: 5, l: "80%", t: "66%", s: 46, r: -7 },
+          { i: 6, l: "69%", t: "19%", s: 44, r: -5 },
+          { i: 7, l: "92%", t: "48%", s: 52, r: 6 },
+          { i: 8, l: "27%", t: "82%", s: 44, r: -6 },
+          { i: 9, l: "73%", t: "81%", s: 50, r: 7 },
+          { i: 10, l: "50%", t: "15%", s: 46, r: 4 },
+          { i: 11, l: "50%", t: "85%", s: 46, r: -4 },
+        ].map(({ i, l, t, s, r }) => {
+          const mp = MARKETPLACES_GRID[i];
+          return (
+            <Image
+              key={`d-${mp.name}`}
+              src={mp.src}
+              alt={mp.name}
+              width={s}
+              height={s}
+              className="pointer-events-none absolute hidden -translate-x-1/2 -translate-y-1/2 object-contain tablet:block"
+              style={{ left: l, top: t, width: s, height: s, transform: `translate(-50%, -50%) rotate(${r}deg)`, filter: "drop-shadow(0 12px 22px rgba(0,0,0,0.14))" }}
+            />
+          );
+        })}
+
+        {/* MOBILE floating scatter — same dispersed look but kept in the TOP and
+            BOTTOM bands so the icons never sit over the centred text. */}
+        {[
+          { i: 0, l: "12%", t: "9%", s: 42, r: -8 },
+          { i: 2, l: "38%", t: "7%", s: 40, r: 5 },
+          { i: 6, l: "63%", t: "8%", s: 40, r: -5 },
+          { i: 4, l: "88%", t: "12%", s: 44, r: 8 },
+          { i: 10, l: "25%", t: "20%", s: 40, r: 4 },
+          { i: 5, l: "75%", t: "21%", s: 40, r: -6 },
+          { i: 1, l: "12%", t: "90%", s: 42, r: 7 },
+          { i: 3, l: "38%", t: "93%", s: 44, r: -6 },
+          { i: 9, l: "62%", t: "92%", s: 42, r: 7 },
+          { i: 7, l: "88%", t: "88%", s: 42, r: 6 },
+          { i: 8, l: "26%", t: "80%", s: 40, r: -6 },
+          { i: 11, l: "74%", t: "80%", s: 40, r: -4 },
+        ].map(({ i, l, t, s, r }) => {
+          const mp = MARKETPLACES_GRID[i];
+          return (
+            <Image
+              key={`m-${mp.name}`}
+              src={mp.src}
+              alt={mp.name}
+              width={s}
+              height={s}
+              className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 object-contain tablet:hidden"
+              style={{ left: l, top: t, width: s, height: s, transform: `translate(-50%, -50%) rotate(${r}deg)`, filter: "drop-shadow(0 12px 22px rgba(0,0,0,0.14))" }}
+            />
+          );
+        })}
+
+        {/* centered copy */}
+        <div className="relative mx-auto max-w-[620px] text-center">
+          <h2 className="font-sora text-[26px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
             Con T1, olvídate de todo esto.
+          </h2>
+          <p className="mx-auto font-inter text-[15px] font-light text-black/60 tablet:text-[17px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 500 }}>
+            Conecta los canales donde ya vendes y gestiona todas tus ventas desde un solo lugar.
           </p>
+
+          <a
+            href={SIGNUP_URL}
+            className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-8 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
+          >
+            Conecta tus canales
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </a>
         </div>
       </section>
 
       {/* Stack cards — 3 full-screen blocks (text + panel alternating) */}
       <div ref={stackRootRef} className="fs-stack-card-container relative bg-white">
-        {/* Block 1 — Inventario (text left, panel right) — bg white, no shadow */}
+        {/* Block 1 — Importa y publica (text left, image right) — bg white */}
         <div className="fs-stack-card" style={{ top: 60, zIndex: 1, background: "#FFFFFF" }}>
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div>
-                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 14 }}>
+                <h3 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
+                  Importa y publica tus productos
+                </h3>
+                <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, maxWidth: 460 }}>
+                  Importa tus productos y pedidos desde otros marketplaces, y publícalos en Sears, Sanborns, redes sociales o tu tienda en línea sin recapturar información.
+                </p>
+              </div>
+              <div className="tablet:scale-[1.55] tablet:origin-center">
+                <Image src="/img/importa.png" alt="Importa y publica tus productos" width={1672} height={941} className="h-auto w-full" sizes="(max-width: 768px) 94vw, 860px" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Block 2 — Un solo inventario (text left, panel right) — bg #FBFBFB */}
+        <div className="fs-stack-card" style={{ top: 80, zIndex: 2, background: "#FBFBFB" }}>
+          <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
+            <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
+              <div>
+                <h3 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 14 }}>
                   Un solo inventario
                 </h3>
                 <p className="font-inter text-[14px] font-light text-black/55 tablet:text-[15px]" style={{ lineHeight: 1.55, marginBottom: 22 }}>
@@ -579,8 +722,8 @@ export default function T1Marketplaces() {
           </div>
         </div>
 
-        {/* Block 2 — Pedidos (panel left, text right) — bg #F6F6F6 */}
-        <div className="fs-stack-card" style={{ top: 80, zIndex: 2, background: "#F6F6F6" }}>
+        {/* Block 3 — Pedidos (panel left, text right) — dark bg */}
+        <div className="fs-stack-card" style={{ top: 100, zIndex: 3, background: "#121214" }}>
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div className="order-2 tablet:order-1">
@@ -588,15 +731,15 @@ export default function T1Marketplaces() {
               </div>
 
               <div className="order-1 tablet:order-2">
-                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 14 }}>
+                <h3 className="font-sora text-[32px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 14 }}>
                   Todos tus pedidos en un lugar
                 </h3>
-                <p className="font-inter text-[14px] font-light text-black/55 tablet:text-[15px]" style={{ lineHeight: 1.55, marginBottom: 22 }}>
+                <p className="font-inter text-[14px] font-light text-white/60 tablet:text-[15px]" style={{ lineHeight: 1.55, marginBottom: 22 }}>
                   Procesa los pedidos de todos tus canales sin saltar entre plataformas.
                 </p>
                 <ul className="flex flex-col gap-2.5">
                   {["Vista unificada de pedidos por canal", "Filtra por estado, marketplace o cliente", "Genera guías de envío en segundos"].map((it) => (
-                    <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
+                    <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-white/75 tablet:text-[15px]">
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                       {it}
                     </li>
@@ -607,77 +750,14 @@ export default function T1Marketplaces() {
           </div>
         </div>
 
-        {/* Block 3 — Catálogo (text left, panel right) — bg white */}
-        <div className="fs-stack-card" style={{ top: 100, zIndex: 3, background: "#FFFFFF" }}>
-          <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
-            <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
-              <div>
-                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 14 }}>
-                  Importa tus productos y publica en tus tiendas
-                </h3>
-                <p className="font-inter text-[14px] font-light text-black/55 tablet:text-[15px]" style={{ lineHeight: 1.55, marginBottom: 22 }}>
-                  Trae tus productos ya publicados en otros marketplaces y publícalos en tus tiendas y redes, sin recapturar nada.
-                </p>
-                <ul className="flex flex-col gap-2.5">
-                  {["Importa tus publicaciones de SHEIN, Amazon y Mercado Libre", "Publica en Sears, Sanborns, Facebook, Instagram y tu tienda en línea"].map((it) => (
-                    <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                      {it}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <MpPublishPanel />
-            </div>
-          </div>
-        </div>
       </div>
 
-      {/* ── Section 3: Marketplaces grid ── */}
-      <section className="relative bg-[#F6F6F6] px-5 py-24 tablet:px-10 tablet:py-32">
-        <div className="mx-auto max-w-[var(--max-w)]">
-          <div className="mx-auto max-w-[640px] text-center" style={{ marginBottom: 48 }}>
-            <h2 className="font-sora text-[26px] font-light text-black tablet:text-[34px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15, marginBottom: 12 }}>
-Conecta todos tus canales de venta
-            </h2>
-            <p className="font-inter text-[15px] font-light text-black/60 tablet:text-[17px]" style={{ lineHeight: 1.6 }}>
-Marketplaces, tiendas y redes: gestiona todas tus ventas desde un solo lugar.
-            </p>
-          </div>
 
-          <div className="grid grid-cols-2 gap-4 tablet:grid-cols-4 tablet:gap-5">
-            {MARKETPLACES_GRID.map((mp) => (
-              <div
-                key={mp.name}
-                className="flex flex-col items-center justify-center rounded-[16px] border border-black/[0.06] bg-white py-8 transition-all duration-200 hover:border-black/[0.12] hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
-              >
-                <div className="mb-3 flex h-[56px] w-[56px] items-center justify-center">
-                  <Image src={mp.src} alt={mp.name} width={56} height={56} className="object-contain" />
-                </div>
-                <p className="font-inter text-[13px] font-medium text-black/70">{mp.name}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-12 flex justify-center">
-            <a
-              href={SIGNUP_URL}
-              className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-8 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
-            >
-              Conecta tus canales
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* ── FAQ ── */}
-      <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32">
+      {/* ── FAQ (fondo oscuro) ── */}
+      <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[760px]">
           <div className="text-center" style={{ marginBottom: 40 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>
+            <h2 className="font-sora text-[32px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>
               Preguntas frecuentes
             </h2>
           </div>
@@ -691,15 +771,15 @@ Marketplaces, tiendas y redes: gestiona todas tus ventas desde un solo lugar.
             ].map((f) => (
               <details
                 key={f.q}
-                className="group rounded-[14px] border border-black/[0.06] bg-white transition-all duration-200 open:border-[rgba(219,59,43,0.2)] open:shadow-[0_4px_18px_rgba(0,0,0,0.05)]"
+                className="group rounded-[14px] border border-white/[0.08] bg-white/[0.03] transition-all duration-200 open:border-[rgba(219,59,43,0.4)] open:bg-white/[0.05]"
               >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-sora text-[16px] font-normal text-black transition-colors duration-150 hover:text-[#DB3B2B]">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-sora text-[16px] font-normal text-white transition-colors duration-150 hover:text-[#FF6F5E]">
                   {f.q}
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="shrink-0 text-black/40 transition-transform duration-300 group-open:rotate-180 group-open:text-[#DB3B2B]">
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="shrink-0 text-white/40 transition-transform duration-300 group-open:rotate-180 group-open:text-[#FF6F5E]">
                     <path d="M3 5.5L8 10.5L13 5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </summary>
-                <p className="px-6 pb-5 font-inter text-[14px] font-light text-black/65" style={{ lineHeight: 1.65 }}>
+                <p className="px-6 pb-5 font-inter text-[14px] font-light text-white/60" style={{ lineHeight: 1.65 }}>
                   {f.a}
                 </p>
               </details>

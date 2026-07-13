@@ -79,7 +79,7 @@ export default function T1AISectionV2() {
   };
 
   return (
-    <section className="relative isolate" style={{ background: "#161311" }}>
+    <section className="relative isolate" style={{ background: "#141414" }}>
       <div className="ai-section-bg relative flex w-full flex-col overflow-hidden">
         {/* Decorative warm glow — pre-blurred radial gradients (no filter:blur).
             The previous three filter:blur(70–100px) blobs each forced a large
@@ -91,14 +91,14 @@ export default function T1AISectionV2() {
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "radial-gradient(420px 420px at 8% 2%, rgba(219,59,43,0.20) 0%, rgba(219,59,43,0.06) 34%, transparent 66%), radial-gradient(520px 520px at 102% 26%, rgba(255,140,110,0.15) 0%, rgba(255,140,110,0.05) 36%, transparent 66%), radial-gradient(440px 440px at 42% 116%, rgba(255,150,120,0.11) 0%, transparent 62%)",
+              "radial-gradient(420px 420px at 8% 2%, rgba(219,59,43,0.20) 0%, rgba(219,59,43,0.06) 34%, transparent 66%), radial-gradient(520px 520px at 102% 26%, rgba(255,140,110,0.15) 0%, rgba(255,140,110,0.05) 36%, transparent 66%)",
           }}
         />
 
-        <div className="relative mx-auto flex w-full max-w-[var(--max-w)] flex-col items-center px-5 py-16 text-center tablet:px-6 tablet:py-24">
+        <div className="relative mx-auto flex w-full max-w-[var(--max-w)] flex-col items-center px-5 py-[100px] text-center tablet:px-6">
           {/* Big, clear headline — AI builds your online store. */}
           <h2
-            className="font-sora text-[30px] font-light text-white tablet:text-[44px] lg:text-[56px]"
+            className="font-sora text-[32px] font-light text-white tablet:text-[44px]"
             style={{ letterSpacing: "-0.02em", lineHeight: 1.1, maxWidth: 860 }}
           >
             De una frase a{" "}
@@ -120,8 +120,8 @@ export default function T1AISectionV2() {
             className="mt-5 font-inter text-[16px] font-normal text-white/65 tablet:text-[19px]"
             style={{ letterSpacing: "-0.01em", lineHeight: 1.45, maxWidth: 600 }}
           >
-            En segundos tienes una tienda completa —con productos, diseño y
-            pagos— lista para vender.
+            En menos de un minuto tienes una tienda completa, con productos,
+            diseño y pagos, lista para vender.
           </p>
 
           {/* Oversized prompt panel — the single focal point of the section. */}

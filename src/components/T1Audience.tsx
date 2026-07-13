@@ -10,7 +10,7 @@ const AUDIENCES = [
     description: "Crea tu tienda, conecta pagos y envía tus primeros pedidos sin experiencia técnica.",
     cta: "Comienza gratis",
     ctaHref: "/registro",
-    image: "/img/emprendedor-v3.png",
+    image: "/img/emprendedor-v4.png",
     glow: "rgba(224,64,47,0.55)", // red
   },
   {
@@ -19,13 +19,13 @@ const AUDIENCES = [
     description: "Conecta todos tus canales de venta, automatiza envíos y optimiza tus cobros.",
     cta: "Empezar ahora",
     ctaHref: "/registro",
-    image: "/img/pyme-v5.png",
+    image: "/img/pyme-v4.png",
     glow: "rgba(59,110,255,0.55)", // blue
   },
   {
     id: "enterprise",
     title: "Enterprise",
-    description: "Infraestructura robusta con soporte dedicado y SLAs garantizados para alto volumen.",
+    description: "Opera alto volumen con infraestructura robusta, soporte dedicado e integraciones a la medida.",
     cta: "Habla con un experto",
     ctaHref: "/contacto-ventas",
     image: "/img/enterprise-v4.png",
@@ -52,44 +52,47 @@ export default function T1Audience() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-black" style={{ paddingTop: 72, paddingBottom: 84 }}>
+    <section className="relative overflow-hidden bg-black" style={{ paddingTop: 100, paddingBottom: 100 }}>
       <div className="relative mx-auto max-w-[var(--max-w)] px-5 tablet:px-6">
         <h2
           className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
           style={{ letterSpacing: "-0.03em", textAlign: "center", marginBottom: 16 }}
         >
-          ¿Para quién es T1?
+          Para cada etapa de tu negocio.
         </h2>
         <p
-          className="mx-auto font-inter text-[16px] font-light text-white/85 tablet:text-[18px]"
-          style={{ textAlign: "center", maxWidth: 500, marginBottom: 56 }}
+          className="mx-auto font-inter text-[16px] font-light text-white/85 tablet:whitespace-nowrap tablet:text-[18px]"
+          style={{ textAlign: "center", marginBottom: 56 }}
         >
-          Una plataforma que crece contigo.
+          Desde tu primera venta hasta una operación de alto volumen.
         </p>
 
         {/* Desktop: 3-column grid */}
         <div className="hidden tablet:grid tablet:grid-cols-3 tablet:gap-6">
-          {AUDIENCES.map((a) => (
-            <div
-              key={a.id}
-              className="group flex flex-col overflow-hidden rounded-[20px] border border-white/[0.08]"
-              style={{
-                background: "#1b1714",
-                boxShadow: `0 0 0 1px rgba(255,255,255,0.05), 0 0 95px -14px ${a.glow}, 0 24px 64px -30px rgba(0,0,0,0.7)`,
-              }}
-            >
-              {/* Image area — ~60% of card */}
-              <div className="relative overflow-hidden" style={{ height: 280 }}>
-                <Image
-                  src={a.image}
-                  alt={a.title}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
+          {AUDIENCES.map((a, i) => (
+            <div key={a.id} className="audience-card-wrap flex">
+              {/* Card with the animated ring (contour only) */}
+              <div className="audience-card flex flex-1">
+                <span className="audience-beam" aria-hidden style={{ animationDelay: `${i * -2}s` }} />
+                <div
+                  className="group relative z-[1] flex flex-1 flex-col overflow-hidden rounded-[18.5px]"
+                  style={{
+                    background: "#1b1714",
+                    boxShadow: "0 24px 64px -30px rgba(0,0,0,0.7)",
+                  }}
+                >
+                  {/* Image area — ~60% of card */}
+                  <div className="relative overflow-hidden" style={{ height: 280 }}>
+                    <Image
+                      src={a.image}
+                      alt={a.title}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
 
-              {/* Text area */}
-              <div className="flex flex-1 flex-col p-6" style={{ paddingTop: 24 }}>
+                  {/* Text area */}
+                  <div className="flex flex-1 flex-col p-6" style={{ paddingTop: 24 }}>
                 <h3
                   className="font-sora text-[24px] font-normal text-white"
                   style={{ letterSpacing: "-0.02em", marginBottom: 10 }}
@@ -111,6 +114,8 @@ export default function T1Audience() {
                     <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </a>
+                  </div>
+                </div>
               </div>
             </div>
           ))}
@@ -123,28 +128,26 @@ export default function T1Audience() {
             className="flex snap-x snap-mandatory gap-4 overflow-x-auto"
             style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch", paddingBottom: 4 }}
           >
-            {AUDIENCES.map((a) => (
-              <div
-                key={a.id}
-                className="flex w-[85vw] shrink-0 snap-center flex-col overflow-hidden rounded-[20px] border border-white/[0.08]"
-                style={{
-                  background: "#1b1714",
-                  maxWidth: 340,
-                  boxShadow: `0 0 0 1px rgba(255,255,255,0.05), 0 0 75px -14px ${a.glow}, 0 18px 50px -28px rgba(0,0,0,0.65)`,
-                }}
-              >
-                {/* Image area */}
-                <div className="relative overflow-hidden" style={{ height: 220 }}>
-                  <Image
-                    src={a.image}
-                    alt={a.title}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
+            {AUDIENCES.map((a, i) => (
+              <div key={a.id} className="audience-card-wrap flex w-[85vw] shrink-0 snap-center" style={{ maxWidth: 340 }}>
+                <div className="audience-card flex flex-1">
+                  <span className="audience-beam" aria-hidden style={{ animationDelay: `${i * -2}s` }} />
+                  <div
+                    className="relative z-[1] flex flex-1 flex-col overflow-hidden rounded-[18.5px]"
+                    style={{ background: "#1b1714", boxShadow: "0 18px 50px -28px rgba(0,0,0,0.65)" }}
+                  >
+                    {/* Image area */}
+                    <div className="relative overflow-hidden" style={{ height: 220 }}>
+                      <Image
+                        src={a.image}
+                        alt={a.title}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
 
-                {/* Text area */}
-                <div className="flex flex-1 flex-col p-5" style={{ paddingTop: 20 }}>
+                    {/* Text area */}
+                    <div className="flex flex-1 flex-col p-5" style={{ paddingTop: 20 }}>
                   <h3
                     className="font-sora text-[22px] font-normal text-white"
                     style={{ letterSpacing: "-0.02em", marginBottom: 8 }}
@@ -166,6 +169,8 @@ export default function T1Audience() {
                       <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </a>
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
