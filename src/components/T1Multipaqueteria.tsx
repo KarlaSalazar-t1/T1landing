@@ -187,17 +187,18 @@ function RadarFlow() {
   );
 }
 
-/* Marco de teléfono reutilizable (status bar + bordes redondeados) — SOLO responsive */
-function PhoneShell({ children }: { children: React.ReactNode }) {
+/* Marco de teléfono reutilizable (status bar + bordes redondeados) — SOLO responsive.
+   `flat`: sin borde ni sombra (para el cronograma en la card de rastreo). */
+function PhoneShell({ children, flat = false }: { children: React.ReactNode; flat?: boolean }) {
   const MANROPE = "var(--font-manrope-var), 'Manrope', sans-serif";
   return (
     <div className="mx-auto w-full" style={{ maxWidth: 340, fontFamily: MANROPE }}>
       <div
         className="relative overflow-hidden bg-white"
-        style={{ borderRadius: 12, border: "1px solid rgba(0,0,0,0.08)", boxShadow: "0 10px 30px rgba(0,0,0,0.10)" }}
+        style={{ borderRadius: 12, border: flat ? "none" : "1px solid rgba(0,0,0,0.08)", boxShadow: flat ? "none" : "0 10px 30px rgba(0,0,0,0.10)" }}
       >
         {/* Contenido */}
-        <div className="px-5 pt-6 pb-6">{children}</div>
+        <div className={flat ? "px-1 pt-1 pb-1" : "px-5 pt-6 pb-6"}>{children}</div>
       </div>
     </div>
   );
@@ -319,7 +320,7 @@ function CronogramaPanel({ className = "", variant = "card" }: { className?: str
   if (variant === "phone") {
     return (
       <div className={className}>
-        <PhoneShell>
+        <PhoneShell flat>
           {header}
           <div className="relative overflow-hidden" style={{ height: 300, maskImage: mask, WebkitMaskImage: mask }}>
             {track}
@@ -330,7 +331,7 @@ function CronogramaPanel({ className = "", variant = "card" }: { className?: str
   }
 
   return (
-    <div className={`relative overflow-hidden rounded-[12px] border border-black/[0.06] bg-white ${className}`} style={{ padding: 20, height: 300, display: "flex", flexDirection: "column", fontFamily: "var(--font-manrope-var), 'Manrope', sans-serif" }}>
+    <div className={`relative overflow-hidden rounded-[12px] bg-white ${className}`} style={{ padding: 20, height: 300, display: "flex", flexDirection: "column", fontFamily: "var(--font-manrope-var), 'Manrope', sans-serif" }}>
       {header}
       <div className="relative flex-1 overflow-hidden" style={{ maskImage: mask, WebkitMaskImage: mask }}>
         {track}
