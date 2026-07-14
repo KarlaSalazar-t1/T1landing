@@ -177,7 +177,7 @@ function FloatingMetric() {
     <div
       key={i}
       className="absolute hidden tablet:block rounded-[16px]"
-      style={{ left: -30, bottom: 44, width: 176, padding: "15px 16px", background: "rgba(255,255,255,0.82)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.55)", boxShadow: "0 16px 40px rgba(0,0,0,0.22)", transformOrigin: "center", animation: "floatPop 2.8s ease-in-out" }}
+      style={{ ...(i % 2 === 0 ? { right: -30 } : { left: -30 }), bottom: 44, width: 176, padding: "15px 16px", background: "rgba(255,255,255,0.7)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.5)", boxShadow: "0 16px 40px rgba(0,0,0,0.22)", transformOrigin: "center", animation: "floatPop 2.8s ease-in-out" }}
     >
       <div className="flex items-center justify-between" style={{ marginBottom: 12 }}>
         <p className="font-sora text-[11px] font-semibold text-black">{m.label}</p>
@@ -450,7 +450,7 @@ export default function T1Reportes() {
               <FloatingMetric />
 
               {/* Floating live badge (glass) */}
-              <div className="absolute hidden tablet:flex items-center gap-2 rounded-full" style={{ right: -10, top: 40, padding: "8px 14px", background: "rgba(255,255,255,0.82)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.55)", boxShadow: "0 10px 28px rgba(0,0,0,0.18)" }}>
+              <div className="absolute hidden tablet:flex items-center gap-2 rounded-full" style={{ right: -10, top: 40, padding: "8px 14px", background: "rgba(255,255,255,0.7)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.5)", boxShadow: "0 10px 28px rgba(0,0,0,0.18)" }}>
                 <span className="h-[8px] w-[8px] rounded-full bg-[#22C55E]" style={{ animation: "pulse-soft 2s ease-in-out infinite" }} />
                 <span className="font-inter text-[11px] font-semibold text-black">Datos en vivo</span>
               </div>

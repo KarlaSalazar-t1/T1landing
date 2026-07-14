@@ -484,7 +484,7 @@ export default function T1Multipaqueteria() {
             Con T1, olvídate de todo esto.
           </h2>
           <p className="mx-auto font-inter text-[15px] font-light text-black/60 tablet:text-[17px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 500 }}>
-            Con T1, cotiza, compara, genera guía y da seguimiento desde una plataforma.
+            Cotiza, compara, genera guía y da seguimiento desde una plataforma.
           </p>
           <a href={SIGNUP_URL} className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-8 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
             Empezar ahora
