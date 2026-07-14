@@ -792,8 +792,17 @@ export default function T1ReglasEnvio() {
 
       {/* ── Stack cards ── */}
       <div className="relative bg-white">
+        {/* Título de la sección de reglas */}
+        <section className="relative bg-white px-5 pt-20 pb-2 tablet:px-10 tablet:pt-28 tablet:pb-4" data-modal-animate>
+          <div className="mx-auto max-w-[760px] text-center">
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.4px", lineHeight: 1.1 }}>
+              Automatiza tu operación con T1
+            </h2>
+          </div>
+        </section>
+
         {/* Define reglas — título/CTA izq + carrusel de cards der (como "Crea productos como prefieras") */}
-        <section className="relative overflow-hidden bg-white px-5 pt-10 pb-[100px] tablet:px-10 tablet:pt-14 tablet:pb-[128px]" data-modal-animate>
+        <section className="relative overflow-hidden bg-white px-5 pt-6 pb-[100px] tablet:px-10 tablet:pt-8 tablet:pb-[128px]" data-modal-animate>
           <div className="mx-auto max-w-[var(--max-w)]">
             <div className="grid grid-cols-1 gap-10 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.35fr)] tablet:items-center tablet:gap-14">
               {/* Left — título + CTA */}
@@ -813,9 +822,9 @@ export default function T1ReglasEnvio() {
               <div className="flex flex-col gap-5">
                 <div ref={reglasRef} className="-mr-5 flex gap-5 overflow-x-auto pb-2 pr-5 tablet:mr-0 tablet:pr-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                   {[
-                    { title: "Menor costo", desc: "Elige la opción más económica disponible en cada pedido.", img: "/img/regla-menor-costo.png", w: 1536, h: 1024 },
-                    { title: "Más rápido", desc: "Prioriza el envío con el menor tiempo de entrega.", img: "/img/regla-mas-rapido.png", w: 1536, h: 1024 },
-                    { title: "Prioridad T1", desc: "Reglas listas, decididas por nuestra experiencia y análisis con IA.", img: "/img/regla-t1.png", w: 1073, h: 801 },
+                    { title: "Menor costo", desc: "Elige la opción más económica disponible en cada pedido.", img: "/img/regla-menor-costo.png", w: 1299, h: 1024 },
+                    { title: "Más rápido", desc: "Prioriza el envío con el menor tiempo de entrega.", img: "/img/regla-mas-rapido.png", w: 1186, h: 867 },
+                    { title: "Prioridad T1", desc: "Reglas listas, decididas por nuestra experiencia y análisis con IA.", img: "/img/regla-t1.png", w: 900, h: 667 },
                     { title: "Personalizado", desc: "Crea tus propias reglas por destino, peso, monto o servicio.", img: "/img/regla-personalizado.png", w: 1000, h: 873 },
                   ].map((c) => (
                     <div key={c.title} className="regla-card flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-black/[0.07] bg-white p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
@@ -841,8 +850,8 @@ export default function T1ReglasEnvio() {
           </div>
         </section>
 
-        {/* Block 2 — Optimización por objetivo (panel left, text right) */}
-        <section className="px-5 py-20 tablet:px-10 tablet:py-28" style={{ background: "#FBFBFB" }} data-modal-animate>
+        {/* Block 2 — Prioridad T1 (panel left, text right) — bg blanco */}
+        <section className="px-5 py-20 tablet:px-10 tablet:py-28" style={{ background: "#FFFFFF" }} data-modal-animate>
           <div className="mx-auto flex max-w-[var(--max-w)] items-center">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               {/* Panel — teléfono (estilo Cotizador) en responsive, tabla en desktop */}
@@ -869,15 +878,15 @@ export default function T1ReglasEnvio() {
           </div>
         </section>
 
-        {/* Construye tus propias reglas — panel simulado grande (builder de reglas) */}
-        <section className="relative bg-[#FBFBFB] px-5 py-24 tablet:px-10 tablet:py-32" data-modal-animate>
+        {/* Construye tus propias reglas — panel simulado grande sobre fondo oscuro */}
+        <section className="relative px-5 py-24 tablet:px-10 tablet:py-32" data-modal-animate style={{ background: "linear-gradient(180deg, #1A0A0A 0%, #000000 100%)" }}>
           <div className="relative mx-auto max-w-[var(--max-w)]">
-            <div className="mx-auto max-w-[720px] text-center" style={{ marginBottom: 44 }}>
-              <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+            <div className="mx-auto max-w-[980px] text-center" style={{ marginBottom: 44 }}>
+              <h2 className="font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
                 Construye tus propias reglas
               </h2>
-              <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-                Da clic en “Nueva regla”, ponle nombre, elige cómo se cumplen las condiciones y qué paqueterías aplican.
+              <p className="font-inter text-[16px] font-light text-white/60 lg:whitespace-nowrap tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
+                Crea una nueva regla: ponle nombre, elige cómo se cumplen las condiciones y qué paqueterías aplican.
               </p>
             </div>
             <div className="mx-auto" style={{ maxWidth: 940 }}>

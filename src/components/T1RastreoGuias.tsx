@@ -89,6 +89,14 @@ function MisEnviosPhone({ className = "" }: { className?: string }) {
 export default function T1RastreoGuias() {
   const rootRef = useRef<HTMLDivElement>(null);
   const [query, setQuery] = useState("");
+  // Carrusel "Seguimiento automático para cada guía" (solo responsive) — flechas
+  const segRef = useRef<HTMLDivElement>(null);
+  const scrollSeg = (dir: number) => {
+    const el = segRef.current;
+    const card = el?.querySelector<HTMLElement>(".seg-card");
+    const step = card ? card.offsetWidth + 16 : (el?.clientWidth ?? 0) * 0.85;
+    el?.scrollBy({ left: dir * step, behavior: "smooth" });
+  };
 
   useEffect(() => {
     const root = rootRef.current;
@@ -149,11 +157,11 @@ export default function T1RastreoGuias() {
       </section>
 
       {/* ════════════ BENTO — capacidades ════════════ */}
-      <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32">
+      <section className="relative bg-white px-5 pt-12 pb-24 tablet:px-10 tablet:pt-16 tablet:pb-32">
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="relative mx-auto flex min-h-[300px] max-w-[960px] items-center justify-center overflow-hidden text-center tablet:min-h-[400px]" style={{ marginBottom: 48 }}>
-            {/* toque sutil de rojo */}
-            <div aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ width: 620, height: 480, background: "radial-gradient(circle, rgba(219,59,43,0.06) 0%, transparent 62%)" }} />
+            {/* toque sutil de rojo (más pequeño en responsive para que no toque los bordes) */}
+            <div aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 h-[260px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full tablet:h-[480px] tablet:w-[620px]" style={{ background: "radial-gradient(circle, rgba(219,59,43,0.06) 0%, transparent 68%)" }} />
             {/* DESKTOP scatter — más dispersos y lejos del título */}
             {[
               { b: "fedex", l: "5%", t: "22%", s: 52, r: -8 },
@@ -238,9 +246,9 @@ export default function T1RastreoGuias() {
 
           {/* Block 2 — +25 paqueterías (panel + texto) */}
           <div data-modal-animate className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16" style={{ marginBottom: 112 }}>
-            {/* Placeholder — aquí irá una imagen */}
-            <div className="order-2 flex items-center justify-center rounded-[18px] border border-dashed border-black/[0.12] bg-[#FBFBFB] tablet:order-1" style={{ minHeight: 300 }}>
-              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" className="text-black/20"><rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" strokeWidth="1.5" /><circle cx="8.5" cy="9.5" r="1.8" stroke="currentColor" strokeWidth="1.5" /><path d="M4 18l5-5 4 3 3-3 4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            {/* Imagen — estatus estandarizado */}
+            <div className="order-2 tablet:order-1">
+              <Image src="/img/estatus-v2.png" alt="Estatus estandarizado de paqueterías" width={1179} height={967} className="block h-auto w-full" sizes="(max-width: 768px) 100vw, 560px" />
             </div>
             <div className="order-1 tablet:order-2">
               <h3 className="font-sora text-[26px] font-light text-black tablet:text-[36px] lg:text-[42px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>El mismo estatus para todas tus paqueterías</h3>
@@ -262,13 +270,13 @@ export default function T1RastreoGuias() {
               Cada guía vigilada en tiempo real, con avisos a tu cliente y detección automática de demoras.
             </p>
           </div>
-          <div data-modal-animate className="grid grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
+          <div ref={segRef} data-modal-animate className="-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pt-14 pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden tablet:mx-auto tablet:grid tablet:max-w-[860px] tablet:grid-cols-3 tablet:gap-5 tablet:overflow-visible tablet:px-0 tablet:pt-0">
             {[
               { title: "Línea de tiempo en vivo", desc: "Revisa los eventos de cada guía en orden, con fecha, hora y ubicación.", img: "/img/linea-del-tiempo.png", w: 1254, h: 1254 },
               { title: "Tu cliente, siempre actualizado", desc: "Envía actualizaciones por WhatsApp o email cuando el estado del envío cambie.", img: "/img/notificaciones-v2.png", w: 956, h: 1168 },
               { title: "Alertas en demoras", desc: "Identifica envíos sin movimiento y genera alertas o incidencias cuando aplica.", img: "/img/demoras.png", w: 1012, h: 1059 },
             ].map((c, i) => (
-              <div key={c.title} data-stagger style={{ ["--i" as string]: i }} className="incluye-card flex flex-col rounded-[18px] border border-white/[0.08] bg-[#121214] px-6 pb-6">
+              <div key={c.title} data-stagger style={{ ["--i" as string]: i }} className="seg-card flex w-[80vw] max-w-[300px] shrink-0 snap-center flex-col rounded-[18px] border border-white/[0.08] bg-[#121214] px-6 pb-6 tablet:w-auto tablet:max-w-none">
                 {/* imagen que sobresale por arriba de la card */}
                 <div className="relative" style={{ height: 150 }}>
                   <div className="absolute left-1/2 -translate-x-1/2" style={{ top: -48, width: "100%", height: 200 }}>
@@ -279,6 +287,15 @@ export default function T1RastreoGuias() {
                 <p className="font-inter text-[13px] font-light text-white/55" style={{ lineHeight: 1.6 }}>{c.desc}</p>
               </div>
             ))}
+          </div>
+          {/* Flechas del carrusel (solo responsive) */}
+          <div className="mt-7 flex items-center justify-center gap-4 tablet:hidden">
+            <button type="button" onClick={() => scrollSeg(-1)} aria-label="Anterior" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/70 transition-colors hover:border-white/30 hover:text-white">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </button>
+            <button type="button" onClick={() => scrollSeg(1)} aria-label="Siguiente" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/70 transition-colors hover:border-white/30 hover:text-white">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </button>
           </div>
         </div>
       </section>
