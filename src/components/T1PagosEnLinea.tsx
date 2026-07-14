@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
 import { useCountUp } from "@/hooks/useCountUp";
 import { useFSStackCards } from "@/hooks/useFSStackCards";
@@ -43,49 +43,6 @@ function AnimNumber({ value, prefix = "" }: { value: number; prefix?: string }) 
     return () => cancelAnimationFrame(raf);
   }, [value]);
   return <>{prefix}{disp.toLocaleString("en-US")}</>;
-}
-
-/* ── Block 1 panel — every payment method, highlight cycles across the grid ── */
-type Tile = { kind: "img" | "more"; src?: string; h?: number; alt?: string };
-const GRID_METHODS: Tile[] = [
-  { kind: "img", src: "/img/icons/visa.svg", h: 14, alt: "Visa" },
-  { kind: "img", src: "/img/icons/mastercard.svg", h: 20, alt: "Mastercard" },
-  { kind: "img", src: "/img/icons/amex.svg", h: 18, alt: "Amex" },
-  { kind: "img", src: "/img/icons/spei.svg", h: 13, alt: "SPEI" },
-  { kind: "img", src: "/img/icons/kueski.svg", h: 14, alt: "Kueski" },
-  { kind: "more" },
-];
-
-function Tile({ t }: { t: Tile }) {
-  if (t.kind === "more") return <span className="font-inter text-[12px] font-medium text-black/45">+ más</span>;
-  return <Image src={t.src!} alt={t.alt || ""} width={32} height={t.h} className="w-auto object-contain" style={{ height: t.h }} />;
-}
-
-function MethodsGridPanel() {
-  const [hi, setHi] = useState(0);
-  useEffect(() => {
-    const id = setInterval(() => setHi((h) => (h + 1) % GRID_METHODS.length), 900);
-    return () => clearInterval(id);
-  }, []);
-  return (
-    <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
-      <p className="font-sora text-[14px] font-medium text-black" style={{ marginBottom: 16 }}>Métodos disponibles</p>
-      <div className="grid grid-cols-3 gap-2.5">
-        {GRID_METHODS.map((t, i) => {
-          const active = hi === i;
-          return (
-            <div
-              key={i}
-              className="flex h-[64px] items-center justify-center rounded-[12px] border bg-[#FAFAF9]"
-              style={{ borderColor: active ? "rgba(219,59,43,0.45)" : "rgba(0,0,0,0.06)", boxShadow: active ? "0 6px 16px rgba(219,59,43,0.12)" : "none", transform: `scale(${active ? 1.04 : 1})`, transition: `transform 0.4s ${EASE}, border-color 0.4s ease, box-shadow 0.4s ease` }}
-            >
-              <Tile t={t} />
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
 }
 
 /* ── Block 2 panel — settlement: balance + incoming payments feed ── */
@@ -249,26 +206,27 @@ function ExpressT1Screen() {
   );
 }
 
-/* ── "Cobra desde donde vendas" — sección oscura estilo "Para cada etapa de tu negocio" ── */
+/* ── "Cobra desde donde vendas" — accordion rotativo estilo "Para cada etapa de tu negocio" ── */
 const CHANNELS = [
   { title: "Tienda en línea", desc: "Cobra desde el checkout de tu tienda con todos los métodos en una sola pantalla.", render: <CajaScreen /> },
   { title: "Link de pago", desc: "Comparte un enlace por WhatsApp o redes y tu cliente paga al instante.", render: <LinkPagoScreen /> },
   { title: "Paga con T1", desc: "Checkout express: tus clientes pagan en un tap con su cuenta T1.", render: <ExpressT1Screen /> },
 ];
+const CHANNELS_DURATION = 5000;
 
 function ChannelsShowcase() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [activeIdx, setActiveIdx] = useState(0);
+  const [active, setActive] = useState(0);
+  const [barFull, setBarFull] = useState(false);
   useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const onScroll = () => {
-      const idx = Math.round(el.scrollLeft / el.offsetWidth);
-      setActiveIdx(Math.min(idx, CHANNELS.length - 1));
+    setBarFull(false);
+    const raf = requestAnimationFrame(() => setBarFull(true));
+    const timer = setTimeout(() => setActive((a) => (a + 1) % CHANNELS.length), CHANNELS_DURATION);
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(timer);
     };
-    el.addEventListener("scroll", onScroll, { passive: true });
-    return () => el.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [active]);
+  const a = CHANNELS[active];
 
   return (
     <section className="relative overflow-hidden bg-black" style={{ paddingTop: 100, paddingBottom: 100 }}>
@@ -280,50 +238,56 @@ function ChannelsShowcase() {
           Tu tienda, un link o el checkout express. Todos tus cobros en una sola cuenta.
         </p>
 
-        {/* Desktop: 3-column grid */}
-        <div className="hidden tablet:grid tablet:grid-cols-3 tablet:gap-6">
-          {CHANNELS.map((c, i) => (
-            <div key={c.title} className="audience-card-wrap flex">
-              <div className="audience-card flex flex-1">
-                <span className="audience-beam" aria-hidden style={{ animationDelay: `${i * -2}s` }} />
-                <div className="group relative z-[1] flex flex-1 flex-col overflow-hidden rounded-[18.5px]" style={{ background: "#1b1714", boxShadow: "0 24px 64px -30px rgba(0,0,0,0.7)" }}>
-                  <div className="relative overflow-hidden bg-[#0e0b0a]" style={{ height: 300, padding: 22 }}>
-                    <div className="h-full w-full overflow-hidden rounded-[12px] bg-white" style={{ boxShadow: "0 18px 44px rgba(0,0,0,0.4)" }}>{c.render}</div>
+        <div className="grid grid-cols-1 gap-8 tablet:grid-cols-[minmax(0,0.95fr)_minmax(0,1fr)] tablet:items-center tablet:gap-8">
+          {/* Left — tabs seleccionables */}
+          <div className="flex flex-col gap-3.5">
+            {CHANNELS.map((it, i) => {
+              const on = i === active;
+              return (
+                <button
+                  key={it.title}
+                  type="button"
+                  onClick={() => setActive(i)}
+                  className="w-full cursor-pointer rounded-[16px] border p-5 text-left transition-all duration-300"
+                  style={{ borderColor: on ? "rgba(255,255,255,0.16)" : "rgba(255,255,255,0.07)", background: on ? "rgba(255,255,255,0.05)" : "transparent" }}
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <h3 className="font-sora text-[20px] font-normal tablet:text-[24px]" style={{ letterSpacing: "-0.02em", color: on ? "#FFFFFF" : "rgba(255,255,255,0.45)", transition: "color 0.3s" }}>
+                      {it.title}
+                    </h3>
+                    <span className="flex h-[26px] w-[26px] items-center justify-center rounded-full" style={{ background: on ? "#DB3B2B" : "rgba(255,255,255,0.08)", transition: "background 0.3s" }}>
+                      <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke={on ? "#fff" : "rgba(255,255,255,0.4)"} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                    </span>
                   </div>
-                  <div className="flex flex-1 flex-col p-6" style={{ paddingTop: 24 }}>
-                    <h3 className="font-sora text-[24px] font-normal text-white" style={{ letterSpacing: "-0.02em", marginBottom: 10 }}>{c.title}</h3>
-                    <p className="font-inter text-[14px] font-normal leading-relaxed text-white/55">{c.desc}</p>
-                  </div>
+                  {on && (
+                    <>
+                      <p className="font-inter text-[14px] font-normal leading-relaxed text-white/60 tablet:text-[15px]" style={{ marginTop: 12 }}>{it.desc}</p>
+                      <div className="mt-4 h-[3px] w-full overflow-hidden rounded-full" style={{ background: "rgba(255,255,255,0.10)" }}>
+                        <div style={{ height: "100%", width: barFull ? "100%" : "0%", background: "#DB3B2B", transition: barFull ? `width ${CHANNELS_DURATION}ms linear` : "none" }} />
+                      </div>
+                    </>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Right — pantalla del canal activo + CTA */}
+          <div className="audience-card-wrap flex w-full justify-center tablet:justify-start">
+            <div className="audience-card flex w-full" style={{ maxWidth: 460 }}>
+              <span className="audience-beam" aria-hidden />
+              <div className="relative z-[1] w-full overflow-hidden rounded-[18.5px]" style={{ background: "#1b1714" }}>
+                <div className="relative w-full bg-[#0e0b0a]" style={{ height: 380, padding: 20 }}>
+                  <div key={a.title} className="h-full w-full overflow-hidden rounded-[12px] bg-white" style={{ animation: "fadeSlideIn 0.5s ease-out", boxShadow: "0 18px 44px rgba(0,0,0,0.45)" }}>{a.render}</div>
+                </div>
+                <div className="p-5 tablet:p-6">
+                  <a href={SIGNUP_URL} className="inline-flex items-center gap-2 rounded-[13px] bg-[#DB3B2B] px-6 py-3 font-inter text-[14px] font-semibold text-white no-underline transition-colors duration-150 hover:bg-[#C0332A]">
+                    Comienza gratis
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  </a>
                 </div>
               </div>
             </div>
-          ))}
-        </div>
-
-        {/* Mobile: horizontal carousel with scroll-snap */}
-        <div className="tablet:hidden">
-          <div ref={scrollRef} className="flex snap-x snap-mandatory gap-4 overflow-x-auto" style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch", paddingBottom: 4 }}>
-            {CHANNELS.map((c, i) => (
-              <div key={c.title} className="audience-card-wrap flex w-[85vw] shrink-0 snap-center" style={{ maxWidth: 340 }}>
-                <div className="audience-card flex flex-1">
-                  <span className="audience-beam" aria-hidden style={{ animationDelay: `${i * -2}s` }} />
-                  <div className="relative z-[1] flex flex-1 flex-col overflow-hidden rounded-[18.5px]" style={{ background: "#1b1714", boxShadow: "0 18px 50px -28px rgba(0,0,0,0.65)" }}>
-                    <div className="relative overflow-hidden bg-[#0e0b0a]" style={{ height: 280, padding: 18 }}>
-                      <div className="h-full w-full overflow-hidden rounded-[12px] bg-white" style={{ boxShadow: "0 14px 36px rgba(0,0,0,0.4)" }}>{c.render}</div>
-                    </div>
-                    <div className="flex flex-1 flex-col p-5" style={{ paddingTop: 20 }}>
-                      <h3 className="font-sora text-[22px] font-normal text-white" style={{ letterSpacing: "-0.02em", marginBottom: 8 }}>{c.title}</h3>
-                      <p className="font-inter text-[13px] font-normal leading-relaxed text-white/55">{c.desc}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="flex items-center justify-center gap-2" style={{ marginTop: 20 }}>
-            {CHANNELS.map((_, i) => (
-              <div key={i} className="rounded-full transition-all duration-200" style={{ width: activeIdx === i ? 20 : 6, height: 6, background: activeIdx === i ? "#D93A26" : "rgba(255,255,255,0.2)" }} />
-            ))}
           </div>
         </div>
       </div>
@@ -479,6 +443,61 @@ export default function T1PagosEnLinea() {
   const stackRootRef = useRef<HTMLDivElement>(null);
   useFSStackCards(stackRootRef);
 
+  // Carrusel "Acepta todos los métodos" — flechas prev/next (estilo "Crea productos como prefieras")
+  const payRef = useRef<HTMLDivElement>(null);
+  const scrollPay = (dir: number) => {
+    const el = payRef.current;
+    const card = el?.querySelector<HTMLElement>(".pay-card");
+    const step = card ? card.offsetWidth + 20 : (el?.clientWidth ?? 0) * 0.8;
+    el?.scrollBy({ left: dir * step, behavior: "smooth" });
+  };
+
+  // Carrusel "Cobra con todo a favor" — dark, flechas + dots (estilo "Todo incluido desde el día uno")
+  const incRef = useRef<HTMLDivElement>(null);
+  const [incIdx, setIncIdx] = useState(0);
+  const [incPages, setIncPages] = useState(1);
+  const incStep = () => {
+    const el = incRef.current;
+    const card = el?.querySelector<HTMLElement>(".incluye-card");
+    return card ? card.offsetWidth + 28 : (el?.clientWidth ?? 0) * 0.8;
+  };
+  const incPageStep = () => {
+    const el = incRef.current;
+    if (!el) return 1;
+    const s = Math.max(1, incStep());
+    const visible = Math.max(1, Math.floor(el.clientWidth / s));
+    return visible * s;
+  };
+  useEffect(() => {
+    const el = incRef.current;
+    if (!el) return;
+    const calc = () => {
+      const ps = Math.max(1, incPageStep());
+      const maxScroll = el.scrollWidth - el.clientWidth;
+      setIncPages(maxScroll <= 1 ? 1 : Math.ceil(maxScroll / ps) + 1);
+    };
+    calc();
+    const ro = new ResizeObserver(calc);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  const incGoTo = useCallback((i: number) => {
+    const el = incRef.current;
+    if (!el) return;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    const target = i >= incPages - 1 ? maxScroll : i * incPageStep();
+    el.scrollTo({ left: Math.min(target, maxScroll), behavior: "smooth" });
+  }, [incPages]);
+  const scrollInc = useCallback((dir: number) => {
+    incGoTo(Math.max(0, Math.min(incPages - 1, incIdx + dir)));
+  }, [incGoTo, incIdx, incPages]);
+  const onIncScroll = () => {
+    const el = incRef.current;
+    if (!el) return;
+    const atEnd = el.scrollLeft >= el.scrollWidth - el.clientWidth - 2;
+    setIncIdx(atEnd ? incPages - 1 : Math.min(incPages - 1, Math.round(el.scrollLeft / Math.max(1, incPageStep()))));
+  };
+
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
@@ -564,33 +583,8 @@ export default function T1PagosEnLinea() {
 
       {/* ── Stack cards ── */}
       <div ref={stackRootRef} className="fs-stack-card-container relative bg-white">
-        {/* Block 1 — métodos (text left, panel right) */}
-        <div className="fs-stack-card" style={{ top: 60, zIndex: 1, background: "#FFFFFF" }}>
-          <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
-            <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
-              <div>
-                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
-                  Todos los métodos de pago
-                </h3>
-                <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                  Tarjetas, transferencias, efectivo y wallets. Tu cliente paga como prefiera y tú cobras siempre desde un solo lugar.
-                </p>
-                <ul className="flex flex-col gap-2.5">
-                  {["Visa, Mastercard, AMEX y débito", "SPEI y transferencias", "Kueski y meses sin intereses"].map((it) => (
-                    <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                      {it}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <MethodsGridPanel />
-            </div>
-          </div>
-        </div>
-
-        {/* Block 2 — liquidación (panel left, text right) */}
-        <div className="fs-stack-card" style={{ top: 80, zIndex: 2, background: "#FBFBFB" }}>
+        {/* Liquidación (panel left, text right) */}
+        <div className="fs-stack-card" style={{ top: 60, zIndex: 1, background: "#FBFBFB" }}>
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div className="order-2 tablet:order-1">
@@ -650,64 +644,122 @@ export default function T1PagosEnLinea() {
         </div>
       </section>
 
-      {/* ── Lo que incluye ── */}
-      <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32">
+      {/* ── Acepta todos los métodos — carrusel estilo "Crea productos como prefieras" ── */}
+      <section className="relative overflow-hidden bg-white px-5 py-[100px] tablet:px-10 tablet:py-[128px]">
         <div className="mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-              Cobra con todo a favor
-            </h2>
-            <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-              Cada herramienta lista desde el primer pago.
-            </p>
-          </div>
-          <div data-modal-animate className="grid grid-cols-1 gap-4 tablet:grid-cols-2 lg:grid-cols-3 lg:gap-5">
-            {[
-              { title: "Más de 10 métodos", desc: "Tarjetas, SPEI, transferencias, wallets y compra ahora paga después.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2" stroke="#111827" strokeWidth="1.6" /><path d="M3 10h18" stroke="#111827" strokeWidth="1.6" /></svg>) },
-              { title: "Meses sin intereses", desc: "Hasta 18 MSI con todos los bancos, sin comisión extra.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="#111827" strokeWidth="1.6" /><path d="M7 15h2 M12 15h2 M17 15h0" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
-              { title: "Pagos recurrentes", desc: "Suscripciones y membresías con tokenización segura.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 0 1 15-6.7L21 8 M21 12a9 9 0 0 1-15 6.7L3 16 M21 3v5h-5 M3 21v-5h5" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-              { title: "3D Secure", desc: "Autenticación adicional cuando el riesgo lo amerita.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 6v6c0 5 3.5 8.5 9 10 5.5-1.5 9-5 9-10V6l-9-4z" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round" /><path d="M9 12l2 2 4-4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-              { title: "Links de pago", desc: "Cobra compartiendo un enlace por WhatsApp o redes.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1 M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-              { title: "Dashboard en vivo", desc: "Aprobación, conversión y liquidaciones en tiempo real.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 21h18" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /><rect x="5" y="12" width="3.5" height="7" rx="1" stroke="#111827" strokeWidth="1.6" /><rect x="10.5" y="8" width="3.5" height="11" rx="1" stroke="#111827" strokeWidth="1.6" /><rect x="16" y="4" width="3.5" height="15" rx="1" stroke="#111827" strokeWidth="1.6" /></svg>) },
-              { title: "Plugins y API", desc: "Shopify, WooCommerce, VTEX y Magento, además de API REST.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M16 18l6-6-6-6 M8 6l-6 6 6 6" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-              { title: "Antifraude T1 Score", desc: "Cada transacción evaluada en menos de 100ms.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 6v6c0 5 3.5 8.5 9 10 5.5-1.5 9-5 9-10V6l-9-4z" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round" /></svg>) },
-              { title: "Conciliación automática", desc: "Cierra cuadres con tu banco sin hojas de cálculo.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /><rect x="3" y="3" width="18" height="18" rx="2" stroke="#111827" strokeWidth="1.6" /></svg>) },
-            ].map((f, i) => (
-              <div key={f.title} data-stagger className="tienda-card flex items-start gap-4 rounded-[16px] border border-black/[0.06] bg-white p-6" style={{ ["--i" as string]: i }}>
-                <div className="flex h-[40px] w-[40px] shrink-0 items-center justify-center">{f.icon}</div>
-                <div>
-                  <h3 className="font-sora text-[16px] font-normal text-black" style={{ marginBottom: 4 }}>{f.title}</h3>
-                  <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{f.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div data-modal-animate className="mt-12 flex justify-center">
-            <a href={SIGNUP_URL} className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
-              Empezar a cobrar
-            </a>
-          </div>
-        </div>
-      </section>
+          <div className="grid grid-cols-1 gap-10 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.35fr)] tablet:items-center tablet:gap-14">
+            {/* Left — título + CTA */}
+            <div data-modal-animate>
+              <h2 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.12, marginBottom: 16, maxWidth: 420 }}>
+                Acepta todos los métodos de pago
+              </h2>
+              <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 400 }}>
+                Tarjetas, meses sin intereses y antifraude, incluidos en cada cobro sin configurar nada.
+              </p>
+              <a href={SIGNUP_URL} className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
+                Empezar a cobrar
+              </a>
+            </div>
 
-      {/* ── Stats ── */}
-      <section className="relative px-5 py-20 tablet:px-10 tablet:py-24" style={{ background: "linear-gradient(135deg, #1A0A0A 0%, #261515 50%, #1A0A0A 100%)" }}>
-        <div className="mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="mx-auto max-w-[640px] text-center" style={{ marginBottom: 48 }}>
-            <h2 className="font-sora text-[24px] font-light text-white tablet:text-[34px]" style={{ letterSpacing: "-0.02em", lineHeight: 1.2 }}>
-              Números que hablan por sí solos.
-            </h2>
-          </div>
-          <div data-modal-animate className="grid grid-cols-1 gap-10 text-center tablet:grid-cols-3">
-            <div data-stagger style={{ ["--i" as string]: 0 }}><CountStat end={90} prefix=">" suffix="%" label="aprobación promedio" /></div>
-            <div data-stagger style={{ ["--i" as string]: 1 }}><CountStat end={0.3} suffix="%" decimals={1} label="la menor tasa de fraude del mercado" /></div>
-            <div data-stagger style={{ ["--i" as string]: 2 }}>
-              <p className="font-sora text-[36px] font-light text-white tablet:text-[52px]" style={{ letterSpacing: "-0.03em", marginBottom: 6, lineHeight: 1 }}>T+1</p>
-              <p className="font-inter text-[12px] font-light text-white/55 tablet:text-[13px]">liquidación a tu cuenta</p>
+            {/* Right — carrusel de cards con flechas */}
+            <div data-modal-animate className="flex flex-col gap-5">
+              <div ref={payRef} className="-mr-5 flex gap-5 overflow-x-auto pb-2 pr-5 tablet:mr-0 tablet:pr-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                {[
+                  { title: "Más de 10 métodos", desc: "Tarjetas, SPEI, transferencias, wallets y compra ahora paga después.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2" stroke="#111827" strokeWidth="1.6" /><path d="M3 10h18" stroke="#111827" strokeWidth="1.6" /></svg>) },
+                  { title: "Meses sin intereses", desc: "Hasta 18 MSI con todos los bancos, sin comisión extra.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="#111827" strokeWidth="1.6" /><path d="M7 15h2 M12 15h2 M17 15h0" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
+                  { title: "Antifraude T1 Score", desc: "Cada transacción evaluada en menos de 100 ms, con la menor tasa de fraude del mercado.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 6v6c0 5 3.5 8.5 9 10 5.5-1.5 9-5 9-10V6l-9-4z" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round" /><path d="M9 12l2 2 4-4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+                ].map((c) => (
+                  <div key={c.title} className="pay-card flex w-[240px] shrink-0 snap-start flex-col rounded-[20px] border border-black/[0.07] bg-white p-7 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
+                    <div className="flex h-[30px] w-[30px] items-center justify-center" style={{ marginBottom: 18 }}>{c.icon}</div>
+                    <h3 className="font-sora text-[19px] font-normal text-black" style={{ marginBottom: 8 }}>{c.title}</h3>
+                    <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.55, minHeight: 63 }}>{c.desc}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="flex items-center gap-3">
+                <button type="button" onClick={() => scrollPay(-1)} aria-label="Anterior" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-black/15 bg-white text-black/55 transition-colors hover:border-black/30 hover:text-black">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                </button>
+                <button type="button" onClick={() => scrollPay(1)} aria-label="Siguiente" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-black/15 bg-white text-black/55 transition-colors hover:border-black/30 hover:text-black">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* ── Cobra con todo a favor + métricas: degradado continuo #1A0A0A → #000 ── */}
+      <div className="relative" style={{ background: "linear-gradient(180deg, #1A0A0A 0%, #000000 100%)" }}>
+        {/* Cobra con todo a favor — carrusel dark estilo "Todo incluido desde el día uno" */}
+        <section className="relative overflow-hidden px-5 pt-24 pb-[60px] tablet:px-10 tablet:pt-32 tablet:pb-[60px]">
+          <div aria-hidden className="pointer-events-none absolute top-0 left-1/2 h-[340px] w-[640px] -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(ellipse at center, rgba(219,59,43,0.12) 0%, transparent 66%)", filter: "blur(46px)" }} />
+          <div className="relative mx-auto max-w-[var(--max-w)]">
+            <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
+              <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+                Cobra con todo a favor
+              </h2>
+              <p className="font-inter text-[16px] font-light text-white/55 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
+                Cada herramienta lista desde el primer pago.
+              </p>
+            </div>
+            <div
+              ref={incRef}
+              onScroll={onIncScroll}
+              className="-mx-5 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pt-10 pb-2 tablet:mx-0 tablet:px-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+              style={{ scrollPaddingLeft: 4, scrollPaddingRight: 4 }}
+            >
+              {[
+                { title: "Links de pago", desc: "Cobra compartiendo un enlace por WhatsApp o redes, sin montar una tienda.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1 M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+                { title: "Dashboard en vivo", desc: "Aprobación, conversión y liquidaciones en tiempo real desde un panel claro.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M3 21h18" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" /><rect x="5" y="12" width="3.5" height="7" rx="1" stroke="#FFFFFF" strokeWidth="1.6" /><rect x="10.5" y="8" width="3.5" height="11" rx="1" stroke="#FFFFFF" strokeWidth="1.6" /><rect x="16" y="4" width="3.5" height="15" rx="1" stroke="#FFFFFF" strokeWidth="1.6" /></svg>) },
+                { title: "Plugins y API", desc: "Shopify, WooCommerce, VTEX y Magento, además de nuestra API REST y SDKs.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M16 18l6-6-6-6 M8 6l-6 6 6 6" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+              ].map((f) => (
+                <div key={f.title} className="incluye-card flex w-[78vw] max-w-[300px] shrink-0 snap-start flex-col rounded-[18px] border border-white/[0.08] bg-white/[0.03] tablet:w-[300px] tablet:max-w-none" style={{ boxShadow: "0 26px 60px -28px rgba(0,0,0,0.8)" }}>
+                  <div className="relative" style={{ height: 34 }}>
+                    <div className="absolute left-6 flex h-[56px] w-[56px] items-center justify-center rounded-[16px] border border-white/10" style={{ top: -28, background: "linear-gradient(135deg, #DB3B2B 0%, #FF6F5E 100%)", boxShadow: "0 14px 30px -8px rgba(219,59,43,0.6)" }}>{f.icon}</div>
+                  </div>
+                  <div className="px-6 pb-7 pt-4">
+                    <h3 className="font-sora text-[18px] font-normal text-white" style={{ marginBottom: 8, letterSpacing: "-0.3px" }}>{f.title}</h3>
+                    <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.6 }}>{f.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-8 flex items-center justify-center gap-4">
+              <button type="button" onClick={() => scrollInc(-1)} aria-label="Anterior" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/70 transition-colors hover:border-white/30 hover:text-white">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              </button>
+              <div className="flex items-center gap-2">
+                {Array.from({ length: incPages }, (_, i) => i).map((i) => (
+                  <button key={i} type="button" onClick={() => incGoTo(i)} aria-label={`Ir a la tarjeta ${i + 1}`} className="cursor-pointer rounded-full border-none p-0 transition-all duration-200" style={{ width: incIdx === i ? 22 : 8, height: 8, background: incIdx === i ? "#DB3B2B" : "rgba(255,255,255,0.22)" }} />
+                ))}
+              </div>
+              <button type="button" onClick={() => scrollInc(1)} aria-label="Siguiente" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/70 transition-colors hover:border-white/30 hover:text-white">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        {/* Stats (fondo transparente: hereda el degradado) */}
+        <section className="relative px-5 py-20 tablet:px-10 tablet:py-24">
+          <div className="mx-auto max-w-[var(--max-w)]">
+            <div data-modal-animate className="mx-auto max-w-[640px] text-center" style={{ marginBottom: 48 }}>
+              <h2 className="font-sora text-[24px] font-light text-white tablet:text-[34px]" style={{ letterSpacing: "-0.02em", lineHeight: 1.2 }}>
+                Números que hablan por sí solos.
+              </h2>
+            </div>
+            <div data-modal-animate className="grid grid-cols-1 gap-10 text-center tablet:grid-cols-3">
+              <div data-stagger style={{ ["--i" as string]: 0 }}><CountStat end={90} prefix=">" suffix="%" label="aprobación promedio" /></div>
+              <div data-stagger style={{ ["--i" as string]: 1 }}><CountStat end={0.3} suffix="%" decimals={1} label="la menor tasa de fraude del mercado" /></div>
+              <div data-stagger style={{ ["--i" as string]: 2 }}>
+                <p className="font-sora text-[36px] font-light text-white tablet:text-[52px]" style={{ letterSpacing: "-0.03em", marginBottom: 6, lineHeight: 1 }}>T+1</p>
+                <p className="font-inter text-[12px] font-light text-white/55 tablet:text-[13px]">liquidación a tu cuenta</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
 
       {/* ── FAQ ── */}
       <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
