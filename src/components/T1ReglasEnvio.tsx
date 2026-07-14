@@ -568,10 +568,10 @@ export default function T1ReglasEnvio() {
                 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[56px]"
                 style={{ lineHeight: 1.05, letterSpacing: "-1.5px", marginBottom: 22 }}
               >
-                Compara,<br />
-                elige y envía<br />
+                Automatiza la<br />
+                elección de{" "}
                 <span className="relative inline-block">
-                  en segundos.
+                  paquetería.
                   <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.30)", borderRadius: 5, zIndex: -1 }} />
                 </span>
               </h1>
@@ -579,7 +579,7 @@ export default function T1ReglasEnvio() {
                 className="font-inter text-[16px] font-light text-white/65 tablet:text-[19px]"
                 style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 480 }}
               >
-                Define tus reglas y T1 optimiza cada envío automáticamente.
+                Crea reglas por destino, peso, dimensiones o monto para que T1 asigne el servicio más conveniente en cada pedido.
               </p>
               <div className="flex flex-col items-start gap-3">
                 <a href={SIGNUP_URL} className="inline-flex w-[206px] items-center justify-center rounded-[16px] bg-[#DB3B2B] px-7 py-4 text-center font-inter text-[16px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">

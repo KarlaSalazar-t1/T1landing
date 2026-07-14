@@ -340,13 +340,18 @@ export default function T1RastreoGuias() {
               <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6 }}>Estatus normalizado de todas, sin pestañas ni copiar y pegar.</p>
             </div>
           </div>
+        </div>
+      </section>
 
+      {/* ════════════ Seguimiento — sección oscura (estilo "Todo incluido desde el día uno") ════════════ */}
+      <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
+        <div className="mx-auto max-w-[var(--max-w)]">
           {/* C/D/E — capacidades restantes (estilo "Todo incluido desde el día uno") */}
           <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 48 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
               Seguimiento que trabaja por ti
             </h2>
-            <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
+            <p className="font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
               Cada guía vigilada en tiempo real, con avisos a tu cliente y detección automática de demoras.
             </p>
           </div>

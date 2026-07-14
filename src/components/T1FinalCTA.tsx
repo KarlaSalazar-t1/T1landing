@@ -42,7 +42,7 @@ export default function T1FinalCTA({
 
   return (
     <section
-      className="relative overflow-hidden bg-black px-5 py-28 tablet:px-10 tablet:py-40"
+      className="relative overflow-hidden bg-black px-5 py-16 tablet:px-10 tablet:py-24"
       style={{ borderRadius: "40px 40px 0 0", marginTop: -60 }}
     >
       {/* Ambient red glow */}

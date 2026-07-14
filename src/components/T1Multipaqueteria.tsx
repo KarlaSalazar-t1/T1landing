@@ -269,40 +269,6 @@ function CotizadorPhone() {
   );
 }
 
-/* Mini-panel de reglas de asignación automática (visual de card) */
-function AsignacionMini() {
-  const rules = [
-    { cond: "CP 64000 – 66999", carrier: "fedex" },
-    { cond: "Peso mayor a 5 kg", carrier: "dhl" },
-    { cond: "Servicio express", carrier: "paquetexpress" },
-    { cond: "Menor costo del día", carrier: "auto" },
-  ];
-  return (
-    <div className="rounded-[16px] border border-black/[0.07] bg-white p-4" style={{ boxShadow: "0 8px 24px rgba(0,0,0,0.05)", fontFamily: "var(--font-manrope-var), 'Manrope', sans-serif" }}>
-      <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
-        <p className="font-sora text-[13px] font-semibold text-black">Reglas de asignación</p>
-        <span className="rounded-full bg-[rgba(34,197,94,0.12)] px-2 py-0.5 text-[10px] font-bold text-[#16A34A]">Activas</span>
-      </div>
-      <div className="flex flex-col gap-2.5">
-        {rules.map((r, i) => (
-          <div key={i} className="flex items-center gap-2 rounded-[12px] border border-black/[0.06] bg-[#FBFBFB] px-3 py-3">
-            <span className="min-w-0 flex-1 truncate text-[12px] text-black/70">{r.cond}</span>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0"><path d="M3 8h9M12 8l-3.5-3.5M12 8l-3.5 3.5" stroke="rgba(0,0,0,0.32)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            {r.carrier === "auto" ? (
-              <span className="shrink-0 rounded-[8px] bg-[rgba(219,59,43,0.1)] px-2.5 py-1.5 text-[11px] font-bold text-[#DB3B2B]">Auto</span>
-            ) : (
-              <span className="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-[8px] border border-black/[0.06] bg-white">
-                <img src={`/img/carriers/${r.carrier}.svg`} alt="" width={22} height={22} className="h-[22px] w-[22px] object-contain" />
-              </span>
-            )}
-          </div>
-        ))}
-      </div>
-      <p className="mt-3 text-[11px] text-black/45">Si una paquetería falla, se reasigna sola.</p>
-    </div>
-  );
-}
-
 /* Panel "Cronograma" (auto-scroll) — variant "card" (desktop) / "phone" (responsive) */
 function CronogramaPanel({ className = "", variant = "card" }: { className?: string; variant?: "card" | "phone" }) {
   const EVENTS = [
@@ -316,9 +282,8 @@ function CronogramaPanel({ className = "", variant = "card" }: { className?: str
   ];
 
   const header = (
-    <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
+    <div className="flex items-center" style={{ marginBottom: 14 }}>
       <p className="text-[16px] font-semibold text-black">Cronograma</p>
-      <span className="rounded-[10px] border border-black/[0.12] px-3 py-1.5 text-[11px] font-medium text-black/70">Agregar un comentario</span>
     </div>
   );
 
@@ -365,7 +330,7 @@ function CronogramaPanel({ className = "", variant = "card" }: { className?: str
   }
 
   return (
-    <div className={`relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white ${className}`} style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)", height: 392, display: "flex", flexDirection: "column", fontFamily: "var(--font-manrope-var), 'Manrope', sans-serif" }}>
+    <div className={`relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white ${className}`} style={{ padding: 20, height: 300, display: "flex", flexDirection: "column", fontFamily: "var(--font-manrope-var), 'Manrope', sans-serif" }}>
       {header}
       <div className="relative flex-1 overflow-hidden" style={{ maskImage: mask, WebkitMaskImage: mask }}>
         {track}
@@ -641,8 +606,8 @@ export default function T1Multipaqueteria() {
               <div className="tienda-card flex flex-col rounded-[20px] border border-black/[0.07] bg-white p-7" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.05)" }}>
                 <h3 className="font-sora text-[22px] font-normal text-black tablet:text-[26px]" style={{ letterSpacing: "-0.5px", marginBottom: 8 }}>Asignación automática inteligente</h3>
                 <p className="font-inter text-[15px] font-light text-black/60" style={{ lineHeight: 1.6, marginBottom: 24 }}>Reglas por CP, peso, dimensión o monto que optimizan por costo, tiempo o servicio, y reasignan solas si una paquetería falla.</p>
-                <div className="mt-auto">
-                  <AsignacionMini />
+                <div className="mt-auto flex items-center justify-center overflow-hidden rounded-[14px]">
+                  <Image src="/img/asignacion.png" alt="Asignación automática de paqueterías" width={1152} height={932} className="block h-auto w-full max-w-[360px]" sizes="(max-width: 768px) 100vw, 360px" />
                 </div>
               </div>
               {/* Card 2 — Rastreo (conserva la animación del cronograma) */}
@@ -674,14 +639,6 @@ export default function T1Multipaqueteria() {
               <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
                 Guarda las medidas y datos de tus productos como plantillas y genera guías en segundos, sin recapturar información en cada envío.
               </p>
-              <ul className="flex flex-col gap-2.5">
-                {["Plantillas de empaque con peso y dimensiones", "Autocompletado al generar cada guía", "Menos errores y capturas manuales"].map((it) => (
-                  <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                    {it}
-                  </li>
-                ))}
-              </ul>
             </div>
           </div>
         </div>
