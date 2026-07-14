@@ -323,18 +323,18 @@ export default function T1Reportes() {
                 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[60px]"
                 style={{ lineHeight: 1.05, letterSpacing: "-1.7px", marginBottom: 22 }}
               >
-                Decide con{" "}
+                Entiende tu{" "}
                 <span className="relative inline-block">
-                  datos reales
+                  negocio
                   <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.30)", borderRadius: 5, zIndex: -1 }} />
                 </span>
                 .
               </h1>
               <p
                 className="font-inter text-[16px] font-light text-white/65 tablet:text-[19px]"
-                style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 440 }}
+                style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 460 }}
               >
-                Ventas, tráfico y rendimiento por canal en gráficas claras y exportables.
+                Consulta ventas, tráfico, productos y rendimiento por canal en reportes claros, actualizados y fáciles de exportar.
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <a href={SIGNUP_URL} className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
@@ -388,14 +388,14 @@ export default function T1Reportes() {
         <div className="mx-auto max-w-[var(--max-w)]">
           <div className="mx-auto text-center" style={{ marginBottom: 48, animation: "fadeSlideIn 0.6s ease-out both" }}>
             <h2 className="font-sora text-[26px] font-light text-black tablet:text-[34px] lg:text-[40px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>
-              Tienes los datos, pero no las respuestas.
+              Cuando vendes en varios canales, los datos se vuelven difíciles de leer.
             </h2>
           </div>
           <div data-modal-animate className="grid grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
             {[
-              { title: "Reportes a destiempo", desc: "Cierras el mes y descubres lo que pasó. Para cuando reaccionas, ya es tarde.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#111827" strokeWidth="1.6" /><path d="M12 7v5l3 2" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-              { title: "Datos por todos lados", desc: "Una pestaña para online, otra para POS, otra para marketplaces. Nada se cruza.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke="#111827" strokeWidth="1.6" /><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="#111827" strokeWidth="1.6" /><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="#111827" strokeWidth="1.6" /><rect x="14" y="14" width="7" height="7" rx="1.5" stroke="#111827" strokeWidth="1.6" /></svg>) },
-              { title: "Sin contexto, sin acción", desc: "Tablas con números pero sin entender qué los explica ni qué hacer al respecto.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#111827" strokeWidth="1.6" /><path d="M9.5 9.5a2.5 2.5 0 0 1 4.5 1.5c0 1.7-2 2-2 3.5" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /><circle cx="12" cy="17.5" r="0.6" fill="#111827" stroke="#111827" strokeWidth="0.8" /></svg>) },
+              { title: "Reportes separados", desc: "Cada canal muestra información distinta y cuesta juntarla.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke="#111827" strokeWidth="1.6" /><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="#111827" strokeWidth="1.6" /><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="#111827" strokeWidth="1.6" /><rect x="14" y="14" width="7" height="7" rx="1.5" stroke="#111827" strokeWidth="1.6" /></svg>) },
+              { title: "Decisiones tarde", desc: "Te das cuenta de lo que pasó cuando el periodo ya cerró.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#111827" strokeWidth="1.6" /><path d="M12 7v5l3 2" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+              { title: "Poca claridad", desc: "Sabes cuánto vendiste, pero no siempre por qué subió o bajó.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#111827" strokeWidth="1.6" /><path d="M9.5 9.5a2.5 2.5 0 0 1 4.5 1.5c0 1.7-2 2-2 3.5" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /><circle cx="12" cy="17.5" r="0.6" fill="#111827" stroke="#111827" strokeWidth="0.8" /></svg>) },
             ].map((p, i) => (
               <div key={p.title} data-stagger className="rounded-[18px] border border-black/[0.06] bg-white p-7 transition-shadow duration-200 hover:shadow-[0_0_25px_2px_rgba(0,0,0,0.04)]" style={{ ["--i" as string]: i }}>
                 <div className="flex h-[40px] w-[40px] items-center justify-center" style={{ marginBottom: 16 }}>{p.icon}</div>

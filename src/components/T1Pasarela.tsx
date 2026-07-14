@@ -390,8 +390,8 @@ export default function T1Pasarela() {
                 bolsa asomándose ~50% por la izquierda y burbujas circulares
                 (blanco translúcido) de métodos de pago. */}
             <div className="relative mx-auto flex w-full items-center justify-center" style={{ maxWidth: 560 }}>
-              {/* Bolsa grande asomándose ~50% por la izquierda del panel */}
-              <div aria-hidden className="pointer-events-none absolute z-0" style={{ width: 440, left: -135, top: -18, transform: "rotate(-6deg)" }}>
+              {/* Bolsa grande asomándose ~50% por la izquierda del panel (oculta en responsive) */}
+              <div aria-hidden className="pointer-events-none absolute z-0 hidden tablet:block" style={{ width: 440, left: -135, top: -60, transform: "rotate(-6deg)" }}>
                 <Image src="/img/bolsa-hero.png" alt="" width={803} height={831} className="h-auto w-full" style={{ filter: "drop-shadow(0 26px 54px rgba(0,0,0,0.45))" }} />
               </div>
 
@@ -524,9 +524,9 @@ export default function T1Pasarela() {
                 ].map((c) => (
                   <div
                     key={c.title}
-                    className="flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-black/[0.07] bg-white p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
+                    className="flex min-h-[248px] w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-black/[0.07] bg-white p-7 shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
                   >
-                    <div className="mb-5 flex h-[48px] w-[48px] items-center justify-center rounded-[13px] bg-[rgba(219,59,43,0.07)]">
+                    <div className="mb-5 flex h-[40px] w-[40px] items-center justify-center">
                       {c.icon}
                     </div>
                     <h3 className="font-sora text-[19px] font-normal text-black" style={{ marginBottom: 8 }}>{c.title}</h3>
@@ -617,11 +617,13 @@ export default function T1Pasarela() {
         </div>
       </section>
 
+      {/* ── Sections 5 + 6 — degradado continuo #1A0A0A (arriba) → #000 (abajo) ── */}
+      <div className="relative" style={{ background: "linear-gradient(180deg, #1A0A0A 0%, #000000 100%)" }}>
       {/* ── Section 5 — Administra y mejora tu operación (sección oscura, 3 cards) ── */}
-      <section className="relative px-5 py-24 tablet:px-10 tablet:py-32" style={{ background: "linear-gradient(180deg, #000000 0%, #140a0a 100%)" }}>
+      <section className="relative px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
-            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:whitespace-nowrap tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
               Más control después de cada pago.
             </h2>
             <p className="font-inter text-[16px] font-light text-white/55 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
@@ -633,25 +635,26 @@ export default function T1Pasarela() {
             {[
               {
                 title: "Disputas y contracargos", desc: "Gestiona reclamaciones desde el panel, con evidencia automática para ganar más casos.",
-                icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 9v4 M12 17h.01" stroke="#FF7363" strokeWidth="1.8" strokeLinecap="round" /><path d="M10.3 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.7 3.86a2 2 0 0 0-3.39 0z" stroke="#FF7363" strokeWidth="1.6" strokeLinejoin="round" /></svg>),
+                img: "/img/disputas-v2.png", w: 1177, h: 864,
               },
               {
                 title: "Reportes en vivo", desc: "Aprobación, conversión y devoluciones en un dashboard claro y en tiempo real.",
-                icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M3 21h18" stroke="#FF7363" strokeWidth="1.6" strokeLinecap="round" /><rect x="5" y="12" width="3.5" height="7" rx="1" stroke="#FF7363" strokeWidth="1.6" /><rect x="10.5" y="8" width="3.5" height="11" rx="1" stroke="#FF7363" strokeWidth="1.6" /><rect x="16" y="4" width="3.5" height="15" rx="1" stroke="#FF7363" strokeWidth="1.6" /></svg>),
+                img: "/img/reportes-en-vivo-v2.png", w: 1349, h: 864,
               },
               {
                 title: "3D Secure", desc: "Autenticación adicional cuando el riesgo lo amerita, sin romper la conversión.",
-                icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 6v6c0 5 3.5 8.5 9 10 5.5-1.5 9-5 9-10V6l-9-4z" stroke="#FF7363" strokeWidth="1.6" strokeLinejoin="round" /><path d="M9 12l2 2 4-4" stroke="#FF7363" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>),
+                img: "/img/3d-secure-v2.png", w: 1536, h: 764,
               },
             ].map((f, i) => (
               <div
                 key={f.title}
                 data-stagger
-                className="rounded-[18px] border border-white/[0.08] bg-[#121214] p-6"
+                className="relative flex flex-col rounded-[18px] border border-white/[0.08] bg-[#121214] px-6 pt-0 pb-6"
                 style={{ ["--i" as string]: i }}
               >
-                <div className="mb-5 flex h-[48px] w-[48px] items-center justify-center rounded-[13px] bg-[rgba(219,59,43,0.10)]">
-                  {f.icon}
+                {/* imagen que sobresale por arriba y a los lados de la card */}
+                <div className="relative mb-5" style={{ marginTop: -46 }}>
+                  <Image src={f.img} alt={f.title} width={f.w} height={f.h} className="h-auto object-contain" style={{ width: "112%", marginLeft: "-6%", filter: "drop-shadow(0 22px 34px rgba(0,0,0,0.45))" }} sizes="(max-width: 768px) 100vw, 360px" />
                 </div>
                 <h3 className="font-sora text-[18px] font-normal text-white" style={{ marginBottom: 8 }}>{f.title}</h3>
                 <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.6 }}>{f.desc}</p>
@@ -669,8 +672,8 @@ export default function T1Pasarela() {
         </div>
       </section>
 
-      {/* ── Section 6 — Stats with count-up ── */}
-      <section className="relative px-5 py-20 tablet:px-10 tablet:py-24" style={{ background: "linear-gradient(135deg, #1A0A0A 0%, #261515 50%, #1A0A0A 100%)" }}>
+      {/* ── Section 6 — Stats with count-up (fondo transparente: hereda el degradado) ── */}
+      <section className="relative px-5 py-20 tablet:px-10 tablet:py-24">
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[640px] text-center" style={{ marginBottom: 48 }}>
             <h2 className="font-sora text-[24px] font-light text-white tablet:text-[34px]" style={{ letterSpacing: "-0.02em", lineHeight: 1.2 }}>
@@ -691,6 +694,7 @@ export default function T1Pasarela() {
           </div>
         </div>
       </section>
+      </div>
 
       {/* ── Section 7 — FAQ (fondo oscuro) ── */}
       <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">

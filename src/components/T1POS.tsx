@@ -286,69 +286,74 @@ export default function T1POS() {
       <section className="relative bg-white px-5 pb-10 tablet:px-10 tablet:pb-14">
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[720px]">
-            <div className="relative overflow-hidden rounded-[24px] border border-white/[0.08] px-6 py-11 text-center tablet:px-10 tablet:py-14" style={{ background: "linear-gradient(135deg, #1A1212 0%, #261515 50%, #1A0A0A 100%)", boxShadow: "0 16px 40px rgba(0,0,0,0.14)" }}>
+            <div className="relative overflow-hidden rounded-[24px] border border-white/[0.08] px-6 pt-10 pb-0 tablet:px-10 tablet:pt-0 tablet:pb-0" style={{ background: "linear-gradient(135deg, #1A1212 0%, #261515 50%, #1A0A0A 100%)", boxShadow: "0 16px 40px rgba(0,0,0,0.14)" }}>
               {/* colored blobs */}
               <div aria-hidden className="pointer-events-none absolute -right-12 -top-16 h-[240px] w-[240px] rounded-full" style={{ background: "radial-gradient(circle at center, rgba(219,59,43,0.38) 0%, transparent 70%)", filter: "blur(34px)" }} />
               <div aria-hidden className="pointer-events-none absolute -bottom-16 -left-12 h-[230px] w-[230px] rounded-full" style={{ background: "radial-gradient(circle at center, rgba(255,140,60,0.24) 0%, transparent 70%)", filter: "blur(36px)" }} />
               <div aria-hidden className="pointer-events-none absolute left-1/3 top-1/2 h-[180px] w-[180px] rounded-full" style={{ background: "radial-gradient(circle at center, rgba(130,90,255,0.16) 0%, transparent 70%)", filter: "blur(34px)" }} />
 
-              <p className="relative font-sora text-[24px] font-medium text-white tablet:text-[30px]" style={{ letterSpacing: "-0.5px", marginBottom: 8 }}>Tu POS en cualquier dispositivo</p>
-              <p className="relative font-inter text-[15px] font-light text-white/60 tablet:hidden" style={{ marginBottom: 28 }}>Descárgalo gratis o ábrelo desde la web.</p>
-              <p className="relative hidden font-inter text-[15px] font-light text-white/60 tablet:block" style={{ marginBottom: 28 }}>Descárgalo gratis escaneando el código o ábrelo desde la web.</p>
+              <div className="relative grid grid-cols-1 items-center gap-4 tablet:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] tablet:gap-8">
+                {/* Left — imagen del POS en distintos dispositivos, sobresale (sangre inferior) */}
+                <div className="relative order-2 self-end tablet:order-1">
+                  <Image src="/img/pos-dispositivos.png" alt="T1 POS en distintos dispositivos" width={1536} height={1024} className="block h-auto max-w-none" style={{ width: "116%", marginLeft: "-8%", marginBottom: -2, filter: "drop-shadow(0 22px 34px rgba(0,0,0,0.42))" }} sizes="(max-width: 768px) 100vw, 460px" />
+                </div>
 
-              {/* Imagen: el POS en distintos dispositivos */}
-              <div className="relative mx-auto overflow-hidden rounded-[16px]" style={{ maxWidth: 520, marginBottom: 32 }}>
-                <Image src="/img/pos-dispositivos.png" alt="T1 POS en distintos dispositivos" width={1536} height={1024} className="block h-auto w-full" sizes="(max-width: 768px) 100vw, 520px" />
-              </div>
+                {/* Right — texto + QR / botones */}
+                <div className="relative order-1 pb-8 text-center tablet:order-2 tablet:py-14 tablet:text-left">
+                  <p className="font-sora text-[24px] font-medium text-white tablet:text-[30px]" style={{ letterSpacing: "-0.5px", marginBottom: 8 }}>Tu POS en cualquier dispositivo</p>
+                  <p className="font-inter text-[15px] font-light text-white/60 tablet:hidden" style={{ marginBottom: 28 }}>Descárgalo gratis o ábrelo desde la web.</p>
+                  <p className="hidden font-inter text-[15px] font-light text-white/60 tablet:block" style={{ marginBottom: 28 }}>Descárgalo gratis escaneando el código o ábrelo desde la web.</p>
 
-              {/* Desktop → one QR per store */}
-              <div className="relative hidden flex-col items-center tablet:flex">
-                <div className="flex items-start justify-center gap-8">
-                  {[
-                    { store: "App Store", logo: (<svg width="15" height="15" viewBox="0 0 24 24" fill="#fff"><path d="M17.6 7.1c-.9.05-2 .6-2.6 1.3-.6.6-1.1 1.6-.9 2.5 1 .08 2-.5 2.6-1.2.6-.7 1-1.7.9-2.6zM19 16.8c-.3.8-.5 1.1-.9 1.8-.6.9-1.4 2-2.4 2-.9 0-1.1-.6-2.3-.6-1.2 0-1.5.6-2.3.6-1 0-1.7-1-2.3-1.9-1.7-2.5-1.9-5.5-.8-7 .8-1.1 2-1.7 3.1-1.7 1.2 0 1.9.6 2.9.6.9 0 1.5-.6 2.9-.6 1 0 2.1.6 2.9 1.5-2.6 1.4-2.2 5.1.5 5.7z" /></svg>) },
-                    { store: "Google Play", logo: (<svg width="14" height="14" viewBox="0 0 24 24"><path d="M3.6 2.3l11 9.7-11 9.7c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z" fill="#4285F4" /><path d="M16.8 9.1l-2.2 2.9 2.2 2.9 3.5-2c.7-.4.7-1.4 0-1.8l-3.5-2z" fill="#FBBC04" /><path d="M14.6 12l-11 9.7c.4.2.9.2 1.3 0l11.9-6.8-2.2-2.9z" fill="#34A853" /><path d="M14.6 12l2.2-2.9L4.9 2.3c-.4-.2-.9-.2-1.3 0l11 9.7z" fill="#EA4335" /></svg>) },
-                  ].map((q) => (
-                    <div key={q.store} className="flex flex-col items-center">
-                      <div className="flex h-[116px] w-[116px] shrink-0 items-center justify-center rounded-[16px] bg-white" style={{ padding: 12, boxShadow: "0 6px 22px rgba(0,0,0,0.3)" }}>
-                        <svg width="92" height="92" viewBox="0 0 56 56" fill="#111827" fillRule="evenodd" aria-label={`Código QR para ${q.store}`}>
-                          <path d="M0 0h20v20H0zM4 4v12h12V4zM7 7h6v6H7z" />
-                          <path d="M36 0h20v20H36zM40 4v12h12V4zM43 7h6v6h-6z" />
-                          <path d="M0 36h20v20H0zM4 40v12h12V40zM7 43h6v6H7z" />
-                          <path d="M24 0h4v4h-4zM30 0h2v6h-6V4h4zM24 8h6v4h-4v4h-2zM32 8h4v4h-4zM24 16h8v4h-4v-2h-4z" />
-                          <path d="M36 24h4v4h-4zM44 24h4v8h-4v-4h-4v-2h4zM50 24h6v4h-4v2h-2zM36 32h6v4h-2v4h-4zM44 36h4v4h4v4h-8zM52 32h4v8h-4zM24 24h6v4h-2v2h-4zM24 32h4v4h4v4h-8zM30 40h6v4h-4v4h-2zM36 48h8v4h-8zM48 48h8v4h-8z" />
-                        </svg>
-                      </div>
-                      <div className="mt-2.5 flex items-center gap-1.5">
-                        {q.logo}
-                        <span className="font-inter text-[12.5px] font-medium text-white/70">{q.store}</span>
-                      </div>
+                  {/* Desktop → one QR per store */}
+                  <div className="hidden flex-col tablet:flex">
+                    <div className="flex items-start justify-center gap-8 tablet:justify-start">
+                      {[
+                        { store: "App Store", logo: (<svg width="15" height="15" viewBox="0 0 24 24" fill="#fff"><path d="M17.6 7.1c-.9.05-2 .6-2.6 1.3-.6.6-1.1 1.6-.9 2.5 1 .08 2-.5 2.6-1.2.6-.7 1-1.7.9-2.6zM19 16.8c-.3.8-.5 1.1-.9 1.8-.6.9-1.4 2-2.4 2-.9 0-1.1-.6-2.3-.6-1.2 0-1.5.6-2.3.6-1 0-1.7-1-2.3-1.9-1.7-2.5-1.9-5.5-.8-7 .8-1.1 2-1.7 3.1-1.7 1.2 0 1.9.6 2.9.6.9 0 1.5-.6 2.9-.6 1 0 2.1.6 2.9 1.5-2.6 1.4-2.2 5.1.5 5.7z" /></svg>) },
+                        { store: "Google Play", logo: (<svg width="14" height="14" viewBox="0 0 24 24"><path d="M3.6 2.3l11 9.7-11 9.7c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z" fill="#4285F4" /><path d="M16.8 9.1l-2.2 2.9 2.2 2.9 3.5-2c.7-.4.7-1.4 0-1.8l-3.5-2z" fill="#FBBC04" /><path d="M14.6 12l-11 9.7c.4.2.9.2 1.3 0l11.9-6.8-2.2-2.9z" fill="#34A853" /><path d="M14.6 12l2.2-2.9L4.9 2.3c-.4-.2-.9-.2-1.3 0l11 9.7z" fill="#EA4335" /></svg>) },
+                      ].map((q) => (
+                        <div key={q.store} className="flex flex-col items-center">
+                          <div className="flex h-[108px] w-[108px] shrink-0 items-center justify-center rounded-[16px] bg-white" style={{ padding: 12, boxShadow: "0 6px 22px rgba(0,0,0,0.3)" }}>
+                            <svg width="84" height="84" viewBox="0 0 56 56" fill="#111827" fillRule="evenodd" aria-label={`Código QR para ${q.store}`}>
+                              <path d="M0 0h20v20H0zM4 4v12h12V4zM7 7h6v6H7z" />
+                              <path d="M36 0h20v20H36zM40 4v12h12V4zM43 7h6v6h-6z" />
+                              <path d="M0 36h20v20H0zM4 40v12h12V40zM7 43h6v6H7z" />
+                              <path d="M24 0h4v4h-4zM30 0h2v6h-6V4h4zM24 8h6v4h-4v4h-2zM32 8h4v4h-4zM24 16h8v4h-4v-2h-4z" />
+                              <path d="M36 24h4v4h-4zM44 24h4v8h-4v-4h-4v-2h4zM50 24h6v4h-4v2h-2zM36 32h6v4h-2v4h-4zM44 36h4v4h4v4h-8zM52 32h4v8h-4zM24 24h6v4h-2v2h-4zM24 32h4v4h4v4h-8zM30 40h6v4h-4v4h-2zM36 48h8v4h-8zM48 48h8v4h-8z" />
+                            </svg>
+                          </div>
+                          <div className="mt-2.5 flex items-center gap-1.5">
+                            {q.logo}
+                            <span className="font-inter text-[12.5px] font-medium text-white/70">{q.store}</span>
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  ))}
+                  </div>
+
+                  {/* Mobile → tappable store buttons (white pills on dark card) */}
+                  <div className="flex flex-col items-center justify-center gap-3 tablet:hidden">
+                    <a href={SIGNUP_URL} className="flex w-full items-center justify-center gap-3 rounded-[14px] bg-white px-6 py-3 no-underline">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="#111827"><path d="M17.6 7.1c-.9.05-2 .6-2.6 1.3-.6.6-1.1 1.6-.9 2.5 1 .08 2-.5 2.6-1.2.6-.7 1-1.7.9-2.6zM19 16.8c-.3.8-.5 1.1-.9 1.8-.6.9-1.4 2-2.4 2-.9 0-1.1-.6-2.3-.6-1.2 0-1.5.6-2.3.6-1 0-1.7-1-2.3-1.9-1.7-2.5-1.9-5.5-.8-7 .8-1.1 2-1.7 3.1-1.7 1.2 0 1.9.6 2.9.6.9 0 1.5-.6 2.9-.6 1 0 2.1.6 2.9 1.5-2.6 1.4-2.2 5.1.5 5.7z" /></svg>
+                      <span className="text-left">
+                        <span className="block font-inter text-[10px] leading-none text-black/55">Descárgala en el</span>
+                        <span className="block font-sora text-[17px] font-semibold leading-tight text-black">App Store</span>
+                      </span>
+                    </a>
+                    <a href={SIGNUP_URL} className="flex w-full items-center justify-center gap-3 rounded-[14px] bg-white px-6 py-3 no-underline">
+                      <svg width="22" height="22" viewBox="0 0 24 24"><path d="M3.6 2.3l11 9.7-11 9.7c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z" fill="#4285F4" /><path d="M16.8 9.1l-2.2 2.9 2.2 2.9 3.5-2c.7-.4.7-1.4 0-1.8l-3.5-2z" fill="#FBBC04" /><path d="M14.6 12l-11 9.7c.4.2.9.2 1.3 0l11.9-6.8-2.2-2.9z" fill="#34A853" /><path d="M14.6 12l2.2-2.9L4.9 2.3c-.4-.2-.9-.2-1.3 0l11 9.7z" fill="#EA4335" /></svg>
+                      <span className="text-left">
+                        <span className="block font-inter text-[10px] leading-none text-black/55">Disponible en</span>
+                        <span className="block font-sora text-[17px] font-semibold leading-tight text-black">Google Play</span>
+                      </span>
+                    </a>
+                  </div>
+
+                  <a href={SIGNUP_URL} className="mt-7 inline-flex items-center gap-1.5 font-inter text-[14px] font-medium text-[#FF7060] no-underline hover:gap-2.5">
+                    O ábrela en la web
+                    <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9 5l3 3-3 3" stroke="#FF7060" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  </a>
                 </div>
               </div>
-
-              {/* Mobile → tappable store buttons (white pills on dark card) */}
-              <div className="relative flex flex-col items-center justify-center gap-3 tablet:hidden">
-                <a href={SIGNUP_URL} className="flex w-full items-center justify-center gap-3 rounded-[14px] bg-white px-6 py-3 no-underline">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="#111827"><path d="M17.6 7.1c-.9.05-2 .6-2.6 1.3-.6.6-1.1 1.6-.9 2.5 1 .08 2-.5 2.6-1.2.6-.7 1-1.7.9-2.6zM19 16.8c-.3.8-.5 1.1-.9 1.8-.6.9-1.4 2-2.4 2-.9 0-1.1-.6-2.3-.6-1.2 0-1.5.6-2.3.6-1 0-1.7-1-2.3-1.9-1.7-2.5-1.9-5.5-.8-7 .8-1.1 2-1.7 3.1-1.7 1.2 0 1.9.6 2.9.6.9 0 1.5-.6 2.9-.6 1 0 2.1.6 2.9 1.5-2.6 1.4-2.2 5.1.5 5.7z" /></svg>
-                  <span className="text-left">
-                    <span className="block font-inter text-[10px] leading-none text-black/55">Descárgala en el</span>
-                    <span className="block font-sora text-[17px] font-semibold leading-tight text-black">App Store</span>
-                  </span>
-                </a>
-                <a href={SIGNUP_URL} className="flex w-full items-center justify-center gap-3 rounded-[14px] bg-white px-6 py-3 no-underline">
-                  <svg width="22" height="22" viewBox="0 0 24 24"><path d="M3.6 2.3l11 9.7-11 9.7c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z" fill="#4285F4" /><path d="M16.8 9.1l-2.2 2.9 2.2 2.9 3.5-2c.7-.4.7-1.4 0-1.8l-3.5-2z" fill="#FBBC04" /><path d="M14.6 12l-11 9.7c.4.2.9.2 1.3 0l11.9-6.8-2.2-2.9z" fill="#34A853" /><path d="M14.6 12l2.2-2.9L4.9 2.3c-.4-.2-.9-.2-1.3 0l11 9.7z" fill="#EA4335" /></svg>
-                  <span className="text-left">
-                    <span className="block font-inter text-[10px] leading-none text-black/55">Disponible en</span>
-                    <span className="block font-sora text-[17px] font-semibold leading-tight text-black">Google Play</span>
-                  </span>
-                </a>
-              </div>
-
-              <a href={SIGNUP_URL} className="relative mt-7 inline-flex items-center gap-1.5 font-inter text-[14px] font-medium text-[#FF7060] no-underline hover:gap-2.5">
-                O ábrela en la web
-                <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9 5l3 3-3 3" stroke="#FF7060" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
-              </a>
             </div>
           </div>
         </div>
@@ -512,7 +517,7 @@ export default function T1POS() {
       </section>
 
       {/* ── Ecosistema T1 — órbita ── */}
-      <section className="relative overflow-hidden px-5 py-24 tablet:px-10 tablet:py-32" style={{ background: "linear-gradient(135deg, #1A1212 0%, #0F0808 55%, #050303 100%)" }}>
+      <section className="relative overflow-hidden px-5 py-16 tablet:px-10 tablet:py-20" style={{ background: "linear-gradient(135deg, #1A1212 0%, #0F0808 55%, #050303 100%)" }}>
         <div className="relative mx-auto max-w-[var(--max-w)]">
           <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-8">
             {/* Text */}
