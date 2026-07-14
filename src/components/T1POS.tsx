@@ -294,34 +294,28 @@ export default function T1POS() {
                 <div className="absolute left-1/3 top-1/2 h-[180px] w-[180px] rounded-full" style={{ background: "radial-gradient(circle at center, rgba(130,90,255,0.16) 0%, transparent 70%)", filter: "blur(34px)" }} />
               </div>
 
-              <div className="relative grid grid-cols-1 items-center gap-4 tablet:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] tablet:gap-6">
-                {/* Left — imagen del POS en distintos dispositivos, sobresale de la card (izquierda + abajo) */}
-                <div className="relative order-2 self-end tablet:order-1">
-                  <Image src="/img/pos-dispositivos.png" alt="T1 POS en distintos dispositivos" width={1536} height={1024} className="relative z-[1] block h-auto max-w-none" style={{ width: "122%", marginLeft: "-16%", marginBottom: -22, filter: "drop-shadow(0 26px 40px rgba(0,0,0,0.45))" }} sizes="(max-width: 768px) 100vw, 480px" />
+              <div className="relative grid grid-cols-1 items-center gap-6 tablet:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] tablet:gap-14">
+                {/* Left — imagen del POS en distintos dispositivos, centrada al alto de la card y sobresaliendo un poco por la izquierda */}
+                <div className="relative order-2 self-center tablet:order-1">
+                  <Image src="/img/pos-dispositivos.png" alt="T1 POS en distintos dispositivos" width={1536} height={1024} className="relative z-[1] block h-auto max-w-none" style={{ width: "128%", marginLeft: "-20%", filter: "drop-shadow(0 12px 22px rgba(0,0,0,0.32))" }} sizes="(max-width: 768px) 100vw, 500px" />
                 </div>
 
-                {/* Right — texto + QR / botones */}
-                <div className="relative order-1 pb-8 text-center tablet:order-2 tablet:py-14 tablet:text-left">
+                {/* Right — texto + QR / botones (centrados en su contenedor) */}
+                <div className="relative order-1 pb-10 text-center tablet:order-2 tablet:py-20">
                   <p className="font-sora text-[24px] font-medium text-white tablet:whitespace-nowrap tablet:text-[30px]" style={{ letterSpacing: "-0.5px", marginBottom: 8 }}>Tu POS en cualquier dispositivo</p>
                   <p className="font-inter text-[15px] font-light text-white/60 tablet:hidden" style={{ marginBottom: 28 }}>Descárgalo gratis o ábrelo desde la web.</p>
                   <p className="hidden font-inter text-[15px] font-light text-white/60 tablet:block tablet:whitespace-nowrap" style={{ marginBottom: 28 }}>Descárgalo gratis escaneando el código o ábrelo desde la web.</p>
 
-                  {/* Desktop → one QR per store */}
+                  {/* Desktop → one QR per store (centrados en el contenedor) */}
                   <div className="hidden flex-col tablet:flex">
-                    <div className="flex items-start justify-center gap-8 tablet:justify-start">
+                    <div className="flex items-start justify-center gap-8">
                       {[
-                        { store: "App Store", logo: (<svg width="15" height="15" viewBox="0 0 24 24" fill="#fff"><path d="M17.6 7.1c-.9.05-2 .6-2.6 1.3-.6.6-1.1 1.6-.9 2.5 1 .08 2-.5 2.6-1.2.6-.7 1-1.7.9-2.6zM19 16.8c-.3.8-.5 1.1-.9 1.8-.6.9-1.4 2-2.4 2-.9 0-1.1-.6-2.3-.6-1.2 0-1.5.6-2.3.6-1 0-1.7-1-2.3-1.9-1.7-2.5-1.9-5.5-.8-7 .8-1.1 2-1.7 3.1-1.7 1.2 0 1.9.6 2.9.6.9 0 1.5-.6 2.9-.6 1 0 2.1.6 2.9 1.5-2.6 1.4-2.2 5.1.5 5.7z" /></svg>) },
-                        { store: "Google Play", logo: (<svg width="14" height="14" viewBox="0 0 24 24"><path d="M3.6 2.3l11 9.7-11 9.7c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z" fill="#4285F4" /><path d="M16.8 9.1l-2.2 2.9 2.2 2.9 3.5-2c.7-.4.7-1.4 0-1.8l-3.5-2z" fill="#FBBC04" /><path d="M14.6 12l-11 9.7c.4.2.9.2 1.3 0l11.9-6.8-2.2-2.9z" fill="#34A853" /><path d="M14.6 12l2.2-2.9L4.9 2.3c-.4-.2-.9-.2-1.3 0l11 9.7z" fill="#EA4335" /></svg>) },
+                        { store: "App Store", qr: "/img/qr-ios.png", logo: (<svg width="15" height="15" viewBox="0 0 24 24" fill="#fff"><path d="M17.6 7.1c-.9.05-2 .6-2.6 1.3-.6.6-1.1 1.6-.9 2.5 1 .08 2-.5 2.6-1.2.6-.7 1-1.7.9-2.6zM19 16.8c-.3.8-.5 1.1-.9 1.8-.6.9-1.4 2-2.4 2-.9 0-1.1-.6-2.3-.6-1.2 0-1.5.6-2.3.6-1 0-1.7-1-2.3-1.9-1.7-2.5-1.9-5.5-.8-7 .8-1.1 2-1.7 3.1-1.7 1.2 0 1.9.6 2.9.6.9 0 1.5-.6 2.9-.6 1 0 2.1.6 2.9 1.5-2.6 1.4-2.2 5.1.5 5.7z" /></svg>) },
+                        { store: "Google Play", qr: "/img/qr-android.png", logo: (<svg width="14" height="14" viewBox="0 0 24 24"><path d="M3.6 2.3l11 9.7-11 9.7c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z" fill="#4285F4" /><path d="M16.8 9.1l-2.2 2.9 2.2 2.9 3.5-2c.7-.4.7-1.4 0-1.8l-3.5-2z" fill="#FBBC04" /><path d="M14.6 12l-11 9.7c.4.2.9.2 1.3 0l11.9-6.8-2.2-2.9z" fill="#34A853" /><path d="M14.6 12l2.2-2.9L4.9 2.3c-.4-.2-.9-.2-1.3 0l11 9.7z" fill="#EA4335" /></svg>) },
                       ].map((q) => (
                         <div key={q.store} className="flex flex-col items-center">
-                          <div className="flex h-[108px] w-[108px] shrink-0 items-center justify-center rounded-[16px] bg-white" style={{ padding: 12, boxShadow: "0 6px 22px rgba(0,0,0,0.3)" }}>
-                            <svg width="84" height="84" viewBox="0 0 56 56" fill="#111827" fillRule="evenodd" aria-label={`Código QR para ${q.store}`}>
-                              <path d="M0 0h20v20H0zM4 4v12h12V4zM7 7h6v6H7z" />
-                              <path d="M36 0h20v20H36zM40 4v12h12V4zM43 7h6v6h-6z" />
-                              <path d="M0 36h20v20H0zM4 40v12h12V40zM7 43h6v6H7z" />
-                              <path d="M24 0h4v4h-4zM30 0h2v6h-6V4h4zM24 8h6v4h-4v4h-2zM32 8h4v4h-4zM24 16h8v4h-4v-2h-4z" />
-                              <path d="M36 24h4v4h-4zM44 24h4v8h-4v-4h-4v-2h4zM50 24h6v4h-4v2h-2zM36 32h6v4h-2v4h-4zM44 36h4v4h4v4h-8zM52 32h4v8h-4zM24 24h6v4h-2v2h-4zM24 32h4v4h4v4h-8zM30 40h6v4h-4v4h-2zM36 48h8v4h-8zM48 48h8v4h-8z" />
-                            </svg>
+                          <div className="flex h-[108px] w-[108px] shrink-0 items-center justify-center overflow-hidden rounded-[16px] bg-white" style={{ padding: 10, boxShadow: "0 6px 22px rgba(0,0,0,0.3)" }}>
+                            <Image src={q.qr} alt={`Código QR para ${q.store}`} width={820} height={820} className="h-full w-full object-contain" />
                           </div>
                           <div className="mt-2.5 flex items-center gap-1.5">
                             {q.logo}

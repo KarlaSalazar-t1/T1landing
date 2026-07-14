@@ -396,7 +396,7 @@ export default function T1Reportes() {
         <div className="mx-auto max-w-[var(--max-w)]">
           <div className="mx-auto text-center" style={{ marginBottom: 48, animation: "fadeSlideIn 0.6s ease-out both" }}>
             <h2 className="font-sora text-[26px] font-light text-black tablet:text-[34px] lg:text-[40px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>
-              Cuando vendes en varios canales, los datos se vuelven difíciles de leer.
+              Más canales, datos más difíciles de leer.
             </h2>
           </div>
           <div data-modal-animate className="grid grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
@@ -419,10 +419,10 @@ export default function T1Reportes() {
       <section className="relative bg-white px-5 pt-12 pb-8 tablet:px-10 tablet:pt-16 tablet:pb-10">
         <div data-modal-animate className="mx-auto max-w-[760px] text-center">
           <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.4px", lineHeight: 1.1, marginBottom: 16 }}>
-            Tu negocio, en gráficas claras.
+            Todo lo importante, listo para revisar.
           </h2>
           <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[19px]" style={{ lineHeight: 1.5 }}>
-            De los números crudos al insight accionable, sin Excel intermedio.
+            Ventas, pedidos, tráfico, conversión, ticket promedio y desempeño por canal desde un solo panel.
           </p>
         </div>
       </section>
@@ -435,13 +435,13 @@ export default function T1Reportes() {
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div>
                 <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
-                  Ventas en vivo, no al cierre del mes
+                  Ventas en tiempo real
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                  Monitorea tu operación en tiempo real. Cada venta, cada visita, cada conversión visible al instante.
+                  Consulta ventas, pedidos, ticket promedio y comportamiento por hora sin esperar al cierre del día o del mes.
                 </p>
                 <ul className="flex flex-col gap-2.5">
-                  {["Dashboard en tiempo real (no batch)", "Comparativas por día, semana, mes y año", "Métricas de tráfico, conversión y ticket promedio"].map((it) => (
+                  {["Ventas y pedidos por periodo.", "Comparativas por día, semana o mes.", "Tráfico y ticket promedio."].map((it) => (
                     <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                       {it}
@@ -464,13 +464,13 @@ export default function T1Reportes() {
 
               <div className="order-1 tablet:order-2">
                 <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
-                  Compara canales y descubre dónde crecer
+                  Compara el desempeño de cada canal
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                  Mira qué canal vende más, qué producto rota mejor por marketplace y dónde está tu mejor margen.
+                  Revisa qué vende más y en qué canal para invertir mejor tu tiempo, inventario y promociones.
                 </p>
                 <ul className="flex flex-col gap-2.5">
-                  {["Comparativa por canal, marketplace o sucursal", "Productos top y de baja rotación", "Análisis de margen por canal"].map((it) => (
+                  {["Ventas por canal.", "Productos top y baja rotación.", "Ticket promedio por canal."].map((it) => (
                     <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                       {it}
@@ -516,18 +516,18 @@ export default function T1Reportes() {
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-              De los datos a la decisión, sin escalas
+              Empieza a leer tu operación en 3 pasos
             </h2>
             <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-              Tres pasos para que tus reportes sean útiles desde el primer día.
+              Conecta, revisa y compara para tomar mejores decisiones desde el primer día.
             </p>
           </div>
           <div data-modal-animate className="relative grid grid-cols-1 gap-5 tablet:grid-cols-3 lg:gap-6">
             <div aria-hidden className="pointer-events-none absolute hidden lg:block" style={{ left: "16.6%", right: "16.6%", top: 30, height: 1, background: "linear-gradient(90deg, transparent 0%, rgba(219,59,43,0.25) 12%, rgba(219,59,43,0.25) 88%, transparent 100%)" }} />
             {[
-              { n: "01", title: "Conecta tus canales", desc: "Tienda online, sucursales y marketplaces se sincronizan al instante." },
-              { n: "02", title: "Visualiza en tiempo real", desc: "Dashboards listos con KPIs clave: ventas, tráfico, conversión, ticket." },
-              { n: "03", title: "Compara y filtra", desc: "Cruza canales, periodos y categorías. Encuentra qué funciona y qué no." },
+              { n: "01", title: "Conecta tus canales", desc: "Tienda online, sucursales y marketplaces." },
+              { n: "02", title: "Revisa tus KPIs principales", desc: "Ventas, pedidos, tráfico, conversión y ticket promedio." },
+              { n: "03", title: "Compara y toma decisiones", desc: "Filtra por canal, periodo, producto o categoría." },
             ].map((s, i) => (
               <div key={s.n} data-stagger className="tienda-card relative rounded-[18px] border border-black/[0.06] bg-white p-7" style={{ ["--i" as string]: i }}>
                 <span className="font-sora text-[40px] font-light text-[#DB3B2B]" style={{ display: "block", marginTop: 28, marginBottom: 12, letterSpacing: "-0.04em", lineHeight: 1 }}>{s.n}</span>
@@ -558,14 +558,11 @@ export default function T1Reportes() {
               Métricas, comparativas y exportables listos desde el primer día.
             </p>
           </div>
-          <div ref={opRef} data-modal-animate className="-mr-5 flex gap-5 overflow-x-auto pb-2 pr-5 tablet:mr-0 tablet:pr-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+          <div ref={opRef} data-modal-animate className="-mr-5 flex gap-5 overflow-x-auto pb-2 pr-5 tablet:mr-0 tablet:justify-center tablet:pr-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             {[
               { title: "Dashboards prediseñados", desc: "Ventas, tráfico, productos, clientes y más, listos para usar.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="10" rx="1.5" stroke="#FF7363" strokeWidth="1.6" /><rect x="13" y="3" width="8" height="6" rx="1.5" stroke="#FF7363" strokeWidth="1.6" /><rect x="3" y="15" width="8" height="6" rx="1.5" stroke="#FF7363" strokeWidth="1.6" /><rect x="13" y="11" width="8" height="10" rx="1.5" stroke="#FF7363" strokeWidth="1.6" /></svg>) },
               { title: "Exportación a Excel/CSV", desc: "Descarga cualquier reporte en un click para análisis externo.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z M14 3v5h5" stroke="#FF7363" strokeWidth="1.6" strokeLinejoin="round" /><path d="M9 13l3 3 4-4" stroke="#FF7363" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-              { title: "Reportes programados", desc: "Recíbelos en tu email diario, semanal o mensual sin abrir nada.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#FF7363" strokeWidth="1.6" /><path d="M12 7v5l3 2" stroke="#FF7363" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-              { title: "Alertas configurables", desc: "Notificaciones cuando un KPI cae o sube fuera del rango.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" stroke="#FF7363" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /><path d="M13.7 21a2 2 0 0 1-3.4 0" stroke="#FF7363" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
-              { title: "Reportes personalizados", desc: "Crea tus propias vistas con drag & drop. Comparte con tu equipo.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M11 4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6 M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke="#FF7363" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-              { title: "API y BI integrations", desc: "Conecta a Power BI, Looker o tu propio sistema vía API.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M16 18l6-6-6-6 M8 6l-6 6 6 6" stroke="#FF7363" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+              { title: "Filtros y comparativas", desc: "Filtra por canal, periodo o categoría y compara contra el periodo que quieras.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 5h18l-7 8v6l-4-2v-4L3 5z" stroke="#FF7363" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
             ].map((f, i) => (
               <div key={f.title} data-stagger style={{ ["--i" as string]: i }} className="op-card flex w-[80vw] max-w-[300px] shrink-0 snap-start flex-col rounded-[18px] border border-white/[0.08] bg-[#121214] p-7">
                 <div className="mb-5 flex h-[48px] w-[48px] items-center justify-center rounded-[13px] bg-[rgba(219,59,43,0.10)]">{f.icon}</div>
@@ -574,8 +571,8 @@ export default function T1Reportes() {
               </div>
             ))}
           </div>
-          {/* Flechas de navegación */}
-          <div className="mt-7 flex items-center justify-center gap-3">
+          {/* Flechas de navegación (solo móvil: en desktop las 3 cards ya caben) */}
+          <div className="mt-7 flex items-center justify-center gap-3 tablet:hidden">
             <button type="button" onClick={() => scrollOp(-1)} aria-label="Anterior" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/70 transition-colors hover:border-white/30 hover:text-white">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </button>
