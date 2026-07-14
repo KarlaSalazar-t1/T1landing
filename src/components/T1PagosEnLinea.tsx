@@ -107,112 +107,234 @@ function BrowserBar({ url }: { url: string }) {
   );
 }
 
-function CajaScreen() {
+/* Marco de teléfono para las simulaciones */
+function PhoneFrame({ children }: { children: ReactNode }) {
   return (
-    <div className="flex h-full flex-col bg-white">
-      <BrowserBar url="origenmx.com/checkout" />
-      <div className="flex flex-1 flex-col px-4 py-3">
-        <p className="font-inter text-[10px] font-semibold uppercase tracking-wider text-black/40" style={{ marginBottom: 8 }}>Resumen del pedido</p>
-        <div className="flex items-center gap-2.5">
-          <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center overflow-hidden rounded-[8px] border border-black/[0.05] bg-[#FAFAF9]"><Image src="/img/tenis-transparente.png" alt="" width={30} height={26} className="object-contain" /></div>
-          <div className="flex-1 leading-tight"><p className="font-inter text-[12px] font-medium text-black">Tenis blancos clásicos</p><p className="font-inter text-[10px] text-black/50">Talla 26 · 1 pza</p></div>
-          <span className="font-inter text-[12px] font-semibold text-black">$1,345.99</span>
-        </div>
-        <div className="my-3 border-t border-black/[0.06]" />
-        <div className="flex items-center justify-between"><span className="font-inter text-[11px] text-black/50">Subtotal</span><span className="font-inter text-[11px] text-black/70">$1,345.99</span></div>
-        <div className="mt-1 flex items-center justify-between"><span className="font-inter text-[11px] text-black/50">Envío</span><span className="font-inter text-[11px] text-[#16A34A]">Gratis</span></div>
-        <div className="mt-2 flex items-center justify-between border-t border-black/[0.06] pt-2"><span className="font-inter text-[13px] font-semibold text-black">Total</span><span className="font-sora text-[16px] font-semibold text-black">$1,345.99</span></div>
-        <div className="mt-auto flex h-[40px] items-center justify-center rounded-[10px] bg-[#2563EB] font-inter text-[13px] font-semibold text-white">Pagar $1,345.99</div>
+    <div className="relative mx-auto" style={{ width: 290 }}>
+      <div className="relative overflow-hidden bg-white" style={{ height: 580, borderRadius: 42, border: "9px solid #14100f", boxShadow: "0 34px 80px rgba(0,0,0,0.55)" }}>
+        <div className="absolute left-1/2 top-0 z-30 h-[22px] w-[118px] -translate-x-1/2 rounded-b-[14px] bg-[#14100f]" />
+        {children}
       </div>
     </div>
   );
 }
 
-function LinkPagoScreen() {
-  const [phase, setPhase] = useState(0); // 0 whatsapp (tap link) · 1 checkout
+/* Ripple de "tap" sobre un botón */
+function Ripple() {
+  return <span aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 h-[46px] w-[46px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: "rgba(255,255,255,0.45)", animation: "tapRipple 1s ease-out infinite" }} />;
+}
+
+/* Cabecera de WhatsApp */
+function WAHeader() {
+  return (
+    <div className="flex items-center gap-2 px-3 pt-5" style={{ height: 62, background: "#075E54" }}>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 5l-7 7 7 7" /></svg>
+      <span className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-white/20 font-sora text-[12px] font-bold text-white">O</span>
+      <div><p className="font-inter text-[12px] font-semibold leading-tight text-white">Origen MX</p><p className="font-inter text-[9px] leading-tight text-white/70">en línea</p></div>
+    </div>
+  );
+}
+
+/* Thank-you page compartida */
+function TypScreen({ order = "#9803890", total = "$1,345.99", label = "origenmx.com" }: { order?: string; total?: string; label?: string }) {
+  return (
+    <div className="flex h-full flex-col bg-white" style={{ animation: "fadeSlideIn 0.4s ease-out both" }}>
+      <BrowserBar url={label} />
+      <div className="flex flex-1 flex-col items-center justify-center px-5">
+        <span className="flex h-[54px] w-[54px] items-center justify-center rounded-full bg-[#16A34A]" style={{ marginBottom: 14, animation: "floatPop 0.5s ease-out both" }}>
+          <svg width="26" height="26" viewBox="0 0 16 16" fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        </span>
+        <p className="font-sora text-[17px] font-semibold text-black">¡Gracias por tu compra!</p>
+        <p className="font-inter text-[11px] text-black/50" style={{ marginTop: 4 }}>Tu pago se realizó con éxito.</p>
+        <div className="mt-5 w-full rounded-[12px] border border-black/[0.08] p-4">
+          <div className="flex items-center justify-between py-1"><span className="font-inter text-[11px] text-black/45">Pedido</span><span className="font-inter text-[12px] font-semibold text-black">{order}</span></div>
+          <div className="flex items-center justify-between py-1"><span className="font-inter text-[11px] text-black/45">Total</span><span className="font-inter text-[12px] font-semibold text-black">{total}</span></div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* Flujo Tienda en línea: carrito → checkout con datos → TYP */
+function TiendaFlow() {
+  const [p, setP] = useState(0);
   useEffect(() => {
-    if (phase >= 1) return;
-    const t = setTimeout(() => setPhase(1), 1600);
-    return () => clearTimeout(t);
-  }, [phase]);
-
-  if (phase === 0) {
-    return (
-      <div className="flex h-full flex-col" style={{ background: "#ECE5DD" }}>
-        {/* WhatsApp header */}
-        <div className="flex items-center gap-2 px-3" style={{ height: 46, background: "#075E54" }}>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 5l-7 7 7 7" /></svg>
-          <span className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-white/20 font-sora text-[12px] font-bold text-white">O</span>
-          <div><p className="font-inter text-[12px] font-semibold leading-tight text-white">Origen MX</p><p className="font-inter text-[9px] leading-tight text-white/70">en línea</p></div>
-        </div>
-        {/* chat */}
-        <div className="flex flex-1 flex-col justify-end gap-2 px-3 py-3">
-          <div className="max-w-[82%] self-end rounded-[10px] rounded-tr-[3px] bg-[#DCF8C6] px-3 py-2" style={{ boxShadow: "0 1px 1px rgba(0,0,0,0.08)", animation: "fadeSlideIn 0.35s ease-out both" }}>
-            <p className="font-inter text-[11.5px] text-black/80">¡Hola! Aquí está tu link de pago 👇</p>
-          </div>
-          <div className="relative max-w-[86%] self-end rounded-[10px] rounded-tr-[3px] bg-[#DCF8C6] p-1.5" style={{ boxShadow: "0 1px 1px rgba(0,0,0,0.08)", animation: "fadeSlideIn 0.35s ease-out 0.25s both" }}>
-            <div className="rounded-[8px] border border-black/[0.06] bg-white p-2.5">
-              <p className="font-sora text-[12px] font-semibold text-black">Anualidad 2025 · $999.00</p>
-              <p className="mt-0.5 font-inter text-[10px] font-medium text-[#2563EB]">t1.mx/p/x9k2f</p>
-            </div>
-            <p className="mt-1 mr-1 text-right font-inter text-[8px] text-black/40">10:24 · ✓✓</p>
-            {/* tap on the link */}
-            <span className="pointer-events-none absolute" style={{ left: "50%", top: "48%" }}>
-              <span className="absolute rounded-full" style={{ left: -18, top: -18, width: 36, height: 36, border: "2.5px solid rgba(219,59,43,0.85)", animation: "tapRipple 1.1s ease-out infinite" }} />
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="#111827" stroke="white" strokeWidth="1.4" strokeLinejoin="round" style={{ position: "absolute", left: 2, top: 2, filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.35))" }}><path d="M5 2.5l6 17.5 2.3-7.2L20.5 10.5z" /></svg>
-            </span>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // phase 1 — checkout
+    const durs = [3000, 3000, 3400];
+    const id = setTimeout(() => setP((x) => (x + 1) % 3), durs[p]);
+    return () => clearTimeout(id);
+  }, [p]);
   return (
-    <div className="flex h-full flex-col bg-white" style={{ animation: "fadeSlideIn 0.35s ease-out both" }}>
-      <BrowserBar url="t1.mx/p/x9k2f" />
-      <div className="flex flex-1 flex-col items-center px-4 py-3">
-        <span className="flex h-[34px] w-[34px] items-center justify-center rounded-full bg-[#DB3B2B] font-sora text-[13px] font-bold text-white" style={{ marginBottom: 8 }}>O</span>
-        <p className="font-inter text-[11px] text-black/50">Origen MX</p>
-        <p className="font-inter text-[12px] font-medium text-black">Anualidad 2025</p>
-        <p className="font-sora text-[30px] font-light text-black" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, marginTop: 4, marginBottom: 12 }}>$999.00</p>
-        <div className="flex w-full items-center gap-2 rounded-[9px] border px-3 py-2" style={{ borderColor: "rgba(219,59,43,0.4)", marginBottom: "auto" }}>
-          <span className="flex h-[14px] w-[14px] shrink-0 items-center justify-center rounded-full border border-[#DB3B2B]"><span className="h-[7px] w-[7px] rounded-full bg-[#DB3B2B]" /></span>
-          <span className="flex-1 font-inter text-[11px] text-black/75">Visa ••4242</span>
-          <img src="/img/icons/visa.svg" alt="" style={{ height: 13, width: "auto" }} />
+    <div key={p} className="h-full" style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
+      {p === 0 && (
+        <div className="flex h-full flex-col bg-white pt-5">
+          <BrowserBar url="origenmx.com/carrito" />
+          <div className="flex flex-1 flex-col px-4 py-4">
+            <p className="font-sora text-[14px] font-bold text-black" style={{ marginBottom: 12 }}>Tu carrito</p>
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-[46px] w-[46px] shrink-0 items-center justify-center overflow-hidden rounded-[9px] border border-black/[0.05] bg-[#FAFAF9]"><Image src="/img/tenis-transparente.png" alt="" width={36} height={32} className="object-contain" /></div>
+              <div className="flex-1 leading-tight"><p className="font-inter text-[12px] font-medium text-black">Tenis blancos clásicos</p><p className="font-inter text-[10px] text-black/50">Talla 26 · 1 pza</p></div>
+              <span className="font-inter text-[12px] font-semibold text-black">$1,345.99</span>
+            </div>
+            <div className="my-3 border-t border-black/[0.06]" />
+            <div className="flex items-center justify-between"><span className="font-inter text-[11px] text-black/50">Subtotal</span><span className="font-inter text-[11px] text-black/70">$1,345.99</span></div>
+            <div className="mt-1 flex items-center justify-between"><span className="font-inter text-[11px] text-black/50">Envío</span><span className="font-inter text-[11px] text-[#16A34A]">Gratis</span></div>
+            <div className="relative mt-auto flex h-[46px] items-center justify-center overflow-hidden rounded-[12px] bg-[#DB3B2B] font-inter text-[13px] font-semibold text-white">Comprar ahora<Ripple /></div>
+          </div>
         </div>
-        <div className="mt-3 flex h-[40px] w-full items-center justify-center rounded-[10px] bg-[#2563EB] font-inter text-[13px] font-semibold text-white">Pagar ahora</div>
-      </div>
+      )}
+      {p === 1 && (
+        <div className="flex h-full flex-col bg-white pt-5">
+          <BrowserBar url="origenmx.com/checkout" />
+          <div className="flex flex-1 flex-col px-4 py-4">
+            <p className="font-inter text-[10px] font-semibold uppercase tracking-wider text-black/40" style={{ marginBottom: 8 }}>Datos de envío</p>
+            {[["Nombre", "Ana López"], ["Correo", "ana.lopez@correo.com"], ["Dirección", "Av. Reforma 210, CDMX"]].map(([l, v]) => (
+              <div key={l} className="flex items-center rounded-[9px] border border-black/[0.10] px-3" style={{ height: 36, marginBottom: 8 }}><span className="font-inter text-[11px] text-black/70">{v}</span></div>
+            ))}
+            <div className="mt-1 flex items-center gap-2 rounded-[9px] border px-3 py-2" style={{ borderColor: "rgba(219,59,43,0.4)" }}>
+              <span className="flex h-[14px] w-[14px] shrink-0 items-center justify-center rounded-full border border-[#DB3B2B]"><span className="h-[7px] w-[7px] rounded-full bg-[#DB3B2B]" /></span>
+              <span className="flex-1 font-inter text-[11px] text-black/75">Visa ••4242</span>
+              <img src="/img/icons/visa.svg" alt="" style={{ height: 13, width: "auto" }} />
+            </div>
+            <div className="relative mt-auto flex h-[46px] items-center justify-center overflow-hidden rounded-[12px] bg-[#2563EB] font-inter text-[13px] font-semibold text-white">Pagar $1,345.99<Ripple /></div>
+          </div>
+        </div>
+      )}
+      {p === 2 && <TypScreen order="#9803890" total="$1,345.99" label="origenmx.com" />}
     </div>
   );
 }
 
-function ExpressT1Screen() {
+/* Flujo Link de pago: WhatsApp (tap link) → checkout link → TYP → WhatsApp (respuesta) */
+function LinkFlow() {
+  const [p, setP] = useState(0);
+  useEffect(() => {
+    const durs = [3000, 2800, 2800, 3200];
+    const id = setTimeout(() => setP((x) => (x + 1) % 4), durs[p]);
+    return () => clearTimeout(id);
+  }, [p]);
   return (
-    <div className="flex h-full flex-col bg-white">
-      <BrowserBar url="origenmx.com/checkout" />
-      <div className="flex flex-1 flex-col px-4 py-3">
-        <div className="flex items-center justify-between"><span className="font-inter text-[11px] text-black/50">Total a pagar</span><span className="font-sora text-[16px] font-semibold text-black">$1,345.99</span></div>
-        <div className="mt-3 flex h-[38px] items-center justify-center gap-2 rounded-[10px] bg-[#DB3B2B] font-inter text-[13px] font-semibold text-white">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" fill="#fff" stroke="#fff" strokeWidth="1.2" strokeLinejoin="round" /></svg>
-          Paga con T1
+    <div key={p} className="h-full" style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
+      {(p === 0 || p === 3) && (
+        <div className="flex h-full flex-col" style={{ background: "#ECE5DD" }}>
+          <WAHeader />
+          <div className="flex flex-1 flex-col justify-end gap-2 px-3 py-3">
+            <div className="max-w-[82%] self-end rounded-[10px] rounded-tr-[3px] bg-[#DCF8C6] px-3 py-2" style={{ boxShadow: "0 1px 1px rgba(0,0,0,0.08)" }}>
+              <p className="font-inter text-[11.5px] text-black/80">¡Hola! Aquí está tu link de pago 👇</p>
+            </div>
+            <div className="relative max-w-[86%] self-end rounded-[10px] rounded-tr-[3px] bg-[#DCF8C6] p-1.5" style={{ boxShadow: "0 1px 1px rgba(0,0,0,0.08)" }}>
+              <div className="rounded-[8px] border border-black/[0.06] bg-white p-2.5">
+                <p className="font-sora text-[12px] font-semibold text-black">Anualidad 2025 · $999.00</p>
+                <p className="mt-0.5 font-inter text-[10px] font-medium text-[#2563EB]">t1.mx/p/x9k2f</p>
+              </div>
+              <p className="mt-1 mr-1 text-right font-inter text-[8px] text-black/40">10:24 · ✓✓</p>
+              {p === 0 && (
+                <span className="pointer-events-none absolute" style={{ left: "50%", top: "48%" }}>
+                  <span className="absolute rounded-full" style={{ left: -18, top: -18, width: 36, height: 36, border: "2.5px solid rgba(219,59,43,0.85)", animation: "tapRipple 1.1s ease-out infinite" }} />
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="#111827" stroke="white" strokeWidth="1.4" strokeLinejoin="round" style={{ position: "absolute", left: 2, top: 2, filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.35))" }}><path d="M5 2.5l6 17.5 2.3-7.2L20.5 10.5z" /></svg>
+                </span>
+              )}
+            </div>
+            {p === 3 && (
+              <div className="max-w-[86%] self-start rounded-[10px] rounded-tl-[3px] bg-white px-3 py-2" style={{ boxShadow: "0 1px 1px rgba(0,0,0,0.08)", animation: "fadeSlideIn 0.4s ease-out both" }}>
+                <p className="font-inter text-[11.5px] text-black/80">Listo, ya quedó pagado ✅</p>
+                <p className="mt-0.5 text-right font-inter text-[8px] text-black/35">10:25</p>
+              </div>
+            )}
+          </div>
         </div>
-        <div className="my-3 flex items-center gap-2"><span className="h-px flex-1 bg-black/[0.08]" /><span className="font-inter text-[9px] text-black/35">inicia sesión</span><span className="h-px flex-1 bg-black/[0.08]" /></div>
-        <p className="font-inter text-[11px] font-semibold text-black" style={{ marginBottom: 6 }}>Continuar con T1</p>
-        <div className="flex items-center rounded-[9px] border border-black/[0.10] px-3" style={{ height: 34, marginBottom: 8 }}><span className="font-inter text-[11px] text-black/55">ana.lopez@correo.com</span></div>
-        <div className="mt-auto flex h-[38px] items-center justify-center rounded-[10px] bg-[#2563EB] font-inter text-[13px] font-semibold text-white">Continuar</div>
-      </div>
+      )}
+      {p === 1 && (
+        <div className="flex h-full flex-col bg-white pt-5">
+          <BrowserBar url="t1.mx/p/x9k2f" />
+          <div className="flex flex-1 flex-col items-center px-4 py-4">
+            <span className="flex h-[36px] w-[36px] items-center justify-center rounded-full bg-[#DB3B2B] font-sora text-[13px] font-bold text-white" style={{ marginBottom: 8 }}>O</span>
+            <p className="font-inter text-[11px] text-black/50">Origen MX</p>
+            <p className="font-inter text-[12px] font-medium text-black">Anualidad 2025</p>
+            <p className="font-sora text-[30px] font-light text-black" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, marginTop: 4, marginBottom: 14 }}>$999.00</p>
+            <div className="flex w-full items-center gap-2 rounded-[9px] border px-3 py-2" style={{ borderColor: "rgba(219,59,43,0.4)", marginBottom: "auto" }}>
+              <span className="flex h-[14px] w-[14px] shrink-0 items-center justify-center rounded-full border border-[#DB3B2B]"><span className="h-[7px] w-[7px] rounded-full bg-[#DB3B2B]" /></span>
+              <span className="flex-1 font-inter text-[11px] text-black/75">Visa ••4242</span>
+              <img src="/img/icons/visa.svg" alt="" style={{ height: 13, width: "auto" }} />
+            </div>
+            <div className="relative mt-3 flex h-[46px] w-full items-center justify-center overflow-hidden rounded-[12px] bg-[#2563EB] font-inter text-[13px] font-semibold text-white">Pagar $999.00<Ripple /></div>
+          </div>
+        </div>
+      )}
+      {p === 2 && <TypScreen order="#AN-2025" total="$999.00" label="t1.mx/p/x9k2f" />}
+    </div>
+  );
+}
+
+/* Flujo Paga con T1: checkout → login T1 → caja Paga con T1 → TYP */
+function PagaT1Flow() {
+  const [p, setP] = useState(0);
+  useEffect(() => {
+    const durs = [3000, 2800, 2800, 3200];
+    const id = setTimeout(() => setP((x) => (x + 1) % 4), durs[p]);
+    return () => clearTimeout(id);
+  }, [p]);
+  return (
+    <div key={p} className="h-full" style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
+      {p === 0 && (
+        <div className="flex h-full flex-col bg-white pt-5">
+          <BrowserBar url="origenmx.com/checkout" />
+          <div className="flex flex-1 flex-col px-4 py-4">
+            <div className="flex items-center justify-between"><span className="font-inter text-[11px] text-black/50">Total a pagar</span><span className="font-sora text-[16px] font-semibold text-black">$1,345.99</span></div>
+            <div className="relative mt-4 flex h-[44px] items-center justify-center gap-2 overflow-hidden rounded-[12px] bg-[#DB3B2B] font-inter text-[13px] font-semibold text-white">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" fill="#fff" stroke="#fff" strokeWidth="1.2" strokeLinejoin="round" /></svg>
+              Paga con T1<Ripple />
+            </div>
+            <div className="my-3 flex items-center gap-2"><span className="h-px flex-1 bg-black/[0.08]" /><span className="font-inter text-[9px] text-black/35">o paga con tarjeta</span><span className="h-px flex-1 bg-black/[0.08]" /></div>
+            <div className="flex items-center rounded-[9px] border border-black/[0.10] px-3" style={{ height: 36 }}><span className="font-inter text-[11px] text-black/40">Número de tarjeta</span></div>
+          </div>
+        </div>
+      )}
+      {p === 1 && (
+        <div className="flex h-full flex-col bg-white pt-5">
+          <BrowserBar url="t1.mx/login" />
+          <div className="flex flex-1 flex-col items-center px-4 py-6">
+            <span className="flex h-[42px] w-[42px] items-center justify-center rounded-[12px] bg-[#DB3B2B]" style={{ marginBottom: 14 }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" fill="#fff" stroke="#fff" strokeWidth="1.2" strokeLinejoin="round" /></svg>
+            </span>
+            <p className="font-sora text-[15px] font-semibold text-black">Inicia sesión en T1</p>
+            <p className="font-inter text-[11px] text-black/50" style={{ marginTop: 4, marginBottom: 16 }}>Paga en un tap con tu cuenta</p>
+            <div className="flex w-full items-center rounded-[9px] border border-black/[0.10] px-3" style={{ height: 38, marginBottom: 8 }}><span className="font-inter text-[11px] text-black/70">ana.lopez@correo.com</span></div>
+            <div className="flex w-full items-center rounded-[9px] border border-black/[0.10] px-3" style={{ height: 38, marginBottom: "auto" }}><span className="font-inter text-[11px] text-black/40">••••••••</span></div>
+            <div className="relative flex h-[46px] w-full items-center justify-center overflow-hidden rounded-[12px] bg-[#DB3B2B] font-inter text-[13px] font-semibold text-white">Continuar<Ripple /></div>
+          </div>
+        </div>
+      )}
+      {p === 2 && (
+        <div className="flex h-full flex-col bg-white pt-5">
+          <BrowserBar url="t1.mx/pay" />
+          <div className="flex flex-1 flex-col px-4 py-4">
+            <div className="flex items-center gap-2" style={{ marginBottom: 14 }}>
+              <span className="flex h-[26px] w-[26px] items-center justify-center rounded-[8px] bg-[#DB3B2B]"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" fill="#fff" stroke="#fff" strokeWidth="1.2" strokeLinejoin="round" /></svg></span>
+              <span className="font-sora text-[13px] font-semibold text-black">Paga con T1</span>
+              <span className="ml-auto font-inter text-[10px] text-black/40">Ana López</span>
+            </div>
+            <p className="font-inter text-[10px] text-black/45">Total a pagar</p>
+            <p className="font-sora text-[28px] font-light text-black" style={{ letterSpacing: "-0.03em", lineHeight: 1, marginTop: 2, marginBottom: 14 }}>$1,345.99</p>
+            <div className="flex items-center gap-2 rounded-[9px] border px-3 py-2" style={{ borderColor: "rgba(219,59,43,0.4)", marginBottom: "auto" }}>
+              <span className="flex h-[14px] w-[14px] shrink-0 items-center justify-center rounded-full border border-[#DB3B2B]"><span className="h-[7px] w-[7px] rounded-full bg-[#DB3B2B]" /></span>
+              <span className="flex-1 font-inter text-[11px] text-black/75">T1 Wallet · Visa ••4242</span>
+            </div>
+            <div className="relative flex h-[46px] items-center justify-center overflow-hidden rounded-[12px] bg-[#DB3B2B] font-inter text-[13px] font-semibold text-white">Confirmar pago<Ripple /></div>
+          </div>
+        </div>
+      )}
+      {p === 3 && <TypScreen order="#9803890" total="$1,345.99" label="origenmx.com" />}
     </div>
   );
 }
 
 /* ── "Cobra desde donde vendas" — accordion rotativo estilo "Para cada etapa de tu negocio" ── */
 const CHANNELS = [
-  { title: "Tienda en línea", desc: "Cobra desde el checkout de tu tienda con todos los métodos en una sola pantalla.", render: <CajaScreen /> },
-  { title: "Link de pago", desc: "Comparte un enlace por WhatsApp o redes y tu cliente paga al instante.", render: <LinkPagoScreen /> },
-  { title: "Paga con T1", desc: "Checkout express: tus clientes pagan en un tap con su cuenta T1.", render: <ExpressT1Screen /> },
+  { title: "Tienda en línea", desc: "Tu cliente arma su carrito y paga en el checkout de tu tienda con todos los métodos.", Flow: TiendaFlow },
+  { title: "Link de pago", desc: "Compartes un enlace por WhatsApp o redes y tu cliente paga al instante.", Flow: LinkFlow },
+  { title: "Paga con T1", desc: "Checkout express: tus clientes pagan en un tap con su cuenta T1.", Flow: PagaT1Flow },
 ];
-const CHANNELS_DURATION = 5000;
+const CHANNELS_DURATION = 11000;
 
 function ChannelsShowcase() {
   const [active, setActive] = useState(0);
@@ -272,21 +394,12 @@ function ChannelsShowcase() {
             })}
           </div>
 
-          {/* Right — pantalla del canal activo + CTA */}
-          <div className="audience-card-wrap flex w-full justify-center tablet:justify-start">
-            <div className="audience-card flex w-full" style={{ maxWidth: 460 }}>
-              <span className="audience-beam" aria-hidden />
-              <div className="relative z-[1] w-full overflow-hidden rounded-[18.5px]" style={{ background: "#1b1714" }}>
-                <div className="relative w-full bg-[#0e0b0a]" style={{ height: 380, padding: 20 }}>
-                  <div key={a.title} className="h-full w-full overflow-hidden rounded-[12px] bg-white" style={{ animation: "fadeSlideIn 0.5s ease-out", boxShadow: "0 18px 44px rgba(0,0,0,0.45)" }}>{a.render}</div>
-                </div>
-                <div className="p-5 tablet:p-6">
-                  <a href={SIGNUP_URL} className="inline-flex items-center gap-2 rounded-[13px] bg-[#DB3B2B] px-6 py-3 font-inter text-[14px] font-semibold text-white no-underline transition-colors duration-150 hover:bg-[#C0332A]">
-                    Comienza gratis
-                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                  </a>
-                </div>
-              </div>
+          {/* Right — simulación en pantalla de teléfono del canal activo */}
+          <div className="flex w-full justify-center tablet:justify-end">
+            <div key={a.title} style={{ animation: "fadeSlideIn 0.5s ease-out" }}>
+              <PhoneFrame>
+                <a.Flow />
+              </PhoneFrame>
             </div>
           </div>
         </div>
@@ -581,69 +694,6 @@ export default function T1PagosEnLinea() {
         </div>
       </section>
 
-      {/* ── Stack cards ── */}
-      <div ref={stackRootRef} className="fs-stack-card-container relative bg-white">
-        {/* Liquidación (panel left, text right) */}
-        <div className="fs-stack-card" style={{ top: 60, zIndex: 1, background: "#FBFBFB" }}>
-          <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
-            <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
-              <div className="order-2 tablet:order-1">
-                <SettlementPanel />
-              </div>
-              <div className="order-1 tablet:order-2">
-                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
-                  Tu dinero, rápido y claro
-                </h3>
-                <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                  Liquidación T+1 para tarjetas y minutos para transferencias. Cada pago entra a tu saldo con su detalle, listo para conciliar.
-                </p>
-                <ul className="flex flex-col gap-2.5">
-                  {["Liquidación T+1 en tarjetas", "SPEI acreditado en minutos", "Cada pago con su detalle y comprobante"].map((it) => (
-                    <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                      {it}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      {/* ── Cobra desde donde vendas — estilo "Para cada etapa de tu negocio" ── */}
-      <ChannelsShowcase />
-
-      {/* ── Cómo funciona ── */}
-      <section className="relative bg-[#FBFBFB] px-5 py-24 tablet:px-10 tablet:py-32">
-        <div className="mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-              Empieza a cobrar en cuatro pasos
-            </h2>
-            <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-              De la integración al primer cobro, sin vueltas.
-            </p>
-          </div>
-          <div data-modal-animate className="relative grid grid-cols-1 gap-5 tablet:grid-cols-2 lg:grid-cols-4 lg:gap-6">
-            <div aria-hidden className="pointer-events-none absolute hidden lg:block" style={{ left: "12.5%", right: "12.5%", top: 30, height: 1, background: "linear-gradient(90deg, transparent 0%, rgba(219,59,43,0.25) 12%, rgba(219,59,43,0.25) 88%, transparent 100%)" }} />
-            {[
-              { n: "01", title: "Integra en minutos", desc: "Plugin para tu plataforma o nuestra API y SDKs. Sin desarrollos largos." },
-              { n: "02", title: "Tu cliente paga", desc: "Checkout optimizado con todos los métodos en una sola pantalla." },
-              { n: "03", title: "Validamos y aprobamos", desc: "Antifraude y enrutamiento llevan cada pago a su mayor aprobación." },
-              { n: "04", title: "Recibes tu dinero", desc: "Liquidación T+1 a tu cuenta, con todo conciliado en tu panel." },
-            ].map((s, i) => (
-              <div key={s.n} data-stagger className="tienda-card relative rounded-[18px] border border-black/[0.06] bg-white p-7" style={{ ["--i" as string]: i }}>
-                <span className="font-sora text-[40px] font-light text-[#DB3B2B]" style={{ display: "block", marginTop: 28, marginBottom: 12, letterSpacing: "-0.04em", lineHeight: 1 }}>{s.n}</span>
-                <h3 className="font-sora text-[18px] font-normal text-black" style={{ marginBottom: 6 }}>{s.title}</h3>
-                <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{s.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── Acepta todos los métodos — carrusel estilo "Crea productos como prefieras" ── */}
       <section className="relative overflow-hidden bg-white px-5 py-[100px] tablet:px-10 tablet:py-[128px]">
         <div className="mx-auto max-w-[var(--max-w)]">
@@ -689,6 +739,65 @@ export default function T1PagosEnLinea() {
         </div>
       </section>
 
+      {/* ── Cobra desde donde vendas — accordion ── */}
+      <ChannelsShowcase />
+
+      {/* ── Tu dinero, rápido y claro (después de Cobra desde donde vendas) ── */}
+      <section className="relative bg-[#FBFBFB] px-5 py-24 tablet:px-10 tablet:py-32" data-modal-animate>
+        <div className="mx-auto flex max-w-[var(--max-w)] items-center">
+          <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
+            <div className="order-2 tablet:order-1">
+              <SettlementPanel />
+            </div>
+            <div className="order-1 tablet:order-2">
+              <h2 className="font-sora text-[28px] font-light text-black tablet:text-[38px] lg:text-[44px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.12, marginBottom: 18 }}>
+                Tu dinero, rápido y claro
+              </h2>
+              <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
+                Liquidación T+1 para tarjetas y minutos para transferencias. Cada pago entra a tu saldo con su detalle, listo para conciliar.
+              </p>
+              <ul className="flex flex-col gap-2.5">
+                {["Liquidación T+1 en tarjetas", "SPEI acreditado en minutos", "Cada pago con su detalle y comprobante"].map((it) => (
+                  <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                    {it}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Cómo funciona ── */}
+      <section className="relative bg-[#FBFBFB] px-5 py-24 tablet:px-10 tablet:py-32">
+        <div className="mx-auto max-w-[var(--max-w)]">
+          <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+              Empieza a cobrar en cuatro pasos
+            </h2>
+            <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
+              De la integración al primer cobro, sin vueltas.
+            </p>
+          </div>
+          <div data-modal-animate className="relative grid grid-cols-1 gap-5 tablet:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+            <div aria-hidden className="pointer-events-none absolute hidden lg:block" style={{ left: "12.5%", right: "12.5%", top: 30, height: 1, background: "linear-gradient(90deg, transparent 0%, rgba(219,59,43,0.25) 12%, rgba(219,59,43,0.25) 88%, transparent 100%)" }} />
+            {[
+              { n: "01", title: "Integra en minutos", desc: "Plugin para tu plataforma o nuestra API y SDKs. Sin desarrollos largos." },
+              { n: "02", title: "Tu cliente paga", desc: "Checkout optimizado con todos los métodos en una sola pantalla." },
+              { n: "03", title: "Validamos y aprobamos", desc: "Antifraude y enrutamiento llevan cada pago a su mayor aprobación." },
+              { n: "04", title: "Recibes tu dinero", desc: "Liquidación T+1 a tu cuenta, con todo conciliado en tu panel." },
+            ].map((s, i) => (
+              <div key={s.n} data-stagger className="tienda-card relative rounded-[18px] border border-black/[0.06] bg-white p-7" style={{ ["--i" as string]: i }}>
+                <span className="font-sora text-[40px] font-light text-[#DB3B2B]" style={{ display: "block", marginTop: 28, marginBottom: 12, letterSpacing: "-0.04em", lineHeight: 1 }}>{s.n}</span>
+                <h3 className="font-sora text-[18px] font-normal text-black" style={{ marginBottom: 6 }}>{s.title}</h3>
+                <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── Cobra con todo a favor + métricas: degradado continuo #1A0A0A → #000 ── */}
       <div className="relative" style={{ background: "linear-gradient(180deg, #1A0A0A 0%, #000000 100%)" }}>
         {/* Cobra con todo a favor — carrusel dark estilo "Todo incluido desde el día uno" */}
@@ -697,16 +806,16 @@ export default function T1PagosEnLinea() {
           <div className="relative mx-auto max-w-[var(--max-w)]">
             <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
               <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-                Cobra con todo a favor
+                Todo para operar tus cobros
               </h2>
               <p className="font-inter text-[16px] font-light text-white/55 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-                Cada herramienta lista desde el primer pago.
+                Links de pago, panel en tiempo real e integraciones, listos desde el primer día.
               </p>
             </div>
             <div
               ref={incRef}
               onScroll={onIncScroll}
-              className="-mx-5 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pt-10 pb-2 tablet:mx-0 tablet:px-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+              className="-mx-5 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pt-10 pb-2 tablet:mx-0 tablet:justify-center tablet:px-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
               style={{ scrollPaddingLeft: 4, scrollPaddingRight: 4 }}
             >
               {[
