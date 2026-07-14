@@ -31,7 +31,7 @@ function CountUp({ end, prefix = "", suffix = "", decimals = 0 }: { end: number;
 }
 
 /* Hero — 2-3 cards glass (fondo blanco transparente) cuyos datos van cambiando */
-function ReportesGlassCards({ className = "" }: { className?: string }) {
+function ReportesGlassCards({ className = "", stagger = false }: { className?: string; stagger?: boolean }) {
   const SNAPS = [
     { envios: 1284, aTiempo: 96, costo: 112 },
     { envios: 1291, aTiempo: 95, costo: 109 },
@@ -50,12 +50,12 @@ function ReportesGlassCards({ className = "" }: { className?: string }) {
     { l: "Costo promedio por envío", v: `$${s.costo}`, d: "-3.1%", up: false },
   ];
   return (
-    <div className={`mx-auto flex w-full max-w-[380px] flex-col gap-4 ${className}`} style={{ fontFamily: MANROPE }}>
+    <div className={`mx-auto flex w-full max-w-[320px] flex-col gap-4 ${className}`} style={{ fontFamily: MANROPE }}>
       {cards.map((c, idx) => (
         <div
           key={c.l}
           className="rounded-[18px] border border-white/[0.16] px-6 py-5"
-          style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)", boxShadow: "0 16px 44px rgba(0,0,0,0.28)", animation: "rastreoReveal 0.5s cubic-bezier(0.16,1,0.3,1) both", animationDelay: `${idx * 0.1}s` }}
+          style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)", boxShadow: "0 16px 44px rgba(0,0,0,0.28)", transform: stagger && idx === 1 ? "translateX(-34px)" : undefined, animation: "rastreoReveal 0.5s cubic-bezier(0.16,1,0.3,1) both", animationDelay: `${idx * 0.1}s` }}
         >
           <div className="flex items-center justify-between" style={{ marginBottom: 10 }}>
             <p className="text-[13px] font-medium text-white/70">{c.l}</p>
@@ -516,8 +516,8 @@ export default function T1ReportesLogisticos() {
               <div aria-hidden className="pointer-events-none absolute -inset-6 rounded-[28px]" style={{ background: "radial-gradient(circle at 70% 20%, rgba(219,59,43,0.18) 0%, transparent 62%)", filter: "blur(32px)" }} />
               {/* Gráfico 3D detrás de las cards */}
               <Image src="/img/graficas-reportes.png" alt="" width={1254} height={1059} priority className="pointer-events-none absolute z-0 object-contain" style={{ right: "6%", top: "-22%", width: "78%", height: "auto", filter: "drop-shadow(0 24px 50px rgba(0,0,0,0.5))" }} />
-              <div className="relative z-10 tablet:-translate-x-12">
-                <ReportesGlassCards />
+              <div className="relative z-10 tablet:-translate-x-24">
+                <ReportesGlassCards stagger />
               </div>
             </div>
           </div>
