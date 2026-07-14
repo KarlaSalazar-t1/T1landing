@@ -20,6 +20,10 @@ function CountStat({ end, prefix = "", suffix = "", label, decimals = 0 }: { end
 }
 
 /* Reusable bento card shell */
+/* Fondo de card oscura estilo "Todo incluido desde el día uno" (tienda con IA) */
+const INCLUYE_CARD_BG =
+  "radial-gradient(86% 76% at 85% 38%, rgba(219,59,43,0.17) 0%, transparent 62%), radial-gradient(72% 66% at 10% 92%, rgba(116,88,214,0.16) 0%, transparent 62%), linear-gradient(158deg, #17151b 0%, #100e13 100%)";
+
 function BentoCard({ span, dark = false, style, children }: { span: string; dark?: boolean; style?: React.CSSProperties; children: React.ReactNode }) {
   return (
     <div
@@ -337,12 +341,19 @@ export default function T1RastreoGuias() {
             </div>
           </div>
 
-          {/* C/D/E — capacidades restantes */}
+          {/* C/D/E — capacidades restantes (estilo "Todo incluido desde el día uno") */}
+          <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 48 }}>
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+              Seguimiento que trabaja por ti
+            </h2>
+            <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
+              Cada guía vigilada en tiempo real, con avisos a tu cliente y detección automática de demoras.
+            </p>
+          </div>
           <div data-modal-animate className="grid grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
-            {/* C — Timeline (square) */}
-            <BentoCard span="">
-              <h3 className="font-sora text-[20px] font-normal text-black" style={{ marginBottom: 6 }}>Línea de tiempo en vivo</h3>
-              <p className="font-inter text-[13px] font-light text-black/55" style={{ marginBottom: 16 }}>Cada evento, con hora y ubicación.</p>
+            {/* C — Timeline */}
+            <BentoCard span="" dark style={{ background: INCLUYE_CARD_BG }}>
+              <div className="overflow-hidden rounded-[14px] bg-white p-4" style={{ marginBottom: 16 }}>
               <div
                 className="relative overflow-hidden"
                 style={{
@@ -383,20 +394,27 @@ export default function T1RastreoGuias() {
                   })()}
                 </div>
               </div>
+              </div>
+              <h3 className="font-sora text-[20px] font-normal text-white" style={{ marginBottom: 6 }}>Línea de tiempo en vivo</h3>
+              <p className="font-inter text-[13px] font-light text-white/55">Cada evento, con hora y ubicación.</p>
             </BentoCard>
 
-            {/* D — Avisos WhatsApp (square) */}
-            <BentoCard span="">
-              <h3 className="font-sora text-[20px] font-normal text-black" style={{ marginBottom: 6 }}>Tu cliente, siempre enterado</h3>
-              <p className="font-inter text-[13px] font-light text-black/55" style={{ marginBottom: 16 }}>Avisos por WhatsApp y email en cada cambio.</p>
-              <WhatsAppChat />
+            {/* D — Avisos WhatsApp */}
+            <BentoCard span="" dark style={{ background: INCLUYE_CARD_BG }}>
+              <div className="overflow-hidden rounded-[14px] bg-white p-3" style={{ marginBottom: 16 }}>
+                <WhatsAppChat />
+              </div>
+              <h3 className="font-sora text-[20px] font-normal text-white" style={{ marginBottom: 6 }}>Tu cliente, siempre enterado</h3>
+              <p className="font-inter text-[13px] font-light text-white/55">Avisos por WhatsApp y email en cada cambio.</p>
             </BentoCard>
 
-            {/* E — Detección de demoras (dark, square) */}
-            <BentoCard span="" dark style={{ background: "linear-gradient(135deg, #261515 0%, #1A0A0A 40%, #261515 100%)" }}>
+            {/* E — Detección de demoras */}
+            <BentoCard span="" dark style={{ background: INCLUYE_CARD_BG }}>
+              <div className="overflow-hidden rounded-[14px]" style={{ marginBottom: 16, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)", padding: 12 }}>
+                <DemorasFeed />
+              </div>
               <h3 className="font-sora text-[20px] font-normal text-white" style={{ marginBottom: 6 }}>Demoras detectadas solas</h3>
-              <p className="font-inter text-[13px] font-light text-white/55" style={{ marginBottom: 16 }}>Incidencia automática cuando un envío se atora.</p>
-              <DemorasFeed />
+              <p className="font-inter text-[13px] font-light text-white/55">Incidencia automática cuando un envío se atora.</p>
             </BentoCard>
           </div>
         </div>
