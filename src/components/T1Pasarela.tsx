@@ -335,6 +335,14 @@ export default function T1Pasarela() {
     const step = card ? card.offsetWidth + 20 : (el?.clientWidth ?? 0) * 0.8;
     el?.scrollBy({ left: dir * step, behavior: "smooth" });
   };
+  // Carrusel de "Más control después de cada pago" (solo responsive) — flechas prev/next
+  const masControlRef = useRef<HTMLDivElement>(null);
+  const scrollMasControl = (dir: number) => {
+    const el = masControlRef.current;
+    const card = el?.querySelector<HTMLElement>(".mascontrol-card");
+    const step = card ? card.offsetWidth + 16 : (el?.clientWidth ?? 0) * 0.85;
+    el?.scrollBy({ left: dir * step, behavior: "smooth" });
+  };
 
   // Drive the full-screen stack-card scale/dim effect (3 alternating blocks).
   useFSStackCards(stackRootRef);
@@ -485,7 +493,7 @@ export default function T1Pasarela() {
               </div>
               {/* Texto a la derecha */}
               <div className="order-1 tablet:order-2">
-                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
+                <h3 className="font-sora text-[28px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
                   Variedad de métodos de pago
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6 }}>
@@ -505,7 +513,7 @@ export default function T1Pasarela() {
             <div className="grid w-full grid-cols-1 gap-10 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.35fr)] tablet:items-center tablet:gap-14">
               {/* Left — title */}
               <div>
-                <h2 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.12, marginBottom: 16, maxWidth: 420 }}>
+                <h2 className="font-sora text-[28px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.12, marginBottom: 16, maxWidth: 420 }}>
                   Antifraude inteligente
                 </h2>
                 <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 400 }}>
@@ -637,7 +645,7 @@ export default function T1Pasarela() {
       {/* ── Section 5 — Administra y mejora tu operación (sección oscura, 3 cards) ── */}
       <section className="relative px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 104 }}>
+          <div data-modal-animate className="mx-auto mb-10 max-w-[680px] text-center tablet:mb-[104px]">
             <h2 className="font-sora text-[28px] font-light text-white tablet:whitespace-nowrap tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
               Más control después de cada pago.
             </h2>
@@ -646,7 +654,7 @@ export default function T1Pasarela() {
             </p>
           </div>
 
-          <div data-modal-animate className="mx-auto grid max-w-[1040px] grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
+          <div ref={masControlRef} data-modal-animate className="-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pt-14 pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden tablet:mx-auto tablet:grid tablet:max-w-[1040px] tablet:grid-cols-3 tablet:gap-5 tablet:overflow-visible tablet:px-0 tablet:pt-0">
             {[
               {
                 title: "Disputas y contracargos", desc: "Gestiona reclamaciones desde el panel, con evidencia automática para ganar más casos.",
@@ -664,7 +672,7 @@ export default function T1Pasarela() {
               <div
                 key={f.title}
                 data-stagger
-                className="relative flex flex-col rounded-[18px] border border-white/[0.08] bg-[#121214] px-6 pt-0 pb-6"
+                className="mascontrol-card relative flex w-[80vw] max-w-[320px] shrink-0 snap-center flex-col rounded-[18px] border border-white/[0.08] bg-[#121214] px-6 pt-0 pb-6 tablet:w-auto tablet:max-w-none"
                 style={{ ["--i" as string]: i }}
               >
                 {/* imagen centrada que sobresale por arriba y (leve) a los lados */}
@@ -675,6 +683,15 @@ export default function T1Pasarela() {
                 <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.6 }}>{f.desc}</p>
               </div>
             ))}
+          </div>
+          {/* Flechas del carrusel (solo responsive: en desktop es grid de 3) */}
+          <div className="mt-7 flex items-center justify-center gap-4 tablet:hidden">
+            <button type="button" onClick={() => scrollMasControl(-1)} aria-label="Anterior" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/70 transition-colors hover:border-white/30 hover:text-white">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </button>
+            <button type="button" onClick={() => scrollMasControl(1)} aria-label="Siguiente" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/70 transition-colors hover:border-white/30 hover:text-white">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </button>
           </div>
           <div data-modal-animate className="mt-12 flex justify-center">
             <a
