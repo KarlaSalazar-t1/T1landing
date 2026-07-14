@@ -70,13 +70,6 @@ function CalidadDashboard() {
   );
 }
 
-const STEPS = [
-  { n: "01", title: "Monitorea cada guía 24/7", desc: "T1 sincroniza el estatus de todas tus paqueterías y vigila el avance de cada envío en tiempo real." },
-  { n: "02", title: "Detecta demoras y anomalías", desc: "Compara contra el tiempo prometido y marca de inmediato lo que se sale de lo normal." },
-  { n: "03", title: "Abre y clasifica la incidencia", desc: "Genera el caso automáticamente, lo etiqueta por tipo y prioridad, sin que muevas un dedo." },
-  { n: "04", title: "Da seguimiento hasta resolver", desc: "Un equipo dedicado escala con la paquetería y mantiene a tu cliente informado." },
-];
-
 /* Detalle de envío + Historial de actividad (fade-in sencillo) */
 function EnvioDetalle({ className = "" }: { className?: string }) {
   const FIELDS = [
@@ -279,6 +272,16 @@ function DetallePhone({ className = "" }: { className?: string }) {
 
 export default function T1ControlCalidad() {
   const rootRef = useRef<HTMLDivElement>(null);
+  // "Cómo funciona": 0 = reportado por paquetería, 1 = reportado por usuario
+  const [funcTab, setFuncTab] = useState(0);
+  // Carrusel de capacidades (antes del FAQ) — flechas prev/next
+  const capRef = useRef<HTMLDivElement>(null);
+  const scrollCap = (dir: number) => {
+    const el = capRef.current;
+    const card = el?.querySelector<HTMLElement>(".cap-card");
+    const step = card ? card.offsetWidth + 20 : (el?.clientWidth ?? 0) * 0.8;
+    el?.scrollBy({ left: dir * step, behavior: "smooth" });
+  };
 
   useEffect(() => {
     const root = rootRef.current;
@@ -304,24 +307,103 @@ export default function T1ControlCalidad() {
             {/* Copy */}
             <div>
               <h1 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[56px]" style={{ lineHeight: 1.05, letterSpacing: "-1.5px", marginBottom: 22 }}>
-                Anticípate a las incidencias de<br />
+                Resuelve incidencias de envío desde{" "}
                 <span className="relative inline-block">
-                  tus envíos
+                  un solo lugar
                   <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.35)", borderRadius: 5, zIndex: -1 }} />
                 </span>.
               </h1>
-              <p className="font-inter text-[16px] font-light text-white/70 tablet:text-[19px]" style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 470 }}>
-                Controla tus envíos y anticipa cualquier incidencia.
+              <p className="font-inter text-[16px] font-light text-white/70 tablet:text-[19px]" style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 480 }}>
+                Atiende incidencias levantadas por paqueterías, reporta problemas de tus envíos y da seguimiento a cada caso.
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <a href={SIGNUP_URL} className="inline-flex items-center rounded-full bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
-                  Activar control de calidad
+                  Gestionar mis incidencias
                 </a>
               </div>
             </div>
 
             {/* Hero visual — monitor de calidad */}
             <CalidadDashboard />
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════ DOS FORMAS — 2 cards ════════════ */}
+      <section className="relative bg-[#FBFBFB] px-5 py-24 tablet:px-10 tablet:py-32">
+        <div className="mx-auto max-w-[var(--max-w)]">
+          <div data-modal-animate className="mx-auto max-w-[700px] text-center" style={{ marginBottom: 48 }}>
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[38px] lg:text-[46px]" style={{ letterSpacing: "-1.3px", lineHeight: 1.1, marginBottom: 14 }}>
+              Dos formas de gestionar problemas de envío
+            </h2>
+            <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
+              Ya sea que la paquetería reporte un problema o lo detectes tú, lo resuelves desde T1.
+            </p>
+          </div>
+          <div data-modal-animate className="grid grid-cols-1 gap-5 tablet:grid-cols-2 tablet:gap-6">
+            {[
+              { title: "Incidencias de paquetería", desc: "La paquetería reporta un problema con la entrega —dirección incompleta, rechazo del envío o imposibilidad de entrega—. Desde T1 revisas el caso y eliges la acción correspondiente.", label: "Acciones de ejemplo", items: ["Corregir dirección", "Retornar a origen", "Retornar a sucursal", "Confirmar información", "Dar seguimiento"] },
+              { title: "Incidencias reportadas por ti", desc: "Si detectas un problema con un paquete, levantas una incidencia desde T1, cargas la información solicitada y das seguimiento a la respuesta de la paquetería.", label: "Ejemplos", items: ["Paquete dañado", "Entrega demorada", "Paquete detenido", "Paquete perdido", "Entrega no reconocida"] },
+            ].map((c) => (
+              <div key={c.title} className="tienda-card flex flex-col rounded-[20px] border border-black/[0.07] bg-white p-7" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.05)" }}>
+                <h3 className="font-sora text-[22px] font-normal text-black tablet:text-[26px]" style={{ letterSpacing: "-0.5px", marginBottom: 10 }}>{c.title}</h3>
+                <p className="font-inter text-[15px] font-light text-black/60" style={{ lineHeight: 1.6, marginBottom: 22 }}>{c.desc}</p>
+                <p className="font-inter text-[11px] font-semibold uppercase tracking-wider text-black/40" style={{ marginBottom: 12 }}>{c.label}</p>
+                <div className="mt-auto flex flex-wrap gap-2">
+                  {c.items.map((it) => (
+                    <span key={it} className="rounded-full border border-black/[0.08] bg-[#FBFBFB] px-3 py-1.5 font-inter text-[13px] font-medium text-black/70">{it}</span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════ CÓMO FUNCIONA — tabs paquetería / usuario ════════════ */}
+      <section className="relative px-5 py-24 tablet:px-10 tablet:py-32" style={{ background: "linear-gradient(135deg, #261515 0%, #1A0A0A 40%, #261515 100%)" }}>
+        <div aria-hidden className="pointer-events-none absolute top-0 left-1/2 h-[360px] w-[680px] -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(ellipse at center, rgba(219,59,43,0.12) 0%, transparent 64%)", filter: "blur(44px)" }} />
+        <div className="relative mx-auto max-w-[760px]">
+          <div data-modal-animate className="text-center" style={{ marginBottom: 32 }}>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[40px] lg:text-[46px]" style={{ letterSpacing: "-1.3px", lineHeight: 1.1 }}>
+              Cómo funciona
+            </h2>
+          </div>
+          {/* Tabs */}
+          <div data-modal-animate className="mb-10 flex flex-wrap justify-center gap-2.5">
+            {["Reportado por paquetería", "Reportado por usuario"].map((t, i) => (
+              <button key={t} type="button" onClick={() => setFuncTab(i)} className="cursor-pointer rounded-full px-5 py-2.5 font-inter text-[13px] font-semibold transition-all duration-200" style={{ background: funcTab === i ? "#DB3B2B" : "rgba(255,255,255,0.06)", color: funcTab === i ? "#fff" : "rgba(255,255,255,0.6)", border: funcTab === i ? "1px solid #DB3B2B" : "1px solid rgba(255,255,255,0.12)" }}>{t}</button>
+            ))}
+          </div>
+          {/* Steps */}
+          <div className="relative">
+            <div aria-hidden className="absolute left-[19px] top-2 bottom-2 w-px" style={{ background: "linear-gradient(180deg, rgba(219,59,43,0.5) 0%, rgba(255,255,255,0.08) 100%)" }} />
+            <div key={funcTab} className="flex flex-col gap-8" style={{ animation: "modalContentFade 0.4s ease-out" }}>
+              {(funcTab === 0
+                ? [
+                    { title: "La incidencia aparece en T1", desc: "La paquetería notifica un problema relacionado con la guía." },
+                    { title: "Revisas el motivo", desc: "Consulta el detalle del caso, la guía, el pedido y la acción requerida." },
+                    { title: "Eliges qué hacer", desc: "Corrige dirección, solicita retorno, confirma datos o selecciona la acción disponible." },
+                    { title: "Das seguimiento", desc: "Revisa actualizaciones hasta que la incidencia cambie de estado o se resuelva." },
+                  ]
+                : [
+                    { title: "Seleccionas la guía", desc: "Elige el envío con problema desde tu panel." },
+                    { title: "Indicas el tipo de incidencia", desc: "Daño, demora, paquete detenido, pérdida u otro motivo disponible." },
+                    { title: "Cargas evidencia e información", desc: "Agrega documentos, fotos o datos requeridos por la paquetería." },
+                    { title: "La paquetería responde", desc: "Consulta el avance del caso y los tiempos de respuesta desde T1." },
+                  ]
+              ).map((s, i) => (
+                <div key={i} className="relative flex gap-5">
+                  <div className="relative z-10 flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full border border-white/15 bg-[#161616]">
+                    <span className="font-sora text-[14px] font-light text-[#FF6F5E]">{i + 1}</span>
+                  </div>
+                  <div className="flex-1 rounded-[16px] border border-white/[0.08] bg-white/[0.03] px-6 py-5 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/[0.05]">
+                    <h3 className="font-sora text-[18px] font-normal text-white tablet:text-[20px]" style={{ marginBottom: 6 }}>{s.title}</h3>
+                    <p className="font-inter text-[14px] font-light text-white/60" style={{ lineHeight: 1.6 }}>{s.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -419,37 +501,6 @@ export default function T1ControlCalidad() {
         </div>
       </section>
 
-      {/* ════════════ VERTICAL STEPPER ════════════ */}
-      <section className="relative px-5 py-24 tablet:px-10 tablet:py-32" style={{ background: "linear-gradient(135deg, #261515 0%, #1A0A0A 40%, #261515 100%)" }}>
-        <div aria-hidden className="pointer-events-none absolute top-0 left-1/2 h-[360px] w-[680px] -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(ellipse at center, rgba(219,59,43,0.12) 0%, transparent 64%)", filter: "blur(44px)" }} />
-        <div className="relative mx-auto max-w-[760px]">
-          <div data-modal-animate className="text-center" style={{ marginBottom: 56 }}>
-            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[40px] lg:text-[46px]" style={{ letterSpacing: "-1.3px", lineHeight: 1.1, marginBottom: 14 }}>
-              ¿Cómo cuidamos cada envío?
-            </h2>
-            <p className="font-inter text-[16px] font-light text-white/55 tablet:text-[18px]" style={{ lineHeight: 1.5 }}>
-              Un proceso que corre solo, de la recolección a la entrega.
-            </p>
-          </div>
-          <div className="relative">
-            <div aria-hidden className="absolute left-[19px] top-2 bottom-2 w-px" style={{ background: "linear-gradient(180deg, rgba(219,59,43,0.5) 0%, rgba(255,255,255,0.08) 100%)" }} />
-            <div className="flex flex-col gap-8">
-              {STEPS.map((s, i) => (
-                <div key={s.n} data-modal-animate data-stagger className="relative flex gap-5" style={{ ["--i" as string]: i }}>
-                  <div className="relative z-10 flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full border border-white/15 bg-[#161616]">
-                    <span className="font-sora text-[14px] font-light text-[#FF6F5E]">{s.n}</span>
-                  </div>
-                  <div className="flex-1 rounded-[16px] border border-white/[0.08] bg-white/[0.03] px-6 py-5 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/[0.05]">
-                    <h3 className="font-sora text-[18px] font-normal text-white tablet:text-[20px]" style={{ marginBottom: 6 }}>{s.title}</h3>
-                    <p className="font-inter text-[14px] font-light text-white/60" style={{ lineHeight: 1.6 }}>{s.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ════════════ SPLIT FEATURE — incidencias automáticas ════════════ */}
       <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32" data-modal-animate>
         <div className="mx-auto flex max-w-[var(--max-w)] items-center">
@@ -480,6 +531,47 @@ export default function T1ControlCalidad() {
         </div>
       </section>
 
+      {/* ════════════ CAPACIDADES — carrusel dark tipo "Todo incluido" ════════════ */}
+      <section className="relative overflow-hidden px-5 py-24 tablet:px-10 tablet:py-32" style={{ background: "linear-gradient(180deg, #1A0A0A 0%, #000000 100%)" }}>
+        <div aria-hidden className="pointer-events-none absolute top-0 left-1/2 h-[340px] w-[640px] -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(ellipse at center, rgba(219,59,43,0.12) 0%, transparent 66%)", filter: "blur(46px)" }} />
+        <div className="relative mx-auto max-w-[var(--max-w)]">
+          <div className="flex items-end justify-between gap-6" style={{ marginBottom: 40 }}>
+            <div>
+              <h2 className="font-sora text-[28px] font-light text-white tablet:text-[40px] lg:text-[46px]" style={{ letterSpacing: "-1.3px", lineHeight: 1.1, marginBottom: 14 }}>
+                Todo lo que necesitas para cada caso.
+              </h2>
+              <p className="max-w-[520px] font-inter text-[16px] font-light text-white/55 tablet:text-[18px]" style={{ lineHeight: 1.5 }}>
+                Cada incidencia con las herramientas para entenderla, resolverla y darle seguimiento.
+              </p>
+            </div>
+            <div className="hidden shrink-0 gap-2 tablet:flex">
+              <button type="button" aria-label="Anterior" onClick={() => scrollCap(-1)} className="flex h-[44px] w-[44px] items-center justify-center rounded-full border border-white/15 bg-white/[0.04] text-white transition-all duration-200 hover:bg-white/[0.1]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              </button>
+              <button type="button" aria-label="Siguiente" onClick={() => scrollCap(1)} className="flex h-[44px] w-[44px] items-center justify-center rounded-full border border-white/15 bg-white/[0.04] text-white transition-all duration-200 hover:bg-white/[0.1]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              </button>
+            </div>
+          </div>
+          <div ref={capRef} className="-mx-5 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-2 tablet:mx-0 tablet:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {[
+              { t: "Acciones disponibles por caso", d: "Corrige la dirección, solicita el retorno o elige la acción correcta según el tipo de incidencia." },
+              { t: "Evidencia y documentos", d: "Adjunta fotos, comprobantes o la información que la paquetería necesita para resolver el caso." },
+              { t: "Seguimiento por estado", d: "Sabe en todo momento si el caso está pendiente, en revisión, respondido o resuelto." },
+              { t: "Tiempos de respuesta", d: "Consulta el tiempo estimado y el disponible para recibir respuesta de la paquetería." },
+              { t: "Historial de actividad", d: "Consulta cada acción, cambio de estado y respuesta del caso desde un mismo lugar." },
+            ].map((c, i) => (
+              <div key={c.t} data-modal-animate data-stagger className="cap-card flex w-[80vw] max-w-[300px] shrink-0 snap-start flex-col rounded-[18px] border border-white/[0.08] bg-white/[0.03] p-6 tablet:w-[300px] tablet:max-w-none" style={{ ["--i" as string]: i }}>
+                <div className="flex h-[42px] w-[42px] items-center justify-center rounded-[12px] border border-white/10 bg-[#DB3B2B]/[0.14]" style={{ marginBottom: 18 }}>
+                  <span className="font-sora text-[15px] font-light text-[#FF6F5E]">{i + 1}</span>
+                </div>
+                <h3 className="font-sora text-[18px] font-normal text-white tablet:text-[19px]" style={{ marginBottom: 8, letterSpacing: "-0.3px" }}>{c.t}</h3>
+                <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.6 }}>{c.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* ════════════ FAQ — estilo t1.com/mx/tienda ════════════ */}
       <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
