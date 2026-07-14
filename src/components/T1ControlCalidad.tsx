@@ -357,7 +357,7 @@ export default function T1ControlCalidad() {
                 width={1091}
                 height={771}
                 priority
-                className="pointer-events-none absolute left-1/2 top-1/2 w-[118%] max-w-none -translate-x-1/2 -translate-y-1/2 object-contain"
+                className="pointer-events-none absolute left-1/2 top-1/2 hidden w-[118%] max-w-none -translate-x-1/2 -translate-y-1/2 object-contain tablet:block"
                 style={{ filter: "drop-shadow(0 30px 60px rgba(0,0,0,0.4))" }}
               />
               <div className="relative z-10 w-full">

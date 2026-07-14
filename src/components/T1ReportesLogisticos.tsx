@@ -68,21 +68,29 @@ function ReportesGlassCards({ className = "" }: { className?: string }) {
   );
 }
 
-/* Panel "Costo y peso promedio" — 3 métricas con su variación */
+/* Panel "Costo y peso promedio" — 3 métricas cuya data va cambiando */
 function CostoPesoCard() {
-  const items = [
-    { l: "Costo promedio", v: "$96.00", d: "+10%", up: true },
-    { l: "Peso promedio", v: "1.34 kg", d: "+.5%", up: true },
-    { l: "Envíos con sobrepeso", v: "7", d: "+2%", up: false },
+  const SNAPS = [
+    [{ v: "$96.00", d: "+10%", up: true }, { v: "1.34 kg", d: "+.5%", up: true }, { v: "7", d: "+2%", up: false }],
+    [{ v: "$92.40", d: "+6%", up: true }, { v: "1.28 kg", d: "-.3%", up: false }, { v: "5", d: "-1%", up: true }],
+    [{ v: "$99.10", d: "+12%", up: true }, { v: "1.41 kg", d: "+.8%", up: true }, { v: "9", d: "+4%", up: false }],
   ];
+  const LABELS = ["Costo promedio", "Peso promedio", "Envíos con sobrepeso"];
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setI((x) => (x + 1) % SNAPS.length), 2800);
+    return () => clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const items = SNAPS[i];
   return (
     <div className="rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)", fontFamily: MANROPE }}>
       <p className="text-[15px] font-bold text-black" style={{ marginBottom: 16 }}>Costo y peso promedio</p>
       <div className="grid grid-cols-3 overflow-hidden rounded-[14px] border border-black/[0.06]">
-        {items.map((it, i) => (
-          <div key={it.l} className="px-4 py-4" style={{ borderLeft: i > 0 ? "1px solid rgba(0,0,0,0.06)" : "none" }}>
-            <p className="text-[12px] text-black/55" style={{ marginBottom: 14, lineHeight: 1.3 }}>{it.l}</p>
-            <div className="flex flex-wrap items-center gap-1.5">
+        {items.map((it, idx) => (
+          <div key={LABELS[idx]} className="px-4 py-4" style={{ borderLeft: idx > 0 ? "1px solid rgba(0,0,0,0.06)" : "none" }}>
+            <p className="text-[12px] text-black/55" style={{ marginBottom: 14, lineHeight: 1.3 }}>{LABELS[idx]}</p>
+            <div key={`${i}-${idx}`} className="flex flex-wrap items-center gap-1.5" style={{ animation: "countBump 0.45s ease-out" }}>
               <span className="font-sora text-[22px] font-light text-black" style={{ letterSpacing: "-0.5px" }}>{it.v}</span>
               <span className="rounded-full px-1.5 py-0.5 text-[10px] font-semibold" style={{ background: it.up ? "rgba(34,197,94,0.14)" : "rgba(219,59,43,0.12)", color: it.up ? "#16A34A" : "#DB3B2B" }}>{it.d}</span>
             </div>
@@ -93,23 +101,30 @@ function CostoPesoCard() {
   );
 }
 
-/* Panel "Envíos por día de entrega" — donut + leyenda */
+/* Panel "Envíos por día de entrega" — donut + leyenda, data que va cambiando */
 function DiaEntregaDonut() {
-  const DATA = [
-    { name: "1 día", count: 11, pct: 6, color: "#7CE0B4" },
-    { name: "2 días", count: 48, pct: 48, color: "#EA6A2B" },
-    { name: "3 días", count: 79, pct: 79, color: "#DDB85F" },
-    { name: "4 días", count: 37, pct: 37, color: "#5A81E6" },
-    { name: "5 días", count: 1, pct: 1, color: "#3BA152" },
+  const COLORS = ["#7CE0B4", "#EA6A2B", "#DDB85F", "#5A81E6", "#3BA152"];
+  const NAMES = ["1 día", "2 días", "3 días", "4 días", "5 días"];
+  const SNAPS = [
+    { counts: [11, 48, 79, 37, 1], prom: "2.5" },
+    { counts: [16, 52, 68, 30, 2], prom: "2.3" },
+    { counts: [8, 41, 86, 44, 3], prom: "2.7" },
   ];
-  const total = DATA.reduce((s, d) => s + d.count, 0);
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setI((x) => (x + 1) % SNAPS.length), 2800);
+    return () => clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const snap = SNAPS[i];
+  const total = snap.counts.reduce((s, c) => s + c, 0);
   const r = 52;
   const C = 2 * Math.PI * r;
   let acc = 0;
-  const slices = DATA.map((d) => {
-    const dash = (d.count / total) * C;
-    const seg = { color: d.color, dash, offset: -((acc / total) * C) };
-    acc += d.count;
+  const slices = snap.counts.map((count) => {
+    const dash = (count / total) * C;
+    const seg = { dash, offset: -((acc / total) * C) };
+    acc += count;
     return seg;
   });
   return (
@@ -117,26 +132,26 @@ function DiaEntregaDonut() {
       <p className="text-[15px] font-bold text-black" style={{ marginBottom: 16 }}>Envíos por día de entrega</p>
       <div className="flex items-center gap-5">
         <div className="relative shrink-0">
-          <svg className="donut-in" width="140" height="140" viewBox="0 0 140 140">
+          <svg key={i} className="donut-in" width="140" height="140" viewBox="0 0 140 140">
             <circle cx="70" cy="70" r={r} fill="none" stroke="rgba(0,0,0,0.06)" strokeWidth="16" />
             <g transform="rotate(-90 70 70)">
-              {slices.map((s, i) => (
-                <circle key={i} cx="70" cy="70" r={r} fill="none" stroke={s.color} strokeWidth="16" strokeLinecap="butt" strokeDasharray={`${s.dash} ${C - s.dash}`} strokeDashoffset={s.offset} />
+              {slices.map((s, idx) => (
+                <circle key={idx} cx="70" cy="70" r={r} fill="none" stroke={COLORS[idx]} strokeWidth="16" strokeLinecap="butt" strokeDasharray={`${s.dash} ${C - s.dash}`} strokeDashoffset={s.offset} />
               ))}
             </g>
           </svg>
           <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
-            <span className="font-sora text-[26px] font-light text-black" style={{ lineHeight: 1 }}>{total}</span>
-            <span className="text-[10px] text-black/45" style={{ marginTop: 3 }}>promedio 2.5 días</span>
+            <span key={i} className="font-sora text-[26px] font-light text-black" style={{ lineHeight: 1, animation: "countBump 0.45s ease-out" }}>{total}</span>
+            <span className="text-[10px] text-black/45" style={{ marginTop: 3 }}>promedio {snap.prom} días</span>
           </div>
         </div>
         <div className="flex flex-1 flex-col gap-2.5">
-          {DATA.map((d) => (
-            <div key={d.name} className="flex items-center gap-2.5">
-              <span className="h-[10px] w-[10px] shrink-0 rounded-full" style={{ background: d.color }} />
-              <span className="flex-1 text-[12px] text-black/70">{d.name}</span>
-              <span className="w-[28px] text-right text-[12px] font-semibold text-black/80">{d.count}</span>
-              <span className="w-[40px] text-right text-[12px] text-black/45">{d.pct}%</span>
+          {snap.counts.map((count, idx) => (
+            <div key={NAMES[idx]} className="flex items-center gap-2.5">
+              <span className="h-[10px] w-[10px] shrink-0 rounded-full" style={{ background: COLORS[idx] }} />
+              <span className="flex-1 text-[12px] text-black/70">{NAMES[idx]}</span>
+              <span key={`${i}-${idx}`} className="w-[28px] text-right text-[12px] font-semibold text-black/80" style={{ animation: "countBump 0.45s ease-out" }}>{count}</span>
+              <span className="w-[40px] text-right text-[12px] text-black/45">{Math.round((count / total) * 100)}%</span>
             </div>
           ))}
         </div>
@@ -500,8 +515,8 @@ export default function T1ReportesLogisticos() {
             <div className="relative hidden tablet:block">
               <div aria-hidden className="pointer-events-none absolute -inset-6 rounded-[28px]" style={{ background: "radial-gradient(circle at 70% 20%, rgba(219,59,43,0.18) 0%, transparent 62%)", filter: "blur(32px)" }} />
               {/* Gráfico 3D detrás de las cards */}
-              <Image src="/img/graficas-reportes.png" alt="" width={1254} height={1059} priority className="pointer-events-none absolute z-0 object-contain" style={{ right: "-12%", top: "-22%", width: "78%", height: "auto", filter: "drop-shadow(0 24px 50px rgba(0,0,0,0.5))" }} />
-              <div className="relative z-10">
+              <Image src="/img/graficas-reportes.png" alt="" width={1254} height={1059} priority className="pointer-events-none absolute z-0 object-contain" style={{ right: "6%", top: "-22%", width: "78%", height: "auto", filter: "drop-shadow(0 24px 50px rgba(0,0,0,0.5))" }} />
+              <div className="relative z-10 tablet:-translate-x-12">
                 <ReportesGlassCards />
               </div>
             </div>
@@ -511,11 +526,11 @@ export default function T1ReportesLogisticos() {
 
       {/* ════════════ STATEMENT — por qué medir ════════════ */}
       <section className="relative bg-white px-5 pt-24 pb-12 tablet:px-10 tablet:pt-32 tablet:pb-16" data-modal-animate>
-        <div className="mx-auto max-w-[820px] text-center">
-          <h2 className="font-sora text-[26px] font-light text-black tablet:text-[36px] lg:text-[42px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.2, marginBottom: 16 }}>
+        <div className="mx-auto max-w-[1000px] text-center">
+          <h2 className="font-sora text-[26px] font-light text-black tablet:text-[36px] lg:whitespace-nowrap lg:text-[42px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.2, marginBottom: 16 }}>
             No todos los envíos cuestan ni funcionan igual.
           </h2>
-          <p className="mx-auto max-w-[620px] font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
+          <p className="mx-auto font-inter text-[16px] font-light text-black/60 tablet:text-[18px] lg:whitespace-nowrap" style={{ lineHeight: 1.55 }}>
             Con reportes logísticos puedes comparar y ajustar tu operación con datos.
           </p>
         </div>
@@ -534,13 +549,13 @@ export default function T1ReportesLogisticos() {
           </div>
 
           {/* Tabs */}
-          <div data-modal-animate className="mb-6 flex flex-wrap justify-center gap-2">
+          <div data-modal-animate className="-mx-5 mb-6 flex gap-2 overflow-x-auto px-5 pb-1 tablet:mx-0 tablet:flex-wrap tablet:justify-center tablet:px-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             {REPORTS.map((r, i) => (
               <button
                 key={r.key}
                 type="button"
                 onClick={() => setTab(i)}
-                className={`rounded-full px-5 py-2.5 font-inter text-[13px] font-semibold transition-all duration-150 ${tab === i ? "bg-[#111111] text-white" : "bg-black/[0.04] text-black/60 hover:bg-black/[0.08]"}`}
+                className={`shrink-0 whitespace-nowrap rounded-full px-5 py-2.5 font-inter text-[13px] font-semibold transition-all duration-150 ${tab === i ? "bg-[#111111] text-white" : "bg-black/[0.04] text-black/60 hover:bg-black/[0.08]"}`}
               >
                 {r.tab}
               </button>
