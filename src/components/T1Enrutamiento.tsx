@@ -450,7 +450,7 @@ export default function T1Enrutamiento() {
       <section className="relative bg-[#FBFBFB] px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[760px]">
           <div data-modal-animate className="text-center" style={{ marginBottom: 40 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>Preguntas frecuentes</h2>
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>Preguntas frecuentes</h2>
           </div>
           <div data-modal-animate className="flex flex-col gap-3">
             {[

@@ -194,10 +194,10 @@ function PhoneShell({ children }: { children: React.ReactNode }) {
     <div className="mx-auto w-full" style={{ maxWidth: 340, fontFamily: MANROPE }}>
       <div
         className="relative overflow-hidden bg-white"
-        style={{ borderRadius: 44, border: "1px solid rgba(0,0,0,0.08)", boxShadow: "0 30px 80px rgba(0,0,0,0.45)" }}
+        style={{ borderRadius: 12, border: "1px solid rgba(0,0,0,0.08)", boxShadow: "0 10px 30px rgba(0,0,0,0.10)" }}
       >
         {/* Contenido */}
-        <div className="px-5 pt-7 pb-7">{children}</div>
+        <div className="px-5 pt-6 pb-6">{children}</div>
       </div>
     </div>
   );
@@ -219,9 +219,9 @@ function CotizadorPhone() {
   return (
     <PhoneShell>
       {/* Filtros */}
-      <div className="flex flex-wrap gap-2" style={{ marginBottom: 4 }}>
+      <div className="flex flex-wrap gap-1.5" style={{ marginBottom: 2 }}>
             {FILTERS.map((f) => (
-              <span key={f} className="flex items-center gap-1.5 rounded-full border px-3.5 py-2 text-[12px] font-medium text-black/75" style={{ borderColor: "rgba(0,0,0,0.14)" }}>
+              <span key={f} className="flex items-center gap-1 rounded-full border px-2.5 py-1.5 text-[10.5px] font-medium text-black/75" style={{ borderColor: "rgba(0,0,0,0.14)" }}>
                 {f}
                 <Chevron />
               </span>
@@ -230,37 +230,37 @@ function CotizadorPhone() {
 
           {/* Resultados */}
           {OPTIONS.map((o, i) => (
-            <div key={i} className="relative overflow-hidden" style={{ borderTop: "1px solid rgba(0,0,0,0.08)", paddingTop: 18, paddingBottom: 18 }}>
+            <div key={i} className="relative overflow-hidden" style={{ borderTop: "1px solid rgba(0,0,0,0.08)", paddingTop: 12, paddingBottom: 12 }}>
               {/* Shimmer sweep del resultado destacado (mismo efecto que desktop) */}
               {o.highlight && (
                 <span aria-hidden className="cotiza-sweep pointer-events-none absolute inset-y-0 left-0 z-20 w-1/2" style={{ background: "linear-gradient(100deg, transparent 0%, rgba(219,59,43,0.14) 50%, transparent 100%)" }} />
               )}
               {/* Cabecera: logo + nombre + servicio */}
-              <div className="flex items-center gap-3">
-                <img src={`/img/carriers/${o.brand}.svg`} alt={o.name} width={52} height={52} className="h-[52px] w-[52px] shrink-0" />
+              <div className="flex items-center gap-2.5">
+                <img src={`/img/carriers/${o.brand}.svg`} alt={o.name} width={38} height={38} className="h-[38px] w-[38px] shrink-0" />
                 <div className="min-w-0">
-                  <p className="text-[17px] font-bold text-black leading-tight">{o.name}</p>
-                  <p className="text-[14px] text-black/55" style={{ marginTop: 2 }}>{o.sub}</p>
+                  <p className="text-[14px] font-bold text-black leading-tight">{o.name}</p>
+                  <p className="text-[12px] text-black/55" style={{ marginTop: 1 }}>{o.sub}</p>
                 </div>
               </div>
 
               {/* Entrega estimada / Precio */}
-              <div className="flex justify-between" style={{ marginTop: 16 }}>
+              <div className="flex justify-between" style={{ marginTop: 12 }}>
                 <div>
-                  <span className="block text-[13px] text-black/45">Entrega estimada:</span>
-                  <span className="block text-[18px] font-bold text-black" style={{ marginTop: 2 }}>{o.eta}</span>
-                  <span className="block text-[12px] text-black/40" style={{ marginTop: 1 }}>{o.etaSub}</span>
+                  <span className="block text-[11px] text-black/45">Entrega estimada:</span>
+                  <span className="block text-[15px] font-bold text-black" style={{ marginTop: 1 }}>{o.eta}</span>
+                  <span className="block text-[10.5px] text-black/40" style={{ marginTop: 1 }}>{o.etaSub}</span>
                 </div>
                 <div className="text-right">
-                  <span className="block text-[13px] text-black/45">Precio:</span>
-                  <span className={`block text-[18px] font-bold text-black ${o.highlight ? "price-pop" : ""}`} style={{ marginTop: 2 }}>
-                    {o.price}<span className="ml-1 text-[11px] font-medium text-black/45">MXN</span>
+                  <span className="block text-[11px] text-black/45">Precio:</span>
+                  <span className={`block text-[15px] font-bold text-black ${o.highlight ? "price-pop" : ""}`} style={{ marginTop: 1 }}>
+                    {o.price}<span className="ml-1 text-[10px] font-medium text-black/45">MXN</span>
                   </span>
                 </div>
               </div>
 
               {/* Botón */}
-              <button className="mt-4 w-full rounded-[12px] py-3.5 text-[15px] font-semibold text-white" style={{ background: BR }}>
+              <button className="mt-3 w-full rounded-[10px] py-2.5 text-[13px] font-semibold text-white" style={{ background: BR }}>
                 Crear envío
               </button>
             </div>
@@ -330,7 +330,7 @@ function CronogramaPanel({ className = "", variant = "card" }: { className?: str
   }
 
   return (
-    <div className={`relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white ${className}`} style={{ padding: 20, height: 300, display: "flex", flexDirection: "column", fontFamily: "var(--font-manrope-var), 'Manrope', sans-serif" }}>
+    <div className={`relative overflow-hidden rounded-[12px] border border-black/[0.06] bg-white ${className}`} style={{ padding: 20, height: 300, display: "flex", flexDirection: "column", fontFamily: "var(--font-manrope-var), 'Manrope', sans-serif" }}>
       {header}
       <div className="relative flex-1 overflow-hidden" style={{ maskImage: mask, WebkitMaskImage: mask }}>
         {track}
@@ -616,8 +616,18 @@ export default function T1Multipaqueteria() {
                 <p className="font-inter text-[15px] font-light text-black/60" style={{ lineHeight: 1.6, marginBottom: 24 }}>Estatus unificado de todas las paqueterías, con notificaciones por WhatsApp y detección de demoras antes que tu cliente.</p>
                 <div className="mt-auto">
                   <CronogramaPanel variant="phone" className="tablet:hidden" />
-                  <div className="hidden tablet:block">
+                  {/* desktop: animación + imagen de productos enfrente (abajo-derecha) */}
+                  <div className="relative hidden tablet:block">
                     <CronogramaPanel />
+                    <Image
+                      src="/img/rastreo-v2.png"
+                      alt="Paquete con productos listos para enviar"
+                      width={833}
+                      height={918}
+                      className="pointer-events-none absolute z-[2] h-auto"
+                      style={{ right: -12, bottom: -14, width: 216, filter: "drop-shadow(0 22px 40px rgba(0,0,0,0.28))" }}
+                      sizes="216px"
+                    />
                   </div>
                 </div>
               </div>
@@ -648,7 +658,7 @@ export default function T1Multipaqueteria() {
       <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[760px]">
           <div data-modal-animate className="text-center" style={{ marginBottom: 40 }}>
-            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[36px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>Preguntas frecuentes</h2>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>Preguntas frecuentes</h2>
           </div>
           <div data-modal-animate className="flex flex-col gap-3">
             {[
