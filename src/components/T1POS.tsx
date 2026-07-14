@@ -199,7 +199,7 @@ export default function T1POS() {
         <div className="relative mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 44 }}>
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-              Marca y cobra en segundos.
+              Cobra en segundos.
             </h2>
             <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
               Agrega productos, cobra con cualquier forma de pago y comparte el ticket al terminar. Así de rápido cobran tus vendedores.

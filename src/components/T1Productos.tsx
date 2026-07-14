@@ -317,6 +317,15 @@ export default function T1Productos() {
     return () => window.removeEventListener("resize", update);
   }, []);
 
+  // Carrusel "Crea productos como prefieras" — flechas prev/next
+  const creaRef = useRef<HTMLDivElement>(null);
+  const scrollCrea = useCallback((dir: number) => {
+    const el = creaRef.current;
+    const card = el?.querySelector<HTMLElement>(".crea-card");
+    const step = card ? card.offsetWidth + 20 : (el?.clientWidth ?? 0) * 0.8;
+    el?.scrollBy({ left: dir * step, behavior: "smooth" });
+  }, []);
+
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
@@ -437,24 +446,35 @@ export default function T1Productos() {
               </a>
             </div>
 
-            {/* Right — horizontal cards: texto arriba, imagen abajo (sin fondo gris, más grande) */}
-            <div data-modal-animate className="-mr-5 flex gap-5 overflow-x-auto pb-2 pr-5 tablet:mr-0 tablet:pr-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-              {[
-                { title: "Con IA", desc: "Sube una foto y la IA genera título, descripción, categoría y atributos al instante.", img: "/img/crea-con-ia.png", w: 1248, h: 1024 },
-                { title: "De forma manual", desc: "Crea producto a producto con un editor visual, con todo el control del detalle.", img: "/img/crea-manual.png", w: 1269, h: 1240 },
-                { title: "De forma masiva", desc: "Importa cientos de productos desde Excel o CSV en un solo paso.", img: "/img/crea-masiva.png", w: 1190, h: 1322 },
-              ].map((s) => (
-                <div
-                  key={s.title}
-                  className="flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-black/[0.07] bg-white p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
-                >
-                  <h3 className="font-sora text-[19px] font-normal text-black" style={{ marginBottom: 8 }}>{s.title}</h3>
-                  <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.55, marginBottom: 20, minHeight: 63 }}>{s.desc}</p>
-                  <div className="mt-auto overflow-hidden rounded-[14px]">
-                    <Image src={s.img} alt={s.title} width={s.w} height={s.h} className="block h-[240px] w-full object-cover object-top" sizes="270px" />
+            {/* Right — carrusel horizontal con flechas: texto arriba, imagen abajo */}
+            <div data-modal-animate className="flex flex-col gap-5">
+              <div ref={creaRef} className="-mr-5 flex gap-5 overflow-x-auto pb-2 pr-5 tablet:mr-0 tablet:pr-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                {[
+                  { title: "Con IA", desc: "Sube una foto y la IA genera título, descripción, categoría y atributos al instante.", img: "/img/crea-con-ia.png", w: 1248, h: 1024 },
+                  { title: "De forma manual", desc: "Crea producto a producto con un editor visual, con todo el control del detalle.", img: "/img/crea-manual.png", w: 1269, h: 1240 },
+                  { title: "De forma masiva", desc: "Importa cientos de productos desde Excel o CSV en un solo paso.", img: "/img/crea-masiva.png", w: 1190, h: 1322 },
+                ].map((s) => (
+                  <div
+                    key={s.title}
+                    className="crea-card flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-black/[0.07] bg-white p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
+                  >
+                    <h3 className="font-sora text-[19px] font-normal text-black" style={{ marginBottom: 8 }}>{s.title}</h3>
+                    <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.55, marginBottom: 20, minHeight: 63 }}>{s.desc}</p>
+                    <div className="mt-auto overflow-hidden rounded-[14px]">
+                      <Image src={s.img} alt={s.title} width={s.w} height={s.h} className="block h-[240px] w-full object-cover object-top" sizes="270px" />
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+              {/* Flechas de navegación */}
+              <div className="flex items-center gap-3">
+                <button type="button" onClick={() => scrollCrea(-1)} aria-label="Anterior" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-black/15 bg-white text-black/55 transition-colors hover:border-black/30 hover:text-black">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                </button>
+                <button type="button" onClick={() => scrollCrea(1)} aria-label="Siguiente" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-black/15 bg-white text-black/55 transition-colors hover:border-black/30 hover:text-black">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>

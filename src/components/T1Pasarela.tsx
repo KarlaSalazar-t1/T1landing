@@ -327,6 +327,14 @@ function AntifraudPanel() {
 export default function T1Pasarela() {
   const rootRef = useRef<HTMLDivElement>(null);
   const stackRootRef = useRef<HTMLDivElement>(null);
+  // Carrusel de "Antifraude inteligente" — flechas prev/next
+  const antifraudeRef = useRef<HTMLDivElement>(null);
+  const scrollAntifraude = (dir: number) => {
+    const el = antifraudeRef.current;
+    const card = el?.querySelector<HTMLElement>(".antifraude-card");
+    const step = card ? card.offsetWidth + 20 : (el?.clientWidth ?? 0) * 0.8;
+    el?.scrollBy({ left: dir * step, behavior: "smooth" });
+  };
 
   // Drive the full-screen stack-card scale/dim effect (3 alternating blocks).
   useFSStackCards(stackRootRef);
@@ -471,23 +479,19 @@ export default function T1Pasarela() {
         >
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
-              <div>
+              {/* Panel a la izquierda */}
+              <div className="order-2 tablet:order-1">
+                <PaymentMethodsPanel />
+              </div>
+              {/* Texto a la derecha */}
+              <div className="order-1 tablet:order-2">
                 <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
                   Variedad de métodos de pago
                 </h3>
-                <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
+                <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6 }}>
                   Permite que tus clientes paguen como prefieran: tarjeta, SPEI, OXXO, Kueski o PayPal. Ofrece pagos de hasta 18 meses.
                 </p>
-                <ul className="flex flex-col gap-2.5">
-                  {["Visa, Mastercard, AMEX y débito", "SPEI, transferencias y OXXO", "Meses sin intereses hasta 18 MSI"].map((it) => (
-                    <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                      {it}
-                    </li>
-                  ))}
-                </ul>
               </div>
-              <PaymentMethodsPanel />
             </div>
           </div>
         </div>
@@ -515,24 +519,35 @@ export default function T1Pasarela() {
                 </a>
               </div>
 
-              {/* Right — horizontal cards: icono arriba, texto abajo */}
-              <div className="-mr-5 flex gap-5 overflow-x-auto pb-2 pr-5 tablet:mr-0 tablet:pr-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-                {[
-                  { title: "+200 señales por pago", desc: "Analizamos cientos de datos en cada transacción para detectar fraude real.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#111827" strokeWidth="1.6" /><path d="M20 20l-4-4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
-                  { title: "Decisión en <100ms", desc: "El score se calcula al instante, sin afectar la experiencia del cliente.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#111827" strokeWidth="1.6" /><path d="M12 7v5l3 2" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-                  { title: "3D Secure a la medida", desc: "Autenticación adicional solo cuando el riesgo de la compra lo amerita.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 6v6c0 5 3.5 8.5 9 10 5.5-1.5 9-5 9-10V6l-9-4z" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round" /><path d="M9 12l2 2 4-4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-                ].map((c) => (
-                  <div
-                    key={c.title}
-                    className="flex min-h-[248px] w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-black/[0.07] bg-white p-7 shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
-                  >
-                    <div className="mb-5 flex h-[40px] w-[40px] items-center justify-center">
-                      {c.icon}
+              {/* Right — carrusel horizontal con flechas: icono arriba, texto abajo */}
+              <div className="flex flex-col gap-5">
+                <div ref={antifraudeRef} className="-mr-5 flex gap-5 overflow-x-auto pb-2 pr-5 tablet:mr-0 tablet:pr-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                  {[
+                    { title: "+200 señales por pago", desc: "Analizamos cientos de datos en cada transacción para detectar fraude real.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#111827" strokeWidth="1.6" /><path d="M20 20l-4-4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
+                    { title: "Decisión en <100ms", desc: "El score se calcula al instante, sin afectar la experiencia del cliente.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#111827" strokeWidth="1.6" /><path d="M12 7v5l3 2" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+                    { title: "3D Secure a la medida", desc: "Autenticación adicional solo cuando el riesgo de la compra lo amerita.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 6v6c0 5 3.5 8.5 9 10 5.5-1.5 9-5 9-10V6l-9-4z" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round" /><path d="M9 12l2 2 4-4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+                  ].map((c) => (
+                    <div
+                      key={c.title}
+                      className="antifraude-card flex min-h-[248px] w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-black/[0.07] bg-white p-7 shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
+                    >
+                      <div className="mb-5 flex h-[40px] w-[40px] items-center justify-center">
+                        {c.icon}
+                      </div>
+                      <h3 className="font-sora text-[19px] font-normal text-black" style={{ marginBottom: 8 }}>{c.title}</h3>
+                      <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.55 }}>{c.desc}</p>
                     </div>
-                    <h3 className="font-sora text-[19px] font-normal text-black" style={{ marginBottom: 8 }}>{c.title}</h3>
-                    <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.55 }}>{c.desc}</p>
-                  </div>
-                ))}
+                  ))}
+                </div>
+                {/* Flechas de navegación */}
+                <div className="flex items-center gap-3">
+                  <button type="button" onClick={() => scrollAntifraude(-1)} aria-label="Anterior" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-black/15 bg-white text-black/55 transition-colors hover:border-black/30 hover:text-black">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  </button>
+                  <button type="button" onClick={() => scrollAntifraude(1)} aria-label="Siguiente" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-black/15 bg-white text-black/55 transition-colors hover:border-black/30 hover:text-black">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -622,7 +637,7 @@ export default function T1Pasarela() {
       {/* ── Section 5 — Administra y mejora tu operación (sección oscura, 3 cards) ── */}
       <section className="relative px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
+          <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 104 }}>
             <h2 className="font-sora text-[28px] font-light text-white tablet:whitespace-nowrap tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
               Más control después de cada pago.
             </h2>

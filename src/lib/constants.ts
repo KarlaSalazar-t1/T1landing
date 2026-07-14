@@ -7,7 +7,6 @@ export const BLOG_URL = "/blog";
 
 // ── Navigation ──
 export const NAV_LINKS = [
-  { label: "Por qué T1", href: "/por-que-t1" },
   { label: "Precios", href: "/precios" },
   { label: "Clientes", href: CASES_URL },
   { label: "Enterprise", href: SALES_URL },

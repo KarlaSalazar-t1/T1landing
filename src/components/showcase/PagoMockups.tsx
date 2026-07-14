@@ -32,7 +32,7 @@ const H = 670;
 /* Shared demo data — our own product + neutral store/customer (not the screenshots'). */
 const STORE = "Origen MX";
 const EMAIL = "ana.lopez@correo.com";
-const PRODUCT = { name: "Tenis blancos clásicos", variant: "Talla 26 · Color blanco", price: "$1,345.99", img: "/img/tenis-transparente.png" };
+const PRODUCT = { name: "Bolsa de mano", variant: "Talla única · Color camel", price: "$1,345.99", img: "/img/bolsa-hero.png" };
 
 function Tap({ left = "50%", top = "50%" }: { left?: number | string; top?: number | string }) {
   return (

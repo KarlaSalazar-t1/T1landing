@@ -292,6 +292,14 @@ export default function T1Reportes() {
   const rootRef = useRef<HTMLDivElement>(null);
   const stackRootRef = useRef<HTMLDivElement>(null);
   useFSStackCards(stackRootRef);
+  // Carrusel "Toda tu operación, en un solo panel" — flechas prev/next
+  const opRef = useRef<HTMLDivElement>(null);
+  const scrollOp = (dir: number) => {
+    const el = opRef.current;
+    const card = el?.querySelector<HTMLElement>(".op-card");
+    const step = card ? card.offsetWidth + 20 : (el?.clientWidth ?? 0) * 0.8;
+    el?.scrollBy({ left: dir * step, behavior: "smooth" });
+  };
 
   useEffect(() => {
     const root = rootRef.current;
@@ -539,34 +547,41 @@ export default function T1Reportes() {
         </div>
       </section>
 
-      {/* ── Lo que incluye ── */}
-      <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32">
+      {/* ── Toda tu operación — sección oscura + carrusel (como "Todo para administrar productos") ── */}
+      <section className="relative px-5 py-24 tablet:px-10 tablet:py-32" style={{ background: "linear-gradient(180deg, #1A0A0A 0%, #000000 100%)" }}>
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
               Toda tu operación, en un solo panel
             </h2>
-            <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
+            <p className="font-inter text-[16px] font-light text-white/55 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
               Métricas, comparativas y exportables listos desde el primer día.
             </p>
           </div>
-          <div data-modal-animate className="grid grid-cols-1 gap-4 tablet:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+          <div ref={opRef} data-modal-animate className="-mr-5 flex gap-5 overflow-x-auto pb-2 pr-5 tablet:mr-0 tablet:pr-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             {[
-              { title: "Dashboards prediseñados", desc: "Ventas, tráfico, productos, clientes y más, listos para usar.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="10" rx="1.5" stroke="#111827" strokeWidth="1.6" /><rect x="13" y="3" width="8" height="6" rx="1.5" stroke="#111827" strokeWidth="1.6" /><rect x="3" y="15" width="8" height="6" rx="1.5" stroke="#111827" strokeWidth="1.6" /><rect x="13" y="11" width="8" height="10" rx="1.5" stroke="#111827" strokeWidth="1.6" /></svg>) },
-              { title: "Exportación a Excel/CSV", desc: "Descarga cualquier reporte en un click para análisis externo.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z M14 3v5h5" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round" /><path d="M9 13l3 3 4-4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-              { title: "Reportes programados", desc: "Recíbelos en tu email diario, semanal o mensual sin abrir nada.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#111827" strokeWidth="1.6" /><path d="M12 7v5l3 2" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-              { title: "Alertas configurables", desc: "Notificaciones cuando un KPI cae o sube fuera del rango.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /><path d="M13.7 21a2 2 0 0 1-3.4 0" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
-              { title: "Reportes personalizados", desc: "Crea tus propias vistas con drag & drop. Comparte con tu equipo.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M11 4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6 M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-              { title: "API y BI integrations", desc: "Conecta a Power BI, Looker o tu propio sistema vía API.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M16 18l6-6-6-6 M8 6l-6 6 6 6" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+              { title: "Dashboards prediseñados", desc: "Ventas, tráfico, productos, clientes y más, listos para usar.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="10" rx="1.5" stroke="#FF7363" strokeWidth="1.6" /><rect x="13" y="3" width="8" height="6" rx="1.5" stroke="#FF7363" strokeWidth="1.6" /><rect x="3" y="15" width="8" height="6" rx="1.5" stroke="#FF7363" strokeWidth="1.6" /><rect x="13" y="11" width="8" height="10" rx="1.5" stroke="#FF7363" strokeWidth="1.6" /></svg>) },
+              { title: "Exportación a Excel/CSV", desc: "Descarga cualquier reporte en un click para análisis externo.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z M14 3v5h5" stroke="#FF7363" strokeWidth="1.6" strokeLinejoin="round" /><path d="M9 13l3 3 4-4" stroke="#FF7363" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+              { title: "Reportes programados", desc: "Recíbelos en tu email diario, semanal o mensual sin abrir nada.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#FF7363" strokeWidth="1.6" /><path d="M12 7v5l3 2" stroke="#FF7363" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+              { title: "Alertas configurables", desc: "Notificaciones cuando un KPI cae o sube fuera del rango.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" stroke="#FF7363" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /><path d="M13.7 21a2 2 0 0 1-3.4 0" stroke="#FF7363" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
+              { title: "Reportes personalizados", desc: "Crea tus propias vistas con drag & drop. Comparte con tu equipo.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M11 4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6 M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke="#FF7363" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+              { title: "API y BI integrations", desc: "Conecta a Power BI, Looker o tu propio sistema vía API.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M16 18l6-6-6-6 M8 6l-6 6 6 6" stroke="#FF7363" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
             ].map((f, i) => (
-              <div key={f.title} data-stagger className="tienda-card flex items-start gap-4 rounded-[16px] border border-black/[0.06] bg-white p-6" style={{ ["--i" as string]: i }}>
-                <div className="flex h-[40px] w-[40px] shrink-0 items-center justify-center">{f.icon}</div>
-                <div>
-                  <h3 className="font-sora text-[16px] font-normal text-black" style={{ marginBottom: 4 }}>{f.title}</h3>
-                  <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{f.desc}</p>
-                </div>
+              <div key={f.title} data-stagger style={{ ["--i" as string]: i }} className="op-card flex w-[80vw] max-w-[300px] shrink-0 snap-start flex-col rounded-[18px] border border-white/[0.08] bg-[#121214] p-7">
+                <div className="mb-5 flex h-[48px] w-[48px] items-center justify-center rounded-[13px] bg-[rgba(219,59,43,0.10)]">{f.icon}</div>
+                <h3 className="font-sora text-[18px] font-normal text-white" style={{ marginBottom: 8 }}>{f.title}</h3>
+                <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.6 }}>{f.desc}</p>
               </div>
             ))}
+          </div>
+          {/* Flechas de navegación */}
+          <div className="mt-7 flex items-center justify-center gap-3">
+            <button type="button" onClick={() => scrollOp(-1)} aria-label="Anterior" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/70 transition-colors hover:border-white/30 hover:text-white">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </button>
+            <button type="button" onClick={() => scrollOp(1)} aria-label="Siguiente" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/70 transition-colors hover:border-white/30 hover:text-white">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </button>
           </div>
           <div data-modal-animate className="mt-12 flex justify-center">
             <a
