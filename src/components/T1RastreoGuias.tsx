@@ -348,7 +348,7 @@ export default function T1RastreoGuias() {
       <section className="relative px-5 py-24 tablet:px-10 tablet:py-32" style={{ background: "linear-gradient(180deg, #1A0A0A 0%, #000000 100%)" }}>
         <div className="mx-auto max-w-[var(--max-w)]">
           {/* C/D/E — capacidades restantes (estilo "Todo incluido desde el día uno") */}
-          <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 48 }}>
+          <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 104 }}>
             <h2 className="font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
               Seguimiento que trabaja por ti
             </h2>

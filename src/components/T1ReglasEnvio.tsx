@@ -538,6 +538,14 @@ function CarrierReassign({ className = "" }: { className?: string }) {
 
 export default function T1ReglasEnvio() {
   const rootRef = useRef<HTMLDivElement>(null);
+  // Carrusel "Define reglas para asignar cada envío" — flechas prev/next
+  const reglasRef = useRef<HTMLDivElement>(null);
+  const scrollReglas = (dir: number) => {
+    const el = reglasRef.current;
+    const card = el?.querySelector<HTMLElement>(".regla-card");
+    const step = card ? card.offsetWidth + 20 : (el?.clientWidth ?? 0) * 0.8;
+    el?.scrollBy({ left: dir * step, behavior: "smooth" });
+  };
 
   useEffect(() => {
     const root = rootRef.current;
@@ -604,9 +612,9 @@ export default function T1ReglasEnvio() {
           </div>
           <div data-modal-animate className="flex flex-wrap justify-center gap-5">
             {[
-              { title: "Errores de asignación", desc: "Elegir mal la paquetería encarece el envío y genera retrasos.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 3l9 16H3L12 3z" stroke="#0E0E0E" strokeWidth="1.6" strokeLinejoin="round" /><path d="M12 10v4M12 17h.01" stroke="#0E0E0E" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
-              { title: "Horas de trabajo manual", desc: "Comparar tarifas y tiempos pedido por pedido consume tu día.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#0E0E0E" strokeWidth="1.6" /><path d="M12 7v5l3.5 2" stroke="#0E0E0E" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-              { title: "Decisiones variables", desc: "Cada persona elige distinto y no hay un criterio claro.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M3 21h18" stroke="#0E0E0E" strokeWidth="1.6" strokeLinecap="round" /><rect x="5" y="11" width="3.4" height="7" stroke="#0E0E0E" strokeWidth="1.6" /><rect x="10.8" y="7" width="3.4" height="11" stroke="#0E0E0E" strokeWidth="1.6" /><rect x="16.6" y="13" width="3.4" height="5" stroke="#0E0E0E" strokeWidth="1.6" /></svg>) },
+              { title: "Costos innecesarios", desc: "Elegir mal puede encarecer envíos que tenían una mejor opción.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 3l9 16H3L12 3z" stroke="#0E0E0E" strokeWidth="1.6" strokeLinejoin="round" /><path d="M12 10v4M12 17h.01" stroke="#0E0E0E" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
+              { title: "Trabajo repetitivo", desc: "Comparar tarifas y tiempos en cada pedido consume tiempo operativo.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#0E0E0E" strokeWidth="1.6" /><path d="M12 7v5l3.5 2" stroke="#0E0E0E" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+              { title: "Criterios inconsistentes", desc: "Cada persona puede elegir distinto si no existe una regla clara.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M3 21h18" stroke="#0E0E0E" strokeWidth="1.6" strokeLinecap="round" /><rect x="5" y="11" width="3.4" height="7" stroke="#0E0E0E" strokeWidth="1.6" /><rect x="10.8" y="7" width="3.4" height="11" stroke="#0E0E0E" strokeWidth="1.6" /><rect x="16.6" y="13" width="3.4" height="5" stroke="#0E0E0E" strokeWidth="1.6" /></svg>) },
             ].map((p, i) => (
               <div key={p.title} data-stagger className="w-full max-w-[300px] rounded-[18px] border border-black/[0.06] bg-white p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(0,0,0,0.07)]" style={{ ["--i" as string]: i }}>
                 <div style={{ marginBottom: 24 }}>{p.icon}</div>
@@ -618,41 +626,52 @@ export default function T1ReglasEnvio() {
         </div>
       </section>
 
-      {/* ── Stack cards intro ── */}
-      <section className="relative bg-white px-5 pt-16 pb-10 tablet:px-10 tablet:pt-24 tablet:pb-14">
-        <div data-modal-animate className="mx-auto max-w-[760px] text-center">
-          <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.4px", lineHeight: 1.1 }}>
-            Define tus reglas y optimiza todos tus envíos.
-          </h2>
-        </div>
-      </section>
-
       {/* ── Stack cards ── */}
       <div className="relative bg-white">
-        {/* Block 1 — Rule builder (text left, panel right) */}
-        <section className="px-5 py-20 tablet:px-10 tablet:py-28" style={{ background: "#FFFFFF" }} data-modal-animate>
-          <div className="mx-auto flex max-w-[var(--max-w)] items-center">
-            <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
+        {/* Define reglas — título/CTA izq + carrusel de cards der (como "Crea productos como prefieras") */}
+        <section className="relative overflow-hidden bg-white px-5 py-[100px] tablet:px-10 tablet:py-[128px]" data-modal-animate>
+          <div className="mx-auto max-w-[var(--max-w)]">
+            <div className="grid grid-cols-1 gap-10 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.35fr)] tablet:items-center tablet:gap-14">
+              {/* Left — título + CTA */}
               <div>
-                <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
-                  Construye tus reglas
-                </h3>
-                <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                  Automatiza cada envío con reglas simples. Sin código, sin hojas de cálculo.
+                <h2 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.12, marginBottom: 16, maxWidth: 420 }}>
+                  Define reglas para asignar cada envío
+                </h2>
+                <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 400 }}>
+                  Crea reglas simples, sin código ni hojas de cálculo, y deja que T1 asigne la mejor opción en cada pedido.
                 </p>
-                <ul className="flex flex-col gap-2.5">
-                  {["Condiciones por CP, peso, dimensión, monto o destino", "Acciones con carrier y nivel de servicio específico", "Orden de prioridad arrastrando reglas"].map((it) => (
-                    <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                      {it}
-                    </li>
-                  ))}
-                </ul>
+                <a href={SIGNUP_URL} className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
+                  Crear mis reglas
+                </a>
               </div>
-              {/* Panel — teléfono en responsive, tarjeta en desktop */}
-              <NuevaReglaPanel variant="phone" className="tablet:hidden" />
-              <div className="hidden tablet:block">
-                <NuevaReglaPanel />
+
+              {/* Right — carrusel de cards con flechas */}
+              <div className="flex flex-col gap-5">
+                <div ref={reglasRef} className="-mr-5 flex gap-5 overflow-x-auto pb-2 pr-5 tablet:mr-0 tablet:pr-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                  {[
+                    { title: "Por destino", desc: "Asigna según código postal, estado o zona de entrega.", chip: "CDMX → Same day" },
+                    { title: "Por paquete", desc: "Reglas por peso, dimensiones o monto del pedido.", chip: "Peso > 5 kg → DHL" },
+                    { title: "Por prioridad", desc: "Optimiza por costo, velocidad o calidad de servicio.", chip: "Menor costo → Auto" },
+                  ].map((c) => (
+                    <div key={c.title} className="regla-card flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-black/[0.07] bg-white p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
+                      <h3 className="font-sora text-[19px] font-normal text-black" style={{ marginBottom: 8 }}>{c.title}</h3>
+                      <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.55, marginBottom: 20, minHeight: 63 }}>{c.desc}</p>
+                      <div className="mt-auto flex items-center gap-2 rounded-[12px] border border-black/[0.06] bg-[#FBFBFB] px-3.5 py-3 font-inter text-[13px] font-medium text-black/70">
+                        <span className="h-[7px] w-[7px] shrink-0 rounded-full bg-[#DB3B2B]" />
+                        {c.chip}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                {/* Flechas de navegación */}
+                <div className="flex items-center gap-3">
+                  <button type="button" onClick={() => scrollReglas(-1)} aria-label="Anterior" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-black/15 bg-white text-black/55 transition-colors hover:border-black/30 hover:text-black">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  </button>
+                  <button type="button" onClick={() => scrollReglas(1)} aria-label="Siguiente" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-black/15 bg-white text-black/55 transition-colors hover:border-black/30 hover:text-black">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
