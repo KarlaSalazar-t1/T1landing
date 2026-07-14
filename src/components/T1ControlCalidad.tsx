@@ -399,14 +399,14 @@ export default function T1ControlCalidad() {
               Ya sea que la paquetería reporte un problema o lo detectes tú, lo resuelves desde T1.
             </p>
           </div>
-          <div data-modal-animate className="grid grid-cols-1 gap-5 tablet:grid-cols-2 tablet:gap-6">
+          <div data-modal-animate className="mx-auto grid max-w-[840px] grid-cols-1 gap-5 tablet:grid-cols-2 tablet:gap-6">
             {[
               { title: "Incidencias de paquetería", desc: "La paquetería reporta un problema con la entrega como dirección incompleta, rechazo del envío o imposibilidad de entrega. Desde T1 revisas el caso y eliges la acción correspondiente.", img: "/img/incidencias-paqueteria.png", w: 1024, h: 863 },
               { title: "Incidencias reportadas por ti", desc: "Si detectas un problema con un paquete, levantas una incidencia desde T1, cargas la información solicitada y das seguimiento a la respuesta de la paquetería.", img: "/img/incidencias-reportadas.png", w: 1208, h: 863 },
             ].map((c) => (
               <div key={c.title} className="tienda-card flex flex-col overflow-hidden rounded-[20px] border border-black/[0.07] bg-white" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.05)" }}>
-                <div className="flex items-center justify-center bg-[#F5F5F5] px-6 pt-8 pb-6">
-                  <Image src={c.img} alt={c.title} width={c.w} height={c.h} className="h-[190px] w-auto object-contain tablet:h-[210px]" style={{ filter: "drop-shadow(0 16px 30px rgba(0,0,0,0.14))" }} />
+                <div className="flex items-center justify-center bg-white px-6 pt-8 pb-6">
+                  <Image src={c.img} alt={c.title} width={c.w} height={c.h} className="h-[180px] w-auto object-contain tablet:h-[196px]" style={{ filter: "drop-shadow(0 16px 30px rgba(0,0,0,0.14))" }} />
                 </div>
                 <div className="p-7">
                   <h3 className="font-sora text-[22px] font-normal text-black tablet:text-[26px]" style={{ letterSpacing: "-0.5px", marginBottom: 10 }}>{c.title}</h3>
@@ -604,21 +604,24 @@ export default function T1ControlCalidad() {
           <div
             ref={capRef}
             onScroll={onCapScroll}
-            className="-mx-5 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-2 tablet:mx-0 tablet:px-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+            className="-mx-5 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pt-24 pb-2 tablet:mx-0 tablet:px-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
             style={{ scrollPaddingLeft: 4, scrollPaddingRight: 4 }}
           >
             {[
-              { t: "Acciones disponibles por caso", d: "Corrige la dirección, solicita el retorno o elige la acción correcta según el tipo de incidencia.", img: "/img/acciones.png", w: 824, h: 682 },
-              { t: "Evidencia y documentos", d: "Adjunta fotos, comprobantes o la información que la paquetería necesita para resolver el caso.", img: "/img/evidencia.png", w: 1254, h: 1254 },
-              { t: "Seguimiento por estado", d: "Sabe en todo momento si el caso está pendiente, en revisión, respondido o resuelto.", img: "/img/seguimiento.png", w: 1254, h: 1254 },
-              { t: "Tiempos de respuesta", d: "Consulta el tiempo estimado y el disponible para recibir respuesta de la paquetería.", img: "/img/tiempos.png", w: 1254, h: 954 },
-              { t: "Historial de actividad", d: "Consulta cada acción, cambio de estado y respuesta del caso desde un mismo lugar.", img: "/img/historial.png", w: 1254, h: 1117 },
+              { t: "Acciones disponibles por caso", d: "Corrige la dirección, solicita el retorno o elige la acción correcta según el tipo de incidencia.", img: "/img/acciones.png" },
+              { t: "Evidencia y documentos", d: "Adjunta fotos, comprobantes o la información que la paquetería necesita para resolver el caso.", img: "/img/evidencia.png" },
+              { t: "Seguimiento por estado", d: "Sabe en todo momento si el caso está pendiente, en revisión, respondido o resuelto.", img: "/img/seguimiento.png" },
+              { t: "Tiempos de respuesta", d: "Consulta el tiempo estimado y el disponible para recibir respuesta de la paquetería.", img: "/img/tiempos.png" },
+              { t: "Historial de actividad", d: "Consulta cada acción, cambio de estado y respuesta del caso desde un mismo lugar.", img: "/img/historial.png" },
             ].map((c) => (
-              <div key={c.t} className="cap-card flex w-[80vw] max-w-[320px] shrink-0 snap-start flex-col overflow-hidden rounded-[18px] border border-white/[0.08] bg-white/[0.03] tablet:w-[300px] tablet:max-w-none" style={{ boxShadow: "0 26px 60px -28px rgba(0,0,0,0.8)" }}>
-                <div className="flex h-[170px] items-center justify-center px-6 pt-6">
-                  <Image src={c.img} alt={c.t} width={c.w} height={c.h} className="max-h-[150px] w-auto object-contain" style={{ filter: "drop-shadow(0 14px 26px rgba(0,0,0,0.4))" }} />
+              <div key={c.t} className="cap-card flex w-[80vw] max-w-[320px] shrink-0 snap-start flex-col rounded-[18px] border border-white/[0.08] bg-white/[0.03] tablet:w-[300px] tablet:max-w-none" style={{ boxShadow: "0 26px 60px -28px rgba(0,0,0,0.8)" }}>
+                {/* Imagen que sobresale del borde superior (estilo "Todo incluido") */}
+                <div className="relative" style={{ height: 132 }}>
+                  <div className="absolute left-1/2 -translate-x-1/2" style={{ top: -58, width: "84%", height: 200 }}>
+                    <Image src={c.img} alt={c.t} fill className="pointer-events-none object-contain" style={{ objectPosition: "center top", filter: "drop-shadow(0 20px 32px rgba(0,0,0,0.55))" }} sizes="300px" />
+                  </div>
                 </div>
-                <div className="px-6 pb-6 pt-3">
+                <div className="px-6 pb-6 pt-1">
                   <h3 className="font-sora text-[18px] font-normal text-white tablet:text-[19px]" style={{ marginBottom: 8, letterSpacing: "-0.3px" }}>{c.t}</h3>
                   <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.6 }}>{c.d}</p>
                 </div>

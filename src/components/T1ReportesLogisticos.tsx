@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
 import T1FinalCTA from "@/components/T1FinalCTA";
@@ -522,14 +523,14 @@ export default function T1ReportesLogisticos() {
             {/* Copy */}
             <div>
               <h1 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[56px]" style={{ lineHeight: 1.05, letterSpacing: "-1.5px", marginBottom: 22 }}>
-                Optimiza tu logística con{" "}
+                Entiende el desempeño de{" "}
                 <span className="relative inline-block">
-                  datos reales
+                  tus envíos
                   <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.35)", borderRadius: 5, zIndex: -1 }} />
                 </span>.
               </h1>
-              <p className="font-inter text-[16px] font-light text-white/70 tablet:text-[19px]" style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 470 }}>
-                Analiza costos, tiempos y desempeño en un solo panel.
+              <p className="font-inter text-[16px] font-light text-white/70 tablet:text-[19px]" style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 480 }}>
+                Revisa costos, tiempos de entrega, estados e incidencias por paquetería, zona o periodo desde un solo panel.
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <a href={SIGNUP_URL} className="inline-flex items-center rounded-full bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
@@ -543,7 +544,9 @@ export default function T1ReportesLogisticos() {
             {/* Dashboard — desktop */}
             <div className="relative hidden tablet:block">
               <div aria-hidden className="pointer-events-none absolute -inset-6 rounded-[28px]" style={{ background: "radial-gradient(circle at 70% 20%, rgba(219,59,43,0.18) 0%, transparent 62%)", filter: "blur(32px)" }} />
-              <div className="relative overflow-hidden rounded-[22px] border border-white/[0.10] bg-white" style={{ padding: 24, boxShadow: "0 30px 70px rgba(0,0,0,0.55)", fontFamily: MANROPE }}>
+              {/* Gráfico 3D detrás del panel */}
+              <Image src="/img/graficas-reportes.png" alt="" width={1254} height={1059} priority className="pointer-events-none absolute z-0 object-contain" style={{ right: "-16%", top: "-26%", width: "74%", height: "auto", filter: "drop-shadow(0 24px 50px rgba(0,0,0,0.5))" }} />
+              <div className="relative z-10 overflow-hidden rounded-[22px] border border-white/[0.10] bg-white" style={{ padding: 24, boxShadow: "0 30px 70px rgba(0,0,0,0.55)", fontFamily: MANROPE }}>
                 <div className="flex items-center justify-between" style={{ marginBottom: 16 }}>
                   <p className="text-[14px] font-bold text-black">Panel de reportes</p>
                   <span className="rounded-full bg-black/[0.05] px-2.5 py-1 text-[10px] font-semibold text-black/55">Enero 2026</span>
@@ -567,9 +570,18 @@ export default function T1ReportesLogisticos() {
         </div>
       </section>
 
+      {/* ════════════ STATEMENT — por qué medir ════════════ */}
+      <section className="relative bg-white px-5 pt-24 pb-12 tablet:px-10 tablet:pt-32 tablet:pb-16" data-modal-animate>
+        <div className="mx-auto max-w-[820px] text-center">
+          <h2 className="font-sora text-[26px] font-light text-black tablet:text-[36px] lg:text-[42px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.2 }}>
+            No todos los envíos cuestan ni funcionan igual.{" "}
+            <span className="text-black/45">Con reportes logísticos puedes comparar y ajustar tu operación con datos.</span>
+          </h2>
+        </div>
+      </section>
 
       {/* ════════════ INTERACTIVE REPORT EXPLORER ════════════ */}
-      <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32">
+      <section className="relative bg-white px-5 pt-12 pb-24 tablet:px-10 tablet:pt-16 tablet:pb-32">
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[900px] text-center" style={{ marginBottom: 40 }}>
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[38px] lg:text-[46px] lg:whitespace-nowrap" style={{ letterSpacing: "-1.3px", lineHeight: 1.1, marginBottom: 14 }}>

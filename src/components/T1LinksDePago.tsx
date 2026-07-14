@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
 import { useCountUp } from "@/hooks/useCountUp";
 import { useFSStackCards } from "@/hooks/useFSStackCards";
@@ -323,33 +323,6 @@ function SuccessScreen({ path, tapShare = false }: { path: number; tapShare?: bo
   );
 }
 
-function LinkBuilderPanel() {
-  const [step, setStep] = useState(0);
-  useEffect(() => {
-    const durs = [1900, 2300, 2200];
-    const id = setTimeout(() => setStep((s) => s + 1), durs[step % 3]);
-    return () => clearTimeout(id);
-  }, [step]);
-  const phase = step % 2; // 0 monto form · 1 success (Block 1 only animates monto)
-
-  return (
-    <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
-      <div className="flex items-center justify-between border-b border-black/[0.06] px-4 h-[48px]">
-        <div className="flex items-center gap-2">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="#111827" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
-          <span className="font-sora text-[13px] font-semibold text-black">Crear link de pago</span>
-        </div>
-        {phase === 0 && <span className="rounded-[8px] border border-black/[0.12] px-2.5 py-1 font-inter text-[10px] text-black/55">Vista previa</span>}
-      </div>
-      <div style={{ height: 360, overflow: "hidden" }}>
-        <div key={phase} className="h-full px-4 py-4" style={{ animation: "fadeSlideIn 0.4s ease-out both" }}>
-          {phase === 0 ? <MontoScreen /> : <SuccessScreen path={0} />}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 /* ── Block 2 panel — share via WhatsApp ── */
 function WhatsAppSharePanel() {
   const [phase, setPhase] = useState(0); // 0 greeting · 1 link bubble · 2 paid
@@ -633,6 +606,61 @@ export default function T1LinksDePago() {
   const stackRootRef = useRef<HTMLDivElement>(null);
   useFSStackCards(stackRootRef);
 
+  // Carrusel "Crea un link en segundos" — flechas prev/next (estilo "Crea productos como prefieras")
+  const creaLinkRef = useRef<HTMLDivElement>(null);
+  const scrollCreaLink = (dir: number) => {
+    const el = creaLinkRef.current;
+    const card = el?.querySelector<HTMLElement>(".crealink-card");
+    const step = card ? card.offsetWidth + 20 : (el?.clientWidth ?? 0) * 0.8;
+    el?.scrollBy({ left: dir * step, behavior: "smooth" });
+  };
+
+  // Carrusel "Cobra sin complicaciones" — dark, flechas + dots (estilo "Todo incluido desde el día uno")
+  const incluyeRef = useRef<HTMLDivElement>(null);
+  const [incIdx, setIncIdx] = useState(0);
+  const [incPages, setIncPages] = useState(1);
+  const incStep = () => {
+    const el = incluyeRef.current;
+    const card = el?.querySelector<HTMLElement>(".incluye-card");
+    return card ? card.offsetWidth + 20 : (el?.clientWidth ?? 0) * 0.8;
+  };
+  const incPageStep = () => {
+    const el = incluyeRef.current;
+    if (!el) return 1;
+    const s = Math.max(1, incStep());
+    const visible = Math.max(1, Math.floor(el.clientWidth / s));
+    return visible * s;
+  };
+  useEffect(() => {
+    const el = incluyeRef.current;
+    if (!el) return;
+    const calc = () => {
+      const ps = Math.max(1, incPageStep());
+      const maxScroll = el.scrollWidth - el.clientWidth;
+      setIncPages(maxScroll <= 1 ? 1 : Math.ceil(maxScroll / ps) + 1);
+    };
+    calc();
+    const ro = new ResizeObserver(calc);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  const incGoTo = useCallback((i: number) => {
+    const el = incluyeRef.current;
+    if (!el) return;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    const target = i >= incPages - 1 ? maxScroll : i * incPageStep();
+    el.scrollTo({ left: Math.min(target, maxScroll), behavior: "smooth" });
+  }, [incPages]);
+  const scrollInc = useCallback((dir: number) => {
+    incGoTo(Math.max(0, Math.min(incPages - 1, incIdx + dir)));
+  }, [incGoTo, incIdx, incPages]);
+  const onIncScroll = () => {
+    const el = incluyeRef.current;
+    if (!el) return;
+    const atEnd = el.scrollLeft >= el.scrollWidth - el.clientWidth - 2;
+    setIncIdx(atEnd ? incPages - 1 : Math.min(incPages - 1, Math.round(el.scrollLeft / Math.max(1, incPageStep()))));
+  };
+
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
@@ -704,45 +732,68 @@ export default function T1LinksDePago() {
         </div>
       </section>
 
+      {/* ── Crea un link — título/CTA izq + carrusel der (estilo "Crea productos como prefieras") ── */}
+      <section className="relative overflow-hidden bg-white px-5 py-[100px] tablet:px-10 tablet:py-[128px]">
+        <div className="mx-auto max-w-[var(--max-w)]">
+          <div className="grid grid-cols-1 gap-10 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.35fr)] tablet:items-center tablet:gap-14">
+            {/* Left — título + CTA */}
+            <div data-modal-animate>
+              <h2 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.12, marginBottom: 16, maxWidth: 420 }}>
+                Crea un link en segundos
+              </h2>
+              <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 400 }}>
+                Elige el tipo de cobro y personalízalo. Tu link queda listo para compartir en segundos.
+              </p>
+              <a href={SIGNUP_URL} className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
+                Crear mi primer link
+              </a>
+            </div>
+
+            {/* Right — carrusel de cards con flechas */}
+            <div data-modal-animate className="flex flex-col gap-5">
+              <div ref={creaLinkRef} className="-mr-5 flex gap-5 overflow-x-auto pb-2 pr-5 tablet:mr-0 tablet:pr-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                {[
+                  { title: "Monto fijo o productos", desc: "Cobra una cantidad exacta o arma el link con productos de tu catálogo.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 2v20 M17 6.5C17 4.6 14.8 4 12 4s-5 .9-5 3 2.2 2.7 5 3.2 5 1.3 5 3.3-2.2 3-5 3-5-.8-5-2.7" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
+                  { title: "Personaliza el link", desc: "Agrega concepto, foto y elige los métodos de pago que quieras aceptar.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10a2.8 2.8 0 0 0-4-4L4 16v4z M13.5 6.5l4 4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+                  { title: "Reglas del cobro", desc: "Define límite de usos, vencimiento y qué datos pedir a tu cliente al pagar.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 2l7 3v6c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V5l7-3z" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round" /><path d="M9 12l2 2 4-4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+                ].map((c) => (
+                  <div key={c.title} className="crealink-card flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-black/[0.07] bg-white p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
+                    <h3 className="font-sora text-[19px] font-normal text-black" style={{ marginBottom: 8 }}>{c.title}</h3>
+                    <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.55, marginBottom: 20, minHeight: 63 }}>{c.desc}</p>
+                    <div className="mt-auto flex h-[150px] items-center justify-center rounded-[14px] border border-black/[0.05] bg-[#FAFAF9]">
+                      <div className="flex h-[56px] w-[56px] items-center justify-center rounded-[16px] bg-white shadow-[0_4px_14px_rgba(0,0,0,0.06)]">{c.icon}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {/* Flechas de navegación */}
+              <div className="flex items-center gap-3">
+                <button type="button" onClick={() => scrollCreaLink(-1)} aria-label="Anterior" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-black/15 bg-white text-black/55 transition-colors hover:border-black/30 hover:text-black">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                </button>
+                <button type="button" onClick={() => scrollCreaLink(1)} aria-label="Siguiente" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-black/15 bg-white text-black/55 transition-colors hover:border-black/30 hover:text-black">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── Stack cards intro ── */}
       <section className="relative bg-white px-5 pt-12 pb-8 tablet:px-10 tablet:pt-16 tablet:pb-10">
         <div data-modal-animate className="mx-auto max-w-[760px] text-center">
           <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.4px", lineHeight: 1.1, marginBottom: 16 }}>
-            Del link al pago, en segundos.
+            Comparte y cobra al instante.
           </h2>
           <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[19px]" style={{ lineHeight: 1.5 }}>
-            Crea, comparte y cobra. Todo desde tu teléfono, sin montar una tienda.
+            Comparte tu link por WhatsApp o redes y recibe el pago en tu cuenta.
           </p>
         </div>
       </section>
 
       {/* ── Stack cards ── */}
       <div ref={stackRootRef} className="fs-stack-card-container relative bg-white">
-        {/* Block 1 — crear (text left, panel right) */}
-        <div className="fs-stack-card" style={{ top: 60, zIndex: 1, background: "#FFFFFF" }}>
-          <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
-            <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
-              <div>
-                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
-                  Crea un link en segundos
-                </h3>
-                <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                  Elige cobrar un monto fijo o con productos de tu catálogo. Tu link queda listo para compartir en segundos.
-                </p>
-                <ul className="flex flex-col gap-2.5">
-                  {["Monto fijo o productos de tu catálogo", "Agrega concepto, foto y métodos de pago", "Límite de usos, vencimiento y datos del cliente"].map((it) => (
-                    <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                      {it}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <LinkBuilderPanel />
-            </div>
-          </div>
-        </div>
-
         {/* Block 2 — compartir (panel left, text right) */}
         <div className="fs-stack-card" style={{ top: 80, zIndex: 2, background: "#FBFBFB" }}>
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
@@ -831,39 +882,58 @@ export default function T1LinksDePago() {
         </div>
       </section>
 
-      {/* ── Lo que incluye ── */}
-      <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32">
-        <div className="mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+      {/* ── Lo que incluye — carrusel dark estilo "Todo incluido desde el día uno" ── */}
+      <section className="relative overflow-hidden px-5 py-24 tablet:px-10 tablet:py-32" style={{ background: "linear-gradient(180deg, #1A0A0A 0%, #000000 100%)" }}>
+        <div aria-hidden className="pointer-events-none absolute top-0 left-1/2 h-[340px] w-[640px] -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(ellipse at center, rgba(219,59,43,0.12) 0%, transparent 66%)", filter: "blur(46px)" }} />
+        <div className="relative mx-auto max-w-[var(--max-w)]">
+          <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
               Cobra sin complicaciones
             </h2>
-            <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
+            <p className="font-inter text-[16px] font-light text-white/55 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
               Cada herramienta lista desde el primer cobro.
             </p>
           </div>
-          <div data-modal-animate className="grid grid-cols-1 gap-4 tablet:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+          <div
+            ref={incluyeRef}
+            onScroll={onIncScroll}
+            className="-mx-5 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pt-10 pb-2 tablet:mx-0 tablet:px-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+            style={{ scrollPaddingLeft: 4, scrollPaddingRight: 4 }}
+          >
             {[
-              { title: "Monto fijo o productos", desc: "Cobra una cantidad exacta o arma el link con productos de tu catálogo.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2v20 M17 6.5C17 4.6 14.8 4 12 4s-5 .9-5 3 2.2 2.7 5 3.2 5 1.3 5 3.3-2.2 3-5 3-5-.8-5-2.7" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
-              { title: "Links reutilizables", desc: "Un mismo link para muchos clientes o de un solo uso, con vencimiento y límite de pagos.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1 M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-              { title: "Dinero al día siguiente", desc: "Liquidación T+1: el pago de hoy llega a tu cuenta mañana.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="#111827" strokeWidth="1.6" /><path d="M3 9h18 M8 3v4 M16 3v4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /><path d="M9 15l2 2 4-4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-              { title: "Solicita datos del cliente", desc: "Pide dirección y envío, teléfono o datos de facturación al pagar.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.5" stroke="#111827" strokeWidth="1.6" /><path d="M5 20c0-3.3 3.1-6 7-6s7 2.7 7 6" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
-              { title: "Múltiples métodos", desc: "Tarjetas, SPEI, transferencias, Kueski y meses sin intereses.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2" stroke="#111827" strokeWidth="1.6" /><path d="M3 10h18" stroke="#111827" strokeWidth="1.6" /></svg>) },
-              { title: "Dashboard de cobros", desc: "Mira pagados, pendientes y liquidaciones en un panel claro.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 21h18" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /><rect x="5" y="12" width="3.5" height="7" rx="1" stroke="#111827" strokeWidth="1.6" /><rect x="10.5" y="8" width="3.5" height="11" rx="1" stroke="#111827" strokeWidth="1.6" /><rect x="16" y="4" width="3.5" height="15" rx="1" stroke="#111827" strokeWidth="1.6" /></svg>) },
-            ].map((f, i) => (
-              <div key={f.title} data-stagger className="tienda-card flex items-start gap-4 rounded-[16px] border border-black/[0.06] bg-white p-6" style={{ ["--i" as string]: i }}>
-                <div className="flex h-[40px] w-[40px] shrink-0 items-center justify-center">{f.icon}</div>
-                <div>
-                  <h3 className="font-sora text-[16px] font-normal text-black" style={{ marginBottom: 4 }}>{f.title}</h3>
-                  <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{f.desc}</p>
+              { title: "Monto fijo o productos", desc: "Cobra una cantidad exacta o arma el link con productos de tu catálogo.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 2v20 M17 6.5C17 4.6 14.8 4 12 4s-5 .9-5 3 2.2 2.7 5 3.2 5 1.3 5 3.3-2.2 3-5 3-5-.8-5-2.7" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
+              { title: "Links reutilizables", desc: "Un mismo link para muchos clientes o de un solo uso, con vencimiento y límite de pagos.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1 M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+              { title: "Dinero al día siguiente", desc: "Liquidación T+1: el pago de hoy llega a tu cuenta mañana.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="#FFFFFF" strokeWidth="1.6" /><path d="M3 9h18 M8 3v4 M16 3v4" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" /><path d="M9 15l2 2 4-4" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+              { title: "Solicita datos del cliente", desc: "Pide dirección y envío, teléfono o datos de facturación al pagar.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.5" stroke="#FFFFFF" strokeWidth="1.6" /><path d="M5 20c0-3.3 3.1-6 7-6s7 2.7 7 6" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
+              { title: "Múltiples métodos", desc: "Tarjetas, SPEI, transferencias, Kueski y meses sin intereses.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2" stroke="#FFFFFF" strokeWidth="1.6" /><path d="M3 10h18" stroke="#FFFFFF" strokeWidth="1.6" /></svg>) },
+              { title: "Dashboard de cobros", desc: "Mira pagados, pendientes y liquidaciones en un panel claro.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M3 21h18" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" /><rect x="5" y="12" width="3.5" height="7" rx="1" stroke="#FFFFFF" strokeWidth="1.6" /><rect x="10.5" y="8" width="3.5" height="11" rx="1" stroke="#FFFFFF" strokeWidth="1.6" /><rect x="16" y="4" width="3.5" height="15" rx="1" stroke="#FFFFFF" strokeWidth="1.6" /></svg>) },
+            ].map((f) => (
+              <div key={f.title} className="incluye-card flex w-[78vw] max-w-[300px] shrink-0 snap-start flex-col rounded-[18px] border border-white/[0.08] bg-white/[0.03] tablet:w-[280px] tablet:max-w-none" style={{ boxShadow: "0 26px 60px -28px rgba(0,0,0,0.8)" }}>
+                {/* Icono que sobresale del borde superior */}
+                <div className="relative" style={{ height: 34 }}>
+                  <div className="absolute left-6 flex h-[56px] w-[56px] items-center justify-center rounded-[16px] border border-white/10" style={{ top: -28, background: "linear-gradient(135deg, #DB3B2B 0%, #FF6F5E 100%)", boxShadow: "0 14px 30px -8px rgba(219,59,43,0.6)" }}>{f.icon}</div>
+                </div>
+                <div className="px-6 pb-7 pt-4">
+                  <h3 className="font-sora text-[18px] font-normal text-white" style={{ marginBottom: 8, letterSpacing: "-0.3px" }}>{f.title}</h3>
+                  <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.6 }}>{f.desc}</p>
                 </div>
               </div>
             ))}
           </div>
-          <div data-modal-animate className="mt-12 flex justify-center">
-            <a href={SIGNUP_URL} className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
-              Crear mi primer link
-            </a>
+
+          {/* Controles — flechas + dots centrados abajo */}
+          <div className="mt-8 flex items-center justify-center gap-4">
+            <button type="button" onClick={() => scrollInc(-1)} aria-label="Anterior" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/70 transition-colors hover:border-white/30 hover:text-white">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </button>
+            <div className="flex items-center gap-2">
+              {Array.from({ length: incPages }, (_, i) => i).map((i) => (
+                <button key={i} type="button" onClick={() => incGoTo(i)} aria-label={`Ir a la tarjeta ${i + 1}`} className="cursor-pointer rounded-full border-none p-0 transition-all duration-200" style={{ width: incIdx === i ? 22 : 8, height: 8, background: incIdx === i ? "#DB3B2B" : "rgba(255,255,255,0.22)" }} />
+              ))}
+            </div>
+            <button type="button" onClick={() => scrollInc(1)} aria-label="Siguiente" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/70 transition-colors hover:border-white/30 hover:text-white">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </button>
           </div>
         </div>
       </section>
