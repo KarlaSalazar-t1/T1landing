@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
 import T1FinalCTA from "@/components/T1FinalCTA";
@@ -24,39 +25,27 @@ function CalidadDashboard() {
   const rate = rateVal.toFixed(2);
 
   return (
-    <div className="relative mx-auto flex w-full flex-col gap-4" style={{ maxWidth: 460, fontFamily: MANROPE }}>
+    <div className="relative mx-auto flex w-full flex-col gap-3.5" style={{ maxWidth: 340, fontFamily: MANROPE }}>
       {/* Card 1 — Requiere acción */}
       <div
-        className="rounded-[18px] border border-black/[0.08] bg-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_40px_rgba(0,0,0,0.10)]"
-        style={{ padding: 26, boxShadow: "0 16px 50px rgba(0,0,0,0.18)", animation: "rastreoReveal 0.5s cubic-bezier(0.16,1,0.3,1) both" }}
+        className="rounded-[16px] border border-black/[0.08] bg-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_40px_rgba(0,0,0,0.10)]"
+        style={{ padding: 20, boxShadow: "0 16px 50px rgba(0,0,0,0.20)", animation: "rastreoReveal 0.5s cubic-bezier(0.16,1,0.3,1) both" }}
       >
-        <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
-          <p className="text-[15px] font-semibold text-black">Requiere acción</p>
-          <span className="flex items-center gap-1.5 text-[10px] text-black/40">
-            <span className="h-[6px] w-[6px] rounded-full bg-[#F59E0B]" style={{ animation: "pulse-soft 1.6s ease-in-out infinite" }} />
-            en revisión
-          </span>
-        </div>
-        <p className="font-sora text-[44px] font-light text-black tabular-nums" style={{ lineHeight: 1, marginBottom: 12 }}>{accion}</p>
-        <p className="text-[13px] font-light text-black/55" style={{ lineHeight: 1.5 }}>
+        <p className="text-[14px] font-semibold text-black" style={{ marginBottom: 10 }}>Requiere acción</p>
+        <p className="font-sora text-[36px] font-light text-black tabular-nums" style={{ lineHeight: 1, marginBottom: 10 }}>{accion}</p>
+        <p className="text-[12.5px] font-light text-black/55" style={{ lineHeight: 1.5 }}>
           Incidencias que requieren tomes una decisión para continuar el proceso.
         </p>
       </div>
 
       {/* Card 2 — Tasa de incidencias */}
       <div
-        className="rounded-[18px] border border-black/[0.08] bg-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_40px_rgba(0,0,0,0.10)]"
-        style={{ padding: 26, boxShadow: "0 16px 50px rgba(0,0,0,0.18)", animation: "rastreoReveal 0.5s cubic-bezier(0.16,1,0.3,1) both", animationDelay: "0.12s" }}
+        className="rounded-[16px] border border-black/[0.08] bg-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_40px_rgba(0,0,0,0.10)]"
+        style={{ padding: 20, boxShadow: "0 16px 50px rgba(0,0,0,0.20)", animation: "rastreoReveal 0.5s cubic-bezier(0.16,1,0.3,1) both", animationDelay: "0.12s" }}
       >
-        <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
-          <p className="text-[15px] font-semibold text-black">Tasa de incidencias</p>
-          <span className="flex items-center gap-1.5 text-[10px] text-black/40">
-            <span className="h-[6px] w-[6px] rounded-full bg-[#DB3B2B]" style={{ animation: "pulse-soft 1.6s ease-in-out infinite" }} />
-            en vivo
-          </span>
-        </div>
-        <div className="flex items-center gap-3" style={{ marginBottom: 12 }}>
-          <p className="font-sora text-[44px] font-light text-black tabular-nums" style={{ lineHeight: 1 }}>{rate}%</p>
+        <p className="text-[14px] font-semibold text-black" style={{ marginBottom: 10 }}>Tasa de incidencias</p>
+        <div className="flex items-center gap-3" style={{ marginBottom: 10 }}>
+          <p className="font-sora text-[36px] font-light text-black tabular-nums" style={{ lineHeight: 1 }}>{rate}%</p>
           <span
             className="rounded-full bg-[rgba(219,59,43,0.10)] px-2.5 py-1 text-[12px] font-semibold text-[#DB3B2B]"
             style={{ animation: "rastreoReveal 0.4s ease both", animationDelay: "0.5s" }}
@@ -64,7 +53,7 @@ function CalidadDashboard() {
             +7.2%
           </span>
         </div>
-        <p className="text-[13px] font-light text-black/55" style={{ lineHeight: 1.5 }}>30 / 416 envíos en los últimos 31 días</p>
+        <p className="text-[12.5px] font-light text-black/55" style={{ lineHeight: 1.5 }}>30 / 416 envíos en los últimos 31 días</p>
       </div>
     </div>
   );
@@ -360,8 +349,21 @@ export default function T1ControlCalidad() {
               </div>
             </div>
 
-            {/* Hero visual — monitor de calidad */}
-            <CalidadDashboard />
+            {/* Hero visual — cajas stack detrás + cards flotantes encima */}
+            <div className="relative mx-auto flex w-full max-w-[460px] items-center justify-center">
+              <Image
+                src="/img/cajas-stack.png"
+                alt=""
+                width={1091}
+                height={771}
+                priority
+                className="pointer-events-none absolute left-1/2 top-1/2 w-[118%] max-w-none -translate-x-1/2 -translate-y-1/2 object-contain"
+                style={{ filter: "drop-shadow(0 30px 60px rgba(0,0,0,0.4))" }}
+              />
+              <div className="relative z-10 w-full">
+                <CalidadDashboard />
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -369,28 +371,22 @@ export default function T1ControlCalidad() {
       {/* ════════════ DOS FORMAS — 2 cards ════════════ */}
       <section className="relative bg-[#FBFBFB] px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="mx-auto max-w-[700px] text-center" style={{ marginBottom: 48 }}>
+          <div data-modal-animate className="mx-auto max-w-[860px] text-center" style={{ marginBottom: 48 }}>
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[38px] lg:text-[46px]" style={{ letterSpacing: "-1.3px", lineHeight: 1.1, marginBottom: 14 }}>
               Dos formas de gestionar problemas de envío
             </h2>
-            <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
+            <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px] lg:whitespace-nowrap" style={{ lineHeight: 1.55 }}>
               Ya sea que la paquetería reporte un problema o lo detectes tú, lo resuelves desde T1.
             </p>
           </div>
           <div data-modal-animate className="grid grid-cols-1 gap-5 tablet:grid-cols-2 tablet:gap-6">
             {[
-              { title: "Incidencias de paquetería", desc: "La paquetería reporta un problema con la entrega —dirección incompleta, rechazo del envío o imposibilidad de entrega—. Desde T1 revisas el caso y eliges la acción correspondiente.", label: "Acciones de ejemplo", items: ["Corregir dirección", "Retornar a origen", "Retornar a sucursal", "Confirmar información", "Dar seguimiento"] },
-              { title: "Incidencias reportadas por ti", desc: "Si detectas un problema con un paquete, levantas una incidencia desde T1, cargas la información solicitada y das seguimiento a la respuesta de la paquetería.", label: "Ejemplos", items: ["Paquete dañado", "Entrega demorada", "Paquete detenido", "Paquete perdido", "Entrega no reconocida"] },
+              { title: "Incidencias de paquetería", desc: "La paquetería reporta un problema con la entrega como dirección incompleta, rechazo del envío o imposibilidad de entrega. Desde T1 revisas el caso y eliges la acción correspondiente." },
+              { title: "Incidencias reportadas por ti", desc: "Si detectas un problema con un paquete, levantas una incidencia desde T1, cargas la información solicitada y das seguimiento a la respuesta de la paquetería." },
             ].map((c) => (
               <div key={c.title} className="tienda-card flex flex-col rounded-[20px] border border-black/[0.07] bg-white p-7" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.05)" }}>
                 <h3 className="font-sora text-[22px] font-normal text-black tablet:text-[26px]" style={{ letterSpacing: "-0.5px", marginBottom: 10 }}>{c.title}</h3>
-                <p className="font-inter text-[15px] font-light text-black/60" style={{ lineHeight: 1.6, marginBottom: 22 }}>{c.desc}</p>
-                <p className="font-inter text-[11px] font-semibold uppercase tracking-wider text-black/40" style={{ marginBottom: 12 }}>{c.label}</p>
-                <div className="mt-auto flex flex-wrap gap-2">
-                  {c.items.map((it) => (
-                    <span key={it} className="rounded-full border border-black/[0.08] bg-[#FBFBFB] px-3 py-1.5 font-inter text-[13px] font-medium text-black/70">{it}</span>
-                  ))}
-                </div>
+                <p className="font-inter text-[15px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{c.desc}</p>
               </div>
             ))}
           </div>
@@ -539,7 +535,7 @@ export default function T1ControlCalidad() {
       </section>
 
       {/* ════════════ SPLIT FEATURE — incidencias automáticas ════════════ */}
-      <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32" data-modal-animate>
+      <section className="relative bg-white px-5 pt-12 pb-24 tablet:px-10 tablet:pt-16 tablet:pb-32" data-modal-animate>
         <div className="mx-auto flex max-w-[var(--max-w)] items-center">
           <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
             {/* Panel — teléfono en responsive, tarjetas en desktop */}
