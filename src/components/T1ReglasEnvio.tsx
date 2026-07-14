@@ -209,7 +209,7 @@ function CarrierTable({ className = "", variant = "card" }: { className?: string
         <div
           className="relative overflow-hidden"
           style={{
-            height: 212,
+            height: 320,
             maskImage: "linear-gradient(to bottom, transparent 0, #000 8%, #000 80%, transparent 100%)",
             WebkitMaskImage: "linear-gradient(to bottom, transparent 0, #000 8%, #000 80%, transparent 100%)",
           }}
@@ -585,8 +585,8 @@ export default function T1ReglasEnvio() {
                     <div key={c.title} className="regla-card flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-black/[0.07] bg-white p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
                       <h3 className="font-sora text-[19px] font-normal text-black" style={{ marginBottom: 8 }}>{c.title}</h3>
                       <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.55, marginBottom: 20, minHeight: 63 }}>{c.desc}</p>
-                      <div className="mt-auto overflow-hidden rounded-[14px] border border-black/[0.05] bg-[#FBFBFB]">
-                        <Image src={c.img} alt={c.title} width={c.w} height={c.h} className="block h-[168px] w-full object-cover object-center" sizes="270px" />
+                      <div className="mt-auto overflow-hidden rounded-[14px]">
+                        <Image src={c.img} alt={c.title} width={c.w} height={c.h} className="block h-auto w-full object-contain" sizes="270px" />
                       </div>
                     </div>
                   ))}
@@ -615,7 +615,7 @@ export default function T1ReglasEnvio() {
 
               <div className="order-1 tablet:order-2">
                 <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
-                  Prioridad T1: qué evalúa por ti
+                  Prioridad T1
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
                   Detrás de cada regla, T1 compara todas las paqueterías en tiempo real para asignar la mejor opción de cada envío.
