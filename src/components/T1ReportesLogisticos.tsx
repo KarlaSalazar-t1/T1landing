@@ -673,6 +673,38 @@ export default function T1ReportesLogisticos() {
       </section>
 
 
+      {/* ════════════ CAPACIDADES — todo lo que puedes medir ════════════ */}
+      <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32">
+        <div className="mx-auto max-w-[var(--max-w)]">
+          <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+              Todo lo que puedes medir en un panel
+            </h2>
+            <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
+              Del estado de cada envío al costo por paquetería, con datos listos para exportar.
+            </p>
+          </div>
+          <div data-modal-animate className="grid grid-cols-1 gap-4 tablet:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+            {[
+              { title: "Envíos por estado", desc: "Por recolectar, en tránsito, entregados y con incidencia, en tiempo real.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="2" stroke="#111827" strokeWidth="1.6" /><path d="M3 9h18M8 14h3M8 17h6" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
+              { title: "Desempeño por paquetería", desc: "Compara costo, peso y entregas a tiempo de cada carrier.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 21h18" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /><rect x="5" y="11" width="3.5" height="8" rx="1" stroke="#111827" strokeWidth="1.6" /><rect x="10.5" y="7" width="3.5" height="12" rx="1" stroke="#111827" strokeWidth="1.6" /><rect x="16" y="4" width="3.5" height="15" rx="1" stroke="#111827" strokeWidth="1.6" /></svg>) },
+              { title: "Costos de envío", desc: "Costo promedio y total por periodo, paquetería o canal.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#111827" strokeWidth="1.6" /><path d="M12 7v10M14.5 9.3c0-1-1.1-1.8-2.5-1.8s-2.5.8-2.5 1.8 1.1 1.7 2.5 1.9 2.5.9 2.5 1.9-1.1 1.8-2.5 1.8-2.5-.8-2.5-1.8" stroke="#111827" strokeWidth="1.4" strokeLinecap="round" /></svg>) },
+              { title: "Tendencias de entrega", desc: "Evolución de entregas a tiempo y demoras a lo largo del tiempo.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 17l6-6 4 4 8-8" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /><path d="M21 7v5h-5" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+              { title: "Comparativa por periodo", desc: "Contrasta contra el periodo anterior para ver qué mejoró y qué no.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="18" rx="1.5" stroke="#111827" strokeWidth="1.6" /><rect x="13" y="3" width="8" height="18" rx="1.5" stroke="#111827" strokeWidth="1.6" /></svg>) },
+              { title: "Exportables al instante", desc: "Descarga cualquier reporte en Excel o CSV con un click.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z M14 3v5h5" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round" /><path d="M12 11v6m0 0l-2.5-2.5M12 17l2.5-2.5" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+            ].map((f, i) => (
+              <div key={f.title} data-stagger className="tienda-card flex items-start gap-4 rounded-[16px] border border-black/[0.06] bg-white p-6" style={{ ["--i" as string]: i }}>
+                <div className="flex h-[40px] w-[40px] shrink-0 items-center justify-center">{f.icon}</div>
+                <div>
+                  <h3 className="font-sora text-[16px] font-normal text-black" style={{ marginBottom: 4 }}>{f.title}</h3>
+                  <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{f.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ════════════ FAQ — estilo t1.com/mx/tienda ════════════ */}
       <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[760px]">
