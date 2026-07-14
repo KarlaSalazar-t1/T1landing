@@ -464,6 +464,82 @@ function CarrierReassign({ className = "" }: { className?: string }) {
   );
 }
 
+/* Panel simulado "Agregar nueva regla" (mockup del builder de reglas de T1 Envíos) */
+function ReglasBuilderScreen({ variant = "desktop" }: { variant?: "desktop" | "mobile" }) {
+  const MK = "var(--font-manrope-var), 'Manrope', sans-serif";
+  const CONDS = ["Costo de producto", "Volumetría", "Zona", "Días", "Horario", "Personalizada"];
+  const Switch = ({ on }: { on: boolean }) => (
+    <span className="relative inline-flex h-[22px] w-[40px] shrink-0 items-center rounded-full px-0.5" style={{ background: on ? "#DB3B2B" : "rgba(0,0,0,0.15)" }}>
+      <span className="h-[16px] w-[16px] rounded-full bg-white" style={{ transform: on ? "translateX(18px)" : "translateX(0)", boxShadow: "0 1px 2px rgba(0,0,0,0.2)" }} />
+    </span>
+  );
+  const drawer = (
+    <div className="flex h-full flex-col bg-white" style={{ fontFamily: MK }}>
+      <div className="flex items-center justify-between border-b border-black/[0.06] px-6 py-4">
+        <p className="text-[16px] font-bold text-black">Agregar nueva regla</p>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="rgba(0,0,0,0.45)" strokeWidth="1.8" strokeLinecap="round" /></svg>
+      </div>
+      <div className="flex-1 px-6 py-5">
+        <label className="mb-1.5 block text-[12px] text-black/55">Nombre</label>
+        <div className="mb-4 rounded-[10px] border border-black/[0.12] px-3.5 py-2.5"><span className="text-[13px] text-black/80">Envíos exprés CDMX Sur</span><span className="type-caret" /></div>
+        <label className="mb-1.5 block text-[12px] text-black/55">Descripción (opcional)</label>
+        <div className="mb-5 rounded-[10px] border border-black/[0.12] px-3.5 py-2.5"><span className="text-[13px] text-black/35">Placeholder</span></div>
+        <div className="mb-2.5 flex items-center justify-between rounded-[10px] border border-black/[0.08] px-3.5 py-3"><span className="text-[12.5px] text-black/70">Esta opción activa la regla de inmediato</span><Switch on={false} /></div>
+        <div className="mb-5 flex items-center justify-between rounded-[10px] border border-black/[0.08] px-3.5 py-3"><span className="text-[12.5px] text-black/70">Esta opción activa el seguro para proteger tus envíos</span><Switch on /></div>
+        <p className="mb-3 text-[15px] font-bold text-black">Condiciones de la regla</p>
+        <p className="mb-2 text-[12px] text-black/55">¿Cómo deben cumplirse las condiciones?</p>
+        <div className="mb-4 grid grid-cols-2 gap-2.5">
+          <div className="rounded-[10px] border-2 border-[#DB3B2B] p-3">
+            <div className="mb-1 flex items-center gap-2"><span className="flex h-[15px] w-[15px] items-center justify-center rounded-full border-2 border-[#DB3B2B]"><span className="h-[7px] w-[7px] rounded-full bg-[#DB3B2B]" /></span><span className="text-[12px] font-semibold text-black">Todas (AND)</span></div>
+            <p className="text-[10.5px] text-black/45" style={{ lineHeight: 1.4 }}>Se aplica solo si se cumplen todas las condiciones.</p>
+          </div>
+          <div className="rounded-[10px] border border-black/[0.1] p-3">
+            <div className="mb-1 flex items-center gap-2"><span className="h-[15px] w-[15px] rounded-full border-2 border-black/20" /><span className="text-[12px] font-semibold text-black/70">Al menos una (OR)</span></div>
+            <p className="text-[10.5px] text-black/45" style={{ lineHeight: 1.4 }}>Se aplica si al menos una condición es verdadera.</p>
+          </div>
+        </div>
+        <p className="mb-2 text-[12px] text-black/55">Selecciona una o múltiples condiciones:</p>
+        <div className="grid grid-cols-3 gap-2">
+          {CONDS.map((c, i) => {
+            const on = i < 3;
+            return (
+              <div key={c} className="flex items-center gap-1.5 rounded-[10px] border px-2.5 py-2.5" style={{ borderColor: on ? "rgba(219,59,43,0.4)" : "rgba(0,0,0,0.1)", background: on ? "rgba(219,59,43,0.04)" : "#fff" }}>
+                <span className="flex h-[15px] w-[15px] shrink-0 items-center justify-center rounded-[4px] border" style={{ borderColor: on ? "#DB3B2B" : "rgba(0,0,0,0.25)", background: on ? "#DB3B2B" : "#fff" }}>{on && <svg width="9" height="9" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>}</span>
+                <span className="truncate text-[11px] text-black/75">{c}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      <div className="flex justify-end border-t border-black/[0.06] px-6 py-3.5">
+        <span className="rounded-[10px] bg-[#DB3B2B] px-6 py-2.5 text-[13px] font-semibold text-white">Continuar</span>
+      </div>
+    </div>
+  );
+
+  if (variant === "mobile") {
+    return <div className="mx-auto overflow-hidden rounded-[16px] border border-black/[0.08] bg-white" style={{ maxWidth: 340, boxShadow: "0 20px 50px rgba(0,0,0,0.12)" }}>{drawer}</div>;
+  }
+  return (
+    <div className="relative overflow-hidden rounded-[16px] border border-black/[0.08] bg-white" style={{ boxShadow: "0 30px 80px rgba(0,0,0,0.14)" }}>
+      <div className="grid" style={{ gridTemplateColumns: "1fr 392px", minHeight: 600 }}>
+        {/* Canvas atenuado (fondo punteado) */}
+        <div className="relative" style={{ background: "#F4F4F5", backgroundImage: "radial-gradient(rgba(0,0,0,0.09) 1.2px, transparent 1.2px)", backgroundSize: "18px 18px" }}>
+          <div className="flex items-center gap-3 border-b border-black/[0.06] bg-white px-6 py-4" style={{ fontFamily: MK }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="rgba(0,0,0,0.55)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            <span className="text-[15px] font-semibold text-black/80">Reglas específicas</span>
+          </div>
+          <div className="absolute bottom-5 left-5 flex flex-col divide-y divide-black/[0.08] overflow-hidden rounded-[10px] border border-black/[0.1] bg-white">
+            {["+", "−", "⤢"].map((s) => (<span key={s} className="flex h-[34px] w-[34px] items-center justify-center text-[15px] text-black/50">{s}</span>))}
+          </div>
+        </div>
+        {/* Drawer */}
+        <div style={{ borderLeft: "1px solid rgba(0,0,0,0.06)" }}>{drawer}</div>
+      </div>
+    </div>
+  );
+}
+
 export default function T1ReglasEnvio() {
   const rootRef = useRef<HTMLDivElement>(null);
   // Carrusel "Define reglas para asignar cada envío" — flechas prev/next
@@ -557,7 +633,7 @@ export default function T1ReglasEnvio() {
       {/* ── Stack cards ── */}
       <div className="relative bg-white">
         {/* Define reglas — título/CTA izq + carrusel de cards der (como "Crea productos como prefieras") */}
-        <section className="relative overflow-hidden bg-white px-5 py-[100px] tablet:px-10 tablet:py-[128px]" data-modal-animate>
+        <section className="relative overflow-hidden bg-white px-5 pt-10 pb-[100px] tablet:px-10 tablet:pt-14 tablet:pb-[128px]" data-modal-animate>
           <div className="mx-auto max-w-[var(--max-w)]">
             <div className="grid grid-cols-1 gap-10 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.35fr)] tablet:items-center tablet:gap-14">
               {/* Left — título + CTA */}
@@ -579,8 +655,8 @@ export default function T1ReglasEnvio() {
                   {[
                     { title: "Menor costo", desc: "Elige la opción más económica disponible en cada pedido.", img: "/img/regla-menor-costo.png", w: 1536, h: 1024 },
                     { title: "Más rápido", desc: "Prioriza el envío con el menor tiempo de entrega.", img: "/img/regla-mas-rapido.png", w: 1536, h: 1024 },
-                    { title: "Reglas T1", desc: "Reglas listas, decididas por nuestra experiencia y análisis con IA.", img: "/img/regla-t1.png", w: 1536, h: 1024 },
-                    { title: "Personalizado", desc: "Crea tus propias reglas por destino, peso, monto o servicio.", img: "/img/regla-personalizado.png", w: 457, h: 308 },
+                    { title: "Reglas T1", desc: "Reglas listas, decididas por nuestra experiencia y análisis con IA.", img: "/img/regla-t1.png", w: 1073, h: 801 },
+                    { title: "Personalizado", desc: "Crea tus propias reglas por destino, peso, monto o servicio.", img: "/img/regla-personalizado.png", w: 1000, h: 873 },
                   ].map((c) => (
                     <div key={c.title} className="regla-card flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-black/[0.07] bg-white p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
                       <h3 className="font-sora text-[19px] font-normal text-black" style={{ marginBottom: 8 }}>{c.title}</h3>
@@ -629,6 +705,33 @@ export default function T1ReglasEnvio() {
                   ))}
                 </ul>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Construye tus propias reglas — panel simulado grande (builder de reglas) */}
+        <section className="relative bg-[#FBFBFB] px-5 py-24 tablet:px-10 tablet:py-32" data-modal-animate>
+          <div className="relative mx-auto max-w-[var(--max-w)]">
+            <div className="mx-auto max-w-[720px] text-center" style={{ marginBottom: 44 }}>
+              <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+                Construye tus propias reglas
+              </h2>
+              <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
+                Da clic en “Nueva regla”, ponle nombre, elige cómo se cumplen las condiciones y qué paqueterías aplican.
+              </p>
+            </div>
+            <div className="mx-auto" style={{ maxWidth: 940 }}>
+              <div className="hidden tablet:block">
+                <ReglasBuilderScreen />
+              </div>
+              <div className="tablet:hidden">
+                <ReglasBuilderScreen variant="mobile" />
+              </div>
+            </div>
+            <div className="mt-10 flex justify-center">
+              <a href={SIGNUP_URL} className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
+                Crear mi primera regla
+              </a>
             </div>
           </div>
         </section>
