@@ -30,78 +30,116 @@ function CountUp({ end, prefix = "", suffix = "", decimals = 0 }: { end: number;
   return <>{prefix}{num}{suffix}</>;
 }
 
-/* Envíos por estado — barras horizontales que crecen de izquierda a derecha (loop suave) */
-function EstadoBars() {
-  const STATES = [
-    { name: "Ciudad de México", pct: 54.74, color: "#DB3B2B" },
-    { name: "Estado de México", pct: 35.47, color: "#E2685C" },
-    { name: "Veracruz", pct: 4.28, color: "#EE9A90" },
-    { name: "Querétaro", pct: 3.36, color: "#F2B5AD" },
-    { name: "Nuevo León", pct: 0.92, color: "#F6CFCA" },
+/* Hero — 2-3 cards glass (fondo blanco transparente) cuyos datos van cambiando */
+function ReportesGlassCards({ className = "" }: { className?: string }) {
+  const SNAPS = [
+    { envios: 1284, aTiempo: 96, costo: 112 },
+    { envios: 1291, aTiempo: 95, costo: 109 },
+    { envios: 1302, aTiempo: 97, costo: 114 },
   ];
-  const MAX = 54.74;
-  const [on, setOn] = useState(false);
+  const [i, setI] = useState(0);
   useEffect(() => {
-    const t = setTimeout(() => setOn(true), 250);
-    return () => clearTimeout(t);
+    const id = setInterval(() => setI((x) => (x + 1) % SNAPS.length), 2800);
+    return () => clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  const s = SNAPS[i];
+  const cards = [
+    { l: "Envíos entregados", v: s.envios.toLocaleString("en-US"), d: "+8.2%", up: true },
+    { l: "Entregas a tiempo", v: `${s.aTiempo}%`, d: "+2 pts", up: true },
+    { l: "Costo promedio por envío", v: `$${s.costo}`, d: "-3.1%", up: false },
+  ];
   return (
-    <>
-      <p className="text-[11px] font-medium text-black/55" style={{ marginBottom: 12 }}>Envíos por estado</p>
-      <div className="flex flex-col gap-2.5">
-        {STATES.map((s, i) => (
-          <div key={s.name} className="flex items-center gap-3">
-            <span className="w-[96px] shrink-0 truncate text-right text-[11px] text-black/70">{s.name}</span>
-            <div className="relative h-[10px] flex-1 overflow-hidden rounded-full bg-black/[0.05]">
-              <div
-                className="h-full rounded-full"
-                style={{
-                  width: on ? `${(s.pct / MAX) * 100}%` : "0%",
-                  background: s.color,
-                  transition: "width 1.5s cubic-bezier(0.33,1,0.68,1)",
-                  transitionDelay: `${i * 0.12}s`,
-                }}
-              />
-            </div>
-            <span className="w-[50px] shrink-0 text-right text-[11px] font-semibold text-black/75">{s.pct.toFixed(2)}%</span>
+    <div className={`mx-auto flex w-full max-w-[380px] flex-col gap-4 ${className}`} style={{ fontFamily: MANROPE }}>
+      {cards.map((c, idx) => (
+        <div
+          key={c.l}
+          className="rounded-[18px] border border-white/[0.16] px-6 py-5"
+          style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)", boxShadow: "0 16px 44px rgba(0,0,0,0.28)", animation: "rastreoReveal 0.5s cubic-bezier(0.16,1,0.3,1) both", animationDelay: `${idx * 0.1}s` }}
+        >
+          <div className="flex items-center justify-between" style={{ marginBottom: 10 }}>
+            <p className="text-[13px] font-medium text-white/70">{c.l}</p>
+            <span className="rounded-full px-2 py-0.5 text-[11px] font-semibold" style={{ background: c.up ? "rgba(34,197,94,0.16)" : "rgba(219,59,43,0.20)", color: c.up ? "#7CE0A0" : "#FF8A7A" }}>{c.d}</span>
           </div>
-        ))}
-      </div>
-    </>
+          <p key={`${s.envios}-${idx}`} className="font-sora text-[34px] font-light text-white tabular-nums" style={{ lineHeight: 1, animation: "countBump 0.45s ease-out" }}>{c.v}</p>
+        </div>
+      ))}
+    </div>
   );
 }
 
-/* Card con barras horizontales que crecen de izquierda a derecha (loop suave) */
-function HBarsCard({ title, items }: { title: string; items: { name: string; pct: number }[] }) {
-  const MAX = Math.max(...items.map((i) => i.pct));
-  const COLORS = ["#C0291B", "#DB3B2B", "#E2685C", "#EE9A90", "#F4C2BB", "#F8D7D2"];
-  const [on, setOn] = useState(false);
-  useEffect(() => {
-    const t = setTimeout(() => setOn(true), 250);
-    return () => clearTimeout(t);
-  }, []);
+/* Panel "Costo y peso promedio" — 3 métricas con su variación */
+function CostoPesoCard() {
+  const items = [
+    { l: "Costo promedio", v: "$96.00", d: "+10%", up: true },
+    { l: "Peso promedio", v: "1.34 kg", d: "+.5%", up: true },
+    { l: "Envíos con sobrepeso", v: "7", d: "+2%", up: false },
+  ];
   return (
-    <div className="rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 20, boxShadow: "0 16px 50px rgba(0,0,0,0.08)", fontFamily: MANROPE }}>
-      <p className="text-[14px] font-bold text-black" style={{ marginBottom: 14 }}>{title}</p>
-      <div className="flex flex-col gap-2.5 overflow-y-auto pr-1" style={{ maxHeight: 150 }}>
+    <div className="rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)", fontFamily: MANROPE }}>
+      <p className="text-[15px] font-bold text-black" style={{ marginBottom: 16 }}>Costo y peso promedio</p>
+      <div className="grid grid-cols-3 overflow-hidden rounded-[14px] border border-black/[0.06]">
         {items.map((it, i) => (
-          <div key={it.name} className="flex items-center gap-3">
-            <span className="w-[92px] shrink-0 truncate text-right text-[11px] text-black/70">{it.name}</span>
-            <div className="relative h-[9px] flex-1 overflow-hidden rounded-full bg-black/[0.05]">
-              <div
-                className="h-full rounded-full"
-                style={{
-                  width: on ? `${(it.pct / MAX) * 100}%` : "0%",
-                  background: COLORS[Math.min(i, COLORS.length - 1)],
-                  transition: "width 1.4s cubic-bezier(0.33,1,0.68,1)",
-                  transitionDelay: `${i * 0.1}s`,
-                }}
-              />
+          <div key={it.l} className="px-4 py-4" style={{ borderLeft: i > 0 ? "1px solid rgba(0,0,0,0.06)" : "none" }}>
+            <p className="text-[12px] text-black/55" style={{ marginBottom: 14, lineHeight: 1.3 }}>{it.l}</p>
+            <div className="flex flex-wrap items-center gap-1.5">
+              <span className="font-sora text-[22px] font-light text-black" style={{ letterSpacing: "-0.5px" }}>{it.v}</span>
+              <span className="rounded-full px-1.5 py-0.5 text-[10px] font-semibold" style={{ background: it.up ? "rgba(34,197,94,0.14)" : "rgba(219,59,43,0.12)", color: it.up ? "#16A34A" : "#DB3B2B" }}>{it.d}</span>
             </div>
-            <span className="w-[54px] shrink-0 text-right text-[11px] font-semibold text-black/75">{it.pct.toFixed(2)}%</span>
           </div>
         ))}
+      </div>
+    </div>
+  );
+}
+
+/* Panel "Envíos por día de entrega" — donut + leyenda */
+function DiaEntregaDonut() {
+  const DATA = [
+    { name: "1 día", count: 11, pct: 6, color: "#7CE0B4" },
+    { name: "2 días", count: 48, pct: 48, color: "#EA6A2B" },
+    { name: "3 días", count: 79, pct: 79, color: "#DDB85F" },
+    { name: "4 días", count: 37, pct: 37, color: "#5A81E6" },
+    { name: "5 días", count: 1, pct: 1, color: "#3BA152" },
+  ];
+  const total = DATA.reduce((s, d) => s + d.count, 0);
+  const r = 52;
+  const C = 2 * Math.PI * r;
+  let acc = 0;
+  const slices = DATA.map((d) => {
+    const dash = (d.count / total) * C;
+    const seg = { color: d.color, dash, offset: -((acc / total) * C) };
+    acc += d.count;
+    return seg;
+  });
+  return (
+    <div className="rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)", fontFamily: MANROPE }}>
+      <p className="text-[15px] font-bold text-black" style={{ marginBottom: 16 }}>Envíos por día de entrega</p>
+      <div className="flex items-center gap-5">
+        <div className="relative shrink-0">
+          <svg className="donut-in" width="140" height="140" viewBox="0 0 140 140">
+            <circle cx="70" cy="70" r={r} fill="none" stroke="rgba(0,0,0,0.06)" strokeWidth="16" />
+            <g transform="rotate(-90 70 70)">
+              {slices.map((s, i) => (
+                <circle key={i} cx="70" cy="70" r={r} fill="none" stroke={s.color} strokeWidth="16" strokeLinecap="butt" strokeDasharray={`${s.dash} ${C - s.dash}`} strokeDashoffset={s.offset} />
+              ))}
+            </g>
+          </svg>
+          <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
+            <span className="font-sora text-[26px] font-light text-black" style={{ lineHeight: 1 }}>{total}</span>
+            <span className="text-[10px] text-black/45" style={{ marginTop: 3 }}>promedio 2.5 días</span>
+          </div>
+        </div>
+        <div className="flex flex-1 flex-col gap-2.5">
+          {DATA.map((d) => (
+            <div key={d.name} className="flex items-center gap-2.5">
+              <span className="h-[10px] w-[10px] shrink-0 rounded-full" style={{ background: d.color }} />
+              <span className="flex-1 text-[12px] text-black/70">{d.name}</span>
+              <span className="w-[28px] text-right text-[12px] font-semibold text-black/80">{d.count}</span>
+              <span className="w-[40px] text-right text-[12px] text-black/45">{d.pct}%</span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -402,89 +440,6 @@ function PaqueteriaResponsive({ className = "" }: { className?: string }) {
   );
 }
 
-/* Marco de teléfono reutilizable (bordes redondeados) — SOLO responsive */
-function PhoneShell({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="mx-auto w-full" style={{ maxWidth: 340, fontFamily: MANROPE }}>
-      <div className="relative overflow-hidden bg-white" style={{ borderRadius: 44, border: "1px solid rgba(0,0,0,0.08)", boxShadow: "0 30px 80px rgba(0,0,0,0.45)" }}>
-        <div className="px-4 pt-6 pb-7">{children}</div>
-      </div>
-    </div>
-  );
-}
-
-/* Hero visual responsive — 4 stats + Envíos por estado (SOLO responsive) */
-function ReportesHeroPhone({ className = "" }: { className?: string }) {
-  const CARDS = [
-    { label: "Número de envíos", end: 281, decimals: 0, prefix: "", suffix: "", delta: "-34.64%", up: false },
-    { label: "Costo promedio por envío", end: 153.9, decimals: 1, prefix: "$", suffix: "", delta: "+34.64%", up: true },
-    { label: "Peso promedio", end: 1.0, decimals: 1, prefix: "", suffix: " kg", delta: "-34.64%", up: false },
-    { label: "Tiempo promedio de entrega", end: 3, decimals: 0, prefix: "", suffix: " días", delta: "+34.64%", up: true },
-  ];
-  const STATES = [
-    { name: "1-CDMX", pct: 45, color: "#C0291B" },
-    { name: "2-Edo. de México", pct: 25, color: "#DB3B2B" },
-    { name: "3-Monterrey", pct: 18, color: "#E2685C" },
-    { name: "4-Chihuahua", pct: 8, color: "#EE9A90" },
-    { name: "5-Puebla", pct: 4, color: "#F4C2BB" },
-  ];
-  const MAX = 45;
-  const [on, setOn] = useState(false);
-  useEffect(() => {
-    const t = setTimeout(() => setOn(true), 250);
-    return () => clearTimeout(t);
-  }, []);
-
-  return (
-    <div className={className}>
-      <div className="relative">
-        <div aria-hidden className="pointer-events-none absolute -inset-4 rounded-[52px]" style={{ background: "radial-gradient(circle at 70% 20%, rgba(219,59,43,0.18) 0%, transparent 62%)", filter: "blur(32px)" }} />
-        <div className="relative">
-      <PhoneShell>
-        {/* 4 stat cards */}
-        <div className="grid grid-cols-2 gap-3" style={{ marginBottom: 14 }}>
-          {CARDS.map((c) => (
-            <div key={c.label} className="rounded-[14px] border border-black/[0.08] bg-white px-3.5 py-3.5" style={{ boxShadow: "0 4px 14px rgba(0,0,0,0.04)" }}>
-              <div className="flex items-start justify-between gap-2">
-                <p className="text-[13px] font-medium text-black/70" style={{ lineHeight: 1.25 }}>{c.label}</p>
-                <p className="whitespace-nowrap font-sora text-[19px] font-semibold text-black" style={{ lineHeight: 1 }}>
-                  <CountUp end={c.end} prefix={c.prefix} suffix={c.suffix} decimals={c.decimals} />
-                </p>
-              </div>
-              <p className="text-[12px] text-black/45" style={{ marginTop: 16 }}>Periodo anterior</p>
-              <p className="text-[13px] font-semibold" style={{ color: c.up ? "#16A34A" : "#DB3B2B" }}>{c.delta}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* Envíos por estado */}
-        <div className="rounded-[14px] border border-black/[0.08] bg-white px-4 py-4" style={{ boxShadow: "0 4px 14px rgba(0,0,0,0.04)" }}>
-          <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
-            <p className="text-[15px] font-semibold text-black">Envíos por estado</p>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="rgba(0,0,0,0.4)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-          </div>
-          <div className="flex flex-col gap-3">
-            {STATES.map((s, i) => (
-              <div key={s.name} className="flex items-center gap-3">
-                <span className="w-[112px] shrink-0 text-[13px] text-black/70">{s.name}</span>
-                <div className="relative h-[8px] flex-1 overflow-hidden rounded-full bg-black/[0.05]">
-                  <div
-                    className="h-full rounded-full"
-                    style={{ width: on ? `${(s.pct / MAX) * 100}%` : "0%", background: s.color, transition: "width 1.4s cubic-bezier(0.33,1,0.68,1)", transitionDelay: `${i * 0.1}s` }}
-                  />
-                </div>
-                <span className="w-[36px] shrink-0 text-right text-[13px] font-semibold text-black/75">{s.pct}%</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </PhoneShell>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function T1ReportesLogisticos() {
   const rootRef = useRef<HTMLDivElement>(null);
   const [tab, setTab] = useState(0);
@@ -539,31 +494,15 @@ export default function T1ReportesLogisticos() {
               </div>
             </div>
 
-            {/* Dashboard — teléfono en responsive */}
-            <ReportesHeroPhone className="tablet:hidden" />
-            {/* Dashboard — desktop */}
+            {/* Dashboard — cards glass en responsive */}
+            <ReportesGlassCards className="tablet:hidden" />
+            {/* Dashboard — cards glass desktop, sobre el gráfico 3D */}
             <div className="relative hidden tablet:block">
               <div aria-hidden className="pointer-events-none absolute -inset-6 rounded-[28px]" style={{ background: "radial-gradient(circle at 70% 20%, rgba(219,59,43,0.18) 0%, transparent 62%)", filter: "blur(32px)" }} />
-              {/* Gráfico 3D detrás del panel */}
-              <Image src="/img/graficas-reportes.png" alt="" width={1254} height={1059} priority className="pointer-events-none absolute z-0 object-contain" style={{ right: "-16%", top: "-26%", width: "74%", height: "auto", filter: "drop-shadow(0 24px 50px rgba(0,0,0,0.5))" }} />
-              <div className="relative z-10 overflow-hidden rounded-[22px] border border-white/[0.10] bg-white" style={{ padding: 24, boxShadow: "0 30px 70px rgba(0,0,0,0.55)", fontFamily: MANROPE }}>
-                <div className="flex items-center justify-between" style={{ marginBottom: 16 }}>
-                  <p className="text-[14px] font-bold text-black">Panel de reportes</p>
-                  <span className="rounded-full bg-black/[0.05] px-2.5 py-1 text-[10px] font-semibold text-black/55">Enero 2026</span>
-                </div>
-                <div className="grid grid-cols-3 gap-2.5" style={{ marginBottom: 16 }}>
-                  {[
-                    { end: 1284, prefix: "", suffix: "", l: "Envíos", c: "#0E0E0E" },
-                    { end: 96, prefix: "", suffix: "%", l: "A tiempo", c: "#16A34A" },
-                    { end: 112, prefix: "$", suffix: "", l: "Costo prom.", c: "#0E0E0E" },
-                  ].map((k) => (
-                    <div key={k.l} className="rounded-[12px] border border-black/[0.06] bg-[#FAFAF9] px-3 py-3">
-                      <p className="font-sora text-[20px] font-light tabular-nums" style={{ lineHeight: 1, color: k.c }}><CountUp end={k.end} prefix={k.prefix} suffix={k.suffix} /></p>
-                      <p className="text-[11px] text-black/55" style={{ marginTop: 4 }}>{k.l}</p>
-                    </div>
-                  ))}
-                </div>
-                <EstadoBars />
+              {/* Gráfico 3D detrás de las cards */}
+              <Image src="/img/graficas-reportes.png" alt="" width={1254} height={1059} priority className="pointer-events-none absolute z-0 object-contain" style={{ right: "-12%", top: "-22%", width: "78%", height: "auto", filter: "drop-shadow(0 24px 50px rgba(0,0,0,0.5))" }} />
+              <div className="relative z-10">
+                <ReportesGlassCards />
               </div>
             </div>
           </div>
@@ -573,10 +512,12 @@ export default function T1ReportesLogisticos() {
       {/* ════════════ STATEMENT — por qué medir ════════════ */}
       <section className="relative bg-white px-5 pt-24 pb-12 tablet:px-10 tablet:pt-32 tablet:pb-16" data-modal-animate>
         <div className="mx-auto max-w-[820px] text-center">
-          <h2 className="font-sora text-[26px] font-light text-black tablet:text-[36px] lg:text-[42px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.2 }}>
-            No todos los envíos cuestan ni funcionan igual.{" "}
-            <span className="text-black/45">Con reportes logísticos puedes comparar y ajustar tu operación con datos.</span>
+          <h2 className="font-sora text-[26px] font-light text-black tablet:text-[36px] lg:text-[42px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.2, marginBottom: 16 }}>
+            No todos los envíos cuestan ni funcionan igual.
           </h2>
+          <p className="mx-auto max-w-[620px] font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
+            Con reportes logísticos puedes comparar y ajustar tu operación con datos.
+          </p>
         </div>
       </section>
 
@@ -650,28 +591,10 @@ export default function T1ReportesLogisticos() {
       <section className="relative bg-[#FBFBFB] px-5 py-24 tablet:px-10 tablet:py-32" data-modal-animate>
         <div className="mx-auto flex max-w-[var(--max-w)] items-center">
           <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
-            {/* Panel — 2 cards de barras horizontales */}
+            {/* Panel — costo/peso promedio + envíos por día de entrega */}
             <div className="order-2 flex flex-col gap-4 tablet:order-1">
-              <HBarsCard
-                title="Envíos por estado"
-                items={[
-                  { name: "Ciudad de México", pct: 54.74 },
-                  { name: "Estado de México", pct: 35.47 },
-                  { name: "Veracruz", pct: 4.28 },
-                  { name: "Querétaro", pct: 3.36 },
-                  { name: "Nuevo León", pct: 0.92 },
-                ]}
-              />
-              <HBarsCard
-                title="Tiempo de entrega efectiva"
-                items={[
-                  { name: "-29 días", pct: 33.33 },
-                  { name: "-21 días", pct: 33.33 },
-                  { name: "-22 días", pct: 20.0 },
-                  { name: "-1 días", pct: 6.67 },
-                  { name: "-17 días", pct: 6.67 },
-                ]}
-              />
+              <CostoPesoCard />
+              <DiaEntregaDonut />
             </div>
 
             <div className="order-1 tablet:order-2">
@@ -723,12 +646,10 @@ export default function T1ReportesLogisticos() {
                   { title: "Comparativa por periodo", desc: "Contrasta contra el periodo anterior para ver qué mejoró y qué no.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="18" rx="1.5" stroke="#111827" strokeWidth="1.6" /><rect x="13" y="3" width="8" height="18" rx="1.5" stroke="#111827" strokeWidth="1.6" /></svg>) },
                   { title: "Exportables al instante", desc: "Descarga cualquier reporte en Excel o CSV con un click.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z M14 3v5h5" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round" /><path d="M12 11v6m0 0l-2.5-2.5M12 17l2.5-2.5" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
                 ].map((c) => (
-                  <div key={c.title} className="medir-card flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-black/[0.07] bg-white p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
+                  <div key={c.title} className="medir-card flex w-[240px] shrink-0 snap-start flex-col rounded-[20px] border border-black/[0.07] bg-white p-7 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
+                    <div className="flex h-[30px] w-[30px] items-center justify-center" style={{ marginBottom: 18 }}>{c.icon}</div>
                     <h3 className="font-sora text-[19px] font-normal text-black" style={{ marginBottom: 8 }}>{c.title}</h3>
-                    <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.55, marginBottom: 20, minHeight: 63 }}>{c.desc}</p>
-                    <div className="mt-auto flex h-[130px] items-center justify-center rounded-[14px] border border-black/[0.05] bg-[#FAFAF9]">
-                      <div className="flex h-[52px] w-[52px] items-center justify-center rounded-[14px] bg-white shadow-[0_4px_14px_rgba(0,0,0,0.06)]">{c.icon}</div>
-                    </div>
+                    <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.55, minHeight: 63 }}>{c.desc}</p>
                   </div>
                 ))}
               </div>
