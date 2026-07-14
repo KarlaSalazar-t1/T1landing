@@ -83,9 +83,9 @@ export default function StoreShowcase({ dark = true }: { dark?: boolean }) {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <div className="grid items-center gap-10 tablet:grid-cols-[1.12fr_0.88fr] tablet:gap-12">
+      <div className="grid items-center gap-4 tablet:grid-cols-[1.12fr_0.88fr] tablet:gap-12">
         {/* ── Left: a deck — active store in front, the others peeking behind ── */}
-        <div className="relative" style={{ height: 392 }}>
+        <div className="relative h-[340px] tablet:h-[392px]">
           {STORES.map((st, i) => {
             const pos = (i - active + STORES.length) % STORES.length; // 0 front, 1/2 behind
             const deck = [

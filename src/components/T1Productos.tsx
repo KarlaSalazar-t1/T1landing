@@ -518,8 +518,8 @@ export default function T1Productos() {
       </div>
 
 
-      {/* ── Lo que incluye — sección oscura (como "Todo incluido" de Tienda con IA) ── */}
-      <section className="relative px-5 py-[100px] tablet:px-10 tablet:py-[128px]" style={{ background: "linear-gradient(180deg, #000000 0%, #140a0a 100%)" }}>
+      {/* ── Lo que incluye — sección oscura, degradado #1A0A0A (arriba) → #000 (abajo) ── */}
+      <section className="relative px-5 py-[100px] tablet:px-10 tablet:py-[128px]" style={{ background: "linear-gradient(180deg, #1A0A0A 0%, #000000 100%)" }}>
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[760px] text-center" style={{ marginBottom: 56 }}>
             <h2 className="font-sora text-[32px] font-light text-white tablet:whitespace-nowrap tablet:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>

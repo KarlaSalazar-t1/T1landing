@@ -1035,11 +1035,13 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                 </section>
                 )}
 
+                {/* ── Todo incluido + métricas: degradado continuo #1A0A0A (arriba) → #000 (abajo) ── */}
+                <div className="relative" style={{ background: "linear-gradient(180deg, #1A0A0A 0%, #000000 100%)" }}>
                 {/* ── Todo incluido desde el día uno (fondo oscuro, continúa con métricas) ── */}
                 <TodoIncluidoDark />
 
-                {/* ── Stats with count-up ── */}
-                <section className="relative px-5 py-20 tablet:px-10 tablet:py-24" style={{ background: "linear-gradient(180deg, #140a0a 0%, #1c0e0e 100%)" }}>
+                {/* ── Stats with count-up (fondo transparente: hereda el degradado) ── */}
+                <section className="relative px-5 py-20 tablet:px-10 tablet:py-24">
                   <div className="mx-auto max-w-[var(--max-w)]">
                     <div data-modal-animate className="mx-auto max-w-[640px] text-center" style={{ marginBottom: 48 }}>
                       <h2 className="font-sora text-[32px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.02em", lineHeight: 1.2 }}>
@@ -1060,6 +1062,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                     </div>
                   </div>
                 </section>
+                </div>
 
                 {/* ── FAQ (fondo oscuro) ── */}
                 <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">

@@ -455,8 +455,8 @@ export default function T1Pasarela() {
 
       {/* ── Section 3 — Header for stack cards ── */}
       <section className="relative bg-white px-5 pt-12 pb-8 tablet:px-10 tablet:pt-16 tablet:pb-10">
-        <div data-modal-animate className="mx-auto max-w-[760px] text-center">
-          <h2 className="font-sora text-[28px] font-light text-black tablet:whitespace-nowrap tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15 }}>
+        <div data-modal-animate className="mx-auto max-w-[680px] text-center">
+          <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15 }}>
             Todo lo que necesita un checkout para convertir
           </h2>
         </div>
@@ -652,9 +652,9 @@ export default function T1Pasarela() {
                 className="relative flex flex-col rounded-[18px] border border-white/[0.08] bg-[#121214] px-6 pt-0 pb-6"
                 style={{ ["--i" as string]: i }}
               >
-                {/* imagen que sobresale por arriba y a los lados de la card */}
+                {/* imagen centrada que sobresale por arriba y (leve) a los lados */}
                 <div className="relative mb-5" style={{ marginTop: -46 }}>
-                  <Image src={f.img} alt={f.title} width={f.w} height={f.h} className="h-auto object-contain" style={{ width: "112%", marginLeft: "-6%", filter: "drop-shadow(0 22px 34px rgba(0,0,0,0.45))" }} sizes="(max-width: 768px) 100vw, 360px" />
+                  <Image src={f.img} alt={f.title} width={f.w} height={f.h} className="mx-auto block h-auto object-contain" style={{ width: "108%", filter: "drop-shadow(0 22px 34px rgba(0,0,0,0.45))" }} sizes="(max-width: 768px) 100vw, 360px" />
                 </div>
                 <h3 className="font-sora text-[18px] font-normal text-white" style={{ marginBottom: 8 }}>{f.title}</h3>
                 <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.6 }}>{f.desc}</p>

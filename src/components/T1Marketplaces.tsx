@@ -722,8 +722,8 @@ export default function T1Marketplaces() {
           </div>
         </div>
 
-        {/* Block 3 — Pedidos (panel left, text right) — dark bg */}
-        <div className="fs-stack-card" style={{ top: 100, zIndex: 3, background: "#121214" }}>
+        {/* Block 3 — Pedidos (panel left, text right) — degradado #1A0A0A → #000 */}
+        <div className="fs-stack-card" style={{ top: 100, zIndex: 3, background: "linear-gradient(180deg, #1A0A0A 0%, #000000 100%)" }}>
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div className="order-2 tablet:order-1">

@@ -75,7 +75,7 @@ export default function TodoIncluidoDark() {
   };
 
   return (
-    <section className="relative px-5 pb-[60px] pt-24 tablet:px-10 tablet:pb-[60px] tablet:pt-32" style={{ background: "linear-gradient(180deg, #000000 0%, #140a0a 100%)" }}>
+    <section className="relative px-5 pb-[60px] pt-24 tablet:px-10 tablet:pb-[60px] tablet:pt-32">
       <div className="mx-auto max-w-[var(--max-w)]">
         <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
           <h2 className="font-sora text-[32px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>

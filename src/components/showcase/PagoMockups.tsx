@@ -66,7 +66,7 @@ function Summary({ shipping, total, aplicarRed = false, coupon = false }: { ship
       </div>
       <div className="flex items-center gap-2.5 py-6">
         <div className="flex flex-1 items-center rounded-[10px] border px-3.5" style={{ height: 44, borderColor: coupon ? "rgba(34,197,94,0.55)" : "rgba(0,0,0,0.12)" }}>
-          <span className={`font-inter text-[12.5px] ${coupon ? "font-semibold text-black" : "text-black/40"}`}>{coupon ? "T1-10" : "Código de descuento o tarjeta de regalo"}</span>
+          <span className={`font-inter text-[12.5px] ${coupon ? "font-semibold text-black" : "text-black/40"}`}>{coupon ? "T1-10" : "Código de descuento"}</span>
         </div>
         <div className={`relative flex items-center justify-center rounded-[10px] px-6 font-inter text-[13px] font-semibold text-white ${coupon ? "bg-[#16A34A]" : aplicarRed ? "bg-[#F1B0A9]" : "bg-[#AFC9F2]"}`} style={{ height: 44 }}>
           {coupon ? "Aplicado" : "Aplicar"}
@@ -145,11 +145,11 @@ const Field = ({ ph }: { ph: string }) => (
 
 /* ── Filled checkout (hero + flow final) ── */
 function CheckoutFilled({ tapPay = false }: { tapPay?: boolean }) {
-  // 0 idle · 1 Enviar a · 2 Método de envío · 3 Método de pago · 4 cupón
+  // 0 idle · 1 Enviar a · 2 Método de pago · 3 cupón — "Método de envío" no se despega
   const [act, setAct] = useState(0);
   useEffect(() => {
-    const d = [1500, 2300, 2300, 2300, 2800];
-    const t = setTimeout(() => setAct((act + 1) % 5), d[act]);
+    const d = [1500, 2300, 2300, 2800];
+    const t = setTimeout(() => setAct((act + 1) % 4), d[act]);
     return () => clearTimeout(t);
   }, [act]);
 
@@ -176,13 +176,13 @@ function CheckoutFilled({ tapPay = false }: { tapPay?: boolean }) {
             <Opt sel={false} main="Ana López · Av. Reforma 222, Juárez" />
           </Row>
 
-          <Row label="Método de envío" open={act === 2} value={<p className="font-inter text-[13px] text-black/70">2 - 3 días hábiles  ·  Gratis</p>}>
+          <Row label="Método de envío" open={false} value={<p className="font-inter text-[13px] text-black/70">2 - 3 días hábiles  ·  Gratis</p>}>
             <Opt sel main="Estándar · 2-3 días hábiles" right="Gratis" />
             <Opt sel={false} main="Express · 1 día hábil" right="$99.00" />
             <Opt sel={false} main="Recoger en tienda" right="Gratis" />
           </Row>
 
-          <Row label="Método de pago" open={act === 3} value={<div className="flex items-center gap-2.5"><VisaChip /><span className="font-inter text-[14px] tracking-widest text-black/70">•••• 4242</span></div>}>
+          <Row label="Método de pago" open={act === 2} value={<div className="flex items-center gap-2.5"><VisaChip /><span className="font-inter text-[14px] tracking-widest text-black/70">•••• 4242</span></div>}>
             <Opt sel main="Visa  ••••  4242" />
             <Opt sel={false} main="Mastercard  ••••  5588" />
             <span className="px-1 pt-0.5 font-inter text-[12.5px] font-semibold text-[#DB3B2B]">+ Agregar tarjeta</span>
@@ -197,7 +197,7 @@ function CheckoutFilled({ tapPay = false }: { tapPay?: boolean }) {
             {tapPay && <Tap left="50%" top="50%" />}
           </div>
         </div>
-        <div className="flex border-l border-black/[0.06]" style={{ width: 0.44 * W }}><Summary shipping total="$1,761.35" aplicarRed coupon={act === 4} /></div>
+        <div className="flex border-l border-black/[0.06]" style={{ width: 0.44 * W }}><Summary shipping total="$1,761.35" aplicarRed coupon={act === 3} /></div>
       </div>
     </div>
   );

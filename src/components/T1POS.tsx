@@ -285,24 +285,26 @@ export default function T1POS() {
       {/* ── Multiplataforma — descarga (dark QR card) on white ── */}
       <section className="relative bg-white px-5 pb-10 tablet:px-10 tablet:pb-14">
         <div className="mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="mx-auto max-w-[720px]">
-            <div className="relative overflow-hidden rounded-[24px] border border-white/[0.08] px-6 pt-10 pb-0 tablet:px-10 tablet:pt-0 tablet:pb-0" style={{ background: "linear-gradient(135deg, #1A1212 0%, #261515 50%, #1A0A0A 100%)", boxShadow: "0 16px 40px rgba(0,0,0,0.14)" }}>
-              {/* colored blobs */}
-              <div aria-hidden className="pointer-events-none absolute -right-12 -top-16 h-[240px] w-[240px] rounded-full" style={{ background: "radial-gradient(circle at center, rgba(219,59,43,0.38) 0%, transparent 70%)", filter: "blur(34px)" }} />
-              <div aria-hidden className="pointer-events-none absolute -bottom-16 -left-12 h-[230px] w-[230px] rounded-full" style={{ background: "radial-gradient(circle at center, rgba(255,140,60,0.24) 0%, transparent 70%)", filter: "blur(36px)" }} />
-              <div aria-hidden className="pointer-events-none absolute left-1/3 top-1/2 h-[180px] w-[180px] rounded-full" style={{ background: "radial-gradient(circle at center, rgba(130,90,255,0.16) 0%, transparent 70%)", filter: "blur(34px)" }} />
+          <div data-modal-animate className="mx-auto max-w-[980px]">
+            <div className="relative rounded-[24px] border border-white/[0.08] px-6 pt-10 pb-0 tablet:px-10 tablet:pt-0 tablet:pb-0" style={{ background: "linear-gradient(135deg, #1A1212 0%, #261515 50%, #1A0A0A 100%)", boxShadow: "0 16px 40px rgba(0,0,0,0.14)" }}>
+              {/* colored blobs — en una capa recortada para que la imagen sí pueda sobresalir de la card */}
+              <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden rounded-[24px]">
+                <div className="absolute -right-12 -top-16 h-[240px] w-[240px] rounded-full" style={{ background: "radial-gradient(circle at center, rgba(219,59,43,0.38) 0%, transparent 70%)", filter: "blur(34px)" }} />
+                <div className="absolute -bottom-16 -left-12 h-[230px] w-[230px] rounded-full" style={{ background: "radial-gradient(circle at center, rgba(255,140,60,0.24) 0%, transparent 70%)", filter: "blur(36px)" }} />
+                <div className="absolute left-1/3 top-1/2 h-[180px] w-[180px] rounded-full" style={{ background: "radial-gradient(circle at center, rgba(130,90,255,0.16) 0%, transparent 70%)", filter: "blur(34px)" }} />
+              </div>
 
-              <div className="relative grid grid-cols-1 items-center gap-4 tablet:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] tablet:gap-8">
-                {/* Left — imagen del POS en distintos dispositivos, sobresale (sangre inferior) */}
+              <div className="relative grid grid-cols-1 items-center gap-4 tablet:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] tablet:gap-6">
+                {/* Left — imagen del POS en distintos dispositivos, sobresale de la card (izquierda + abajo) */}
                 <div className="relative order-2 self-end tablet:order-1">
-                  <Image src="/img/pos-dispositivos.png" alt="T1 POS en distintos dispositivos" width={1536} height={1024} className="block h-auto max-w-none" style={{ width: "116%", marginLeft: "-8%", marginBottom: -2, filter: "drop-shadow(0 22px 34px rgba(0,0,0,0.42))" }} sizes="(max-width: 768px) 100vw, 460px" />
+                  <Image src="/img/pos-dispositivos.png" alt="T1 POS en distintos dispositivos" width={1536} height={1024} className="relative z-[1] block h-auto max-w-none" style={{ width: "122%", marginLeft: "-16%", marginBottom: -22, filter: "drop-shadow(0 26px 40px rgba(0,0,0,0.45))" }} sizes="(max-width: 768px) 100vw, 480px" />
                 </div>
 
                 {/* Right — texto + QR / botones */}
                 <div className="relative order-1 pb-8 text-center tablet:order-2 tablet:py-14 tablet:text-left">
-                  <p className="font-sora text-[24px] font-medium text-white tablet:text-[30px]" style={{ letterSpacing: "-0.5px", marginBottom: 8 }}>Tu POS en cualquier dispositivo</p>
+                  <p className="font-sora text-[24px] font-medium text-white tablet:whitespace-nowrap tablet:text-[30px]" style={{ letterSpacing: "-0.5px", marginBottom: 8 }}>Tu POS en cualquier dispositivo</p>
                   <p className="font-inter text-[15px] font-light text-white/60 tablet:hidden" style={{ marginBottom: 28 }}>Descárgalo gratis o ábrelo desde la web.</p>
-                  <p className="hidden font-inter text-[15px] font-light text-white/60 tablet:block" style={{ marginBottom: 28 }}>Descárgalo gratis escaneando el código o ábrelo desde la web.</p>
+                  <p className="hidden font-inter text-[15px] font-light text-white/60 tablet:block tablet:whitespace-nowrap" style={{ marginBottom: 28 }}>Descárgalo gratis escaneando el código o ábrelo desde la web.</p>
 
                   {/* Desktop → one QR per store */}
                   <div className="hidden flex-col tablet:flex">
