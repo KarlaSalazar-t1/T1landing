@@ -310,37 +310,28 @@ export default function T1POS() {
                   <div className="hidden flex-col tablet:flex">
                     <div className="flex items-start justify-center gap-8">
                       {[
-                        { store: "App Store", qr: "/img/qr-ios.png", logo: (<svg width="15" height="15" viewBox="0 0 24 24" fill="#fff"><path d="M17.6 7.1c-.9.05-2 .6-2.6 1.3-.6.6-1.1 1.6-.9 2.5 1 .08 2-.5 2.6-1.2.6-.7 1-1.7.9-2.6zM19 16.8c-.3.8-.5 1.1-.9 1.8-.6.9-1.4 2-2.4 2-.9 0-1.1-.6-2.3-.6-1.2 0-1.5.6-2.3.6-1 0-1.7-1-2.3-1.9-1.7-2.5-1.9-5.5-.8-7 .8-1.1 2-1.7 3.1-1.7 1.2 0 1.9.6 2.9.6.9 0 1.5-.6 2.9-.6 1 0 2.1.6 2.9 1.5-2.6 1.4-2.2 5.1.5 5.7z" /></svg>) },
-                        { store: "Google Play", qr: "/img/qr-android.png", logo: (<svg width="14" height="14" viewBox="0 0 24 24"><path d="M3.6 2.3l11 9.7-11 9.7c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z" fill="#4285F4" /><path d="M16.8 9.1l-2.2 2.9 2.2 2.9 3.5-2c.7-.4.7-1.4 0-1.8l-3.5-2z" fill="#FBBC04" /><path d="M14.6 12l-11 9.7c.4.2.9.2 1.3 0l11.9-6.8-2.2-2.9z" fill="#34A853" /><path d="M14.6 12l2.2-2.9L4.9 2.3c-.4-.2-.9-.2-1.3 0l11 9.7z" fill="#EA4335" /></svg>) },
+                        { store: "App Store", qr: "/img/qr-ios.png", badge: "/img/badge-app-store.svg" },
+                        { store: "Google Play", qr: "/img/qr-android.png", badge: "/img/badge-google-play.svg" },
                       ].map((q) => (
                         <div key={q.store} className="flex flex-col items-center">
                           <div className="flex h-[108px] w-[108px] shrink-0 items-center justify-center overflow-hidden rounded-[16px] bg-white" style={{ padding: 10, boxShadow: "0 6px 22px rgba(0,0,0,0.3)" }}>
                             <Image src={q.qr} alt={`Código QR para ${q.store}`} width={820} height={820} className="h-full w-full object-contain" />
                           </div>
-                          <div className="mt-2.5 flex items-center gap-1.5">
-                            {q.logo}
-                            <span className="font-inter text-[12.5px] font-medium text-white/70">{q.store}</span>
-                          </div>
+                          <a href={SIGNUP_URL} className="mt-3 block no-underline">
+                            <img src={q.badge} alt={`Descargar en ${q.store}`} className="h-[34px] w-auto" />
+                          </a>
                         </div>
                       ))}
                     </div>
                   </div>
 
-                  {/* Mobile → tappable store buttons (white pills on dark card) */}
+                  {/* Mobile → badges oficiales de descarga */}
                   <div className="flex flex-col items-center justify-center gap-3 tablet:hidden">
-                    <a href={SIGNUP_URL} className="flex w-full items-center justify-center gap-3 rounded-[14px] bg-white px-6 py-3 no-underline">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="#111827"><path d="M17.6 7.1c-.9.05-2 .6-2.6 1.3-.6.6-1.1 1.6-.9 2.5 1 .08 2-.5 2.6-1.2.6-.7 1-1.7.9-2.6zM19 16.8c-.3.8-.5 1.1-.9 1.8-.6.9-1.4 2-2.4 2-.9 0-1.1-.6-2.3-.6-1.2 0-1.5.6-2.3.6-1 0-1.7-1-2.3-1.9-1.7-2.5-1.9-5.5-.8-7 .8-1.1 2-1.7 3.1-1.7 1.2 0 1.9.6 2.9.6.9 0 1.5-.6 2.9-.6 1 0 2.1.6 2.9 1.5-2.6 1.4-2.2 5.1.5 5.7z" /></svg>
-                      <span className="text-left">
-                        <span className="block font-inter text-[10px] leading-none text-black/55">Descárgala en el</span>
-                        <span className="block font-sora text-[17px] font-semibold leading-tight text-black">App Store</span>
-                      </span>
+                    <a href={SIGNUP_URL} className="no-underline">
+                      <img src="/img/badge-app-store.svg" alt="Descárgala en el App Store" className="h-[48px] w-auto" />
                     </a>
-                    <a href={SIGNUP_URL} className="flex w-full items-center justify-center gap-3 rounded-[14px] bg-white px-6 py-3 no-underline">
-                      <svg width="22" height="22" viewBox="0 0 24 24"><path d="M3.6 2.3l11 9.7-11 9.7c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z" fill="#4285F4" /><path d="M16.8 9.1l-2.2 2.9 2.2 2.9 3.5-2c.7-.4.7-1.4 0-1.8l-3.5-2z" fill="#FBBC04" /><path d="M14.6 12l-11 9.7c.4.2.9.2 1.3 0l11.9-6.8-2.2-2.9z" fill="#34A853" /><path d="M14.6 12l2.2-2.9L4.9 2.3c-.4-.2-.9-.2-1.3 0l11 9.7z" fill="#EA4335" /></svg>
-                      <span className="text-left">
-                        <span className="block font-inter text-[10px] leading-none text-black/55">Disponible en</span>
-                        <span className="block font-sora text-[17px] font-semibold leading-tight text-black">Google Play</span>
-                      </span>
+                    <a href={SIGNUP_URL} className="no-underline">
+                      <img src="/img/badge-google-play.svg" alt="Disponible en Google Play" className="h-[48px] w-auto" />
                     </a>
                   </div>
 
