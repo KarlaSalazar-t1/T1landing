@@ -52,16 +52,17 @@ function ReportesGlassCards({ className = "", stagger = false }: { className?: s
   return (
     <div className={`mx-auto flex w-full max-w-[320px] flex-col gap-4 ${className}`} style={{ fontFamily: MANROPE }}>
       {cards.map((c, idx) => (
-        <div
-          key={c.l}
-          className="rounded-[18px] border border-white/[0.16] px-6 py-5"
-          style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)", boxShadow: "0 16px 44px rgba(0,0,0,0.28)", transform: stagger && idx === 1 ? "translateX(-34px)" : undefined, animation: "rastreoReveal 0.5s cubic-bezier(0.16,1,0.3,1) both", animationDelay: `${idx * 0.1}s` }}
-        >
-          <div className="flex items-center justify-between" style={{ marginBottom: 10 }}>
-            <p className="text-[13px] font-medium text-white/70">{c.l}</p>
-            <span className="rounded-full px-2 py-0.5 text-[11px] font-semibold" style={{ background: c.up ? "rgba(34,197,94,0.16)" : "rgba(219,59,43,0.20)", color: c.up ? "#7CE0A0" : "#FF8A7A" }}>{c.d}</span>
+        <div key={c.l} style={{ transform: stagger && idx === 1 ? "translateX(-38px)" : undefined }}>
+          <div
+            className="rounded-[18px] border border-white/[0.16] px-6 py-5"
+            style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)", boxShadow: "0 16px 44px rgba(0,0,0,0.28)", animation: "rastreoReveal 0.5s cubic-bezier(0.16,1,0.3,1) both", animationDelay: `${idx * 0.1}s` }}
+          >
+            <div className="flex items-center justify-between" style={{ marginBottom: 10 }}>
+              <p className="text-[13px] font-medium text-white/70">{c.l}</p>
+              <span className="rounded-full px-2 py-0.5 text-[11px] font-semibold" style={{ background: c.up ? "rgba(34,197,94,0.16)" : "rgba(219,59,43,0.20)", color: c.up ? "#7CE0A0" : "#FF8A7A" }}>{c.d}</span>
+            </div>
+            <p key={`${s.envios}-${idx}`} className="font-sora text-[34px] font-light text-white tabular-nums" style={{ lineHeight: 1, animation: "countBump 0.45s ease-out" }}>{c.v}</p>
           </div>
-          <p key={`${s.envios}-${idx}`} className="font-sora text-[34px] font-light text-white tabular-nums" style={{ lineHeight: 1, animation: "countBump 0.45s ease-out" }}>{c.v}</p>
         </div>
       ))}
     </div>
