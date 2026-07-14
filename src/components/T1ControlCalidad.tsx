@@ -121,7 +121,7 @@ function EnvioDetalle({ className = "" }: { className?: string }) {
 function PhoneShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="mx-auto w-full" style={{ maxWidth: 340, fontFamily: MANROPE }}>
-      <div className="relative overflow-hidden bg-white" style={{ borderRadius: 44, border: "1px solid rgba(0,0,0,0.08)", boxShadow: "0 30px 80px rgba(0,0,0,0.45)" }}>
+      <div className="relative overflow-hidden bg-white" style={{ borderRadius: 12, border: "1px solid rgba(0,0,0,0.08)", boxShadow: "0 10px 30px rgba(0,0,0,0.10)" }}>
         <div className="px-5 pt-6 pb-7">{children}</div>
       </div>
     </div>
@@ -363,6 +363,26 @@ export default function T1ControlCalidad() {
               <div className="relative z-10 w-full">
                 <CalidadDashboard />
               </div>
+
+              {/* Chips flotantes — aparecen y se ocultan en ciclo */}
+              <div
+                className="hero-chip absolute left-[-4%] top-[8%] z-20 flex items-center gap-2 rounded-full bg-white py-2 pl-2.5 pr-4"
+                style={{ boxShadow: "0 12px 30px rgba(0,0,0,0.18)", animation: "heroChipCycle 5s ease-in-out infinite", fontFamily: MANROPE }}
+              >
+                <span className="flex h-[22px] w-[22px] items-center justify-center rounded-full bg-[rgba(219,59,43,0.12)]">
+                  <span className="h-[8px] w-[8px] rounded-full bg-[#DB3B2B]" />
+                </span>
+                <span className="text-[13px] font-semibold text-black">Nueva incidencia</span>
+              </div>
+              <div
+                className="hero-chip absolute bottom-[6%] right-[-6%] z-20 flex items-center gap-2 rounded-full bg-white py-2 pl-2.5 pr-4"
+                style={{ boxShadow: "0 12px 30px rgba(0,0,0,0.18)", animation: "heroChipCycle 5s ease-in-out infinite", animationDelay: "2.5s", fontFamily: MANROPE }}
+              >
+                <span className="flex h-[22px] w-[22px] items-center justify-center rounded-full bg-[#16A34A]">
+                  <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M4 8l3 3 5-6" stroke="#FFFFFF" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                </span>
+                <span className="text-[13px] font-semibold text-black">Incidencia resuelta</span>
+              </div>
             </div>
           </div>
         </div>
@@ -381,12 +401,17 @@ export default function T1ControlCalidad() {
           </div>
           <div data-modal-animate className="grid grid-cols-1 gap-5 tablet:grid-cols-2 tablet:gap-6">
             {[
-              { title: "Incidencias de paquetería", desc: "La paquetería reporta un problema con la entrega como dirección incompleta, rechazo del envío o imposibilidad de entrega. Desde T1 revisas el caso y eliges la acción correspondiente." },
-              { title: "Incidencias reportadas por ti", desc: "Si detectas un problema con un paquete, levantas una incidencia desde T1, cargas la información solicitada y das seguimiento a la respuesta de la paquetería." },
+              { title: "Incidencias de paquetería", desc: "La paquetería reporta un problema con la entrega como dirección incompleta, rechazo del envío o imposibilidad de entrega. Desde T1 revisas el caso y eliges la acción correspondiente.", img: "/img/incidencias-paqueteria.png", w: 1024, h: 863 },
+              { title: "Incidencias reportadas por ti", desc: "Si detectas un problema con un paquete, levantas una incidencia desde T1, cargas la información solicitada y das seguimiento a la respuesta de la paquetería.", img: "/img/incidencias-reportadas.png", w: 1208, h: 863 },
             ].map((c) => (
-              <div key={c.title} className="tienda-card flex flex-col rounded-[20px] border border-black/[0.07] bg-white p-7" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.05)" }}>
-                <h3 className="font-sora text-[22px] font-normal text-black tablet:text-[26px]" style={{ letterSpacing: "-0.5px", marginBottom: 10 }}>{c.title}</h3>
-                <p className="font-inter text-[15px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{c.desc}</p>
+              <div key={c.title} className="tienda-card flex flex-col overflow-hidden rounded-[20px] border border-black/[0.07] bg-white" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.05)" }}>
+                <div className="flex items-center justify-center bg-[#F5F5F5] px-6 pt-8 pb-6">
+                  <Image src={c.img} alt={c.title} width={c.w} height={c.h} className="h-[190px] w-auto object-contain tablet:h-[210px]" style={{ filter: "drop-shadow(0 16px 30px rgba(0,0,0,0.14))" }} />
+                </div>
+                <div className="p-7">
+                  <h3 className="font-sora text-[22px] font-normal text-black tablet:text-[26px]" style={{ letterSpacing: "-0.5px", marginBottom: 10 }}>{c.title}</h3>
+                  <p className="font-inter text-[15px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{c.desc}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -568,11 +593,11 @@ export default function T1ControlCalidad() {
       <section className="relative overflow-hidden px-5 py-24 tablet:px-10 tablet:py-32" style={{ background: "linear-gradient(180deg, #1A0A0A 0%, #000000 100%)" }}>
         <div aria-hidden className="pointer-events-none absolute top-0 left-1/2 h-[340px] w-[640px] -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(ellipse at center, rgba(219,59,43,0.12) 0%, transparent 66%)", filter: "blur(46px)" }} />
         <div className="relative mx-auto max-w-[var(--max-w)]">
-          <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 48 }}>
-            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-1.3px", lineHeight: 1.15, marginBottom: 14 }}>
+          <div className="mx-auto max-w-[900px] text-center" style={{ marginBottom: 48 }}>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px] lg:whitespace-nowrap" style={{ letterSpacing: "-1.3px", lineHeight: 1.15, marginBottom: 14 }}>
               Todo lo que necesitas para cada caso.
             </h2>
-            <p className="font-inter text-[16px] font-light text-white/55 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
+            <p className="font-inter text-[16px] font-light text-white/55 tablet:text-[18px] lg:whitespace-nowrap" style={{ lineHeight: 1.55 }}>
               Cada incidencia con las herramientas para entenderla, resolverla y darle seguimiento.
             </p>
           </div>
@@ -583,18 +608,20 @@ export default function T1ControlCalidad() {
             style={{ scrollPaddingLeft: 4, scrollPaddingRight: 4 }}
           >
             {[
-              { t: "Acciones disponibles por caso", d: "Corrige la dirección, solicita el retorno o elige la acción correcta según el tipo de incidencia." },
-              { t: "Evidencia y documentos", d: "Adjunta fotos, comprobantes o la información que la paquetería necesita para resolver el caso." },
-              { t: "Seguimiento por estado", d: "Sabe en todo momento si el caso está pendiente, en revisión, respondido o resuelto." },
-              { t: "Tiempos de respuesta", d: "Consulta el tiempo estimado y el disponible para recibir respuesta de la paquetería." },
-              { t: "Historial de actividad", d: "Consulta cada acción, cambio de estado y respuesta del caso desde un mismo lugar." },
-            ].map((c, i) => (
-              <div key={c.t} className="cap-card flex w-[80vw] max-w-[320px] shrink-0 snap-start flex-col rounded-[18px] border border-white/[0.08] bg-white/[0.03] p-6 tablet:w-[300px] tablet:max-w-none" style={{ boxShadow: "0 26px 60px -28px rgba(0,0,0,0.8)" }}>
-                <div className="flex h-[42px] w-[42px] items-center justify-center rounded-[12px] border border-white/10 bg-[#DB3B2B]/[0.14]" style={{ marginBottom: 18 }}>
-                  <span className="font-sora text-[15px] font-light text-[#FF6F5E]">{i + 1}</span>
+              { t: "Acciones disponibles por caso", d: "Corrige la dirección, solicita el retorno o elige la acción correcta según el tipo de incidencia.", img: "/img/acciones.png", w: 824, h: 682 },
+              { t: "Evidencia y documentos", d: "Adjunta fotos, comprobantes o la información que la paquetería necesita para resolver el caso.", img: "/img/evidencia.png", w: 1254, h: 1254 },
+              { t: "Seguimiento por estado", d: "Sabe en todo momento si el caso está pendiente, en revisión, respondido o resuelto.", img: "/img/seguimiento.png", w: 1254, h: 1254 },
+              { t: "Tiempos de respuesta", d: "Consulta el tiempo estimado y el disponible para recibir respuesta de la paquetería.", img: "/img/tiempos.png", w: 1254, h: 954 },
+              { t: "Historial de actividad", d: "Consulta cada acción, cambio de estado y respuesta del caso desde un mismo lugar.", img: "/img/historial.png", w: 1254, h: 1117 },
+            ].map((c) => (
+              <div key={c.t} className="cap-card flex w-[80vw] max-w-[320px] shrink-0 snap-start flex-col overflow-hidden rounded-[18px] border border-white/[0.08] bg-white/[0.03] tablet:w-[300px] tablet:max-w-none" style={{ boxShadow: "0 26px 60px -28px rgba(0,0,0,0.8)" }}>
+                <div className="flex h-[170px] items-center justify-center px-6 pt-6">
+                  <Image src={c.img} alt={c.t} width={c.w} height={c.h} className="max-h-[150px] w-auto object-contain" style={{ filter: "drop-shadow(0 14px 26px rgba(0,0,0,0.4))" }} />
                 </div>
-                <h3 className="font-sora text-[18px] font-normal text-white tablet:text-[19px]" style={{ marginBottom: 8, letterSpacing: "-0.3px" }}>{c.t}</h3>
-                <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.6 }}>{c.d}</p>
+                <div className="px-6 pb-6 pt-3">
+                  <h3 className="font-sora text-[18px] font-normal text-white tablet:text-[19px]" style={{ marginBottom: 8, letterSpacing: "-0.3px" }}>{c.t}</h3>
+                  <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.6 }}>{c.d}</p>
+                </div>
               </div>
             ))}
           </div>

@@ -249,36 +249,85 @@ function ExpressT1Screen() {
   );
 }
 
-const ENVS = [
-  { name: "Caja", amt: "+$1,345", render: <CajaScreen /> },
-  { name: "Link de pago", amt: "+$999", render: <LinkPagoScreen /> },
-  { name: "Paga con T1", amt: "+$1,346", render: <ExpressT1Screen /> },
+/* ── "Cobra desde donde vendas" — sección oscura estilo "Para cada etapa de tu negocio" ── */
+const CHANNELS = [
+  { title: "Tienda en línea", desc: "Cobra desde el checkout de tu tienda con todos los métodos en una sola pantalla.", render: <CajaScreen /> },
+  { title: "Link de pago", desc: "Comparte un enlace por WhatsApp o redes y tu cliente paga al instante.", render: <LinkPagoScreen /> },
+  { title: "Paga con T1", desc: "Checkout express: tus clientes pagan en un tap con su cuenta T1.", render: <ExpressT1Screen /> },
 ];
 
-function ChannelsPanel() {
-  const [hi, setHi] = useState(0);
+function ChannelsShowcase() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [activeIdx, setActiveIdx] = useState(0);
   useEffect(() => {
-    const id = setInterval(() => setHi((h) => (h + 1) % ENVS.length), 4600);
-    return () => clearInterval(id);
+    const el = scrollRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      const idx = Math.round(el.scrollLeft / el.offsetWidth);
+      setActiveIdx(Math.min(idx, CHANNELS.length - 1));
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => el.removeEventListener("scroll", onScroll);
   }, []);
-  const e = ENVS[hi];
+
   return (
-    <div className="mx-auto w-full" style={{ maxWidth: 320 }}>
-      <div className="mb-4 flex flex-wrap justify-center gap-2">
-        {ENVS.map((x, i) => {
-          const on = hi === i;
-          return (
-            <button key={x.name} onClick={() => setHi(i)} className="rounded-full px-3.5 py-1.5 font-inter text-[12px] font-medium transition-all duration-200" style={{ background: on ? "#DB3B2B" : "rgba(255,255,255,0.06)", color: on ? "#fff" : "rgba(0,0,0,0.55)", border: on ? "1px solid #DB3B2B" : "1px solid rgba(0,0,0,0.1)", cursor: "pointer" }}>
-              {x.name}
-            </button>
-          );
-        })}
+    <section className="relative overflow-hidden bg-black" style={{ paddingTop: 100, paddingBottom: 100 }}>
+      <div className="relative mx-auto max-w-[var(--max-w)] px-5 tablet:px-6">
+        <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", textAlign: "center", marginBottom: 16 }}>
+          Cobra desde donde vendas.
+        </h2>
+        <p className="mx-auto font-inter text-[16px] font-light text-white/85 tablet:whitespace-nowrap tablet:text-[18px]" style={{ textAlign: "center", marginBottom: 56 }}>
+          Tu tienda, un link o el checkout express. Todos tus cobros en una sola cuenta.
+        </p>
+
+        {/* Desktop: 3-column grid */}
+        <div className="hidden tablet:grid tablet:grid-cols-3 tablet:gap-6">
+          {CHANNELS.map((c, i) => (
+            <div key={c.title} className="audience-card-wrap flex">
+              <div className="audience-card flex flex-1">
+                <span className="audience-beam" aria-hidden style={{ animationDelay: `${i * -2}s` }} />
+                <div className="group relative z-[1] flex flex-1 flex-col overflow-hidden rounded-[18.5px]" style={{ background: "#1b1714", boxShadow: "0 24px 64px -30px rgba(0,0,0,0.7)" }}>
+                  <div className="relative overflow-hidden bg-[#0e0b0a]" style={{ height: 300, padding: 22 }}>
+                    <div className="h-full w-full overflow-hidden rounded-[12px] bg-white" style={{ boxShadow: "0 18px 44px rgba(0,0,0,0.4)" }}>{c.render}</div>
+                  </div>
+                  <div className="flex flex-1 flex-col p-6" style={{ paddingTop: 24 }}>
+                    <h3 className="font-sora text-[24px] font-normal text-white" style={{ letterSpacing: "-0.02em", marginBottom: 10 }}>{c.title}</h3>
+                    <p className="font-inter text-[14px] font-normal leading-relaxed text-white/55">{c.desc}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Mobile: horizontal carousel with scroll-snap */}
+        <div className="tablet:hidden">
+          <div ref={scrollRef} className="flex snap-x snap-mandatory gap-4 overflow-x-auto" style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch", paddingBottom: 4 }}>
+            {CHANNELS.map((c, i) => (
+              <div key={c.title} className="audience-card-wrap flex w-[85vw] shrink-0 snap-center" style={{ maxWidth: 340 }}>
+                <div className="audience-card flex flex-1">
+                  <span className="audience-beam" aria-hidden style={{ animationDelay: `${i * -2}s` }} />
+                  <div className="relative z-[1] flex flex-1 flex-col overflow-hidden rounded-[18.5px]" style={{ background: "#1b1714", boxShadow: "0 18px 50px -28px rgba(0,0,0,0.65)" }}>
+                    <div className="relative overflow-hidden bg-[#0e0b0a]" style={{ height: 280, padding: 18 }}>
+                      <div className="h-full w-full overflow-hidden rounded-[12px] bg-white" style={{ boxShadow: "0 14px 36px rgba(0,0,0,0.4)" }}>{c.render}</div>
+                    </div>
+                    <div className="flex flex-1 flex-col p-5" style={{ paddingTop: 20 }}>
+                      <h3 className="font-sora text-[22px] font-normal text-white" style={{ letterSpacing: "-0.02em", marginBottom: 8 }}>{c.title}</h3>
+                      <p className="font-inter text-[13px] font-normal leading-relaxed text-white/55">{c.desc}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="flex items-center justify-center gap-2" style={{ marginTop: 20 }}>
+            {CHANNELS.map((_, i) => (
+              <div key={i} className="rounded-full transition-all duration-200" style={{ width: activeIdx === i ? 20 : 6, height: 6, background: activeIdx === i ? "#D93A26" : "rgba(255,255,255,0.2)" }} />
+            ))}
+          </div>
+        </div>
       </div>
-      {/* real simulated screen (browser window) */}
-      <div className="overflow-hidden rounded-[14px] bg-white" style={{ height: 360, boxShadow: "0 20px 55px rgba(0,0,0,0.14)" }}>
-        <div key={hi} className="h-full" style={{ animation: "fadeSlideIn 0.4s ease-out both" }}>{e.render}</div>
-      </div>
-    </div>
+    </section>
   );
 }
 
@@ -567,31 +616,10 @@ export default function T1PagosEnLinea() {
           </div>
         </div>
 
-        {/* Block 3 — canales (text left, panel right) */}
-        <div className="fs-stack-card" style={{ top: 100, zIndex: 3, background: "#FFFFFF" }}>
-          <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
-            <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
-              <div>
-                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
-                  Cobra desde donde vendas
-                </h3>
-                <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                  Tu tienda en línea, tu app, un link de pago o el checkout express Paga con T1. Todos tus cobros, en una sola cuenta.
-                </p>
-                <ul className="flex flex-col gap-2.5">
-                  {["Una integración para todos tus canales", "Crea links de pago en segundos", "Un solo panel para todos tus cobros"].map((it) => (
-                    <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                      {it}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <ChannelsPanel />
-            </div>
-          </div>
-        </div>
       </div>
+
+      {/* ── Cobra desde donde vendas — estilo "Para cada etapa de tu negocio" ── */}
+      <ChannelsShowcase />
 
       {/* ── Cómo funciona ── */}
       <section className="relative bg-[#FBFBFB] px-5 py-24 tablet:px-10 tablet:py-32">
@@ -682,10 +710,10 @@ export default function T1PagosEnLinea() {
       </section>
 
       {/* ── FAQ ── */}
-      <section className="relative bg-[#FBFBFB] px-5 py-24 tablet:px-10 tablet:py-32">
+      <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[760px]">
           <div data-modal-animate className="text-center" style={{ marginBottom: 40 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>Preguntas frecuentes</h2>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>Preguntas frecuentes</h2>
           </div>
           <div data-modal-animate className="flex flex-col gap-3">
             {[
@@ -695,12 +723,12 @@ export default function T1PagosEnLinea() {
               { q: "¿Necesito contrato con cada banco?", a: "No. Con un solo contrato T1 te conecta a múltiples procesadores y enruta cada cobro al de mayor aprobación." },
               { q: "¿Es seguro?", a: "Sí. Cumplimos PCI DSS, tokenizamos los datos y cada transacción pasa por antifraude T1 Score en menos de 100ms." },
             ].map((f, i) => (
-              <details key={f.q} data-stagger className="group rounded-[14px] border border-black/[0.06] bg-white transition-all duration-200 open:border-[rgba(219,59,43,0.2)] open:shadow-[0_4px_18px_rgba(0,0,0,0.05)]" style={{ ["--i" as string]: i }}>
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-sora text-[16px] font-normal text-black transition-colors duration-150 hover:text-[#DB3B2B]">
+              <details key={f.q} data-stagger className="group rounded-[14px] border border-white/[0.08] bg-white/[0.03] transition-all duration-200 open:border-[rgba(219,59,43,0.4)] open:bg-white/[0.05]" style={{ ["--i" as string]: i }}>
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-sora text-[16px] font-normal text-white transition-colors duration-150 hover:text-[#FF6F5E]">
                   {f.q}
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="shrink-0 text-black/40 transition-transform duration-300 group-open:rotate-180 group-open:text-[#DB3B2B]"><path d="M3 5.5L8 10.5L13 5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="shrink-0 text-white/40 transition-transform duration-300 group-open:rotate-180 group-open:text-[#FF6F5E]"><path d="M3 5.5L8 10.5L13 5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                 </summary>
-                <p className="px-6 pb-5 font-inter text-[14px] font-light text-black/65" style={{ lineHeight: 1.65 }}>{f.a}</p>
+                <p className="px-6 pb-5 font-inter text-[14px] font-light text-white/60" style={{ lineHeight: 1.65 }}>{f.a}</p>
               </details>
             ))}
           </div>

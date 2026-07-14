@@ -487,6 +487,14 @@ function ReportesHeroPhone({ className = "" }: { className?: string }) {
 export default function T1ReportesLogisticos() {
   const rootRef = useRef<HTMLDivElement>(null);
   const [tab, setTab] = useState(0);
+  // Carrusel "Todo lo que puedes medir" — flechas prev/next (estilo Define reglas)
+  const medirRef = useRef<HTMLDivElement>(null);
+  const scrollMedir = (dir: number) => {
+    const el = medirRef.current;
+    const card = el?.querySelector<HTMLElement>(".medir-card");
+    const step = card ? card.offsetWidth + 20 : (el?.clientWidth ?? 0) * 0.8;
+    el?.scrollBy({ left: dir * step, behavior: "smooth" });
+  };
 
   useEffect(() => {
     const root = rootRef.current;
@@ -563,8 +571,8 @@ export default function T1ReportesLogisticos() {
       {/* ════════════ INTERACTIVE REPORT EXPLORER ════════════ */}
       <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 40 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[38px] lg:text-[46px]" style={{ letterSpacing: "-1.3px", lineHeight: 1.1, marginBottom: 14 }}>
+          <div data-modal-animate className="mx-auto max-w-[900px] text-center" style={{ marginBottom: 40 }}>
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[38px] lg:text-[46px] lg:whitespace-nowrap" style={{ letterSpacing: "-1.3px", lineHeight: 1.1, marginBottom: 14 }}>
               Mide, compara y mejora tus envíos.
             </h2>
             <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
@@ -597,28 +605,30 @@ export default function T1ReportesLogisticos() {
                 </span>
               </div>
             )}
-            {active.type === "donut" ? (
-              <>
-                <DonutChartResponsive key={`${active.key}-m`} className="tablet:hidden" />
-                <div className="hidden tablet:block">
-                  <DonutChart key={active.key} data={active.donut!} />
-                </div>
-              </>
-            ) : active.type === "list" ? (
-              <>
-                <EnviosListResponsive className="tablet:hidden" />
-                <div className="hidden tablet:block">
-                  <EnviosList key={active.key} />
-                </div>
-              </>
-            ) : active.type === "table" ? (
-              <>
-                <PaqueteriaResponsive className="tablet:hidden" />
-                <div className="hidden tablet:block">
-                  <PaqueteriaTable key={active.key} />
-                </div>
-              </>
-            ) : null}
+            <div className="flex flex-col justify-center tablet:min-h-[360px]">
+              {active.type === "donut" ? (
+                <>
+                  <DonutChartResponsive key={`${active.key}-m`} className="tablet:hidden" />
+                  <div className="hidden tablet:block">
+                    <DonutChart key={active.key} data={active.donut!} />
+                  </div>
+                </>
+              ) : active.type === "list" ? (
+                <>
+                  <EnviosListResponsive className="tablet:hidden" />
+                  <div className="hidden tablet:block">
+                    <EnviosList key={active.key} />
+                  </div>
+                </>
+              ) : active.type === "table" ? (
+                <>
+                  <PaqueteriaResponsive className="tablet:hidden" />
+                  <div className="hidden tablet:block">
+                    <PaqueteriaTable key={active.key} />
+                  </div>
+                </>
+              ) : null}
+            </div>
             <p className="mt-4 font-inter text-[12px] text-black/50">{active.note}</p>
           </div>
         </div>
@@ -673,34 +683,53 @@ export default function T1ReportesLogisticos() {
       </section>
 
 
-      {/* ════════════ CAPACIDADES — todo lo que puedes medir ════════════ */}
-      <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32">
+      {/* ════════════ CAPACIDADES — todo lo que puedes medir (estilo "Define reglas") ════════════ */}
+      <section className="relative overflow-hidden bg-white px-5 py-24 tablet:px-10 tablet:py-32" data-modal-animate>
         <div className="mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-              Todo lo que puedes medir en un panel
-            </h2>
-            <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-              Del estado de cada envío al costo por paquetería, con datos listos para exportar.
-            </p>
-          </div>
-          <div data-modal-animate className="grid grid-cols-1 gap-4 tablet:grid-cols-2 lg:grid-cols-3 lg:gap-5">
-            {[
-              { title: "Envíos por estado", desc: "Por recolectar, en tránsito, entregados y con incidencia, en tiempo real.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="2" stroke="#111827" strokeWidth="1.6" /><path d="M3 9h18M8 14h3M8 17h6" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
-              { title: "Desempeño por paquetería", desc: "Compara costo, peso y entregas a tiempo de cada carrier.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 21h18" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /><rect x="5" y="11" width="3.5" height="8" rx="1" stroke="#111827" strokeWidth="1.6" /><rect x="10.5" y="7" width="3.5" height="12" rx="1" stroke="#111827" strokeWidth="1.6" /><rect x="16" y="4" width="3.5" height="15" rx="1" stroke="#111827" strokeWidth="1.6" /></svg>) },
-              { title: "Costos de envío", desc: "Costo promedio y total por periodo, paquetería o canal.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#111827" strokeWidth="1.6" /><path d="M12 7v10M14.5 9.3c0-1-1.1-1.8-2.5-1.8s-2.5.8-2.5 1.8 1.1 1.7 2.5 1.9 2.5.9 2.5 1.9-1.1 1.8-2.5 1.8-2.5-.8-2.5-1.8" stroke="#111827" strokeWidth="1.4" strokeLinecap="round" /></svg>) },
-              { title: "Tendencias de entrega", desc: "Evolución de entregas a tiempo y demoras a lo largo del tiempo.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 17l6-6 4 4 8-8" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /><path d="M21 7v5h-5" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-              { title: "Comparativa por periodo", desc: "Contrasta contra el periodo anterior para ver qué mejoró y qué no.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="18" rx="1.5" stroke="#111827" strokeWidth="1.6" /><rect x="13" y="3" width="8" height="18" rx="1.5" stroke="#111827" strokeWidth="1.6" /></svg>) },
-              { title: "Exportables al instante", desc: "Descarga cualquier reporte en Excel o CSV con un click.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z M14 3v5h5" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round" /><path d="M12 11v6m0 0l-2.5-2.5M12 17l2.5-2.5" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-            ].map((f, i) => (
-              <div key={f.title} data-stagger className="tienda-card flex items-start gap-4 rounded-[16px] border border-black/[0.06] bg-white p-6" style={{ ["--i" as string]: i }}>
-                <div className="flex h-[40px] w-[40px] shrink-0 items-center justify-center">{f.icon}</div>
-                <div>
-                  <h3 className="font-sora text-[16px] font-normal text-black" style={{ marginBottom: 4 }}>{f.title}</h3>
-                  <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{f.desc}</p>
-                </div>
+          <div className="grid grid-cols-1 gap-10 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.35fr)] tablet:items-center tablet:gap-14">
+            {/* Left — título + CTA */}
+            <div>
+              <h2 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.12, marginBottom: 16, maxWidth: 420 }}>
+                Todo lo que puedes medir en un panel
+              </h2>
+              <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 400 }}>
+                Del estado de cada envío al costo por paquetería, con datos listos para exportar.
+              </p>
+              <a href={SIGNUP_URL} className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
+                Ver mis reportes
+              </a>
+            </div>
+
+            {/* Right — carrusel de cards con flechas */}
+            <div className="flex flex-col gap-5">
+              <div ref={medirRef} className="-mr-5 flex gap-5 overflow-x-auto pb-2 pr-5 tablet:mr-0 tablet:pr-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                {[
+                  { title: "Envíos por estado", desc: "Por recolectar, en tránsito, entregados y con incidencia, en tiempo real.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="2" stroke="#111827" strokeWidth="1.6" /><path d="M3 9h18M8 14h3M8 17h6" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
+                  { title: "Desempeño por paquetería", desc: "Compara costo, peso y entregas a tiempo de cada carrier.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M3 21h18" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /><rect x="5" y="11" width="3.5" height="8" rx="1" stroke="#111827" strokeWidth="1.6" /><rect x="10.5" y="7" width="3.5" height="12" rx="1" stroke="#111827" strokeWidth="1.6" /><rect x="16" y="4" width="3.5" height="15" rx="1" stroke="#111827" strokeWidth="1.6" /></svg>) },
+                  { title: "Costos de envío", desc: "Costo promedio y total por periodo, paquetería o canal.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#111827" strokeWidth="1.6" /><path d="M12 7v10M14.5 9.3c0-1-1.1-1.8-2.5-1.8s-2.5.8-2.5 1.8 1.1 1.7 2.5 1.9 2.5.9 2.5 1.9-1.1 1.8-2.5 1.8-2.5-.8-2.5-1.8" stroke="#111827" strokeWidth="1.4" strokeLinecap="round" /></svg>) },
+                  { title: "Tendencias de entrega", desc: "Evolución de entregas a tiempo y demoras a lo largo del tiempo.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M3 17l6-6 4 4 8-8" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /><path d="M21 7v5h-5" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+                  { title: "Comparativa por periodo", desc: "Contrasta contra el periodo anterior para ver qué mejoró y qué no.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="18" rx="1.5" stroke="#111827" strokeWidth="1.6" /><rect x="13" y="3" width="8" height="18" rx="1.5" stroke="#111827" strokeWidth="1.6" /></svg>) },
+                  { title: "Exportables al instante", desc: "Descarga cualquier reporte en Excel o CSV con un click.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z M14 3v5h5" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round" /><path d="M12 11v6m0 0l-2.5-2.5M12 17l2.5-2.5" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+                ].map((c) => (
+                  <div key={c.title} className="medir-card flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-black/[0.07] bg-white p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
+                    <h3 className="font-sora text-[19px] font-normal text-black" style={{ marginBottom: 8 }}>{c.title}</h3>
+                    <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.55, marginBottom: 20, minHeight: 63 }}>{c.desc}</p>
+                    <div className="mt-auto flex h-[130px] items-center justify-center rounded-[14px] border border-black/[0.05] bg-[#FAFAF9]">
+                      <div className="flex h-[52px] w-[52px] items-center justify-center rounded-[14px] bg-white shadow-[0_4px_14px_rgba(0,0,0,0.06)]">{c.icon}</div>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
+              {/* Flechas de navegación */}
+              <div className="flex items-center gap-3">
+                <button type="button" onClick={() => scrollMedir(-1)} aria-label="Anterior" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-black/15 bg-white text-black/55 transition-colors hover:border-black/30 hover:text-black">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                </button>
+                <button type="button" onClick={() => scrollMedir(1)} aria-label="Siguiente" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-black/15 bg-white text-black/55 transition-colors hover:border-black/30 hover:text-black">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
