@@ -269,6 +269,40 @@ function CotizadorPhone() {
   );
 }
 
+/* Mini-panel de reglas de asignación automática (visual de card) */
+function AsignacionMini() {
+  const rules = [
+    { cond: "CP 64000 – 66999", carrier: "fedex" },
+    { cond: "Peso mayor a 5 kg", carrier: "dhl" },
+    { cond: "Servicio express", carrier: "paquetexpress" },
+    { cond: "Menor costo del día", carrier: "auto" },
+  ];
+  return (
+    <div className="rounded-[16px] border border-black/[0.07] bg-white p-4" style={{ boxShadow: "0 8px 24px rgba(0,0,0,0.05)", fontFamily: "var(--font-manrope-var), 'Manrope', sans-serif" }}>
+      <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
+        <p className="font-sora text-[13px] font-semibold text-black">Reglas de asignación</p>
+        <span className="rounded-full bg-[rgba(34,197,94,0.12)] px-2 py-0.5 text-[10px] font-bold text-[#16A34A]">Activas</span>
+      </div>
+      <div className="flex flex-col gap-2.5">
+        {rules.map((r, i) => (
+          <div key={i} className="flex items-center gap-2 rounded-[12px] border border-black/[0.06] bg-[#FBFBFB] px-3 py-3">
+            <span className="min-w-0 flex-1 truncate text-[12px] text-black/70">{r.cond}</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0"><path d="M3 8h9M12 8l-3.5-3.5M12 8l-3.5 3.5" stroke="rgba(0,0,0,0.32)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            {r.carrier === "auto" ? (
+              <span className="shrink-0 rounded-[8px] bg-[rgba(219,59,43,0.1)] px-2.5 py-1.5 text-[11px] font-bold text-[#DB3B2B]">Auto</span>
+            ) : (
+              <span className="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-[8px] border border-black/[0.06] bg-white">
+                <img src={`/img/carriers/${r.carrier}.svg`} alt="" width={22} height={22} className="h-[22px] w-[22px] object-contain" />
+              </span>
+            )}
+          </div>
+        ))}
+      </div>
+      <p className="mt-3 text-[11px] text-black/45">Si una paquetería falla, se reasigna sola.</p>
+    </div>
+  );
+}
+
 /* Panel "Cronograma" (auto-scroll) — variant "card" (desktop) / "phone" (responsive) */
 function CronogramaPanel({ className = "", variant = "card" }: { className?: string; variant?: "card" | "phone" }) {
   const EVENTS = [
@@ -507,7 +541,7 @@ export default function T1Multipaqueteria() {
                   Compara precios y tiempos en un solo paso.
                 </p>
                 <ul className="flex flex-col gap-2.5">
-                  {["Cotización en menos de 2 segundos", "Tarifas T1 con descuento por volumen agregado", "Comparación clara entre paqueterías"].map((it) => (
+                  {["Compara precio, tiempo de entrega y tipo de servicio.", "Elige entre recolección o entrega en sucursal, cuando esté disponible.", "Usa tarifas T1 o conecta tus propias cuentas de paquetería."].map((it) => (
                     <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                       {it}
@@ -599,62 +633,59 @@ export default function T1Multipaqueteria() {
           </div>
         </div>
 
-        {/* Block 2 — Asignación automática (panel left, text right) — bg #FBFBFB */}
+        {/* 2 cards estilo POS (texto arriba, visual abajo): Asignación + Rastreo */}
         <div className="px-5 py-20 tablet:px-10 tablet:py-28" style={{ background: "#FBFBFB" }} data-modal-animate>
-          <div className="mx-auto flex max-w-[var(--max-w)] items-center">
-            <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
-              <DimensionesPanel variant="phone" className="order-2 tablet:hidden" />
-              <DimensionesPanel className="hidden tablet:block tablet:order-1" />
-
-              <div className="order-1 tablet:order-2">
-                <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
-                  Asignación automática inteligente
-                </h3>
-                <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                  Automatiza la asignación de paqueterías con reglas inteligentes.
-                </p>
-                <ul className="flex flex-col gap-2.5">
-                  {["Reglas por CP, peso, dimensión o monto", "Optimización por costo, tiempo o servicio", "Reasignación automática si una paquetería falla"].map((it) => (
-                    <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                      {it}
-                    </li>
-                  ))}
-                </ul>
+          <div className="mx-auto max-w-[var(--max-w)]">
+            <div className="grid grid-cols-1 gap-5 tablet:grid-cols-2 tablet:gap-6">
+              {/* Card 1 — Asignación automática */}
+              <div className="tienda-card flex flex-col rounded-[20px] border border-black/[0.07] bg-white p-7" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.05)" }}>
+                <h3 className="font-sora text-[22px] font-normal text-black tablet:text-[26px]" style={{ letterSpacing: "-0.5px", marginBottom: 8 }}>Asignación automática inteligente</h3>
+                <p className="font-inter text-[15px] font-light text-black/60" style={{ lineHeight: 1.6, marginBottom: 24 }}>Reglas por CP, peso, dimensión o monto que optimizan por costo, tiempo o servicio, y reasignan solas si una paquetería falla.</p>
+                <div className="mt-auto">
+                  <AsignacionMini />
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Block 3 — Rastreo (text left, panel right) — bg white */}
-        <div className="px-5 py-20 tablet:px-10 tablet:py-28" style={{ background: "#FFFFFF" }} data-modal-animate>
-          <div className="mx-auto flex max-w-[var(--max-w)] items-center">
-            <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
-              <div>
-                <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
-                  Rastrea todos tus envíos
-                </h3>
-                <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                  Consulta el estado de cada envío desde un solo panel.
-                </p>
-                <ul className="flex flex-col gap-2.5">
-                  {["Estatus unificado de todas las paqueterías", "Notificaciones automáticas por WhatsApp y email", "Detección de demoras antes que tu cliente"].map((it) => (
-                    <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                      {it}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              {/* Panel — Cronograma: teléfono en responsive, tarjeta en desktop */}
-              <CronogramaPanel variant="phone" className="tablet:hidden" />
-              <div className="hidden tablet:block">
-                <CronogramaPanel />
+              {/* Card 2 — Rastreo (conserva la animación del cronograma) */}
+              <div className="tienda-card flex flex-col rounded-[20px] border border-black/[0.07] bg-white p-7" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.05)" }}>
+                <h3 className="font-sora text-[22px] font-normal text-black tablet:text-[26px]" style={{ letterSpacing: "-0.5px", marginBottom: 8 }}>Rastrea todos tus envíos</h3>
+                <p className="font-inter text-[15px] font-light text-black/60" style={{ lineHeight: 1.6, marginBottom: 24 }}>Estatus unificado de todas las paqueterías, con notificaciones por WhatsApp y detección de demoras antes que tu cliente.</p>
+                <div className="mt-auto">
+                  <CronogramaPanel variant="phone" className="tablet:hidden" />
+                  <div className="hidden tablet:block">
+                    <CronogramaPanel />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* ── Plantillas — crea tus envíos más rápido (usa el panel de Dimensiones) ── */}
+      <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32">
+        <div className="mx-auto flex max-w-[var(--max-w)] items-center">
+          <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
+            <DimensionesPanel variant="phone" className="order-2 tablet:hidden" />
+            <DimensionesPanel className="hidden tablet:block tablet:order-1" />
+            <div className="order-1 tablet:order-2">
+              <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
+                Crea tus envíos más rápido con plantillas
+              </h3>
+              <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
+                Guarda las medidas y datos de tus productos como plantillas y genera guías en segundos, sin recapturar información en cada envío.
+              </p>
+              <ul className="flex flex-col gap-2.5">
+                {["Plantillas de empaque con peso y dimensiones", "Autocompletado al generar cada guía", "Menos errores y capturas manuales"].map((it) => (
+                  <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                    {it}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* ── FAQ (fondo oscuro) ── */}
       <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
