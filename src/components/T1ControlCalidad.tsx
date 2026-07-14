@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
 import T1FinalCTA from "@/components/T1FinalCTA";
 
@@ -274,13 +274,50 @@ export default function T1ControlCalidad() {
   const rootRef = useRef<HTMLDivElement>(null);
   // "Cómo funciona": 0 = reportado por paquetería, 1 = reportado por usuario
   const [funcTab, setFuncTab] = useState(0);
-  // Carrusel de capacidades (antes del FAQ) — flechas prev/next
+  // Carrusel de capacidades (antes del FAQ) — flechas + dots centrados abajo
   const capRef = useRef<HTMLDivElement>(null);
-  const scrollCap = (dir: number) => {
+  const [capIdx, setCapIdx] = useState(0);
+  const [capPages, setCapPages] = useState(1);
+  const capStep = () => {
     const el = capRef.current;
     const card = el?.querySelector<HTMLElement>(".cap-card");
-    const step = card ? card.offsetWidth + 20 : (el?.clientWidth ?? 0) * 0.8;
-    el?.scrollBy({ left: dir * step, behavior: "smooth" });
+    return card ? card.offsetWidth + 20 : (el?.clientWidth ?? 0) * 0.8;
+  };
+  const capPageStep = () => {
+    const el = capRef.current;
+    if (!el) return 1;
+    const s = Math.max(1, capStep());
+    const visible = Math.max(1, Math.floor(el.clientWidth / s));
+    return visible * s;
+  };
+  useEffect(() => {
+    const el = capRef.current;
+    if (!el) return;
+    const calc = () => {
+      const ps = Math.max(1, capPageStep());
+      const maxScroll = el.scrollWidth - el.clientWidth;
+      setCapPages(maxScroll <= 1 ? 1 : Math.ceil(maxScroll / ps) + 1);
+    };
+    calc();
+    const ro = new ResizeObserver(calc);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  const capGoTo = useCallback((i: number) => {
+    const el = capRef.current;
+    if (!el) return;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    const target = i >= capPages - 1 ? maxScroll : i * capPageStep();
+    el.scrollTo({ left: Math.min(target, maxScroll), behavior: "smooth" });
+  }, [capPages]);
+  const scrollCap = useCallback((dir: number) => {
+    capGoTo(Math.max(0, Math.min(capPages - 1, capIdx + dir)));
+  }, [capGoTo, capIdx, capPages]);
+  const onCapScroll = () => {
+    const el = capRef.current;
+    if (!el) return;
+    const atEnd = el.scrollLeft >= el.scrollWidth - el.clientWidth - 2;
+    setCapIdx(atEnd ? capPages - 1 : Math.min(capPages - 1, Math.round(el.scrollLeft / Math.max(1, capPageStep()))));
   };
 
   useEffect(() => {
@@ -535,25 +572,20 @@ export default function T1ControlCalidad() {
       <section className="relative overflow-hidden px-5 py-24 tablet:px-10 tablet:py-32" style={{ background: "linear-gradient(180deg, #1A0A0A 0%, #000000 100%)" }}>
         <div aria-hidden className="pointer-events-none absolute top-0 left-1/2 h-[340px] w-[640px] -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(ellipse at center, rgba(219,59,43,0.12) 0%, transparent 66%)", filter: "blur(46px)" }} />
         <div className="relative mx-auto max-w-[var(--max-w)]">
-          <div className="flex items-end justify-between gap-6" style={{ marginBottom: 40 }}>
-            <div>
-              <h2 className="font-sora text-[28px] font-light text-white tablet:text-[40px] lg:text-[46px]" style={{ letterSpacing: "-1.3px", lineHeight: 1.1, marginBottom: 14 }}>
-                Todo lo que necesitas para cada caso.
-              </h2>
-              <p className="max-w-[520px] font-inter text-[16px] font-light text-white/55 tablet:text-[18px]" style={{ lineHeight: 1.5 }}>
-                Cada incidencia con las herramientas para entenderla, resolverla y darle seguimiento.
-              </p>
-            </div>
-            <div className="hidden shrink-0 gap-2 tablet:flex">
-              <button type="button" aria-label="Anterior" onClick={() => scrollCap(-1)} className="flex h-[44px] w-[44px] items-center justify-center rounded-full border border-white/15 bg-white/[0.04] text-white transition-all duration-200 hover:bg-white/[0.1]">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-              </button>
-              <button type="button" aria-label="Siguiente" onClick={() => scrollCap(1)} className="flex h-[44px] w-[44px] items-center justify-center rounded-full border border-white/15 bg-white/[0.04] text-white transition-all duration-200 hover:bg-white/[0.1]">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-              </button>
-            </div>
+          <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 48 }}>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-1.3px", lineHeight: 1.15, marginBottom: 14 }}>
+              Todo lo que necesitas para cada caso.
+            </h2>
+            <p className="font-inter text-[16px] font-light text-white/55 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
+              Cada incidencia con las herramientas para entenderla, resolverla y darle seguimiento.
+            </p>
           </div>
-          <div ref={capRef} className="-mx-5 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-2 tablet:mx-0 tablet:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div
+            ref={capRef}
+            onScroll={onCapScroll}
+            className="-mx-5 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-2 tablet:mx-0 tablet:px-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+            style={{ scrollPaddingLeft: 4, scrollPaddingRight: 4 }}
+          >
             {[
               { t: "Acciones disponibles por caso", d: "Corrige la dirección, solicita el retorno o elige la acción correcta según el tipo de incidencia." },
               { t: "Evidencia y documentos", d: "Adjunta fotos, comprobantes o la información que la paquetería necesita para resolver el caso." },
@@ -561,7 +593,7 @@ export default function T1ControlCalidad() {
               { t: "Tiempos de respuesta", d: "Consulta el tiempo estimado y el disponible para recibir respuesta de la paquetería." },
               { t: "Historial de actividad", d: "Consulta cada acción, cambio de estado y respuesta del caso desde un mismo lugar." },
             ].map((c, i) => (
-              <div key={c.t} data-modal-animate data-stagger className="cap-card flex w-[80vw] max-w-[300px] shrink-0 snap-start flex-col rounded-[18px] border border-white/[0.08] bg-white/[0.03] p-6 tablet:w-[300px] tablet:max-w-none" style={{ ["--i" as string]: i }}>
+              <div key={c.t} className="cap-card flex w-[80vw] max-w-[320px] shrink-0 snap-start flex-col rounded-[18px] border border-white/[0.08] bg-white/[0.03] p-6 tablet:w-[300px] tablet:max-w-none" style={{ boxShadow: "0 26px 60px -28px rgba(0,0,0,0.8)" }}>
                 <div className="flex h-[42px] w-[42px] items-center justify-center rounded-[12px] border border-white/10 bg-[#DB3B2B]/[0.14]" style={{ marginBottom: 18 }}>
                   <span className="font-sora text-[15px] font-light text-[#FF6F5E]">{i + 1}</span>
                 </div>
@@ -569,6 +601,21 @@ export default function T1ControlCalidad() {
                 <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.6 }}>{c.d}</p>
               </div>
             ))}
+          </div>
+
+          {/* Controles — flechas + dots centrados abajo */}
+          <div className="mt-8 flex items-center justify-center gap-4">
+            <button type="button" onClick={() => scrollCap(-1)} aria-label="Anterior" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/70 transition-colors hover:border-white/30 hover:text-white">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </button>
+            <div className="flex items-center gap-2">
+              {Array.from({ length: capPages }, (_, i) => i).map((i) => (
+                <button key={i} type="button" onClick={() => capGoTo(i)} aria-label={`Ir a la tarjeta ${i + 1}`} className="cursor-pointer rounded-full border-none p-0 transition-all duration-200" style={{ width: capIdx === i ? 22 : 8, height: 8, background: capIdx === i ? "#DB3B2B" : "rgba(255,255,255,0.22)" }} />
+              ))}
+            </div>
+            <button type="button" onClick={() => scrollCap(1)} aria-label="Siguiente" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/70 transition-colors hover:border-white/30 hover:text-white">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </button>
           </div>
         </div>
       </section>
