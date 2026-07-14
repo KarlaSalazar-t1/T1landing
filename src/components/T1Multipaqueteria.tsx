@@ -372,7 +372,7 @@ export default function T1Multipaqueteria() {
                 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[56px]"
                 style={{ lineHeight: 1.05, letterSpacing: "-1.5px", marginBottom: 22 }}
               >
-                Envía a +25<br />
+                Envía con +25<br />
                 <span className="relative inline-block">
                   paqueterías
                   <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.30)", borderRadius: 5, zIndex: -1 }} />
@@ -384,7 +384,7 @@ export default function T1Multipaqueteria() {
                 className="font-inter text-[16px] font-light text-white/65 tablet:text-[19px]"
                 style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 480 }}
               >
-                Cotiza, genera guías y rastrea desde un solo panel.
+                Cotiza y compara tarifas, tiempos de entrega y servicios para enviar tus pedidos desde un solo panel.
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <a href={SIGNUP_URL} className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
@@ -409,9 +409,9 @@ export default function T1Multipaqueteria() {
           </div>
           <div data-modal-animate className="flex flex-wrap justify-center gap-5">
             {[
-              { title: "Tarifas poco claras", desc: "Cada paquetería con su tabla. Comparar manualmente toma horas.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="18" rx="2" stroke="#0E0E0E" strokeWidth="1.6" /><path d="M8 8h8M8 12h8M8 16h5" stroke="#0E0E0E" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
-              { title: "Contratos individuales", desc: "Negociaciones directas con cada carrier, descuentos sólo a alto volumen.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 3h10l6 5v13H4V3z" stroke="#0E0E0E" strokeWidth="1.6" strokeLinejoin="round" /><path d="M14 3v5h6M8 13h8M8 17h5" stroke="#0E0E0E" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-              { title: "Plataformas separadas", desc: "Una para FedEx, otra para DHL, otra para Estafeta. Todo desconectado.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M16 3h5v5M21 3l-7 7M8 21H3v-5M3 21l7-7M21 16v5h-5M14 14l7 7M3 8V3h5M10 10 3 3" stroke="#0E0E0E" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+              { title: "Tarifas difíciles de comparar", desc: "Cada paquetería muestra precios y servicios de forma distinta.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="18" rx="2" stroke="#0E0E0E" strokeWidth="1.6" /><path d="M8 8h8M8 12h8M8 16h5" stroke="#0E0E0E" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
+              { title: "Contratos separados", desc: "Acceder a mejores tarifas suele depender de volumen o negociación directa.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 3h10l6 5v13H4V3z" stroke="#0E0E0E" strokeWidth="1.6" strokeLinejoin="round" /><path d="M14 3v5h6M8 13h8M8 17h5" stroke="#0E0E0E" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+              { title: "Seguimiento disperso", desc: "Cada envío termina en un portal diferente.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M16 3h5v5M21 3l-7 7M8 21H3v-5M3 21l7-7M21 16v5h-5M14 14l7 7M3 8V3h5M10 10 3 3" stroke="#0E0E0E" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
             ].map((p, i) => (
               <div key={p.title} data-stagger className="w-full max-w-[300px] rounded-[18px] border border-black/[0.06] bg-white p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(0,0,0,0.07)]" style={{ ["--i" as string]: i }}>
                 <div style={{ marginBottom: 24 }}>{p.icon}</div>
@@ -423,12 +423,34 @@ export default function T1Multipaqueteria() {
         </div>
       </section>
 
-      {/* ── Stack cards intro ── */}
-      <section className="relative bg-white px-5 pt-12 pb-8 tablet:px-10 tablet:pt-16 tablet:pb-10">
-        <div data-modal-animate className="mx-auto max-w-[760px] text-center">
-          <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.4px", lineHeight: 1.1 }}>
-            Una sola integración.
-          </h2>
+      {/* ── Con T1, olvídate de todo esto (estilo marketplace) + paqueterías conectadas ── */}
+      <section className="relative overflow-hidden bg-white px-5 py-24 tablet:px-10 tablet:py-32">
+        {/* toque sutil de rojo */}
+        <div aria-hidden className="pointer-events-none absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ width: 640, height: 460, background: "radial-gradient(circle at center, rgba(219,59,43,0.10) 0%, transparent 66%)", filter: "blur(60px)" }} />
+        <div className="relative mx-auto max-w-[var(--max-w)]">
+          <div data-modal-animate className="mx-auto max-w-[640px] text-center" style={{ marginBottom: 48 }}>
+            <h2 className="font-sora text-[26px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+              Con T1, olvídate de todo esto.
+            </h2>
+            <p className="mx-auto font-inter text-[15px] font-light text-black/60 tablet:text-[17px]" style={{ lineHeight: 1.6, maxWidth: 520 }}>
+              Con T1, cotiza, compara, genera guía y da seguimiento desde una plataforma.
+            </p>
+          </div>
+          <div data-modal-animate className="grid grid-cols-2 gap-4 tablet:grid-cols-4 tablet:gap-5">
+            {ORBIT.map((mp) => (
+              <div key={mp.name} className="flex flex-col items-center justify-center rounded-[16px] border border-black/[0.06] bg-white py-8 transition-all duration-200 hover:border-black/[0.12] hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
+                <img
+                  src={mp.logo}
+                  alt={mp.name}
+                  width={56}
+                  height={56}
+                  className="mb-3 h-[56px] w-[56px] object-contain"
+                  style={{ filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.12))" }}
+                />
+                <p className="font-inter text-[13px] font-medium text-black/70">{mp.name}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -595,41 +617,11 @@ export default function T1Multipaqueteria() {
         </div>
       </div>
 
-      {/* ── Carriers grid ── */}
-      <section className="relative bg-[#FBFBFB] px-5 py-24 tablet:px-10 tablet:py-32">
-        <div className="mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="mx-auto max-w-[640px] text-center" style={{ marginBottom: 48 }}>
-            <h2 className="font-sora text-[26px] font-light text-black tablet:text-[34px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15, marginBottom: 12 }}>
-              Más de 25 paqueterías conectadas
-            </h2>
-            <p className="font-inter text-[15px] font-light text-black/60 tablet:text-[17px]" style={{ lineHeight: 1.6 }}>
-              Las principales nacionales e internacionales, con tarifas T1 incluidas.
-            </p>
-          </div>
-          <div data-modal-animate className="grid grid-cols-2 gap-4 tablet:grid-cols-4 tablet:gap-5">
-            {ORBIT.map((mp) => (
-              <div key={mp.name} className="flex flex-col items-center justify-center rounded-[16px] border border-black/[0.06] bg-white py-8 transition-all duration-200 hover:border-black/[0.12] hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
-                <img
-                  src={mp.logo}
-                  alt={mp.name}
-                  width={56}
-                  height={56}
-                  className="mb-3 h-[56px] w-[56px] object-contain"
-                  style={{ filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.12))" }}
-                />
-                <p className="font-inter text-[13px] font-medium text-black/70">{mp.name}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-
-      {/* ── FAQ ── */}
-      <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32" data-white-card>
+      {/* ── FAQ (fondo oscuro) ── */}
+      <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[760px]">
           <div data-modal-animate className="text-center" style={{ marginBottom: 40 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>Preguntas frecuentes</h2>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[36px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>Preguntas frecuentes</h2>
           </div>
           <div data-modal-animate className="flex flex-col gap-3">
             {[
@@ -639,12 +631,12 @@ export default function T1Multipaqueteria() {
               { q: "¿Qué tan rápido genero una guía?", a: "Menos de 5 segundos por guía. Imprime PDF o ZPL para etiqueta térmica." },
               { q: "¿Cómo se gestionan retrasos o pérdidas?", a: "T1 monitorea cada envío y abre incidencias automáticamente. Equipo dedicado a resolver con la paquetería por ti." },
             ].map((f, i) => (
-              <details key={f.q} data-stagger className="group rounded-[14px] border border-black/[0.06] bg-white transition-all duration-200 open:border-[rgba(219,59,43,0.2)] open:shadow-[0_4px_18px_rgba(0,0,0,0.05)]" style={{ ["--i" as string]: i }}>
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-sora text-[16px] font-normal text-black transition-colors duration-150 hover:text-[#DB3B2B]">
+              <details key={f.q} data-stagger className="group rounded-[14px] border border-white/[0.08] bg-white/[0.03] transition-all duration-200 open:border-[rgba(219,59,43,0.4)] open:bg-white/[0.05]" style={{ ["--i" as string]: i }}>
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-sora text-[16px] font-normal text-white transition-colors duration-150 hover:text-[#FF6F5E]">
                   {f.q}
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="shrink-0 text-black/40 transition-transform duration-300 group-open:rotate-180 group-open:text-[#DB3B2B]"><path d="M3 5.5L8 10.5L13 5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="shrink-0 text-white/40 transition-transform duration-300 group-open:rotate-180 group-open:text-[#FF6F5E]"><path d="M3 5.5L8 10.5L13 5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                 </summary>
-                <p className="px-6 pb-5 font-inter text-[14px] font-light text-black/65" style={{ lineHeight: 1.65 }}>{f.a}</p>
+                <p className="px-6 pb-5 font-inter text-[14px] font-light text-white/60" style={{ lineHeight: 1.65 }}>{f.a}</p>
               </details>
             ))}
           </div>

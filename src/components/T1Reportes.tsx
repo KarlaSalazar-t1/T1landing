@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
 import { useCountUp } from "@/hooks/useCountUp";
@@ -90,12 +91,12 @@ function HeroDashboard() {
         </div>
         <span className="rounded-full bg-[rgba(34,197,94,0.12)] px-2.5 py-1 font-inter text-[11px] font-bold text-[#16A34A]" style={{ transition: "all 0.4s ease" }}>{HERO_PCT[i]}</span>
       </div>
-      <div className="flex h-[80px] items-end gap-1.5" style={{ marginBottom: 12 }}>
+      <div className="flex h-[104px] items-end gap-1.5" style={{ marginBottom: 14 }}>
         {bars.map((h, idx) => (
           <div key={idx} className="flex-1 rounded-t-[3px]" style={{ height: `${h}%`, background: idx === bars.length - 1 ? "#DB3B2B" : "rgba(219,59,43,0.18)", transition: `height 0.7s ${EASE}` }} />
         ))}
       </div>
-      <div className="flex flex-col gap-1.5">
+      <div className="flex flex-col gap-1.5" style={{ marginBottom: 14 }}>
         {HERO_CH_NAMES.map((name, idx) => (
           <div key={name} className="flex items-center gap-2.5">
             <span className="font-inter text-[10px] text-black/65 w-[80px]">{name}</span>
@@ -104,6 +105,55 @@ function HeroDashboard() {
             </div>
             <AnimNumber value={HERO_CH_VAL[i][idx]} prefix="$" className="font-inter text-[10px] font-semibold text-black w-[60px] text-right" />
           </div>
+        ))}
+      </div>
+      {/* Sparkline — tendencia (otra gráfica) */}
+      <div className="rounded-[10px] bg-black/[0.03]" style={{ padding: "10px 12px" }}>
+        <div className="flex items-center justify-between" style={{ marginBottom: 6 }}>
+          <span className="font-inter text-[10px] text-black/55">Tendencia · 14 días</span>
+          <span className="font-inter text-[10px] font-semibold text-[#16A34A]">{HERO_PCT[i]}</span>
+        </div>
+        <svg viewBox="0 0 100 30" preserveAspectRatio="none" className="w-full" style={{ height: 34 }}>
+          <polyline
+            fill="none"
+            stroke="#DB3B2B"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            vectorEffect="non-scaling-stroke"
+            points={bars.map((h, idx) => `${(idx / (bars.length - 1)) * 100},${30 - (h / 100) * 27}`).join(" ")}
+            style={{ transition: `all 0.7s ${EASE}` }}
+          />
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+/* ── Floating metric badge — hace "zoom in" (abre) y "zoom out" (cierra)
+   ciclando distintas métricas. ── */
+const FLOAT_METRICS = [
+  { label: "Ventas de la semana", chg: "+18%", bars: [42, 60, 50, 76, 58, 90, 72] },
+  { label: "Conversión", chg: "+5%", bars: [30, 45, 40, 55, 62, 70, 80] },
+  { label: "Ticket promedio", chg: "+12%", bars: [50, 48, 58, 54, 66, 72, 68] },
+  { label: "Tráfico del día", chg: "+22%", bars: [20, 35, 48, 42, 60, 72, 88] },
+];
+function FloatingMetric() {
+  const i = useCycle(FLOAT_METRICS.length, 2800);
+  const m = FLOAT_METRICS[i];
+  return (
+    <div
+      key={i}
+      className="absolute hidden tablet:block rounded-[14px] bg-white"
+      style={{ left: -28, bottom: 40, width: 210, padding: "13px 15px", boxShadow: "0 14px 40px rgba(0,0,0,0.18)", transformOrigin: "center", animation: "floatPop 2.8s ease-in-out" }}
+    >
+      <div className="flex items-center justify-between" style={{ marginBottom: 10 }}>
+        <p className="font-sora text-[11px] font-semibold text-black">{m.label}</p>
+        <span className="rounded-full bg-[rgba(34,197,94,0.12)] px-1.5 py-0.5 font-inter text-[9px] font-bold text-[#16A34A]">{m.chg}</span>
+      </div>
+      <div className="flex items-end gap-1.5" style={{ height: 46 }}>
+        {m.bars.map((h, idx) => (
+          <span key={idx} className="flex-1 rounded-[2px]" style={{ height: `${h}%`, background: idx === m.bars.length - 1 ? "#DB3B2B" : "rgba(219,59,43,0.28)" }} />
         ))}
       </div>
     </div>
@@ -368,18 +418,8 @@ export default function T1Reportes() {
                 <HeroDashboard />
               </div>
 
-              {/* Floating mini-chart badge */}
-              <div className="absolute hidden tablet:block rounded-[14px] bg-white" style={{ left: -28, bottom: 40, width: 210, padding: "13px 15px", boxShadow: "0 14px 40px rgba(0,0,0,0.18)" }}>
-                <div className="flex items-center justify-between" style={{ marginBottom: 10 }}>
-                  <p className="font-sora text-[11px] font-semibold text-black">Ventas de la semana</p>
-                  <span className="rounded-full bg-[rgba(34,197,94,0.12)] px-1.5 py-0.5 font-inter text-[9px] font-bold text-[#16A34A]">+18%</span>
-                </div>
-                <div className="flex items-end gap-1.5" style={{ height: 46 }}>
-                  {[42, 60, 50, 76, 58, 90, 72].map((h, i) => (
-                    <span key={i} className="flex-1 rounded-[2px]" style={{ height: `${h}%`, background: i === 5 ? "#DB3B2B" : "rgba(219,59,43,0.28)" }} />
-                  ))}
-                </div>
-              </div>
+              {/* Floating metric badge — zoom in/out ciclando métricas */}
+              <FloatingMetric />
 
               {/* Floating live badge */}
               <div className="absolute hidden tablet:flex items-center gap-2 rounded-full bg-white" style={{ right: -10, top: 40, padding: "8px 14px", boxShadow: "0 10px 28px rgba(0,0,0,0.16)" }}>
@@ -417,11 +457,11 @@ export default function T1Reportes() {
 
       {/* ── Stack cards intro ── */}
       <section className="relative bg-white px-5 pt-12 pb-8 tablet:px-10 tablet:pt-16 tablet:pb-10">
-        <div data-modal-animate className="mx-auto max-w-[760px] text-center">
-          <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.4px", lineHeight: 1.1, marginBottom: 16 }}>
+        <div data-modal-animate className="mx-auto max-w-[1120px] text-center">
+          <h2 className="font-sora text-[28px] font-light text-black tablet:whitespace-nowrap tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.4px", lineHeight: 1.1, marginBottom: 16 }}>
             Todo lo importante, listo para revisar.
           </h2>
-          <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[19px]" style={{ lineHeight: 1.5 }}>
+          <p className="font-inter text-[16px] font-light text-black/60 lg:whitespace-nowrap tablet:text-[19px]" style={{ lineHeight: 1.5 }}>
             Ventas, pedidos, tráfico, conversión, ticket promedio y desempeño por canal desde un solo panel.
           </p>
         </div>
@@ -433,7 +473,7 @@ export default function T1Reportes() {
         <div className="fs-stack-card" style={{ top: 60, zIndex: 1, background: "#FFFFFF" }}>
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
-              <div>
+              <div className="order-2 tablet:order-1">
                 <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
                   Ventas en tiempo real
                 </h3>
@@ -449,8 +489,10 @@ export default function T1Reportes() {
                   ))}
                 </ul>
               </div>
-              {/* Panel — KPI cards + chart */}
-              <LiveSalesPanel />
+              {/* Panel — KPI cards + chart (primero en responsive) */}
+              <div className="order-1 tablet:order-2">
+                <LiveSalesPanel />
+              </div>
             </div>
           </div>
         </div>
@@ -514,8 +556,8 @@ export default function T1Reportes() {
       {/* ── Cómo funciona ── */}
       <section className="relative bg-[#FBFBFB] px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+          <div data-modal-animate className="mx-auto max-w-[820px] text-center" style={{ marginBottom: 56 }}>
+            <h2 className="font-sora text-[28px] font-light text-black tablet:whitespace-nowrap tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
               Empieza a leer tu operación en 3 pasos
             </h2>
             <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
@@ -551,21 +593,24 @@ export default function T1Reportes() {
       <section className="relative px-5 py-24 tablet:px-10 tablet:py-32" style={{ background: "linear-gradient(180deg, #1A0A0A 0%, #000000 100%)" }}>
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
-            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:whitespace-nowrap tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
               Toda tu operación, en un solo panel
             </h2>
             <p className="font-inter text-[16px] font-light text-white/55 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
               Métricas, comparativas y exportables listos desde el primer día.
             </p>
           </div>
-          <div ref={opRef} data-modal-animate className="-mr-5 flex gap-5 overflow-x-auto pb-2 pr-5 tablet:mr-0 tablet:justify-center tablet:pr-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+          <div ref={opRef} data-modal-animate className="-mr-5 flex gap-5 overflow-x-auto pb-2 pr-5 pt-16 tablet:mr-0 tablet:justify-center tablet:pr-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             {[
-              { title: "Dashboards prediseñados", desc: "Ventas, tráfico, productos, clientes y más, listos para usar.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="10" rx="1.5" stroke="#FF7363" strokeWidth="1.6" /><rect x="13" y="3" width="8" height="6" rx="1.5" stroke="#FF7363" strokeWidth="1.6" /><rect x="3" y="15" width="8" height="6" rx="1.5" stroke="#FF7363" strokeWidth="1.6" /><rect x="13" y="11" width="8" height="10" rx="1.5" stroke="#FF7363" strokeWidth="1.6" /></svg>) },
-              { title: "Exportación a Excel/CSV", desc: "Descarga cualquier reporte en un click para análisis externo.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z M14 3v5h5" stroke="#FF7363" strokeWidth="1.6" strokeLinejoin="round" /><path d="M9 13l3 3 4-4" stroke="#FF7363" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-              { title: "Filtros y comparativas", desc: "Filtra por canal, periodo o categoría y compara contra el periodo que quieras.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 5h18l-7 8v6l-4-2v-4L3 5z" stroke="#FF7363" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+              { title: "Dashboards prediseñados", desc: "Ventas, tráfico, productos, clientes y más, listos para usar.", img: "/img/predisenados-v2.png", w: 1719, h: 915 },
+              { title: "Exportación a Excel/CSV", desc: "Descarga cualquier reporte en un click para análisis externo.", img: "/img/excel-v2.png", w: 1497, h: 823 },
+              { title: "Filtros y comparativas", desc: "Filtra por canal, periodo o categoría y compara contra el periodo que quieras.", img: "/img/filtros-v2.png", w: 1329, h: 717 },
             ].map((f, i) => (
-              <div key={f.title} data-stagger style={{ ["--i" as string]: i }} className="op-card flex w-[80vw] max-w-[300px] shrink-0 snap-start flex-col rounded-[18px] border border-white/[0.08] bg-[#121214] p-7">
-                <div className="mb-5 flex h-[48px] w-[48px] items-center justify-center rounded-[13px] bg-[rgba(219,59,43,0.10)]">{f.icon}</div>
+              <div key={f.title} data-stagger style={{ ["--i" as string]: i }} className="op-card relative flex w-[80vw] max-w-[300px] shrink-0 snap-start flex-col rounded-[18px] border border-white/[0.08] bg-[#121214] px-6 pt-0 pb-6">
+                {/* imagen que sobresale por arriba de la card */}
+                <div className="relative mb-5" style={{ marginTop: -46 }}>
+                  <Image src={f.img} alt={f.title} width={f.w} height={f.h} className="mx-auto block h-auto object-contain" style={{ width: "110%", filter: "drop-shadow(0 22px 34px rgba(0,0,0,0.5))" }} sizes="(max-width: 768px) 80vw, 300px" />
+                </div>
                 <h3 className="font-sora text-[18px] font-normal text-white" style={{ marginBottom: 8 }}>{f.title}</h3>
                 <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.6 }}>{f.desc}</p>
               </div>
