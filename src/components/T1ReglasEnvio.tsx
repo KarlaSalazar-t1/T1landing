@@ -767,7 +767,7 @@ export default function T1ReglasEnvio() {
       </section>
 
       {/* ── Problema — asignar a mano tiene un costo ── */}
-      <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32" data-white-card>
+      <section className="relative bg-white px-5 pt-24 pb-12 tablet:px-10 tablet:pt-32 tablet:pb-16" data-white-card>
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15 }}>
@@ -793,9 +793,9 @@ export default function T1ReglasEnvio() {
       {/* ── Stack cards ── */}
       <div className="relative bg-white">
         {/* Título de la sección de reglas */}
-        <section className="relative bg-white px-5 pt-20 pb-2 tablet:px-10 tablet:pt-28 tablet:pb-4" data-modal-animate>
+        <section className="relative bg-white px-5 py-12 tablet:px-10 tablet:py-16" data-modal-animate>
           <div className="mx-auto max-w-[760px] text-center">
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.4px", lineHeight: 1.1 }}>
+            <h2 className="font-sora text-[32px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.4px", lineHeight: 1.1 }}>
               Automatiza tu operación con T1
             </h2>
           </div>
@@ -859,7 +859,7 @@ export default function T1ReglasEnvio() {
               <CarrierTable className="hidden tablet:block tablet:order-1" />
 
               <div className="order-1 tablet:order-2">
-                <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
+                <h3 className="font-sora text-[30px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
                   Prioridad T1
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>

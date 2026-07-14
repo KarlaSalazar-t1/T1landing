@@ -164,14 +164,14 @@ export default function T1RastreoGuias() {
             <div aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 h-[260px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full tablet:h-[480px] tablet:w-[620px]" style={{ background: "radial-gradient(circle, rgba(219,59,43,0.06) 0%, transparent 68%)" }} />
             {/* DESKTOP scatter — más dispersos y lejos del título */}
             {[
-              { b: "fedex", l: "5%", t: "22%", s: 52, r: -8 },
-              { b: "estafeta", l: "9%", t: "52%", s: 50, r: -5 },
-              { b: "dhl", l: "15%", t: "82%", s: 46, r: 7 },
-              { b: "jtexpress", l: "27%", t: "12%", s: 44, r: 5 },
-              { b: "ampm", l: "73%", t: "12%", s: 46, r: -5 },
-              { b: "paquetexpress", l: "95%", t: "22%", s: 50, r: 8 },
-              { b: "99min", l: "91%", t: "52%", s: 46, r: 6 },
-              { b: "ups", l: "85%", t: "82%", s: 48, r: -7 },
+              { b: "fedex", l: "9%", t: "22%", s: 52, r: -8 },
+              { b: "estafeta", l: "12%", t: "52%", s: 50, r: -5 },
+              { b: "dhl", l: "18%", t: "82%", s: 46, r: 7 },
+              { b: "jtexpress", l: "28%", t: "12%", s: 44, r: 5 },
+              { b: "ampm", l: "72%", t: "12%", s: 46, r: -5 },
+              { b: "paquetexpress", l: "91%", t: "22%", s: 50, r: 8 },
+              { b: "99min", l: "88%", t: "52%", s: 46, r: 6 },
+              { b: "ups", l: "82%", t: "82%", s: 48, r: -7 },
             ].map(({ b, l, t, s, r }) => (
               <img key={`d-${b}`} src={`/img/carriers/${b}.svg`} alt="" width={s} height={s} className="pointer-events-none absolute hidden -translate-x-1/2 -translate-y-1/2 object-contain tablet:block" style={{ left: l, top: t, width: s, height: s, transform: `translate(-50%,-50%) rotate(${r}deg)`, filter: "drop-shadow(0 12px 22px rgba(0,0,0,0.12))" }} />
             ))}
@@ -214,12 +214,14 @@ export default function T1RastreoGuias() {
                   { brand: "dhl", name: "DHL", id: "78112094553", date: "26 de ene", time: "2:24 hrs", client: "Javier Mena", state: "Entregado", tone: "done" as const, highlight: true },
                   { brand: "ampm", name: "Grupo ampm", id: "55230981770", date: "26 de ene", time: "2:24 hrs", client: "Javier Mena", state: "Recolectado", tone: "neutral" as const, highlight: false },
                   { brand: "fedex", name: "FedEx", id: "34092817745", date: "26 de ene", time: "2:24 hrs", client: "Javier Mena", state: "Entregado", tone: "done" as const, highlight: false },
+                  { brand: "estafeta", name: "Estafeta", id: "90233145677", date: "25 de ene", time: "5:10 hrs", client: "Ana Torres", state: "En camino", tone: "neutral" as const, highlight: false },
+                  { brand: "ups", name: "UPS", id: "11209845330", date: "25 de ene", time: "3:02 hrs", client: "Luis Cruz", state: "Entregado", tone: "done" as const, highlight: false },
                 ].map((r, i, arr) => {
                   const st = r.tone === "done" ? { bg: "rgba(34,197,94,0.12)", color: "#16A34A" } : { bg: "rgba(0,0,0,0.05)", color: "rgba(0,0,0,0.6)" };
                   return (
                     <div
                       key={i}
-                      className="grid items-center gap-2 px-4 py-3.5"
+                      className="grid items-center gap-2 px-4 py-4"
                       style={{ gridTemplateColumns: "1.7fr 1fr 1.1fr 0.9fr", background: r.highlight ? "#FBFBFB" : "#FFFFFF", borderBottom: i < arr.length - 1 ? "1px solid rgba(0,0,0,0.05)" : "none" }}
                     >
                       <div className="flex items-center gap-3">
