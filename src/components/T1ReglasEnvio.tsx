@@ -11,12 +11,12 @@ import T1FinalCTA from "@/components/T1FinalCTA";
 function PhoneShell({ children }: { children: React.ReactNode }) {
   const MANROPE = "var(--font-manrope-var), 'Manrope', sans-serif";
   return (
-    <div className="mx-auto w-full" style={{ maxWidth: 340, fontFamily: MANROPE }}>
+    <div className="mx-auto w-full" style={{ maxWidth: 320, fontFamily: MANROPE }}>
       <div
         className="relative overflow-hidden bg-white"
-        style={{ borderRadius: 44, border: "1px solid rgba(0,0,0,0.08)", boxShadow: "0 30px 80px rgba(0,0,0,0.45)" }}
+        style={{ borderRadius: 12, border: "1px solid rgba(0,0,0,0.08)", boxShadow: "0 10px 30px rgba(0,0,0,0.10)" }}
       >
-        <div className="px-5 pt-7 pb-7">{children}</div>
+        <div className="px-4 pt-5 pb-5">{children}</div>
       </div>
     </div>
   );
@@ -42,9 +42,9 @@ function CotizaPhone({ className = "" }: { className?: string }) {
     <div className={className}>
       <PhoneShell>
         {/* Filtros */}
-        <div className="flex flex-wrap gap-2" style={{ marginBottom: 4 }}>
+        <div className="flex flex-wrap gap-1.5" style={{ marginBottom: 2 }}>
           {FILTERS.map((f) => (
-            <span key={f} className="flex items-center gap-1.5 rounded-full border px-3.5 py-2 text-[12px] font-medium text-black/75" style={{ borderColor: "rgba(0,0,0,0.14)" }}>
+            <span key={f} className="flex items-center gap-1 rounded-full border px-2.5 py-1.5 text-[10.5px] font-medium text-black/75" style={{ borderColor: "rgba(0,0,0,0.14)" }}>
               {f}
               <Chevron />
             </span>
@@ -55,40 +55,40 @@ function CotizaPhone({ className = "" }: { className?: string }) {
         <div
           className="relative overflow-hidden"
           style={{
-            height: 545,
+            height: 400,
             maskImage: "linear-gradient(to bottom, #000 0, #000 90%, transparent 100%)",
             WebkitMaskImage: "linear-gradient(to bottom, #000 0, #000 90%, transparent 100%)",
           }}
         >
           <div className="crono-track flex flex-col">
             {[...OPTIONS, ...OPTIONS].map((o, i) => (
-              <div key={i} className="relative overflow-hidden" style={{ borderTop: "1px solid rgba(0,0,0,0.08)", paddingTop: 18, paddingBottom: 18 }}>
+              <div key={i} className="relative overflow-hidden" style={{ borderTop: "1px solid rgba(0,0,0,0.08)", paddingTop: 12, paddingBottom: 12 }}>
             {o.highlight && (
               <span aria-hidden className="cotiza-sweep pointer-events-none absolute inset-y-0 left-0 z-20 w-1/2" style={{ background: "linear-gradient(100deg, transparent 0%, rgba(219,59,43,0.14) 50%, transparent 100%)" }} />
             )}
             {/* Cabecera: logo + nombre + servicio */}
-            <div className="flex items-center gap-3">
-              <img src={`/img/carriers/${o.brand}.svg`} alt={o.name} width={52} height={52} className="h-[52px] w-[52px] shrink-0" />
+            <div className="flex items-center gap-2.5">
+              <img src={`/img/carriers/${o.brand}.svg`} alt={o.name} width={38} height={38} className="h-[38px] w-[38px] shrink-0" />
               <div className="min-w-0">
-                <p className="text-[17px] font-bold text-black leading-tight">{o.name}</p>
-                <p className="text-[14px] text-black/55" style={{ marginTop: 2 }}>{o.sub}</p>
+                <p className="text-[14px] font-bold text-black leading-tight">{o.name}</p>
+                <p className="text-[12px] text-black/55" style={{ marginTop: 1 }}>{o.sub}</p>
               </div>
             </div>
 
             {/* Fecha estimada / Precio estimado */}
-            <div className="flex justify-between" style={{ marginTop: 16 }}>
+            <div className="flex justify-between" style={{ marginTop: 12 }}>
               <div>
-                <span className="block text-[13px] text-black/45">Fecha estimada:</span>
-                <span className="block text-[18px] font-bold text-black" style={{ marginTop: 2 }}>{o.date}</span>
-                <span className="block text-[12px] text-black/40" style={{ marginTop: 1 }}>{o.adv}</span>
+                <span className="block text-[11px] text-black/45">Fecha estimada:</span>
+                <span className="block text-[15px] font-bold text-black" style={{ marginTop: 1 }}>{o.date}</span>
+                <span className="block text-[10.5px] text-black/40" style={{ marginTop: 1 }}>{o.adv}</span>
               </div>
               <div className="text-right">
-                <span className="block text-[13px] text-black/45">Precio estimado:</span>
-                <span className={`block text-[18px] font-bold text-black ${o.highlight ? "price-pop" : ""}`} style={{ marginTop: 2 }}>
-                  {o.price}<span className="ml-1 text-[11px] font-medium text-black/45">MXN</span>
+                <span className="block text-[11px] text-black/45">Precio estimado:</span>
+                <span className={`block text-[15px] font-bold text-black ${o.highlight ? "price-pop" : ""}`} style={{ marginTop: 1 }}>
+                  {o.price}<span className="ml-1 text-[10px] font-medium text-black/45">MXN</span>
                 </span>
                 {o.note && (
-                  <span className="block text-[11px] leading-tight text-black/45" style={{ marginTop: 2 }}>
+                  <span className="block text-[10px] leading-tight text-black/45" style={{ marginTop: 2 }}>
                     {o.note[0]}<span className="font-semibold text-black/55">{o.note[1]}</span>
                   </span>
                 )}
@@ -273,7 +273,7 @@ function ReassignPhone({ className = "" }: { className?: string }) {
     { brand: "ups", name: "UPS", svc: "UPS SAVER (65) Express", date: "26 de ene", adv: "Mejor servicio", price: "$214.00", note: ["Incluye ", "seguro y zona extendida"] as string[] | null },
     { brand: "dhl", name: "DHL", svc: "Express Worldwide", date: "27 de ene", adv: "Más rápido", price: "$312.00", note: null as string[] | null },
   ];
-  const CARD_H = 184; // separación entre tarjetas (slot)
+  const CARD_H = 132; // separación entre tarjetas (slot)
   const [order, setOrder] = useState([0, 1, 2]);
   const [failing, setFailing] = useState(false);
 
@@ -307,10 +307,10 @@ function ReassignPhone({ className = "" }: { className?: string }) {
                 style={{ transform: `translateY(${slot * CARD_H}px)`, transition: "transform 0.6s cubic-bezier(0.4,0,0.2,1)", zIndex: isTop ? 2 : 1 }}
               >
                 <div
-                  className="rounded-[16px]"
+                  className="rounded-[12px]"
                   style={{
-                    height: 168,
-                    padding: 16,
+                    height: 120,
+                    padding: 12,
                     transition: "background 0.4s ease, border-color 0.4s ease, opacity 0.4s ease",
                     background: failed ? "rgba(0,0,0,0.03)" : isTop ? "rgba(219,59,43,0.05)" : "#FFFFFF",
                     border: failed ? "1px dashed rgba(0,0,0,0.2)" : isTop ? "1px solid #DB3B2B" : "1px solid rgba(0,0,0,0.08)",
@@ -318,35 +318,35 @@ function ReassignPhone({ className = "" }: { className?: string }) {
                   }}
                 >
                   {/* Cabecera: logo + nombre + servicio */}
-                  <div className="flex items-center gap-3">
-                    <img src={`/img/carriers/${r.brand}.svg`} alt={r.name} width={52} height={52} className="h-[52px] w-[52px] shrink-0" />
+                  <div className="flex items-center gap-2.5">
+                    <img src={`/img/carriers/${r.brand}.svg`} alt={r.name} width={38} height={38} className="h-[38px] w-[38px] shrink-0" />
                     <div className="min-w-0">
-                      <p className={`truncate text-[16px] font-bold leading-tight ${failed ? "text-black/50 line-through" : "text-black"}`}>{r.name}</p>
-                      <p className="truncate text-[13px] text-black/55" style={{ marginTop: 2 }}>{r.svc}</p>
+                      <p className={`truncate text-[13.5px] font-bold leading-tight ${failed ? "text-black/50 line-through" : "text-black"}`}>{r.name}</p>
+                      <p className="truncate text-[11.5px] text-black/55" style={{ marginTop: 1 }}>{r.svc}</p>
                     </div>
                   </div>
 
                   {/* Fecha estimada / Precio estimado */}
-                  <div className="flex justify-between" style={{ marginTop: 14 }}>
+                  <div className="flex justify-between" style={{ marginTop: 10 }}>
                     <div className="min-w-0">
-                      <span className="block text-[12px] text-black/45">Fecha estimada:</span>
-                      <span className="block text-[16px] font-bold text-black" style={{ marginTop: 2 }}>{r.date}</span>
+                      <span className="block text-[10.5px] text-black/45">Fecha estimada:</span>
+                      <span className="block text-[13.5px] font-bold text-black" style={{ marginTop: 1 }}>{r.date}</span>
                       {failed ? (
-                        <span className="mt-0.5 flex items-center gap-1 text-[12px] font-semibold text-[#DB3B2B]">
-                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#DB3B2B" strokeWidth="1.8" /><path d="M9 9l6 6M15 9l-6 6" stroke="#DB3B2B" strokeWidth="1.8" strokeLinecap="round" /></svg>
+                        <span className="mt-0.5 flex items-center gap-1 text-[10.5px] font-semibold text-[#DB3B2B]">
+                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#DB3B2B" strokeWidth="1.8" /><path d="M9 9l6 6M15 9l-6 6" stroke="#DB3B2B" strokeWidth="1.8" strokeLinecap="round" /></svg>
                           No disponible
                         </span>
                       ) : (
-                        <span className="block text-[12px] text-black/40" style={{ marginTop: 2 }}>{r.adv}</span>
+                        <span className="block text-[10.5px] text-black/40" style={{ marginTop: 1 }}>{r.adv}</span>
                       )}
                     </div>
                     <div className="text-right">
-                      <span className="block text-[12px] text-black/45">Precio estimado:</span>
-                      <span className={`block text-[16px] font-bold ${failed ? "text-black/40 line-through" : "text-black"}`} style={{ marginTop: 2 }}>
-                        {r.price}<span className="ml-1 text-[10px] font-medium text-black/45">MXN</span>
+                      <span className="block text-[10.5px] text-black/45">Precio estimado:</span>
+                      <span className={`block text-[13.5px] font-bold ${failed ? "text-black/40 line-through" : "text-black"}`} style={{ marginTop: 1 }}>
+                        {r.price}<span className="ml-1 text-[9.5px] font-medium text-black/45">MXN</span>
                       </span>
                       {r.note && !failed && (
-                        <span className="block text-[11px] leading-tight text-black/45" style={{ marginTop: 2 }}>
+                        <span className="block text-[10px] leading-tight text-black/45" style={{ marginTop: 1 }}>
                           {r.note[0]}<span className="font-semibold text-black/55">{r.note[1]}</span>
                         </span>
                       )}
@@ -464,14 +464,32 @@ function CarrierReassign({ className = "" }: { className?: string }) {
   );
 }
 
-/* Panel simulado del builder de reglas de T1 Envíos — cicla: nueva regla → seleccionar paqueterías → canvas final */
+/* Panel simulado del builder de reglas de T1 Envíos — cicla:
+   nueva regla → seleccionar paqueterías → seleccionar servicios → canvas final.
+   Los botones se habilitan solo cuando ya hay selección (click simulado). */
 function ReglasBuilderScreen({ variant = "desktop" }: { variant?: "desktop" | "mobile" }) {
   const MK = "var(--font-manrope-var), 'Manrope', sans-serif";
   const [step, setStep] = useState(0);
+  const [filled, setFilled] = useState(false);
   useEffect(() => {
-    const t = setTimeout(() => setStep((step + 1) % 3), 3600);
-    return () => clearTimeout(t);
+    setFilled(false);
+    const t1 = setTimeout(() => setFilled(true), 1500);
+    const t2 = setTimeout(() => setStep((step + 1) % 4), 4200);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
   }, [step]);
+  // step 0 (form) ya viene lleno; steps 1 y 2 se llenan con el "click" simulado
+  const canProceed = step === 0 ? true : filled;
+  const Cursor = () => (
+    <span className="pointer-events-none absolute z-30" style={{ left: 22, top: "50%", marginTop: -2 }}>
+      <span className="absolute rounded-full" style={{ left: -14, top: -14, width: 28, height: 28, border: "2px solid rgba(219,59,43,0.75)", animation: "tapRipple 1s ease-out infinite" }} />
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" style={{ filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.35))" }}><path d="M5 3l14 7-6 2-2 6L5 3z" fill="#1a1a1a" stroke="#fff" strokeWidth="1.2" strokeLinejoin="round" /></svg>
+    </span>
+  );
+  const footer = (label: string) => (
+    <div className="flex justify-end border-t border-black/[0.06] px-5 py-3">
+      <span className="rounded-[8px] px-5 py-2 text-[12px] font-semibold text-white transition-colors duration-300" style={{ background: canProceed ? "#DB3B2B" : "rgba(219,59,43,0.4)" }}>{label}</span>
+    </div>
+  );
 
   const Switch = ({ on }: { on: boolean }) => (
     <span className="relative inline-flex h-[18px] w-[32px] shrink-0 items-center rounded-full px-0.5" style={{ background: on ? "#DB3B2B" : "rgba(0,0,0,0.15)" }}>
@@ -528,9 +546,7 @@ function ReglasBuilderScreen({ variant = "desktop" }: { variant?: "desktop" | "m
           })}
         </div>
       </div>
-      <div className="flex justify-end border-t border-black/[0.06] px-5 py-3">
-        <span className="rounded-[8px] bg-[#DB3B2B] px-5 py-2 text-[12px] font-semibold text-white">Continuar</span>
-      </div>
+      {footer("Continuar")}
     </div>
   );
 
@@ -546,9 +562,10 @@ function ReglasBuilderScreen({ variant = "desktop" }: { variant?: "desktop" | "m
         <p className="mb-2.5 text-[10.5px] text-black/55" style={{ lineHeight: 1.5 }}>Selecciona las paqueterías que se aplicarán cuando se cumplan las condiciones. Puedes elegir más de una.</p>
         <div className="flex flex-col gap-1.5">
           {CARRIERS.map((c, i) => {
-            const on = i < 3;
+            const on = filled && (i === 1 || i === 2 || i === 5);
             return (
-              <div key={c.name} className="flex items-center gap-2.5 rounded-[8px] border px-3 py-2" style={{ borderColor: on ? "rgba(219,59,43,0.35)" : "rgba(0,0,0,0.08)", background: on ? "rgba(219,59,43,0.03)" : "#fff" }}>
+              <div key={c.name} className="relative flex items-center gap-2.5 rounded-[8px] border px-3 py-2" style={{ borderColor: on ? "rgba(219,59,43,0.35)" : "rgba(0,0,0,0.08)", background: on ? "rgba(219,59,43,0.03)" : "#fff" }}>
+                {i === 1 && filled && <Cursor />}
                 <Check on={on} />
                 {c.t1 ? <span className="font-sora text-[11px] font-bold text-[#DB3B2B]">T1</span> : <img src={`/img/carriers/${c.brand}.svg`} alt="" width={22} height={20} className="h-[16px] w-[24px] object-contain" />}
                 <span className="text-[11.5px] text-black/80">{c.name}</span>
@@ -557,13 +574,49 @@ function ReglasBuilderScreen({ variant = "desktop" }: { variant?: "desktop" | "m
           })}
         </div>
       </div>
-      <div className="flex justify-end border-t border-black/[0.06] px-5 py-3">
-        <span className="rounded-[8px] bg-[rgba(219,59,43,0.5)] px-5 py-2 text-[12px] font-semibold text-white">Continuar</span>
-      </div>
+      {footer("Continuar")}
     </div>
   );
 
-  /* Step 2 — canvas final (rule card + flujo de paqueterías) */
+  /* Step 2 — Seleccionar servicios */
+  const SERVICES = [
+    { brand: "dhl", name: "DHL", svc: "Día siguiente" },
+    { brand: "dhl", name: "DHL", svc: "Económico / 2 días" },
+    { brand: "fedex", name: "Fedex", svc: "Económico / Día siguiente / semanal" },
+    { brand: "fedex", name: "Fedex", svc: "Mismo día / 24H" },
+    { brand: "ups", name: "Ups", svc: "UPS SAVER (65) Express" },
+    { brand: "ups", name: "Ups", svc: "UPS STANDAR (11) Terrestre" },
+  ];
+  const servicesDrawer = (
+    <div className="flex h-full flex-col bg-white" style={{ fontFamily: MK }}>
+      <div className="flex items-center gap-2.5 border-b border-black/[0.06] px-5 py-3">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="rgba(0,0,0,0.5)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        <p className="flex-1 text-[14px] font-bold text-black">Seleccionar servicios</p>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="rgba(0,0,0,0.45)" strokeWidth="1.8" strokeLinecap="round" /></svg>
+      </div>
+      <div className="flex-1 overflow-hidden px-5 py-3">
+        <p className="mb-2.5 text-[10.5px] text-black/55" style={{ lineHeight: 1.5 }}>Elige el servicio de cada paquetería y define su prioridad. Arrastra para ordenar cómo se intentará el envío.</p>
+        <div className="flex flex-col gap-1.5">
+          {SERVICES.map((s, i) => {
+            const on = filled && (i === 0 || i === 3);
+            return (
+              <div key={i} className="relative flex items-center gap-2 rounded-[8px] border px-3 py-2" style={{ borderColor: on ? "rgba(219,59,43,0.35)" : "rgba(0,0,0,0.08)", background: on ? "rgba(219,59,43,0.03)" : "#fff" }}>
+                {i === 0 && filled && <Cursor />}
+                <Check on={on} />
+                <img src={`/img/carriers/${s.brand}.svg`} alt="" width={22} height={18} className="h-[14px] w-[22px] shrink-0 object-contain" />
+                <span className="shrink-0 text-[11.5px] font-semibold text-black">{s.name}</span>
+                <span className="flex-1 truncate text-[10px] text-black/50">{s.svc}</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="shrink-0"><path d="M5 9h14M5 15h14" stroke="rgba(0,0,0,0.3)" strokeWidth="1.6" strokeLinecap="round" /></svg>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      {footer("Crear regla")}
+    </div>
+  );
+
+  /* Step 3 — canvas final (rule card + flujo de paqueterías) */
   const chip = (t: string) => <span key={t} className="rounded-[6px] bg-[rgba(59,110,224,0.08)] px-2 py-1 text-[9.5px] font-medium text-[#3B6FE0]">{t}</span>;
   const arrow = (
     <svg width="22" height="10" viewBox="0 0 22 10" fill="none" className="shrink-0"><path d="M1 5h16m0 0l-4-3.5M17 5l-4 3.5" stroke="rgba(0,0,0,0.3)" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -595,12 +648,26 @@ function ReglasBuilderScreen({ variant = "desktop" }: { variant?: "desktop" | "m
     </div>
   );
 
-  const drawer = step === 0 ? formDrawer : carriersDrawer;
+  const drawer = step === 0 ? formDrawer : step === 1 ? carriersDrawer : servicesDrawer;
 
   if (variant === "mobile") {
     return (
-      <div key={step} className="mx-auto overflow-hidden rounded-[16px] border border-black/[0.08] bg-white" style={{ maxWidth: 340, height: 470, boxShadow: "0 20px 50px rgba(0,0,0,0.12)", animation: "modalContentFade 0.4s ease-out" }}>
-        {step === 2 ? <div className="h-full overflow-hidden p-4"><div style={{ transform: "scale(0.92)", transformOrigin: "top left" }}>{canvasContent}</div></div> : drawer}
+      <div key={step} className="mx-auto overflow-hidden rounded-[12px] border border-black/[0.08] bg-white" style={{ maxWidth: 300, height: 420, boxShadow: "0 10px 30px rgba(0,0,0,0.10)", animation: "modalContentFade 0.4s ease-out" }}>
+        {step === 3 ? (
+          <div className="relative h-full overflow-hidden bg-white" style={{ fontFamily: MK, backgroundImage: "radial-gradient(rgba(0,0,0,0.07) 1px, transparent 1px)", backgroundSize: "16px 16px" }}>
+            <div className="flex items-center justify-between border-b border-black/[0.06] bg-white px-4 py-3">
+              <span className="text-[13px] font-semibold text-black/80">Reglas específicas</span>
+              <span className="rounded-[8px] bg-[#DB3B2B] px-3 py-1 text-[10.5px] font-semibold text-white">Nueva regla</span>
+            </div>
+            <div className="p-4">
+              <div className="rounded-[12px] border border-black/[0.08] bg-white p-3" style={{ boxShadow: "0 8px 24px rgba(0,0,0,0.06)" }}>
+                <div className="mb-2 flex items-center gap-2 text-[10px]"><span className="text-black/45">ID</span><span className="font-semibold text-black">67898765</span><span className="ml-auto h-[10px] w-[10px] rounded-full bg-[#16A34A]" /></div>
+                <div className="mb-1 flex gap-2 text-[11px]"><span className="text-black/45">Nombre</span><span className="font-semibold text-black">CDMX Sur</span></div>
+                <div className="flex gap-2 text-[10px]"><span className="shrink-0 text-black/45">Descripción</span><span className="text-black/70" style={{ lineHeight: 1.4 }}>Envíos exprés para paquetes dirigidos al sur de la CDMX</span></div>
+              </div>
+            </div>
+          </div>
+        ) : drawer}
       </div>
     );
   }
@@ -614,17 +681,17 @@ function ReglasBuilderScreen({ variant = "desktop" }: { variant?: "desktop" | "m
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="rgba(0,0,0,0.55)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
             <span className="text-[14px] font-semibold text-black/80">Reglas específicas</span>
           </div>
-          {step === 2 && <span className="rounded-[9px] bg-[#DB3B2B] px-4 py-1.5 text-[11px] font-semibold text-white">Nueva regla</span>}
+          {step === 3 && <span className="rounded-[9px] bg-[#DB3B2B] px-4 py-1.5 text-[11px] font-semibold text-white">Nueva regla</span>}
         </div>
-        {/* Canvas content (step 2) */}
-        {step === 2 && <div key="canvas" className="overflow-hidden" style={{ animation: "modalContentFade 0.45s ease-out" }}>{canvasContent}</div>}
+        {/* Canvas content (step 3) */}
+        {step === 3 && <div key="canvas" className="overflow-hidden" style={{ animation: "modalContentFade 0.45s ease-out" }}>{canvasContent}</div>}
         {/* Zoom controls */}
         <div className="absolute bottom-4 left-4 z-[1] flex flex-col divide-y divide-black/[0.08] overflow-hidden rounded-[10px] border border-black/[0.1] bg-white">
           {["+", "−", "⤢"].map((s) => (<span key={s} className="flex h-[30px] w-[30px] items-center justify-center text-[14px] text-black/50">{s}</span>))}
         </div>
       </div>
-      {/* Drawer (steps 0 y 1) */}
-      {step !== 2 && (
+      {/* Drawer (steps 0, 1 y 2) */}
+      {step !== 3 && (
         <div key={step} className="absolute right-0 top-0 z-[3] h-full" style={{ width: 372, borderLeft: "1px solid rgba(0,0,0,0.06)", animation: "modalContentFade 0.4s ease-out" }}>
           {drawer}
         </div>

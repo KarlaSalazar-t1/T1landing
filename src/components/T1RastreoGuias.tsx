@@ -23,12 +23,12 @@ function CountStat({ end, prefix = "", suffix = "", label, decimals = 0 }: { end
 /* Marco de teléfono reutilizable (bordes redondeados) — SOLO responsive */
 function PhoneShell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mx-auto w-full" style={{ maxWidth: 340, fontFamily: MANROPE }}>
+    <div className="mx-auto w-full" style={{ maxWidth: 320, fontFamily: MANROPE }}>
       <div
         className="relative overflow-hidden bg-white"
-        style={{ borderRadius: 44, border: "1px solid rgba(0,0,0,0.08)", boxShadow: "0 30px 80px rgba(0,0,0,0.45)" }}
+        style={{ borderRadius: 12, border: "1px solid rgba(0,0,0,0.08)", boxShadow: "0 10px 30px rgba(0,0,0,0.10)" }}
       >
-        <div className="px-5 pt-6 pb-7">{children}</div>
+        <div className="px-4 pt-5 pb-5">{children}</div>
       </div>
     </div>
   );
@@ -46,17 +46,17 @@ function MisEnviosPhone({ className = "" }: { className?: string }) {
     <div className={className}>
       <PhoneShell>
         {/* Controles */}
-        <div className="flex items-center gap-2.5" style={{ marginBottom: 4 }}>
-          <span className="flex items-center gap-1.5 rounded-[12px] border px-3.5 py-2.5 text-[13px] font-medium text-black/75" style={{ borderColor: "rgba(0,0,0,0.14)" }}>
+        <div className="flex items-center gap-2" style={{ marginBottom: 2 }}>
+          <span className="flex items-center gap-1.5 rounded-[10px] border px-3 py-2 text-[11px] font-medium text-black/75" style={{ borderColor: "rgba(0,0,0,0.14)" }}>
             Filtrar
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h10M18 7h2M4 17h2M10 17h10" stroke="rgba(0,0,0,0.5)" strokeWidth="1.6" strokeLinecap="round" /><circle cx="16" cy="7" r="2.4" stroke="rgba(0,0,0,0.5)" strokeWidth="1.6" /><circle cx="8" cy="17" r="2.4" stroke="rgba(0,0,0,0.5)" strokeWidth="1.6" /></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 7h10M18 7h2M4 17h2M10 17h10" stroke="rgba(0,0,0,0.5)" strokeWidth="1.6" strokeLinecap="round" /><circle cx="16" cy="7" r="2.4" stroke="rgba(0,0,0,0.5)" strokeWidth="1.6" /><circle cx="8" cy="17" r="2.4" stroke="rgba(0,0,0,0.5)" strokeWidth="1.6" /></svg>
           </span>
-          <span className="flex flex-1 items-center justify-between rounded-[12px] border px-3.5 py-2.5 text-[13px] font-medium text-black/75" style={{ borderColor: "rgba(0,0,0,0.14)" }}>
+          <span className="flex flex-1 items-center justify-between rounded-[10px] border px-3 py-2 text-[11px] font-medium text-black/75" style={{ borderColor: "rgba(0,0,0,0.14)" }}>
             Fecha
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="rgba(0,0,0,0.5)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="rgba(0,0,0,0.5)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
           </span>
-          <span className="flex h-[40px] w-[40px] items-center justify-center rounded-[12px] border" style={{ borderColor: "rgba(0,0,0,0.14)" }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M7 4v16M7 20l-3-3M7 20l3-3M17 20V4M17 4l-3 3M17 4l3 3" stroke="rgba(0,0,0,0.5)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+          <span className="flex h-[34px] w-[34px] items-center justify-center rounded-[10px] border" style={{ borderColor: "rgba(0,0,0,0.14)" }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M7 4v16M7 20l-3-3M7 20l3-3M17 20V4M17 4l-3 3M17 4l3 3" stroke="rgba(0,0,0,0.5)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
           </span>
         </div>
 
@@ -64,19 +64,19 @@ function MisEnviosPhone({ className = "" }: { className?: string }) {
         {ROWS.map((r, i) => {
           const st = r.tone === "done" ? { bg: "rgba(34,197,94,0.12)", color: "#16A34A" } : { bg: "rgba(0,0,0,0.05)", color: "rgba(0,0,0,0.6)" };
           return (
-            <div key={i} style={{ borderTop: "1px solid rgba(0,0,0,0.07)", paddingTop: 14, paddingBottom: 14 }}>
-              <p className="text-[12px] text-black/45" style={{ marginBottom: 10 }}>Hoy | 2:24 hrs</p>
-              <div className="flex items-center gap-3">
-                <img src={`/img/carriers/${r.brand}.svg`} alt={r.carrier} width={44} height={44} className="h-[44px] w-[44px] shrink-0" />
+            <div key={i} style={{ borderTop: "1px solid rgba(0,0,0,0.07)", paddingTop: 10, paddingBottom: 10 }}>
+              <p className="text-[10.5px] text-black/45" style={{ marginBottom: 7 }}>Hoy | 2:24 hrs</p>
+              <div className="flex items-center gap-2.5">
+                <img src={`/img/carriers/${r.brand}.svg`} alt={r.carrier} width={36} height={36} className="h-[36px] w-[36px] shrink-0" />
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-[16px] font-bold text-black leading-tight">{r.id}</p>
-                  <p className="truncate text-[13px] text-black/45" style={{ marginTop: 2 }}>{r.carrier}</p>
+                  <p className="truncate text-[14px] font-bold text-black leading-tight">{r.id}</p>
+                  <p className="truncate text-[11.5px] text-black/45" style={{ marginTop: 1 }}>{r.carrier}</p>
                 </div>
-                <span className="shrink-0 text-[15px] font-bold text-black">{r.price}</span>
+                <span className="shrink-0 text-[13.5px] font-bold text-black">{r.price}</span>
               </div>
-              <div className="flex items-center gap-3" style={{ marginTop: 12 }}>
-                <span className="rounded-full px-3 py-1 text-[11px] font-bold" style={{ background: st.bg, color: st.color }}>{r.state}</span>
-                <span className="text-[13px] text-black/60">{r.source}</span>
+              <div className="flex items-center gap-2.5" style={{ marginTop: 9 }}>
+                <span className="rounded-full px-2.5 py-0.5 text-[10px] font-bold" style={{ background: st.bg, color: st.color }}>{r.state}</span>
+                <span className="text-[11.5px] text-black/60">{r.source}</span>
               </div>
             </div>
           );
@@ -151,32 +151,32 @@ export default function T1RastreoGuias() {
       {/* ════════════ BENTO — capacidades ════════════ */}
       <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="relative mx-auto flex min-h-[240px] max-w-[900px] items-center justify-center overflow-hidden text-center tablet:min-h-[300px]" style={{ marginBottom: 48 }}>
+          <div data-modal-animate className="relative mx-auto flex min-h-[300px] max-w-[960px] items-center justify-center overflow-hidden text-center tablet:min-h-[400px]" style={{ marginBottom: 48 }}>
             {/* toque sutil de rojo */}
-            <div aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ width: 560, height: 420, background: "radial-gradient(circle, rgba(219,59,43,0.06) 0%, transparent 62%)" }} />
-            {/* DESKTOP scatter */}
+            <div aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ width: 620, height: 480, background: "radial-gradient(circle, rgba(219,59,43,0.06) 0%, transparent 62%)" }} />
+            {/* DESKTOP scatter — más dispersos y lejos del título */}
             {[
-              { b: "fedex", l: "8%", t: "22%", s: 52, r: -8 },
-              { b: "dhl", l: "19%", t: "72%", s: 46, r: 7 },
-              { b: "estafeta", l: "13%", t: "47%", s: 50, r: -5 },
-              { b: "jtexpress", l: "30%", t: "15%", s: 44, r: 5 },
-              { b: "paquetexpress", l: "88%", t: "24%", s: 50, r: 8 },
-              { b: "ups", l: "80%", t: "70%", s: 48, r: -7 },
-              { b: "99min", l: "91%", t: "48%", s: 46, r: 6 },
-              { b: "ampm", l: "70%", t: "15%", s: 46, r: -5 },
+              { b: "fedex", l: "5%", t: "22%", s: 52, r: -8 },
+              { b: "estafeta", l: "9%", t: "52%", s: 50, r: -5 },
+              { b: "dhl", l: "15%", t: "82%", s: 46, r: 7 },
+              { b: "jtexpress", l: "27%", t: "12%", s: 44, r: 5 },
+              { b: "ampm", l: "73%", t: "12%", s: 46, r: -5 },
+              { b: "paquetexpress", l: "95%", t: "22%", s: 50, r: 8 },
+              { b: "99min", l: "91%", t: "52%", s: 46, r: 6 },
+              { b: "ups", l: "85%", t: "82%", s: 48, r: -7 },
             ].map(({ b, l, t, s, r }) => (
               <img key={`d-${b}`} src={`/img/carriers/${b}.svg`} alt="" width={s} height={s} className="pointer-events-none absolute hidden -translate-x-1/2 -translate-y-1/2 object-contain tablet:block" style={{ left: l, top: t, width: s, height: s, transform: `translate(-50%,-50%) rotate(${r}deg)`, filter: "drop-shadow(0 12px 22px rgba(0,0,0,0.12))" }} />
             ))}
-            {/* MOBILE scatter — bandas superior e inferior */}
+            {/* MOBILE scatter — bandas superior e inferior, dentro de límites (sin cortarse) */}
             {[
-              { b: "fedex", l: "12%", t: "9%", s: 38, r: -8 },
-              { b: "jtexpress", l: "40%", t: "7%", s: 36, r: 5 },
-              { b: "ampm", l: "66%", t: "8%", s: 36, r: -5 },
-              { b: "paquetexpress", l: "88%", t: "12%", s: 38, r: 8 },
-              { b: "dhl", l: "14%", t: "91%", s: 38, r: 7 },
-              { b: "estafeta", l: "42%", t: "93%", s: 36, r: -6 },
-              { b: "ups", l: "66%", t: "92%", s: 36, r: 7 },
-              { b: "99min", l: "88%", t: "89%", s: 38, r: 6 },
+              { b: "fedex", l: "16%", t: "15%", s: 36, r: -8 },
+              { b: "jtexpress", l: "42%", t: "13%", s: 34, r: 5 },
+              { b: "ampm", l: "66%", t: "14%", s: 34, r: -5 },
+              { b: "paquetexpress", l: "84%", t: "17%", s: 36, r: 8 },
+              { b: "dhl", l: "16%", t: "85%", s: 36, r: 7 },
+              { b: "estafeta", l: "43%", t: "87%", s: 34, r: -6 },
+              { b: "ups", l: "66%", t: "86%", s: 34, r: 7 },
+              { b: "99min", l: "84%", t: "83%", s: 36, r: 6 },
             ].map(({ b, l, t, s, r }) => (
               <img key={`m-${b}`} src={`/img/carriers/${b}.svg`} alt="" width={s} height={s} className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 object-contain tablet:hidden" style={{ left: l, top: t, width: s, height: s, transform: `translate(-50%,-50%) rotate(${r}deg)`, filter: "drop-shadow(0 12px 22px rgba(0,0,0,0.12))" }} />
             ))}
