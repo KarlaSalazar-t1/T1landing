@@ -851,7 +851,7 @@ export default function T1ReglasEnvio() {
         </section>
 
         {/* Block 2 — Prioridad T1 (panel left, text right) — bg blanco */}
-        <section className="px-5 py-20 tablet:px-10 tablet:py-28" style={{ background: "#FFFFFF" }} data-modal-animate>
+        <section className="px-5 pt-8 pb-20 tablet:px-10 tablet:py-28" style={{ background: "#FFFFFF" }} data-modal-animate>
           <div className="mx-auto flex max-w-[var(--max-w)] items-center">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               {/* Panel — teléfono (estilo Cotizador) en responsive, tabla en desktop */}
