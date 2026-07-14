@@ -117,14 +117,14 @@ export default function T1RastreoGuias() {
           {/* Copy + interactive search */}
           <div className="flex w-full flex-col items-center">
             <h1 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[56px]" style={{ lineHeight: 1.05, letterSpacing: "-1.5px", marginBottom: 22 }}>
-              Rastrea tus guías{" "}
+              Rastrea todas tus guías desde{" "}
               <span className="relative inline-block">
-                en un solo lugar
+                T1
                 <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.35)", borderRadius: 5, zIndex: -1 }} />
               </span>.
             </h1>
             <p className="mx-auto font-inter text-[16px] font-light text-white/70 tablet:text-[19px]" style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 560 }}>
-              Detecta demoras antes que tu cliente y avísale en automático.
+              Consulta el estado de tus envíos y mantén a tus clientes informados desde un solo lugar.
             </p>
 
             {/* Interactive tracking search */}
@@ -151,16 +151,44 @@ export default function T1RastreoGuias() {
       {/* ════════════ BENTO — capacidades ════════════ */}
       <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="mx-auto max-w-[760px] text-center" style={{ marginBottom: 56 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.4px", lineHeight: 1.1 }}>
-              Un solo lugar para todo lo que enviaste.
+          <div data-modal-animate className="relative mx-auto flex min-h-[240px] max-w-[900px] items-center justify-center overflow-hidden text-center tablet:min-h-[300px]" style={{ marginBottom: 48 }}>
+            {/* toque sutil de rojo */}
+            <div aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ width: 560, height: 420, background: "radial-gradient(circle, rgba(219,59,43,0.06) 0%, transparent 62%)" }} />
+            {/* DESKTOP scatter */}
+            {[
+              { b: "fedex", l: "8%", t: "22%", s: 52, r: -8 },
+              { b: "dhl", l: "19%", t: "72%", s: 46, r: 7 },
+              { b: "estafeta", l: "13%", t: "47%", s: 50, r: -5 },
+              { b: "jtexpress", l: "30%", t: "15%", s: 44, r: 5 },
+              { b: "paquetexpress", l: "88%", t: "24%", s: 50, r: 8 },
+              { b: "ups", l: "80%", t: "70%", s: 48, r: -7 },
+              { b: "99min", l: "91%", t: "48%", s: 46, r: 6 },
+              { b: "ampm", l: "70%", t: "15%", s: 46, r: -5 },
+            ].map(({ b, l, t, s, r }) => (
+              <img key={`d-${b}`} src={`/img/carriers/${b}.svg`} alt="" width={s} height={s} className="pointer-events-none absolute hidden -translate-x-1/2 -translate-y-1/2 object-contain tablet:block" style={{ left: l, top: t, width: s, height: s, transform: `translate(-50%,-50%) rotate(${r}deg)`, filter: "drop-shadow(0 12px 22px rgba(0,0,0,0.12))" }} />
+            ))}
+            {/* MOBILE scatter — bandas superior e inferior */}
+            {[
+              { b: "fedex", l: "12%", t: "9%", s: 38, r: -8 },
+              { b: "jtexpress", l: "40%", t: "7%", s: 36, r: 5 },
+              { b: "ampm", l: "66%", t: "8%", s: 36, r: -5 },
+              { b: "paquetexpress", l: "88%", t: "12%", s: 38, r: 8 },
+              { b: "dhl", l: "14%", t: "91%", s: 38, r: 7 },
+              { b: "estafeta", l: "42%", t: "93%", s: 36, r: -6 },
+              { b: "ups", l: "66%", t: "92%", s: 36, r: 7 },
+              { b: "99min", l: "88%", t: "89%", s: 38, r: 6 },
+            ].map(({ b, l, t, s, r }) => (
+              <img key={`m-${b}`} src={`/img/carriers/${b}.svg`} alt="" width={s} height={s} className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 object-contain tablet:hidden" style={{ left: l, top: t, width: s, height: s, transform: `translate(-50%,-50%) rotate(${r}deg)`, filter: "drop-shadow(0 12px 22px rgba(0,0,0,0.12))" }} />
+            ))}
+            <h2 className="relative z-[1] mx-auto font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.4px", lineHeight: 1.1, maxWidth: 460 }}>
+              Un solo lugar para todos tus envíos.
             </h2>
           </div>
 
-          {/* Block 1 — Tablero (texto + tabla) */}
-          <div data-modal-animate className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16" style={{ marginBottom: 112 }}>
+          {/* Block 1 — Tablero (texto + tabla, panel más grande) */}
+          <div data-modal-animate className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.28fr)] tablet:gap-14" style={{ marginBottom: 112 }}>
             <div>
-              <h3 className="font-sora text-[26px] font-light text-black tablet:text-[36px] lg:text-[42px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>Todas las paqueterías, un mismo tablero</h3>
+              <h3 className="font-sora text-[26px] font-light text-black tablet:text-[36px] lg:text-[42px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>Todas tus guías en una sola vista</h3>
               <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6 }}>Filtra por estado y encuentra en segundos qué pedidos van en camino, cuáles entregaste y cuáles necesitan atención.</p>
             </div>
             {/* Panel — teléfono "Mis envíos" en responsive */}
@@ -210,18 +238,13 @@ export default function T1RastreoGuias() {
 
           {/* Block 2 — +25 paqueterías (panel + texto) */}
           <div data-modal-animate className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16" style={{ marginBottom: 112 }}>
-            <div className="order-2 rounded-[18px] border border-black/[0.06] bg-white tablet:order-1" style={{ padding: 24, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
-              <div className="grid grid-cols-3 gap-2.5 tablet:gap-3">
-                {["fedex", "dhl", "estafeta", "paquetexpress", "ups", "99min", "jtexpress", "ampm"].map((b, i) => (
-                  <div key={i} className="flex items-center justify-center rounded-[12px] border border-black/[0.12] bg-white py-4">
-                    <img src={`/img/carriers/${b}.svg`} alt={b} width={36} height={36} className="h-[36px] w-[36px] object-contain" />
-                  </div>
-                ))}
-              </div>
+            {/* Placeholder — aquí irá una imagen */}
+            <div className="order-2 flex items-center justify-center rounded-[18px] border border-dashed border-black/[0.12] bg-[#FBFBFB] tablet:order-1" style={{ minHeight: 300 }}>
+              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" className="text-black/20"><rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" strokeWidth="1.5" /><circle cx="8.5" cy="9.5" r="1.8" stroke="currentColor" strokeWidth="1.5" /><path d="M4 18l5-5 4 3 3-3 4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </div>
             <div className="order-1 tablet:order-2">
-              <h3 className="font-sora text-[26px] font-light text-black tablet:text-[36px] lg:text-[42px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>Más de 25 paqueterías, un estatus</h3>
-              <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6 }}>Estatus normalizado de todas, sin pestañas ni copiar y pegar.</p>
+              <h3 className="font-sora text-[26px] font-light text-black tablet:text-[36px] lg:text-[42px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>El mismo estatus para todas tus paqueterías</h3>
+              <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6 }}>Cada paquetería nombra sus estados diferente. T1 los estandariza en un solo lenguaje claro, para que entiendas el estatus de cada guía al instante, sin descifrar los términos de cada una.</p>
             </div>
           </div>
         </div>
@@ -233,7 +256,7 @@ export default function T1RastreoGuias() {
           {/* C/D/E — capacidades restantes (estilo "Todo incluido desde el día uno") */}
           <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 104 }}>
             <h2 className="font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-              Seguimiento que trabaja por ti
+              Seguimiento automático para cada guía
             </h2>
             <p className="font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
               Cada guía vigilada en tiempo real, con avisos a tu cliente y detección automática de demoras.
@@ -241,9 +264,9 @@ export default function T1RastreoGuias() {
           </div>
           <div data-modal-animate className="grid grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
             {[
-              { title: "Línea de tiempo en vivo", desc: "Cada evento, con hora y ubicación.", img: "/img/linea-del-tiempo.png", w: 1254, h: 1254 },
-              { title: "Tu cliente, siempre enterado", desc: "Avisos por WhatsApp y email en cada cambio.", img: "/img/notificaciones-v2.png", w: 956, h: 1168 },
-              { title: "Demoras detectadas solas", desc: "Incidencia automática cuando un envío se atora.", img: "/img/demoras.png", w: 1012, h: 1059 },
+              { title: "Línea de tiempo en vivo", desc: "Revisa los eventos de cada guía en orden, con fecha, hora y ubicación.", img: "/img/linea-del-tiempo.png", w: 1254, h: 1254 },
+              { title: "Tu cliente, siempre actualizado", desc: "Envía actualizaciones por WhatsApp o email cuando el estado del envío cambie.", img: "/img/notificaciones-v2.png", w: 956, h: 1168 },
+              { title: "Alertas en demoras", desc: "Identifica envíos sin movimiento y genera alertas o incidencias cuando aplica.", img: "/img/demoras.png", w: 1012, h: 1059 },
             ].map((c, i) => (
               <div key={c.title} data-stagger style={{ ["--i" as string]: i }} className="incluye-card flex flex-col rounded-[18px] border border-white/[0.08] bg-[#121214] px-6 pb-6">
                 {/* imagen que sobresale por arriba de la card */}
@@ -294,7 +317,7 @@ export default function T1RastreoGuias() {
       </section>
 
       <T1FinalCTA
-        title="Olvídate del ¿dónde está mi pedido?"
+        title={<>Olvídate del<br />¿dónde está mi pedido?</>}
         description="Rastrea tus guías en un solo lugar y mantén a tus clientes informados en automático."
         buttonLabel="Empezar a rastrear"
       />

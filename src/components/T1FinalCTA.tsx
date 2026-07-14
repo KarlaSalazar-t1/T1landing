@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
 
 interface T1FinalCTAProps {
-  title: string;
+  title: ReactNode;
   description: string;
   buttonLabel?: string;
   buttonHref?: string;

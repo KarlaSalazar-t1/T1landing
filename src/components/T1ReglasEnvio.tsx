@@ -464,78 +464,171 @@ function CarrierReassign({ className = "" }: { className?: string }) {
   );
 }
 
-/* Panel simulado "Agregar nueva regla" (mockup del builder de reglas de T1 Envíos) */
+/* Panel simulado del builder de reglas de T1 Envíos — cicla: nueva regla → seleccionar paqueterías → canvas final */
 function ReglasBuilderScreen({ variant = "desktop" }: { variant?: "desktop" | "mobile" }) {
   const MK = "var(--font-manrope-var), 'Manrope', sans-serif";
-  const CONDS = ["Costo de producto", "Volumetría", "Zona", "Días", "Horario", "Personalizada"];
+  const [step, setStep] = useState(0);
+  useEffect(() => {
+    const t = setTimeout(() => setStep((step + 1) % 3), 3600);
+    return () => clearTimeout(t);
+  }, [step]);
+
   const Switch = ({ on }: { on: boolean }) => (
-    <span className="relative inline-flex h-[22px] w-[40px] shrink-0 items-center rounded-full px-0.5" style={{ background: on ? "#DB3B2B" : "rgba(0,0,0,0.15)" }}>
-      <span className="h-[16px] w-[16px] rounded-full bg-white" style={{ transform: on ? "translateX(18px)" : "translateX(0)", boxShadow: "0 1px 2px rgba(0,0,0,0.2)" }} />
+    <span className="relative inline-flex h-[18px] w-[32px] shrink-0 items-center rounded-full px-0.5" style={{ background: on ? "#DB3B2B" : "rgba(0,0,0,0.15)" }}>
+      <span className="h-[13px] w-[13px] rounded-full bg-white" style={{ transform: on ? "translateX(14px)" : "translateX(0)", boxShadow: "0 1px 2px rgba(0,0,0,0.2)" }} />
     </span>
   );
-  const drawer = (
+  const Check = ({ on }: { on: boolean }) => (
+    <span className="flex h-[13px] w-[13px] shrink-0 items-center justify-center rounded-[4px] border" style={{ borderColor: on ? "#DB3B2B" : "rgba(0,0,0,0.25)", background: on ? "#DB3B2B" : "#fff" }}>
+      {on && <svg width="8" height="8" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>}
+    </span>
+  );
+  const CONDS = ["Costo de producto", "Volumetría", "Zona", "Días", "Horario", "Personalizada"];
+  const CARRIERS = [
+    { name: "T1 Envíos", t1: true }, { name: "DHL", brand: "dhl" }, { name: "Fedex", brand: "fedex" },
+    { name: "Grupo AMPM", brand: "ampm" }, { name: "Paquetexpress", brand: "paquetexpress" }, { name: "Ups", brand: "ups" },
+    { name: "JT Express", brand: "jtexpress" }, { name: "Estafeta", brand: "estafeta" }, { name: "99 minutos", brand: "99min" },
+  ];
+
+  /* Step 0 — Agregar nueva regla */
+  const formDrawer = (
     <div className="flex h-full flex-col bg-white" style={{ fontFamily: MK }}>
-      <div className="flex items-center justify-between border-b border-black/[0.06] px-6 py-4">
-        <p className="text-[16px] font-bold text-black">Agregar nueva regla</p>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="rgba(0,0,0,0.45)" strokeWidth="1.8" strokeLinecap="round" /></svg>
+      <div className="flex items-center justify-between border-b border-black/[0.06] px-5 py-3">
+        <p className="text-[14px] font-bold text-black">Agregar nueva regla</p>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="rgba(0,0,0,0.45)" strokeWidth="1.8" strokeLinecap="round" /></svg>
       </div>
-      <div className="flex-1 px-6 py-5">
-        <label className="mb-1.5 block text-[12px] text-black/55">Nombre</label>
-        <div className="mb-4 rounded-[10px] border border-black/[0.12] px-3.5 py-2.5"><span className="text-[13px] text-black/80">Envíos exprés CDMX Sur</span><span className="type-caret" /></div>
-        <label className="mb-1.5 block text-[12px] text-black/55">Descripción (opcional)</label>
-        <div className="mb-5 rounded-[10px] border border-black/[0.12] px-3.5 py-2.5"><span className="text-[13px] text-black/35">Placeholder</span></div>
-        <div className="mb-2.5 flex items-center justify-between rounded-[10px] border border-black/[0.08] px-3.5 py-3"><span className="text-[12.5px] text-black/70">Esta opción activa la regla de inmediato</span><Switch on={false} /></div>
-        <div className="mb-5 flex items-center justify-between rounded-[10px] border border-black/[0.08] px-3.5 py-3"><span className="text-[12.5px] text-black/70">Esta opción activa el seguro para proteger tus envíos</span><Switch on /></div>
-        <p className="mb-3 text-[15px] font-bold text-black">Condiciones de la regla</p>
-        <p className="mb-2 text-[12px] text-black/55">¿Cómo deben cumplirse las condiciones?</p>
-        <div className="mb-4 grid grid-cols-2 gap-2.5">
-          <div className="rounded-[10px] border-2 border-[#DB3B2B] p-3">
-            <div className="mb-1 flex items-center gap-2"><span className="flex h-[15px] w-[15px] items-center justify-center rounded-full border-2 border-[#DB3B2B]"><span className="h-[7px] w-[7px] rounded-full bg-[#DB3B2B]" /></span><span className="text-[12px] font-semibold text-black">Todas (AND)</span></div>
-            <p className="text-[10.5px] text-black/45" style={{ lineHeight: 1.4 }}>Se aplica solo si se cumplen todas las condiciones.</p>
+      <div className="flex-1 overflow-hidden px-5 py-4">
+        <label className="mb-1 block text-[10.5px] text-black/55">Nombre</label>
+        <div className="mb-3 rounded-[8px] border border-black/[0.12] px-3 py-2"><span className="text-[12px] text-black/80">Envíos exprés CDMX Sur</span></div>
+        <label className="mb-1 block text-[10.5px] text-black/55">Descripción (opcional)</label>
+        <div className="mb-3.5 rounded-[8px] border border-black/[0.12] px-3 py-2"><span className="text-[12px] text-black/35">Placeholder</span></div>
+        <div className="mb-2 flex items-center justify-between rounded-[8px] border border-black/[0.08] px-3 py-2"><span className="text-[11px] text-black/70">Activa la regla de inmediato</span><Switch on={false} /></div>
+        <div className="mb-4 flex items-center justify-between rounded-[8px] border border-black/[0.08] px-3 py-2"><span className="text-[11px] text-black/70">Activa el seguro de tus envíos</span><Switch on /></div>
+        <p className="mb-2 text-[13px] font-bold text-black">Condiciones de la regla</p>
+        <p className="mb-1.5 text-[10.5px] text-black/55">¿Cómo deben cumplirse las condiciones?</p>
+        <div className="mb-3 grid grid-cols-2 gap-2">
+          <div className="rounded-[8px] border-2 border-[#DB3B2B] p-2.5">
+            <div className="mb-0.5 flex items-center gap-1.5"><span className="flex h-[12px] w-[12px] items-center justify-center rounded-full border-2 border-[#DB3B2B]"><span className="h-[5px] w-[5px] rounded-full bg-[#DB3B2B]" /></span><span className="text-[11px] font-semibold text-black">Todas (AND)</span></div>
+            <p className="text-[9.5px] text-black/45" style={{ lineHeight: 1.35 }}>Solo si se cumplen todas.</p>
           </div>
-          <div className="rounded-[10px] border border-black/[0.1] p-3">
-            <div className="mb-1 flex items-center gap-2"><span className="h-[15px] w-[15px] rounded-full border-2 border-black/20" /><span className="text-[12px] font-semibold text-black/70">Al menos una (OR)</span></div>
-            <p className="text-[10.5px] text-black/45" style={{ lineHeight: 1.4 }}>Se aplica si al menos una condición es verdadera.</p>
+          <div className="rounded-[8px] border border-black/[0.1] p-2.5">
+            <div className="mb-0.5 flex items-center gap-1.5"><span className="h-[12px] w-[12px] rounded-full border-2 border-black/20" /><span className="text-[11px] font-semibold text-black/70">Al menos una (OR)</span></div>
+            <p className="text-[9.5px] text-black/45" style={{ lineHeight: 1.35 }}>Si al menos una es verdadera.</p>
           </div>
         </div>
-        <p className="mb-2 text-[12px] text-black/55">Selecciona una o múltiples condiciones:</p>
-        <div className="grid grid-cols-3 gap-2">
+        <p className="mb-1.5 text-[10.5px] text-black/55">Selecciona una o múltiples condiciones:</p>
+        <div className="grid grid-cols-3 gap-1.5">
           {CONDS.map((c, i) => {
             const on = i < 3;
             return (
-              <div key={c} className="flex items-center gap-1.5 rounded-[10px] border px-2.5 py-2.5" style={{ borderColor: on ? "rgba(219,59,43,0.4)" : "rgba(0,0,0,0.1)", background: on ? "rgba(219,59,43,0.04)" : "#fff" }}>
-                <span className="flex h-[15px] w-[15px] shrink-0 items-center justify-center rounded-[4px] border" style={{ borderColor: on ? "#DB3B2B" : "rgba(0,0,0,0.25)", background: on ? "#DB3B2B" : "#fff" }}>{on && <svg width="9" height="9" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>}</span>
-                <span className="truncate text-[11px] text-black/75">{c}</span>
+              <div key={c} className="flex items-center gap-1 rounded-[8px] border px-2 py-2" style={{ borderColor: on ? "rgba(219,59,43,0.4)" : "rgba(0,0,0,0.1)", background: on ? "rgba(219,59,43,0.04)" : "#fff" }}>
+                <Check on={on} /><span className="truncate text-[10px] text-black/75">{c}</span>
               </div>
             );
           })}
         </div>
       </div>
-      <div className="flex justify-end border-t border-black/[0.06] px-6 py-3.5">
-        <span className="rounded-[10px] bg-[#DB3B2B] px-6 py-2.5 text-[13px] font-semibold text-white">Continuar</span>
+      <div className="flex justify-end border-t border-black/[0.06] px-5 py-3">
+        <span className="rounded-[8px] bg-[#DB3B2B] px-5 py-2 text-[12px] font-semibold text-white">Continuar</span>
       </div>
     </div>
   );
 
+  /* Step 1 — Seleccionar paqueterías */
+  const carriersDrawer = (
+    <div className="flex h-full flex-col bg-white" style={{ fontFamily: MK }}>
+      <div className="flex items-center gap-2.5 border-b border-black/[0.06] px-5 py-3">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="rgba(0,0,0,0.5)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        <p className="flex-1 text-[14px] font-bold text-black">Seleccionar paqueterías</p>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="rgba(0,0,0,0.45)" strokeWidth="1.8" strokeLinecap="round" /></svg>
+      </div>
+      <div className="flex-1 overflow-hidden px-5 py-3">
+        <p className="mb-2.5 text-[10.5px] text-black/55" style={{ lineHeight: 1.5 }}>Selecciona las paqueterías que se aplicarán cuando se cumplan las condiciones. Puedes elegir más de una.</p>
+        <div className="flex flex-col gap-1.5">
+          {CARRIERS.map((c, i) => {
+            const on = i < 3;
+            return (
+              <div key={c.name} className="flex items-center gap-2.5 rounded-[8px] border px-3 py-2" style={{ borderColor: on ? "rgba(219,59,43,0.35)" : "rgba(0,0,0,0.08)", background: on ? "rgba(219,59,43,0.03)" : "#fff" }}>
+                <Check on={on} />
+                {c.t1 ? <span className="font-sora text-[11px] font-bold text-[#DB3B2B]">T1</span> : <img src={`/img/carriers/${c.brand}.svg`} alt="" width={22} height={20} className="h-[16px] w-[24px] object-contain" />}
+                <span className="text-[11.5px] text-black/80">{c.name}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      <div className="flex justify-end border-t border-black/[0.06] px-5 py-3">
+        <span className="rounded-[8px] bg-[rgba(219,59,43,0.5)] px-5 py-2 text-[12px] font-semibold text-white">Continuar</span>
+      </div>
+    </div>
+  );
+
+  /* Step 2 — canvas final (rule card + flujo de paqueterías) */
+  const chip = (t: string) => <span key={t} className="rounded-[6px] bg-[rgba(59,110,224,0.08)] px-2 py-1 text-[9.5px] font-medium text-[#3B6FE0]">{t}</span>;
+  const arrow = (
+    <svg width="22" height="10" viewBox="0 0 22 10" fill="none" className="shrink-0"><path d="M1 5h16m0 0l-4-3.5M17 5l-4 3.5" stroke="rgba(0,0,0,0.3)" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" /></svg>
+  );
+  const flowCard = (brand: string, name: string) => (
+    <div className="w-[118px] shrink-0 rounded-[12px] border border-black/[0.08] bg-white p-3" style={{ boxShadow: "0 6px 18px rgba(0,0,0,0.06)" }}>
+      <div className="mb-2 flex h-[26px] items-center justify-center"><img src={`/img/carriers/${brand}.svg`} alt="" width={44} height={26} className="h-[22px] w-auto object-contain" /></div>
+      <p className="mb-2 text-center text-[11px] font-semibold text-black">{name}</p>
+      <div className="flex items-center gap-1 text-[10px] text-black/70"><span className="flex h-[12px] w-[12px] items-center justify-center rounded-full bg-[#16A34A]"><svg width="7" height="7" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" /></svg></span>Exitoso</div>
+      <div className="mt-1 flex items-center gap-1 text-[10px] text-black/70"><span className="flex h-[12px] w-[12px] items-center justify-center rounded-full bg-[#DC2626]"><svg width="7" height="7" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" /></svg></span>Rechazado</div>
+    </div>
+  );
+  const canvasContent = (
+    <div className="flex items-center gap-4 p-5" style={{ fontFamily: MK }}>
+      <div className="w-[210px] shrink-0 rounded-[12px] border border-black/[0.08] bg-white p-4" style={{ boxShadow: "0 8px 24px rgba(0,0,0,0.06)" }}>
+        <div className="mb-2 flex items-center gap-2 text-[10px]"><span className="text-black/45">ID</span><span className="font-semibold text-black">67898765</span><span className="ml-auto rounded-full bg-[rgba(34,197,94,0.14)] px-2 py-0.5 text-[8.5px] font-bold text-[#16A34A]">ACTIVA</span></div>
+        <div className="mb-1 flex gap-2 text-[11px]"><span className="text-black/45">Nombre</span><span className="font-semibold text-black">CDMX Sur</span></div>
+        <div className="mb-3 flex gap-2 text-[10px]"><span className="shrink-0 text-black/45">Descripción</span><span className="text-black/70" style={{ lineHeight: 1.4 }}>Envíos exprés al sur de la CDMX</span></div>
+        <p className="mb-1.5 text-[11px] font-semibold text-black">Zona</p>
+        <div className="mb-3 flex flex-wrap gap-1.5">{["Zona Express", "Zona Principal", "Zona Pedregal", "Zona Coyoacán"].map(chip)}</div>
+        <p className="mb-1.5 text-[11px] font-semibold text-black">Días</p>
+        <div className="mb-3 flex flex-wrap gap-1.5">{["Miércoles", "Jueves", "Viernes"].map(chip)}</div>
+        <p className="mb-1.5 text-[11px] font-semibold text-black">Horario</p>
+        <div className="flex flex-wrap gap-1.5">{["10:00 - 14:00", "16:00 - 20:00"].map(chip)}</div>
+      </div>
+      <div className="flex items-center gap-2">
+        {arrow}{flowCard("fedex", "Fedex")}{arrow}{flowCard("ups", "Ups")}{arrow}{flowCard("dhl", "DHL")}
+      </div>
+    </div>
+  );
+
+  const drawer = step === 0 ? formDrawer : carriersDrawer;
+
   if (variant === "mobile") {
-    return <div className="mx-auto overflow-hidden rounded-[16px] border border-black/[0.08] bg-white" style={{ maxWidth: 340, boxShadow: "0 20px 50px rgba(0,0,0,0.12)" }}>{drawer}</div>;
+    return (
+      <div key={step} className="mx-auto overflow-hidden rounded-[16px] border border-black/[0.08] bg-white" style={{ maxWidth: 340, height: 470, boxShadow: "0 20px 50px rgba(0,0,0,0.12)", animation: "modalContentFade 0.4s ease-out" }}>
+        {step === 2 ? <div className="h-full overflow-hidden p-4"><div style={{ transform: "scale(0.92)", transformOrigin: "top left" }}>{canvasContent}</div></div> : drawer}
+      </div>
+    );
   }
   return (
-    <div className="relative overflow-hidden rounded-[16px] border border-black/[0.08] bg-white" style={{ boxShadow: "0 30px 80px rgba(0,0,0,0.14)" }}>
-      <div className="grid" style={{ gridTemplateColumns: "1fr 392px", minHeight: 600 }}>
-        {/* Canvas atenuado (fondo punteado) */}
-        <div className="relative" style={{ background: "#F4F4F5", backgroundImage: "radial-gradient(rgba(0,0,0,0.09) 1.2px, transparent 1.2px)", backgroundSize: "18px 18px" }}>
-          <div className="flex items-center gap-3 border-b border-black/[0.06] bg-white px-6 py-4" style={{ fontFamily: MK }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="rgba(0,0,0,0.55)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            <span className="text-[15px] font-semibold text-black/80">Reglas específicas</span>
+    <div className="relative overflow-hidden rounded-[16px] border border-black/[0.08] bg-white" style={{ height: 486, boxShadow: "0 30px 80px rgba(0,0,0,0.14)" }}>
+      {/* Canvas atenuado (fondo punteado) */}
+      <div className="absolute inset-0" style={{ background: "#F4F4F5", backgroundImage: "radial-gradient(rgba(0,0,0,0.09) 1.2px, transparent 1.2px)", backgroundSize: "18px 18px" }}>
+        {/* Topbar */}
+        <div className="relative z-[2] flex items-center justify-between border-b border-black/[0.06] bg-white px-5 py-3" style={{ fontFamily: MK }}>
+          <div className="flex items-center gap-2.5">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="rgba(0,0,0,0.55)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            <span className="text-[14px] font-semibold text-black/80">Reglas específicas</span>
           </div>
-          <div className="absolute bottom-5 left-5 flex flex-col divide-y divide-black/[0.08] overflow-hidden rounded-[10px] border border-black/[0.1] bg-white">
-            {["+", "−", "⤢"].map((s) => (<span key={s} className="flex h-[34px] w-[34px] items-center justify-center text-[15px] text-black/50">{s}</span>))}
-          </div>
+          {step === 2 && <span className="rounded-[9px] bg-[#DB3B2B] px-4 py-1.5 text-[11px] font-semibold text-white">Nueva regla</span>}
         </div>
-        {/* Drawer */}
-        <div style={{ borderLeft: "1px solid rgba(0,0,0,0.06)" }}>{drawer}</div>
+        {/* Canvas content (step 2) */}
+        {step === 2 && <div key="canvas" className="overflow-hidden" style={{ animation: "modalContentFade 0.45s ease-out" }}>{canvasContent}</div>}
+        {/* Zoom controls */}
+        <div className="absolute bottom-4 left-4 z-[1] flex flex-col divide-y divide-black/[0.08] overflow-hidden rounded-[10px] border border-black/[0.1] bg-white">
+          {["+", "−", "⤢"].map((s) => (<span key={s} className="flex h-[30px] w-[30px] items-center justify-center text-[14px] text-black/50">{s}</span>))}
+        </div>
       </div>
+      {/* Drawer (steps 0 y 1) */}
+      {step !== 2 && (
+        <div key={step} className="absolute right-0 top-0 z-[3] h-full" style={{ width: 372, borderLeft: "1px solid rgba(0,0,0,0.06)", animation: "modalContentFade 0.4s ease-out" }}>
+          {drawer}
+        </div>
+      )}
     </div>
   );
 }
@@ -655,7 +748,7 @@ export default function T1ReglasEnvio() {
                   {[
                     { title: "Menor costo", desc: "Elige la opción más económica disponible en cada pedido.", img: "/img/regla-menor-costo.png", w: 1536, h: 1024 },
                     { title: "Más rápido", desc: "Prioriza el envío con el menor tiempo de entrega.", img: "/img/regla-mas-rapido.png", w: 1536, h: 1024 },
-                    { title: "Reglas T1", desc: "Reglas listas, decididas por nuestra experiencia y análisis con IA.", img: "/img/regla-t1.png", w: 1073, h: 801 },
+                    { title: "Prioridad T1", desc: "Reglas listas, decididas por nuestra experiencia y análisis con IA.", img: "/img/regla-t1.png", w: 1073, h: 801 },
                     { title: "Personalizado", desc: "Crea tus propias reglas por destino, peso, monto o servicio.", img: "/img/regla-personalizado.png", w: 1000, h: 873 },
                   ].map((c) => (
                     <div key={c.title} className="regla-card flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-black/[0.07] bg-white p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
