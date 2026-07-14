@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
 import { useCountUp } from "@/hooks/useCountUp";
@@ -343,8 +344,8 @@ export default function T1RastreoGuias() {
         </div>
       </section>
 
-      {/* ════════════ Seguimiento — sección oscura (estilo "Todo incluido desde el día uno") ════════════ */}
-      <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
+      {/* ════════════ Seguimiento — sección oscura, degradado #1A0A0A → #000 ════════════ */}
+      <section className="relative px-5 py-24 tablet:px-10 tablet:py-32" style={{ background: "linear-gradient(180deg, #1A0A0A 0%, #000000 100%)" }}>
         <div className="mx-auto max-w-[var(--max-w)]">
           {/* C/D/E — capacidades restantes (estilo "Todo incluido desde el día uno") */}
           <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 48 }}>
@@ -356,71 +357,22 @@ export default function T1RastreoGuias() {
             </p>
           </div>
           <div data-modal-animate className="grid grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
-            {/* C — Timeline */}
-            <BentoCard span="" dark style={{ background: INCLUYE_CARD_BG }}>
-              <div className="overflow-hidden rounded-[14px] bg-white p-4" style={{ marginBottom: 16 }}>
-              <div
-                className="relative overflow-hidden"
-                style={{
-                  height: 168,
-                  fontFamily: MANROPE,
-                  maskImage: "linear-gradient(to bottom, transparent 0, #000 10%, #000 82%, transparent 100%)",
-                  WebkitMaskImage: "linear-gradient(to bottom, transparent 0, #000 10%, #000 82%, transparent 100%)",
-                }}
-              >
-                <div className="crono-track flex flex-col">
-                  {(() => {
-                    const EVENTS = [
-                      { chip: "Hoy", title: "En reparto · Saliendo a la dirección final", time: "14:32" },
-                      { icon: "truck", title: "En sucursal destino · MTY Centro de distribución", time: "06:18" },
-                      { title: "En tránsito · Saliendo de CDMX", time: "Ayer · 22:40" },
-                      { icon: "box", title: "Recolectado · Pickup desde tu sucursal", time: "Ayer · 16:05" },
-                      { title: "Guía generada · #43567890082", time: "Ayer · 09:10" },
-                    ];
-                    return [...EVENTS, ...EVENTS].map((e, i) => (
-                      <div key={i} className="relative flex gap-2.5" style={{ paddingBottom: 16 }}>
-                        <span aria-hidden className="absolute" style={{ left: 7, top: 18, bottom: -2, borderLeft: "2px dotted rgba(0,0,0,0.16)" }} />
-                        <div className="relative z-10 flex w-[16px] shrink-0 justify-center" style={{ paddingTop: 3 }}>
-                          {e.icon === "box" ? (
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" stroke="#1A1A1A" strokeWidth="1.5" strokeLinejoin="round" /><path d="M4 7.5l8 4.5 8-4.5M12 12v9" stroke="#1A1A1A" strokeWidth="1.5" strokeLinejoin="round" /></svg>
-                          ) : e.icon === "truck" ? (
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="1" y="6" width="13" height="10" rx="1" stroke="#1A1A1A" strokeWidth="1.5" /><path d="M14 9h4l3 3v4h-7M4 16a2 2 0 1 0 4 0 2 2 0 0 0-4 0zM15 16a2 2 0 1 0 4 0 2 2 0 0 0-4 0z" stroke="#1A1A1A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                          ) : (
-                            <span className="h-[8px] w-[8px] rounded-full bg-[#1A1A1A]" style={{ marginTop: 2 }} />
-                          )}
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          {e.chip && <span className="mb-1 inline-block rounded-[6px] bg-black/[0.06] px-2 py-0.5 text-[10px] font-medium text-black/55">{e.chip}</span>}
-                          <p className="text-[11px] text-black/85" style={{ lineHeight: 1.4 }}>{e.title}</p>
-                          <p className="text-[10px] text-black/45" style={{ marginTop: 1 }}>{e.time}</p>
-                        </div>
-                      </div>
-                    ));
-                  })()}
+            {[
+              { title: "Línea de tiempo en vivo", desc: "Cada evento, con hora y ubicación.", img: "/img/linea-del-tiempo.png", w: 1254, h: 1254 },
+              { title: "Tu cliente, siempre enterado", desc: "Avisos por WhatsApp y email en cada cambio.", img: "/img/notificaciones-v2.png", w: 956, h: 1168 },
+              { title: "Demoras detectadas solas", desc: "Incidencia automática cuando un envío se atora.", img: "/img/demoras.png", w: 1012, h: 1059 },
+            ].map((c, i) => (
+              <div key={c.title} data-stagger style={{ ["--i" as string]: i }} className="incluye-card flex flex-col rounded-[18px] border border-white/[0.08] bg-[#121214] px-6 pb-6">
+                {/* imagen que sobresale por arriba de la card */}
+                <div className="relative" style={{ height: 150 }}>
+                  <div className="absolute left-1/2 -translate-x-1/2" style={{ top: -48, width: "100%", height: 200 }}>
+                    <Image src={c.img} alt={c.title} width={c.w} height={c.h} className="pointer-events-none mx-auto block h-full w-auto object-contain" style={{ filter: "drop-shadow(0 20px 30px rgba(0,0,0,0.4))" }} sizes="(max-width: 768px) 90vw, 340px" />
+                  </div>
                 </div>
+                <h3 className="font-sora text-[19px] font-normal text-white" style={{ marginBottom: 6 }}>{c.title}</h3>
+                <p className="font-inter text-[13px] font-light text-white/55" style={{ lineHeight: 1.6 }}>{c.desc}</p>
               </div>
-              </div>
-              <h3 className="font-sora text-[20px] font-normal text-white" style={{ marginBottom: 6 }}>Línea de tiempo en vivo</h3>
-              <p className="font-inter text-[13px] font-light text-white/55">Cada evento, con hora y ubicación.</p>
-            </BentoCard>
-
-            {/* D — Avisos WhatsApp */}
-            <BentoCard span="" dark style={{ background: INCLUYE_CARD_BG }}>
-              <div className="overflow-hidden rounded-[14px] bg-white p-3" style={{ marginBottom: 16 }}>
-                <WhatsAppChat />
-              </div>
-              <h3 className="font-sora text-[20px] font-normal text-white" style={{ marginBottom: 6 }}>Tu cliente, siempre enterado</h3>
-              <p className="font-inter text-[13px] font-light text-white/55">Avisos por WhatsApp y email en cada cambio.</p>
-            </BentoCard>
-
-            {/* E — Detección de demoras */}
-            <BentoCard span="" dark style={{ background: INCLUYE_CARD_BG }}>
-              <div className="overflow-hidden rounded-[14px]" style={{ marginBottom: 16, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)", padding: 12 }}>
-                <DemorasFeed />
-              </div>
-              <h3 className="font-sora text-[20px] font-normal text-white" style={{ marginBottom: 6 }}>Demoras detectadas solas</h3>
-              <p className="font-inter text-[13px] font-light text-white/55">Incidencia automática cuando un envío se atora.</p>
-            </BentoCard>
+            ))}
           </div>
         </div>
       </section>
