@@ -331,7 +331,7 @@ function CronogramaPanel({ className = "", variant = "card" }: { className?: str
   }
 
   return (
-    <div className={`relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white ${className}`} style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)", height: 318.5, display: "flex", flexDirection: "column", fontFamily: "var(--font-manrope-var), 'Manrope', sans-serif" }}>
+    <div className={`relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white ${className}`} style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)", height: 392, display: "flex", flexDirection: "column", fontFamily: "var(--font-manrope-var), 'Manrope', sans-serif" }}>
       {header}
       <div className="relative flex-1 overflow-hidden" style={{ maskImage: mask, WebkitMaskImage: mask }}>
         {track}
@@ -423,34 +423,73 @@ export default function T1Multipaqueteria() {
         </div>
       </section>
 
-      {/* ── Con T1, olvídate de todo esto (estilo marketplace) + paqueterías conectadas ── */}
-      <section className="relative overflow-hidden bg-white px-5 py-24 tablet:px-10 tablet:py-32">
+      {/* ── Con T1, olvídate de todo esto — texto centrado + paqueterías flotando (estilo marketplace) ── */}
+      <section className="relative flex min-h-[560px] items-center overflow-hidden bg-white px-5 py-24 tablet:min-h-[620px] tablet:px-10 tablet:py-36">
         {/* toque sutil de rojo */}
-        <div aria-hidden className="pointer-events-none absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ width: 640, height: 460, background: "radial-gradient(circle at center, rgba(219,59,43,0.10) 0%, transparent 66%)", filter: "blur(60px)" }} />
-        <div className="relative mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="mx-auto max-w-[640px] text-center" style={{ marginBottom: 48 }}>
-            <h2 className="font-sora text-[26px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-              Con T1, olvídate de todo esto.
-            </h2>
-            <p className="mx-auto font-inter text-[15px] font-light text-black/60 tablet:text-[17px]" style={{ lineHeight: 1.6, maxWidth: 520 }}>
-              Con T1, cotiza, compara, genera guía y da seguimiento desde una plataforma.
-            </p>
-          </div>
-          <div data-modal-animate className="grid grid-cols-2 gap-4 tablet:grid-cols-4 tablet:gap-5">
-            {ORBIT.map((mp) => (
-              <div key={mp.name} className="flex flex-col items-center justify-center rounded-[16px] border border-black/[0.06] bg-white py-8 transition-all duration-200 hover:border-black/[0.12] hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
-                <img
-                  src={mp.logo}
-                  alt={mp.name}
-                  width={56}
-                  height={56}
-                  className="mb-3 h-[56px] w-[56px] object-contain"
-                  style={{ filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.12))" }}
-                />
-                <p className="font-inter text-[13px] font-medium text-black/70">{mp.name}</p>
-              </div>
-            ))}
-          </div>
+        <div aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ width: 620, height: 620, background: "radial-gradient(circle, rgba(219,59,43,0.07) 0%, transparent 62%)" }} />
+
+        {/* DESKTOP floating scatter */}
+        {[
+          { i: 0, l: "9%", t: "24%", s: 60, r: -8 },
+          { i: 1, l: "21%", t: "70%", s: 52, r: 7 },
+          { i: 2, l: "12%", t: "47%", s: 56, r: -5 },
+          { i: 3, l: "30%", t: "16%", s: 50, r: 5 },
+          { i: 4, l: "88%", t: "24%", s: 58, r: 8 },
+          { i: 5, l: "79%", t: "68%", s: 52, r: -7 },
+          { i: 6, l: "90%", t: "48%", s: 56, r: 6 },
+          { i: 7, l: "70%", t: "17%", s: 50, r: -5 },
+        ].map(({ i, l, t, s, r }) => {
+          const mp = ORBIT[i];
+          return (
+            <img
+              key={`d-${mp.name}`}
+              src={mp.logo}
+              alt={mp.name}
+              width={s}
+              height={s}
+              className="pointer-events-none absolute hidden -translate-x-1/2 -translate-y-1/2 object-contain tablet:block"
+              style={{ left: l, top: t, width: s, height: s, transform: `translate(-50%, -50%) rotate(${r}deg)`, filter: "drop-shadow(0 12px 22px rgba(0,0,0,0.14))" }}
+            />
+          );
+        })}
+
+        {/* MOBILE floating scatter — bandas superior e inferior */}
+        {[
+          { i: 0, l: "13%", t: "9%", s: 44, r: -8 },
+          { i: 3, l: "40%", t: "7%", s: 42, r: 5 },
+          { i: 7, l: "66%", t: "8%", s: 42, r: -5 },
+          { i: 4, l: "88%", t: "12%", s: 46, r: 8 },
+          { i: 1, l: "13%", t: "91%", s: 44, r: 7 },
+          { i: 2, l: "40%", t: "93%", s: 44, r: -6 },
+          { i: 5, l: "64%", t: "92%", s: 42, r: 7 },
+          { i: 6, l: "88%", t: "88%", s: 44, r: 6 },
+        ].map(({ i, l, t, s, r }) => {
+          const mp = ORBIT[i];
+          return (
+            <img
+              key={`m-${mp.name}`}
+              src={mp.logo}
+              alt={mp.name}
+              width={s}
+              height={s}
+              className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 object-contain tablet:hidden"
+              style={{ left: l, top: t, width: s, height: s, transform: `translate(-50%, -50%) rotate(${r}deg)`, filter: "drop-shadow(0 12px 22px rgba(0,0,0,0.14))" }}
+            />
+          );
+        })}
+
+        {/* centered copy */}
+        <div className="relative mx-auto max-w-[620px] text-center">
+          <h2 className="font-sora text-[26px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+            Con T1, olvídate de todo esto.
+          </h2>
+          <p className="mx-auto font-inter text-[15px] font-light text-black/60 tablet:text-[17px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 500 }}>
+            Con T1, cotiza, compara, genera guía y da seguimiento desde una plataforma.
+          </p>
+          <a href={SIGNUP_URL} className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-8 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
+            Empezar ahora
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+          </a>
         </div>
       </section>
 

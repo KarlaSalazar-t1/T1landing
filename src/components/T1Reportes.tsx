@@ -133,29 +133,57 @@ function HeroDashboard() {
 /* ── Floating metric badge — hace "zoom in" (abre) y "zoom out" (cierra)
    ciclando distintas métricas. ── */
 const FLOAT_METRICS = [
-  { label: "Ventas de la semana", chg: "+18%", bars: [42, 60, 50, 76, 58, 90, 72] },
-  { label: "Conversión", chg: "+5%", bars: [30, 45, 40, 55, 62, 70, 80] },
-  { label: "Ticket promedio", chg: "+12%", bars: [50, 48, 58, 54, 66, 72, 68] },
-  { label: "Tráfico del día", chg: "+22%", bars: [20, 35, 48, 42, 60, 72, 88] },
+  { label: "Ventas de la semana", chg: "+18%", type: "bars", data: [42, 60, 50, 76, 58, 90, 72], pct: 0 },
+  { label: "Conversión", chg: "+5%", type: "line", data: [30, 45, 40, 55, 62, 70, 80], pct: 0 },
+  { label: "Ticket promedio", chg: "+12%", type: "donut", data: [50, 48, 58, 54, 66, 72, 68], pct: 68 },
+  { label: "Tráfico del día", chg: "+22%", type: "area", data: [20, 35, 48, 42, 60, 72, 88], pct: 0 },
 ];
+function FloatMiniChart({ m }: { m: (typeof FLOAT_METRICS)[number] }) {
+  const H = 64;
+  if (m.type === "bars") {
+    return (
+      <div className="flex items-end gap-1.5" style={{ height: H }}>
+        {m.data.map((h, idx) => (
+          <span key={idx} className="flex-1 rounded-[2px]" style={{ height: `${h}%`, background: idx === m.data.length - 1 ? "#DB3B2B" : "rgba(219,59,43,0.3)" }} />
+        ))}
+      </div>
+    );
+  }
+  if (m.type === "line" || m.type === "area") {
+    const pts = m.data.map((h, idx) => `${(idx / (m.data.length - 1)) * 100},${30 - (h / 100) * 27}`);
+    return (
+      <svg viewBox="0 0 100 30" preserveAspectRatio="none" className="w-full" style={{ height: H }}>
+        {m.type === "area" && <polygon fill="rgba(219,59,43,0.16)" points={`0,30 ${pts.join(" ")} 100,30`} />}
+        <polyline fill="none" stroke="#DB3B2B" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" points={pts.join(" ")} />
+      </svg>
+    );
+  }
+  // donut
+  const r = 20, c = 2 * Math.PI * r, off = c * (1 - m.pct / 100);
+  return (
+    <div className="flex items-center justify-center" style={{ height: H }}>
+      <svg width="64" height="64" viewBox="0 0 48 48">
+        <circle cx="24" cy="24" r={r} fill="none" stroke="rgba(219,59,43,0.16)" strokeWidth="5" />
+        <circle cx="24" cy="24" r={r} fill="none" stroke="#DB3B2B" strokeWidth="5" strokeLinecap="round" strokeDasharray={c} strokeDashoffset={off} transform="rotate(-90 24 24)" />
+        <text x="24" y="27.5" textAnchor="middle" style={{ fontSize: 11, fontWeight: 700, fill: "#111827" }}>{m.pct}%</text>
+      </svg>
+    </div>
+  );
+}
 function FloatingMetric() {
   const i = useCycle(FLOAT_METRICS.length, 2800);
   const m = FLOAT_METRICS[i];
   return (
     <div
       key={i}
-      className="absolute hidden tablet:block rounded-[14px] bg-white"
-      style={{ left: -28, bottom: 40, width: 210, padding: "13px 15px", boxShadow: "0 14px 40px rgba(0,0,0,0.18)", transformOrigin: "center", animation: "floatPop 2.8s ease-in-out" }}
+      className="absolute hidden tablet:block rounded-[16px]"
+      style={{ left: -30, bottom: 44, width: 176, padding: "15px 16px", background: "rgba(255,255,255,0.82)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.55)", boxShadow: "0 16px 40px rgba(0,0,0,0.22)", transformOrigin: "center", animation: "floatPop 2.8s ease-in-out" }}
     >
-      <div className="flex items-center justify-between" style={{ marginBottom: 10 }}>
+      <div className="flex items-center justify-between" style={{ marginBottom: 12 }}>
         <p className="font-sora text-[11px] font-semibold text-black">{m.label}</p>
-        <span className="rounded-full bg-[rgba(34,197,94,0.12)] px-1.5 py-0.5 font-inter text-[9px] font-bold text-[#16A34A]">{m.chg}</span>
+        <span className="rounded-full bg-[rgba(34,197,94,0.14)] px-1.5 py-0.5 font-inter text-[9px] font-bold text-[#16A34A]">{m.chg}</span>
       </div>
-      <div className="flex items-end gap-1.5" style={{ height: 46 }}>
-        {m.bars.map((h, idx) => (
-          <span key={idx} className="flex-1 rounded-[2px]" style={{ height: `${h}%`, background: idx === m.bars.length - 1 ? "#DB3B2B" : "rgba(219,59,43,0.28)" }} />
-        ))}
-      </div>
+      <FloatMiniChart m={m} />
     </div>
   );
 }
@@ -206,7 +234,7 @@ function LiveSalesPanel() {
         ))}
       </div>
       <p className="font-inter text-[10px] font-semibold uppercase tracking-wider text-black/45" style={{ marginBottom: 8 }}>Por hora</p>
-      <div className="flex h-[80px] items-end gap-1">
+      <div className="flex h-[124px] items-end gap-1">
         {hourly.map((h, idx) => (
           <div key={idx} className="flex-1 rounded-t-[2px]" style={{ height: `${h}%`, background: idx >= 11 ? "rgba(219,59,43,0.30)" : "#DB3B2B", transition: `height 0.7s ${EASE}` }} />
         ))}
@@ -421,8 +449,8 @@ export default function T1Reportes() {
               {/* Floating metric badge — zoom in/out ciclando métricas */}
               <FloatingMetric />
 
-              {/* Floating live badge */}
-              <div className="absolute hidden tablet:flex items-center gap-2 rounded-full bg-white" style={{ right: -10, top: 40, padding: "8px 14px", boxShadow: "0 10px 28px rgba(0,0,0,0.16)" }}>
+              {/* Floating live badge (glass) */}
+              <div className="absolute hidden tablet:flex items-center gap-2 rounded-full" style={{ right: -10, top: 40, padding: "8px 14px", background: "rgba(255,255,255,0.82)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.55)", boxShadow: "0 10px 28px rgba(0,0,0,0.18)" }}>
                 <span className="h-[8px] w-[8px] rounded-full bg-[#22C55E]" style={{ animation: "pulse-soft 2s ease-in-out infinite" }} />
                 <span className="font-inter text-[11px] font-semibold text-black">Datos en vivo</span>
               </div>
@@ -435,17 +463,17 @@ export default function T1Reportes() {
       <section className="relative bg-white px-5 pt-16 pb-12 tablet:px-10 tablet:pt-20 tablet:pb-16" data-white-card>
         <div className="mx-auto max-w-[var(--max-w)]">
           <div className="mx-auto text-center" style={{ marginBottom: 48, animation: "fadeSlideIn 0.6s ease-out both" }}>
-            <h2 className="font-sora text-[26px] font-light text-black tablet:text-[34px] lg:text-[40px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15 }}>
               Más canales, datos más difíciles de leer.
             </h2>
           </div>
-          <div data-modal-animate className="grid grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
+          <div data-modal-animate className="flex flex-wrap justify-center gap-5">
             {[
               { title: "Reportes separados", desc: "Cada canal muestra información distinta y cuesta juntarla.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke="#111827" strokeWidth="1.6" /><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="#111827" strokeWidth="1.6" /><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="#111827" strokeWidth="1.6" /><rect x="14" y="14" width="7" height="7" rx="1.5" stroke="#111827" strokeWidth="1.6" /></svg>) },
               { title: "Decisiones tarde", desc: "Te das cuenta de lo que pasó cuando el periodo ya cerró.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#111827" strokeWidth="1.6" /><path d="M12 7v5l3 2" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
               { title: "Poca claridad", desc: "Sabes cuánto vendiste, pero no siempre por qué subió o bajó.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#111827" strokeWidth="1.6" /><path d="M9.5 9.5a2.5 2.5 0 0 1 4.5 1.5c0 1.7-2 2-2 3.5" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /><circle cx="12" cy="17.5" r="0.6" fill="#111827" stroke="#111827" strokeWidth="0.8" /></svg>) },
             ].map((p, i) => (
-              <div key={p.title} data-stagger className="rounded-[18px] border border-black/[0.06] bg-white p-7 transition-shadow duration-200 hover:shadow-[0_0_25px_2px_rgba(0,0,0,0.04)]" style={{ ["--i" as string]: i }}>
+              <div key={p.title} data-stagger className="w-full max-w-[280px] rounded-[18px] border border-black/[0.06] bg-white p-7 transition-shadow duration-200 hover:shadow-[0_0_25px_2px_rgba(0,0,0,0.04)] tablet:w-[280px]" style={{ ["--i" as string]: i }}>
                 <div className="flex h-[40px] w-[40px] items-center justify-center" style={{ marginBottom: 16 }}>{p.icon}</div>
                 <h3 className="font-sora text-[18px] font-normal text-black/70" style={{ marginBottom: 6 }}>{p.title}</h3>
                 <p className="font-inter text-[14px] font-light text-black/50" style={{ lineHeight: 1.6 }}>{p.desc}</p>
