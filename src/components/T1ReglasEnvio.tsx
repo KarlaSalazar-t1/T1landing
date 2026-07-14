@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
 import { useCountUp } from "@/hooks/useCountUp";
@@ -576,16 +577,16 @@ export default function T1ReglasEnvio() {
               <div className="flex flex-col gap-5">
                 <div ref={reglasRef} className="-mr-5 flex gap-5 overflow-x-auto pb-2 pr-5 tablet:mr-0 tablet:pr-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                   {[
-                    { title: "Por destino", desc: "Asigna según código postal, estado o zona de entrega.", chip: "CDMX → Same day" },
-                    { title: "Por paquete", desc: "Reglas por peso, dimensiones o monto del pedido.", chip: "Peso > 5 kg → DHL" },
-                    { title: "Por prioridad", desc: "Optimiza por costo, velocidad o calidad de servicio.", chip: "Menor costo → Auto" },
+                    { title: "Menor costo", desc: "Elige la opción más económica disponible en cada pedido.", img: "/img/regla-menor-costo.png", w: 1536, h: 1024 },
+                    { title: "Más rápido", desc: "Prioriza el envío con el menor tiempo de entrega.", img: "/img/regla-mas-rapido.png", w: 1536, h: 1024 },
+                    { title: "Reglas T1", desc: "Reglas listas, decididas por nuestra experiencia y análisis con IA.", img: "/img/regla-t1.png", w: 1536, h: 1024 },
+                    { title: "Personalizado", desc: "Crea tus propias reglas por destino, peso, monto o servicio.", img: "/img/regla-personalizado.png", w: 457, h: 308 },
                   ].map((c) => (
                     <div key={c.title} className="regla-card flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-black/[0.07] bg-white p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
                       <h3 className="font-sora text-[19px] font-normal text-black" style={{ marginBottom: 8 }}>{c.title}</h3>
                       <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.55, marginBottom: 20, minHeight: 63 }}>{c.desc}</p>
-                      <div className="mt-auto flex items-center gap-2 rounded-[12px] border border-black/[0.06] bg-[#FBFBFB] px-3.5 py-3 font-inter text-[13px] font-medium text-black/70">
-                        <span className="h-[7px] w-[7px] shrink-0 rounded-full bg-[#DB3B2B]" />
-                        {c.chip}
+                      <div className="mt-auto overflow-hidden rounded-[14px] border border-black/[0.05] bg-[#FBFBFB]">
+                        <Image src={c.img} alt={c.title} width={c.w} height={c.h} className="block h-[168px] w-full object-cover object-center" sizes="270px" />
                       </div>
                     </div>
                   ))}
@@ -614,13 +615,13 @@ export default function T1ReglasEnvio() {
 
               <div className="order-1 tablet:order-2">
                 <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
-                  Elige tu prioridad
+                  Prioridad T1: qué evalúa por ti
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                  T1 compara todas las paqueterías y asigna la mejor opción para cada envío.
+                  Detrás de cada regla, T1 compara todas las paqueterías en tiempo real para asignar la mejor opción de cada envío.
                 </p>
                 <ul className="flex flex-col gap-2.5">
-                  {["Balance entre costo, velocidad y calidad", "Distinta prioridad por tipo de pedido o cliente", "Tarifas T1 con descuento por volumen agregado"].map((it) => (
+                  {["Costo, tiempo de entrega y nivel de servicio", "Cobertura, tiempos reales y desempeño histórico de cada paquetería", "Tarifas T1 con descuento por volumen agregado"].map((it) => (
                     <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                       {it}
