@@ -483,20 +483,6 @@ export default function T1POS() {
             </div>
           </div>
 
-          {/* Cross-sell — POS también activa tu tienda en línea */}
-          <div data-modal-animate className="mx-auto mt-5 flex max-w-[1040px] flex-col items-center gap-4 rounded-[20px] border border-[rgba(219,59,43,0.25)] p-6 text-center tablet:flex-row tablet:items-center tablet:gap-5 tablet:text-left" style={{ background: "rgba(219,59,43,0.04)" }}>
-            <span className="flex h-[48px] w-[48px] shrink-0 items-center justify-center rounded-[14px] bg-white" style={{ boxShadow: "0 4px 14px rgba(0,0,0,0.06)" }}>
-              <Image src="/img/icon-tienda.svg" alt="" width={28} height={28} />
-            </span>
-            <div className="flex-1">
-              <p className="font-sora text-[15px] font-semibold text-black" style={{ marginBottom: 3 }}>También activas tu Tienda en línea</p>
-              <p className="font-inter text-[13.5px] font-light text-black/60" style={{ lineHeight: 1.55 }}>
-                Con cualquier plan de T1pos vendes en tu local y por internet con el mismo catálogo, con inventario por sucursal. Sin contratar nada aparte.
-              </p>
-            </div>
-            <span className="shrink-0 rounded-full bg-[rgba(34,197,94,0.12)] px-3 py-1 font-inter text-[12px] font-bold text-[#16A34A]">Incluido</span>
-          </div>
-
           <p className="mx-auto mt-8 text-center font-inter text-[13px] font-light text-black/45" style={{ maxWidth: 560 }}>
             Precios de referencia. Consulta los planes y límites vigentes en t1.com.
           </p>
