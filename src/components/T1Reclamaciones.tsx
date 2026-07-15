@@ -1,39 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
 import T1FinalCTA from "@/components/T1FinalCTA";
 
 const MANROPE = "var(--font-manrope-var), 'Manrope', sans-serif";
 
-function CountUp({ end, prefix = "", suffix = "", decimals = 0 }: { end: number; prefix?: string; suffix?: string; decimals?: number }) {
-  const [v, setV] = useState(0);
-  useEffect(() => {
-    const STEPS = 42;
-    let i = 0;
-    const id = setInterval(() => {
-      i++;
-      const p = i / STEPS;
-      const eased = 1 - Math.pow(1 - p, 3);
-      setV(end * eased);
-      if (i >= STEPS) {
-        setV(end);
-        clearInterval(id);
-      }
-    }, 32);
-    return () => clearInterval(id);
-  }, [end]);
-  const num = decimals ? v.toFixed(decimals) : Math.round(v).toLocaleString("en-US");
-  return <>{prefix}{num}{suffix}</>;
-}
-
-const MOTIVOS = [
-  { name: "No recibido", pct: 38.5, color: "#DB3B2B", delay: "0s" },
-  { name: "No reconoce cargo", pct: 24.2, color: "#E2685C", delay: "0.12s" },
-  { name: "Duplicado", pct: 18.1, color: "#F59E0B", delay: "0.24s" },
-  { name: "Producto defectuoso", pct: 12.8, color: "#3B82F6", delay: "0.36s" },
-  { name: "Cancelación tardía", pct: 6.4, color: "#8B5CF6", delay: "0.48s" },
-];
 
 const TABLE_ROWS = [
   { id: "DSP-4501", amt: "$3,450.00", motivo: "Producto no recibido", proc: "Checkout", plazo: "5 días", plazoRed: true, estado: "Abierta", badge: "open" },
@@ -73,39 +46,50 @@ const STEPS = [
   { n: "04", title: "Da seguimiento a la resolución", desc: "Consulta cambios de estado y la respuesta del banco o procesador desde el panel." },
 ];
 
-/* Marco de teléfono (responsive) */
+/* Panel simulado (responsive) — radio 12, sombra sutil */
 function PhoneShell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mx-auto w-full" style={{ maxWidth: 340, fontFamily: MANROPE }}>
-      <div className="relative overflow-hidden bg-white" style={{ borderRadius: 44, border: "1px solid rgba(0,0,0,0.08)", boxShadow: "0 30px 80px rgba(0,0,0,0.45)" }}>
-        <div className="px-5 pt-6 pb-7">{children}</div>
+    <div className="mx-auto w-full" style={{ maxWidth: 360, fontFamily: MANROPE }}>
+      <div className="relative overflow-hidden bg-white" style={{ borderRadius: 12, border: "1px solid rgba(0,0,0,0.06)", boxShadow: "0 8px 24px rgba(0,0,0,0.08)" }}>
+        <div className="px-5 py-6">{children}</div>
       </div>
     </div>
   );
 }
 
-function MotivosBars() {
-  const [on, setOn] = useState(false);
+/* Hero — cards glass (fondo blanco transparente) estilo Reportería logística */
+function ReclamGlassCards({ className = "", stagger = false }: { className?: string; stagger?: boolean }) {
+  const SNAPS = [
+    { abiertas: 8, tasa: 0.42, ganadas: 72 },
+    { abiertas: 7, tasa: 0.40, ganadas: 74 },
+    { abiertas: 9, tasa: 0.45, ganadas: 71 },
+  ];
+  const [i, setI] = useState(0);
   useEffect(() => {
-    const t = setTimeout(() => setOn(true), 250);
-    return () => clearTimeout(t);
+    const id = setInterval(() => setI((x) => (x + 1) % SNAPS.length), 2800);
+    return () => clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const s = SNAPS[i];
+  const cards = [
+    { l: "Reclamaciones abiertas", v: String(s.abiertas), d: "requieren atención", kind: "amber" },
+    { l: "Tasa de contracargos", v: `${s.tasa.toFixed(2)}%`, d: "-0.15%", kind: "up" },
+    { l: "Disputas ganadas", v: `${s.ganadas}%`, d: "saludable", kind: "up" },
+  ];
+  const chip = (k: string) => (k === "amber" ? { bg: "rgba(245,158,11,0.18)", c: "#FBBF6B" } : k === "up" ? { bg: "rgba(34,197,94,0.16)", c: "#7CE0A0" } : { bg: "rgba(219,59,43,0.20)", c: "#FF8A7A" });
   return (
-    <div className="rounded-[14px] border border-black/[0.08] bg-white px-4 py-4" style={{ boxShadow: "0 4px 14px rgba(0,0,0,0.04)" }}>
-      <div style={{ fontFamily: MANROPE }}>
-        <p className="text-[11px] font-medium text-black/55" style={{ marginBottom: 12 }}>Motivos de disputa</p>
-        <div className="flex flex-col gap-2.5">
-          {MOTIVOS.map((m) => (
-            <div key={m.name} className="flex items-center gap-3">
-              <span className="w-[110px] shrink-0 truncate text-right text-[11px] text-black/70">{m.name}</span>
-              <div className="relative h-[10px] flex-1 overflow-hidden rounded-full bg-black/[0.05]">
-                <div className="h-full rounded-full" style={{ width: on ? `${(m.pct / 38.5) * 100}%` : "0%", background: m.color, transition: "width 1.5s cubic-bezier(0.33,1,0.68,1)", transitionDelay: m.delay }} />
-              </div>
-              <span className="w-[50px] shrink-0 text-right text-[11px] font-semibold text-black/75">{m.pct}%</span>
+    <div className={`mx-auto flex w-full max-w-[320px] flex-col gap-4 ${className}`} style={{ fontFamily: MANROPE }}>
+      {cards.map((c, idx) => (
+        <div key={c.l} style={{ transform: stagger && idx === 1 ? "translateX(-38px)" : undefined }}>
+          <div className="rounded-[18px] border border-white/[0.16] px-6 py-5" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)", boxShadow: "0 16px 44px rgba(0,0,0,0.28)", animation: "rastreoReveal 0.5s cubic-bezier(0.16,1,0.3,1) both", animationDelay: `${idx * 0.1}s` }}>
+            <div className="flex items-center justify-between" style={{ marginBottom: 10 }}>
+              <p className="text-[13px] font-medium text-white/70">{c.l}</p>
+              <span className="rounded-full px-2 py-0.5 text-[11px] font-semibold" style={{ background: chip(c.kind).bg, color: chip(c.kind).c }}>{c.d}</span>
             </div>
-          ))}
+            <p key={`${s.abiertas}-${idx}`} className="font-sora text-[34px] font-light text-white tabular-nums" style={{ lineHeight: 1, animation: "countBump 0.45s ease-out" }}>{c.v}</p>
+          </div>
         </div>
-      </div>
+      ))}
     </div>
   );
 }
@@ -149,61 +133,48 @@ export default function T1Reclamaciones() {
               </div>
             </div>
 
-            {/* Visual — mobile: phone-shell */}
-            <div className="tablet:hidden">
-              <div className="relative">
-                <div aria-hidden className="pointer-events-none absolute -inset-4 rounded-[52px]" style={{ background: "radial-gradient(circle at 70% 20%, rgba(219,59,43,0.18) 0%, transparent 62%)", filter: "blur(32px)" }} />
-                <div className="relative">
-                  <PhoneShell>
-                    <div className="grid grid-cols-2 gap-3" style={{ marginBottom: 14 }}>
-                      {[
-                        { l: "Disputas abiertas", v: <CountUp end={8} /> },
-                        { l: "Tasa de CB", v: <CountUp end={0.42} decimals={2} suffix="%" /> },
-                        { l: "Monto en disputa", v: <CountUp end={14820} prefix="$" /> },
-                        { l: "Ganadas", v: <CountUp end={12} /> },
-                      ].map((s) => (
-                        <div key={s.l} className="rounded-[14px] border border-black/[0.08] bg-white px-3.5 py-3.5" style={{ boxShadow: "0 4px 14px rgba(0,0,0,0.04)" }}>
-                          <p className="text-[12px] font-medium text-black/60" style={{ marginBottom: 6 }}>{s.l}</p>
-                          <p className="font-sora text-[20px] font-semibold text-black" style={{ lineHeight: 1 }}>{s.v}</p>
-                        </div>
-                      ))}
-                    </div>
-                    <MotivosBars />
-                  </PhoneShell>
-                </div>
-              </div>
-            </div>
-
-            {/* Visual — desktop: 2 stacked cards */}
-            <div className="hidden tablet:block">
-              <div className="relative mx-auto flex w-full flex-col gap-4" style={{ maxWidth: 460, fontFamily: MANROPE }}>
-                <div className="rounded-[18px] border border-black/[0.08] bg-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_40px_rgba(0,0,0,0.10)]" style={{ padding: 26, boxShadow: "0 16px 50px rgba(0,0,0,0.18)", animation: "rastreoReveal 0.5s cubic-bezier(0.16,1,0.3,1) both" }}>
-                  <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
-                    <p className="text-[15px] font-semibold text-black">Disputas abiertas</p>
-                    <span className="flex items-center gap-1.5 text-[10px] text-black/40"><span className="h-[6px] w-[6px] rounded-full bg-[#F59E0B]" style={{ animation: "pulse-soft 1.6s ease-in-out infinite" }} />requieren atención</span>
-                  </div>
-                  <p className="font-sora text-[44px] font-light text-black tabular-nums" style={{ lineHeight: 1, marginBottom: 12 }}><CountUp end={8} /></p>
-                  <p className="text-[13px] font-light text-black/55" style={{ lineHeight: 1.5 }}>Chargebacks y disputas pendientes de respuesta o evidencia.</p>
-                </div>
-                <div className="rounded-[18px] border border-black/[0.08] bg-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_40px_rgba(0,0,0,0.10)]" style={{ padding: 26, boxShadow: "0 16px 50px rgba(0,0,0,0.18)", animation: "rastreoReveal 0.5s cubic-bezier(0.16,1,0.3,1) both", animationDelay: "0.12s" }}>
-                  <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
-                    <p className="text-[15px] font-semibold text-black">Tasa de contracargos</p>
-                    <span className="flex items-center gap-1.5 text-[10px] text-black/40"><span className="h-[6px] w-[6px] rounded-full bg-[#16A34A]" style={{ animation: "pulse-soft 1.6s ease-in-out infinite" }} />saludable</span>
-                  </div>
-                  <div className="flex items-center gap-3" style={{ marginBottom: 12 }}>
-                    <p className="font-sora text-[44px] font-light text-black tabular-nums" style={{ lineHeight: 1 }}><CountUp end={0.42} decimals={2} suffix="%" /></p>
-                    <span className="rounded-full bg-[rgba(22,163,74,0.10)] px-2.5 py-1 text-[12px] font-semibold text-[#16A34A]" style={{ animation: "rastreoReveal 0.4s ease both", animationDelay: "0.5s" }}>-0.15%</span>
-                  </div>
-                  <p className="text-[13px] font-light text-black/55" style={{ lineHeight: 1.5 }}>8 / 1,904 transacciones · últimos 30 días</p>
-                </div>
+            {/* Visual — cards glass sobre imagen 3D (estilo Reportería) */}
+            <ReclamGlassCards className="tablet:hidden" />
+            <div className="relative hidden tablet:block">
+              <div aria-hidden className="pointer-events-none absolute -inset-6 rounded-[28px]" style={{ background: "radial-gradient(circle at 70% 20%, rgba(219,59,43,0.18) 0%, transparent 62%)", filter: "blur(32px)" }} />
+              <Image src="/img/contracargo-hero.png" alt="" width={1536} height={1024} priority className="pointer-events-none absolute z-0 object-contain" style={{ right: "4%", top: "-24%", width: "80%", height: "auto", filter: "drop-shadow(0 24px 50px rgba(0,0,0,0.5))" }} />
+              <div className="relative z-10 tablet:-translate-x-24">
+                <ReclamGlassCards stagger />
               </div>
             </div>
           </div>
         </div>
       </section>
 
+      {/* ════════════ SIN COMPLICACIONES — 3 cards ════════════ */}
+      <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32">
+        <div className="mx-auto max-w-[var(--max-w)]">
+          <div data-modal-animate className="mx-auto max-w-[720px] text-center" style={{ marginBottom: 56 }}>
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[38px] lg:text-[46px]" style={{ letterSpacing: "-1.3px", lineHeight: 1.1, marginBottom: 16 }}>
+              Responde tus reclamaciones sin complicaciones
+            </h2>
+            <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
+              Con T1 ves qué pasó, qué evidencia necesitas, cuánto tiempo tienes para responder y puedes dar seguimiento al caso desde un solo lugar.
+            </p>
+          </div>
+          <div data-modal-animate className="grid grid-cols-1 gap-5 tablet:grid-cols-3 tablet:gap-6">
+            {[
+              { title: "Sin investigar qué sigue", desc: "T1 te muestra el motivo de la reclamación, el plazo y la acción que debes tomar.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#DB3B2B" strokeWidth="1.7" /><path d="M20 20l-3.5-3.5" stroke="#DB3B2B" strokeWidth="1.7" strokeLinecap="round" /></svg>) },
+              { title: "Sin correos separados", desc: "Responde desde el panel, adjunta evidencia y mantén todo vinculado al caso.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="#DB3B2B" strokeWidth="1.7" /><path d="M4 7l8 6 8-6" stroke="#DB3B2B" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+              { title: "Sin perder visibilidad", desc: "Consulta el estado, historial y resolución de cada reclamación en línea.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" stroke="#DB3B2B" strokeWidth="1.7" strokeLinejoin="round" /><circle cx="12" cy="12" r="3" stroke="#DB3B2B" strokeWidth="1.7" /></svg>) },
+            ].map((c, i) => (
+              <div key={c.title} data-stagger className="tienda-card flex flex-col rounded-[18px] border border-black/[0.06] bg-white p-7" style={{ ["--i" as string]: i, boxShadow: "0 4px 20px rgba(0,0,0,0.05)" }}>
+                <div className="flex h-[46px] w-[46px] items-center justify-center rounded-[14px]" style={{ background: "rgba(219,59,43,0.08)", marginBottom: 18 }}>{c.icon}</div>
+                <h3 className="font-sora text-[19px] font-normal text-black" style={{ marginBottom: 8, letterSpacing: "-0.3px" }}>{c.title}</h3>
+                <p className="font-inter text-[14px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{c.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ════════════ CANALES — estilo "Crea productos como prefieras" ════════════ */}
-      <section className="relative overflow-hidden bg-white px-5 py-[100px] tablet:px-10 tablet:py-[128px]">
+      <section className="relative overflow-hidden bg-[#FBFBFB] px-5 py-[100px] tablet:px-10 tablet:py-[128px]">
         <div className="mx-auto max-w-[var(--max-w)]">
           <div className="grid grid-cols-1 gap-10 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.35fr)] tablet:items-center tablet:gap-14">
             <div data-modal-animate>
@@ -245,7 +216,7 @@ export default function T1Reclamaciones() {
       </section>
 
       {/* ════════════ TODAS TUS RECLAMACIONES ════════════ */}
-      <section className="relative bg-[#FBFBFB] px-5 py-24 tablet:px-10 tablet:py-32">
+      <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[var(--max-w)]">
           <div className="grid grid-cols-1 gap-12 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] tablet:items-center tablet:gap-16">
             <div data-modal-animate>
