@@ -137,7 +137,7 @@ export default function T1Reclamaciones() {
             <ReclamGlassCards className="tablet:hidden" />
             <div className="relative hidden tablet:block">
               <div aria-hidden className="pointer-events-none absolute -inset-6 rounded-[28px]" style={{ background: "radial-gradient(circle at 70% 20%, rgba(219,59,43,0.18) 0%, transparent 62%)", filter: "blur(32px)" }} />
-              <Image src="/img/contracargo-hero.png" alt="" width={1536} height={1024} priority className="pointer-events-none absolute z-0 object-contain" style={{ right: "4%", top: "-24%", width: "80%", height: "auto", filter: "drop-shadow(0 24px 50px rgba(0,0,0,0.5))" }} />
+              <Image src="/img/contracargo-hero.png" alt="" width={1536} height={1024} priority className="pointer-events-none absolute z-0 object-contain" style={{ right: "-10%", top: "-30%", width: "104%", height: "auto", filter: "drop-shadow(0 24px 50px rgba(0,0,0,0.5))" }} />
               <div className="relative z-10 tablet:-translate-x-24">
                 <ReclamGlassCards stagger />
               </div>
@@ -159,12 +159,12 @@ export default function T1Reclamaciones() {
           </div>
           <div data-modal-animate className="grid grid-cols-1 gap-5 tablet:grid-cols-3 tablet:gap-6">
             {[
-              { title: "Sin investigar qué sigue", desc: "T1 te muestra el motivo de la reclamación, el plazo y la acción que debes tomar.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#DB3B2B" strokeWidth="1.7" /><path d="M20 20l-3.5-3.5" stroke="#DB3B2B" strokeWidth="1.7" strokeLinecap="round" /></svg>) },
-              { title: "Sin correos separados", desc: "Responde desde el panel, adjunta evidencia y mantén todo vinculado al caso.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="#DB3B2B" strokeWidth="1.7" /><path d="M4 7l8 6 8-6" stroke="#DB3B2B" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-              { title: "Sin perder visibilidad", desc: "Consulta el estado, historial y resolución de cada reclamación en línea.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" stroke="#DB3B2B" strokeWidth="1.7" strokeLinejoin="round" /><circle cx="12" cy="12" r="3" stroke="#DB3B2B" strokeWidth="1.7" /></svg>) },
+              { title: "Sin investigar qué sigue", desc: "T1 te muestra el motivo de la reclamación, el plazo y la acción que debes tomar.", icon: (<svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#111827" strokeWidth="1.7" /><path d="M20 20l-3.5-3.5" stroke="#111827" strokeWidth="1.7" strokeLinecap="round" /></svg>) },
+              { title: "Sin correos separados", desc: "Responde desde el panel, adjunta evidencia y mantén todo vinculado al caso.", icon: (<svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="#111827" strokeWidth="1.7" /><path d="M4 7l8 6 8-6" stroke="#111827" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+              { title: "Sin perder visibilidad", desc: "Consulta el estado, historial y resolución de cada reclamación en línea.", icon: (<svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" stroke="#111827" strokeWidth="1.7" strokeLinejoin="round" /><circle cx="12" cy="12" r="3" stroke="#111827" strokeWidth="1.7" /></svg>) },
             ].map((c, i) => (
               <div key={c.title} data-stagger className="tienda-card flex flex-col rounded-[18px] border border-black/[0.06] bg-white p-7" style={{ ["--i" as string]: i, boxShadow: "0 4px 20px rgba(0,0,0,0.05)" }}>
-                <div className="flex h-[46px] w-[46px] items-center justify-center rounded-[14px]" style={{ background: "rgba(219,59,43,0.08)", marginBottom: 18 }}>{c.icon}</div>
+                <div className="flex h-[40px] w-[40px] items-center justify-center" style={{ marginBottom: 18 }}>{c.icon}</div>
                 <h3 className="font-sora text-[19px] font-normal text-black" style={{ marginBottom: 8, letterSpacing: "-0.3px" }}>{c.title}</h3>
                 <p className="font-inter text-[14px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{c.desc}</p>
               </div>
