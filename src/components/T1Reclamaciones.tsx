@@ -426,7 +426,7 @@ export default function T1Reclamaciones() {
           <div className="flex flex-col gap-3">
             {[
               { q: "¿Qué es un chargeback?", a: "Un contracargo ocurre cuando un tarjetahabiente solicita a su banco la devolución de un cobro. El comercio tiene un plazo limitado para presentar evidencia y defender la transacción." },
-              { q: "¿Cómo me ayuda T1 a responder?", a: "T1 centraliza las disputas de todos tus procesadores, te alerta apenas llegan, te permite adjuntar evidencia directo desde el panel y controla los plazos para que nunca pierdas uno." },
+              { q: "¿Cómo me ayuda T1 a responder?", a: "T1 reúne las reclamaciones de los cobros que procesas con T1 Pagos, te alerta apenas llegan, te permite adjuntar evidencia directo desde el panel y controla los plazos para que nunca pierdas uno." },
               { q: "¿Qué pasa si no respondo a tiempo?", a: "Si vence el plazo sin respuesta, el banco falla automáticamente a favor del comprador y pierdes el monto. T1 te avisa con anticipación para evitarlo." },
               { q: "¿Puedo ver por qué me están disputando?", a: "Sí. Cada disputa incluye el motivo reportado por el banco: producto no recibido, cargo no reconocido, duplicado, etc. También ves estadísticas de los motivos más frecuentes." },
               { q: "¿Tiene costo adicional?", a: "No. La gestión de reclamaciones viene incluida en T1 Pagos sin cargo extra." },
