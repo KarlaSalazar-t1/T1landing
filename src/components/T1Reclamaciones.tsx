@@ -40,6 +40,7 @@ const TABLE_ROWS = [
   { id: "DSP-4502", amt: "$1,280.00", motivo: "No reconoce el cargo", proc: "Paga con T1", plazo: "12 días", plazoRed: false, estado: "En revisión", badge: "rev" },
   { id: "DSP-4503", amt: "$890.00", motivo: "Duplicado", proc: "Link de pago", plazo: "3 días", plazoRed: true, estado: "Abierta", badge: "open" },
   { id: "DSP-4504", amt: "$2,100.00", motivo: "Producto defectuoso", proc: "Checkout", plazo: "—", plazoRed: false, estado: "Ganada", badge: "won" },
+  { id: "DSP-4505", amt: "$560.00", motivo: "Cancelación tardía", proc: "Paga con T1", plazo: "8 días", plazoRed: false, estado: "En revisión", badge: "rev" },
 ];
 const badgeCls = (b: string) => (b === "won" ? "bg-[rgba(22,163,74,0.10)] text-[#16A34A]" : b === "rev" ? "bg-black/[0.06] text-black/55" : "bg-[rgba(245,158,11,0.12)] text-[#B45309]");
 const TABLE_COLS = "0.8fr 0.7fr 1.1fr 0.7fr 0.6fr 0.7fr";
@@ -111,6 +112,13 @@ function MotivosBars() {
 
 export default function T1Reclamaciones() {
   const rootRef = useRef<HTMLDivElement>(null);
+  const chanRef = useRef<HTMLDivElement>(null);
+  const scrollChan = (dir: number) => {
+    const el = chanRef.current;
+    const card = el?.querySelector<HTMLElement>(".chan-card");
+    const step = card ? card.offsetWidth + 20 : (el?.clientWidth ?? 0) * 0.8;
+    el?.scrollBy({ left: dir * step, behavior: "smooth" });
+  };
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
@@ -194,13 +202,55 @@ export default function T1Reclamaciones() {
         </div>
       </section>
 
-      {/* ════════════ TODAS TUS DISPUTAS ════════════ */}
-      <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32">
+      {/* ════════════ CANALES — estilo "Crea productos como prefieras" ════════════ */}
+      <section className="relative overflow-hidden bg-white px-5 py-[100px] tablet:px-10 tablet:py-[128px]">
+        <div className="mx-auto max-w-[var(--max-w)]">
+          <div className="grid grid-cols-1 gap-10 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.35fr)] tablet:items-center tablet:gap-14">
+            <div data-modal-animate>
+              <h2 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.12, marginBottom: 16, maxWidth: 420 }}>
+                Reclamaciones de tus cobros con T1
+              </h2>
+              <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 400 }}>
+                Gestionamos las reclamaciones de los pagos que procesas con T1 Pagos, sin importar por dónde cobres.
+              </p>
+              <a href={SIGNUP_URL} className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
+                Gestionar reclamaciones
+              </a>
+            </div>
+            <div data-modal-animate className="flex flex-col gap-5">
+              <div ref={chanRef} className="-mr-5 flex gap-5 overflow-x-auto pb-2 pr-5 tablet:mr-0 tablet:pr-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                {[
+                  { title: "Checkout", desc: "Cobros desde el checkout de tu tienda en línea.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="#111827" strokeWidth="1.6" /><path d="M3 9h18 M7 14h4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
+                  { title: "Link de pago", desc: "Cobros con un enlace que compartes por WhatsApp o redes.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1 M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+                  { title: "Paga con T1", desc: "Cobros con la cuenta T1 de tus clientes, en un tap.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round" /></svg>) },
+                ].map((c) => (
+                  <div key={c.title} className="chan-card flex w-[240px] shrink-0 snap-start flex-col rounded-[20px] border border-black/[0.07] bg-white p-7 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
+                    <div className="flex h-[46px] w-[46px] items-center justify-center rounded-[14px] bg-[#FAFAF9]" style={{ marginBottom: 18 }}>{c.icon}</div>
+                    <h3 className="font-sora text-[19px] font-normal text-black" style={{ marginBottom: 8 }}>{c.title}</h3>
+                    <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.55, minHeight: 63 }}>{c.desc}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="flex items-center gap-3">
+                <button type="button" onClick={() => scrollChan(-1)} aria-label="Anterior" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-black/15 bg-white text-black/55 transition-colors hover:border-black/30 hover:text-black">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                </button>
+                <button type="button" onClick={() => scrollChan(1)} aria-label="Siguiente" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-black/15 bg-white text-black/55 transition-colors hover:border-black/30 hover:text-black">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════ TODAS TUS RECLAMACIONES ════════════ */}
+      <section className="relative bg-[#FBFBFB] px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[var(--max-w)]">
           <div className="grid grid-cols-1 gap-12 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] tablet:items-center tablet:gap-16">
             <div data-modal-animate>
-              <h2 className="font-sora text-[28px] font-light text-black tablet:text-[38px] lg:text-[46px]" style={{ letterSpacing: "-1.3px", lineHeight: 1.1, marginBottom: 18 }}>Todas tus reclamaciones en un solo lugar.</h2>
-              <p className="font-inter text-[15px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>Reunimos las reclamaciones de los cobros que procesas con T1 Pagos —tu checkout, un link de pago o Paga con T1— para que las respondas a tiempo desde un solo panel.</p>
+              <h2 className="font-sora text-[28px] font-light text-black tablet:text-[38px] lg:text-[46px]" style={{ letterSpacing: "-1.3px", lineHeight: 1.1, marginBottom: 18 }}>Reclamaciones en un solo lugar.</h2>
+              <p className="font-inter text-[15px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>Reunimos las reclamaciones de los cobros que procesas con T1 Pagos para que las respondas a tiempo desde un solo panel.</p>
               <ul className="flex flex-col gap-2.5">
                 {["Reclamaciones de tus cobros con T1 Pagos", "Desde tu checkout, link de pago o Paga con T1", "Control de plazos con alertas automáticas"].map((it) => (
                   <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
@@ -261,7 +311,7 @@ export default function T1Reclamaciones() {
                       {["Disputa", "Monto", "Motivo", "Canal", "Plazo", "Estado"].map((h) => (<span key={h} className="text-[10px] font-medium text-black/50">{h}</span>))}
                     </div>
                     {TABLE_ROWS.map((r, i, arr) => (
-                      <div key={r.id} className="grid items-center gap-2 px-3 py-2.5 transition-colors duration-150 hover:bg-[#FAFAF9]" style={{ gridTemplateColumns: TABLE_COLS, borderBottom: i === arr.length - 1 ? "none" : "1px solid rgba(0,0,0,0.05)" }}>
+                      <div key={r.id} className="grid items-center gap-2 px-3 py-3 transition-colors duration-150 hover:bg-[#FAFAF9]" style={{ gridTemplateColumns: TABLE_COLS, borderBottom: i === arr.length - 1 ? "none" : "1px solid rgba(0,0,0,0.05)" }}>
                         <span className="text-[11px] font-semibold text-black">{r.id}</span>
                         <span className="text-[11px] text-black/75">{r.amt}</span>
                         <span className="truncate text-[10px] text-black/60">{r.motivo}</span>
@@ -390,29 +440,6 @@ export default function T1Reclamaciones() {
                 ))}
               </ul>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ════════════ CONTROLA TU TASA ════════════ */}
-      <section className="relative bg-[#F6F6F6] px-5 py-24 tablet:px-10 tablet:py-32" data-modal-animate>
-        <div className="mx-auto max-w-[var(--max-w)]">
-          <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 48 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[38px] lg:text-[46px]" style={{ letterSpacing: "-1.3px", lineHeight: 1.1, marginBottom: 14 }}>Controla tu tasa de contracargos</h2>
-            <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>Visibilidad total sobre disputas, resoluciones y el impacto en tu operación.</p>
-          </div>
-          <div className="grid grid-cols-1 gap-4 tablet:grid-cols-3" style={{ fontFamily: MANROPE }}>
-            {[
-              { l: "Tasa de contracargos", v: "0.42%", c: "#16A34A", d: "Dentro del rango saludable (<1%)" },
-              { l: "Disputas ganadas", v: "72%", c: "#0E0E0E", d: "12 de 17 resueltas a tu favor" },
-              { l: "Monto recuperado", v: "$28,450", c: "#0E0E0E", d: "En los últimos 30 días" },
-            ].map((s) => (
-              <div key={s.l} className="rounded-[18px] border border-black/[0.06] bg-white px-6 py-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_40px_rgba(0,0,0,0.08)]" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.04)" }}>
-                <p className="text-[13px] font-medium text-black/55" style={{ marginBottom: 10 }}>{s.l}</p>
-                <p className="font-sora text-[32px] font-light tabular-nums" style={{ lineHeight: 1, color: s.c, marginBottom: 8 }}>{s.v}</p>
-                <p className="text-[12px] text-black/45">{s.d}</p>
-              </div>
-            ))}
           </div>
         </div>
       </section>
