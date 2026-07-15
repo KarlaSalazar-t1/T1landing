@@ -753,15 +753,15 @@ export default function T1LinksDePago() {
             <div data-modal-animate className="flex flex-col gap-5">
               <div ref={creaLinkRef} className="-mr-5 flex gap-5 overflow-x-auto pb-2 pr-5 tablet:mr-0 tablet:pr-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                 {[
-                  { title: "Monto fijo o productos", desc: "Cobra una cantidad exacta o arma el link con productos de tu catálogo.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 2v20 M17 6.5C17 4.6 14.8 4 12 4s-5 .9-5 3 2.2 2.7 5 3.2 5 1.3 5 3.3-2.2 3-5 3-5-.8-5-2.7" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
-                  { title: "Personaliza el link", desc: "Agrega concepto, foto y elige los métodos de pago que quieras aceptar.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10a2.8 2.8 0 0 0-4-4L4 16v4z M13.5 6.5l4 4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-                  { title: "Reglas del cobro", desc: "Define límite de usos, vencimiento y qué datos pedir a tu cliente al pagar.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 2l7 3v6c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V5l7-3z" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round" /><path d="M9 12l2 2 4-4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+                  { title: "Monto fijo o productos", desc: "Cobra una cantidad exacta o arma el link con productos de tu catálogo.", img: "/img/monto-producto.png", w: 1233, h: 1155 },
+                  { title: "Personaliza el link", desc: "Agrega concepto, foto y elige los métodos de pago que quieras aceptar.", img: "/img/personaliza-link.png", w: 1021, h: 1024 },
+                  { title: "Reglas del cobro", desc: "Define límite de usos, vencimiento y qué datos pedir a tu cliente al pagar.", img: "/img/reglas-link.png", w: 966, h: 1024 },
                 ].map((c) => (
                   <div key={c.title} className="crealink-card flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-black/[0.07] bg-white p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
                     <h3 className="font-sora text-[19px] font-normal text-black" style={{ marginBottom: 8 }}>{c.title}</h3>
                     <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.55, marginBottom: 20, minHeight: 63 }}>{c.desc}</p>
-                    <div className="mt-auto flex h-[150px] items-center justify-center rounded-[14px] border border-black/[0.05] bg-[#FAFAF9]">
-                      <div className="flex h-[56px] w-[56px] items-center justify-center rounded-[16px] bg-white shadow-[0_4px_14px_rgba(0,0,0,0.06)]">{c.icon}</div>
+                    <div className="mt-auto flex h-[168px] items-center justify-center overflow-hidden rounded-[14px] border border-black/[0.05] bg-[#FAFAF9] p-3">
+                      <Image src={c.img} alt={c.title} width={c.w} height={c.h} className="max-h-full w-auto object-contain" sizes="270px" />
                     </div>
                   </div>
                 ))}
@@ -777,6 +777,42 @@ export default function T1LinksDePago() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* ── Acepta múltiples formas de pago — logos flotando estilo "Con T1, olvídate de todo esto" ── */}
+      <section className="relative flex min-h-[520px] items-center overflow-hidden bg-white px-5 py-24 tablet:min-h-[560px] tablet:px-10 tablet:py-32">
+        <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" style={{ width: 600, height: 600, borderRadius: "50%", background: "radial-gradient(circle, rgba(219,59,43,0.06) 0%, transparent 62%)" }} />
+        {/* DESKTOP scatter */}
+        {[
+          { i: 0, l: "10%", t: "22%", r: -8 }, { i: 2, l: "9%", t: "50%", r: -5 }, { i: 1, l: "20%", t: "76%", r: 6 },
+          { i: 3, l: "90%", t: "24%", r: 8 }, { i: 5, l: "91%", t: "50%", r: 5 }, { i: 4, l: "80%", t: "74%", r: -6 },
+        ].map(({ i, l, t, r }) => (
+          <div key={`d-${i}`} className="pointer-events-none absolute hidden -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-[14px] border border-black/[0.06] bg-white tablet:flex" style={{ left: l, top: t, height: 54, minWidth: 82, paddingLeft: 16, paddingRight: 16, transform: `translate(-50%, -50%) rotate(${r}deg)`, boxShadow: "0 10px 28px rgba(0,0,0,0.10)" }}>
+            <PayLogo l={PAY_LOGOS[i]} />
+          </div>
+        ))}
+        {/* MOBILE scatter — bandas superior e inferior */}
+        {[
+          { i: 0, l: "16%", t: "10%", r: -8 }, { i: 2, l: "50%", t: "7%", r: 5 }, { i: 4, l: "84%", t: "11%", r: 8 },
+          { i: 1, l: "16%", t: "90%", r: 7 }, { i: 3, l: "50%", t: "93%", r: -6 }, { i: 5, l: "84%", t: "89%", r: 6 },
+        ].map(({ i, l, t, r }) => (
+          <div key={`m-${i}`} className="pointer-events-none absolute flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-[12px] border border-black/[0.06] bg-white tablet:hidden" style={{ left: l, top: t, height: 46, minWidth: 66, paddingLeft: 12, paddingRight: 12, transform: `translate(-50%, -50%) rotate(${r}deg)`, boxShadow: "0 8px 20px rgba(0,0,0,0.10)" }}>
+            <PayLogo l={PAY_LOGOS[i]} />
+          </div>
+        ))}
+        {/* centered copy */}
+        <div className="relative mx-auto max-w-[600px] text-center">
+          <h2 className="font-sora text-[26px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+            Acepta múltiples formas de pago
+          </h2>
+          <p className="mx-auto font-inter text-[15px] font-light text-black/60 tablet:text-[17px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 480 }}>
+            Tarjetas, SPEI, transferencias, Kueski y meses sin intereses, en cada link que compartes.
+          </p>
+          <a href={SIGNUP_URL} className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-8 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
+            Crear mi primer link
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+          </a>
         </div>
       </section>
 
@@ -847,20 +883,6 @@ export default function T1LinksDePago() {
         </div>
       </div>
 
-      {/* ── Métodos aceptados — logos strip ── */}
-      <section className="relative bg-white px-5 py-16 tablet:px-10 tablet:py-20">
-        <div className="mx-auto max-w-[var(--max-w)] text-center">
-          <p data-modal-animate className="font-inter text-[12px] font-semibold uppercase tracking-wider text-black/40" style={{ marginBottom: 22 }}>Aceptamos todos los métodos de pago</p>
-          <div data-modal-animate className="flex flex-wrap items-center justify-center gap-3">
-            {PAY_LOGOS.map((l, i) => (
-              <div key={i} className="flex h-[48px] min-w-[70px] items-center justify-center rounded-[12px] border border-black/[0.06] bg-white px-4" style={{ boxShadow: "0 2px 12px rgba(0,0,0,0.04)" }}>
-                <PayLogo l={l} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── Cómo funciona — dark animated stepper ── */}
       <section className="relative overflow-hidden px-5 py-24 tablet:px-10 tablet:py-32" style={{ background: "linear-gradient(135deg, #1A1212 0%, #261515 50%, #1A0A0A 100%)" }}>
         <div aria-hidden className="pointer-events-none absolute -top-24 right-0 h-[420px] w-[420px] rounded-full" style={{ background: "radial-gradient(circle at center, rgba(219,59,43,0.14) 0%, transparent 65%)", filter: "blur(50px)" }} />
@@ -882,8 +904,10 @@ export default function T1LinksDePago() {
         </div>
       </section>
 
+      {/* ── Cobra sin complicaciones + métricas: degradado continuo #1A0A0A → #000 ── */}
+      <div className="relative" style={{ background: "linear-gradient(180deg, #1A0A0A 0%, #000000 100%)" }}>
       {/* ── Lo que incluye — carrusel dark estilo "Todo incluido desde el día uno" ── */}
-      <section className="relative overflow-hidden px-5 py-24 tablet:px-10 tablet:py-32" style={{ background: "linear-gradient(180deg, #1A0A0A 0%, #000000 100%)" }}>
+      <section className="relative overflow-hidden px-5 py-24 tablet:px-10 tablet:py-32">
         <div aria-hidden className="pointer-events-none absolute top-0 left-1/2 h-[340px] w-[640px] -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(ellipse at center, rgba(219,59,43,0.12) 0%, transparent 66%)", filter: "blur(46px)" }} />
         <div className="relative mx-auto max-w-[var(--max-w)]">
           <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
@@ -897,23 +921,22 @@ export default function T1LinksDePago() {
           <div
             ref={incluyeRef}
             onScroll={onIncScroll}
-            className="-mx-5 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pt-10 pb-2 tablet:mx-0 tablet:px-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+            className="-mx-5 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pt-24 pb-2 tablet:mx-0 tablet:justify-center tablet:px-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
             style={{ scrollPaddingLeft: 4, scrollPaddingRight: 4 }}
           >
             {[
-              { title: "Monto fijo o productos", desc: "Cobra una cantidad exacta o arma el link con productos de tu catálogo.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 2v20 M17 6.5C17 4.6 14.8 4 12 4s-5 .9-5 3 2.2 2.7 5 3.2 5 1.3 5 3.3-2.2 3-5 3-5-.8-5-2.7" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
-              { title: "Links reutilizables", desc: "Un mismo link para muchos clientes o de un solo uso, con vencimiento y límite de pagos.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1 M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-              { title: "Dinero al día siguiente", desc: "Liquidación T+1: el pago de hoy llega a tu cuenta mañana.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="#FFFFFF" strokeWidth="1.6" /><path d="M3 9h18 M8 3v4 M16 3v4" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" /><path d="M9 15l2 2 4-4" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-              { title: "Solicita datos del cliente", desc: "Pide dirección y envío, teléfono o datos de facturación al pagar.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.5" stroke="#FFFFFF" strokeWidth="1.6" /><path d="M5 20c0-3.3 3.1-6 7-6s7 2.7 7 6" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
-              { title: "Múltiples métodos", desc: "Tarjetas, SPEI, transferencias, Kueski y meses sin intereses.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2" stroke="#FFFFFF" strokeWidth="1.6" /><path d="M3 10h18" stroke="#FFFFFF" strokeWidth="1.6" /></svg>) },
-              { title: "Dashboard de cobros", desc: "Mira pagados, pendientes y liquidaciones en un panel claro.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M3 21h18" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" /><rect x="5" y="12" width="3.5" height="7" rx="1" stroke="#FFFFFF" strokeWidth="1.6" /><rect x="10.5" y="8" width="3.5" height="11" rx="1" stroke="#FFFFFF" strokeWidth="1.6" /><rect x="16" y="4" width="3.5" height="15" rx="1" stroke="#FFFFFF" strokeWidth="1.6" /></svg>) },
+              { title: "Links reutilizables", desc: "Un mismo link para muchos clientes o de un solo uso, con vencimiento y límite de pagos.", img: "/img/links-reutilizables.png" },
+              { title: "Dinero al día siguiente", desc: "Liquidación T+1: el pago de hoy llega a tu cuenta mañana.", img: "/img/dinero-dia-siguiente.png" },
+              { title: "Dashboard de cobros", desc: "Mira pagados, pendientes y liquidaciones en un panel claro.", img: "/img/dashboard-pagos.png" },
             ].map((f) => (
-              <div key={f.title} className="incluye-card flex w-[78vw] max-w-[300px] shrink-0 snap-start flex-col rounded-[18px] border border-white/[0.08] bg-white/[0.03] tablet:w-[280px] tablet:max-w-none" style={{ boxShadow: "0 26px 60px -28px rgba(0,0,0,0.8)" }}>
-                {/* Icono que sobresale del borde superior */}
-                <div className="relative" style={{ height: 34 }}>
-                  <div className="absolute left-6 flex h-[56px] w-[56px] items-center justify-center rounded-[16px] border border-white/10" style={{ top: -28, background: "linear-gradient(135deg, #DB3B2B 0%, #FF6F5E 100%)", boxShadow: "0 14px 30px -8px rgba(219,59,43,0.6)" }}>{f.icon}</div>
+              <div key={f.title} className="incluye-card flex w-[80vw] max-w-[320px] shrink-0 snap-start flex-col rounded-[18px] border border-white/[0.08] bg-white/[0.03] tablet:w-[300px] tablet:max-w-none" style={{ boxShadow: "0 26px 60px -28px rgba(0,0,0,0.8)" }}>
+                {/* Imagen que sobresale del borde superior */}
+                <div className="relative" style={{ height: 118 }}>
+                  <div className="absolute left-1/2 -translate-x-1/2" style={{ top: -56, width: "94%", height: 196 }}>
+                    <Image src={f.img} alt={f.title} fill className="pointer-events-none object-contain" style={{ objectPosition: "center top", filter: "drop-shadow(0 22px 34px rgba(0,0,0,0.6))" }} sizes="300px" />
+                  </div>
                 </div>
-                <div className="px-6 pb-7 pt-4">
+                <div className="px-6 pb-7 pt-1">
                   <h3 className="font-sora text-[18px] font-normal text-white" style={{ marginBottom: 8, letterSpacing: "-0.3px" }}>{f.title}</h3>
                   <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.6 }}>{f.desc}</p>
                 </div>
@@ -938,8 +961,8 @@ export default function T1LinksDePago() {
         </div>
       </section>
 
-      {/* ── Stats ── */}
-      <section className="relative px-5 py-20 tablet:px-10 tablet:py-24" style={{ background: "linear-gradient(135deg, #1A0A0A 0%, #261515 50%, #1A0A0A 100%)" }}>
+      {/* ── Stats (fondo transparente: hereda el degradado) ── */}
+      <section className="relative px-5 py-20 tablet:px-10 tablet:py-24">
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[640px] text-center" style={{ marginBottom: 48 }}>
             <h2 className="font-sora text-[24px] font-light text-white tablet:text-[34px]" style={{ letterSpacing: "-0.02em", lineHeight: 1.2 }}>
@@ -956,6 +979,7 @@ export default function T1LinksDePago() {
           </div>
         </div>
       </section>
+      </div>
 
       {/* ── FAQ ── */}
       <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
