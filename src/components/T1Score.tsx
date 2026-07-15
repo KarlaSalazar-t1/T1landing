@@ -25,7 +25,6 @@ const FONT = "var(--font-manrope-var), sans-serif";
 const PILLARS = [
   { id: "fraude", title: "Prevención de fraude" },
   { id: "riesgo", title: "Análisis de riesgo" },
-  { id: "credito", title: "Evaluación crediticia" },
 ];
 
 /* ── Per-pillar line icons (white per CEO — cleaner on the dark card) ── */
@@ -192,9 +191,10 @@ export default function T1Score() {
               className="mt-3.5 font-inter text-[14px] font-normal text-white/70 tablet:text-[15px]"
               style={{ letterSpacing: "-0.01em", lineHeight: 1.5, maxWidth: 440 }}
             >
-              Analiza el riesgo de cada cliente y transacción, con IA y datos
-              de Círculo de Crédito, para aceptar ventas con confianza y evitar
-              fraudes.
+              Evalúa el riesgo de tus clientes y transacciones en segundos.
+              Nuestra IA analiza cientos de señales para detectar fraude,
+              aprobar más operaciones legítimas y ayudarte a vender con mayor
+              confianza.
             </p>
 
             <ul className="mt-8 flex flex-col gap-4">

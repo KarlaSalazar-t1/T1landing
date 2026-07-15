@@ -1399,6 +1399,7 @@ function PhoneLinkPago() {
                 <div className="ml-auto flex items-center gap-1.5">
                   <Image src="/img/icons/visa.svg" alt="Visa" width={26} height={10} className="h-[10px] w-auto" />
                   <Image src="/img/icons/mastercard.svg" alt="Mastercard" width={16} height={10} className="h-[12px] w-auto" />
+                  <Image src="/img/icons/amex.svg" alt="American Express" width={16} height={12} className="h-[12px] w-auto" />
                 </div>
               </div>
               {/* MSI dropdown inside card selection */}
@@ -2462,11 +2463,11 @@ export default function T1Features() {
                           without crowding the fixed-height card. */}
                       <ul className="flex flex-col gap-1.5 tablet:hidden" style={{ marginTop: 2, marginBottom: 14 }}>
                         <li className="flex items-center gap-2">
-                          <span className="shrink-0">
-                            <AISparkle size={13} />
+                          <span className="flex h-[16px] w-[16px] shrink-0 items-center justify-center rounded-full" style={{ background: "rgba(255,255,255,0.14)" }}>
+                            <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" /></svg>
                           </span>
                           <span className="font-inter text-[12px] font-normal text-white/80" style={{ lineHeight: 1.3 }}>
-                            {withBoldIA("Más pagos aprobados con enrutamiento por IA")}
+                            La mejor tasa de aprobación de la región
                           </span>
                         </li>
                       </ul>
@@ -2476,26 +2477,20 @@ export default function T1Features() {
                           smart routing IS the AI, now labelled as such. */}
                       <ul className="hidden flex-col gap-2.5 tablet:flex" style={{ marginBottom: 26 }}>
                         {[
-                          "Más pagos aprobados con enrutamiento por IA",
+                          "La mejor tasa de aprobación de la región",
                           "Crea links de pago y cobra a distancia",
                           "Acepta tarjetas, SPEI, Kueski y meses sin intereses",
                           "Conciliación automática de todas tus ventas",
-                        ].map((b, i) => (
+                        ].map((b) => (
                           <li key={b} className="flex items-start gap-2.5">
-                            {i === 0 ? (
-                              <span className="mt-[1px] shrink-0">
-                                <AISparkle size={16} />
-                              </span>
-                            ) : (
-                              <span
-                                className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full"
-                                style={{ background: "rgba(255,255,255,0.14)" }}
-                              >
-                                <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
-                                  <path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                              </span>
-                            )}
+                            <span
+                              className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full"
+                              style={{ background: "rgba(255,255,255,0.14)" }}
+                            >
+                              <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
+                                <path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            </span>
                             <span className="font-inter text-[13px] font-normal text-white/85 tablet:text-[14px]" style={{ lineHeight: 1.45 }}>
                               {withBoldIA(b)}
                             </span>

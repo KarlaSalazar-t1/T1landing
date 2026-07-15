@@ -53,9 +53,9 @@ const TAB_CARDS: TabCard[] = [
     cta: "Comenzar a cobrar",
     ctaHref: "/registro",
     subTabs: [
-      { label: "Checkout integrado", description: "Checkout optimizado para la mayor tasa de conversión en tu tienda.", image: null, floatingCards: null, panel: "checkout" },
+      { label: "Checkout integrado", description: "Un checkout rápido y sin fricción, optimizado para mayor conversión: menos carritos abandonados y más ventas cerradas.", image: null, floatingCards: null, panel: "checkout" },
       { label: "Links de pago", description: "Cobra compartiendo un enlace por WhatsApp, email o redes sociales.", image: null, floatingCards: null, panel: "link-pago" },
-      { label: "Enrutamiento de pagos", description: "Enruta pagos entre procesadores para maximizar la tasa de aprobación.", image: null, floatingCards: null, panel: "enrutamiento-pagos" },
+      { label: "Enrutamiento de pagos", description: "Enruta cada pago por el mejor flujo para aprobar más ventas, con nuestra propia solución.", image: null, floatingCards: null, panel: "enrutamiento-pagos" },
     ],
   },
   {
@@ -883,12 +883,12 @@ export default function T1Solutions() {
               ) : currentSub.panel === "enrutamiento-pagos" ? (
                 <div key={`panel-m-${activeSubTab}`} className="px-4" style={{ animation: "none", fontFamily: font }}>
                   <div className="rounded-[12px] border border-black/[0.06] bg-white" style={{ padding: 14, boxShadow: "0 2px 10px rgba(0,0,0,0.04)" }}>
-                    <p className="text-[12px] font-bold text-[#4c4c4c]" style={{ marginBottom: 10 }}>Enrutamiento por procesador</p>
+                    <p className="text-[12px] font-bold text-[#4c4c4c]" style={{ marginBottom: 10 }}>Enrutamiento por flujo</p>
                     <div className="flex flex-col gap-2">
                       {[
-                        { name: "Procesador A", pct: "88%", dim: true },
-                        { name: "Procesador B", pct: "96%", dim: false },
-                        { name: "Procesador C", pct: "79%", dim: true },
+                        { name: "Flujo A", pct: "88%", dim: true },
+                        { name: "Flujo B", pct: "96%", dim: false },
+                        { name: "Flujo C", pct: "79%", dim: true },
                       ].map((p) => (
                         <div
                           key={p.name}
@@ -1285,7 +1285,7 @@ export default function T1Solutions() {
                   /* Enrutamiento de pagos — diagram: card → 3 processors → bank, animated */
                   <div className="relative flex h-full items-center justify-center bg-white" style={{ padding: "20px 24px" }}>
                     <div className="w-[460px] rounded-[14px] border border-black/[0.06] bg-white" style={{ padding: 24, fontFamily: font, boxShadow: "0 4px 24px rgba(0,0,0,0.06)" }}>
-                      <p className="text-[14px] font-bold text-[#4c4c4c]" style={{ marginBottom: 16 }}>Enrutamiento por procesador</p>
+                      <p className="text-[14px] font-bold text-[#4c4c4c]" style={{ marginBottom: 16 }}>Enrutamiento por flujo</p>
                       <div className="relative" style={{ minHeight: 220 }}>
                         <svg className="absolute inset-0 h-full w-full" viewBox="0 0 400 220" fill="none" preserveAspectRatio="xMidYMid meet">
                           {/* Lines from card to processors */}
@@ -1305,9 +1305,9 @@ export default function T1Solutions() {
                         </div>
                         {/* Processors (middle column) */}
                         {[
-                          { y: 38, name: "Procesador A", subtitle: "88% aprobación", dim: true },
-                          { y: 88, name: "Procesador B", subtitle: "96% aprobación", dim: false },
-                          { y: 138, name: "Procesador C", subtitle: "79% aprobación", dim: true },
+                          { y: 38, name: "Flujo A", subtitle: "88% aprobación", dim: true },
+                          { y: 88, name: "Flujo B", subtitle: "96% aprobación", dim: false },
+                          { y: 138, name: "Flujo C", subtitle: "79% aprobación", dim: true },
                         ].map((p) => (
                           <div
                             key={p.name}
