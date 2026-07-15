@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
-import { useCountUp } from "@/hooks/useCountUp";
 import { useFSStackCards } from "@/hooks/useFSStackCards";
 import T1FinalCTA from "@/components/T1FinalCTA";
 
@@ -13,16 +12,6 @@ const CONCEPT = "Tenis blancos clásicos";
 const AMOUNT = "$1,345.99";
 
 /* ── Animated count stat (white-on-dark) ── */
-function CountStat({ end, prefix = "", suffix = "", label, decimals = 0 }: { end: number; prefix?: string; suffix?: string; label: string; decimals?: number }) {
-  const { ref, display } = useCountUp({ end, prefix, suffix, decimals, duration: 1800 });
-  return (
-    <div ref={ref}>
-      <p className="font-sora text-[36px] font-light text-white tablet:text-[52px]" style={{ letterSpacing: "-0.03em", marginBottom: 6, lineHeight: 1 }}>{display}</p>
-      <p className="font-inter text-[12px] font-light text-white/55 tablet:text-[13px]">{label}</p>
-    </div>
-  );
-}
-
 /* ── Count-up that re-animates when value changes ── */
 function AnimNumber({ value, prefix = "" }: { value: number; prefix?: string }) {
   const [disp, setDisp] = useState(0);
@@ -780,10 +769,10 @@ export default function T1LinksDePago() {
       {/* ── Acepta múltiples formas de pago — logos flotando estilo "Con T1, olvídate de todo esto" ── */}
       <section className="relative flex min-h-[520px] items-center overflow-hidden bg-white px-5 py-24 tablet:min-h-[560px] tablet:px-10 tablet:py-32">
         <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" style={{ width: 600, height: 600, borderRadius: "50%", background: "radial-gradient(circle, rgba(219,59,43,0.06) 0%, transparent 62%)" }} />
-        {/* DESKTOP scatter — más cerca del texto */}
+        {/* DESKTOP scatter — balanceado izq/der */}
         {[
-          { i: 0, l: "27%", t: "26%", r: -8 }, { i: 2, l: "21%", t: "52%", r: -5 }, { i: 1, l: "30%", t: "78%", r: 6 },
-          { i: 3, l: "73%", t: "26%", r: 8 }, { i: 5, l: "79%", t: "52%", r: 5 }, { i: 4, l: "70%", t: "78%", r: -6 },
+          { i: 0, l: "17%", t: "26%", r: -8 }, { i: 2, l: "13%", t: "52%", r: -5 }, { i: 1, l: "18%", t: "78%", r: 6 },
+          { i: 3, l: "83%", t: "26%", r: 8 }, { i: 5, l: "87%", t: "52%", r: 5 }, { i: 4, l: "82%", t: "78%", r: -6 },
         ].map(({ i, l, t, r }) => (
           <div key={`d-${i}`} className="pointer-events-none absolute hidden -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-[14px] border border-black/[0.06] bg-white tablet:flex" style={{ left: l, top: t, height: 62, minWidth: 96, paddingLeft: 18, paddingRight: 18, transform: `translate(-50%, -50%) rotate(${r}deg)`, boxShadow: "0 10px 28px rgba(0,0,0,0.10)" }}>
             <PayLogo l={PAY_LOGOS[i]} />
@@ -814,7 +803,7 @@ export default function T1LinksDePago() {
       </section>
 
       {/* ── Stack cards intro ── */}
-      <section className="relative bg-white px-5 pt-12 pb-8 tablet:px-10 tablet:pt-16 tablet:pb-10">
+      <section className="relative bg-white px-5 py-16 tablet:px-10 tablet:py-20">
         <div data-modal-animate className="mx-auto max-w-[760px] text-center">
           <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.4px", lineHeight: 1.1, marginBottom: 16 }}>
             Del link al pago, en segundos.
@@ -835,7 +824,7 @@ export default function T1LinksDePago() {
                 <WhatsAppSharePanel />
               </div>
               <div className="order-1 tablet:order-2">
-                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
+                <h3 className="font-sora text-[28px] font-light text-black tablet:text-[38px] lg:text-[44px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.12, marginBottom: 18 }}>
                   Comparte y cobra al instante.
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6 }}>
@@ -851,7 +840,7 @@ export default function T1LinksDePago() {
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div>
-                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
+                <h3 className="font-sora text-[28px] font-light text-black tablet:text-[38px] lg:text-[44px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.12, marginBottom: 18 }}>
                   Sigue cada cobro en tiempo real
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
@@ -942,24 +931,6 @@ export default function T1LinksDePago() {
         </div>
       </section>
 
-      {/* ── Stats (fondo transparente: hereda el degradado) ── */}
-      <section className="relative px-5 py-20 tablet:px-10 tablet:py-24">
-        <div className="mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="mx-auto max-w-[640px] text-center" style={{ marginBottom: 48 }}>
-            <h2 className="font-sora text-[24px] font-light text-white tablet:text-[34px]" style={{ letterSpacing: "-0.02em", lineHeight: 1.2 }}>
-              Cobrar nunca fue tan simple.
-            </h2>
-          </div>
-          <div data-modal-animate className="grid grid-cols-1 gap-10 text-center tablet:grid-cols-3">
-            <div data-stagger style={{ ["--i" as string]: 0 }}><CountStat end={30} suffix="s" label="para crear y compartir" /></div>
-            <div data-stagger style={{ ["--i" as string]: 1 }}><CountStat end={10} prefix="+" label="métodos en cada link" /></div>
-            <div data-stagger style={{ ["--i" as string]: 2 }}>
-              <p className="font-sora text-[36px] font-light text-white tablet:text-[52px]" style={{ letterSpacing: "-0.03em", marginBottom: 6, lineHeight: 1 }}>Día +1</p>
-              <p className="font-inter text-[12px] font-light text-white/55 tablet:text-[13px]">recibes tu dinero al día siguiente</p>
-            </div>
-          </div>
-        </div>
-      </section>
       </div>
 
       {/* ── FAQ ── */}

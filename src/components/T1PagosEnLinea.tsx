@@ -96,13 +96,20 @@ function SettlementPanel() {
 }
 
 /* ── Block 3 panel — full simulated screens of each selling environment ── */
-function BrowserBar({ url }: { url: string }) {
+/* Status bar del teléfono (hora + señal/wifi/batería) */
+function StatusBar() {
+  const c = "#111";
   return (
-    <div className="flex items-center gap-1.5 border-b border-black/[0.06] px-3 py-2">
-      <span className="h-[6px] w-[6px] rounded-full bg-black/15" />
-      <span className="h-[6px] w-[6px] rounded-full bg-black/15" />
-      <span className="h-[6px] w-[6px] rounded-full bg-black/15" />
-      <span className="ml-1 flex-1 truncate rounded-full bg-black/[0.05] px-2.5 py-1 font-inter text-[9px] text-black/40">{url}</span>
+    <div className="relative z-20 flex shrink-0 items-center justify-between bg-white px-5" style={{ height: 30, paddingTop: 7 }}>
+      <span className="font-sora text-[11px] font-bold" style={{ color: c }}>9:41</span>
+      <div className="flex items-center gap-1.5">
+        <svg width="17" height="11" viewBox="0 0 18 12" fill="none"><rect x="0" y="8" width="3" height="4" rx="0.6" fill={c} /><rect x="4.6" y="5.5" width="3" height="6.5" rx="0.6" fill={c} /><rect x="9.2" y="3" width="3" height="9" rx="0.6" fill={c} /><rect x="13.8" y="0.5" width="3" height="11.5" rx="0.6" fill={c} /></svg>
+        <svg width="15" height="11" viewBox="0 0 16 12" fill="none"><path d="M8 10.2a1 1 0 100-2 1 1 0 000 2z M4 6.6a5.6 5.6 0 018 0 M1.4 4.2a9.2 9.2 0 0113.2 0" stroke={c} strokeWidth="1.3" strokeLinecap="round" /></svg>
+        <div className="flex items-center gap-[1.5px]">
+          <div className="flex items-center rounded-[2.5px] border" style={{ width: 17, height: 10, borderColor: c, padding: 1.4 }}><div className="h-full rounded-[1px]" style={{ width: "72%", background: c }} /></div>
+          <div className="rounded-r-[1px]" style={{ width: 1.5, height: 4, background: c }} />
+        </div>
+      </div>
     </div>
   );
 }
@@ -111,9 +118,10 @@ function BrowserBar({ url }: { url: string }) {
 function PhoneFrame({ children }: { children: ReactNode }) {
   return (
     <div className="relative mx-auto" style={{ width: 290 }}>
-      <div className="relative overflow-hidden bg-white" style={{ height: 580, borderRadius: 42, border: "9px solid #14100f", boxShadow: "0 34px 80px rgba(0,0,0,0.55)" }}>
+      <div className="relative flex flex-col overflow-hidden bg-white" style={{ height: 580, borderRadius: 42, border: "9px solid #14100f", boxShadow: "0 34px 80px rgba(0,0,0,0.55)" }}>
         <div className="absolute left-1/2 top-0 z-30 h-[22px] w-[118px] -translate-x-1/2 rounded-b-[14px] bg-[#14100f]" />
-        {children}
+        <StatusBar />
+        <div className="relative flex-1 overflow-hidden">{children}</div>
       </div>
     </div>
   );
@@ -127,7 +135,7 @@ function Ripple() {
 /* Cabecera de WhatsApp */
 function WAHeader() {
   return (
-    <div className="flex items-center gap-2 px-3 pt-5" style={{ height: 62, background: "#075E54" }}>
+    <div className="flex items-center gap-2 px-3 py-2.5" style={{ background: "#075E54" }}>
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 5l-7 7 7 7" /></svg>
       <span className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-white/20 font-sora text-[12px] font-bold text-white">O</span>
       <div><p className="font-inter text-[12px] font-semibold leading-tight text-white">Origen MX</p><p className="font-inter text-[9px] leading-tight text-white/70">en línea</p></div>
@@ -139,7 +147,6 @@ function WAHeader() {
 function TypScreen({ order = "#9803890", total = "$1,345.99", label = "origenmx.com" }: { order?: string; total?: string; label?: string }) {
   return (
     <div className="flex h-full flex-col bg-white" style={{ animation: "fadeSlideIn 0.4s ease-out both" }}>
-      <BrowserBar url={label} />
       <div className="flex flex-1 flex-col items-center justify-center px-5">
         <span className="flex h-[54px] w-[54px] items-center justify-center rounded-full bg-[#16A34A]" style={{ marginBottom: 14, animation: "checkPop 0.5s cubic-bezier(0.16,1,0.3,1) both" }}>
           <svg width="26" height="26" viewBox="0 0 16 16" fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -150,6 +157,52 @@ function TypScreen({ order = "#9803890", total = "$1,345.99", label = "origenmx.
           <div className="flex items-center justify-between py-1"><span className="font-inter text-[11px] text-black/45">Pedido</span><span className="font-inter text-[12px] font-semibold text-black">{order}</span></div>
           <div className="flex items-center justify-between py-1"><span className="font-inter text-[11px] text-black/45">Total</span><span className="font-inter text-[12px] font-semibold text-black">{total}</span></div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+/* Caja de checkout de la tienda "La noria" (compartida por Tienda y Paga con T1) */
+function LaNoriaCheckout() {
+  return (
+    <div className="flex h-full flex-col bg-white">
+      <div className="flex items-center justify-between border-b border-black/[0.06] px-4 py-2.5">
+        <span className="font-sora text-[13px] font-extrabold text-black">La noria</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 6h15l-1.5 9h-12z M6 6L5 3H2 M9 20a1 1 0 100-2 1 1 0 000 2z M18 20a1 1 0 100-2 1 1 0 000 2z" stroke="rgba(0,0,0,0.5)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+      </div>
+      <div className="flex flex-1 flex-col overflow-hidden px-4 py-3">
+        <div className="flex items-center justify-between" style={{ marginBottom: 12 }}>
+          <span className="font-inter text-[12px] font-semibold text-black">Resumen de pedido</span>
+          <span className="font-sora text-[15px] font-bold text-black">$1,235.99</span>
+        </div>
+        <p className="text-center font-inter text-[10px] text-black/45" style={{ marginBottom: 6 }}>Pago exprés</p>
+        <div className="flex gap-2" style={{ marginBottom: 14 }}>
+          <div className="flex h-[38px] flex-1 items-center justify-center gap-1 rounded-[9px] bg-[#DB3B2B] font-inter text-[12px] font-semibold text-white">Paga con T1</div>
+          <div className="flex h-[38px] flex-1 items-center justify-center rounded-[9px] font-sora text-[13px] font-bold" style={{ background: "#FFC43A" }}><span style={{ color: "#253B80" }}>Pay</span><span style={{ color: "#179BD7" }}>Pal</span></div>
+        </div>
+        <p className="font-sora text-[12px] font-bold text-black" style={{ marginBottom: 8 }}>Información de contacto</p>
+        <div className="flex items-center gap-2" style={{ marginBottom: 14 }}>
+          <span className="flex h-[26px] w-[26px] items-center justify-center rounded-full bg-black font-sora text-[9px] font-bold text-white">LC</span>
+          <span className="font-inter text-[11px] text-black/70">luiscervantes@gmail.com</span>
+        </div>
+        <p className="font-sora text-[12px] font-bold text-black" style={{ marginBottom: 8 }}>Entrega</p>
+        <div className="overflow-hidden rounded-[9px] border border-black/[0.10]" style={{ marginBottom: 14 }}>
+          <div className="flex items-center gap-2 border-b border-black/[0.06] px-3 py-2.5">
+            <span className="flex h-[14px] w-[14px] shrink-0 items-center justify-center rounded-full border-2 border-black"><span className="h-[6px] w-[6px] rounded-full bg-black" /></span>
+            <span className="font-inter text-[11px] text-black/80">Envío a domicilio</span>
+          </div>
+          <div className="flex items-center gap-2 px-3 py-2.5">
+            <span className="h-[14px] w-[14px] shrink-0 rounded-full border border-black/25" />
+            <span className="font-inter text-[11px] text-black/55">Recoger en tienda</span>
+          </div>
+        </div>
+        <p className="font-sora text-[12px] font-bold text-black" style={{ marginBottom: 8 }}>Método de pago</p>
+        <div className="flex items-center gap-2 rounded-[9px] border px-3 py-2.5" style={{ borderColor: "rgba(219,59,43,0.4)" }}>
+          <span className="flex h-[14px] w-[14px] shrink-0 items-center justify-center rounded-full border border-[#DB3B2B]"><span className="h-[7px] w-[7px] rounded-full bg-[#DB3B2B]" /></span>
+          <span className="flex-1 font-inter text-[11px] text-black/75">Tarjeta ••1234</span>
+          <img src="/img/icons/visa.svg" alt="" style={{ height: 12, width: "auto" }} />
+        </div>
+        <div className="relative mt-auto flex h-[44px] items-center justify-center overflow-hidden rounded-[11px] bg-[#DB3B2B] font-inter text-[13px] font-semibold text-white">Pagar<Ripple /></div>
       </div>
     </div>
   );
@@ -166,8 +219,11 @@ function TiendaFlow() {
   return (
     <div key={p} className="h-full" style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
       {p === 0 && (
-        <div className="flex h-full flex-col bg-white pt-5">
-          <BrowserBar url="origenmx.com/carrito" />
+        <div className="flex h-full flex-col bg-white">
+          <div className="flex items-center justify-between border-b border-black/[0.06] px-4 py-2.5">
+            <span className="font-sora text-[13px] font-extrabold text-black">La noria</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 6h15l-1.5 9h-12z M6 6L5 3H2 M9 20a1 1 0 100-2 1 1 0 000 2z M18 20a1 1 0 100-2 1 1 0 000 2z" stroke="rgba(0,0,0,0.5)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+          </div>
           <div className="flex flex-1 flex-col px-4 py-4">
             <p className="font-sora text-[14px] font-bold text-black" style={{ marginBottom: 12 }}>Tu carrito</p>
             <div className="flex items-center gap-2.5">
@@ -183,47 +239,7 @@ function TiendaFlow() {
         </div>
       )}
       {p === 1 && (
-        <div className="flex h-full flex-col bg-white pt-5">
-          {/* header tienda */}
-          <div className="flex items-center justify-between border-b border-black/[0.06] px-4 py-2.5">
-            <span className="font-sora text-[13px] font-extrabold text-[#DB3B2B]">Chicos Olé</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 6h15l-1.5 9h-12z M6 6L5 3H2 M9 20a1 1 0 100-2 1 1 0 000 2z M18 20a1 1 0 100-2 1 1 0 000 2z" stroke="rgba(0,0,0,0.5)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-          </div>
-          <div className="flex flex-1 flex-col overflow-hidden px-4 py-3">
-            <div className="flex items-center justify-between" style={{ marginBottom: 12 }}>
-              <span className="font-inter text-[12px] font-semibold text-black">Resumen de pedido</span>
-              <span className="font-sora text-[15px] font-bold text-black">$1,235.99</span>
-            </div>
-            <p className="text-center font-inter text-[10px] text-black/45" style={{ marginBottom: 6 }}>Pago exprés</p>
-            <div className="flex gap-2" style={{ marginBottom: 14 }}>
-              <div className="flex h-[38px] flex-1 items-center justify-center gap-1 rounded-[9px] bg-[#DB3B2B] font-inter text-[12px] font-semibold text-white">Paga con T1</div>
-              <div className="flex h-[38px] flex-1 items-center justify-center rounded-[9px] font-sora text-[13px] font-bold" style={{ background: "#FFC43A" }}><span style={{ color: "#253B80" }}>Pay</span><span style={{ color: "#179BD7" }}>Pal</span></div>
-            </div>
-            <p className="font-sora text-[12px] font-bold text-black" style={{ marginBottom: 8 }}>Información de contacto</p>
-            <div className="flex items-center gap-2" style={{ marginBottom: 14 }}>
-              <span className="flex h-[26px] w-[26px] items-center justify-center rounded-full bg-black font-sora text-[9px] font-bold text-white">LC</span>
-              <span className="font-inter text-[11px] text-black/70">luiscervantes@gmail.com</span>
-            </div>
-            <p className="font-sora text-[12px] font-bold text-black" style={{ marginBottom: 8 }}>Entrega</p>
-            <div className="overflow-hidden rounded-[9px] border border-black/[0.10]" style={{ marginBottom: 14 }}>
-              <div className="flex items-center gap-2 border-b border-black/[0.06] px-3 py-2.5">
-                <span className="flex h-[14px] w-[14px] shrink-0 items-center justify-center rounded-full border-2 border-black"><span className="h-[6px] w-[6px] rounded-full bg-black" /></span>
-                <span className="font-inter text-[11px] text-black/80">Envío a domicilio</span>
-              </div>
-              <div className="flex items-center gap-2 px-3 py-2.5">
-                <span className="h-[14px] w-[14px] shrink-0 rounded-full border border-black/25" />
-                <span className="font-inter text-[11px] text-black/55">Recoger en tienda</span>
-              </div>
-            </div>
-            <p className="font-sora text-[12px] font-bold text-black" style={{ marginBottom: 8 }}>Método de pago</p>
-            <div className="flex items-center gap-2 rounded-[9px] border px-3 py-2.5" style={{ borderColor: "rgba(219,59,43,0.4)" }}>
-              <span className="flex h-[14px] w-[14px] shrink-0 items-center justify-center rounded-full border border-[#DB3B2B]"><span className="h-[7px] w-[7px] rounded-full bg-[#DB3B2B]" /></span>
-              <span className="flex-1 font-inter text-[11px] text-black/75">Tarjeta ••1234</span>
-              <img src="/img/icons/visa.svg" alt="" style={{ height: 12, width: "auto" }} />
-            </div>
-            <div className="relative mt-auto flex h-[44px] items-center justify-center overflow-hidden rounded-[11px] bg-[#DB3B2B] font-inter text-[13px] font-semibold text-white">Pagar<Ripple /></div>
-          </div>
-        </div>
+        <LaNoriaCheckout />
       )}
       {p === 2 && <TypScreen order="#9803890" total="$1,235.99" label="chicosole.com" />}
     </div>
@@ -270,7 +286,7 @@ function LinkFlow() {
         </div>
       )}
       {p === 1 && (
-        <div className="flex h-full flex-col bg-white pt-5">
+        <div className="flex h-full flex-col bg-white">
           <div className="flex items-center justify-between px-4 py-3">
             <span className="font-sora text-[15px] font-bold text-black/80">LOGO</span>
             <span className="flex items-center gap-1 font-inter text-[11px] font-semibold text-black/70">Ver detalle<svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
@@ -320,23 +336,10 @@ function PagaT1Flow() {
   }, [p]);
   return (
     <div key={p} className="h-full" style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
-      {p === 0 && (
-        <div className="flex h-full flex-col bg-white pt-5">
-          <BrowserBar url="origenmx.com/checkout" />
-          <div className="flex flex-1 flex-col px-4 py-4">
-            <div className="flex items-center justify-between"><span className="font-inter text-[11px] text-black/50">Total a pagar</span><span className="font-sora text-[16px] font-semibold text-black">$1,345.99</span></div>
-            <div className="relative mt-4 flex h-[44px] items-center justify-center gap-2 overflow-hidden rounded-[12px] bg-[#DB3B2B] font-inter text-[13px] font-semibold text-white">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" fill="#fff" stroke="#fff" strokeWidth="1.2" strokeLinejoin="round" /></svg>
-              Paga con T1<Ripple />
-            </div>
-            <div className="my-3 flex items-center gap-2"><span className="h-px flex-1 bg-black/[0.08]" /><span className="font-inter text-[9px] text-black/35">o paga con tarjeta</span><span className="h-px flex-1 bg-black/[0.08]" /></div>
-            <div className="flex items-center rounded-[9px] border border-black/[0.10] px-3" style={{ height: 36 }}><span className="font-inter text-[11px] text-black/40">Número de tarjeta</span></div>
-          </div>
-        </div>
-      )}
+      {p === 0 && <LaNoriaCheckout />}
       {p === 1 && (
-        <div className="flex h-full flex-col bg-white pt-5">
-          <div className="flex items-center justify-center border-b border-black/[0.06] py-3"><span className="font-sora text-[15px] font-extrabold text-[#DB3B2B]">Chicos Olé</span></div>
+        <div className="flex h-full flex-col bg-white">
+          <div className="flex items-center justify-center border-b border-black/[0.06] py-3"><span className="font-sora text-[15px] font-extrabold text-black">La noria</span></div>
           <div className="flex flex-1 flex-col justify-center px-5 py-5">
             <div className="rounded-[14px] border border-black/[0.08] p-4" style={{ boxShadow: "0 8px 24px rgba(0,0,0,0.06)" }}>
               <p className="text-center font-sora text-[15px] font-bold text-black" style={{ marginBottom: 14 }}>Confirma que eres tú</p>
@@ -356,7 +359,7 @@ function PagaT1Flow() {
         </div>
       )}
       {p === 2 && (
-        <div className="flex h-full flex-col bg-white pt-5">
+        <div className="flex h-full flex-col bg-white">
           <div className="flex items-center border-b border-black/[0.06] px-4 py-2.5"><span className="font-sora text-[18px] font-extrabold text-[#DB3B2B]">T1</span></div>
           <div className="flex flex-1 flex-col px-4 py-3">
             <div className="flex items-center justify-between" style={{ marginBottom: 10 }}>
@@ -787,11 +790,11 @@ export default function T1PagosEnLinea() {
                   { title: "Meses sin intereses", desc: "Hasta 18 MSI con todos los bancos, sin comisión extra.", img: "/img/msi-v2.png", w: 1176, h: 932 },
                   { title: "Antifraude T1 Score", desc: "Cada transacción evaluada en menos de 100 ms, con la menor tasa de fraude del mercado.", img: "/img/t1score-v2.png", w: 1044, h: 1024 },
                 ].map((c) => (
-                  <div key={c.title} className="pay-card flex w-[260px] shrink-0 snap-start flex-col rounded-[20px] border border-black/[0.07] bg-white p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
+                  <div key={c.title} className="pay-card flex w-[280px] shrink-0 snap-start flex-col rounded-[20px] border border-black/[0.07] bg-white p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
                     <h3 className="font-sora text-[19px] font-normal text-black" style={{ marginBottom: 8 }}>{c.title}</h3>
-                    <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.55, marginBottom: 18, minHeight: 63 }}>{c.desc}</p>
-                    <div className="mt-auto flex h-[180px] items-center justify-center overflow-hidden rounded-[14px] bg-[#FAFAF9] p-2">
-                      <Image src={c.img} alt={c.title} width={c.w} height={c.h} className="max-h-full w-auto object-contain" sizes="260px" />
+                    <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.55, marginBottom: 14, minHeight: 63 }}>{c.desc}</p>
+                    <div className="mt-auto flex h-[220px] items-center justify-center">
+                      <Image src={c.img} alt={c.title} width={c.w} height={c.h} className="max-h-full w-auto object-contain" sizes="300px" />
                     </div>
                   </div>
                 ))}
