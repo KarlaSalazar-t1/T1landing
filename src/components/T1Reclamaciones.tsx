@@ -36,10 +36,10 @@ const MOTIVOS = [
 ];
 
 const TABLE_ROWS = [
-  { id: "DSP-4501", amt: "$3,450.00", motivo: "Producto no recibido", proc: "Stripe", plazo: "5 días", plazoRed: true, estado: "Abierta", badge: "open" },
-  { id: "DSP-4502", amt: "$1,280.00", motivo: "No reconoce el cargo", proc: "Conekta", plazo: "12 días", plazoRed: false, estado: "En revisión", badge: "rev" },
-  { id: "DSP-4503", amt: "$890.00", motivo: "Duplicado", proc: "OpenPay", plazo: "3 días", plazoRed: true, estado: "Abierta", badge: "open" },
-  { id: "DSP-4504", amt: "$2,100.00", motivo: "Producto defectuoso", proc: "Stripe", plazo: "—", plazoRed: false, estado: "Ganada", badge: "won" },
+  { id: "DSP-4501", amt: "$3,450.00", motivo: "Producto no recibido", proc: "Checkout", plazo: "5 días", plazoRed: true, estado: "Abierta", badge: "open" },
+  { id: "DSP-4502", amt: "$1,280.00", motivo: "No reconoce el cargo", proc: "Paga con T1", plazo: "12 días", plazoRed: false, estado: "En revisión", badge: "rev" },
+  { id: "DSP-4503", amt: "$890.00", motivo: "Duplicado", proc: "Link de pago", plazo: "3 días", plazoRed: true, estado: "Abierta", badge: "open" },
+  { id: "DSP-4504", amt: "$2,100.00", motivo: "Producto defectuoso", proc: "Checkout", plazo: "—", plazoRed: false, estado: "Ganada", badge: "won" },
 ];
 const badgeCls = (b: string) => (b === "won" ? "bg-[rgba(22,163,74,0.10)] text-[#16A34A]" : b === "rev" ? "bg-black/[0.06] text-black/55" : "bg-[rgba(245,158,11,0.12)] text-[#B45309]");
 const TABLE_COLS = "0.8fr 0.7fr 1.1fr 0.7fr 0.6fr 0.7fr";
@@ -48,7 +48,7 @@ const DETAIL_FIELDS: [string, string][] = [
   ["ID de disputa", "DSP-4501"],
   ["Transacción original", "TXN-82190"],
   ["Monto disputado", "$3,450.00"],
-  ["Procesador", "Stripe"],
+  ["Canal", "Checkout"],
   ["Motivo", "Producto no recibido"],
   ["Fecha de apertura", "28/06/2026"],
   ["Plazo de respuesta", "03/07/2026"],
@@ -66,10 +66,10 @@ const HIST = [
 ];
 
 const STEPS = [
-  { n: "01", title: "Recibe la notificación al instante", desc: "T1 detecta cada chargeback o disputa en cuanto llega del procesador y te avisa de inmediato." },
-  { n: "02", title: "Adjunta evidencia en un clic", desc: "Sube comprobantes de entrega, facturas o capturas directo desde el panel, sin buscar en otro sistema." },
-  { n: "03", title: "Responde dentro del plazo", desc: "T1 controla los plazos de cada procesador y te alerta antes de que venza el tiempo de respuesta." },
-  { n: "04", title: "Da seguimiento hasta la resolución", desc: "Monitorea el estado de cada caso y recibe la resolución del banco directamente en tu panel." },
+  { n: "01", title: "Recibe la notificación", desc: "T1 muestra la disputa cuando llega desde el procesador conectado." },
+  { n: "02", title: "Revisa el motivo y el plazo", desc: "Consulta monto, transacción, motivo de reclamación y fecha límite de respuesta." },
+  { n: "03", title: "Adjunta evidencia", desc: "Sube comprobantes de entrega, facturas, capturas de tracking o documentos solicitados." },
+  { n: "04", title: "Da seguimiento a la resolución", desc: "Consulta cambios de estado y la respuesta del banco o procesador desde el panel." },
 ];
 
 /* Marco de teléfono (responsive) */
@@ -130,11 +130,11 @@ export default function T1Reclamaciones() {
           <div className="grid grid-cols-1 items-center gap-12 tablet:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] tablet:gap-16">
             <div>
               <h1 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[56px]" style={{ lineHeight: 1.05, letterSpacing: "-1.5px", marginBottom: 22 }}>
-                Gestiona disputas y{" "}
-                <span className="relative inline-block">chargebacks<span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.35)", borderRadius: 5, zIndex: -1 }} /></span>.
+                Ten visibilidad y gestiona{" "}
+                <span className="relative inline-block">reclamaciones<span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.35)", borderRadius: 5, zIndex: -1 }} /></span>
               </h1>
-              <p className="font-inter text-[16px] font-light text-white/70 tablet:text-[19px]" style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 470 }}>
-                Responde con evidencia, controla plazos y reduce tu tasa de contracargos desde un solo panel.
+              <p className="font-inter text-[16px] font-light text-white/70 tablet:text-[19px]" style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 480 }}>
+                Recibe alertas, responde con evidencia, controla plazos y da seguimiento a cada reclamación desde un solo panel.
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <a href={SIGNUP_URL} className="inline-flex items-center rounded-full bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">Gestionar reclamaciones</a>
@@ -199,10 +199,10 @@ export default function T1Reclamaciones() {
         <div className="mx-auto max-w-[var(--max-w)]">
           <div className="grid grid-cols-1 gap-12 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] tablet:items-center tablet:gap-16">
             <div data-modal-animate>
-              <h2 className="font-sora text-[28px] font-light text-black tablet:text-[38px] lg:text-[46px]" style={{ letterSpacing: "-1.3px", lineHeight: 1.1, marginBottom: 18 }}>Todas tus disputas en un solo lugar.</h2>
-              <p className="font-inter text-[15px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>T1 centraliza chargebacks de todos tus procesadores y te da las herramientas para responder a tiempo.</p>
+              <h2 className="font-sora text-[28px] font-light text-black tablet:text-[38px] lg:text-[46px]" style={{ letterSpacing: "-1.3px", lineHeight: 1.1, marginBottom: 18 }}>Todas tus reclamaciones en un solo lugar.</h2>
+              <p className="font-inter text-[15px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>Reunimos las reclamaciones de los cobros que procesas con T1 Pagos —tu checkout, un link de pago o Paga con T1— para que las respondas a tiempo desde un solo panel.</p>
               <ul className="flex flex-col gap-2.5">
-                {["Disputas de Stripe, Conekta, OpenPay y más", "Control de plazos con alertas automáticas", "Tasa de contracargos en tiempo real"].map((it) => (
+                {["Reclamaciones de tus cobros con T1 Pagos", "Desde tu checkout, link de pago o Paga con T1", "Control de plazos con alertas automáticas"].map((it) => (
                   <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>{it}
                   </li>
@@ -258,7 +258,7 @@ export default function T1Reclamaciones() {
                   </div>
                   <div className="overflow-hidden rounded-[10px] border border-black/[0.06]">
                     <div className="grid gap-2 bg-[#FAFAF9] px-3 py-2" style={{ gridTemplateColumns: TABLE_COLS }}>
-                      {["Disputa", "Monto", "Motivo", "Procesador", "Plazo", "Estado"].map((h) => (<span key={h} className="text-[10px] font-medium text-black/50">{h}</span>))}
+                      {["Disputa", "Monto", "Motivo", "Canal", "Plazo", "Estado"].map((h) => (<span key={h} className="text-[10px] font-medium text-black/50">{h}</span>))}
                     </div>
                     {TABLE_ROWS.map((r, i, arr) => (
                       <div key={r.id} className="grid items-center gap-2 px-3 py-2.5 transition-colors duration-150 hover:bg-[#FAFAF9]" style={{ gridTemplateColumns: TABLE_COLS, borderBottom: i === arr.length - 1 ? "none" : "1px solid rgba(0,0,0,0.05)" }}>
@@ -283,8 +283,8 @@ export default function T1Reclamaciones() {
         <div aria-hidden className="pointer-events-none absolute top-0 left-1/2 h-[360px] w-[680px] -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(ellipse at center, rgba(219,59,43,0.12) 0%, transparent 64%)", filter: "blur(44px)" }} />
         <div className="relative mx-auto max-w-[760px]">
           <div data-modal-animate className="text-center" style={{ marginBottom: 56 }}>
-            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[40px] lg:text-[46px]" style={{ letterSpacing: "-1.3px", lineHeight: 1.1, marginBottom: 14 }}>¿Cómo resolvemos cada disputa?</h2>
-            <p className="font-inter text-[16px] font-light text-white/55 tablet:text-[18px]" style={{ lineHeight: 1.5 }}>De la notificación a la resolución, sin perder un plazo.</p>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[40px] lg:text-[46px]" style={{ letterSpacing: "-1.3px", lineHeight: 1.1, marginBottom: 14 }}>Cómo gestionas una disputa en T1</h2>
+            <p className="font-inter text-[16px] font-light text-white/55 tablet:text-[18px]" style={{ lineHeight: 1.5 }}>De la notificación a la resolución, con evidencia, plazos y seguimiento en un solo lugar.</p>
           </div>
           <div className="relative">
             <div aria-hidden className="absolute left-[19px] top-2 bottom-2 w-px" style={{ background: "linear-gradient(180deg, rgba(219,59,43,0.5) 0%, rgba(255,255,255,0.08) 100%)" }} />
@@ -315,7 +315,7 @@ export default function T1Reclamaciones() {
                   <span className="rounded-full bg-[rgba(245,158,11,0.12)] px-2.5 py-1 text-[11px] font-semibold text-[#B45309]">Abierta</span>
                 </div>
                 <div className="grid grid-cols-2 gap-x-5 gap-y-4" style={{ marginBottom: 18 }}>
-                  {([["Monto", "$3,450.00"], ["Procesador", "Stripe"], ["Motivo", "Producto no recibido"], ["Plazo", "5 días"]] as [string, string][]).map(([l, v]) => (
+                  {([["Monto", "$3,450.00"], ["Canal", "Checkout"], ["Motivo", "Producto no recibido"], ["Plazo", "5 días"]] as [string, string][]).map(([l, v]) => (
                     <div key={l}><p className="text-[12px] text-black/45" style={{ marginBottom: 2 }}>{l}</p><p className="text-[14px] text-black/80">{v}</p></div>
                   ))}
                 </div>
@@ -381,7 +381,7 @@ export default function T1Reclamaciones() {
 
             <div className="order-1 tablet:order-2">
               <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[46px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>Responde con evidencia completa.</h2>
-              <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>Adjunta comprobantes, facturas y capturas de tracking directamente desde T1. Todo queda vinculado a la disputa.</p>
+              <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>Responde fácilmente, sin correos o llamadas. Adjunta comprobantes, facturas y capturas de guías directamente desde T1. Todo queda vinculado a la disputa.</p>
               <ul className="flex flex-col gap-2.5">
                 {["Sube evidencia sin salir del panel", "Historial completo de cada caso", "Notificación inmediata de resolución"].map((it) => (
                   <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
