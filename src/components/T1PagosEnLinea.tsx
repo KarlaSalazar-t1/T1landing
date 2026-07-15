@@ -888,19 +888,22 @@ export default function T1PagosEnLinea() {
             <div
               ref={incRef}
               onScroll={onIncScroll}
-              className="-mx-5 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pt-10 pb-2 tablet:mx-0 tablet:justify-center tablet:px-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+              className="-mx-5 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pt-24 pb-2 tablet:mx-0 tablet:justify-center tablet:px-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
               style={{ scrollPaddingLeft: 4, scrollPaddingRight: 4 }}
             >
               {[
-                { title: "Links de pago", desc: "Cobra compartiendo un enlace por WhatsApp o redes, sin montar una tienda.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1 M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
-                { title: "Dashboard en vivo", desc: "Aprobación, conversión y liquidaciones en tiempo real desde un panel claro.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M3 21h18" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" /><rect x="5" y="12" width="3.5" height="7" rx="1" stroke="#FFFFFF" strokeWidth="1.6" /><rect x="10.5" y="8" width="3.5" height="11" rx="1" stroke="#FFFFFF" strokeWidth="1.6" /><rect x="16" y="4" width="3.5" height="15" rx="1" stroke="#FFFFFF" strokeWidth="1.6" /></svg>) },
-                { title: "Módulo de contracargos", desc: "Gestiona disputas y contracargos desde el panel, con evidencia lista para ganar más casos.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2" stroke="#FFFFFF" strokeWidth="1.6" /><path d="M8 12h5a3 3 0 0 1 0 6h-1" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /><path d="M9 15l-2-3 2-3" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+                { title: "Links de pago", desc: "Cobra compartiendo un enlace por WhatsApp o redes, sin montar una tienda.", img: "/img/links-de-pago-v2.png" },
+                { title: "Dashboard en vivo", desc: "Aprobación, conversión y liquidaciones en tiempo real desde un panel claro.", img: "/img/dashboard-pagos.png" },
+                { title: "Módulo de contracargos", desc: "Gestiona disputas y contracargos desde el panel, con evidencia lista para ganar más casos.", img: "/img/contracargos-db-v2.png" },
               ].map((f) => (
-                <div key={f.title} className="incluye-card flex w-[78vw] max-w-[300px] shrink-0 snap-start flex-col rounded-[18px] border border-white/[0.08] bg-white/[0.03] tablet:w-[300px] tablet:max-w-none" style={{ boxShadow: "0 26px 60px -28px rgba(0,0,0,0.8)" }}>
-                  <div className="relative" style={{ height: 34 }}>
-                    <div className="absolute left-6 flex h-[56px] w-[56px] items-center justify-center rounded-[16px] border border-white/10" style={{ top: -28, background: "linear-gradient(135deg, #DB3B2B 0%, #FF6F5E 100%)", boxShadow: "0 14px 30px -8px rgba(219,59,43,0.6)" }}>{f.icon}</div>
+                <div key={f.title} className="incluye-card flex w-[80vw] max-w-[320px] shrink-0 snap-start flex-col rounded-[18px] border border-white/[0.08] bg-white/[0.03] tablet:w-[300px] tablet:max-w-none" style={{ boxShadow: "0 26px 60px -28px rgba(0,0,0,0.8)" }}>
+                  {/* Imagen que sobresale del borde superior */}
+                  <div className="relative" style={{ height: 118 }}>
+                    <div className="absolute left-1/2 -translate-x-1/2" style={{ top: -56, width: "94%", height: 196 }}>
+                      <Image src={f.img} alt={f.title} fill className="pointer-events-none object-contain" style={{ objectPosition: "center top", filter: "drop-shadow(0 22px 34px rgba(0,0,0,0.6))" }} sizes="300px" />
+                    </div>
                   </div>
-                  <div className="px-6 pb-7 pt-4">
+                  <div className="px-6 pb-7 pt-1">
                     <h3 className="font-sora text-[18px] font-normal text-white" style={{ marginBottom: 8, letterSpacing: "-0.3px" }}>{f.title}</h3>
                     <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.6 }}>{f.desc}</p>
                   </div>

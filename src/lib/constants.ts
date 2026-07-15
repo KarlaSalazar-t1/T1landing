@@ -44,7 +44,7 @@ export const MEGA_MENU_COLUMNS = [
     items: [
       { title: "Pagos en línea", desc: "Tarjetas, transferencias y efectivo", href: "/productos/t1pagos/pagos-en-linea" },
       { title: "Links de pago", desc: "Cobra compartiendo un enlace", href: "/productos/t1pagos/links-de-pago" },
-      { title: "Enrutamiento de pagos", desc: "Mayor aprobación entre procesadores", href: "/productos/t1pagos/enrutamiento" },
+      { title: "Reclamaciones", desc: "Gestiona disputas y chargebacks", href: "/productos/t1pagos/reclamaciones" },
     ],
   },
   {
