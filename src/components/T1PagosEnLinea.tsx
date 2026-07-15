@@ -141,7 +141,7 @@ function TypScreen({ order = "#9803890", total = "$1,345.99", label = "origenmx.
     <div className="flex h-full flex-col bg-white" style={{ animation: "fadeSlideIn 0.4s ease-out both" }}>
       <BrowserBar url={label} />
       <div className="flex flex-1 flex-col items-center justify-center px-5">
-        <span className="flex h-[54px] w-[54px] items-center justify-center rounded-full bg-[#16A34A]" style={{ marginBottom: 14, animation: "floatPop 0.5s ease-out both" }}>
+        <span className="flex h-[54px] w-[54px] items-center justify-center rounded-full bg-[#16A34A]" style={{ marginBottom: 14, animation: "checkPop 0.5s cubic-bezier(0.16,1,0.3,1) both" }}>
           <svg width="26" height="26" viewBox="0 0 16 16" fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
         </span>
         <p className="font-sora text-[17px] font-semibold text-black">¡Gracias por tu compra!</p>
@@ -184,22 +184,48 @@ function TiendaFlow() {
       )}
       {p === 1 && (
         <div className="flex h-full flex-col bg-white pt-5">
-          <BrowserBar url="origenmx.com/checkout" />
-          <div className="flex flex-1 flex-col px-4 py-4">
-            <p className="font-inter text-[10px] font-semibold uppercase tracking-wider text-black/40" style={{ marginBottom: 8 }}>Datos de envío</p>
-            {[["Nombre", "Ana López"], ["Correo", "ana.lopez@correo.com"], ["Dirección", "Av. Reforma 210, CDMX"]].map(([l, v]) => (
-              <div key={l} className="flex items-center rounded-[9px] border border-black/[0.10] px-3" style={{ height: 36, marginBottom: 8 }}><span className="font-inter text-[11px] text-black/70">{v}</span></div>
-            ))}
-            <div className="mt-1 flex items-center gap-2 rounded-[9px] border px-3 py-2" style={{ borderColor: "rgba(219,59,43,0.4)" }}>
-              <span className="flex h-[14px] w-[14px] shrink-0 items-center justify-center rounded-full border border-[#DB3B2B]"><span className="h-[7px] w-[7px] rounded-full bg-[#DB3B2B]" /></span>
-              <span className="flex-1 font-inter text-[11px] text-black/75">Visa ••4242</span>
-              <img src="/img/icons/visa.svg" alt="" style={{ height: 13, width: "auto" }} />
+          {/* header tienda */}
+          <div className="flex items-center justify-between border-b border-black/[0.06] px-4 py-2.5">
+            <span className="font-sora text-[13px] font-extrabold text-[#DB3B2B]">Chicos Olé</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 6h15l-1.5 9h-12z M6 6L5 3H2 M9 20a1 1 0 100-2 1 1 0 000 2z M18 20a1 1 0 100-2 1 1 0 000 2z" stroke="rgba(0,0,0,0.5)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+          </div>
+          <div className="flex flex-1 flex-col overflow-hidden px-4 py-3">
+            <div className="flex items-center justify-between" style={{ marginBottom: 12 }}>
+              <span className="font-inter text-[12px] font-semibold text-black">Resumen de pedido</span>
+              <span className="font-sora text-[15px] font-bold text-black">$1,235.99</span>
             </div>
-            <div className="relative mt-auto flex h-[46px] items-center justify-center overflow-hidden rounded-[12px] bg-[#2563EB] font-inter text-[13px] font-semibold text-white">Pagar $1,345.99<Ripple /></div>
+            <p className="text-center font-inter text-[10px] text-black/45" style={{ marginBottom: 6 }}>Pago exprés</p>
+            <div className="flex gap-2" style={{ marginBottom: 14 }}>
+              <div className="flex h-[38px] flex-1 items-center justify-center gap-1 rounded-[9px] bg-[#DB3B2B] font-inter text-[12px] font-semibold text-white">Paga con T1</div>
+              <div className="flex h-[38px] flex-1 items-center justify-center rounded-[9px] font-sora text-[13px] font-bold" style={{ background: "#FFC43A" }}><span style={{ color: "#253B80" }}>Pay</span><span style={{ color: "#179BD7" }}>Pal</span></div>
+            </div>
+            <p className="font-sora text-[12px] font-bold text-black" style={{ marginBottom: 8 }}>Información de contacto</p>
+            <div className="flex items-center gap-2" style={{ marginBottom: 14 }}>
+              <span className="flex h-[26px] w-[26px] items-center justify-center rounded-full bg-black font-sora text-[9px] font-bold text-white">LC</span>
+              <span className="font-inter text-[11px] text-black/70">luiscervantes@gmail.com</span>
+            </div>
+            <p className="font-sora text-[12px] font-bold text-black" style={{ marginBottom: 8 }}>Entrega</p>
+            <div className="overflow-hidden rounded-[9px] border border-black/[0.10]" style={{ marginBottom: 14 }}>
+              <div className="flex items-center gap-2 border-b border-black/[0.06] px-3 py-2.5">
+                <span className="flex h-[14px] w-[14px] shrink-0 items-center justify-center rounded-full border-2 border-black"><span className="h-[6px] w-[6px] rounded-full bg-black" /></span>
+                <span className="font-inter text-[11px] text-black/80">Envío a domicilio</span>
+              </div>
+              <div className="flex items-center gap-2 px-3 py-2.5">
+                <span className="h-[14px] w-[14px] shrink-0 rounded-full border border-black/25" />
+                <span className="font-inter text-[11px] text-black/55">Recoger en tienda</span>
+              </div>
+            </div>
+            <p className="font-sora text-[12px] font-bold text-black" style={{ marginBottom: 8 }}>Método de pago</p>
+            <div className="flex items-center gap-2 rounded-[9px] border px-3 py-2.5" style={{ borderColor: "rgba(219,59,43,0.4)" }}>
+              <span className="flex h-[14px] w-[14px] shrink-0 items-center justify-center rounded-full border border-[#DB3B2B]"><span className="h-[7px] w-[7px] rounded-full bg-[#DB3B2B]" /></span>
+              <span className="flex-1 font-inter text-[11px] text-black/75">Tarjeta ••1234</span>
+              <img src="/img/icons/visa.svg" alt="" style={{ height: 12, width: "auto" }} />
+            </div>
+            <div className="relative mt-auto flex h-[44px] items-center justify-center overflow-hidden rounded-[11px] bg-[#DB3B2B] font-inter text-[13px] font-semibold text-white">Pagar<Ripple /></div>
           </div>
         </div>
       )}
-      {p === 2 && <TypScreen order="#9803890" total="$1,345.99" label="origenmx.com" />}
+      {p === 2 && <TypScreen order="#9803890" total="$1,235.99" label="chicosole.com" />}
     </div>
   );
 }
@@ -245,18 +271,37 @@ function LinkFlow() {
       )}
       {p === 1 && (
         <div className="flex h-full flex-col bg-white pt-5">
-          <BrowserBar url="t1.mx/p/x9k2f" />
-          <div className="flex flex-1 flex-col items-center px-4 py-4">
-            <span className="flex h-[36px] w-[36px] items-center justify-center rounded-full bg-[#DB3B2B] font-sora text-[13px] font-bold text-white" style={{ marginBottom: 8 }}>O</span>
-            <p className="font-inter text-[11px] text-black/50">Origen MX</p>
-            <p className="font-inter text-[12px] font-medium text-black">Anualidad 2025</p>
-            <p className="font-sora text-[30px] font-light text-black" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, marginTop: 4, marginBottom: 14 }}>$999.00</p>
-            <div className="flex w-full items-center gap-2 rounded-[9px] border px-3 py-2" style={{ borderColor: "rgba(219,59,43,0.4)", marginBottom: "auto" }}>
-              <span className="flex h-[14px] w-[14px] shrink-0 items-center justify-center rounded-full border border-[#DB3B2B]"><span className="h-[7px] w-[7px] rounded-full bg-[#DB3B2B]" /></span>
-              <span className="flex-1 font-inter text-[11px] text-black/75">Visa ••4242</span>
-              <img src="/img/icons/visa.svg" alt="" style={{ height: 13, width: "auto" }} />
+          <div className="flex items-center justify-between px-4 py-3">
+            <span className="font-sora text-[15px] font-bold text-black/80">LOGO</span>
+            <span className="flex items-center gap-1 font-inter text-[11px] font-semibold text-black/70">Ver detalle<svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
+          </div>
+          <div className="flex flex-1 flex-col px-4 pb-4">
+            <div className="border-b border-black/[0.06] pb-3 text-center">
+              <p className="font-inter text-[12px] text-black/60">Anualidad 2025</p>
+              <p className="font-sora text-[30px] font-light text-black" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, marginTop: 2 }}>$999.00</p>
             </div>
-            <div className="relative mt-3 flex h-[46px] w-full items-center justify-center overflow-hidden rounded-[12px] bg-[#2563EB] font-inter text-[13px] font-semibold text-white">Pagar $999.00<Ripple /></div>
+            <p className="font-sora text-[12px] font-semibold text-black" style={{ marginTop: 14, marginBottom: 8 }}>Información de contacto</p>
+            <div className="flex items-center rounded-[9px] border border-black/[0.12] px-3" style={{ height: 38, marginBottom: 8 }}><span className="font-inter text-[11px] text-black/40">Correo electrónico</span></div>
+            <div className="flex items-center gap-2 rounded-[9px] border border-black/[0.12] px-3" style={{ height: 38 }}>
+              <span className="flex items-center gap-1 border-r border-black/10 pr-2 font-inter text-[11px] text-black/60">🇲🇽<svg width="9" height="9" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
+              <span className="font-inter text-[11px] text-black/40">Número celular</span>
+            </div>
+            <p className="font-sora text-[12px] font-semibold text-black" style={{ marginTop: 14, marginBottom: 8 }}>Método de pago</p>
+            <div className="overflow-hidden rounded-[9px] border border-black/[0.12]">
+              <div className="flex items-center gap-2 border-b border-black/[0.06] px-3 py-2.5">
+                <span className="flex h-[14px] w-[14px] shrink-0 items-center justify-center rounded-full border border-[#DB3B2B]"><span className="h-[7px] w-[7px] rounded-full bg-[#DB3B2B]" /></span>
+                <span className="flex-1 font-inter text-[11px] text-black/75">Tarjetas de crédito o débito</span>
+                <img src="/img/icons/visa.svg" alt="" style={{ height: 11 }} />
+                <img src="/img/icons/mastercard.svg" alt="" style={{ height: 14 }} />
+                <img src="/img/icons/amex.svg" alt="" style={{ height: 13 }} />
+              </div>
+              <div className="flex items-center gap-2 px-3 py-2.5">
+                <span className="h-[14px] w-[14px] shrink-0 rounded-full border border-black/25" />
+                <span className="flex-1 font-inter text-[11px] text-black/55">Transferencia bancaria</span>
+                <img src="/img/icons/spei.svg" alt="" style={{ height: 11 }} />
+              </div>
+            </div>
+            <div className="relative mt-auto flex h-[46px] w-full items-center justify-center overflow-hidden rounded-[12px] bg-[#DB3B2B] font-inter text-[13px] font-semibold text-white">Pagar<Ripple /></div>
           </div>
         </div>
       )}
@@ -291,39 +336,65 @@ function PagaT1Flow() {
       )}
       {p === 1 && (
         <div className="flex h-full flex-col bg-white pt-5">
-          <BrowserBar url="t1.mx/login" />
-          <div className="flex flex-1 flex-col items-center px-4 py-6">
-            <span className="flex h-[42px] w-[42px] items-center justify-center rounded-[12px] bg-[#DB3B2B]" style={{ marginBottom: 14 }}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" fill="#fff" stroke="#fff" strokeWidth="1.2" strokeLinejoin="round" /></svg>
-            </span>
-            <p className="font-sora text-[15px] font-semibold text-black">Inicia sesión en T1</p>
-            <p className="font-inter text-[11px] text-black/50" style={{ marginTop: 4, marginBottom: 16 }}>Paga en un tap con tu cuenta</p>
-            <div className="flex w-full items-center rounded-[9px] border border-black/[0.10] px-3" style={{ height: 38, marginBottom: 8 }}><span className="font-inter text-[11px] text-black/70">ana.lopez@correo.com</span></div>
-            <div className="flex w-full items-center rounded-[9px] border border-black/[0.10] px-3" style={{ height: 38, marginBottom: "auto" }}><span className="font-inter text-[11px] text-black/40">••••••••</span></div>
-            <div className="relative flex h-[46px] w-full items-center justify-center overflow-hidden rounded-[12px] bg-[#DB3B2B] font-inter text-[13px] font-semibold text-white">Continuar<Ripple /></div>
+          <div className="flex items-center justify-center border-b border-black/[0.06] py-3"><span className="font-sora text-[15px] font-extrabold text-[#DB3B2B]">Chicos Olé</span></div>
+          <div className="flex flex-1 flex-col justify-center px-5 py-5">
+            <div className="rounded-[14px] border border-black/[0.08] p-4" style={{ boxShadow: "0 8px 24px rgba(0,0,0,0.06)" }}>
+              <p className="text-center font-sora text-[15px] font-bold text-black" style={{ marginBottom: 14 }}>Confirma que eres tú</p>
+              <div className="flex items-start justify-between gap-2" style={{ marginBottom: 10 }}>
+                <p className="font-inter text-[10.5px] leading-snug text-black/70">luiscervantes@gmail.com,<br />+52 55 11327311</p>
+                <span className="shrink-0 font-inter text-[11px] font-semibold text-black/70">Cambiar</span>
+              </div>
+              <p className="font-inter text-[10.5px] text-black/55" style={{ marginBottom: 12, lineHeight: 1.45 }}>Introduce el código que se envió a tu teléfono para usar la información guardada.</p>
+              <div className="flex justify-between gap-1.5">
+                {["4", "3", "2", "5", "8", "9"].map((d, i) => (
+                  <div key={i} className="flex h-[38px] flex-1 items-center justify-center rounded-[8px] border border-black/[0.15] font-sora text-[16px] font-semibold text-black">{d}</div>
+                ))}
+              </div>
+              <p className="text-center font-inter text-[11px] font-semibold text-black/55" style={{ marginTop: 12 }}>Atrás</p>
+            </div>
           </div>
         </div>
       )}
       {p === 2 && (
         <div className="flex h-full flex-col bg-white pt-5">
-          <BrowserBar url="t1.mx/pay" />
-          <div className="flex flex-1 flex-col px-4 py-4">
-            <div className="flex items-center gap-2" style={{ marginBottom: 14 }}>
-              <span className="flex h-[26px] w-[26px] items-center justify-center rounded-[8px] bg-[#DB3B2B]"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" fill="#fff" stroke="#fff" strokeWidth="1.2" strokeLinejoin="round" /></svg></span>
-              <span className="font-sora text-[13px] font-semibold text-black">Paga con T1</span>
-              <span className="ml-auto font-inter text-[10px] text-black/40">Ana López</span>
+          <div className="flex items-center border-b border-black/[0.06] px-4 py-2.5"><span className="font-sora text-[18px] font-extrabold text-[#DB3B2B]">T1</span></div>
+          <div className="flex flex-1 flex-col px-4 py-3">
+            <div className="flex items-center justify-between" style={{ marginBottom: 10 }}>
+              <div className="flex items-center gap-2">
+                <span className="flex h-[24px] w-[24px] items-center justify-center rounded-full bg-black font-sora text-[9px] font-bold text-white">LC</span>
+                <span className="font-inter text-[11px] text-black/70">luiscervantes@gmail.com</span>
+              </div>
+              <span className="font-inter text-[13px] text-black/40">···</span>
             </div>
-            <p className="font-inter text-[10px] text-black/45">Total a pagar</p>
-            <p className="font-sora text-[28px] font-light text-black" style={{ letterSpacing: "-0.03em", lineHeight: 1, marginTop: 2, marginBottom: 14 }}>$1,345.99</p>
-            <div className="flex items-center gap-2 rounded-[9px] border px-3 py-2" style={{ borderColor: "rgba(219,59,43,0.4)", marginBottom: "auto" }}>
-              <span className="flex h-[14px] w-[14px] shrink-0 items-center justify-center rounded-full border border-[#DB3B2B]"><span className="h-[7px] w-[7px] rounded-full bg-[#DB3B2B]" /></span>
-              <span className="flex-1 font-inter text-[11px] text-black/75">T1 Wallet · Visa ••4242</span>
+            <p className="font-sora text-[13px] font-bold text-black" style={{ marginBottom: 8 }}>Entrega</p>
+            <div className="overflow-hidden rounded-[9px] border border-black/[0.10]" style={{ marginBottom: 10 }}>
+              <div className="flex items-center gap-2 border-b border-black/[0.06] px-3 py-2">
+                <span className="flex h-[13px] w-[13px] shrink-0 items-center justify-center rounded-full border-2 border-black"><span className="h-[5px] w-[5px] rounded-full bg-black" /></span>
+                <span className="font-inter text-[11px] text-black/80">Envío a domicilio</span>
+              </div>
+              <div className="flex items-center gap-2 px-3 py-2">
+                <span className="h-[13px] w-[13px] shrink-0 rounded-full border border-black/25" />
+                <span className="font-inter text-[11px] text-black/55">Recoger en tienda</span>
+              </div>
             </div>
-            <div className="relative flex h-[46px] items-center justify-center overflow-hidden rounded-[12px] bg-[#DB3B2B] font-inter text-[13px] font-semibold text-white">Confirmar pago<Ripple /></div>
+            <div className="border-t border-black/[0.06] py-2">
+              <p className="font-inter text-[10px] text-black/45">Enviar a</p>
+              <p className="truncate font-inter text-[11px] text-black/75">Lago Zurich 34, C.P. 11310, Miguel Hidalgo</p>
+            </div>
+            <div className="border-t border-black/[0.06] py-2">
+              <p className="font-inter text-[10px] text-black/45">Método de envío</p>
+              <p className="font-inter text-[11px] text-black/75">2-3 días hábiles · <span className="font-semibold">Gratis</span></p>
+            </div>
+            <div className="flex items-center gap-2 border-t border-black/[0.06] py-2">
+              <p className="flex-1 font-inter text-[10px] text-black/45">Método de pago</p>
+              <img src="/img/icons/visa.svg" alt="" style={{ height: 12 }} />
+              <span className="font-inter text-[11px] text-black/75">••••4242</span>
+            </div>
+            <div className="relative mt-auto flex h-[46px] items-center justify-center overflow-hidden rounded-[12px] bg-[#DB3B2B] font-inter text-[13px] font-semibold text-white">Pagar ahora<Ripple /></div>
           </div>
         </div>
       )}
-      {p === 3 && <TypScreen order="#9803890" total="$1,345.99" label="origenmx.com" />}
+      {p === 3 && <TypScreen order="#9803890" total="$1,345.99" label="chicosole.com" />}
     </div>
   );
 }
@@ -453,9 +524,6 @@ function PaymentFlowHero() {
         {/* dotted path client → score → your panel */}
         <svg width="520" height="430" viewBox="0 0 520 430" fill="none" style={{ position: "absolute", inset: 0 }}>
           <path d="M108 128 C 108 78, 150 55, 200 35" stroke="rgba(255,255,255,0.4)" strokeWidth="1.2" strokeDasharray="2 5" strokeLinecap="round" />
-          {[{ cx: 108, cy: 128 }, { cx: 158, cy: 73 }, { cx: 200, cy: 35 }].map((d, i) => (
-            <circle key={i} cx={d.cx} cy={d.cy} r="4" fill={phase - 1 === i && chipVisible ? "#fff" : "rgba(255,255,255,0.35)"} stroke={phase - 1 === i ? "rgba(255,255,255,0.9)" : "none"} strokeWidth="2" />
-          ))}
         </svg>
 
         {/* Dashboard — YOUR side (back layer) */}
@@ -601,9 +669,6 @@ export default function T1PagosEnLinea() {
     const target = i >= incPages - 1 ? maxScroll : i * incPageStep();
     el.scrollTo({ left: Math.min(target, maxScroll), behavior: "smooth" });
   }, [incPages]);
-  const scrollInc = useCallback((dir: number) => {
-    incGoTo(Math.max(0, Math.min(incPages - 1, incIdx + dir)));
-  }, [incGoTo, incIdx, incPages]);
   const onIncScroll = () => {
     const el = incRef.current;
     if (!el) return;
@@ -635,16 +700,19 @@ export default function T1PagosEnLinea() {
         <div className="relative mx-auto max-w-[var(--max-w)]">
           <div className="grid grid-cols-1 items-center gap-10 tablet:min-h-[420px] tablet:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] tablet:gap-12">
             <div>
-              <h1 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[60px]" style={{ lineHeight: 1.05, letterSpacing: "-1.7px", marginBottom: 22 }}>
-                Cobra en línea como tu negocio{" "}
+              <h1 className="font-sora text-[32px] font-light text-white tablet:text-[44px] lg:text-[52px]" style={{ lineHeight: 1.08, letterSpacing: "-1.5px", marginBottom: 20 }}>
+                Cobra en línea{" "}
                 <span className="relative inline-block">
-                  merece
+                  fácil, rápido y seguro
                   <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.30)", borderRadius: 5, zIndex: -1 }} />
                 </span>
                 .
               </h1>
-              <p className="font-inter text-[16px] font-light text-white/65 tablet:text-[19px]" style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 460 }}>
-                Acepta tarjetas, transferencias y efectivo en tu checkout. Más aprobación, tu dinero rápido y todo en un panel.
+              <p className="font-inter text-[16px] font-light text-white/65 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 16, maxWidth: 500 }}>
+                Cobra con tarjetas, SPEI, transferencias, efectivo y métodos locales desde un checkout seguro, conectado a tu panel de pagos.
+              </p>
+              <p className="font-inter text-[15px] font-semibold text-white tablet:whitespace-nowrap tablet:text-[16px]" style={{ marginBottom: 32 }}>
+                Un pago perdido es una venta perdida.
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <a href={SIGNUP_URL} className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
@@ -715,14 +783,16 @@ export default function T1PagosEnLinea() {
             <div data-modal-animate className="flex flex-col gap-5">
               <div ref={payRef} className="-mr-5 flex gap-5 overflow-x-auto pb-2 pr-5 tablet:mr-0 tablet:pr-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                 {[
-                  { title: "Más de 10 métodos", desc: "Tarjetas, SPEI, transferencias, wallets y compra ahora paga después.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2" stroke="#111827" strokeWidth="1.6" /><path d="M3 10h18" stroke="#111827" strokeWidth="1.6" /></svg>) },
-                  { title: "Meses sin intereses", desc: "Hasta 18 MSI con todos los bancos, sin comisión extra.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="#111827" strokeWidth="1.6" /><path d="M7 15h2 M12 15h2 M17 15h0" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
-                  { title: "Antifraude T1 Score", desc: "Cada transacción evaluada en menos de 100 ms, con la menor tasa de fraude del mercado.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 6v6c0 5 3.5 8.5 9 10 5.5-1.5 9-5 9-10V6l-9-4z" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round" /><path d="M9 12l2 2 4-4" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+                  { title: "Múltiples métodos de pago", desc: "Tarjetas, SPEI, Kueski y más próximamente.", img: "/img/metodos-pago-v2.png", w: 1163, h: 1024 },
+                  { title: "Meses sin intereses", desc: "Hasta 18 MSI con todos los bancos, sin comisión extra.", img: "/img/msi-v2.png", w: 1176, h: 932 },
+                  { title: "Antifraude T1 Score", desc: "Cada transacción evaluada en menos de 100 ms, con la menor tasa de fraude del mercado.", img: "/img/t1score-v2.png", w: 1044, h: 1024 },
                 ].map((c) => (
-                  <div key={c.title} className="pay-card flex w-[240px] shrink-0 snap-start flex-col rounded-[20px] border border-black/[0.07] bg-white p-7 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
-                    <div className="flex h-[30px] w-[30px] items-center justify-center" style={{ marginBottom: 18 }}>{c.icon}</div>
+                  <div key={c.title} className="pay-card flex w-[260px] shrink-0 snap-start flex-col rounded-[20px] border border-black/[0.07] bg-white p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
                     <h3 className="font-sora text-[19px] font-normal text-black" style={{ marginBottom: 8 }}>{c.title}</h3>
-                    <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.55, minHeight: 63 }}>{c.desc}</p>
+                    <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.55, marginBottom: 18, minHeight: 63 }}>{c.desc}</p>
+                    <div className="mt-auto flex h-[180px] items-center justify-center overflow-hidden rounded-[14px] bg-[#FAFAF9] p-2">
+                      <Image src={c.img} alt={c.title} width={c.w} height={c.h} className="max-h-full w-auto object-contain" sizes="260px" />
+                    </div>
                   </div>
                 ))}
               </div>
@@ -772,8 +842,8 @@ export default function T1PagosEnLinea() {
       {/* ── Cómo funciona ── */}
       <section className="relative bg-[#FBFBFB] px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+          <div data-modal-animate className="mx-auto max-w-[820px] text-center" style={{ marginBottom: 56 }}>
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:whitespace-nowrap lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
               Empieza a cobrar en cuatro pasos
             </h2>
             <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
@@ -821,7 +891,7 @@ export default function T1PagosEnLinea() {
               {[
                 { title: "Links de pago", desc: "Cobra compartiendo un enlace por WhatsApp o redes, sin montar una tienda.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1 M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
                 { title: "Dashboard en vivo", desc: "Aprobación, conversión y liquidaciones en tiempo real desde un panel claro.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M3 21h18" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" /><rect x="5" y="12" width="3.5" height="7" rx="1" stroke="#FFFFFF" strokeWidth="1.6" /><rect x="10.5" y="8" width="3.5" height="11" rx="1" stroke="#FFFFFF" strokeWidth="1.6" /><rect x="16" y="4" width="3.5" height="15" rx="1" stroke="#FFFFFF" strokeWidth="1.6" /></svg>) },
-                { title: "Plugins y API", desc: "Shopify, WooCommerce, VTEX y Magento, además de nuestra API REST y SDKs.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M16 18l6-6-6-6 M8 6l-6 6 6 6" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+                { title: "Módulo de contracargos", desc: "Gestiona disputas y contracargos desde el panel, con evidencia lista para ganar más casos.", icon: (<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2" stroke="#FFFFFF" strokeWidth="1.6" /><path d="M8 12h5a3 3 0 0 1 0 6h-1" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /><path d="M9 15l-2-3 2-3" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
               ].map((f) => (
                 <div key={f.title} className="incluye-card flex w-[78vw] max-w-[300px] shrink-0 snap-start flex-col rounded-[18px] border border-white/[0.08] bg-white/[0.03] tablet:w-[300px] tablet:max-w-none" style={{ boxShadow: "0 26px 60px -28px rgba(0,0,0,0.8)" }}>
                   <div className="relative" style={{ height: 34 }}>
@@ -834,18 +904,10 @@ export default function T1PagosEnLinea() {
                 </div>
               ))}
             </div>
-            <div className="mt-8 flex items-center justify-center gap-4">
-              <button type="button" onClick={() => scrollInc(-1)} aria-label="Anterior" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/70 transition-colors hover:border-white/30 hover:text-white">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
-              </button>
-              <div className="flex items-center gap-2">
-                {Array.from({ length: incPages }, (_, i) => i).map((i) => (
-                  <button key={i} type="button" onClick={() => incGoTo(i)} aria-label={`Ir a la tarjeta ${i + 1}`} className="cursor-pointer rounded-full border-none p-0 transition-all duration-200" style={{ width: incIdx === i ? 22 : 8, height: 8, background: incIdx === i ? "#DB3B2B" : "rgba(255,255,255,0.22)" }} />
-                ))}
-              </div>
-              <button type="button" onClick={() => scrollInc(1)} aria-label="Siguiente" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/70 transition-colors hover:border-white/30 hover:text-white">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
-              </button>
+            <div className="mt-8 flex items-center justify-center gap-2 tablet:hidden">
+              {Array.from({ length: incPages }, (_, i) => i).map((i) => (
+                <button key={i} type="button" onClick={() => incGoTo(i)} aria-label={`Ir a la tarjeta ${i + 1}`} className="cursor-pointer rounded-full border-none p-0 transition-all duration-200" style={{ width: incIdx === i ? 22 : 8, height: 8, background: incIdx === i ? "#DB3B2B" : "rgba(255,255,255,0.22)" }} />
+              ))}
             </div>
           </div>
         </section>

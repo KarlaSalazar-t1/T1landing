@@ -474,17 +474,17 @@ function LinksListPanel() {
 
 /* ── "Cobrar con un link" — dark animated stepper with monto/productos chips ── */
 const PAY_LOGOS: { type: "img" | "carnet"; src?: string; h?: number; alt?: string }[] = [
-  { type: "img", src: "/img/icons/visa.svg", h: 13, alt: "Visa" },
-  { type: "img", src: "/img/icons/mastercard.svg", h: 18, alt: "Mastercard" },
-  { type: "img", src: "/img/icons/amex.svg", h: 16, alt: "Amex" },
+  { type: "img", src: "/img/icons/visa.svg", h: 26, alt: "Visa" },
+  { type: "img", src: "/img/icons/mastercard.svg", h: 26, alt: "Mastercard" },
+  { type: "img", src: "/img/icons/amex.svg", h: 26, alt: "Amex" },
   { type: "carnet" },
-  { type: "img", src: "/img/icons/spei.svg", h: 12, alt: "SPEI" },
-  { type: "img", src: "/img/icons/kueski.svg", h: 13, alt: "Kueski" },
+  { type: "img", src: "/img/icons/spei.svg", h: 18, alt: "SPEI" },
+  { type: "img", src: "/img/icons/kueski.svg", h: 19, alt: "Kueski" },
 ];
 
 function PayLogo({ l }: { l: (typeof PAY_LOGOS)[number] }) {
-  if (l.type === "carnet") return <span className="font-sora text-[11px] font-extrabold text-[#E10E0E]">Carnet</span>;
-  return <Image src={l.src!} alt={l.alt || ""} width={28} height={l.h} className="w-auto object-contain" style={{ height: l.h }} />;
+  if (l.type === "carnet") return <span className="font-sora text-[15px] font-extrabold text-[#E10E0E]">Carnet</span>;
+  return <Image src={l.src!} alt={l.alt || ""} width={44} height={l.h} className="w-auto object-contain" style={{ height: l.h }} />;
 }
 
 function PayScreen({ mode }: { mode: number }) {
@@ -651,9 +651,6 @@ export default function T1LinksDePago() {
     const target = i >= incPages - 1 ? maxScroll : i * incPageStep();
     el.scrollTo({ left: Math.min(target, maxScroll), behavior: "smooth" });
   }, [incPages]);
-  const scrollInc = useCallback((dir: number) => {
-    incGoTo(Math.max(0, Math.min(incPages - 1, incIdx + dir)));
-  }, [incGoTo, incIdx, incPages]);
   const onIncScroll = () => {
     const el = incluyeRef.current;
     if (!el) return;
@@ -757,11 +754,11 @@ export default function T1LinksDePago() {
                   { title: "Personaliza el link", desc: "Agrega concepto, foto y elige los métodos de pago que quieras aceptar.", img: "/img/personaliza-link.png", w: 1021, h: 1024 },
                   { title: "Reglas del cobro", desc: "Define límite de usos, vencimiento y qué datos pedir a tu cliente al pagar.", img: "/img/reglas-link.png", w: 966, h: 1024 },
                 ].map((c) => (
-                  <div key={c.title} className="crealink-card flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-black/[0.07] bg-white p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
+                  <div key={c.title} className="crealink-card flex w-[280px] shrink-0 snap-start flex-col rounded-[20px] border border-black/[0.07] bg-white p-6 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
                     <h3 className="font-sora text-[19px] font-normal text-black" style={{ marginBottom: 8 }}>{c.title}</h3>
-                    <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.55, marginBottom: 20, minHeight: 63 }}>{c.desc}</p>
-                    <div className="mt-auto flex h-[168px] items-center justify-center overflow-hidden rounded-[14px] border border-black/[0.05] bg-[#FAFAF9] p-3">
-                      <Image src={c.img} alt={c.title} width={c.w} height={c.h} className="max-h-full w-auto object-contain" sizes="270px" />
+                    <p className="font-inter text-[14px] font-light text-black/55" style={{ lineHeight: 1.55, marginBottom: 16, minHeight: 63 }}>{c.desc}</p>
+                    <div className="mt-auto flex h-[210px] items-center justify-center">
+                      <Image src={c.img} alt={c.title} width={c.w} height={c.h} className="max-h-full w-auto object-contain" sizes="300px" />
                     </div>
                   </div>
                 ))}
@@ -783,27 +780,27 @@ export default function T1LinksDePago() {
       {/* ── Acepta múltiples formas de pago — logos flotando estilo "Con T1, olvídate de todo esto" ── */}
       <section className="relative flex min-h-[520px] items-center overflow-hidden bg-white px-5 py-24 tablet:min-h-[560px] tablet:px-10 tablet:py-32">
         <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" style={{ width: 600, height: 600, borderRadius: "50%", background: "radial-gradient(circle, rgba(219,59,43,0.06) 0%, transparent 62%)" }} />
-        {/* DESKTOP scatter */}
+        {/* DESKTOP scatter — más cerca del texto */}
         {[
-          { i: 0, l: "10%", t: "22%", r: -8 }, { i: 2, l: "9%", t: "50%", r: -5 }, { i: 1, l: "20%", t: "76%", r: 6 },
-          { i: 3, l: "90%", t: "24%", r: 8 }, { i: 5, l: "91%", t: "50%", r: 5 }, { i: 4, l: "80%", t: "74%", r: -6 },
+          { i: 0, l: "27%", t: "26%", r: -8 }, { i: 2, l: "21%", t: "52%", r: -5 }, { i: 1, l: "30%", t: "78%", r: 6 },
+          { i: 3, l: "73%", t: "26%", r: 8 }, { i: 5, l: "79%", t: "52%", r: 5 }, { i: 4, l: "70%", t: "78%", r: -6 },
         ].map(({ i, l, t, r }) => (
-          <div key={`d-${i}`} className="pointer-events-none absolute hidden -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-[14px] border border-black/[0.06] bg-white tablet:flex" style={{ left: l, top: t, height: 54, minWidth: 82, paddingLeft: 16, paddingRight: 16, transform: `translate(-50%, -50%) rotate(${r}deg)`, boxShadow: "0 10px 28px rgba(0,0,0,0.10)" }}>
+          <div key={`d-${i}`} className="pointer-events-none absolute hidden -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-[14px] border border-black/[0.06] bg-white tablet:flex" style={{ left: l, top: t, height: 62, minWidth: 96, paddingLeft: 18, paddingRight: 18, transform: `translate(-50%, -50%) rotate(${r}deg)`, boxShadow: "0 10px 28px rgba(0,0,0,0.10)" }}>
             <PayLogo l={PAY_LOGOS[i]} />
           </div>
         ))}
         {/* MOBILE scatter — bandas superior e inferior */}
         {[
-          { i: 0, l: "16%", t: "10%", r: -8 }, { i: 2, l: "50%", t: "7%", r: 5 }, { i: 4, l: "84%", t: "11%", r: 8 },
-          { i: 1, l: "16%", t: "90%", r: 7 }, { i: 3, l: "50%", t: "93%", r: -6 }, { i: 5, l: "84%", t: "89%", r: 6 },
+          { i: 0, l: "18%", t: "11%", r: -8 }, { i: 2, l: "50%", t: "8%", r: 5 }, { i: 4, l: "82%", t: "12%", r: 8 },
+          { i: 1, l: "18%", t: "89%", r: 7 }, { i: 3, l: "50%", t: "92%", r: -6 }, { i: 5, l: "82%", t: "88%", r: 6 },
         ].map(({ i, l, t, r }) => (
-          <div key={`m-${i}`} className="pointer-events-none absolute flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-[12px] border border-black/[0.06] bg-white tablet:hidden" style={{ left: l, top: t, height: 46, minWidth: 66, paddingLeft: 12, paddingRight: 12, transform: `translate(-50%, -50%) rotate(${r}deg)`, boxShadow: "0 8px 20px rgba(0,0,0,0.10)" }}>
+          <div key={`m-${i}`} className="pointer-events-none absolute flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-[12px] border border-black/[0.06] bg-white tablet:hidden" style={{ left: l, top: t, height: 52, minWidth: 74, paddingLeft: 12, paddingRight: 12, transform: `translate(-50%, -50%) rotate(${r}deg)`, boxShadow: "0 8px 20px rgba(0,0,0,0.10)" }}>
             <PayLogo l={PAY_LOGOS[i]} />
           </div>
         ))}
         {/* centered copy */}
-        <div className="relative mx-auto max-w-[600px] text-center">
-          <h2 className="font-sora text-[26px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+        <div className="relative mx-auto max-w-[640px] text-center">
+          <h2 className="font-sora text-[26px] font-light text-black tablet:text-[36px] lg:whitespace-nowrap lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
             Acepta múltiples formas de pago
           </h2>
           <p className="mx-auto font-inter text-[15px] font-light text-black/60 tablet:text-[17px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 480 }}>
@@ -820,10 +817,10 @@ export default function T1LinksDePago() {
       <section className="relative bg-white px-5 pt-12 pb-8 tablet:px-10 tablet:pt-16 tablet:pb-10">
         <div data-modal-animate className="mx-auto max-w-[760px] text-center">
           <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.4px", lineHeight: 1.1, marginBottom: 16 }}>
-            Comparte y cobra al instante.
+            Del link al pago, en segundos.
           </h2>
           <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[19px]" style={{ lineHeight: 1.5 }}>
-            Comparte tu link por WhatsApp o redes y recibe el pago en tu cuenta.
+            Comparte, cobra y da seguimiento a cada link, todo desde tu teléfono.
           </p>
         </div>
       </section>
@@ -839,19 +836,11 @@ export default function T1LinksDePago() {
               </div>
               <div className="order-1 tablet:order-2">
                 <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
-                  Compártelo por donde quieras
+                  Comparte y cobra al instante.
                 </h3>
-                <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                  WhatsApp, redes, correo o un QR para cobrar en persona. Tu cliente paga sin salir de la conversación.
+                <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6 }}>
+                  Comparte tu link por WhatsApp o redes y recibe el pago en tu cuenta.
                 </p>
-                <ul className="flex flex-col gap-2.5">
-                  {["WhatsApp, redes sociales, correo y SMS", "Tu cliente paga sin salir de la conversación", "Reutiliza el link o úsalo una sola vez"].map((it) => (
-                    <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                      {it}
-                    </li>
-                  ))}
-                </ul>
               </div>
             </div>
           </div>
@@ -944,19 +933,11 @@ export default function T1LinksDePago() {
             ))}
           </div>
 
-          {/* Controles — flechas + dots centrados abajo */}
-          <div className="mt-8 flex items-center justify-center gap-4">
-            <button type="button" onClick={() => scrollInc(-1)} aria-label="Anterior" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/70 transition-colors hover:border-white/30 hover:text-white">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            </button>
-            <div className="flex items-center gap-2">
-              {Array.from({ length: incPages }, (_, i) => i).map((i) => (
-                <button key={i} type="button" onClick={() => incGoTo(i)} aria-label={`Ir a la tarjeta ${i + 1}`} className="cursor-pointer rounded-full border-none p-0 transition-all duration-200" style={{ width: incIdx === i ? 22 : 8, height: 8, background: incIdx === i ? "#DB3B2B" : "rgba(255,255,255,0.22)" }} />
-              ))}
-            </div>
-            <button type="button" onClick={() => scrollInc(1)} aria-label="Siguiente" className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/70 transition-colors hover:border-white/30 hover:text-white">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            </button>
+          {/* Dots (solo responsive) */}
+          <div className="mt-8 flex items-center justify-center gap-2 tablet:hidden">
+            {Array.from({ length: incPages }, (_, i) => i).map((i) => (
+              <button key={i} type="button" onClick={() => incGoTo(i)} aria-label={`Ir a la tarjeta ${i + 1}`} className="cursor-pointer rounded-full border-none p-0 transition-all duration-200" style={{ width: incIdx === i ? 22 : 8, height: 8, background: incIdx === i ? "#DB3B2B" : "rgba(255,255,255,0.22)" }} />
+            ))}
           </div>
         </div>
       </section>

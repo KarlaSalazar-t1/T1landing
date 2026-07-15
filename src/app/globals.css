@@ -947,3 +947,10 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .hero-chip { animation: none !important; opacity: 1 !important; transform: none !important; }
 }
+
+/* Check de la TYP en simulaciones de pago — aparece y se queda */
+@keyframes checkPop {
+  0%   { opacity: 0; transform: scale(0.4); }
+  60%  { opacity: 1; transform: scale(1.12); }
+  100% { opacity: 1; transform: scale(1); }
+}
