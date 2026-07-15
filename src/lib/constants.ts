@@ -52,7 +52,6 @@ export const MEGA_MENU_COLUMNS = [
     items: [
       { title: "Prevención de fraude", desc: "Bloquea fraude en tiempo real", href: "/productos/t1score/prevencion-fraude" },
       { title: "Análisis de riesgo", desc: "Evalúa cada operación al instante", href: "/productos/t1score/analisis-riesgo" },
-      { title: "Evaluación crediticia", desc: "Datos tradicionales y alternativos", href: "/productos/t1score/evaluacion-crediticia" },
     ],
   },
 ];
