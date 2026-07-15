@@ -714,7 +714,7 @@ export default function T1PagosEnLinea() {
               <p className="font-inter text-[16px] font-light text-white/65 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 16, maxWidth: 500 }}>
                 Cobra con tarjetas, SPEI, transferencias, efectivo y métodos locales desde un checkout seguro, conectado a tu panel de pagos.
               </p>
-              <p className="font-inter text-[15px] font-semibold text-white tablet:whitespace-nowrap tablet:text-[16px]" style={{ marginBottom: 32 }}>
+              <p className="whitespace-nowrap font-inter text-[15px] font-semibold text-white tablet:text-[16px]" style={{ marginBottom: 32 }}>
                 Un pago perdido es una venta perdida.
               </p>
               <div className="flex flex-wrap items-center gap-3">
@@ -733,8 +733,8 @@ export default function T1PagosEnLinea() {
       {/* ── Métricas / problema ── */}
       <section className="relative bg-white px-5 pt-10 pb-12 tablet:px-10 tablet:pt-14 tablet:pb-16" data-white-card>
         <div className="mx-auto max-w-[var(--max-w)]">
-          <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 48, animation: "fadeSlideIn 0.6s ease-out both" }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15 }}>
+          <div className="mx-auto max-w-[900px] text-center" style={{ marginBottom: 48, animation: "fadeSlideIn 0.6s ease-out both" }}>
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:whitespace-nowrap lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15 }}>
               Un pago perdido es una venta perdida.
             </h2>
           </div>
