@@ -14,7 +14,13 @@ export const NAV_LINKS = [
 // ── Recursos mega menu ──
 export const RECURSOS_MENU_COLUMNS = [
   { title: "Aprende", items: [{ title: "Blog", desc: "Guías, datos y tendencias", href: BLOG_URL }] },
-  { title: "Soporte", items: [{ title: "Centro de ayuda", desc: "Documentación y soporte", href: "/ayuda" }] },
+  {
+    title: "Soporte",
+    items: [
+      { title: "Centro de ayuda", desc: "Documentación y soporte", href: "/ayuda" },
+      { title: "Página de estatus", desc: "Estado de la plataforma en tiempo real", href: "/estatus" },
+    ],
+  },
   {
     title: "Comunidad",
     items: [
@@ -118,6 +124,7 @@ export const FOOTER_COLUMNS = [
       { label: "Blog", href: BLOG_URL },
       { label: "Centro de ayuda", href: "/ayuda" },
       { label: "Documentación", href: "/documentacion" },
+      { label: "Página de estatus", href: "/estatus" },
     ],
   },
   {
