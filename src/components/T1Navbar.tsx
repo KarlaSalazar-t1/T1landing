@@ -506,19 +506,27 @@ export default function T1Navbar() {
           recursosOpen ? "tablet:block animate-slide-down" : "!hidden"
         }`}
       >
-        <div className="mx-auto grid max-w-[var(--max-w)] grid-cols-4 gap-0 px-6" style={{ paddingTop: 28, paddingBottom: 36 }}>
+        <div className="mx-auto grid max-w-[var(--max-w)] grid-cols-4 gap-0 px-6" style={{ paddingTop: 24, paddingBottom: 32 }}>
           {RECURSOS_MENU_COLUMNS.map((col) => (
             <div key={col.title} className="px-5 first:pl-0">
-              <p className="mb-5 font-inter text-[11px] font-semibold uppercase tracking-[0.08em] text-white/40">
+              <p
+                className="border-b border-white/[0.10] font-inter text-[11px] font-semibold uppercase tracking-[0.08em] text-white/40"
+                style={{ paddingBottom: 16, marginBottom: 20 }}
+              >
                 {col.title}
               </p>
-              <div className="flex flex-col gap-5">
+              <div className="flex flex-col" style={{ gap: 6 }}>
                 {col.items.map((item) => (
-                  <a key={item.title} href={item.href} className="group/item block no-underline">
-                    <span className="block font-inter text-[15px] font-medium text-white transition-colors duration-150 group-hover/item:text-[#FF6F5E]">
+                  <a
+                    key={item.title}
+                    href={item.href}
+                    className="group/item block no-underline"
+                    style={{ paddingTop: 6, paddingBottom: 6 }}
+                  >
+                    <span className="block font-inter text-[12px] font-normal text-white/75 transition-colors duration-150 group-hover/item:text-[#FF6F5E]">
                       {item.title}
                     </span>
-                    <span className="mt-1 block font-inter text-[13px] font-normal text-white/45 transition-colors duration-150 group-hover/item:text-white/65">
+                    <span className="mt-0.5 block font-inter text-[12px] font-normal text-white/40 transition-colors duration-150 group-hover/item:text-white/65">
                       {item.desc}
                     </span>
                   </a>
