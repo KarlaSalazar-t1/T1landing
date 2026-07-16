@@ -1,10 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  FOOTER_SOLUTIONS,
-  FOOTER_COMPANY,
-} from "@/lib/constants";
+import { FOOTER_COLUMNS } from "@/lib/constants";
 
 function T1LogoWhite() {
   return (
@@ -76,8 +73,8 @@ export default function T1Footer() {
           className="grid gap-10 tablet:gap-0"
           style={{ gridTemplateColumns: "1fr", marginBottom: 48 }}
         >
-          {/* Desktop: 3-col grid */}
-          <div className="hidden tablet:grid" style={{ gridTemplateColumns: "1.2fr 1fr 1fr", gap: 40 }}>
+          {/* Desktop: logo + 4 link columns */}
+          <div className="hidden tablet:grid" style={{ gridTemplateColumns: "1.4fr 1fr 1fr 1fr 0.8fr", gap: 40 }}>
             {/* Col 1: Logo + socials */}
             <div>
               <div style={{ marginBottom: 24 }}>
@@ -103,43 +100,26 @@ export default function T1Footer() {
               </div>
             </div>
 
-            {/* Col 2: Soluciones */}
-            <div>
-              <p className="font-inter text-[15px] font-semibold text-white" style={{ marginBottom: 18 }}>
-                Soluciones
-              </p>
-              <ul className="list-none">
-                {FOOTER_SOLUTIONS.map((link) => (
-                  <li key={link.label} style={{ marginBottom: 12 }}>
-                    <a
-                      href={link.href}
-                      className="font-inter text-[14px] text-white/50 no-underline transition-colors hover:text-white"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Col 3: T1 */}
-            <div>
-              <p className="font-inter text-[15px] font-semibold text-white" style={{ marginBottom: 18 }}>
-                T1
-              </p>
-              <ul className="list-none">
-                {FOOTER_COMPANY.map((link) => (
-                  <li key={link.label} style={{ marginBottom: 12 }}>
-                    <a
-                      href={link.href}
-                      className="font-inter text-[14px] text-white/50 no-underline transition-colors hover:text-white"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {/* Link columns */}
+            {FOOTER_COLUMNS.map((col) => (
+              <div key={col.title}>
+                <p className="font-inter text-[15px] font-semibold text-white" style={{ marginBottom: 18 }}>
+                  {col.title}
+                </p>
+                <ul className="list-none">
+                  {col.links.map((link) => (
+                    <li key={link.label} style={{ marginBottom: 12 }}>
+                      <a
+                        href={link.href}
+                        className="font-inter text-[14px] text-white/50 no-underline transition-colors hover:text-white"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
 
           {/* Mobile: stacked layout */}
@@ -169,36 +149,24 @@ export default function T1Footer() {
               </div>
             </div>
 
-            {/* Link columns side by side */}
-            <div className="flex gap-16">
-              <div>
-                <p className="font-inter text-[15px] font-semibold text-white" style={{ marginBottom: 14 }}>
-                  Soluciones
-                </p>
-                <ul className="list-none">
-                  {FOOTER_SOLUTIONS.map((link) => (
-                    <li key={link.label} style={{ marginBottom: 10 }}>
-                      <a href={link.href} className="font-inter text-[14px] text-white/50 no-underline">
-                        {link.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <p className="font-inter text-[15px] font-semibold text-white" style={{ marginBottom: 14 }}>
-                  T1
-                </p>
-                <ul className="list-none">
-                  {FOOTER_COMPANY.map((link) => (
-                    <li key={link.label} style={{ marginBottom: 10 }}>
-                      <a href={link.href} className="font-inter text-[14px] text-white/50 no-underline">
-                        {link.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            {/* Link columns — grid 2×2 */}
+            <div className="grid grid-cols-2 gap-x-10 gap-y-8">
+              {FOOTER_COLUMNS.map((col) => (
+                <div key={col.title}>
+                  <p className="font-inter text-[15px] font-semibold text-white" style={{ marginBottom: 14 }}>
+                    {col.title}
+                  </p>
+                  <ul className="list-none">
+                    {col.links.map((link) => (
+                      <li key={link.label} style={{ marginBottom: 10 }}>
+                        <a href={link.href} className="font-inter text-[14px] text-white/50 no-underline">
+                          {link.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
           </div>
         </div>

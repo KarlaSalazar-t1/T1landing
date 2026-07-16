@@ -8,8 +8,21 @@ export const BLOG_URL = "/blog";
 // ── Navigation ──
 export const NAV_LINKS = [
   { label: "Precios", href: "/precios" },
-  { label: "Clientes", href: CASES_URL },
   { label: "Enterprise", href: SALES_URL },
+];
+
+// ── Recursos mega menu ──
+export const RECURSOS_MENU_COLUMNS = [
+  { title: "Aprende", items: [{ title: "Blog", desc: "Guías, datos y tendencias", href: BLOG_URL }] },
+  { title: "Soporte", items: [{ title: "Centro de ayuda", desc: "Documentación y soporte", href: "/ayuda" }] },
+  {
+    title: "Comunidad",
+    items: [
+      { title: "Historias de éxito", desc: "Negocios que ya crecen con T1", href: CASES_URL },
+      { title: "Partners", desc: "Agencias y expertos que construyen con T1", href: "/partners" },
+    ],
+  },
+  { title: "Contacto", items: [{ title: "Contacta a ventas", desc: "Para grandes empresas y marcas", href: SALES_URL }] },
 ];
 
 // ── Mega Menu ──
@@ -89,17 +102,34 @@ export const HERO_DATA = {
 };
 
 // ── Footer ──
-export const FOOTER_SOLUTIONS = [
-  { label: "T1 Tienda", href: "/productos/t1tienda" },
-  { label: "T1 Pagos", href: "/productos/t1pagos" },
-  { label: "T1 Envíos", href: "/productos/t1envios" },
-  { label: "T1 Score", href: "/productos/t1score" },
-];
-
-export const FOOTER_COMPANY = [
-  { label: "¿Qué es T1?", href: "/por-que-t1" },
-  { label: "Únete a T1", href: SIGNUP_URL },
-  { label: "Casos de éxito", href: CASES_URL },
-  { label: "Blog", href: BLOG_URL },
-  { label: "Contacto", href: SALES_URL },
+export const FOOTER_COLUMNS = [
+  {
+    title: "Productos",
+    links: [
+      { label: "T1 Tienda", href: "/productos/t1tienda" },
+      { label: "T1 Envíos", href: "/productos/t1envios" },
+      { label: "T1 Pagos", href: "/productos/t1pagos" },
+      { label: "Punto de venta", href: "/productos/t1tienda/punto-de-venta" },
+    ],
+  },
+  {
+    title: "Recursos",
+    links: [
+      { label: "Blog", href: BLOG_URL },
+      { label: "Centro de ayuda", href: "/ayuda" },
+      { label: "Documentación", href: "/documentacion" },
+    ],
+  },
+  {
+    title: "Comunidad",
+    links: [
+      { label: "Historias de éxito", href: CASES_URL },
+      { label: "Partners", href: "/partners" },
+      { label: "Careers", href: "/careers" },
+    ],
+  },
+  {
+    title: "T1",
+    links: [{ label: "Sobre T1", href: "/por-que-t1" }],
+  },
 ];

@@ -6,6 +6,7 @@ import {
   MEGA_MENU_COLUMNS,
   MEGA_MENU_SIDEBAR,
   MEGA_MENU_BOTTOM,
+  RECURSOS_MENU_COLUMNS,
   SIGNUP_URL,
   LOGIN_URL,
 } from "@/lib/constants";
@@ -121,13 +122,14 @@ function HamburgerIcon({ open }: { open: boolean }) {
 /* ── Main Component ── */
 export default function T1Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [recursosOpen, setRecursosOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [mobileScreen, setMobileScreen] = useState<"main" | "productos">("main");
+  const [mobileScreen, setMobileScreen] = useState<"main" | "productos" | "recursos">("main");
   const [isLight, setIsLight] = useState(false);
   const [solid, setSolid] = useState(false);
   const [hidden, setHidden] = useState(false);
 
-  const close = useCallback(() => { setMenuOpen(false); setMobileOpen(false); setMobileScreen("main"); }, []);
+  const close = useCallback(() => { setMenuOpen(false); setRecursosOpen(false); setMobileOpen(false); setMobileScreen("main"); }, []);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -183,7 +185,7 @@ export default function T1Navbar() {
   /* Determine visual mode. Text is white whenever the bar reads dark — over the
      hero, scrolled (solid black), or with a menu open (the menus are dark now
      too). Only light mode (white-card pages, menu closed) uses dark text. */
-  const darkMode = !isLight || menuOpen || mobileOpen;
+  const darkMode = !isLight || menuOpen || recursosOpen || mobileOpen;
   const textClass = darkMode
     ? "text-white/80 hover:text-white"
     : "text-black/70 hover:text-black";
@@ -195,7 +197,7 @@ export default function T1Navbar() {
       <nav
         className="fixed left-0 right-0 top-0 z-[100] transition-transform duration-300 ease-out"
         style={{
-          background: menuOpen || mobileOpen
+          background: menuOpen || recursosOpen || mobileOpen
             ? "#0a0a0a"
             : isLight
               ? "rgba(255,255,255,0.92)"
@@ -207,14 +209,14 @@ export default function T1Navbar() {
           padding: "10px 12px",
           // White hairline + drop shadow draw the bar's bottom edge so a black
           // header never disappears into the dark sections below it.
-          boxShadow: (menuOpen || mobileOpen || solid)
+          boxShadow: (menuOpen || recursosOpen || mobileOpen || solid)
             ? "0 1px 0 rgba(255,255,255,0.08), 0 8px 24px rgba(0,0,0,0.5)"
             : isLight
               ? "0 1px 0 rgba(0,0,0,0.06)"
               : "none",
           // Hide on scroll down, show on scroll up. Never hide while a menu is open.
           transform:
-            hidden && !menuOpen && !mobileOpen
+            hidden && !menuOpen && !recursosOpen && !mobileOpen
               ? "translateY(-100%)"
               : "translateY(0)",
         }}
@@ -228,12 +230,21 @@ export default function T1Navbar() {
 
             {/* Desktop nav links - hidden on mobile */}
             <button
-              onClick={() => setMenuOpen(!menuOpen)}
+              onClick={() => { setRecursosOpen(false); setMenuOpen(!menuOpen); }}
               className={`hidden cursor-pointer items-center gap-1 border-none bg-transparent font-inter text-[16px] font-medium transition-colors duration-150 tablet:flex ${menuOpen ? textActive : textClass}`}
             >
               Productos
               <ChevronDown
                 className={`transition-transform duration-200 ${menuOpen ? "rotate-180" : ""}`}
+              />
+            </button>
+            <button
+              onClick={() => { setMenuOpen(false); setRecursosOpen(!recursosOpen); }}
+              className={`hidden cursor-pointer items-center gap-1 border-none bg-transparent font-inter text-[16px] font-medium transition-colors duration-150 tablet:flex ${recursosOpen ? textActive : textClass}`}
+            >
+              Recursos
+              <ChevronDown
+                className={`transition-transform duration-200 ${recursosOpen ? "rotate-180" : ""}`}
               />
             </button>
             {NAV_LINKS.map((link) => (
@@ -284,19 +295,28 @@ export default function T1Navbar() {
         <div
           className="flex h-full"
           style={{
-            width: "200%",
-            transform: mobileScreen === "productos" ? "translateX(-50%)" : "translateX(0)",
+            width: "300%",
+            transform: mobileScreen === "recursos" ? "translateX(-66.6667%)" : mobileScreen === "productos" ? "translateX(-33.3333%)" : "translateX(0)",
             transition: "transform 0.32s cubic-bezier(0.4, 0, 0.2, 1)",
           }}
         >
           {/* ── Pane 1: Main menu ── */}
-          <div className="h-full w-1/2 overflow-y-auto">
+          <div className="h-full w-1/3 overflow-y-auto">
             <div className="flex flex-col px-6 py-6">
               <button
                 onClick={() => setMobileScreen("productos")}
                 className="flex cursor-pointer items-center justify-between border-b border-white/[0.08] bg-transparent py-4 font-inter text-[16px] font-medium text-white"
               >
                 <span>Productos</span>
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                  <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+              <button
+                onClick={() => setMobileScreen("recursos")}
+                className="flex cursor-pointer items-center justify-between border-b border-white/[0.08] bg-transparent py-4 font-inter text-[16px] font-medium text-white"
+              >
+                <span>Recursos</span>
                 <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
                   <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
@@ -326,7 +346,7 @@ export default function T1Navbar() {
           </div>
 
           {/* ── Pane 2: Productos sub-menu ── */}
-          <div className="h-full w-1/2 overflow-y-auto">
+          <div className="h-full w-1/3 overflow-y-auto">
             <div className="flex flex-col">
               {/* Back header */}
               <button
@@ -363,11 +383,43 @@ export default function T1Navbar() {
               </div>
             </div>
           </div>
+
+          {/* ── Pane 3: Recursos sub-menu ── */}
+          <div className="h-full w-1/3 overflow-y-auto">
+            <div className="flex flex-col">
+              <button
+                onClick={() => setMobileScreen("main")}
+                className="flex cursor-pointer items-center gap-2 border-b border-white/[0.08] bg-transparent px-6 py-4 font-inter text-[14px] font-medium text-white/60"
+              >
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                  <path d="M10 4L6 8L10 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                <span>Recursos</span>
+              </button>
+              <div className="flex flex-col">
+                {RECURSOS_MENU_COLUMNS.map((col) => (
+                  <div key={col.title} className="border-b border-white/[0.08] px-6 py-5">
+                    <p className="font-inter text-[11px] font-semibold uppercase tracking-[0.08em] text-white/40">
+                      {col.title}
+                    </p>
+                    <div className="mt-3 flex flex-col gap-3">
+                      {col.items.map((item) => (
+                        <a key={item.title} href={item.href} className="block no-underline">
+                          <span className="block font-inter text-[13px] font-medium text-white/80">{item.title}</span>
+                          <span className="mt-0.5 block font-inter text-[12px] font-light text-white/45">{item.desc}</span>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Overlay - desktop mega menu */}
-      {menuOpen && (
+      {(menuOpen || recursosOpen) && (
         <div className="fixed inset-0 z-[50] hidden tablet:block" onClick={close} />
       )}
 
@@ -445,6 +497,35 @@ export default function T1Navbar() {
               </a>
             ))}
           </div>
+        </div>
+      </div>
+
+      {/* Mega Menu Recursos - desktop only */}
+      <div
+        className={`fixed left-0 right-0 top-[60px] z-[60] hidden overflow-hidden border-t border-white/[0.08] bg-[#1b1714] shadow-[0_24px_50px_rgba(0,0,0,0.55)] tablet:block ${
+          recursosOpen ? "tablet:block animate-slide-down" : "!hidden"
+        }`}
+      >
+        <div className="mx-auto grid max-w-[var(--max-w)] grid-cols-4 gap-0 px-6" style={{ paddingTop: 28, paddingBottom: 36 }}>
+          {RECURSOS_MENU_COLUMNS.map((col) => (
+            <div key={col.title} className="px-5 first:pl-0">
+              <p className="mb-5 font-inter text-[11px] font-semibold uppercase tracking-[0.08em] text-white/40">
+                {col.title}
+              </p>
+              <div className="flex flex-col gap-5">
+                {col.items.map((item) => (
+                  <a key={item.title} href={item.href} className="group/item block no-underline">
+                    <span className="block font-inter text-[15px] font-medium text-white transition-colors duration-150 group-hover/item:text-[#FF6F5E]">
+                      {item.title}
+                    </span>
+                    <span className="mt-1 block font-inter text-[13px] font-normal text-white/45 transition-colors duration-150 group-hover/item:text-white/65">
+                      {item.desc}
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </>
