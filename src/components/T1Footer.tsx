@@ -99,7 +99,7 @@ export default function T1Footer() {
                 ))}
               </div>
               <div className="mt-6 flex items-center gap-3">
-                <img src="/img/hecho-en-mexico.jpg" alt="Hecho en México" className="h-[52px] w-[52px] shrink-0 rounded-[8px] object-contain" />
+                <img src="/img/hecho-en-mexico.jpg" alt="Hecho en México" className="h-[70px] w-[70px] shrink-0 rounded-[8px] object-contain" />
                 <span className="font-inter text-[13px] font-medium leading-snug text-white/60">Una empresa<br />100% mexicana</span>
               </div>
             </div>
@@ -152,7 +152,7 @@ export default function T1Footer() {
                 ))}
               </div>
               <div className="mt-6 flex items-center gap-3">
-                <img src="/img/hecho-en-mexico.jpg" alt="Hecho en México" className="h-[52px] w-[52px] shrink-0 rounded-[8px] object-contain" />
+                <img src="/img/hecho-en-mexico.jpg" alt="Hecho en México" className="h-[70px] w-[70px] shrink-0 rounded-[8px] object-contain" />
                 <span className="font-inter text-[13px] font-medium leading-snug text-white/60">Una empresa<br />100% mexicana</span>
               </div>
             </div>
