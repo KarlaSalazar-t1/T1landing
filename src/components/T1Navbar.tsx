@@ -506,7 +506,7 @@ export default function T1Navbar() {
           recursosOpen ? "tablet:block animate-slide-down" : "!hidden"
         }`}
       >
-        <div className="mx-auto grid max-w-[var(--max-w)] grid-cols-4 gap-0 px-6" style={{ paddingTop: 24, paddingBottom: 32 }}>
+        <div className="mx-auto grid max-w-[var(--max-w)] grid-cols-4 gap-0 px-6" style={{ paddingBottom: 32 }}>
           {RECURSOS_MENU_COLUMNS.map((col) => (
             <div key={col.title} className="px-5 first:pl-0">
               <p
