@@ -510,8 +510,8 @@ export default function T1Navbar() {
           {RECURSOS_MENU_COLUMNS.map((col) => (
             <div key={col.title} className="px-5 first:pl-0">
               <p
-                className="border-b border-white/[0.10] font-inter text-[11px] font-semibold uppercase tracking-[0.08em] text-white/40"
-                style={{ paddingBottom: 16, marginBottom: 20 }}
+                className="border-b border-white/[0.10] font-inter text-[14px] font-medium text-white/90"
+                style={{ paddingTop: 24, paddingBottom: 16, marginBottom: 20 }}
               >
                 {col.title}
               </p>
