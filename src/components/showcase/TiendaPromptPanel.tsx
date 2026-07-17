@@ -297,7 +297,7 @@ function FinalLanding({ compact = false }: { compact?: boolean }) {
       <div className="flex items-center justify-center gap-1 border-t border-black/[0.04] py-2">
         <Spark size={9} />
         <span className="font-inter text-[8px] font-semibold text-black/55">
-          Tienda creada con T1 en menos de un minuto
+          Está lista en menos de 1 minuto y lista para vender
         </span>
       </div>
     </div>
