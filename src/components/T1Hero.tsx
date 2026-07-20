@@ -11,12 +11,17 @@ const PROMPT_PHRASES = [
   "Vendo productos de belleza",
 ];
 
+/* Categorías sugeridas — rellenan el prompt al hacer click */
+const PROMPT_CATEGORIES = ["Moda", "Deportes", "Belleza", "Joyería", "Electrónica", "Hogar"];
+
 function HeroPrompt() {
   const [text, setText] = useState("");
   const [idx, setIdx] = useState(0);
   const [deleting, setDeleting] = useState(false);
+  const [manual, setManual] = useState(false);
 
   useEffect(() => {
+    if (manual) return;
     const full = PROMPT_PHRASES[idx];
     let delay = deleting ? 45 : 85;
     if (!deleting && text === full) delay = 2200;
@@ -31,14 +36,20 @@ function HeroPrompt() {
       }
     }, delay);
     return () => clearTimeout(t);
-  }, [text, deleting, idx]);
+  }, [text, deleting, idx, manual]);
+
+  const pickCategory = (cat: string) => {
+    setManual(true);
+    setDeleting(false);
+    setText(`Vendo ${cat.toLowerCase()}`);
+  };
 
   return (
     <div
       className="relative mx-auto w-full overflow-hidden rounded-[20px] bg-white tablet:rounded-[24px]"
       style={{ maxWidth: 718, boxShadow: "0 24px 70px rgba(0,0,0,0.35)" }}
     >
-      <div className="flex flex-col justify-between px-5 py-5 tablet:px-6 tablet:py-6" style={{ minHeight: 148 }}>
+      <div className="flex flex-col justify-between px-5 pt-5 pb-4 tablet:px-6 tablet:pt-6 tablet:pb-4" style={{ minHeight: 148 }}>
         <p className="font-inter text-[15px] font-normal leading-relaxed text-black/40 tablet:text-[18px]">
           {text}
           <span
@@ -59,6 +70,20 @@ function HeroPrompt() {
             </svg>
           </a>
         </div>
+      </div>
+      {/* Barra de categorías sugeridas (parte del prompt) */}
+      <div className="flex flex-wrap items-center gap-2 border-t border-black/[0.07] bg-black/[0.015] px-5 py-3 tablet:px-6">
+        <span className="font-inter text-[12px] font-medium text-black/40 tablet:text-[13px]">Prueba con:</span>
+        {PROMPT_CATEGORIES.map((cat) => (
+          <button
+            key={cat}
+            type="button"
+            onClick={() => pickCategory(cat)}
+            className="rounded-full border border-black/[0.1] bg-white px-3 py-1 font-inter text-[12px] font-medium text-black/65 transition-colors hover:border-black/20 hover:bg-black/[0.04] hover:text-black/80 tablet:text-[13px]"
+          >
+            {cat}
+          </button>
+        ))}
       </div>
     </div>
   );
