@@ -128,8 +128,8 @@ export default function T1Hero() {
           }}
         />
 
-        {/* Contenido */}
-        <div className="relative z-10 flex w-full max-w-[840px] flex-col items-center gap-[clamp(22px,4.5vh,56px)] tablet:gap-14">
+        {/* Contenido — en móvil llena el alto y reparte el espacio; en tablet+ se centra */}
+        <div className="relative z-10 flex w-full max-w-[840px] grow flex-col items-center justify-between gap-[clamp(22px,4.5vh,56px)] tablet:grow-0 tablet:justify-center tablet:gap-14">
           <div className="flex w-full flex-col items-center gap-[clamp(16px,3vh,40px)] tablet:gap-10">
             <div className="flex flex-col items-center text-center" style={{ maxWidth: 660 }}>
               <h1 className="font-sora text-[32px] font-light text-white tablet:text-[48px] lg:text-[54px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12 }}>
