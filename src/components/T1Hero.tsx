@@ -19,6 +19,7 @@ function HeroPrompt() {
   const [idx, setIdx] = useState(0);
   const [deleting, setDeleting] = useState(false);
   const [manual, setManual] = useState(false);
+  const [value, setValue] = useState("");
 
   useEffect(() => {
     if (manual) return;
@@ -40,8 +41,7 @@ function HeroPrompt() {
 
   const pickCategory = (cat: string) => {
     setManual(true);
-    setDeleting(false);
-    setText(`Vendo ${cat.toLowerCase()}`);
+    setValue(`Vendo ${cat.toLowerCase()}`);
   };
 
   return (
@@ -50,15 +50,18 @@ function HeroPrompt() {
       style={{ maxWidth: 718, boxShadow: "0 24px 70px rgba(0,0,0,0.35)" }}
     >
       <div className="flex min-h-[120px] flex-col justify-between px-5 pt-4 pb-4 tablet:min-h-[148px] tablet:px-6 tablet:pt-6 tablet:pb-4">
-        <p className="font-inter text-[15px] font-normal leading-relaxed text-black/40 tablet:text-[18px]">
-          {text}
-          <span
-            className="ml-0.5 inline-block w-[2px] bg-black/40 align-text-bottom"
-            style={{ height: "1em", animation: "blink 0.75s step-end infinite" }}
-          />
-        </p>
+        <textarea
+          value={value}
+          onChange={(e) => {
+            setManual(true);
+            setValue(e.target.value.slice(0, 500));
+          }}
+          rows={2}
+          placeholder={text || PROMPT_PHRASES[0]}
+          className="w-full flex-1 resize-none bg-transparent font-inter text-[15px] font-normal leading-relaxed text-black/80 outline-none placeholder:text-black/40 tablet:text-[18px]"
+        />
         <div className="mt-4 flex items-center justify-end gap-2.5">
-          <span className="font-inter text-[11px] text-black/35">{text.length}/500</span>
+          <span className="font-inter text-[11px] text-black/35">{value.length}/500</span>
           {/* Crear tienda (primario) */}
           <a
             href={SIGNUP_URL}
@@ -113,7 +116,7 @@ export default function T1Hero() {
   const rootRef = useRef<HTMLDivElement>(null);
   return (
     <div ref={rootRef} className="sticky top-0 z-0">
-      <section className="relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-5 py-12 tablet:min-h-screen tablet:px-6 tablet:py-28">
+      <section className="relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-5 py-[clamp(24px,5vh,64px)] tablet:min-h-screen tablet:px-6 tablet:py-28">
         {/* Fondo — degradado + glows */}
         <div aria-hidden className="absolute inset-0 z-0" style={{ background: "linear-gradient(180deg, #141414 0%, #020101 100%)" }} />
         <div
@@ -126,8 +129,8 @@ export default function T1Hero() {
         />
 
         {/* Contenido */}
-        <div className="relative z-10 flex w-full max-w-[840px] flex-col items-center gap-7 tablet:gap-14">
-          <div className="flex w-full flex-col items-center gap-5 tablet:gap-10">
+        <div className="relative z-10 flex w-full max-w-[840px] flex-col items-center gap-[clamp(22px,4.5vh,56px)] tablet:gap-14">
+          <div className="flex w-full flex-col items-center gap-[clamp(16px,3vh,40px)] tablet:gap-10">
             <div className="flex flex-col items-center text-center" style={{ maxWidth: 660 }}>
               <h1 className="font-sora text-[32px] font-light text-white tablet:text-[48px] lg:text-[54px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12 }}>
                 Vende, cobra y envía.
