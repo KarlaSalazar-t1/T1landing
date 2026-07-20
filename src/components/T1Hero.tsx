@@ -70,14 +70,14 @@ const SOLUTION_CHIPS = [
     label: "Crea link de pago",
     href: "/productos/t1pagos/links-de-pago",
     icon: (
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1 M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1 M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
     ),
   },
   {
     label: "Cotizar envío",
     href: "/productos/t1envios/multipaqueteria",
     icon: (
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M3 7l9-4 9 4v10l-9 4-9-4V7z M3 7l9 4 9-4 M12 11v10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M3 7l9-4 9 4v10l-9 4-9-4V7z M3 7l9 4 9-4 M12 11v10" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
     ),
   },
 ];
@@ -110,25 +110,26 @@ export default function T1Hero() {
             </div>
 
             <div className="mx-auto w-full" style={{ maxWidth: 718 }}>
-              <p className="mb-2.5 font-inter text-[14px] font-medium text-white/85 tablet:text-[15px]">Crea tu tienda con IA:</p>
+              <p className="mb-2.5 font-inter text-[14px] font-normal text-white/70 tablet:text-[15px]">Crea tu tienda con IA:</p>
               <HeroPrompt />
             </div>
           </div>
 
-          {/* Botones de soluciones — estilo tile (icono en cuadro + label abajo) */}
+          {/* Botones de soluciones — pill horizontal (icono + label + flecha) */}
           <div className="flex flex-col items-center" style={{ gap: 18 }}>
             <p className="font-inter text-[14px] font-normal text-white/55">o empieza con</p>
-            <div className="flex items-start justify-center gap-5 tablet:gap-7">
+            <div className="flex flex-wrap items-center justify-center gap-3.5">
               {SOLUTION_CHIPS.map((c) => (
-              <a
-                key={c.label}
-                href={c.href}
-                className="group flex w-[92px] flex-col items-center gap-2.5 no-underline"
-              >
-                <span className="flex h-[68px] w-[68px] items-center justify-center rounded-[18px] border border-white/[0.08] bg-white/[0.06] text-white/90 transition-all duration-150 group-hover:-translate-y-0.5 group-hover:bg-white/[0.12]">
-                  {c.icon}
-                </span>
-                  <span className="text-center font-inter text-[13px] font-medium text-white/75 tablet:text-[14px]">{c.label}</span>
+                <a
+                  key={c.label}
+                  href={c.href}
+                  className="group inline-flex items-center gap-2.5 rounded-full border border-white/[0.1] bg-white/[0.06] py-2.5 pl-4 pr-3.5 no-underline transition-all duration-150 hover:border-white/20 hover:bg-white/[0.12]"
+                >
+                  <span className="flex items-center text-white/90">{c.icon}</span>
+                  <span className="font-inter text-[14px] font-medium text-white/85 tablet:text-[15px]">{c.label}</span>
+                  <svg width="16" height="16" viewBox="0 0 18 18" fill="none" className="text-white/45 transition-transform duration-150 group-hover:translate-x-0.5 group-hover:text-white/80">
+                    <path d="M6.75 4.5L11.25 9L6.75 13.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
                 </a>
               ))}
             </div>
