@@ -71,14 +71,17 @@ function HeroPrompt() {
           </a>
         </div>
       </div>
-      {/* Barra de categorías sugeridas (parte del prompt) */}
-      <div className="flex flex-wrap items-center justify-center gap-2 border-t border-black/[0.07] bg-black/[0.015] px-5 py-3 tablet:px-6">
+      {/* Barra de categorías sugeridas (parte del prompt) — 1 renglón con scroll en móvil */}
+      <div
+        className="flex items-center gap-2 overflow-x-auto border-t border-black/[0.07] bg-black/[0.015] px-5 py-3 tablet:flex-wrap tablet:justify-center tablet:overflow-visible tablet:px-6"
+        style={{ scrollbarWidth: "none" }}
+      >
         {PROMPT_CATEGORIES.map((cat) => (
           <button
             key={cat}
             type="button"
             onClick={() => pickCategory(cat)}
-            className="rounded-full border border-black/[0.1] bg-white px-3 py-1 font-inter text-[12px] font-medium text-black/65 transition-colors hover:border-black/20 hover:bg-black/[0.04] hover:text-black/80 tablet:text-[13px]"
+            className="shrink-0 rounded-full border border-black/[0.1] bg-white px-3 py-1 font-inter text-[12px] font-medium text-black/65 transition-colors hover:border-black/20 hover:bg-black/[0.04] hover:text-black/80 tablet:text-[13px]"
           >
             {cat}
           </button>
@@ -146,13 +149,15 @@ export default function T1Hero() {
                 <a
                   key={c.label}
                   href={c.href}
-                  className="group inline-flex w-full items-center gap-2 rounded-[14px] border border-white/[0.12] bg-white/[0.14] py-3 pl-3.5 pr-2.5 no-underline transition-all duration-150 hover:border-white/25 hover:bg-white/[0.2] tablet:w-[230px] tablet:gap-3 tablet:py-3.5 tablet:pl-5 tablet:pr-4"
+                  className="group flex w-full flex-col items-center justify-center gap-2.5 rounded-[14px] border border-white/[0.12] bg-white/[0.14] px-3 py-4 no-underline transition-all duration-150 hover:border-white/25 hover:bg-white/[0.2] tablet:w-[230px] tablet:flex-row tablet:gap-3 tablet:px-0 tablet:py-3.5 tablet:pl-5 tablet:pr-4"
                 >
                   <span className="flex shrink-0 items-center text-white/90">{c.icon}</span>
-                  <span className="flex-1 whitespace-nowrap text-center font-inter text-[13px] font-medium text-white/90 tablet:text-[16px]">{c.label}</span>
-                  <svg width="16" height="16" viewBox="0 0 18 18" fill="none" className="shrink-0 text-white/45 transition-transform duration-150 group-hover:translate-x-0.5 group-hover:text-white/80 tablet:h-[18px] tablet:w-[18px]">
-                    <path d="M6.75 4.5L11.25 9L6.75 13.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+                  <span className="flex items-center justify-center gap-1.5 tablet:contents">
+                    <span className="whitespace-nowrap text-center font-inter text-[13px] font-medium text-white/90 tablet:flex-1 tablet:text-[16px]">{c.label}</span>
+                    <svg width="16" height="16" viewBox="0 0 18 18" fill="none" className="shrink-0 text-white/45 transition-transform duration-150 group-hover:translate-x-0.5 group-hover:text-white/80 tablet:h-[18px] tablet:w-[18px]">
+                      <path d="M6.75 4.5L11.25 9L6.75 13.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
                 </a>
               ))}
             </div>
