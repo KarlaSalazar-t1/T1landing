@@ -39,10 +39,10 @@ function HeroPrompt() {
       style={{ maxWidth: 718, boxShadow: "0 24px 70px rgba(0,0,0,0.35)" }}
     >
       <div className="flex flex-col justify-between px-5 py-5 tablet:px-6 tablet:py-6" style={{ minHeight: 148 }}>
-        <p className="font-inter text-[15px] font-normal leading-relaxed text-black/85 tablet:text-[18px]">
+        <p className="font-inter text-[15px] font-normal leading-relaxed text-black/40 tablet:text-[18px]">
           {text}
           <span
-            className="ml-0.5 inline-block w-[2px] bg-black/60 align-text-bottom"
+            className="ml-0.5 inline-block w-[2px] bg-black/40 align-text-bottom"
             style={{ height: "1em", animation: "blink 0.75s step-end infinite" }}
           />
         </p>
@@ -70,60 +70,17 @@ const SOLUTION_CHIPS = [
     label: "Crea link de pago",
     href: "/productos/t1pagos/links-de-pago",
     icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1 M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1 M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
     ),
   },
   {
     label: "Cotizar envío",
     href: "/productos/t1envios/multipaqueteria",
     icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 7l9-4 9 4v10l-9 4-9-4V7z M3 7l9 4 9-4 M12 11v10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-    ),
-  },
-  {
-    label: "Conecta tus canales de venta",
-    href: "/productos/t1tienda/marketplaces",
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.6" /><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.6" /><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.6" /><rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.6" /></svg>
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M3 7l9-4 9 4v10l-9 4-9-4V7z M3 7l9 4 9-4 M12 11v10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
     ),
   },
 ];
-
-/* Primera línea del título con efecto typewriter */
-const TITLE_WORDS = ["Crea tu tienda", "Vende", "Cobra", "Cotiza y envía"];
-
-function TitleTypewriter() {
-  const [text, setText] = useState("");
-  const [idx, setIdx] = useState(0);
-  const [deleting, setDeleting] = useState(false);
-
-  useEffect(() => {
-    const full = TITLE_WORDS[idx];
-    let delay = deleting ? 45 : 95;
-    if (!deleting && text === full) delay = 1800;
-    if (deleting && text === "") delay = 250;
-    const t = setTimeout(() => {
-      if (!deleting && text === full) setDeleting(true);
-      else if (deleting && text === "") {
-        setDeleting(false);
-        setIdx((p) => (p + 1) % TITLE_WORDS.length);
-      } else {
-        setText(deleting ? full.slice(0, text.length - 1) : full.slice(0, text.length + 1));
-      }
-    }, delay);
-    return () => clearTimeout(t);
-  }, [text, deleting, idx]);
-
-  return (
-    <>
-      {text}
-      <span
-        className="ml-1 inline-block w-[3px] bg-white/70 align-text-bottom"
-        style={{ height: "0.82em", animation: "blink 0.75s step-end infinite" }}
-      />
-    </>
-  );
-}
 
 export default function T1Hero() {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -146,29 +103,30 @@ export default function T1Hero() {
           <div className="flex w-full flex-col items-center" style={{ gap: 44 }}>
             <div className="flex flex-col items-center text-center" style={{ gap: 12, maxWidth: 660 }}>
               <h1 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[54px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12 }}>
-                <TitleTypewriter />,
+                Todo para tu negocio,
                 <br />
                 todo en uno.
               </h1>
               <p className="font-inter text-[15px] font-light text-white/75 tablet:text-[18px]" style={{ lineHeight: 1.55, maxWidth: 560 }}>
-                Cuéntanos de tu negocio y crea tu tienda en línea
+                Crea tu tienda con IA, vende, cobra y envía
               </p>
             </div>
 
             <HeroPrompt />
           </div>
 
-          {/* Chips de soluciones — blancos */}
-          <div className="flex flex-wrap items-center justify-center gap-3 tablet:rounded-[34px] tablet:bg-[rgba(13,13,13,0.55)] tablet:p-2">
+          {/* Botones de soluciones — estilo tile (icono en cuadro + label abajo) */}
+          <div className="flex items-start justify-center gap-5 tablet:gap-7">
             {SOLUTION_CHIPS.map((c) => (
               <a
                 key={c.label}
                 href={c.href}
-                className="group inline-flex items-center gap-2 rounded-[24px] bg-white px-4 py-2.5 font-inter text-[14px] font-medium text-[#4C4C4C] no-underline transition-colors hover:bg-white/90"
+                className="group flex w-[92px] flex-col items-center gap-2.5 no-underline"
               >
-                <span className="shrink-0 text-[#4C4C4C]">{c.icon}</span>
-                {c.label}
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" className="shrink-0 text-[#4C4C4C]/50 transition-transform duration-150 group-hover:translate-x-0.5"><path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                <span className="flex h-[68px] w-[68px] items-center justify-center rounded-[18px] border border-white/[0.08] bg-white/[0.06] text-white/90 transition-all duration-150 group-hover:-translate-y-0.5 group-hover:bg-white/[0.12]">
+                  {c.icon}
+                </span>
+                <span className="text-center font-inter text-[13px] font-medium text-white/75 tablet:text-[14px]">{c.label}</span>
               </a>
             ))}
           </div>
