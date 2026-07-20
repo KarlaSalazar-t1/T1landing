@@ -141,16 +141,16 @@ export default function T1Hero() {
 
           {/* Botones de soluciones — pill horizontal (icono + label + flecha) */}
           <div className="flex flex-col items-center">
-            <div className="flex flex-wrap items-center justify-center gap-4">
+            <div className="flex w-full max-w-[400px] flex-nowrap items-center justify-center gap-2.5 tablet:w-auto tablet:max-w-none tablet:gap-4">
               {SOLUTION_CHIPS.map((c) => (
                 <a
                   key={c.label}
                   href={c.href}
-                  className="group inline-flex w-[230px] items-center gap-3 rounded-[14px] border border-white/[0.12] bg-white/[0.14] py-3.5 pl-5 pr-4 no-underline transition-all duration-150 hover:border-white/25 hover:bg-white/[0.2]"
+                  className="group inline-flex w-full items-center gap-2 rounded-[14px] border border-white/[0.12] bg-white/[0.14] py-3 pl-3.5 pr-2.5 no-underline transition-all duration-150 hover:border-white/25 hover:bg-white/[0.2] tablet:w-[230px] tablet:gap-3 tablet:py-3.5 tablet:pl-5 tablet:pr-4"
                 >
                   <span className="flex shrink-0 items-center text-white/90">{c.icon}</span>
-                  <span className="flex-1 whitespace-nowrap text-center font-inter text-[15px] font-medium text-white/90 tablet:text-[16px]">{c.label}</span>
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" className="shrink-0 text-white/45 transition-transform duration-150 group-hover:translate-x-0.5 group-hover:text-white/80">
+                  <span className="flex-1 whitespace-nowrap text-center font-inter text-[13px] font-medium text-white/90 tablet:text-[16px]">{c.label}</span>
+                  <svg width="16" height="16" viewBox="0 0 18 18" fill="none" className="shrink-0 text-white/45 transition-transform duration-150 group-hover:translate-x-0.5 group-hover:text-white/80 tablet:h-[18px] tablet:w-[18px]">
                     <path d="M6.75 4.5L11.25 9L6.75 13.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </a>
