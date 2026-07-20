@@ -100,24 +100,26 @@ export default function T1Hero() {
 
         {/* Contenido */}
         <div className="relative z-10 flex w-full max-w-[840px] flex-col items-center" style={{ gap: 56 }}>
-          <div className="flex w-full flex-col items-center" style={{ gap: 44 }}>
-            <div className="flex flex-col items-center text-center" style={{ gap: 12, maxWidth: 660 }}>
+          <div className="flex w-full flex-col items-center" style={{ gap: 40 }}>
+            <div className="flex flex-col items-center text-center" style={{ maxWidth: 660 }}>
               <h1 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[54px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12 }}>
-                Todo para tu negocio,
+                Vende, cobra y envía.
                 <br />
-                todo en uno.
+                Todo en uno.
               </h1>
-              <p className="font-inter text-[15px] font-light text-white/75 tablet:text-[18px]" style={{ lineHeight: 1.55, maxWidth: 560 }}>
-                Crea tu tienda con IA, vende, cobra y envía
-              </p>
             </div>
 
-            <HeroPrompt />
+            <div className="mx-auto w-full" style={{ maxWidth: 718 }}>
+              <p className="mb-2.5 font-inter text-[14px] font-medium text-white/85 tablet:text-[15px]">Crea tu tienda con IA:</p>
+              <HeroPrompt />
+            </div>
           </div>
 
           {/* Botones de soluciones — estilo tile (icono en cuadro + label abajo) */}
-          <div className="flex items-start justify-center gap-5 tablet:gap-7">
-            {SOLUTION_CHIPS.map((c) => (
+          <div className="flex flex-col items-center" style={{ gap: 18 }}>
+            <p className="font-inter text-[14px] font-normal text-white/55">o empieza con</p>
+            <div className="flex items-start justify-center gap-5 tablet:gap-7">
+              {SOLUTION_CHIPS.map((c) => (
               <a
                 key={c.label}
                 href={c.href}
@@ -126,9 +128,10 @@ export default function T1Hero() {
                 <span className="flex h-[68px] w-[68px] items-center justify-center rounded-[18px] border border-white/[0.08] bg-white/[0.06] text-white/90 transition-all duration-150 group-hover:-translate-y-0.5 group-hover:bg-white/[0.12]">
                   {c.icon}
                 </span>
-                <span className="text-center font-inter text-[13px] font-medium text-white/75 tablet:text-[14px]">{c.label}</span>
-              </a>
-            ))}
+                  <span className="text-center font-inter text-[13px] font-medium text-white/75 tablet:text-[14px]">{c.label}</span>
+                </a>
+              ))}
+            </div>
           </div>
 
           {/* Stats */}
