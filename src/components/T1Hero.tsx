@@ -1,308 +1,162 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { HERO_DATA, LOGIN_URL } from "@/lib/constants";
+import { SIGNUP_URL } from "@/lib/constants";
 
-/* ── Rotating words ── */
-/* The rotator cycles the ecosystem pillars + the all-in-one angle WITHOUT
-   repeating "IA" — IA now lives once, fixed and core, in the H1 below
-   ("listo con IA"), so the hero no longer says "IA" three times (we want it
-   to read as core, not spammed). Now also surfaces the two pillars the CEO
-   asked to see from the hero: "Vende en marketplaces" (sell beyond your own
-   store) and "Protégete del fraude" (the Score benefit, stated plainly — CEO:
-   "Protégete con Score es ambiguo si no sabes qué es Score"). "Todo conectado" closes on
-   the 360 ecosystem — our real differentiator, not just an online store. */
-const ROTATING_WORDS = [
-  "Crea tu tienda",
-  "Vende en marketplaces",
-  "Cobra en segundos",
-  "Envía al mejor precio",
-  "Protégete del fraude",
-  "Todo conectado",
+/* Placeholder con efecto typewriter para el prompt del hero */
+const PROMPT_PHRASES = [
+  "Vendo ropa artesanal",
+  "Vendo café de especialidad",
+  "Vendo muebles de diseño",
+  "Vendo productos de belleza",
 ];
 
-function RotatingWord() {
-  const [index, setIndex] = useState(0);
-  const [displayedText, setDisplayedText] = useState("");
+function HeroPrompt() {
+  const [text, setText] = useState("");
+  const [idx, setIdx] = useState(0);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    const fullText = ROTATING_WORDS[index];
-    let charIdx = 0;
-    let erasing = false;
-    let timeout: ReturnType<typeof setTimeout>;
-
-    function tick() {
-      if (!erasing) {
-        charIdx++;
-        setDisplayedText(fullText.slice(0, charIdx));
-        if (charIdx >= fullText.length) {
-          // Pause then start erasing
-          timeout = setTimeout(() => {
-            erasing = true;
-            tick();
-          }, 1800);
-          return;
-        }
-        timeout = setTimeout(tick, 60 + Math.random() * 40);
+    const full = PROMPT_PHRASES[idx];
+    let delay = deleting ? 45 : 85;
+    if (!deleting && text === full) delay = 2200;
+    if (deleting && text === "") delay = 350;
+    const t = setTimeout(() => {
+      if (!deleting && text === full) setDeleting(true);
+      else if (deleting && text === "") {
+        setDeleting(false);
+        setIdx((p) => (p + 1) % PROMPT_PHRASES.length);
       } else {
-        charIdx--;
-        setDisplayedText(fullText.slice(0, charIdx));
-        if (charIdx <= 0) {
-          // Move to next word
-          timeout = setTimeout(() => {
-            setIndex((prev) => (prev + 1) % ROTATING_WORDS.length);
-          }, 300);
-          return;
-        }
-        timeout = setTimeout(tick, 30);
+        setText(deleting ? full.slice(0, text.length - 1) : full.slice(0, text.length + 1));
       }
-    }
-
-    timeout = setTimeout(tick, 400);
-    return () => clearTimeout(timeout);
-  }, [index]);
+    }, delay);
+    return () => clearTimeout(t);
+  }, [text, deleting, idx]);
 
   return (
-    <span>
-      {displayedText}
-      <span
-        className="ml-0.5 inline-block w-[3px] bg-white/80"
-        style={{
-          height: "0.85em",
-          verticalAlign: "text-bottom",
-          animation: "blink 0.7s step-end infinite",
-        }}
-      />
-    </span>
-  );
-}
-
-/* ── Logo marquee — same brands as Casos de éxito ── */
-const LOGOS = [
-  { src: "/img/logos/sears.svg", alt: "Sears" },
-  { src: "/img/logos/circulo-de-credito.png", alt: "Círculo de Crédito" },
-  { src: "/img/logos/mercado-libre.svg", alt: "Mercado Libre" },
-  { src: "/img/logos/telcel.svg", alt: "Telcel" },
-  { src: "/img/logos/pirma.png", alt: "Pirma" },
-  { src: "/img/logos/makora.svg", alt: "Makora" },
-  { src: "/img/logos/sanborns.svg", alt: "Sanborns" },
-  { src: "/img/logos/pase.png", alt: "PASE" },
-  { src: "/img/logos/claro.svg", alt: "Claro" },
-];
-
-function LogoMarquee() {
-  return (
-    <div className="relative overflow-hidden" style={{ padding: "28px 0" }}>
-      {/* No fade edges — clean seamless loop */}
-
-      <div className="marquee-track flex items-center">
-        {/* Double the logos for seamless loop. Spacing is per-item margin
-            (not flex gap) so the -50% keyframe lands exactly on one period
-            — otherwise a trailing half-gap makes the loop "jump" on mobile. */}
-        {[...LOGOS, ...LOGOS].map((logo, i) => (
-          <Image
-            key={`${logo.alt}-${i}`}
-            src={logo.src}
-            alt={logo.alt}
-            width={120}
-            height={40}
-            className="mr-16 h-[28px] w-auto shrink-0 object-contain brightness-0 invert opacity-60"
+    <div
+      className="relative mx-auto w-full overflow-hidden rounded-[20px] bg-white tablet:rounded-[24px]"
+      style={{ maxWidth: 718, boxShadow: "0 24px 70px rgba(0,0,0,0.35)" }}
+    >
+      <div className="flex flex-col justify-between px-5 py-5 tablet:px-6 tablet:py-6" style={{ minHeight: 148 }}>
+        <p className="font-inter text-[15px] font-normal leading-relaxed text-black/85 tablet:text-[18px]">
+          {text}
+          <span
+            className="ml-0.5 inline-block w-[2px] bg-black/60 align-text-bottom"
+            style={{ height: "1em", animation: "blink 0.75s step-end infinite" }}
           />
-        ))}
+        </p>
+        <div className="mt-4 flex items-center justify-end gap-2.5">
+          <span className="font-inter text-[11px] text-black/35">{text.length}/500</span>
+          {/* Mic (secundario) */}
+          <button
+            type="button"
+            aria-label="Dictar"
+            className="flex h-[36px] w-[36px] shrink-0 cursor-pointer items-center justify-center rounded-full border border-[#E7E7E7] bg-white text-[#4C4C4C] transition-colors hover:bg-black/[0.03]"
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+              <rect x="9" y="3" width="6" height="11" rx="3" stroke="currentColor" strokeWidth="1.7" />
+              <path d="M5 11a7 7 0 0 0 14 0 M12 18v3" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+            </svg>
+          </button>
+          {/* Crear tienda (primario) */}
+          <a
+            href={SIGNUP_URL}
+            className="inline-flex h-[36px] shrink-0 items-center gap-1.5 rounded-full bg-[#DB3B2B] px-4 font-inter text-[13px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]"
+          >
+            Crear tienda
+            <svg width="15" height="15" viewBox="0 0 18 18" fill="none">
+              <path d="M6.75 4.5L11.25 9L6.75 13.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </a>
+        </div>
       </div>
     </div>
   );
 }
 
-/* ── Hero video loop ── */
-function HeroVideoLoop() {
-  const ref = useRef<HTMLVideoElement>(null);
+/* Chips de soluciones alternas (blancos) */
+const SOLUTION_CHIPS = [
+  {
+    label: "Crea link de pago",
+    href: "/productos/t1pagos/links-de-pago",
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1 M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+    ),
+  },
+  {
+    label: "Cotizar envío",
+    href: "/productos/t1envios/multipaqueteria",
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 7l9-4 9 4v10l-9 4-9-4V7z M3 7l9 4 9-4 M12 11v10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+    ),
+  },
+  {
+    label: "Conecta tus canales de venta",
+    href: "/productos/t1tienda/marketplaces",
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.6" /><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.6" /><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.6" /><rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.6" /></svg>
+    ),
+  },
+];
 
-  /* Pause decoding AND hide the layer once the hero is scrolled past.
-     The hero is `position: sticky top-0 z-0`, so the <video> stays pinned at
-     the top of the viewport BEHIND every dark section for the whole page — it
-     is never geometrically off-screen, so an IntersectionObserver on the video
-     never fires. Two problems follow from that pinned live layer:
-       (1) a 720p video that keeps decoding competes with painting the stack +
-           IA sections below it (the "se tarda en cargar" jank);
-       (2) on fast scroll-ups it bleeds through for a few frames before the
-           opaque dark sections re-composite over it ("veo el video abajo").
-     So we gate on scroll position instead: once we've scrolled roughly one
-     viewport down (hero is ~88vh and fully covered by then), pause + flip
-     `visibility:hidden` so there's no live layer left to bleed or decode.
-     Coming back up restores it instantly (poster gives the first paint, no
-     black flash). rAF-throttled, passive listener. */
-  useEffect(() => {
-    const v = ref.current;
-    if (!v) return;
-    let ticking = false;
-    let hidden = false;
-    const apply = () => {
-      ticking = false;
-      const past = window.scrollY > window.innerHeight * 0.92;
-      if (past === hidden) return;
-      hidden = past;
-      if (past) {
-        v.pause();
-        v.style.visibility = "hidden";
-      } else {
-        v.style.visibility = "visible";
-        v.play().catch(() => {});
-      }
-    };
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(apply);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    apply();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  return (
-    <video
-      ref={ref}
-      autoPlay
-      loop
-      muted
-      playsInline
-      preload="metadata"
-      poster="/img/hero-poster.jpg"
-      className="absolute inset-0 h-full w-full object-cover"
-      style={{ pointerEvents: "none", backgroundColor: "#000" }}
-    >
-      <source src="/img/hero.mp4" type="video/mp4" />
-    </video>
-  );
-}
-
-/* ── Hero section ── */
 export default function T1Hero() {
+  const rootRef = useRef<HTMLDivElement>(null);
   return (
-    <>
-      {/* Sticky hero — stays in place while content scrolls over.
-          Now sized so the V/C/E intro cards (in the dark band that follows)
-          peek visibly above the fold, giving an unmistakable scroll hint. */}
-      <div className="sticky top-0 z-0">
-        <section className="relative flex min-h-[86svh] flex-col overflow-hidden tablet:h-[88vh] tablet:min-h-0">
-          {/* Background video — loop through 4 clips */}
-          <div className="absolute inset-0 z-0">
-            <HeroVideoLoop />
-            {/* Dark overlay */}
-            <div className="absolute inset-0 bg-black/[0.42]" />
-          </div>
+    <div ref={rootRef} className="sticky top-0 z-0">
+      <section className="relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-5 py-24 tablet:min-h-screen tablet:px-6 tablet:py-28">
+        {/* Fondo — degradado + glows */}
+        <div aria-hidden className="absolute inset-0 z-0" style={{ background: "linear-gradient(180deg, #141414 0%, #020101 100%)" }} />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-0"
+          style={{
+            background:
+              "radial-gradient(circle at 31% 114%, rgba(1,25,69,0.9) 0%, rgba(17,0,85,0) 55%), radial-gradient(circle at -7% 50%, rgba(89,7,7,0.85) 0%, rgba(87,9,9,0) 45%), radial-gradient(circle at 79% 55%, rgba(89,7,7,0.75) 0%, rgba(87,9,9,0) 50%)",
+          }}
+        />
 
-          {/* Bottom gradient fade to black */}
-          <div
-            className="absolute bottom-0 left-0 right-0 z-[1]"
-            style={{
-              height: 340,
-              background:
-                "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.85) 60%, #000 100%)",
-            }}
-          />
-
-          {/* Content — on mobile fills the available space with content
-              centered vertically so the gap above the logo marquee shrinks
-              on taller phones. Desktop also grows (flex-1) so the logo
-              marquee gets pushed to the bottom on tall monitors instead
-              of floating in the middle of a black void. */}
-          <div className="relative z-10 mx-auto flex w-full max-w-[var(--max-w)] flex-1 flex-col justify-center px-5 tablet:px-6">
-            <div className="pt-[90px] pb-6 tablet:pt-[110px] tablet:pb-6 lg:pt-[144px]">
-              {/* Rotating eyebrow word — mobile sits at 28px so the longest
-                  phrase ("Vende en marketplaces") fits on a SINGLE line for all
-                  mainstream phones (≥360px wide). At 34px three of the six
-                  phrases wrapped to two lines mid-type, which read as broken /
-                  jumpy (CEO: "se ve raro cuando se va a 2 líneas"). One-line
-                  min-height keeps the eyebrow hugging the H1 with no reserved
-                  2-line gap; on a rare ~320px device a phrase may still wrap and
-                  the box grows gracefully. */}
-              <p
-                className="flex min-h-[1.34em] flex-col justify-end font-sora text-[28px] font-normal leading-[1.26] text-white tablet:min-h-[1.34em] tablet:text-[48px] lg:text-[60px]"
-                style={{
-                  letterSpacing: "-0.03em",
-                  marginBottom: 12,
-                }}
-              >
-                <RotatingWord />
-              </p>
-
-              {/* Main heading — IA lives here, once and fixed (CEO: "nacimos
-                  con IA, es core"). "listo con IA" ties to the north star
-                  (negocio listo en minutos) and reads cleanly in Spanish,
-                  unlike the "nacido con IA" calque of AI-native. The rotator
-                  and subtitle no longer repeat "IA". */}
-              <h1
-                className="mb-[60px] font-sora text-[32px] font-light text-white tablet:mb-[40px] tablet:text-[44px]"
-                style={{
-                  letterSpacing: "-0.03em",
-                  lineHeight: "1.26em",
-                  maxWidth: 580,
-                }}
-              >
-                Todo tu negocio,
-                <br />
-                listo con <span style={{ color: "#FF6F5E" }}>IA</span>
+        {/* Contenido */}
+        <div className="relative z-10 flex w-full max-w-[840px] flex-col items-center" style={{ gap: 56 }}>
+          <div className="flex w-full flex-col items-center" style={{ gap: 44 }}>
+            <div className="flex flex-col items-center text-center" style={{ gap: 12, maxWidth: 660 }}>
+              <h1 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[54px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.08 }}>
+                Vende, cobra y envía, todo en uno.
               </h1>
-
-              {/* CTAs */}
-              <div className="flex flex-col gap-3 tablet:flex-row tablet:items-center tablet:gap-4">
-                <a
-                  href={HERO_DATA.ctaHref}
-                  className="inline-flex h-[50px] items-center justify-center gap-2.5 rounded-[23px] bg-[#DB3B2B] px-8 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A] hover:shadow-[0_4px_16px_rgba(226,97,83,0.4)] tablet:px-10 tablet:text-[16px]"
-                >
-                  {HERO_DATA.cta}
-                  <svg
-                    width="18"
-                    height="18"
-                    viewBox="0 0 18 18"
-                    fill="none"
-                  >
-                    <path
-                      d="M6.75 4.5L11.25 9L6.75 13.5"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </a>
-                <a
-                  href={LOGIN_URL}
-                  className="inline-flex h-[50px] items-center justify-center rounded-[23px] border border-[#E7E7E7] bg-transparent px-8 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-white/10 tablet:px-10 tablet:text-[16px]"
-                >
-                  {HERO_DATA.ctaSecondary}
-                </a>
-              </div>
-
-              {/* Subtitle */}
-              <p
-                className="font-inter text-[14px] font-light text-white/70 tablet:text-[16px]"
-                style={{ letterSpacing: "-0.03em", marginTop: 14 }}
-              >
-                {HERO_DATA.subtitle}
+              <p className="font-inter text-[15px] font-light text-white/75 tablet:text-[18px]" style={{ lineHeight: 1.55, maxWidth: 560 }}>
+                Cuéntanos de tu negocio y crea tu tienda en línea o prueba nuestras otras soluciones
               </p>
             </div>
+
+            <HeroPrompt />
           </div>
 
-          {/* Logo marquee — pinned to the bottom of the section
-              (mt-auto) so on tall desktops it sits low instead of
-              floating in the middle of empty black. */}
-          <div className="relative z-10 mt-auto" style={{ paddingTop: 20, paddingBottom: 30 }}>
-            <div className="mx-auto max-w-[var(--max-w)] px-5 tablet:px-6">
-              <p
-                className="text-center font-inter text-[13px] font-medium uppercase text-white/45 tablet:text-[14px]"
-                style={{ letterSpacing: "0.08em", marginBottom: 6 }}
+          {/* Chips de soluciones — blancos */}
+          <div className="flex flex-wrap items-center justify-center gap-3 rounded-[34px] p-2" style={{ background: "rgba(13,13,13,0.55)" }}>
+            {SOLUTION_CHIPS.map((c) => (
+              <a
+                key={c.label}
+                href={c.href}
+                className="group inline-flex items-center gap-2 rounded-[24px] bg-white px-4 py-2.5 font-inter text-[14px] font-medium text-[#4C4C4C] no-underline transition-colors hover:bg-white/90"
               >
-                Más de 25 mil negocios usan T1.
-              </p>
-              <LogoMarquee />
-            </div>
+                <span className="shrink-0 text-[#4C4C4C]">{c.icon}</span>
+                {c.label}
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" className="shrink-0 text-[#4C4C4C]/50 transition-transform duration-150 group-hover:translate-x-0.5"><path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              </a>
+            ))}
           </div>
-        </section>
-      </div>
-    </>
+
+          {/* Stats */}
+          <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 px-3 text-center">
+            {["+25,000 tiendas", "+10M de envíos", "+500mil transacciones"].map((s, i) => (
+              <span key={s} className="flex items-center gap-3 font-inter text-[14px] font-medium text-white tablet:text-[16px]">
+                {i > 0 && <span className="text-white/40">•</span>}
+                {s}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }
