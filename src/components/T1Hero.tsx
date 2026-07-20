@@ -72,8 +72,7 @@ function HeroPrompt() {
         </div>
       </div>
       {/* Barra de categorías sugeridas (parte del prompt) */}
-      <div className="flex flex-wrap items-center gap-2 border-t border-black/[0.07] bg-black/[0.015] px-5 py-3 tablet:px-6">
-        <span className="font-inter text-[12px] font-medium text-black/40 tablet:text-[13px]">Prueba con:</span>
+      <div className="flex flex-wrap items-center justify-center gap-2 border-t border-black/[0.07] bg-black/[0.015] px-5 py-3 tablet:px-6">
         {PROMPT_CATEGORIES.map((cat) => (
           <button
             key={cat}
@@ -141,8 +140,7 @@ export default function T1Hero() {
           </div>
 
           {/* Botones de soluciones — pill horizontal (icono + label + flecha) */}
-          <div className="flex flex-col items-center" style={{ gap: 18 }}>
-            <p className="font-inter text-[14px] font-normal text-white/55">o empieza con</p>
+          <div className="flex flex-col items-center">
             <div className="flex flex-wrap items-center justify-center gap-4">
               {SOLUTION_CHIPS.map((c) => (
                 <a
