@@ -123,11 +123,11 @@ export default function T1Hero() {
                 <a
                   key={c.label}
                   href={c.href}
-                  className="group inline-flex w-[230px] items-center gap-3 rounded-[14px] border border-white/[0.1] bg-white/[0.06] py-3.5 pl-5 pr-4 no-underline transition-all duration-150 hover:border-white/20 hover:bg-white/[0.12]"
+                  className="group inline-flex w-[230px] items-center gap-3 rounded-[14px] border border-white/[0.12] bg-white/[0.14] py-3.5 pl-5 pr-4 no-underline transition-all duration-150 hover:border-white/25 hover:bg-white/[0.2]"
                 >
-                  <span className="flex items-center text-white/90">{c.icon}</span>
-                  <span className="whitespace-nowrap font-inter text-[15px] font-medium text-white/85 tablet:text-[16px]">{c.label}</span>
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" className="ml-auto text-white/45 transition-transform duration-150 group-hover:translate-x-0.5 group-hover:text-white/80">
+                  <span className="flex shrink-0 items-center text-white/90">{c.icon}</span>
+                  <span className="flex-1 whitespace-nowrap text-center font-inter text-[15px] font-medium text-white/90 tablet:text-[16px]">{c.label}</span>
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" className="shrink-0 text-white/45 transition-transform duration-150 group-hover:translate-x-0.5 group-hover:text-white/80">
                     <path d="M6.75 4.5L11.25 9L6.75 13.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </a>
