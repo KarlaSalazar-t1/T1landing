@@ -48,17 +48,6 @@ function HeroPrompt() {
         </p>
         <div className="mt-4 flex items-center justify-end gap-2.5">
           <span className="font-inter text-[11px] text-black/35">{text.length}/500</span>
-          {/* Mic (secundario) */}
-          <button
-            type="button"
-            aria-label="Dictar"
-            className="flex h-[36px] w-[36px] shrink-0 cursor-pointer items-center justify-center rounded-full border border-[#E7E7E7] bg-white text-[#4C4C4C] transition-colors hover:bg-black/[0.03]"
-          >
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
-              <rect x="9" y="3" width="6" height="11" rx="3" stroke="currentColor" strokeWidth="1.7" />
-              <path d="M5 11a7 7 0 0 0 14 0 M12 18v3" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-            </svg>
-          </button>
           {/* Crear tienda (primario) */}
           <a
             href={SIGNUP_URL}
@@ -100,6 +89,42 @@ const SOLUTION_CHIPS = [
   },
 ];
 
+/* Primera línea del título con efecto typewriter */
+const TITLE_WORDS = ["Crea tu tienda", "Vende", "Cobra", "Cotiza y envía"];
+
+function TitleTypewriter() {
+  const [text, setText] = useState("");
+  const [idx, setIdx] = useState(0);
+  const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    const full = TITLE_WORDS[idx];
+    let delay = deleting ? 45 : 95;
+    if (!deleting && text === full) delay = 1800;
+    if (deleting && text === "") delay = 250;
+    const t = setTimeout(() => {
+      if (!deleting && text === full) setDeleting(true);
+      else if (deleting && text === "") {
+        setDeleting(false);
+        setIdx((p) => (p + 1) % TITLE_WORDS.length);
+      } else {
+        setText(deleting ? full.slice(0, text.length - 1) : full.slice(0, text.length + 1));
+      }
+    }, delay);
+    return () => clearTimeout(t);
+  }, [text, deleting, idx]);
+
+  return (
+    <>
+      {text}
+      <span
+        className="ml-1 inline-block w-[3px] bg-white/70 align-text-bottom"
+        style={{ height: "0.82em", animation: "blink 0.75s step-end infinite" }}
+      />
+    </>
+  );
+}
+
 export default function T1Hero() {
   const rootRef = useRef<HTMLDivElement>(null);
   return (
@@ -120,11 +145,13 @@ export default function T1Hero() {
         <div className="relative z-10 flex w-full max-w-[840px] flex-col items-center" style={{ gap: 56 }}>
           <div className="flex w-full flex-col items-center" style={{ gap: 44 }}>
             <div className="flex flex-col items-center text-center" style={{ gap: 12, maxWidth: 660 }}>
-              <h1 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[54px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.08 }}>
-                Vende, cobra y envía, todo en uno.
+              <h1 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[54px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12 }}>
+                <TitleTypewriter />,
+                <br />
+                todo en uno.
               </h1>
               <p className="font-inter text-[15px] font-light text-white/75 tablet:text-[18px]" style={{ lineHeight: 1.55, maxWidth: 560 }}>
-                Cuéntanos de tu negocio y crea tu tienda en línea o prueba nuestras otras soluciones
+                Cuéntanos de tu negocio y crea tu tienda en línea
               </p>
             </div>
 
@@ -132,7 +159,7 @@ export default function T1Hero() {
           </div>
 
           {/* Chips de soluciones — blancos */}
-          <div className="flex flex-wrap items-center justify-center gap-3 rounded-[34px] p-2" style={{ background: "rgba(13,13,13,0.55)" }}>
+          <div className="flex flex-wrap items-center justify-center gap-3 tablet:rounded-[34px] tablet:bg-[rgba(13,13,13,0.55)] tablet:p-2">
             {SOLUTION_CHIPS.map((c) => (
               <a
                 key={c.label}
