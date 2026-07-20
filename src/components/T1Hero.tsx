@@ -49,7 +49,7 @@ function HeroPrompt() {
       className="relative mx-auto w-full overflow-hidden rounded-[20px] bg-white tablet:rounded-[24px]"
       style={{ maxWidth: 718, boxShadow: "0 24px 70px rgba(0,0,0,0.35)" }}
     >
-      <div className="flex flex-col justify-between px-5 pt-5 pb-4 tablet:px-6 tablet:pt-6 tablet:pb-4" style={{ minHeight: 148 }}>
+      <div className="flex min-h-[120px] flex-col justify-between px-5 pt-4 pb-4 tablet:min-h-[148px] tablet:px-6 tablet:pt-6 tablet:pb-4">
         <p className="font-inter text-[15px] font-normal leading-relaxed text-black/40 tablet:text-[18px]">
           {text}
           <span
@@ -113,7 +113,7 @@ export default function T1Hero() {
   const rootRef = useRef<HTMLDivElement>(null);
   return (
     <div ref={rootRef} className="sticky top-0 z-0">
-      <section className="relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-5 py-24 tablet:min-h-screen tablet:px-6 tablet:py-28">
+      <section className="relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-5 py-12 tablet:min-h-screen tablet:px-6 tablet:py-28">
         {/* Fondo — degradado + glows */}
         <div aria-hidden className="absolute inset-0 z-0" style={{ background: "linear-gradient(180deg, #141414 0%, #020101 100%)" }} />
         <div
@@ -126,10 +126,10 @@ export default function T1Hero() {
         />
 
         {/* Contenido */}
-        <div className="relative z-10 flex w-full max-w-[840px] flex-col items-center" style={{ gap: 56 }}>
-          <div className="flex w-full flex-col items-center" style={{ gap: 40 }}>
+        <div className="relative z-10 flex w-full max-w-[840px] flex-col items-center gap-7 tablet:gap-14">
+          <div className="flex w-full flex-col items-center gap-5 tablet:gap-10">
             <div className="flex flex-col items-center text-center" style={{ maxWidth: 660 }}>
-              <h1 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[54px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12 }}>
+              <h1 className="font-sora text-[32px] font-light text-white tablet:text-[48px] lg:text-[54px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12 }}>
                 Vende, cobra y envía.
                 <br />
                 Todo en uno.
@@ -149,7 +149,7 @@ export default function T1Hero() {
                 <a
                   key={c.label}
                   href={c.href}
-                  className="group flex w-full flex-col items-center justify-center gap-2.5 rounded-[14px] border border-white/[0.12] bg-white/[0.14] px-3 py-4 no-underline transition-all duration-150 hover:border-white/25 hover:bg-white/[0.2] tablet:w-[230px] tablet:flex-row tablet:gap-3 tablet:px-0 tablet:py-3.5 tablet:pl-5 tablet:pr-4"
+                  className="group flex min-w-0 flex-1 basis-0 flex-col items-center justify-center gap-2 rounded-[14px] border border-white/[0.12] bg-white/[0.14] px-3 py-3.5 no-underline transition-all duration-150 hover:border-white/25 hover:bg-white/[0.2] tablet:w-[230px] tablet:flex-none tablet:flex-row tablet:gap-3 tablet:px-0 tablet:py-3.5 tablet:pl-5 tablet:pr-4"
                 >
                   <span className="flex shrink-0 items-center text-white/90">{c.icon}</span>
                   <span className="flex items-center justify-center gap-1.5 tablet:contents">
