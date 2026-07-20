@@ -146,8 +146,8 @@ export default function T1Hero() {
           </div>
 
           {/* Botones de soluciones — pill horizontal (icono + label + flecha) */}
-          <div className="flex flex-col items-center">
-            <div className="flex w-full max-w-[400px] flex-nowrap items-center justify-center gap-2.5 tablet:w-auto tablet:max-w-none tablet:gap-4">
+          <div className="flex w-full flex-col items-center">
+            <div className="flex w-full flex-nowrap items-center justify-center gap-2.5 tablet:w-auto tablet:gap-4">
               {SOLUTION_CHIPS.map((c) => (
                 <a
                   key={c.label}
