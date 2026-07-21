@@ -116,7 +116,7 @@ export default function T1Hero() {
   const rootRef = useRef<HTMLDivElement>(null);
   return (
     <div ref={rootRef} className="sticky top-0 z-0">
-      <section className="relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-5 py-[clamp(24px,5vh,64px)] tablet:min-h-screen tablet:px-6 tablet:py-28">
+      <section className="relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-5 pb-[clamp(24px,5vh,64px)] pt-24 tablet:min-h-screen tablet:px-6 tablet:py-28">
         {/* Fondo — degradado + glows */}
         <div aria-hidden className="absolute inset-0 z-0" style={{ background: "linear-gradient(180deg, #141414 0%, #020101 100%)" }} />
         <div
