@@ -273,37 +273,22 @@ export default function T1Hero() {
                   <p className="max-w-[360px] text-center font-inter text-[15px] font-light leading-[1.6] text-white tablet:text-[16px]">
                     Cotiza tu envío en segundos, sin volumen mínimo
                   </p>
-                  <div className="flex w-full flex-col gap-4">
+                  <div className="flex w-full flex-col gap-3">
                     {/* Origen → destino */}
-                    <div>
-                      <div className="flex items-center gap-3">
-                        <input value={cpDesde} onChange={(e) => setCpDesde(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Ingresa C.P." aria-label="C.P. de origen" className={`${FIELD} flex-1`} />
-                        <span aria-hidden className="shrink-0 text-white/60">→</span>
-                        <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Ingresa C.P." aria-label="C.P. de destino" className={`${FIELD} flex-1`} />
-                      </div>
-                      <div className="mt-2 flex justify-between font-inter text-[13px] font-light text-white/85">
-                        <span className="flex-1 text-center">Desde dónde envías</span>
-                        <span className="w-6" />
-                        <span className="flex-1 text-center">A dónde envías</span>
-                      </div>
+                    <div className="flex items-center gap-2.5">
+                      <input value={cpDesde} onChange={(e) => setCpDesde(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="C.P. origen" aria-label="Código postal de origen" className={`${FIELD} flex-1`} />
+                      <span aria-hidden className="shrink-0 text-white/50">→</span>
+                      <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="C.P. destino" aria-label="Código postal de destino" className={`${FIELD} flex-1`} />
                     </div>
-                    {/* Dimensiones */}
-                    <div>
-                      <p className="mb-2 text-center font-inter text-[13px] font-light text-white/85">Dimensiones (cm) y peso (kg)</p>
-                      <div className="flex gap-2">
-                        {([["ancho", "Ancho"], ["largo", "Largo"], ["alto", "Alto"], ["peso", "Peso"]] as const).map(([k, ph]) => (
-                          <input
-                            key={k}
-                            value={dim[k]}
-                            onChange={(e) => setDim((d) => ({ ...d, [k]: e.target.value.replace(/[^\d.]/g, "") }))}
-                            inputMode="decimal"
-                            placeholder={ph}
-                            aria-label={ph}
-                            className="w-full min-w-0 rounded-[14px] bg-[#1D1D1D] px-2 py-3 text-center font-inter text-[14px] text-white outline-none placeholder:text-[#8A8A8A] focus:ring-1 focus:ring-white/20"
-                          />
-                        ))}
-                      </div>
-                    </div>
+                    {/* Peso */}
+                    <input
+                      value={dim.peso}
+                      onChange={(e) => setDim((d) => ({ ...d, peso: e.target.value.replace(/[^\d.]/g, "") }))}
+                      inputMode="decimal"
+                      placeholder="Peso aprox. (kg)"
+                      aria-label="Peso aproximado en kilogramos"
+                      className={FIELD}
+                    />
                     <a
                       href={tab.href}
                       onClick={(e) => {
@@ -311,11 +296,12 @@ export default function T1Hero() {
                         else submit({});
                       }}
                       aria-disabled={!envioOk}
-                      className={`flex h-[46px] items-center justify-center rounded-[16px] font-inter text-[14px] font-semibold text-white no-underline transition-colors ${
+                      className={`mt-1 flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold text-white no-underline transition-colors ${
                         envioOk ? "bg-red-500 hover:bg-red-600" : "bg-red-500/40"
                       }`}
                     >
                       Cotizar envío
+                      {ArrowRight}
                     </a>
                   </div>
                 </>
