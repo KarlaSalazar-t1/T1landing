@@ -74,7 +74,7 @@ export default function T1Hero() {
   // Modo envío
   const [cpDesde, setCpDesde] = useState("");
   const [cpHasta, setCpHasta] = useState("");
-  const [paquete, setPaquete] = useState("");
+  const [paquete, setPaquete] = useState("pequeno");
 
   const btnRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
@@ -132,7 +132,7 @@ export default function T1Hero() {
           className="pointer-events-none absolute inset-0 z-0"
           style={{
             background:
-              "radial-gradient(circle at 79% 52%, rgba(112,10,10,0.95) 0%, rgba(87,9,9,0) 60%), radial-gradient(circle at -7% 48%, rgba(112,10,10,1) 0%, rgba(87,9,9,0) 60%), radial-gradient(circle at 31% 114%, rgba(1,25,69,0.95) 0%, rgba(17,0,85,0) 52%)",
+              "radial-gradient(circle at 6% 102%, rgba(3,20,70,0.6) 0%, rgba(17,0,85,0) 26%), radial-gradient(circle at 79% 52%, rgba(112,10,10,0.95) 0%, rgba(87,9,9,0) 60%), radial-gradient(circle at -7% 48%, rgba(112,10,10,1) 0%, rgba(87,9,9,0) 60%)",
           }}
         />
 
@@ -183,8 +183,8 @@ export default function T1Hero() {
               })}
             </div>
 
-            {/* 3 · Zona que cambia por tab */}
-            <div className="flex w-full flex-col items-center gap-5" aria-live="polite">
+            {/* 3 · Zona que cambia por tab — altura fija para que el selector no se desfase */}
+            <div className="flex min-h-[336px] w-full flex-col items-center gap-5 tablet:min-h-[300px]" aria-live="polite">
               {/* ── TIENDA ── */}
               {tabIdx === 0 && (
                 <>
@@ -290,8 +290,13 @@ export default function T1Hero() {
                       <span aria-hidden className="shrink-0 text-white/50">→</span>
                       <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="C.P. destino" aria-label="Código postal de destino" className={`${FIELD} flex-1`} />
                     </div>
-                    {/* Selector de tamaño de paquete */}
-                    <div className="grid grid-cols-2 gap-2.5" role="radiogroup" aria-label="Tamaño del paquete">
+                    {/* Selector de tamaño de paquete — horizontal con swipe en móvil */}
+                    <div
+                      role="radiogroup"
+                      aria-label="Tamaño del paquete"
+                      className="-mx-5 flex gap-2.5 overflow-x-auto px-5 pb-1 tablet:mx-0 tablet:px-0"
+                      style={{ scrollbarWidth: "none" }}
+                    >
                       {PAQUETES.map((p) => {
                         const sel = paquete === p.id;
                         return (
@@ -301,12 +306,12 @@ export default function T1Hero() {
                             role="radio"
                             aria-checked={sel}
                             onClick={() => setPaquete(p.id)}
-                            className={`flex flex-col items-start rounded-[14px] border px-3.5 py-2.5 text-left transition-colors ${
+                            className={`flex w-[150px] shrink-0 flex-col items-start rounded-[14px] border px-3.5 py-2.5 text-left transition-colors ${
                               sel ? "border-red-500 bg-red-500/15" : "border-white/10 bg-[#1D1D1D] hover:border-white/25"
                             }`}
                           >
-                            <span className="font-inter text-[14px] font-medium text-white">{p.label}</span>
-                            <span className="font-inter text-[12px] font-light text-white/55">{p.ej}</span>
+                            <span className="whitespace-nowrap font-inter text-[14px] font-medium text-white">{p.label}</span>
+                            <span className="whitespace-nowrap font-inter text-[12px] font-light text-white/55">{p.ej}</span>
                           </button>
                         );
                       })}
