@@ -254,27 +254,27 @@ export default function T1Hero() {
                   <p className="max-w-[360px] text-center font-inter text-[15px] font-light leading-[1.6] text-white tablet:text-[16px]">
                     Cobra sin tienda ni terminal, solo comparte tu link
                   </p>
-                  <div className="flex w-full flex-col gap-3">
-                    <div className="flex gap-3">
-                      <div className="relative w-[42%]">
-                        <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 font-inter text-[15px] text-[#8A8A8A]">$</span>
-                        <input
-                          inputMode="decimal"
-                          value={monto}
-                          onChange={(e) => setMonto(e.target.value.replace(/[^\d.]/g, ""))}
-                          placeholder="0.00"
-                          aria-label="Monto a cobrar"
-                          className={`${FIELD} pl-7`}
-                        />
-                      </div>
+                  <div className="flex w-full flex-col gap-3.5">
+                    {/* Monto grande, sin caja */}
+                    <div className="flex items-baseline justify-center gap-1.5 py-1">
+                      <span className="font-sora text-[28px] font-light text-white/45">$</span>
                       <input
-                        value={concepto}
-                        onChange={(e) => setConcepto(e.target.value)}
-                        placeholder="¿Qué cobras?"
-                        aria-label="Concepto"
-                        className={`${FIELD} flex-1`}
+                        inputMode="decimal"
+                        value={monto}
+                        onChange={(e) => setMonto(e.target.value.replace(/[^\d.]/g, ""))}
+                        placeholder="0.00"
+                        aria-label="Monto a cobrar"
+                        className="w-[180px] bg-transparent text-center font-sora text-[44px] font-light leading-none text-white outline-none placeholder:text-white/25"
                       />
                     </div>
+                    {/* Concepto — línea completa */}
+                    <input
+                      value={concepto}
+                      onChange={(e) => setConcepto(e.target.value)}
+                      placeholder="Concepto (¿qué cobras?)"
+                      aria-label="Concepto"
+                      className={FIELD}
+                    />
                     <a
                       href={tab.href}
                       onClick={(e) => {
@@ -307,30 +307,36 @@ export default function T1Hero() {
                       <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="C.P. destino" aria-label="Código postal de destino" className={`${FIELD} flex-1`} />
                     </div>
                     {/* Selector de tamaño de paquete — horizontal con swipe en móvil */}
-                    <div
-                      role="radiogroup"
-                      aria-label="Tamaño del paquete"
-                      className="-mx-5 flex gap-2.5 overflow-x-auto px-5 pb-1 tablet:mx-0 tablet:px-0"
-                      style={{ scrollbarWidth: "none" }}
-                    >
-                      {PAQUETES.map((p) => {
-                        const sel = paquete === p.id;
-                        return (
-                          <button
-                            key={p.id}
-                            type="button"
-                            role="radio"
-                            aria-checked={sel}
-                            onClick={() => setPaquete(p.id)}
-                            className={`flex w-[150px] shrink-0 flex-col items-start rounded-[12px] border-[1.5px] px-3.5 py-2.5 text-left transition-colors ${
-                              sel ? "border-[rgba(231,231,231,0.2)] bg-[rgba(255,255,255,0.12)]" : "border-white/10 bg-[#1D1D1D] hover:border-white/25"
-                            }`}
-                          >
-                            <span className="whitespace-nowrap font-inter text-[14px] font-medium text-white">{p.label}</span>
-                            <span className="whitespace-nowrap font-inter text-[12px] font-light text-white/55">{p.ej}</span>
-                          </button>
-                        );
-                      })}
+                    <div>
+                      <p className="mb-2 font-inter text-[13px] font-light text-white/70">¿Qué tamaño es tu paquete?</p>
+                      <div
+                        role="radiogroup"
+                        aria-label="Tamaño del paquete"
+                        className="-mx-5 flex gap-2.5 overflow-x-auto px-5 pb-1 tablet:mx-0 tablet:px-0"
+                        style={{ scrollbarWidth: "none" }}
+                      >
+                        {PAQUETES.map((p) => {
+                          const sel = paquete === p.id;
+                          return (
+                            <button
+                              key={p.id}
+                              type="button"
+                              role="radio"
+                              aria-checked={sel}
+                              onClick={(e) => {
+                                setPaquete(p.id);
+                                e.currentTarget.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+                              }}
+                              className={`flex w-[142px] shrink-0 flex-col items-start rounded-[12px] border-[1.5px] px-3.5 py-2 text-left transition-colors ${
+                                sel ? "border-[rgba(231,231,231,0.2)] bg-[rgba(255,255,255,0.12)]" : "border-white/10 bg-[#1D1D1D] hover:border-white/25"
+                              }`}
+                            >
+                              <span className="whitespace-nowrap font-inter text-[14px] font-medium text-white">{p.label}</span>
+                              <span className="whitespace-nowrap font-inter text-[12px] font-light text-white/55">{p.ej}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
                     <a
                       href={tab.href}
