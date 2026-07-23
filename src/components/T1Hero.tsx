@@ -20,18 +20,26 @@ const TABS = [
 
 /* Placeholders rotativos + chips para el modo tienda */
 const TIENDA_PLACEHOLDERS = [
-  "Vendo ropa artesanal",
-  "Vendo café de especialidad",
-  "Tengo velas aromáticas hechas a mano",
-  "Vendo muebles de diseño",
+  "Vendo ropa y accesorios de moda",
+  "Vendo gadgets y accesorios de electrónica",
+  "Vendo maquillaje y productos de belleza",
+  "Vendo ropa y equipo deportivo",
 ];
 const TIENDA_CHIPS: { label: string; example: string }[] = [
   { label: "Moda", example: "Vendo ropa y accesorios de moda" },
-  { label: "Belleza", example: "Vendo productos de belleza y cuidado personal" },
+  { label: "Electrónica", example: "Vendo gadgets y accesorios de electrónica" },
+  { label: "Belleza", example: "Vendo maquillaje y productos de belleza" },
+  { label: "Deportes", example: "Vendo ropa y equipo deportivo" },
   { label: "Joyería", example: "Hago joyería y bisutería artesanal" },
-  { label: "Electrónica", example: "Vendo productos de electrónica y gadgets" },
   { label: "Hogar", example: "Vendo artículos de decoración para el hogar" },
-  { label: "Deportes", example: "Vendo ropa y artículos deportivos" },
+];
+
+/* Paquetes para cotizar envío (con ejemplo de qué cabe) */
+const PAQUETES = [
+  { id: "sobre", label: "Sobre", ej: "Documentos" },
+  { id: "pequeno", label: "Paquete pequeño", ej: "Celular, accesorios" },
+  { id: "mediano", label: "Paquete mediano", ej: "Ropa, zapatos" },
+  { id: "grande", label: "Paquete grande", ej: "Electrodomésticos" },
 ];
 
 const SOCIAL_PROOF = ["+25,000 tiendas", "+10M de envíos", "+500mil transacciones"];
@@ -66,7 +74,7 @@ export default function T1Hero() {
   // Modo envío
   const [cpDesde, setCpDesde] = useState("");
   const [cpHasta, setCpHasta] = useState("");
-  const [dim, setDim] = useState({ ancho: "", largo: "", alto: "", peso: "" });
+  const [paquete, setPaquete] = useState("");
 
   const btnRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
@@ -112,7 +120,7 @@ export default function T1Hero() {
 
   const tiendaOk = value.trim().length > 0;
   const linkOk = monto.trim().length > 0;
-  const envioOk = cpDesde.trim().length > 0 && cpHasta.trim().length > 0;
+  const envioOk = cpDesde.trim().length > 0 && cpHasta.trim().length > 0 && paquete.length > 0;
 
   return (
     <div className="sticky top-0 z-0">
@@ -128,18 +136,20 @@ export default function T1Hero() {
           }}
         />
 
-        {/* Contenido */}
-        <div className="relative z-10 flex w-full max-w-[440px] grow flex-col items-center justify-between tablet:max-w-[640px] tablet:grow-0 tablet:justify-center tablet:gap-16">
-          <div className="flex w-full flex-col items-center gap-9 tablet:gap-11">
-            {/* 1 · H1 */}
-            <h1
-              className="text-center font-sora text-[32px] font-light leading-[1.14] text-white tablet:text-[46px] desktop:text-[52px]"
-              style={{ letterSpacing: "-0.03em" }}
-            >
-              Vende, cobra y envía.
-              <br />
-              Todo en uno.
-            </h1>
+        {/* Contenido — título arriba · selector+contenido centrado en medio · social proof abajo */}
+        <div className="relative z-10 flex w-full max-w-[440px] grow flex-col items-center tablet:max-w-[640px]">
+          {/* 1 · H1 (arriba) */}
+          <h1
+            className="text-center font-sora text-[32px] font-light leading-[1.14] text-white tablet:text-[46px] desktop:text-[52px]"
+            style={{ letterSpacing: "-0.03em" }}
+          >
+            Vende, cobra y envía.
+            <br />
+            Todo en uno.
+          </h1>
+
+          {/* Bloque central (centrado en el alto disponible) */}
+          <div className="flex w-full flex-1 flex-col items-center justify-center gap-9 py-6">
 
             {/* 2 · Selector (segmented control) */}
             <div
@@ -270,7 +280,7 @@ export default function T1Hero() {
               {/* ── ENVÍO ── */}
               {tabIdx === 2 && (
                 <>
-                  <p className="max-w-[360px] text-center font-inter text-[15px] font-light leading-[1.6] text-white tablet:text-[16px]">
+                  <p className="whitespace-nowrap text-center font-inter text-[13px] font-light leading-[1.6] text-white tablet:text-[16px]">
                     Cotiza tu envío en segundos, sin volumen mínimo
                   </p>
                   <div className="flex w-full flex-col gap-3">
@@ -280,20 +290,32 @@ export default function T1Hero() {
                       <span aria-hidden className="shrink-0 text-white/50">→</span>
                       <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="C.P. destino" aria-label="Código postal de destino" className={`${FIELD} flex-1`} />
                     </div>
-                    {/* Peso */}
-                    <input
-                      value={dim.peso}
-                      onChange={(e) => setDim((d) => ({ ...d, peso: e.target.value.replace(/[^\d.]/g, "") }))}
-                      inputMode="decimal"
-                      placeholder="Peso aprox. (kg)"
-                      aria-label="Peso aproximado en kilogramos"
-                      className={FIELD}
-                    />
+                    {/* Selector de tamaño de paquete */}
+                    <div className="grid grid-cols-2 gap-2.5" role="radiogroup" aria-label="Tamaño del paquete">
+                      {PAQUETES.map((p) => {
+                        const sel = paquete === p.id;
+                        return (
+                          <button
+                            key={p.id}
+                            type="button"
+                            role="radio"
+                            aria-checked={sel}
+                            onClick={() => setPaquete(p.id)}
+                            className={`flex flex-col items-start rounded-[14px] border px-3.5 py-2.5 text-left transition-colors ${
+                              sel ? "border-red-500 bg-red-500/15" : "border-white/10 bg-[#1D1D1D] hover:border-white/25"
+                            }`}
+                          >
+                            <span className="font-inter text-[14px] font-medium text-white">{p.label}</span>
+                            <span className="font-inter text-[12px] font-light text-white/55">{p.ej}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
                     <a
                       href={tab.href}
                       onClick={(e) => {
                         if (!envioOk) e.preventDefault();
-                        else submit({});
+                        else submit({ paquete });
                       }}
                       aria-disabled={!envioOk}
                       className={`mt-1 flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold text-white no-underline transition-colors ${
@@ -309,8 +331,8 @@ export default function T1Hero() {
             </div>
           </div>
 
-          {/* 4 · Social proof */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 px-2 text-center tablet:mt-0">
+          {/* 4 · Social proof (abajo) */}
+          <div className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 px-2 text-center">
             {SOCIAL_PROOF.map((s, i) => (
               <span key={s} className="flex items-center gap-2.5 font-inter text-[15px] font-medium text-white tablet:text-[16px]">
                 {i > 0 && <span aria-hidden className="text-white/40">•</span>}
