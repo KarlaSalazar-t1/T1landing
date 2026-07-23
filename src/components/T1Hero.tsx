@@ -94,6 +94,7 @@ export default function T1Hero() {
   const selectMode = (i: number, focusBtn = false) => {
     if (i === modeIdx) return;
     setModeIdx(i);
+    setValue(""); // el prompt se reinicia: cada modo es otra intención/destino
     track("hero_mode_select", { mode: MODES[i].id });
     if (focusBtn) btnRefs.current[i]?.focus();
   };
@@ -151,8 +152,8 @@ export default function T1Hero() {
           }}
         />
 
-        {/* Contenido */}
-        <div className="relative z-10 flex w-full max-w-[560px] flex-col items-center gap-6 tablet:max-w-[680px] tablet:gap-8">
+        {/* Contenido — en móvil llena el alto y reparte el espacio (ritmo); en tablet+ se centra */}
+        <div className="relative z-10 flex w-full max-w-[560px] grow flex-col items-center justify-between gap-5 tablet:max-w-[680px] tablet:grow-0 tablet:justify-center tablet:gap-8">
           {/* 1 · H1 + subtítulo */}
           <div className="flex flex-col items-center text-center">
             <h1 className="font-sora text-[30px] font-light leading-[1.1] text-white tablet:text-[46px] desktop:text-[52px]" style={{ letterSpacing: "-0.03em" }}>
@@ -183,7 +184,7 @@ export default function T1Hero() {
                   aria-checked={selected}
                   tabIndex={selected ? 0 : -1}
                   onClick={() => selectMode(i)}
-                  className={`group relative flex min-h-[76px] flex-col items-center justify-center gap-1.5 rounded-2xl border px-2 py-3 text-center transition-colors ${
+                  className={`group relative flex min-h-[62px] flex-col items-center justify-center gap-1 rounded-2xl border px-2 py-2.5 text-center transition-colors ${
                     selected
                       ? "border-white/35 bg-white/[0.12] text-white"
                       : "border-white/10 bg-white/[0.04] text-white/70 hover:border-white/20 hover:bg-white/[0.08]"
@@ -221,8 +222,8 @@ export default function T1Hero() {
                 }}
               />
               <div
-                className="relative overflow-hidden rounded-[22px] border border-white/[0.1] bg-white/[0.045] backdrop-blur-2xl transition-colors duration-200 focus-within:border-white/25 tablet:rounded-[26px]"
-                style={{ boxShadow: "0 24px 70px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08)" }}
+                className="relative overflow-hidden rounded-[22px] border border-white/[0.08] transition-colors duration-200 focus-within:border-white/25 tablet:rounded-[26px]"
+                style={{ background: "#1B1B1E", boxShadow: "0 24px 70px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06)" }}
               >
                 {/* halo superior sutil (borde de luz) */}
                 <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" />
