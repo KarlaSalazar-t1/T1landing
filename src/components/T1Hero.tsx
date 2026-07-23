@@ -37,9 +37,9 @@ const TIENDA_CHIPS: { label: string; example: string }[] = [
 /* Paquetes para cotizar envío (con ejemplo de qué cabe) */
 const PAQUETES = [
   { id: "sobre", label: "Sobre", ej: "Documentos" },
-  { id: "pequeno", label: "Paquete pequeño", ej: "Celular, accesorios" },
-  { id: "mediano", label: "Paquete mediano", ej: "Ropa, zapatos" },
-  { id: "grande", label: "Paquete grande", ej: "Electrodomésticos" },
+  { id: "pequeno", label: "Pequeño", ej: "Celular, accesorios" },
+  { id: "mediano", label: "Mediano", ej: "Ropa, zapatos" },
+  { id: "grande", label: "Grande", ej: "Electrodomésticos" },
 ];
 
 const SOCIAL_PROOF = ["+25,000 tiendas", "+10M de envíos", "+500mil transacciones"];
@@ -204,7 +204,7 @@ export default function T1Hero() {
               {/* ── TIENDA ── */}
               {tabIdx === 0 && (
                 <>
-                  <p className="max-w-[360px] text-center font-inter text-[15px] font-light leading-[1.6] text-white tablet:text-[16px]">
+                  <p className="max-w-[360px] text-center font-inter text-[16px] font-light leading-[1.6] text-white">
                     Describe tu negocio y crea tu tienda con IA
                   </p>
                   <div className="relative w-full rounded-[14px] bg-[#1D1D1D]" style={{ minHeight: 160 }}>
@@ -251,7 +251,7 @@ export default function T1Hero() {
               {/* ── LINK DE PAGO ── */}
               {tabIdx === 1 && (
                 <>
-                  <p className="max-w-[360px] text-center font-inter text-[15px] font-light leading-[1.6] text-white tablet:text-[16px]">
+                  <p className="max-w-[360px] text-center font-inter text-[16px] font-light leading-[1.6] text-white">
                     Cobra sin tienda ni terminal, solo comparte tu link
                   </p>
                   <div className="flex w-full flex-col gap-3.5">
@@ -296,8 +296,8 @@ export default function T1Hero() {
               {/* ── ENVÍO ── */}
               {tabIdx === 2 && (
                 <>
-                  <p className="whitespace-nowrap text-center font-inter text-[14px] font-light leading-[1.6] text-white tablet:text-[16px]">
-                    Cotiza tu envío en segundos, sin volumen mínimo
+                  <p className="whitespace-nowrap text-center font-inter text-[16px] font-light leading-[1.6] text-white">
+                    Cotiza tu envío en segundos, sin mínimos
                   </p>
                   <div className="flex w-full flex-col gap-3">
                     {/* Origen → destino */}
