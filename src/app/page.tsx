@@ -47,7 +47,8 @@ export default function Home() {
         className="relative isolate z-10 bg-[#141414] tablet:-mt-40"
       >
         {/* Orden: IA → stack cards → Score → Para quién es T1 → Métricas */}
-        <T1AISectionV2 />
+        {/* Sección "De una frase a tu tienda" oculta a solicitud */}
+        {/* <T1AISectionV2 /> */}
         <T1Features />
         <T1Score />
         {/* Versión anterior (grid de 3 cards) oculta — reemplazada por la auto-rotativa */}
