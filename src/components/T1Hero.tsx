@@ -192,7 +192,7 @@ export default function T1Hero() {
           className="pointer-events-none absolute inset-0 z-0"
           style={{
             background:
-              "radial-gradient(circle at 31% 114%, rgba(1,25,69,0.9) 0%, rgba(17,0,85,0) 55%), radial-gradient(circle at -7% 50%, rgba(89,7,7,0.85) 0%, rgba(87,9,9,0) 45%), radial-gradient(circle at 79% 55%, rgba(89,7,7,0.75) 0%, rgba(87,9,9,0) 50%)",
+              "radial-gradient(circle at 31% 114%, rgba(1,25,69,0.28) 0%, rgba(17,0,85,0) 50%), radial-gradient(circle at -7% 50%, rgba(89,7,7,0.85) 0%, rgba(87,9,9,0) 45%), radial-gradient(circle at 79% 55%, rgba(89,7,7,0.75) 0%, rgba(87,9,9,0) 50%)",
           }}
         />
 
@@ -283,9 +283,10 @@ export default function T1Hero() {
                       <a
                         href={mode.href}
                         onClick={onSubmit}
-                        className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-red-500 px-5 font-inter text-[14px] font-semibold text-white no-underline shadow-[0_6px_20px_rgba(219,59,43,0.45)] transition-colors hover:bg-red-600"
+                        aria-label={mode.cta}
+                        className="inline-flex h-11 w-11 items-center justify-center gap-1.5 rounded-full bg-red-500 font-inter text-[14px] font-semibold text-white no-underline shadow-[0_6px_20px_rgba(219,59,43,0.45)] transition-colors hover:bg-red-600 tablet:w-auto tablet:px-5"
                       >
-                        {mode.cta}
+                        <span className="hidden tablet:inline">{mode.cta}</span>
                         <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
                           <path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
@@ -295,9 +296,10 @@ export default function T1Hero() {
                         type="button"
                         disabled
                         aria-disabled="true"
-                        className="inline-flex min-h-[44px] cursor-not-allowed items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.06] px-5 font-inter text-[14px] font-semibold text-white/40"
+                        aria-label={mode.cta}
+                        className="inline-flex h-11 w-11 cursor-not-allowed items-center justify-center gap-1.5 rounded-full border border-white/10 bg-white/[0.06] font-inter text-[14px] font-semibold text-white/40 tablet:w-auto tablet:px-5"
                       >
-                        {mode.cta}
+                        <span className="hidden tablet:inline">{mode.cta}</span>
                         <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
                           <path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
@@ -316,7 +318,7 @@ export default function T1Hero() {
                     key={chip.label}
                     type="button"
                     onClick={() => insertChip(chip)}
-                    className="inline-flex items-center rounded-full border border-white/[0.12] bg-white/[0.05] px-3 py-1.5 font-inter text-[12px] font-medium text-white/75 transition-colors hover:border-white/30 hover:bg-white/[0.12] hover:text-white tablet:text-[13px]"
+                    className="inline-flex items-center rounded-[10px] border border-white/[0.12] bg-white/[0.1] px-3 py-1.5 font-inter text-[12px] font-medium text-white/80 transition-colors hover:border-white/30 hover:bg-white/[0.16] hover:text-white tablet:text-[13px]"
                   >
                     {chip.label}
                   </button>
