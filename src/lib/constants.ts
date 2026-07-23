@@ -4,6 +4,10 @@ export const LOGIN_URL = "/login";
 export const SALES_URL = "/contacto-ventas";
 export const CASES_URL = "/casos-de-exito";
 export const BLOG_URL = "/blog";
+// Destinos del hero por modo (configurables). "Vender" reutiliza SIGNUP_URL
+// para NO alterar el flujo de creación de tienda actual.
+export const PAGOS_START_URL = "/pagos/empezar";
+export const ENVIOS_QUOTE_URL = "/envios/cotizar";
 
 // ── Navigation ──
 export const NAV_LINKS = [

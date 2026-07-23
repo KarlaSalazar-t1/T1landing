@@ -595,6 +595,16 @@ body {
   50% { opacity: 0; }
 }
 
+/* Hero: fade corto al cambiar de modo (sin animar altura) */
+@keyframes heroFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.hero-fade { animation: heroFade 140ms ease-out; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-fade { animation: none; }
+}
+
 /* Hide scrollbar for horizontal scroll galleries */
 .overflow-x-auto::-webkit-scrollbar {
   display: none;
