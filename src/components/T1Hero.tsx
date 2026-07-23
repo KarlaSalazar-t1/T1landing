@@ -190,17 +190,6 @@ export default function T1Hero() {
                       : "border-white/10 bg-white/[0.04] text-white/70 hover:border-white/20 hover:bg-white/[0.08]"
                   }`}
                 >
-                  {/* check en círculo relleno (estado seleccionado) */}
-                  <span
-                    aria-hidden
-                    className={`absolute right-2 top-2 flex h-4 w-4 items-center justify-center rounded-full transition-opacity ${
-                      selected ? "bg-red-500 opacity-100" : "opacity-0"
-                    }`}
-                  >
-                    <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-                      <path d="M2.5 6.2 5 8.5l4.5-5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </span>
                   <span className={selected ? "text-white" : "text-white/75"}>{m.icon}</span>
                   <span className="font-inter text-[12px] font-medium leading-tight tablet:text-[13px]">{m.label}</span>
                 </button>
@@ -210,6 +199,11 @@ export default function T1Hero() {
 
           {/* Zona que cambia por modo — anuncia cambios (a11y) */}
           <div className="flex w-full flex-col items-center gap-3" aria-live="polite">
+            {/* 4 · Microcopy educativo (arriba del input, altura fija 1 línea) */}
+            <p key={`mc-${mode.id}`} className="hero-fade flex min-h-[20px] items-center px-2 text-center font-inter text-[13px] font-normal text-white/70 tablet:text-[14px]">
+              {mode.microcopy}
+            </p>
+
             {/* 3 · Caja de prompt (dark glass premium) con textarea + CTA */}
             <div data-prompt-box className="group relative w-full">
               {/* aura ambiental de marca detrás de la caja */}
@@ -277,11 +271,6 @@ export default function T1Hero() {
                 </div>
               </div>
             </div>
-
-            {/* 4 · Microcopy educativo (altura fija 1 línea) */}
-            <p key={`mc-${mode.id}`} className="hero-fade flex min-h-[20px] items-center px-2 text-center font-inter text-[13px] font-normal text-white/70 tablet:text-[14px]">
-              {mode.microcopy}
-            </p>
 
             {/* 5 · Chips de sugerencia (altura fija 2 filas) */}
             <div className="flex w-full flex-col items-center gap-2">
