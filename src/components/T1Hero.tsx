@@ -191,7 +191,7 @@ export default function T1Hero() {
                     className={`flex-1 whitespace-nowrap rounded-[12px] px-1.5 py-2.5 font-inter text-[11px] font-medium leading-tight transition-colors tablet:text-[13px] ${
                       selected ? "text-white" : "text-white/65 hover:text-white/85"
                     }`}
-                    style={selected ? { background: "rgba(255,255,255,0.2)", border: "1.5px solid rgba(231,231,231,0.2)" } : undefined}
+                    style={selected ? { background: "rgba(255,255,255,0.12)", border: "1.5px solid rgba(231,231,231,0.2)" } : undefined}
                   >
                     {t.label}
                   </button>
@@ -323,7 +323,7 @@ export default function T1Hero() {
                             aria-checked={sel}
                             onClick={() => setPaquete(p.id)}
                             className={`flex w-[150px] shrink-0 flex-col items-start rounded-[12px] border-[1.5px] px-3.5 py-2.5 text-left transition-colors ${
-                              sel ? "border-[rgba(231,231,231,0.2)] bg-[rgba(255,255,255,0.2)]" : "border-white/10 bg-[#1D1D1D] hover:border-white/25"
+                              sel ? "border-[rgba(231,231,231,0.2)] bg-[rgba(255,255,255,0.12)]" : "border-white/10 bg-[#1D1D1D] hover:border-white/25"
                             }`}
                           >
                             <span className="whitespace-nowrap font-inter text-[14px] font-medium text-white">{p.label}</span>
