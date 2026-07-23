@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { SIGNUP_URL, PAGOS_START_URL, ENVIOS_QUOTE_URL } from "@/lib/constants";
 
@@ -34,14 +34,15 @@ const IconTruck = (
 );
 
 /* ── Contenido por modo (textos EXACTOS de negocio) ── */
+type Chip = { label: string; example: string };
 type Mode = {
   id: string;
   label: string;
   icon: ReactNode;
-  placeholder: string;
+  placeholders: string[]; // ejemplos rotativos
   cta: string;
   microcopy: string;
-  chips: string[];
+  chips: Chip[];
   proof: string[];
   href: string;
 };
@@ -51,10 +52,22 @@ const MODES: Mode[] = [
     id: "vender",
     label: "Vender en línea",
     icon: IconStore,
-    placeholder: "Vendo ropa artesanal y quiero mi tienda en línea…",
+    placeholders: [
+      "Vendo ropa artesanal y quiero mi tienda en línea…",
+      "Vendo café de especialidad y quiero venderlo por internet…",
+      "Tengo velas aromáticas hechas a mano y quiero mi tienda…",
+      "Vendo muebles de diseño y quiero mostrar mi catálogo…",
+    ],
     cta: "Crear tienda",
     microcopy: "Tu tienda en línea lista con IA, sin saber de diseño.",
-    chips: ["Moda", "Comida", "Belleza", "Deportes", "Joyería", "Hogar"],
+    chips: [
+      { label: "Moda", example: "Vendo ropa y accesorios de moda y quiero mi tienda en línea" },
+      { label: "Comida", example: "Preparo comida casera y postres y quiero venderlos por internet" },
+      { label: "Belleza", example: "Vendo productos de belleza y cuidado de la piel" },
+      { label: "Deportes", example: "Vendo ropa y artículos deportivos y quiero mi tienda" },
+      { label: "Joyería", example: "Hago joyería y bisutería artesanal y quiero venderla en línea" },
+      { label: "Hogar", example: "Vendo artículos de decoración para el hogar" },
+    ],
     proof: ["+25 mil tiendas", "+500 mil transacciones", "+10 M de envíos"],
     href: SIGNUP_URL, // flujo actual, sin cambios
   },
@@ -62,10 +75,20 @@ const MODES: Mode[] = [
     id: "cobrar",
     label: "Cobrar",
     icon: IconCard,
-    placeholder: "Tengo un negocio de fotografía para eventos y quiero cobrar con distintas formas de pago…",
+    placeholders: [
+      "Tengo un negocio de fotografía y quiero cobrar con tarjeta…",
+      "Doy clases de yoga y quiero cobrar en línea…",
+      "Vendo por redes y quiero cobrar con un link de pago…",
+      "Manejo apartados y quiero cobrar los abonos…",
+    ],
     cta: "Comenzar a cobrar",
     microcopy: "Cobra con tarjeta: sin tienda, sin terminal.",
-    chips: ["Doy un servicio", "Vendo por redes", "Cobro apartados", "Clases o consultas"],
+    chips: [
+      { label: "Doy un servicio", example: "Doy un servicio y quiero cobrar con tarjeta sin tener una tienda" },
+      { label: "Vendo por redes", example: "Vendo por redes sociales y quiero cobrarles a mis clientes con tarjeta" },
+      { label: "Cobro apartados", example: "Manejo apartados y quiero cobrar los abonos con un link de pago" },
+      { label: "Clases o consultas", example: "Doy clases y consultas y quiero cobrar en línea con tarjeta" },
+    ],
     proof: ["+500 mil transacciones", "+25 mil tiendas", "+10 M de envíos"],
     href: PAGOS_START_URL,
   },
@@ -73,10 +96,20 @@ const MODES: Mode[] = [
     id: "enviar",
     label: "Enviar", // sin acento
     icon: IconTruck,
-    placeholder: "Vendo por Instagram y entrego yo misma, quiero enviar más barato…",
+    placeholders: [
+      "Vendo por Instagram y quiero enviar más barato…",
+      "Ya tengo tienda y quiero mejores tarifas de envío…",
+      "Hago envíos ocasionales y no quiero volumen mínimo…",
+      "Vendo en marketplaces y quiero centralizar mis envíos…",
+    ],
     cta: "Cotizar mi envío",
     microcopy: "Envía a todo México, sin volumen mínimo.",
-    chips: ["Vendo por redes", "Ya tengo tienda propia", "Vendo en marketplaces", "Envíos ocasionales"],
+    chips: [
+      { label: "Vendo por redes", example: "Vendo por Instagram y necesito enviar mis pedidos más barato" },
+      { label: "Ya tengo tienda propia", example: "Ya tengo mi tienda propia y quiero mejores tarifas de envío" },
+      { label: "Vendo en marketplaces", example: "Vendo en marketplaces y quiero centralizar todos mis envíos" },
+      { label: "Envíos ocasionales", example: "Hago envíos ocasionales y no quiero pagar de más" },
+    ],
     proof: ["+10 M de envíos", "+500 mil transacciones", "+25 mil tiendas"],
     href: ENVIOS_QUOTE_URL,
   },
@@ -85,16 +118,26 @@ const MODES: Mode[] = [
 export default function T1Hero() {
   const [modeIdx, setModeIdx] = useState(0);
   const [value, setValue] = useState("");
+  const [phIdx, setPhIdx] = useState(0);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const btnRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const mode = MODES[modeIdx];
   const canSubmit = value.trim().length > 0;
+  const placeholder = mode.placeholders[phIdx % mode.placeholders.length];
+
+  // Placeholder rotativo (solo mientras el input esté vacío)
+  useEffect(() => {
+    if (value) return;
+    const t = setInterval(() => setPhIdx((p) => p + 1), 3200);
+    return () => clearInterval(t);
+  }, [value, modeIdx]);
 
   const selectMode = (i: number, focusBtn = false) => {
     if (i === modeIdx) return;
     setModeIdx(i);
     setValue(""); // el prompt se reinicia: cada modo es otra intención/destino
+    setPhIdx(0);
     track("hero_mode_select", { mode: MODES[i].id });
     if (focusBtn) btnRefs.current[i]?.focus();
   };
@@ -109,10 +152,11 @@ export default function T1Hero() {
     }
   };
 
-  const insertChip = (chip: string) => {
-    track("hero_chip_click", { mode: mode.id, chip });
+  const insertChip = (chip: Chip) => {
+    track("hero_chip_click", { mode: mode.id, chip: chip.label });
     const el = textareaRef.current;
-    setValue((prev) => (prev.trim() ? `${prev.trim()} ${chip}` : chip));
+    // Prellena con una frase de ejemplo completa (no solo la palabra)
+    setValue(chip.example);
     // foco + cursor al final tras el re-render
     requestAnimationFrame(() => {
       if (el) {
@@ -222,25 +266,17 @@ export default function T1Hero() {
                 {/* halo superior sutil (borde de luz) */}
                 <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" />
                 <div className="flex flex-col gap-3 p-4 tablet:p-5">
-                  <div className="flex items-start gap-2.5">
-                    {/* chispa IA */}
-                    <span aria-hidden className="mt-0.5 shrink-0 text-[#FF7363]">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                        <path d="M12 3l1.6 4.7a3 3 0 0 0 1.9 1.9L20 11.2l-4.5 1.6a3 3 0 0 0-1.9 1.9L12 19.4l-1.6-4.7a3 3 0 0 0-1.9-1.9L4 11.2l4.5-1.6a3 3 0 0 0 1.9-1.9L12 3z" fill="currentColor" />
-                      </svg>
-                    </span>
-                    <textarea
-                      ref={textareaRef}
-                      key={`ta-${mode.id}`}
-                      value={value}
-                      onChange={(e) => setValue(e.target.value.slice(0, 500))}
-                      onFocus={onFocusTextarea}
-                      rows={2}
-                      aria-label={`Describe tu negocio para el modo ${mode.label}`}
-                      placeholder={mode.placeholder}
-                      className="hero-fade min-h-[3.4em] w-full resize-none bg-transparent font-inter text-[15px] font-normal leading-relaxed text-white/90 outline-none placeholder:text-white/45 tablet:text-[17px]"
-                    />
-                  </div>
+                  <textarea
+                    ref={textareaRef}
+                    value={value}
+                    onChange={(e) => setValue(e.target.value.slice(0, 500))}
+                    onFocus={onFocusTextarea}
+                    rows={2}
+                    aria-label={`Describe tu negocio para el modo ${mode.label}`}
+                    placeholder={placeholder}
+                    className="min-h-[3.4em] w-full resize-none bg-transparent font-inter text-[15px] font-normal leading-relaxed text-white/90 outline-none placeholder:text-white/45 tablet:text-[17px]"
+                  />
+
                   <div className="flex items-center justify-between">
                     <span className="font-inter text-[11px] text-white/35">{value.length}/500</span>
                     {canSubmit ? (
@@ -272,17 +308,17 @@ export default function T1Hero() {
               </div>
             </div>
 
-            {/* 5 · Chips de sugerencia (altura fija 2 filas) */}
+            {/* 5 · Chips de sugerencia (chips pequeños, altura fija 2 filas) */}
             <div className="flex w-full flex-col items-center gap-2">
-              <div key={`chips-${mode.id}`} className="hero-fade flex min-h-[84px] flex-wrap items-start justify-center gap-2 tablet:min-h-[52px]">
+              <div key={`chips-${mode.id}`} className="hero-fade flex min-h-[68px] flex-wrap items-start justify-center gap-1.5 tablet:min-h-[38px]">
                 {mode.chips.map((chip) => (
                   <button
-                    key={chip}
+                    key={chip.label}
                     type="button"
                     onClick={() => insertChip(chip)}
-                    className="inline-flex min-h-[44px] items-center rounded-full border border-white/15 bg-white/[0.06] px-4 font-inter text-[13px] font-medium text-white/80 transition-colors hover:border-white/30 hover:bg-white/[0.12] hover:text-white tablet:text-[14px]"
+                    className="inline-flex items-center rounded-full border border-white/[0.12] bg-white/[0.05] px-3 py-1.5 font-inter text-[12px] font-medium text-white/75 transition-colors hover:border-white/30 hover:bg-white/[0.12] hover:text-white tablet:text-[13px]"
                   >
-                    {chip}
+                    {chip.label}
                   </button>
                 ))}
               </div>
