@@ -64,7 +64,7 @@ const MODES: Mode[] = [
     icon: IconCard,
     placeholder: "Tengo un negocio de fotografía para eventos y quiero cobrar con distintas formas de pago…",
     cta: "Comenzar a cobrar",
-    microcopy: "Mandas un link por WhatsApp y te pagan con tarjeta. Sin tienda, sin terminal.",
+    microcopy: "Cobra con tarjeta: sin tienda, sin terminal.",
     chips: ["Doy un servicio", "Vendo por redes", "Cobro apartados", "Clases o consultas"],
     proof: ["+500 mil transacciones", "+25 mil tiendas", "+10 M de envíos"],
     href: PAGOS_START_URL,
@@ -75,7 +75,7 @@ const MODES: Mode[] = [
     icon: IconTruck,
     placeholder: "Vendo por Instagram y entrego yo misma, quiero enviar más barato…",
     cta: "Cotizar mi envío",
-    microcopy: "Generas guías con descuento y recolectan en tu puerta. Sin volumen mínimo.",
+    microcopy: "Envía a todo México, sin volumen mínimo.",
     chips: ["Vendo por redes", "Ya tengo tienda propia", "Vendo en marketplaces", "Envíos ocasionales"],
     proof: ["+10 M de envíos", "+500 mil transacciones", "+25 mil tiendas"],
     href: ENVIOS_QUOTE_URL,
@@ -285,7 +285,6 @@ export default function T1Hero() {
 
             {/* 5 · Chips de sugerencia (altura fija 2 filas) */}
             <div className="flex w-full flex-col items-center gap-2">
-              <span className="font-inter text-[11px] font-medium uppercase tracking-wide text-white/45">O empieza por aquí</span>
               <div key={`chips-${mode.id}`} className="hero-fade flex min-h-[84px] flex-wrap items-start justify-center gap-2 tablet:min-h-[52px]">
                 {mode.chips.map((chip) => (
                   <button
