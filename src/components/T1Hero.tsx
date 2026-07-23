@@ -209,50 +209,70 @@ export default function T1Hero() {
 
           {/* Zona que cambia por modo — anuncia cambios (a11y) */}
           <div className="flex w-full flex-col items-center gap-3" aria-live="polite">
-            {/* 3 · Caja de prompt con textarea + CTA */}
-            <div
-              data-prompt-box
-              className="w-full overflow-hidden rounded-[20px] bg-white tablet:rounded-[24px]"
-              style={{ boxShadow: "0 24px 70px rgba(0,0,0,0.35)" }}
-            >
-              <div className="flex flex-col gap-3 px-4 py-4 tablet:px-5 tablet:py-5">
-                <textarea
-                  ref={textareaRef}
-                  key={`ta-${mode.id}`}
-                  value={value}
-                  onChange={(e) => setValue(e.target.value.slice(0, 500))}
-                  onFocus={onFocusTextarea}
-                  rows={2}
-                  aria-label={`Describe tu negocio para el modo ${mode.label}`}
-                  placeholder={mode.placeholder}
-                  className="hero-fade min-h-[3.4em] w-full resize-none bg-transparent font-inter text-[15px] font-normal leading-relaxed text-black/85 outline-none placeholder:text-black/45 tablet:text-[17px]"
-                />
-                <div className="flex items-center justify-between">
-                  <span className="font-inter text-[11px] text-black/35">{value.length}/500</span>
-                  {canSubmit ? (
-                    <a
-                      href={mode.href}
-                      onClick={onSubmit}
-                      className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-red-500 px-5 font-inter text-[14px] font-semibold text-white no-underline transition-colors hover:bg-red-600"
-                    >
-                      {mode.cta}
-                      <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
-                        <path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+            {/* 3 · Caja de prompt (dark glass premium) con textarea + CTA */}
+            <div data-prompt-box className="group relative w-full">
+              {/* aura ambiental de marca detrás de la caja */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute -inset-6 -z-10 opacity-70 blur-2xl transition-opacity duration-300 group-focus-within:opacity-100"
+                style={{
+                  background:
+                    "radial-gradient(60% 70% at 50% 100%, rgba(255,111,94,0.18) 0%, rgba(255,111,94,0) 70%)",
+                }}
+              />
+              <div
+                className="relative overflow-hidden rounded-[22px] border border-white/[0.1] bg-white/[0.045] backdrop-blur-2xl transition-colors duration-200 focus-within:border-white/25 tablet:rounded-[26px]"
+                style={{ boxShadow: "0 24px 70px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08)" }}
+              >
+                {/* halo superior sutil (borde de luz) */}
+                <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" />
+                <div className="flex flex-col gap-3 p-4 tablet:p-5">
+                  <div className="flex items-start gap-2.5">
+                    {/* chispa IA */}
+                    <span aria-hidden className="mt-0.5 shrink-0 text-[#FF7363]">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 3l1.6 4.7a3 3 0 0 0 1.9 1.9L20 11.2l-4.5 1.6a3 3 0 0 0-1.9 1.9L12 19.4l-1.6-4.7a3 3 0 0 0-1.9-1.9L4 11.2l4.5-1.6a3 3 0 0 0 1.9-1.9L12 3z" fill="currentColor" />
                       </svg>
-                    </a>
-                  ) : (
-                    <button
-                      type="button"
-                      disabled
-                      aria-disabled="true"
-                      className="inline-flex min-h-[44px] cursor-not-allowed items-center gap-1.5 rounded-full bg-black/[0.08] px-5 font-inter text-[14px] font-semibold text-black/35"
-                    >
-                      {mode.cta}
-                      <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
-                        <path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </button>
-                  )}
+                    </span>
+                    <textarea
+                      ref={textareaRef}
+                      key={`ta-${mode.id}`}
+                      value={value}
+                      onChange={(e) => setValue(e.target.value.slice(0, 500))}
+                      onFocus={onFocusTextarea}
+                      rows={2}
+                      aria-label={`Describe tu negocio para el modo ${mode.label}`}
+                      placeholder={mode.placeholder}
+                      className="hero-fade min-h-[3.4em] w-full resize-none bg-transparent font-inter text-[15px] font-normal leading-relaxed text-white/90 outline-none placeholder:text-white/45 tablet:text-[17px]"
+                    />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="font-inter text-[11px] text-white/35">{value.length}/500</span>
+                    {canSubmit ? (
+                      <a
+                        href={mode.href}
+                        onClick={onSubmit}
+                        className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-red-500 px-5 font-inter text-[14px] font-semibold text-white no-underline shadow-[0_6px_20px_rgba(219,59,43,0.45)] transition-colors hover:bg-red-600"
+                      >
+                        {mode.cta}
+                        <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
+                          <path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </a>
+                    ) : (
+                      <button
+                        type="button"
+                        disabled
+                        aria-disabled="true"
+                        className="inline-flex min-h-[44px] cursor-not-allowed items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.06] px-5 font-inter text-[14px] font-semibold text-white/40"
+                      >
+                        {mode.cta}
+                        <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
+                          <path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
