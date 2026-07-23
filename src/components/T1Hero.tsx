@@ -208,8 +208,8 @@ export default function T1Hero() {
                         else submit({ length: value.trim().length });
                       }}
                       aria-label="Crear tienda"
-                      className={`absolute bottom-3 right-3 flex h-[38px] w-[38px] items-center justify-center rounded-full text-white transition-colors ${
-                        tiendaOk ? "bg-red-500 hover:bg-red-600" : "bg-red-500/40"
+                      className={`absolute bottom-3 right-3 flex h-[38px] w-[38px] items-center justify-center rounded-full transition-colors ${
+                        tiendaOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-white/[0.07] text-white/35"
                       }`}
                     >
                       {ArrowUp}
@@ -266,8 +266,8 @@ export default function T1Hero() {
                         else submit({ length: monto.length });
                       }}
                       aria-disabled={!linkOk}
-                      className={`flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold text-white no-underline transition-colors ${
-                        linkOk ? "bg-red-500 hover:bg-red-600" : "bg-red-500/40"
+                      className={`flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors ${
+                        linkOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-white/[0.06] text-white/40"
                       }`}
                     >
                       Crear link de pago
@@ -280,7 +280,7 @@ export default function T1Hero() {
               {/* ── ENVÍO ── */}
               {tabIdx === 2 && (
                 <>
-                  <p className="whitespace-nowrap text-center font-inter text-[13px] font-light leading-[1.6] text-white tablet:text-[16px]">
+                  <p className="whitespace-nowrap text-center font-inter text-[14px] font-light leading-[1.6] text-white tablet:text-[16px]">
                     Cotiza tu envío en segundos, sin volumen mínimo
                   </p>
                   <div className="flex w-full flex-col gap-3">
@@ -307,7 +307,7 @@ export default function T1Hero() {
                             aria-checked={sel}
                             onClick={() => setPaquete(p.id)}
                             className={`flex w-[150px] shrink-0 flex-col items-start rounded-[14px] border px-3.5 py-2.5 text-left transition-colors ${
-                              sel ? "border-red-500 bg-red-500/15" : "border-white/10 bg-[#1D1D1D] hover:border-white/25"
+                              sel ? "border-white/70 bg-white/[0.08]" : "border-white/10 bg-[#1D1D1D] hover:border-white/25"
                             }`}
                           >
                             <span className="whitespace-nowrap font-inter text-[14px] font-medium text-white">{p.label}</span>
@@ -323,8 +323,8 @@ export default function T1Hero() {
                         else submit({ paquete });
                       }}
                       aria-disabled={!envioOk}
-                      className={`mt-1 flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold text-white no-underline transition-colors ${
-                        envioOk ? "bg-red-500 hover:bg-red-600" : "bg-red-500/40"
+                      className={`mt-1 flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors ${
+                        envioOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-white/[0.06] text-white/40"
                       }`}
                     >
                       Cotizar envío
