@@ -64,8 +64,10 @@ export default function T1Hero() {
   // Modo tienda
   const [value, setValue] = useState("");
   const [phIdx, setPhIdx] = useState(0);
+  const [typed, setTyped] = useState("");
+  const [deleting, setDeleting] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const placeholder = TIENDA_PLACEHOLDERS[phIdx % TIENDA_PLACEHOLDERS.length];
+  const placeholder = tabIdx === 0 ? typed : "";
 
   // Modo link de pago
   const [monto, setMonto] = useState("");
@@ -78,17 +80,31 @@ export default function T1Hero() {
 
   const btnRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
-  // Placeholder rotativo (solo modo tienda, input vacío)
+  // Placeholder con animación typewriter (solo modo tienda, input vacío)
   useEffect(() => {
     if (tabIdx !== 0 || value) return;
-    const t = setInterval(() => setPhIdx((p) => p + 1), 3200);
-    return () => clearInterval(t);
-  }, [tabIdx, value]);
+    const full = TIENDA_PLACEHOLDERS[phIdx % TIENDA_PLACEHOLDERS.length];
+    let delay = deleting ? 35 : 65;
+    if (!deleting && typed === full) delay = 1900;
+    if (deleting && typed === "") delay = 350;
+    const t = setTimeout(() => {
+      if (!deleting && typed === full) setDeleting(true);
+      else if (deleting && typed === "") {
+        setDeleting(false);
+        setPhIdx((p) => p + 1);
+      } else {
+        setTyped(deleting ? full.slice(0, typed.length - 1) : full.slice(0, typed.length + 1));
+      }
+    }, delay);
+    return () => clearTimeout(t);
+  }, [typed, deleting, phIdx, tabIdx, value]);
 
   const selectTab = (i: number, focusBtn = false) => {
     if (i === tabIdx) return;
     setTabIdx(i);
     setPhIdx(0);
+    setTyped("");
+    setDeleting(false);
     track("hero_mode_select", { mode: TABS[i].id });
     if (focusBtn) btnRefs.current[i]?.focus();
   };
@@ -209,7 +225,7 @@ export default function T1Hero() {
                       }}
                       aria-label="Crear tienda"
                       className={`absolute bottom-3 right-3 flex h-[38px] w-[38px] items-center justify-center rounded-full transition-colors ${
-                        tiendaOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-white/[0.07] text-white/35"
+                        tiendaOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
                       }`}
                     >
                       {ArrowUp}
@@ -267,7 +283,7 @@ export default function T1Hero() {
                       }}
                       aria-disabled={!linkOk}
                       className={`flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors ${
-                        linkOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-white/[0.06] text-white/40"
+                        linkOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
                       }`}
                     >
                       Crear link de pago
@@ -306,8 +322,8 @@ export default function T1Hero() {
                             role="radio"
                             aria-checked={sel}
                             onClick={() => setPaquete(p.id)}
-                            className={`flex w-[150px] shrink-0 flex-col items-start rounded-[14px] border px-3.5 py-2.5 text-left transition-colors ${
-                              sel ? "border-white/70 bg-white/[0.08]" : "border-white/10 bg-[#1D1D1D] hover:border-white/25"
+                            className={`flex w-[150px] shrink-0 flex-col items-start rounded-[12px] border-[1.5px] px-3.5 py-2.5 text-left transition-colors ${
+                              sel ? "border-[rgba(231,231,231,0.2)] bg-[rgba(255,255,255,0.2)]" : "border-white/10 bg-[#1D1D1D] hover:border-white/25"
                             }`}
                           >
                             <span className="whitespace-nowrap font-inter text-[14px] font-medium text-white">{p.label}</span>
@@ -324,7 +340,7 @@ export default function T1Hero() {
                       }}
                       aria-disabled={!envioOk}
                       className={`mt-1 flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors ${
-                        envioOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-white/[0.06] text-white/40"
+                        envioOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
                       }`}
                     >
                       Cotizar envío
