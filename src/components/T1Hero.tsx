@@ -160,6 +160,14 @@ export default function T1Hero() {
               "linear-gradient(90deg, rgba(2,1,1,0.85) 0%, rgba(20,4,4,0.35) 12%, rgba(0,0,0,0) 26%, rgba(0,0,0,0) 74%, rgba(20,4,4,0.35) 88%, rgba(2,1,1,0.85) 100%)",
           }}
         />
+        {/* Blob azul superior derecha — solo desktop */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-0 hidden tablet:block"
+          style={{
+            background: "radial-gradient(circle at 97% -2%, rgba(4,24,82,0.75) 0%, rgba(17,0,85,0) 27%)",
+          }}
+        />
 
         {/* Contenido — título arriba · selector+contenido centrado en medio · social proof abajo */}
         <div className="relative z-10 flex w-full max-w-[440px] grow flex-col items-center tablet:max-w-[640px]">
