@@ -151,6 +151,15 @@ export default function T1Hero() {
               "radial-gradient(circle at 6% 102%, rgba(3,20,70,0.6) 0%, rgba(17,0,85,0) 26%), radial-gradient(circle at 79% 52%, rgba(112,10,10,0.95) 0%, rgba(87,9,9,0) 60%), radial-gradient(circle at -7% 48%, rgba(112,10,10,1) 0%, rgba(87,9,9,0) 60%)",
           }}
         />
+        {/* Viñeta lateral — solo desktop: orillas a negro/rojo oscuro */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-0 hidden tablet:block"
+          style={{
+            background:
+              "linear-gradient(90deg, rgba(2,1,1,0.85) 0%, rgba(20,4,4,0.35) 12%, rgba(0,0,0,0) 26%, rgba(0,0,0,0) 74%, rgba(20,4,4,0.35) 88%, rgba(2,1,1,0.85) 100%)",
+          }}
+        />
 
         {/* Contenido — título arriba · selector+contenido centrado en medio · social proof abajo */}
         <div className="relative z-10 flex w-full max-w-[440px] grow flex-col items-center tablet:max-w-[640px]">
@@ -312,7 +321,7 @@ export default function T1Hero() {
                       <div
                         role="radiogroup"
                         aria-label="Tamaño del paquete"
-                        className="-mx-5 flex gap-2.5 overflow-x-auto px-5 pb-1 tablet:mx-0 tablet:px-0"
+                        className="-mx-5 flex gap-2.5 overflow-x-auto px-5 pb-1 tablet:mx-0 tablet:grid tablet:grid-cols-4 tablet:overflow-visible tablet:px-0"
                         style={{ scrollbarWidth: "none" }}
                       >
                         {PAQUETES.map((p) => {
@@ -327,7 +336,7 @@ export default function T1Hero() {
                                 setPaquete(p.id);
                                 e.currentTarget.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
                               }}
-                              className={`flex w-[142px] shrink-0 flex-col items-start rounded-[12px] border-[1.5px] px-3.5 py-2 text-left transition-colors ${
+                              className={`flex w-[142px] shrink-0 flex-col items-start rounded-[12px] border-[1.5px] px-3.5 py-2 text-left transition-colors tablet:w-auto ${
                                 sel ? "border-[rgba(231,231,231,0.2)] bg-[rgba(255,255,255,0.12)]" : "border-white/10 bg-[#1D1D1D] hover:border-white/25"
                               }`}
                             >
