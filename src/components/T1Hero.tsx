@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { ReactNode } from "react";
 import { SIGNUP_URL, PAGOS_START_URL, ENVIOS_QUOTE_URL } from "@/lib/constants";
 
-/* ── Analítica: usa dataLayer como fallback (el proyecto no tiene tracking) ── */
+/* ── Analítica: dataLayer como fallback (el proyecto no tiene tracking) ── */
 function track(event: string, data: Record<string, unknown>) {
   if (typeof window === "undefined") return;
   const w = window as unknown as { dataLayer?: Record<string, unknown>[] };
@@ -12,152 +11,94 @@ function track(event: string, data: Record<string, unknown>) {
   w.dataLayer.push({ event, ...data });
 }
 
-/* ── Iconos por modo (tienda / tarjeta / camión) ── */
-const IconStore = (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
-    <path d="M4 9.5 5.2 4.5A1 1 0 0 1 6.17 3.75h11.66a1 1 0 0 1 .97.75L20 9.5M4 9.5h16M4 9.5v0a2.5 2.5 0 0 0 4 0 2.5 2.5 0 0 0 4 0 2.5 2.5 0 0 0 4 0 2.5 2.5 0 0 0 4 0M5 11.5V20h14v-8.5M10 20v-4.5h4V20" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
-const IconCard = (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
-    <rect x="2.75" y="5.25" width="18.5" height="13.5" rx="2.25" stroke="currentColor" strokeWidth="1.6" />
-    <path d="M2.75 9.5h18.5M6 14.5h4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-  </svg>
-);
-const IconTruck = (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
-    <path d="M2.75 6.75A1 1 0 0 1 3.75 5.75h9.5a1 1 0 0 1 1 1v9.5H2.75v-9.5Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-    <path d="M14.25 9.25h3.4a1 1 0 0 1 .82.42l2.35 3.3a1 1 0 0 1 .18.58v2.7h-6.75v-7Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-    <circle cx="7" cy="17.75" r="1.9" stroke="currentColor" strokeWidth="1.6" />
-    <circle cx="17.25" cy="17.75" r="1.9" stroke="currentColor" strokeWidth="1.6" />
-  </svg>
-);
-
-/* ── Contenido por modo (textos EXACTOS de negocio) ── */
-type Chip = { label: string; example: string };
-type Mode = {
-  id: string;
-  label: string;
-  icon: ReactNode;
-  placeholders: string[]; // ejemplos rotativos
-  cta: string;
-  microcopy: string;
-  chips: Chip[];
-  proof: string[];
-  href: string;
-};
-
-const MODES: Mode[] = [
-  {
-    id: "vender",
-    label: "Vender en línea",
-    icon: IconStore,
-    placeholders: [
-      "Vendo ropa artesanal y quiero mi tienda en línea…",
-      "Vendo café de especialidad y quiero venderlo por internet…",
-      "Tengo velas aromáticas hechas a mano y quiero mi tienda…",
-      "Vendo muebles de diseño y quiero mostrar mi catálogo…",
-    ],
-    cta: "Crear tienda",
-    microcopy: "Tu tienda en línea lista con IA, sin saber de diseño.",
-    chips: [
-      { label: "Moda", example: "Vendo ropa y accesorios de moda y quiero mi tienda en línea" },
-      { label: "Comida", example: "Preparo comida casera y postres y quiero venderlos por internet" },
-      { label: "Belleza", example: "Vendo productos de belleza y cuidado de la piel" },
-      { label: "Deportes", example: "Vendo ropa y artículos deportivos y quiero mi tienda" },
-      { label: "Joyería", example: "Hago joyería y bisutería artesanal y quiero venderla en línea" },
-      { label: "Hogar", example: "Vendo artículos de decoración para el hogar" },
-    ],
-    proof: ["+25 mil tiendas", "+500 mil transacciones", "+10 M de envíos"],
-    href: SIGNUP_URL, // flujo actual, sin cambios
-  },
-  {
-    id: "cobrar",
-    label: "Cobrar",
-    icon: IconCard,
-    placeholders: [
-      "Tengo un negocio de fotografía y quiero cobrar con tarjeta…",
-      "Doy clases de yoga y quiero cobrar en línea…",
-      "Vendo por redes y quiero cobrar con un link de pago…",
-      "Manejo apartados y quiero cobrar los abonos…",
-    ],
-    cta: "Comenzar a cobrar",
-    microcopy: "Cobra con tarjeta: sin tienda, sin terminal.",
-    chips: [
-      { label: "Doy un servicio", example: "Doy un servicio y quiero cobrar con tarjeta sin tener una tienda" },
-      { label: "Vendo por redes", example: "Vendo por redes sociales y quiero cobrarles a mis clientes con tarjeta" },
-      { label: "Cobro apartados", example: "Manejo apartados y quiero cobrar los abonos con un link de pago" },
-      { label: "Clases o consultas", example: "Doy clases y consultas y quiero cobrar en línea con tarjeta" },
-    ],
-    proof: ["+500 mil transacciones", "+25 mil tiendas", "+10 M de envíos"],
-    href: PAGOS_START_URL,
-  },
-  {
-    id: "enviar",
-    label: "Enviar", // sin acento
-    icon: IconTruck,
-    placeholders: [
-      "Vendo por Instagram y quiero enviar más barato…",
-      "Ya tengo tienda y quiero mejores tarifas de envío…",
-      "Hago envíos ocasionales y no quiero volumen mínimo…",
-      "Vendo en marketplaces y quiero centralizar mis envíos…",
-    ],
-    cta: "Cotizar mi envío",
-    microcopy: "Envía a todo México, sin volumen mínimo.",
-    chips: [
-      { label: "Vendo por redes", example: "Vendo por Instagram y necesito enviar mis pedidos más barato" },
-      { label: "Ya tengo tienda propia", example: "Ya tengo mi tienda propia y quiero mejores tarifas de envío" },
-      { label: "Vendo en marketplaces", example: "Vendo en marketplaces y quiero centralizar todos mis envíos" },
-      { label: "Envíos ocasionales", example: "Hago envíos ocasionales y no quiero pagar de más" },
-    ],
-    proof: ["+10 M de envíos", "+500 mil transacciones", "+25 mil tiendas"],
-    href: ENVIOS_QUOTE_URL,
-  },
+/* ── Tabs (segmented control) ── */
+const TABS = [
+  { id: "tienda", label: "Crea tu tienda", href: SIGNUP_URL },
+  { id: "link", label: "Crea link de pago", href: PAGOS_START_URL },
+  { id: "envio", label: "Cotizar envío", href: ENVIOS_QUOTE_URL },
 ];
 
+/* Placeholders rotativos + chips para el modo tienda */
+const TIENDA_PLACEHOLDERS = [
+  "Vendo ropa artesanal",
+  "Vendo café de especialidad",
+  "Tengo velas aromáticas hechas a mano",
+  "Vendo muebles de diseño",
+];
+const TIENDA_CHIPS: { label: string; example: string }[] = [
+  { label: "Moda", example: "Vendo ropa y accesorios de moda" },
+  { label: "Belleza", example: "Vendo productos de belleza y cuidado personal" },
+  { label: "Joyería", example: "Hago joyería y bisutería artesanal" },
+  { label: "Electrónica", example: "Vendo productos de electrónica y gadgets" },
+  { label: "Hogar", example: "Vendo artículos de decoración para el hogar" },
+  { label: "Deportes", example: "Vendo ropa y artículos deportivos" },
+];
+
+const SOCIAL_PROOF = ["+25,000 tiendas", "+10M de envíos", "+500mil transacciones"];
+
+const ArrowUp = (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+    <path d="M12 19V5M12 5l-6 6M12 5l6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+const ArrowRight = (
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+    <path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const FIELD = "w-full rounded-[14px] bg-[#1D1D1D] px-4 py-3 font-inter text-[15px] text-white outline-none placeholder:text-[#8A8A8A] focus:ring-1 focus:ring-white/20";
+
 export default function T1Hero() {
-  const [modeIdx, setModeIdx] = useState(0);
+  const [tabIdx, setTabIdx] = useState(0);
+  const tab = TABS[tabIdx];
+
+  // Modo tienda
   const [value, setValue] = useState("");
   const [phIdx, setPhIdx] = useState(0);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const placeholder = TIENDA_PLACEHOLDERS[phIdx % TIENDA_PLACEHOLDERS.length];
+
+  // Modo link de pago
+  const [monto, setMonto] = useState("");
+  const [concepto, setConcepto] = useState("");
+
+  // Modo envío
+  const [cpDesde, setCpDesde] = useState("");
+  const [cpHasta, setCpHasta] = useState("");
+  const [dim, setDim] = useState({ ancho: "", largo: "", alto: "", peso: "" });
+
   const btnRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
-  const mode = MODES[modeIdx];
-  const canSubmit = value.trim().length > 0;
-  const placeholder = mode.placeholders[phIdx % mode.placeholders.length];
-
-  // Placeholder rotativo (solo mientras el input esté vacío)
+  // Placeholder rotativo (solo modo tienda, input vacío)
   useEffect(() => {
-    if (value) return;
+    if (tabIdx !== 0 || value) return;
     const t = setInterval(() => setPhIdx((p) => p + 1), 3200);
     return () => clearInterval(t);
-  }, [value, modeIdx]);
+  }, [tabIdx, value]);
 
-  const selectMode = (i: number, focusBtn = false) => {
-    if (i === modeIdx) return;
-    setModeIdx(i);
-    setValue(""); // el prompt se reinicia: cada modo es otra intención/destino
+  const selectTab = (i: number, focusBtn = false) => {
+    if (i === tabIdx) return;
+    setTabIdx(i);
     setPhIdx(0);
-    track("hero_mode_select", { mode: MODES[i].id });
+    track("hero_mode_select", { mode: TABS[i].id });
     if (focusBtn) btnRefs.current[i]?.focus();
   };
 
   const onSelectorKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "ArrowRight" || e.key === "ArrowDown") {
       e.preventDefault();
-      selectMode((modeIdx + 1) % MODES.length, true);
+      selectTab((tabIdx + 1) % TABS.length, true);
     } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
       e.preventDefault();
-      selectMode((modeIdx + MODES.length - 1) % MODES.length, true);
+      selectTab((tabIdx + TABS.length - 1) % TABS.length, true);
     }
   };
 
-  const insertChip = (chip: Chip) => {
-    track("hero_chip_click", { mode: mode.id, chip: chip.label });
+  const insertChip = (chip: { label: string; example: string }) => {
+    track("hero_chip_click", { mode: tab.id, chip: chip.label });
     const el = textareaRef.current;
-    // Prellena con una frase de ejemplo completa (no solo la palabra)
     setValue(chip.example);
-    // foco + cursor al final tras el re-render
     requestAnimationFrame(() => {
       if (el) {
         el.focus();
@@ -167,171 +108,226 @@ export default function T1Hero() {
     });
   };
 
-  const onFocusTextarea = () => {
-    // Sube la caja + CTA por encima del teclado móvil
-    requestAnimationFrame(() => {
-      textareaRef.current?.closest("[data-prompt-box]")?.scrollIntoView({ behavior: "smooth", block: "center" });
-    });
-  };
+  const submit = (extra: Record<string, unknown>) => track("hero_prompt_submit", { mode: tab.id, ...extra });
 
-  const onSubmit = (e: React.MouseEvent) => {
-    if (!canSubmit) {
-      e.preventDefault();
-      return;
-    }
-    track("hero_prompt_submit", { mode: mode.id, length: value.trim().length });
-  };
+  const tiendaOk = value.trim().length > 0;
+  const linkOk = monto.trim().length > 0;
+  const envioOk = cpDesde.trim().length > 0 && cpHasta.trim().length > 0;
 
   return (
     <div className="sticky top-0 z-0">
-      <section className="relative flex min-h-[92svh] flex-col items-center justify-start overflow-hidden px-5 pb-[clamp(24px,5vh,56px)] pt-[88px] tablet:min-h-screen tablet:justify-center tablet:px-6 tablet:pt-28 tablet:pb-28">
-        {/* Fondo — degradado + glows (sin cambios de estilo global) */}
+      <section className="relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-5 pb-[clamp(24px,5vh,56px)] pt-24 tablet:min-h-screen tablet:px-6 tablet:py-28">
+        {/* Fondo — degradado exacto de Figma */}
         <div aria-hidden className="absolute inset-0 z-0" style={{ background: "linear-gradient(180deg, #141414 0%, #020101 100%)" }} />
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 z-0"
           style={{
             background:
-              "radial-gradient(circle at 31% 114%, rgba(1,25,69,0.28) 0%, rgba(17,0,85,0) 50%), radial-gradient(circle at -7% 50%, rgba(89,7,7,0.85) 0%, rgba(87,9,9,0) 45%), radial-gradient(circle at 79% 55%, rgba(89,7,7,0.75) 0%, rgba(87,9,9,0) 50%)",
+              "radial-gradient(circle at 79% 52%, rgba(112,10,10,0.95) 0%, rgba(87,9,9,0) 60%), radial-gradient(circle at -7% 48%, rgba(112,10,10,1) 0%, rgba(87,9,9,0) 60%), radial-gradient(circle at 31% 114%, rgba(1,25,69,0.95) 0%, rgba(17,0,85,0) 52%)",
           }}
         />
 
-        {/* Contenido — en móvil llena el alto y reparte el espacio (ritmo); en tablet+ se centra */}
-        <div className="relative z-10 flex w-full max-w-[560px] grow flex-col items-center justify-between gap-5 tablet:max-w-[680px] tablet:grow-0 tablet:justify-center tablet:gap-8">
-          {/* 1 · H1 + subtítulo */}
-          <div className="flex flex-col items-center text-center">
-            <h1 className="font-sora text-[30px] font-light leading-[1.1] text-white tablet:text-[46px] desktop:text-[52px]" style={{ letterSpacing: "-0.03em" }}>
-              Tu negocio, todo en uno.
+        {/* Contenido */}
+        <div className="relative z-10 flex w-full max-w-[440px] grow flex-col items-center justify-between tablet:max-w-[640px] tablet:grow-0 tablet:justify-center tablet:gap-16">
+          <div className="flex w-full flex-col items-center gap-9 tablet:gap-11">
+            {/* 1 · H1 */}
+            <h1
+              className="text-center font-sora text-[32px] font-light leading-[1.14] text-white tablet:text-[46px] desktop:text-[52px]"
+              style={{ letterSpacing: "-0.03em" }}
+            >
+              Vende, cobra y envía.
+              <br />
+              Todo en uno.
             </h1>
-            <p className="mt-3 font-inter text-[15px] font-normal text-white/75 tablet:mt-4 tablet:text-[17px]">
-              Descríbelo y la IA lo deja listo en minutos.
-            </p>
-          </div>
 
-          {/* 2 · Selector de 3 modos (segmented control / radiogroup) */}
-          <div
-            role="radiogroup"
-            aria-label="¿Qué necesitas hacer?"
-            onKeyDown={onSelectorKeyDown}
-            className="grid w-full grid-cols-3 gap-2 tablet:gap-3"
-          >
-            {MODES.map((m, i) => {
-              const selected = i === modeIdx;
-              return (
-                <button
-                  key={m.id}
-                  ref={(el) => {
-                    btnRefs.current[i] = el;
-                  }}
-                  type="button"
-                  role="radio"
-                  aria-checked={selected}
-                  tabIndex={selected ? 0 : -1}
-                  onClick={() => selectMode(i)}
-                  className={`group relative flex min-h-[62px] flex-col items-center justify-center gap-1 rounded-2xl border px-2 py-2.5 text-center transition-colors ${
-                    selected
-                      ? "border-white/35 bg-white/[0.12] text-white"
-                      : "border-white/10 bg-white/[0.04] text-white/70 hover:border-white/20 hover:bg-white/[0.08]"
-                  }`}
-                >
-                  <span className={selected ? "text-white" : "text-white/75"}>{m.icon}</span>
-                  <span className="font-inter text-[12px] font-medium leading-tight tablet:text-[13px]">{m.label}</span>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Zona que cambia por modo — anuncia cambios (a11y) */}
-          <div className="flex w-full flex-col items-center gap-3" aria-live="polite">
-            {/* 4 · Microcopy educativo (arriba del input, altura fija 1 línea) */}
-            <p key={`mc-${mode.id}`} className="hero-fade flex min-h-[20px] items-center px-2 text-center font-inter text-[13px] font-normal text-white/70 tablet:text-[14px]">
-              {mode.microcopy}
-            </p>
-
-            {/* 3 · Caja de prompt (dark glass premium) con textarea + CTA */}
-            <div data-prompt-box className="group relative w-full">
-              {/* aura ambiental de marca detrás de la caja */}
-              <div
-                aria-hidden
-                className="pointer-events-none absolute -inset-6 -z-10 opacity-70 blur-2xl transition-opacity duration-300 group-focus-within:opacity-100"
-                style={{
-                  background:
-                    "radial-gradient(60% 70% at 50% 100%, rgba(255,111,94,0.18) 0%, rgba(255,111,94,0) 70%)",
-                }}
-              />
-              <div
-                className="relative overflow-hidden rounded-[22px] border border-white/[0.08] transition-colors duration-200 focus-within:border-white/25 tablet:rounded-[26px]"
-                style={{ background: "#1B1B1E", boxShadow: "0 24px 70px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06)" }}
-              >
-                {/* halo superior sutil (borde de luz) */}
-                <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" />
-                <div className="flex flex-col gap-3 p-4 tablet:p-5">
-                  <textarea
-                    ref={textareaRef}
-                    value={value}
-                    onChange={(e) => setValue(e.target.value.slice(0, 500))}
-                    onFocus={onFocusTextarea}
-                    rows={2}
-                    aria-label={`Describe tu negocio para el modo ${mode.label}`}
-                    placeholder={placeholder}
-                    className="min-h-[3.4em] w-full resize-none bg-transparent font-inter text-[15px] font-normal leading-relaxed text-white/90 outline-none placeholder:text-white/45 tablet:text-[17px]"
-                  />
-
-                  <div className="flex items-center justify-between">
-                    <span className="font-inter text-[11px] text-white/35">{value.length}/500</span>
-                    {canSubmit ? (
-                      <a
-                        href={mode.href}
-                        onClick={onSubmit}
-                        aria-label={mode.cta}
-                        className="inline-flex h-11 w-11 items-center justify-center gap-1.5 rounded-full bg-red-500 font-inter text-[14px] font-semibold text-white no-underline shadow-[0_6px_20px_rgba(219,59,43,0.45)] transition-colors hover:bg-red-600 tablet:w-auto tablet:px-5"
-                      >
-                        <span className="hidden tablet:inline">{mode.cta}</span>
-                        <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
-                          <path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      </a>
-                    ) : (
-                      <button
-                        type="button"
-                        disabled
-                        aria-disabled="true"
-                        aria-label={mode.cta}
-                        className="inline-flex h-11 w-11 cursor-not-allowed items-center justify-center gap-1.5 rounded-full border border-white/10 bg-white/[0.06] font-inter text-[14px] font-semibold text-white/40 tablet:w-auto tablet:px-5"
-                      >
-                        <span className="hidden tablet:inline">{mode.cta}</span>
-                        <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
-                          <path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      </button>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* 5 · Chips de sugerencia (chips pequeños, altura fija 2 filas) */}
-            <div className="flex w-full flex-col items-center gap-2">
-              <div key={`chips-${mode.id}`} className="hero-fade flex min-h-[68px] flex-wrap items-start justify-center gap-1.5 tablet:min-h-[38px]">
-                {mode.chips.map((chip) => (
+            {/* 2 · Selector (segmented control) */}
+            <div
+              role="radiogroup"
+              aria-label="¿Qué quieres hacer?"
+              onKeyDown={onSelectorKeyDown}
+              className="flex w-full items-center gap-1 rounded-[15px] p-1"
+              style={{ background: "rgba(13,13,13,0.55)" }}
+            >
+              {TABS.map((t, i) => {
+                const selected = i === tabIdx;
+                return (
                   <button
-                    key={chip.label}
+                    key={t.id}
+                    ref={(el) => {
+                      btnRefs.current[i] = el;
+                    }}
                     type="button"
-                    onClick={() => insertChip(chip)}
-                    className="inline-flex items-center rounded-[10px] border border-white/[0.12] bg-white/[0.1] px-3 py-1.5 font-inter text-[12px] font-medium text-white/80 transition-colors hover:border-white/30 hover:bg-white/[0.16] hover:text-white tablet:text-[13px]"
+                    role="radio"
+                    aria-checked={selected}
+                    tabIndex={selected ? 0 : -1}
+                    onClick={() => selectTab(i)}
+                    className={`flex-1 whitespace-nowrap rounded-[12px] px-1.5 py-2.5 font-inter text-[11px] font-medium leading-tight transition-colors tablet:text-[13px] ${
+                      selected ? "text-white" : "text-white/65 hover:text-white/85"
+                    }`}
+                    style={selected ? { background: "rgba(255,255,255,0.2)", border: "1.5px solid rgba(231,231,231,0.2)" } : undefined}
                   >
-                    {chip.label}
+                    {t.label}
                   </button>
-                ))}
-              </div>
+                );
+              })}
+            </div>
+
+            {/* 3 · Zona que cambia por tab */}
+            <div className="flex w-full flex-col items-center gap-5" aria-live="polite">
+              {/* ── TIENDA ── */}
+              {tabIdx === 0 && (
+                <>
+                  <p className="max-w-[360px] text-center font-inter text-[15px] font-light leading-[1.6] text-white tablet:text-[16px]">
+                    Describe tu negocio y crea tu tienda con IA
+                  </p>
+                  <div className="relative w-full rounded-[14px] bg-[#1D1D1D]" style={{ minHeight: 160 }}>
+                    <textarea
+                      ref={textareaRef}
+                      value={value}
+                      onChange={(e) => setValue(e.target.value.slice(0, 500))}
+                      rows={3}
+                      aria-label="Describe tu negocio"
+                      placeholder={placeholder}
+                      className="h-[160px] w-full resize-none rounded-[14px] bg-transparent px-[18px] py-[15px] font-inter text-[16px] leading-[1.5] text-white outline-none placeholder:text-[#8A8A8A]"
+                    />
+                    <a
+                      href={tab.href}
+                      onClick={(e) => {
+                        if (!tiendaOk) e.preventDefault();
+                        else submit({ length: value.trim().length });
+                      }}
+                      aria-label="Crear tienda"
+                      className={`absolute bottom-3 right-3 flex h-[38px] w-[38px] items-center justify-center rounded-full text-white transition-colors ${
+                        tiendaOk ? "bg-red-500 hover:bg-red-600" : "bg-red-500/40"
+                      }`}
+                    >
+                      {ArrowUp}
+                    </a>
+                  </div>
+                  {/* chips */}
+                  <div className="flex min-h-[80px] flex-wrap items-start justify-center gap-2.5 tablet:min-h-[44px]">
+                    {TIENDA_CHIPS.map((chip) => (
+                      <button
+                        key={chip.label}
+                        type="button"
+                        onClick={() => insertChip(chip)}
+                        className="rounded-[11px] border border-white/10 px-2.5 py-1.5 font-inter text-[13px] font-medium text-white transition-colors hover:border-white/25 tablet:text-[14px]"
+                        style={{ background: "rgba(52,52,52,0.6)" }}
+                      >
+                        {chip.label}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
+
+              {/* ── LINK DE PAGO ── */}
+              {tabIdx === 1 && (
+                <>
+                  <p className="max-w-[360px] text-center font-inter text-[15px] font-light leading-[1.6] text-white tablet:text-[16px]">
+                    Cobra sin tienda ni terminal, solo comparte tu link
+                  </p>
+                  <div className="flex w-full flex-col gap-3">
+                    <div className="flex gap-3">
+                      <div className="relative w-[42%]">
+                        <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 font-inter text-[15px] text-[#8A8A8A]">$</span>
+                        <input
+                          inputMode="decimal"
+                          value={monto}
+                          onChange={(e) => setMonto(e.target.value.replace(/[^\d.]/g, ""))}
+                          placeholder="0.00"
+                          aria-label="Monto a cobrar"
+                          className={`${FIELD} pl-7`}
+                        />
+                      </div>
+                      <input
+                        value={concepto}
+                        onChange={(e) => setConcepto(e.target.value)}
+                        placeholder="¿Qué cobras?"
+                        aria-label="Concepto"
+                        className={`${FIELD} flex-1`}
+                      />
+                    </div>
+                    <a
+                      href={tab.href}
+                      onClick={(e) => {
+                        if (!linkOk) e.preventDefault();
+                        else submit({ length: monto.length });
+                      }}
+                      aria-disabled={!linkOk}
+                      className={`flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold text-white no-underline transition-colors ${
+                        linkOk ? "bg-red-500 hover:bg-red-600" : "bg-red-500/40"
+                      }`}
+                    >
+                      Crear link de pago
+                      {ArrowRight}
+                    </a>
+                  </div>
+                </>
+              )}
+
+              {/* ── ENVÍO ── */}
+              {tabIdx === 2 && (
+                <>
+                  <p className="max-w-[360px] text-center font-inter text-[15px] font-light leading-[1.6] text-white tablet:text-[16px]">
+                    Cotiza tu envío en segundos, sin volumen mínimo
+                  </p>
+                  <div className="flex w-full flex-col gap-4">
+                    {/* Origen → destino */}
+                    <div>
+                      <div className="flex items-center gap-3">
+                        <input value={cpDesde} onChange={(e) => setCpDesde(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Ingresa C.P." aria-label="C.P. de origen" className={`${FIELD} flex-1`} />
+                        <span aria-hidden className="shrink-0 text-white/60">→</span>
+                        <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Ingresa C.P." aria-label="C.P. de destino" className={`${FIELD} flex-1`} />
+                      </div>
+                      <div className="mt-2 flex justify-between font-inter text-[13px] font-light text-white/85">
+                        <span className="flex-1 text-center">Desde dónde envías</span>
+                        <span className="w-6" />
+                        <span className="flex-1 text-center">A dónde envías</span>
+                      </div>
+                    </div>
+                    {/* Dimensiones */}
+                    <div>
+                      <p className="mb-2 text-center font-inter text-[13px] font-light text-white/85">Dimensiones (cm) y peso (kg)</p>
+                      <div className="flex gap-2">
+                        {([["ancho", "Ancho"], ["largo", "Largo"], ["alto", "Alto"], ["peso", "Peso"]] as const).map(([k, ph]) => (
+                          <input
+                            key={k}
+                            value={dim[k]}
+                            onChange={(e) => setDim((d) => ({ ...d, [k]: e.target.value.replace(/[^\d.]/g, "") }))}
+                            inputMode="decimal"
+                            placeholder={ph}
+                            aria-label={ph}
+                            className="w-full min-w-0 rounded-[14px] bg-[#1D1D1D] px-2 py-3 text-center font-inter text-[14px] text-white outline-none placeholder:text-[#8A8A8A] focus:ring-1 focus:ring-white/20"
+                          />
+                        ))}
+                      </div>
+                    </div>
+                    <a
+                      href={tab.href}
+                      onClick={(e) => {
+                        if (!envioOk) e.preventDefault();
+                        else submit({});
+                      }}
+                      aria-disabled={!envioOk}
+                      className={`flex h-[46px] items-center justify-center rounded-[16px] font-inter text-[14px] font-semibold text-white no-underline transition-colors ${
+                        envioOk ? "bg-red-500 hover:bg-red-600" : "bg-red-500/40"
+                      }`}
+                    >
+                      Cotizar envío
+                    </a>
+                  </div>
+                </>
+              )}
             </div>
           </div>
 
-          {/* 6 · Social proof (se reordena por modo) */}
-          <div key={`sp-${mode.id}`} className="hero-fade flex flex-wrap items-center justify-center gap-x-3 gap-y-1 px-2 text-center">
-            {mode.proof.map((s, i) => (
-              <span key={s} className="flex items-center gap-3 font-inter text-[14px] font-medium text-white/90 tablet:text-[15px]">
-                {i > 0 && <span aria-hidden className="text-white/35">•</span>}
+          {/* 4 · Social proof */}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 px-2 text-center tablet:mt-0">
+            {SOCIAL_PROOF.map((s, i) => (
+              <span key={s} className="flex items-center gap-2.5 font-inter text-[15px] font-medium text-white tablet:text-[16px]">
+                {i > 0 && <span aria-hidden className="text-white/40">•</span>}
                 {s}
               </span>
             ))}
