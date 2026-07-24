@@ -58,7 +58,7 @@ const CARDS: Card[] = [
     label: "VENDE",
     desc: "Crea tu tienda con IA, conecta marketplaces y gestiona tus canales de venta desde un solo lugar.",
     glow: "#E0402F", // red
-    image: "/img/card-vende-v2.png", iw: 1448, ih: 1086,
+    image: "/img/card-vende-v5.png", iw: 1254, ih: 1254,
     logos: [
       { src: "/img/logos/brands/mercadolibre.webp", alt: "Mercado Libre", w: 96, h: 96 },
       { src: "/img/logos/brands/amazon.webp", alt: "Amazon", w: 96, h: 96 },
@@ -74,7 +74,7 @@ const CARDS: Card[] = [
     label: "COBRA",
     desc: "Recibe pagos con tarjetas, SPEI, Kueski, ofrece meses sin intereses y links de pago para vender más fácil.",
     glow: "#2F6BFF", // blue
-    image: "/img/card-pagos-v2.png", iw: 1448, ih: 1086,
+    image: "/img/card-cobra-v5.png", iw: 1254, ih: 1254,
     logos: [
       { src: "/img/logos/brands/visa.webp", alt: "Visa", w: 130, h: 96 },
       { src: "/img/logos/brands/mastercard.webp", alt: "Mastercard", w: 130, h: 96 },
