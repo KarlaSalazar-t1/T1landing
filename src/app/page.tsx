@@ -30,20 +30,17 @@ export default function Home() {
       {/* Cards Vende/Cobra/Envía — en desktop se quedan STICKY y la sección de
           abajo ("Todo lo que tu negocio necesita") SUBE y las TAPA (efecto stack).
           En móvil (cards apiladas, muy altas) scroll normal. El hero ya baja normal. */}
-      <div className="fi-pinned relative z-[5] bg-black pb-8 pt-2 tablet:sticky tablet:top-0 tablet:pb-24">
+      <div className="fi-pinned relative z-[5] bg-black pb-8 pt-2 tablet:sticky tablet:top-0 tablet:pb-10">
         <T1FeatureIntro />
       </div>
 
-      {/* Dark block — sharp top edge over the intro band.
-          (P3 tonality) Base is a warm neutral dark (#141414, footer ref) so
-          the contained sections read cohesive instead of flipping light↔dark.
-          No `data-white-card` here anymore: the whole block is dark now, so the
-          navbar must STAY in dark mode (white text) instead of flipping to its
-          white-bar light mode. With no [data-white-card] on the landing, the
-          navbar's scroll handler leaves isLight=false throughout.
-          Desktop pulls up by 160 to keep the peek over the dark intro band. */}
+      {/* Dark block — "Todo lo que tu negocio necesita".
+          En desktop SUBE y TAPA las cards Vende/Cobra/Envía (fijas arriba), con
+          esquinas superiores redondeadas (efecto tarjeta que sube). Sin -mt para
+          que las cards se vean completas antes de ser tapadas. El navbar queda en
+          modo oscuro (texto blanco) todo el bloque. */}
       <div
-        className="relative isolate z-10 bg-[#141414] tablet:-mt-40"
+        className="relative isolate z-10 rounded-t-[24px] bg-[#141414] tablet:rounded-t-[28px]"
       >
         {/* Orden: IA → stack cards → Score → Para quién es T1 → Métricas */}
         {/* Sección "De una frase a tu tienda" oculta a solicitud */}

@@ -2160,7 +2160,7 @@ export default function T1Features() {
   }, []);
 
   return (
-    <section className="stack-section-bg isolate pb-[60px] pt-0 tablet:pb-[60px] tablet:pt-[60px]">
+    <section className="stack-section-bg isolate rounded-t-[24px] pb-[60px] pt-0 tablet:rounded-t-[28px] tablet:pt-[60px] tablet:pb-[60px]">
       {/* Mobile-only full-width divider between the dark intro section
           and the stack cards. Light hairline now that the bg is dark. */}
       <div
