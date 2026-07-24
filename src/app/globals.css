@@ -774,6 +774,11 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .fi-reveal { opacity: 1 !important; transform: none !important; animation: none !important; }
 }
+/* Cuando las cards Vende/Cobra/Envía quedan sticky (desktop), su animación
+   scroll-driven se congela; forzarlas visibles para que no se vean transparentes. */
+@media (min-width: 768px) {
+  .fi-pinned .fi-reveal { opacity: 1 !important; transform: none !important; animation: none !important; }
+}
 
 /* ─── "Todo incluido" cards — dark panel with red + violet glow (Figma) ─── */
 .incluye-dark-card {

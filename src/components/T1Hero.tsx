@@ -194,35 +194,59 @@ export default function T1Hero() {
 
             {/* 2 · Selector — A/B temporal (?sel=b) */}
             {selVariant === "b" ? (
-              /* Propuesta B — segmented control con pill */
-              <div
-                role="radiogroup"
-                aria-label="¿Qué quieres hacer?"
-                onKeyDown={onSelectorKeyDown}
-                className="flex w-full items-center gap-1 rounded-full border border-white/10 bg-white/[0.04] p-1"
-              >
-                {TABS.map((t, i) => {
-                  const selected = i === tabIdx;
-                  return (
-                    <button
-                      key={t.id}
-                      ref={(el) => {
-                        btnRefs.current[i] = el;
-                      }}
-                      type="button"
-                      role="radio"
-                      aria-checked={selected}
-                      tabIndex={selected ? 0 : -1}
-                      onClick={() => selectTab(i)}
-                      className={`flex-1 whitespace-nowrap rounded-full px-2 py-2.5 font-inter text-[13px] font-semibold transition-colors tablet:text-[14px] ${
-                        selected ? "bg-white text-[#1A1A1A]" : "text-white/60 hover:text-white/85"
-                      }`}
-                    >
-                      {t.label}
-                    </button>
-                  );
-                })}
-              </div>
+              <>
+                {/* Propuesta B · móvil — stepper con flechas */}
+                <div className="flex w-full items-center justify-between tablet:hidden">
+                  <button
+                    type="button"
+                    aria-label="Opción anterior"
+                    onClick={() => selectTab((tabIdx + TABS.length - 1) % TABS.length)}
+                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/15 text-white transition-colors hover:bg-white/10"
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  </button>
+                  <span key={tab.id} className="hero-fade font-inter text-[17px] font-medium text-white" aria-live="polite">{tab.label}</span>
+                  <button
+                    type="button"
+                    aria-label="Opción siguiente"
+                    onClick={() => selectTab((tabIdx + 1) % TABS.length)}
+                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/15 text-white transition-colors hover:bg-white/10"
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  </button>
+                </div>
+                {/* Propuesta B · desktop — segmented control (seleccionado semi-transparente) */}
+                <div
+                  role="radiogroup"
+                  aria-label="¿Qué quieres hacer?"
+                  onKeyDown={onSelectorKeyDown}
+                  className="hidden w-full items-center gap-1 rounded-[15px] p-1 tablet:flex"
+                  style={{ background: "rgba(13,13,13,0.55)" }}
+                >
+                  {TABS.map((t, i) => {
+                    const selected = i === tabIdx;
+                    return (
+                      <button
+                        key={t.id}
+                        ref={(el) => {
+                          btnRefs.current[i] = el;
+                        }}
+                        type="button"
+                        role="radio"
+                        aria-checked={selected}
+                        tabIndex={selected ? 0 : -1}
+                        onClick={() => selectTab(i)}
+                        className={`flex-1 whitespace-nowrap rounded-[12px] px-2 py-2.5 font-inter text-[14px] font-medium transition-colors ${
+                          selected ? "text-white" : "text-white/65 hover:text-white/85"
+                        }`}
+                        style={selected ? { background: "rgba(255,255,255,0.12)", border: "1.5px solid rgba(231,231,231,0.2)" } : undefined}
+                      >
+                        {t.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </>
             ) : (
               /* Propuesta A — tabs con subrayado */
               <div

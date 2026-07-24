@@ -27,10 +27,10 @@ export default function Home() {
         <T1Problema />
       </div>
 
-      {/* Cards Vende/Cobra/Envía — STICKY: se quedan fijas y la sección de abajo
-          ("Todo lo que tu negocio necesita") SUBE y las TAPA (efecto stack).
-          El hero ya baja con scroll normal; el stack arranca aquí. */}
-      <div className="sticky top-0 z-[5] bg-black pb-16 pt-2 tablet:pb-24">
+      {/* Cards Vende/Cobra/Envía — en desktop se quedan STICKY y la sección de
+          abajo ("Todo lo que tu negocio necesita") SUBE y las TAPA (efecto stack).
+          En móvil (cards apiladas, muy altas) scroll normal. El hero ya baja normal. */}
+      <div className="fi-pinned relative z-[5] bg-black pb-8 pt-2 tablet:sticky tablet:top-0 tablet:pb-24">
         <T1FeatureIntro />
       </div>
 
