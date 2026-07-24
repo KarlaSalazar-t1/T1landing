@@ -374,7 +374,7 @@ export default function T1Hero() {
               {tab.id === "link" && (
                 <>
                   <p className="max-w-[360px] text-center font-inter text-[16px] font-light leading-[1.6] text-white tablet:max-w-none tablet:whitespace-nowrap">
-                    Cobra sin tienda ni terminal. Comparte un link y listo.
+                    Cobra sin terminal. Comparte un link y listo.
                   </p>
                   <div className="flex w-full flex-1 flex-col gap-3.5 tablet:flex-none">
                     {/* Monto grande, sin caja */}
@@ -399,7 +399,6 @@ export default function T1Hero() {
                         aria-label="Concepto del cobro"
                         className={FIELD}
                       />
-                      <p className="mt-1.5 px-1 font-inter text-[12px] font-light text-white/50">Es lo que tus clientes verán al pagar</p>
                     </div>
                     <a
                       href={tab.href}
@@ -424,7 +423,7 @@ export default function T1Hero() {
               {tab.id === "envio" && (
                 <>
                   <p className="max-w-[360px] text-center font-inter text-[16px] font-light leading-[1.6] text-white tablet:max-w-none tablet:whitespace-nowrap">
-                    Cotiza tu envío en segundos, sin volumen mínimo
+                    Cotiza tu envío en segundos.
                   </p>
                   <div className="flex w-full flex-1 flex-col gap-3 tablet:flex-none">
                     {/* Origen → destino con labels de ayuda */}
@@ -435,9 +434,9 @@ export default function T1Hero() {
                         <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Ej. 44100" aria-label="Código postal de destino" className={`${FIELD} flex-1`} />
                       </div>
                       <div className="mt-1.5 flex items-center gap-2.5 font-inter text-[12px] font-light text-white/55">
-                        <span className="flex-1 text-center">C.P. desde dónde envías</span>
+                        <span className="flex-1 text-center">Código postal origen</span>
                         <span aria-hidden className="w-[14px] shrink-0" />
-                        <span className="flex-1 text-center">C.P. a dónde envías</span>
+                        <span className="flex-1 text-center">Código postal destino</span>
                       </div>
                     </div>
                     {/* Selector de tamaño de paquete — horizontal con swipe en móvil */}

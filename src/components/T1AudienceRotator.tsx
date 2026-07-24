@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 /* Variante auto-rotativa de "Para cada etapa de tu negocio": muestra una etapa
    a la vez, avanza sola con un timer y el usuario puede cambiarla haciendo clic
@@ -52,6 +52,25 @@ export default function T1AudienceRotator() {
 
   const a = AUDIENCES[active];
 
+  // Carrusel móvil: sincroniza scroll ↔ active (swipe + auto-avance)
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const programmatic = useRef(false);
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    programmatic.current = true;
+    el.scrollTo({ left: active * el.clientWidth, behavior: "smooth" });
+    const t = window.setTimeout(() => { programmatic.current = false; }, 450);
+    return () => window.clearTimeout(t);
+  }, [active]);
+  const onCarouselScroll = () => {
+    if (programmatic.current) return;
+    const el = scrollRef.current;
+    if (!el) return;
+    const i = Math.round(el.scrollLeft / el.clientWidth);
+    if (i !== active && i >= 0 && i < AUDIENCES.length) setActive(i);
+  };
+
   return (
     <section className="relative overflow-hidden bg-black" style={{ paddingTop: 100, paddingBottom: 100 }}>
       <div className="relative mx-auto max-w-[var(--max-w)] px-5 tablet:px-6">
@@ -62,7 +81,65 @@ export default function T1AudienceRotator() {
           Desde tu primera venta hasta una operación de alto volumen.
         </p>
 
-        <div className="grid grid-cols-1 gap-8 tablet:grid-cols-[minmax(0,0.95fr)_minmax(0,1fr)] tablet:items-center tablet:gap-8">
+        {/* MÓVIL — carrusel con timer + glow que recorre la imagen */}
+        <div className="tablet:hidden">
+          <div
+            ref={scrollRef}
+            onScroll={onCarouselScroll}
+            className="flex snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
+            {AUDIENCES.map((it) => (
+              <div key={it.id} className="w-full shrink-0 snap-center">
+                <div className="audience-card-wrap flex w-full justify-center px-1">
+                  <div className="audience-card flex w-full" style={{ maxWidth: 460 }}>
+                    <span className="audience-beam" aria-hidden />
+                    <div className="relative z-[1] w-full overflow-hidden rounded-[18.5px]" style={{ background: "#1b1714" }}>
+                      <div className="relative w-full" style={{ aspectRatio: "741 / 565" }}>
+                        <Image src={it.image} alt={it.title} fill className="object-cover" sizes="90vw" />
+                        <div className="pointer-events-none absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 45%, rgba(0,0,0,0.75) 100%)" }} />
+                        <div className="absolute bottom-0 left-0 right-0 p-5">
+                          <a href={it.ctaHref} className="inline-flex items-center gap-2 rounded-[13px] bg-[#DB3B2B] px-6 py-3 font-inter text-[14px] font-semibold text-white no-underline transition-colors duration-150 hover:bg-[#C0332A]">
+                            {it.cta}
+                            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="px-1 pt-5 text-center">
+                  <h3 className="font-sora text-[24px] font-normal text-white" style={{ letterSpacing: "-0.02em" }}>{it.title}</h3>
+                  <p className="mx-auto mt-2 max-w-[420px] font-inter text-[14px] font-normal leading-relaxed text-white/60">{it.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          {/* barra segmentada — timer de auto-avance */}
+          <div className="mt-6 flex gap-2 px-1">
+            {AUDIENCES.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                aria-label={`Ir a ${AUDIENCES[i].title}`}
+                onClick={() => setActive(i)}
+                className="h-[4px] flex-1 overflow-hidden rounded-full"
+                style={{ background: "rgba(255,255,255,0.12)" }}
+              >
+                <div
+                  style={{
+                    height: "100%",
+                    width: i < active ? "100%" : i === active ? (barFull ? "100%" : "0%") : "0%",
+                    background: "#DB3B2B",
+                    transition: i === active && barFull ? `width ${DURATION}ms linear` : "none",
+                  }}
+                />
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* DESKTOP — 2 columnas (tabs + imagen) */}
+        <div className="hidden gap-8 tablet:grid tablet:grid-cols-[minmax(0,0.95fr)_minmax(0,1fr)] tablet:items-center tablet:gap-8">
           {/* Left — selectable tabs */}
           <div className="flex flex-col gap-3.5">
             {AUDIENCES.map((it, i) => {
