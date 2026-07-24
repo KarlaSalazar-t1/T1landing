@@ -55,20 +55,26 @@ export default function T1AudienceRotator() {
   // Carrusel móvil: sincroniza scroll ↔ active (swipe + auto-avance)
   const scrollRef = useRef<HTMLDivElement>(null);
   const programmatic = useRef(false);
+  const settleTimer = useRef(0);
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
+    const target = active * el.clientWidth;
+    // Si ya está en la posición correcta (cambio venido del propio swipe), no re-scrollees
+    if (Math.abs(el.scrollLeft - target) < 4) return;
     programmatic.current = true;
-    el.scrollTo({ left: active * el.clientWidth, behavior: "smooth" });
-    const t = window.setTimeout(() => { programmatic.current = false; }, 450);
-    return () => window.clearTimeout(t);
+    el.scrollTo({ left: target, behavior: "smooth" });
   }, [active]);
+  // Actualiza el índice SOLO cuando el scroll se asienta (evita saltos a mitad de scroll)
   const onCarouselScroll = () => {
-    if (programmatic.current) return;
-    const el = scrollRef.current;
-    if (!el) return;
-    const i = Math.round(el.scrollLeft / el.clientWidth);
-    if (i !== active && i >= 0 && i < AUDIENCES.length) setActive(i);
+    window.clearTimeout(settleTimer.current);
+    settleTimer.current = window.setTimeout(() => {
+      const el = scrollRef.current;
+      if (!el) return;
+      if (programmatic.current) { programmatic.current = false; return; }
+      const i = Math.round(el.scrollLeft / el.clientWidth);
+      if (i !== active && i >= 0 && i < AUDIENCES.length) setActive(i);
+    }, 110);
   };
 
   return (

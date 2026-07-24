@@ -267,7 +267,7 @@ export default function T1Hero() {
                     aria-checked={selected}
                     tabIndex={selected ? 0 : -1}
                     onClick={() => selectTab(i)}
-                    className={`relative flex-1 whitespace-nowrap px-1 pb-3 pt-1 font-inter text-[16px] font-medium transition-colors ${
+                    className={`relative flex-1 whitespace-nowrap px-1 pb-3 pt-1 font-inter text-[16px] font-normal transition-colors ${
                       selected ? "text-white" : "text-white/45 hover:text-white/70"
                     }`}
                   >
@@ -426,18 +426,17 @@ export default function T1Hero() {
                     Cotiza tu envío en segundos.
                   </p>
                   <div className="flex w-full flex-1 flex-col gap-3 tablet:flex-none">
-                    {/* Origen → destino con labels de ayuda */}
-                    <div>
-                      <div className="flex items-center gap-2.5">
-                        <input value={cpDesde} onChange={(e) => setCpDesde(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Ej. 06600" aria-label="Código postal de origen" className={`${FIELD} flex-1`} />
-                        <span aria-hidden className="shrink-0 text-white/40">→</span>
-                        <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Ej. 44100" aria-label="Código postal de destino" className={`${FIELD} flex-1`} />
-                      </div>
-                      <div className="mt-1.5 flex items-center gap-2.5 font-inter text-[12px] font-light text-white/55">
-                        <span className="flex-1 text-center">Código postal origen</span>
-                        <span aria-hidden className="w-[14px] shrink-0" />
-                        <span className="flex-1 text-center">Código postal destino</span>
-                      </div>
+                    {/* Origen → destino — label arriba de cada input */}
+                    <div className="flex items-end gap-2.5">
+                      <label className="flex-1">
+                        <span className="mb-1.5 block px-1 font-inter text-[12px] font-light text-white/60">Código postal origen</span>
+                        <input value={cpDesde} onChange={(e) => setCpDesde(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Ej. 06600" aria-label="Código postal de origen" className={`${FIELD} w-full`} />
+                      </label>
+                      <span aria-hidden className="shrink-0 pb-3 text-white/40">→</span>
+                      <label className="flex-1">
+                        <span className="mb-1.5 block px-1 font-inter text-[12px] font-light text-white/60">Código postal destino</span>
+                        <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Ej. 44100" aria-label="Código postal de destino" className={`${FIELD} w-full`} />
+                      </label>
                     </div>
                     {/* Selector de tamaño de paquete — horizontal con swipe en móvil */}
                     <div className="mt-3">
