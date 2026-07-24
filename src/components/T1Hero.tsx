@@ -346,7 +346,7 @@ export default function T1Hero() {
                   <p className="max-w-[360px] text-center font-inter text-[16px] font-light leading-[1.6] text-white">
                     Cobra sin tienda ni terminal, solo comparte tu link
                   </p>
-                  <div className="flex w-full flex-col gap-3.5">
+                  <div className="flex w-full flex-1 flex-col gap-3.5 tablet:flex-none">
                     {/* Monto grande, sin caja */}
                     <div className="flex items-baseline justify-center gap-1.5 py-1">
                       <span className="font-sora text-[28px] font-light text-white/45">$</span>
@@ -374,7 +374,7 @@ export default function T1Hero() {
                         else submit({ length: monto.length });
                       }}
                       aria-disabled={!linkOk}
-                      className={`flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors ${
+                      className={`mt-auto mb-6 flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors tablet:mt-0 tablet:mb-0 ${
                         linkOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
                       }`}
                     >
@@ -391,7 +391,7 @@ export default function T1Hero() {
                   <p className="whitespace-nowrap text-center font-inter text-[16px] font-light leading-[1.6] text-white">
                     Cotiza tu envío en segundos, sin mínimos
                   </p>
-                  <div className="flex w-full flex-col gap-3">
+                  <div className="flex w-full flex-1 flex-col gap-3 tablet:flex-none">
                     {/* Origen → destino */}
                     <div className="flex items-center gap-2.5">
                       <input value={cpDesde} onChange={(e) => setCpDesde(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="C.P. origen" aria-label="Código postal de origen" className={`${FIELD} flex-1`} />
@@ -399,7 +399,7 @@ export default function T1Hero() {
                       <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="C.P. destino" aria-label="Código postal de destino" className={`${FIELD} flex-1`} />
                     </div>
                     {/* Selector de tamaño de paquete — horizontal con swipe en móvil */}
-                    <div>
+                    <div className="mt-3">
                       <p className="mb-2 font-inter text-[13px] font-light text-white/70">¿Qué tamaño es tu paquete?</p>
                       <div
                         role="radiogroup"
@@ -437,7 +437,7 @@ export default function T1Hero() {
                         else submit({ paquete });
                       }}
                       aria-disabled={!envioOk}
-                      className={`mt-1 flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors ${
+                      className={`mt-auto mb-6 flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors tablet:mt-1 tablet:mb-0 ${
                         envioOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
                       }`}
                     >
