@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { SIGNUP_URL, PAGOS_START_URL, ENVIOS_QUOTE_URL } from "@/lib/constants";
 
 /* ── Analítica: dataLayer como fallback (el proyecto no tiene tracking) ── */
@@ -14,9 +15,41 @@ function track(event: string, data: Record<string, unknown>) {
 /* ── Tabs (segmented control) ── */
 const TABS = [
   { id: "tienda", label: "Crea tu tienda", href: SIGNUP_URL },
-  { id: "link", label: "Cobra con link", href: PAGOS_START_URL },
   { id: "envio", label: "Cotizar envío", href: ENVIOS_QUOTE_URL },
+  { id: "link", label: "Cobra con link", href: PAGOS_START_URL },
 ];
+
+/* ── Carrusel de logos de marcas (mismas que Casos de éxito) ── */
+const LOGOS = [
+  { src: "/img/logos/sears.svg", alt: "Sears" },
+  { src: "/img/logos/circulo-de-credito.png", alt: "Círculo de Crédito" },
+  { src: "/img/logos/mercado-libre.svg", alt: "Mercado Libre" },
+  { src: "/img/logos/telcel.svg", alt: "Telcel" },
+  { src: "/img/logos/pirma.png", alt: "Pirma" },
+  { src: "/img/logos/makora.svg", alt: "Makora" },
+  { src: "/img/logos/sanborns.svg", alt: "Sanborns" },
+  { src: "/img/logos/pase.png", alt: "PASE" },
+  { src: "/img/logos/claro.svg", alt: "Claro" },
+];
+
+function LogoMarquee() {
+  return (
+    <div className="relative overflow-hidden" style={{ padding: "22px 0" }}>
+      <div className="marquee-track flex items-center">
+        {[...LOGOS, ...LOGOS].map((logo, i) => (
+          <Image
+            key={`${logo.alt}-${i}`}
+            src={logo.src}
+            alt={logo.alt}
+            width={120}
+            height={40}
+            className="mr-16 h-[26px] w-auto shrink-0 object-contain opacity-60 brightness-0 invert"
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 /* Placeholders rotativos + chips para el modo tienda */
 const TIENDA_PLACEHOLDERS = [
@@ -70,13 +103,6 @@ export default function T1Hero() {
   const [tabIdx, setTabIdx] = useState(0);
   const tab = TABS[tabIdx];
 
-  // Variante del selector para A/B temporal (?sel=b muestra la propuesta B)
-  const [selVariant, setSelVariant] = useState<"a" | "b">("a");
-  useEffect(() => {
-    if (typeof window !== "undefined" && new URLSearchParams(window.location.search).get("sel") === "b") {
-      setSelVariant("b");
-    }
-  }, []);
 
   // Modo tienda
   const [value, setValue] = useState("");
@@ -173,7 +199,7 @@ export default function T1Hero() {
 
   return (
     <div className="relative z-0">
-      <section className="relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-5 pb-[clamp(24px,5vh,56px)] pt-24 tablet:min-h-screen tablet:px-6 tablet:py-28">
+      <section className="relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-5 pb-0 pt-24 tablet:min-h-screen tablet:px-6 tablet:pt-28 tablet:pb-0">
         {/* Fondo — degradado exacto de Figma */}
         <div aria-hidden className="absolute inset-0 z-0" style={{ background: "linear-gradient(180deg, #141414 0%, #020101 100%)" }} />
         <div
@@ -201,6 +227,12 @@ export default function T1Hero() {
             background: "radial-gradient(circle at 97% -2%, rgba(4,24,82,0.75) 0%, rgba(17,0,85,0) 27%)",
           }}
         />
+        {/* Degradado rojo→negro al fondo — suaviza el corte hacia la sección negra */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-[260px]"
+          style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(3,1,1,0.85) 55%, #000 100%)" }}
+        />
 
         {/* Contenido — título arriba · selector+contenido centrado en medio · social proof abajo */}
         <div className="relative z-10 flex w-full max-w-[440px] grow flex-col items-center tablet:max-w-[640px]">
@@ -217,102 +249,74 @@ export default function T1Hero() {
           {/* Bloque central (centrado en el alto disponible) */}
           <div className="flex w-full flex-1 flex-col items-center justify-center gap-9 py-6">
 
-            {/* 2 · Selector — A/B temporal (?sel=b) */}
-            {selVariant === "b" ? (
-              <>
-                {/* Propuesta B · móvil — stepper con flechas */}
-                <div className="flex w-full items-center justify-between tablet:hidden">
+            {/* 2 · Selector — móvil: tabs con subrayado · desktop: segmented pill */}
+            {/* Móvil — tabs con subrayado */}
+            <div
+              role="radiogroup"
+              aria-label="¿Qué quieres hacer?"
+              onKeyDown={onSelectorKeyDown}
+              className="flex w-full items-end border-b border-white/10 tablet:hidden"
+            >
+              {TABS.map((t, i) => {
+                const selected = i === tabIdx;
+                return (
                   <button
+                    key={t.id}
                     type="button"
-                    aria-label="Opción anterior"
-                    onClick={() => selectTab((tabIdx + TABS.length - 1) % TABS.length)}
-                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/15 text-white transition-colors hover:bg-white/10"
+                    role="radio"
+                    aria-checked={selected}
+                    tabIndex={selected ? 0 : -1}
+                    onClick={() => selectTab(i)}
+                    className={`relative flex-1 whitespace-nowrap px-1 pb-3 pt-1 font-inter text-[15px] font-medium transition-colors ${
+                      selected ? "text-white" : "text-white/45 hover:text-white/70"
+                    }`}
                   >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                  </button>
-                  <span key={tab.id} className="hero-fade font-inter text-[17px] font-medium text-white" aria-live="polite">{tab.label}</span>
-                  <button
-                    type="button"
-                    aria-label="Opción siguiente"
-                    onClick={() => selectTab((tabIdx + 1) % TABS.length)}
-                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/15 text-white transition-colors hover:bg-white/10"
-                  >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                  </button>
-                </div>
-                {/* Propuesta B · desktop — segmented control (seleccionado semi-transparente) */}
-                <div
-                  role="radiogroup"
-                  aria-label="¿Qué quieres hacer?"
-                  onKeyDown={onSelectorKeyDown}
-                  className="hidden w-full items-center gap-1 rounded-[15px] p-1 tablet:flex"
-                  style={{ background: "rgba(13,13,13,0.55)" }}
-                >
-                  {TABS.map((t, i) => {
-                    const selected = i === tabIdx;
-                    return (
-                      <button
-                        key={t.id}
-                        ref={(el) => {
-                          btnRefs.current[i] = el;
-                        }}
-                        type="button"
-                        role="radio"
-                        aria-checked={selected}
-                        tabIndex={selected ? 0 : -1}
-                        onClick={() => selectTab(i)}
-                        className={`flex-1 whitespace-nowrap rounded-[12px] px-2 py-2.5 font-inter text-[14px] font-medium transition-colors ${
-                          selected ? "text-white" : "text-white/65 hover:text-white/85"
-                        }`}
-                        style={selected ? { background: "rgba(255,255,255,0.12)", border: "1.5px solid rgba(231,231,231,0.2)" } : undefined}
-                      >
-                        {t.label}
-                      </button>
-                    );
-                  })}
-                </div>
-              </>
-            ) : (
-              /* Propuesta A — tabs con subrayado */
-              <div
-                role="radiogroup"
-                aria-label="¿Qué quieres hacer?"
-                onKeyDown={onSelectorKeyDown}
-                className="flex w-full items-end border-b border-white/10"
-              >
-                {TABS.map((t, i) => {
-                  const selected = i === tabIdx;
-                  return (
-                    <button
-                      key={t.id}
-                      ref={(el) => {
-                        btnRefs.current[i] = el;
-                      }}
-                      type="button"
-                      role="radio"
-                      aria-checked={selected}
-                      tabIndex={selected ? 0 : -1}
-                      onClick={() => selectTab(i)}
-                      className={`relative flex-1 whitespace-nowrap px-1 pb-3 pt-1 font-inter text-[15px] font-medium transition-colors tablet:text-[16px] ${
-                        selected ? "text-white" : "text-white/45 hover:text-white/70"
+                    {t.label}
+                    <span
+                      className={`absolute inset-x-2 -bottom-px h-[2px] rounded-full bg-white transition-transform duration-200 ${
+                        selected ? "scale-x-100" : "scale-x-0"
                       }`}
-                    >
-                      {t.label}
-                      <span
-                        className={`absolute inset-x-2 -bottom-px h-[2px] rounded-full bg-white transition-transform duration-200 ${
-                          selected ? "scale-x-100" : "scale-x-0"
-                        }`}
-                      />
-                    </button>
-                  );
-                })}
-              </div>
-            )}
+                    />
+                  </button>
+                );
+              })}
+            </div>
+            {/* Desktop — segmented control (seleccionado semi-transparente) */}
+            <div
+              role="radiogroup"
+              aria-label="¿Qué quieres hacer?"
+              onKeyDown={onSelectorKeyDown}
+              className="hidden w-full items-center gap-1 rounded-[15px] p-1 tablet:flex"
+              style={{ background: "rgba(13,13,13,0.55)" }}
+            >
+              {TABS.map((t, i) => {
+                const selected = i === tabIdx;
+                return (
+                  <button
+                    key={t.id}
+                    ref={(el) => {
+                      btnRefs.current[i] = el;
+                    }}
+                    type="button"
+                    role="radio"
+                    aria-checked={selected}
+                    tabIndex={selected ? 0 : -1}
+                    onClick={() => selectTab(i)}
+                    className={`flex-1 whitespace-nowrap rounded-[12px] px-2 py-2.5 font-inter text-[14px] font-medium transition-colors ${
+                      selected ? "text-white" : "text-white/65 hover:text-white/85"
+                    }`}
+                    style={selected ? { background: "rgba(255,255,255,0.12)", border: "1.5px solid rgba(231,231,231,0.2)" } : undefined}
+                  >
+                    {t.label}
+                  </button>
+                );
+              })}
+            </div>
 
             {/* 3 · Zona que cambia por tab — altura fija para que el selector no se desfase */}
             <div className="flex min-h-[336px] w-full flex-col items-center gap-5 tablet:min-h-[300px]" aria-live="polite">
               {/* ── TIENDA ── */}
-              {tabIdx === 0 && (
+              {tab.id === "tienda" && (
                 <>
                   <p className="max-w-[360px] text-center font-inter text-[16px] font-light leading-[1.6] text-white">
                     Describe tu negocio y crea tu tienda con IA
@@ -367,7 +371,7 @@ export default function T1Hero() {
               )}
 
               {/* ── LINK DE PAGO ── */}
-              {tabIdx === 1 && (
+              {tab.id === "link" && (
                 <>
                   <p className="max-w-[360px] text-center font-inter text-[16px] font-light leading-[1.6] text-white">
                     Cobra sin tienda ni terminal, solo comparte tu link
@@ -413,7 +417,7 @@ export default function T1Hero() {
               )}
 
               {/* ── ENVÍO ── */}
-              {tabIdx === 2 && (
+              {tab.id === "envio" && (
                 <>
                   <p className="whitespace-nowrap text-center font-inter text-[16px] font-light leading-[1.6] text-white">
                     Cotiza tu envío en segundos, sin mínimos
@@ -487,6 +491,11 @@ export default function T1Hero() {
               </span>
             ))}
           </div>
+        </div>
+
+        {/* 5 · Carrusel de logos de marcas — al fondo del hero, sobre el fade a negro */}
+        <div className="relative z-10 mt-6 w-full tablet:mt-8">
+          <LogoMarquee />
         </div>
       </section>
     </div>
