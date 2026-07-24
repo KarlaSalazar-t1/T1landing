@@ -44,6 +44,15 @@ const PAQUETES = [
 
 const SOCIAL_PROOF = ["+25,000 tiendas", "+10M de envíos", "+500mil transacciones"];
 
+/* Formatea dígitos como monto: "10" → "0.10", "109999" → "1,099.99" */
+function formatMonto(digits: string): string {
+  const cents = digits.replace(/\D/g, "");
+  if (cents === "") return "";
+  const val = (parseInt(cents, 10) / 100).toFixed(2);
+  const [int, dec] = val.split(".");
+  return int.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "." + dec;
+}
+
 const ArrowUp = (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
     <path d="M12 19V5M12 5l-6 6M12 5l6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -87,6 +96,22 @@ export default function T1Hero() {
   const [paquete, setPaquete] = useState("pequeno");
 
   const btnRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  // Alto del teclado móvil (visualViewport) para subir el botón por encima
+  const [kbH, setKbH] = useState(0);
+  useEffect(() => {
+    const vv = window.visualViewport;
+    if (!vv) return;
+    const onResize = () => setKbH(Math.max(0, window.innerHeight - vv.height - vv.offsetTop));
+    vv.addEventListener("resize", onResize);
+    vv.addEventListener("scroll", onResize);
+    return () => {
+      vv.removeEventListener("resize", onResize);
+      vv.removeEventListener("scroll", onResize);
+    };
+  }, []);
+  const kbOpen = kbH > 120;
+  const kbBtnStyle = kbOpen ? { position: "fixed" as const, left: 16, right: 16, bottom: kbH + 10, zIndex: 60 } : undefined;
 
   // Placeholder con animación typewriter (solo modo tienda, input vacío)
   useEffect(() => {
@@ -143,7 +168,7 @@ export default function T1Hero() {
   const submit = (extra: Record<string, unknown>) => track("hero_prompt_submit", { mode: tab.id, ...extra });
 
   const tiendaOk = value.trim().length > 0;
-  const linkOk = monto.trim().length > 0;
+  const linkOk = Number(monto) > 0;
   const envioOk = cpDesde.trim().length > 0 && cpHasta.trim().length > 0 && paquete.length > 0;
 
   return (
@@ -316,6 +341,7 @@ export default function T1Hero() {
                         else submit({ length: value.trim().length });
                       }}
                       aria-label="Crear tienda"
+                      style={kbOpen ? { position: "fixed", right: 16, bottom: kbH + 10, zIndex: 60 } : undefined}
                       className={`absolute bottom-3 right-3 flex h-[38px] w-[38px] items-center justify-center rounded-full transition-colors ${
                         tiendaOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
                       }`}
@@ -351,12 +377,12 @@ export default function T1Hero() {
                     <div className="flex items-baseline justify-center gap-1.5 py-1">
                       <span className="font-sora text-[28px] font-light text-white/45">$</span>
                       <input
-                        inputMode="decimal"
-                        value={monto}
-                        onChange={(e) => setMonto(e.target.value.replace(/[^\d.]/g, ""))}
+                        inputMode="numeric"
+                        value={monto === "" ? "" : formatMonto(monto)}
+                        onChange={(e) => setMonto(e.target.value.replace(/\D/g, "").slice(0, 9))}
                         placeholder="0.00"
                         aria-label="Monto a cobrar"
-                        className="w-[180px] bg-transparent text-center font-sora text-[44px] font-light leading-none text-white outline-none placeholder:text-white/25"
+                        className="w-[200px] bg-transparent text-center font-sora text-[44px] font-light leading-none text-white outline-none placeholder:text-white/25"
                       />
                     </div>
                     {/* Concepto — línea completa */}
@@ -374,6 +400,7 @@ export default function T1Hero() {
                         else submit({ length: monto.length });
                       }}
                       aria-disabled={!linkOk}
+                      style={kbBtnStyle}
                       className={`mt-auto mb-6 flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors tablet:mt-0 tablet:mb-0 ${
                         linkOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
                       }`}
@@ -437,6 +464,7 @@ export default function T1Hero() {
                         else submit({ paquete });
                       }}
                       aria-disabled={!envioOk}
+                      style={kbBtnStyle}
                       className={`mt-auto mb-6 flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors tablet:mt-1 tablet:mb-0 ${
                         envioOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
                       }`}
