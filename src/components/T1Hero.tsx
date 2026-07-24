@@ -373,7 +373,7 @@ export default function T1Hero() {
               {/* ── LINK DE PAGO ── */}
               {tab.id === "link" && (
                 <>
-                  <p className="max-w-[360px] text-center font-inter text-[16px] font-light leading-[1.6] text-white">
+                  <p className="max-w-[360px] text-center font-inter text-[16px] font-light leading-[1.6] text-white tablet:max-w-none tablet:whitespace-nowrap">
                     Cobra sin tienda ni terminal, solo comparte tu link
                   </p>
                   <div className="flex w-full flex-1 flex-col gap-3.5 tablet:flex-none">
@@ -389,8 +389,11 @@ export default function T1Hero() {
                         className="w-[200px] bg-transparent text-center font-sora text-[44px] font-light leading-none text-white outline-none placeholder:text-white/25"
                       />
                     </div>
-                    {/* Concepto — línea completa con hint */}
+                    {/* Concepto — label con contexto arriba del input */}
                     <div>
+                      <p className="mb-1.5 px-1 font-inter text-[13px] font-light text-white/60">
+                        <span className="font-medium text-white/85">Concepto:</span> lo que tus clientes verán al pagar
+                      </p>
                       <input
                         value={concepto}
                         onChange={(e) => setConcepto(e.target.value)}
@@ -398,7 +401,6 @@ export default function T1Hero() {
                         aria-label="Concepto del cobro"
                         className={FIELD}
                       />
-                      <p className="mt-1.5 px-1 font-inter text-[12px] font-light text-white/50">Es lo que tus clientes verán al pagar</p>
                     </div>
                     <a
                       href={tab.href}

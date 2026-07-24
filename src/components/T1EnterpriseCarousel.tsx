@@ -101,7 +101,7 @@ export default function T1EnterpriseCarousel() {
   }, []);
 
   return (
-    <section className="bg-[#0F0E0D] pb-[60px] pt-[100px]">
+    <section className="bg-[#141414] pb-[60px] pt-[100px]">
       <div className="mx-auto max-w-[var(--max-w)] px-5 tablet:px-6">
         {/* Header row */}
         <div className="flex flex-col gap-4 tablet:flex-row tablet:items-end tablet:justify-between" style={{ marginBottom: 32 }}>

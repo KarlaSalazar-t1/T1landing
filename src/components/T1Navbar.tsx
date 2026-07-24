@@ -198,7 +198,7 @@ export default function T1Navbar() {
         className="fixed left-0 right-0 top-0 z-[100] transition-transform duration-300 ease-out"
         style={{
           background: menuOpen || recursosOpen || mobileOpen
-            ? "#0a0a0a"
+            ? "#000000"
             : isLight
               ? "rgba(255,255,255,0.92)"
               : solid

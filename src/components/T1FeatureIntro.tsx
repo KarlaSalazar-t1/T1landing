@@ -105,7 +105,7 @@ const CARDS: Card[] = [
 function cardStyle(glow: string, padding: string): React.CSSProperties {
   return {
     // Charcoal (no negro puro) para que la card resalte sobre la banda negra
-    background: "#1A1A1D",
+    background: "#141414",
     border: "1px solid rgba(255,255,255,0.12)",
     boxShadow: `0 14px 34px rgba(0,0,0,0.55), 0 0 60px -20px ${glow}55`,
     padding,
