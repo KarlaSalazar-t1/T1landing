@@ -14,7 +14,7 @@ function track(event: string, data: Record<string, unknown>) {
 /* ── Tabs (segmented control) ── */
 const TABS = [
   { id: "tienda", label: "Crea tu tienda", href: SIGNUP_URL },
-  { id: "link", label: "Crea link de pago", href: PAGOS_START_URL },
+  { id: "link", label: "Cobra con link", href: PAGOS_START_URL },
   { id: "envio", label: "Cotizar envío", href: ENVIOS_QUOTE_URL },
 ];
 
@@ -184,13 +184,12 @@ export default function T1Hero() {
           {/* Bloque central (centrado en el alto disponible) */}
           <div className="flex w-full flex-1 flex-col items-center justify-center gap-9 py-6">
 
-            {/* 2 · Selector (segmented control) */}
+            {/* 2 · Selector (tabs con subrayado) */}
             <div
               role="radiogroup"
               aria-label="¿Qué quieres hacer?"
               onKeyDown={onSelectorKeyDown}
-              className="flex w-full items-center gap-1 rounded-[15px] p-1"
-              style={{ background: "rgba(13,13,13,0.55)" }}
+              className="flex w-full items-end border-b border-white/10"
             >
               {TABS.map((t, i) => {
                 const selected = i === tabIdx;
@@ -205,12 +204,16 @@ export default function T1Hero() {
                     aria-checked={selected}
                     tabIndex={selected ? 0 : -1}
                     onClick={() => selectTab(i)}
-                    className={`flex-1 whitespace-nowrap rounded-[12px] px-1.5 py-2.5 font-inter text-[11px] font-medium leading-tight transition-colors tablet:text-[13px] ${
-                      selected ? "text-white" : "text-white/65 hover:text-white/85"
+                    className={`relative flex-1 whitespace-nowrap px-1 pb-3 pt-1 font-inter text-[15px] font-medium transition-colors tablet:text-[16px] ${
+                      selected ? "text-white" : "text-white/45 hover:text-white/70"
                     }`}
-                    style={selected ? { background: "rgba(255,255,255,0.12)", border: "1.5px solid rgba(231,231,231,0.2)" } : undefined}
                   >
                     {t.label}
+                    <span
+                      className={`absolute inset-x-2 -bottom-px h-[2px] rounded-full bg-white transition-transform duration-200 ${
+                        selected ? "scale-x-100" : "scale-x-0"
+                      }`}
+                    />
                   </button>
                 );
               })}
@@ -231,9 +234,16 @@ export default function T1Hero() {
                       onChange={(e) => setValue(e.target.value.slice(0, 500))}
                       rows={3}
                       aria-label="Describe tu negocio"
-                      placeholder={placeholder}
-                      className="h-[160px] w-full resize-none rounded-[14px] bg-transparent px-[18px] py-[15px] font-inter text-[16px] leading-[1.5] text-white outline-none placeholder:text-[#8A8A8A]"
+                      placeholder=""
+                      className="h-[160px] w-full resize-none rounded-[14px] bg-transparent px-[18px] py-[15px] font-inter text-[16px] leading-[1.5] text-white outline-none"
                     />
+                    {/* Placeholder animado con cursor (solo cuando el input está vacío) */}
+                    {!value && (
+                      <div aria-hidden className="pointer-events-none absolute inset-0 px-[18px] py-[15px] font-inter text-[16px] leading-[1.5] text-[#8A8A8A]">
+                        {placeholder}
+                        <span className="ml-px inline-block w-[2px] align-[-2px] bg-[#8A8A8A]" style={{ height: "1.1em", animation: "blink 1s step-end infinite" }} />
+                      </div>
+                    )}
                     <a
                       href={tab.href}
                       onClick={(e) => {
