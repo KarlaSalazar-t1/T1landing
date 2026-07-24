@@ -8,8 +8,7 @@ export default function T1Problema() {
           Crecer no debería complicar tu negocio.
         </h2>
         <p className="mx-auto mt-5 font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, maxWidth: 600 }}>
-          Con T1 puedes crear tu tienda, vender en más canales, cobrar y enviar
-          tus pedidos desde una misma plataforma.
+          Todo para vender, cobrar y enviar desde un solo lugar.
         </p>
       </div>
     </section>

@@ -104,9 +104,10 @@ const CARDS: Card[] = [
    (red / blue) lifts it off the background. */
 function cardStyle(glow: string, padding: string): React.CSSProperties {
   return {
-    background: "#000000",
-    border: "1px solid rgba(255,255,255,0.08)",
-    boxShadow: `0 14px 34px rgba(0,0,0,0.5), 0 0 58px -22px ${glow}40`,
+    // Charcoal (no negro puro) para que la card resalte sobre la banda negra
+    background: "#1A1A1D",
+    border: "1px solid rgba(255,255,255,0.12)",
+    boxShadow: `0 14px 34px rgba(0,0,0,0.55), 0 0 60px -20px ${glow}55`,
     padding,
   };
 }

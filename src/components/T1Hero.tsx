@@ -389,14 +389,17 @@ export default function T1Hero() {
                         className="w-[200px] bg-transparent text-center font-sora text-[44px] font-light leading-none text-white outline-none placeholder:text-white/25"
                       />
                     </div>
-                    {/* Concepto — línea completa */}
-                    <input
-                      value={concepto}
-                      onChange={(e) => setConcepto(e.target.value)}
-                      placeholder="Concepto (¿qué cobras?)"
-                      aria-label="Concepto"
-                      className={FIELD}
-                    />
+                    {/* Concepto — línea completa con hint */}
+                    <div>
+                      <input
+                        value={concepto}
+                        onChange={(e) => setConcepto(e.target.value)}
+                        placeholder="Ej. Sesión de fotos"
+                        aria-label="Concepto del cobro"
+                        className={FIELD}
+                      />
+                      <p className="mt-1.5 px-1 font-inter text-[12px] font-light text-white/50">Es lo que tus clientes verán al pagar</p>
+                    </div>
                     <a
                       href={tab.href}
                       onClick={(e) => {
@@ -423,11 +426,18 @@ export default function T1Hero() {
                     Cotiza tu envío en segundos, sin mínimos
                   </p>
                   <div className="flex w-full flex-1 flex-col gap-3 tablet:flex-none">
-                    {/* Origen → destino */}
-                    <div className="flex items-center gap-2.5">
-                      <input value={cpDesde} onChange={(e) => setCpDesde(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="C.P. origen" aria-label="Código postal de origen" className={`${FIELD} flex-1`} />
-                      <span aria-hidden className="shrink-0 text-white/50">→</span>
-                      <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="C.P. destino" aria-label="Código postal de destino" className={`${FIELD} flex-1`} />
+                    {/* Origen → destino con labels de ayuda */}
+                    <div>
+                      <div className="flex items-center gap-2.5">
+                        <input value={cpDesde} onChange={(e) => setCpDesde(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Ej. 06600" aria-label="Código postal de origen" className={`${FIELD} flex-1`} />
+                        <span aria-hidden className="shrink-0 text-white/40">→</span>
+                        <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Ej. 44100" aria-label="Código postal de destino" className={`${FIELD} flex-1`} />
+                      </div>
+                      <div className="mt-1.5 flex items-center gap-2.5 font-inter text-[12px] font-light text-white/55">
+                        <span className="flex-1 text-center">C.P. desde dónde envías</span>
+                        <span aria-hidden className="w-[14px] shrink-0" />
+                        <span className="flex-1 text-center">C.P. a dónde envías</span>
+                      </div>
                     </div>
                     {/* Selector de tamaño de paquete — horizontal con swipe en móvil */}
                     <div className="mt-3">
@@ -493,9 +503,11 @@ export default function T1Hero() {
           </div>
         </div>
 
-        {/* 5 · Carrusel de logos de marcas — al fondo del hero, sobre el fade a negro */}
-        <div className="relative z-10 mt-6 w-full tablet:mt-8">
-          <LogoMarquee />
+        {/* 5 · Carrusel de logos — al fondo del hero, respetando el margen del header */}
+        <div className="relative z-10 -mx-5 mt-6 tablet:-mx-6 tablet:mt-8">
+          <div className="mx-auto max-w-[var(--max-w)] px-3">
+            <LogoMarquee />
+          </div>
         </div>
       </section>
     </div>
