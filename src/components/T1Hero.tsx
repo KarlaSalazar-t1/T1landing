@@ -139,7 +139,7 @@ export default function T1Hero() {
   const envioOk = cpDesde.trim().length > 0 && cpHasta.trim().length > 0 && paquete.length > 0;
 
   return (
-    <div className="sticky top-0 z-0">
+    <div className="relative z-0">
       <section className="relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-5 pb-[clamp(24px,5vh,56px)] pt-24 tablet:min-h-screen tablet:px-6 tablet:py-28">
         {/* Fondo — degradado exacto de Figma */}
         <div aria-hidden className="absolute inset-0 z-0" style={{ background: "linear-gradient(180deg, #141414 0%, #020101 100%)" }} />
