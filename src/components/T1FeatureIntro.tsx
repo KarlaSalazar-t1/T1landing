@@ -74,7 +74,7 @@ const CARDS: Card[] = [
     label: "COBRA",
     desc: "Recibe pagos con tarjetas, SPEI, Kueski, ofrece meses sin intereses y links de pago para vender más fácil.",
     glow: "#2F6BFF", // blue
-    image: "/img/card-cobra-v5.png", iw: 1254, ih: 1254,
+    image: "/img/card-cobra-v5.png", iw: 1334, ih: 1254,
     logos: [
       { src: "/img/logos/brands/visa.webp", alt: "Visa", w: 130, h: 96 },
       { src: "/img/logos/brands/mastercard.webp", alt: "Mastercard", w: 130, h: 96 },
@@ -88,7 +88,7 @@ const CARDS: Card[] = [
     label: "ENVÍA",
     desc: "Cotiza, crea guías y rastrea tus pedidos con +10 paqueterías al mejor precio del mercado.",
     glow: "#E0402F", // red
-    image: "/img/card-envia-v2.png", iw: 1448, ih: 1086,
+    image: "/img/card-envia-v5.png", iw: 1254, ih: 1254,
     logos: [
       { src: "/img/logos/brands/dhl.webp", alt: "DHL", w: 96, h: 96 },
       { src: "/img/logos/brands/99minutos.webp", alt: "99 minutos", w: 96, h: 96 },
@@ -156,7 +156,7 @@ export default function T1FeatureIntro() {
             <p className="font-inter text-[16px] font-medium uppercase tracking-[0.04em] text-white" style={{ marginBottom: 14 }}>
               {item.label}
             </p>
-            <p className="font-inter text-[13.5px] font-normal text-white/70" style={{ lineHeight: 1.5, marginBottom: 4, minHeight: 61 }}>
+            <p className="font-inter text-[14px] font-normal text-white/70" style={{ lineHeight: 1.5, marginBottom: 4, minHeight: 61 }}>
               {item.desc}
             </p>
             <div className="mt-auto" style={{ marginLeft: -20, marginRight: -20, marginBottom: -20 }}>
@@ -177,7 +177,7 @@ export default function T1FeatureIntro() {
             <p className="font-inter text-[18px] font-medium uppercase tracking-[0.03em] text-white tablet:text-[20px]" style={{ marginBottom: 22 }}>
               {card.label}
             </p>
-            <p className="w-full font-inter text-[15px] font-normal text-white/70 tablet:text-[16px]" style={{ lineHeight: 1.55, marginBottom: 8, minHeight: 76 }}>
+            <p className="w-full font-inter text-[16px] font-normal text-white/70 tablet:text-[16px]" style={{ lineHeight: 1.55, marginBottom: 8, minHeight: 76 }}>
               {card.desc}
             </p>
             <div className="mt-auto" style={{ marginLeft: -30, marginRight: -30, marginBottom: -34 }}>

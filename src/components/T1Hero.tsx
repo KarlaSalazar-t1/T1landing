@@ -97,7 +97,7 @@ const ArrowRight = (
   </svg>
 );
 
-const FIELD = "w-full rounded-[14px] bg-[#1D1D1D] px-4 py-3 font-inter text-[15px] text-white outline-none placeholder:text-[#8A8A8A] focus:ring-1 focus:ring-white/20";
+const FIELD = "w-full rounded-[14px] bg-[#1D1D1D] px-4 py-3 font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A] focus:ring-1 focus:ring-white/20";
 
 export default function T1Hero() {
   const [tabIdx, setTabIdx] = useState(0);
@@ -238,7 +238,7 @@ export default function T1Hero() {
         <div className="relative z-10 flex w-full max-w-[440px] grow flex-col items-center tablet:max-w-[640px]">
           {/* 1 · H1 (arriba) */}
           <h1
-            className="text-center font-sora text-[32px] font-light leading-[1.14] text-white tablet:text-[46px] desktop:text-[52px]"
+            className="text-center font-sora text-[32px] font-light leading-[1.14] text-white tablet:text-[48px] desktop:text-[48px]"
             style={{ letterSpacing: "-0.03em" }}
           >
             Vende, cobra y envía.
@@ -267,7 +267,7 @@ export default function T1Hero() {
                     aria-checked={selected}
                     tabIndex={selected ? 0 : -1}
                     onClick={() => selectTab(i)}
-                    className={`relative flex-1 whitespace-nowrap px-1 pb-3 pt-1 font-inter text-[15px] font-medium transition-colors ${
+                    className={`relative flex-1 whitespace-nowrap px-1 pb-3 pt-1 font-inter text-[16px] font-medium transition-colors ${
                       selected ? "text-white" : "text-white/45 hover:text-white/70"
                     }`}
                   >
@@ -360,7 +360,7 @@ export default function T1Hero() {
                         key={chip.label}
                         type="button"
                         onClick={() => insertChip(chip)}
-                        className="rounded-[11px] border border-white/10 px-2.5 py-1.5 font-inter text-[13px] font-medium text-white transition-colors hover:border-white/25 tablet:text-[14px]"
+                        className="rounded-[11px] border border-white/10 px-2.5 py-1.5 font-inter text-[14px] font-medium text-white transition-colors hover:border-white/25 tablet:text-[14px]"
                         style={{ background: "rgba(52,52,52,0.6)" }}
                       >
                         {chip.label}
@@ -374,7 +374,7 @@ export default function T1Hero() {
               {tab.id === "link" && (
                 <>
                   <p className="max-w-[360px] text-center font-inter text-[16px] font-light leading-[1.6] text-white tablet:max-w-none tablet:whitespace-nowrap">
-                    Cobra sin tienda ni terminal, solo comparte tu link
+                    Cobra sin tienda ni terminal. Comparte un link y listo.
                   </p>
                   <div className="flex w-full flex-1 flex-col gap-3.5 tablet:flex-none">
                     {/* Monto grande, sin caja */}
@@ -389,11 +389,9 @@ export default function T1Hero() {
                         className="w-[200px] bg-transparent text-center font-sora text-[44px] font-light leading-none text-white outline-none placeholder:text-white/25"
                       />
                     </div>
-                    {/* Concepto — label con contexto arriba del input */}
+                    {/* Concepto — pregunta arriba + hint abajo */}
                     <div>
-                      <p className="mb-1.5 px-1 font-inter text-[13px] font-light text-white/60">
-                        <span className="font-medium text-white/85">Concepto:</span> lo que tus clientes verán al pagar
-                      </p>
+                      <p className="mb-1.5 px-1 font-inter text-[14px] font-medium text-white/85">¿Qué quieres cobrar?</p>
                       <input
                         value={concepto}
                         onChange={(e) => setConcepto(e.target.value)}
@@ -401,6 +399,7 @@ export default function T1Hero() {
                         aria-label="Concepto del cobro"
                         className={FIELD}
                       />
+                      <p className="mt-1.5 px-1 font-inter text-[12px] font-light text-white/50">Es lo que tus clientes verán al pagar</p>
                     </div>
                     <a
                       href={tab.href}
@@ -424,8 +423,8 @@ export default function T1Hero() {
               {/* ── ENVÍO ── */}
               {tab.id === "envio" && (
                 <>
-                  <p className="whitespace-nowrap text-center font-inter text-[16px] font-light leading-[1.6] text-white">
-                    Cotiza tu envío en segundos, sin mínimos
+                  <p className="max-w-[360px] text-center font-inter text-[16px] font-light leading-[1.6] text-white tablet:max-w-none tablet:whitespace-nowrap">
+                    Cotiza tu envío en segundos, sin volumen mínimo
                   </p>
                   <div className="flex w-full flex-1 flex-col gap-3 tablet:flex-none">
                     {/* Origen → destino con labels de ayuda */}
@@ -443,7 +442,7 @@ export default function T1Hero() {
                     </div>
                     {/* Selector de tamaño de paquete — horizontal con swipe en móvil */}
                     <div className="mt-3">
-                      <p className="mb-2 font-inter text-[13px] font-light text-white/70">¿Qué tamaño es tu paquete?</p>
+                      <p className="mb-2 font-inter text-[14px] font-light text-white/70">¿Qué tamaño es tu paquete?</p>
                       <div
                         role="radiogroup"
                         aria-label="Tamaño del paquete"
@@ -497,7 +496,7 @@ export default function T1Hero() {
           {/* 4 · Social proof (abajo) */}
           <div className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 px-2 text-center">
             {SOCIAL_PROOF.map((s, i) => (
-              <span key={s} className="flex items-center gap-2.5 font-inter text-[15px] font-medium text-white tablet:text-[16px]">
+              <span key={s} className="flex items-center gap-2.5 font-inter text-[16px] font-medium text-white tablet:text-[16px]">
                 {i > 0 && <span aria-hidden className="text-white/40">•</span>}
                 {s}
               </span>

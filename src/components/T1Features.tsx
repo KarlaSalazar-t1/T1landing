@@ -109,7 +109,7 @@ function StoreCarousel({ dark }: { dark: boolean }) {
                 >
                   {store.name}
                 </p>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-5 py-2.5 font-inter text-[13px] font-semibold text-black">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-5 py-2.5 font-inter text-[14px] font-semibold text-black">
                   Ver tienda
                   <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
                     <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
@@ -301,7 +301,7 @@ function CountStat({ end, prefix = "", suffix = "", label, decimals = 0 }: { end
       <p className="font-sora text-[36px] font-light text-white tablet:text-[52px]" style={{ letterSpacing: "-0.03em", marginBottom: 6, lineHeight: 1 }}>
         {display}
       </p>
-      <p className="font-inter text-[12px] font-light text-white/55 tablet:text-[13px]">{label}</p>
+      <p className="font-inter text-[12px] font-light text-white/55 tablet:text-[14px]">{label}</p>
     </div>
   );
 }
@@ -612,7 +612,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                       className="absolute hidden rounded-[16px] bg-white tablet:block"
                       style={{ left: -20, top: 30, width: 380, padding: "20px 24px", boxShadow: "0 8px 32px rgba(0,0,0,0.12)" }}
                     >
-                      <p className="font-inter text-[15px] font-normal text-black/80" style={{ minHeight: 44 }}>
+                      <p className="font-inter text-[16px] font-normal text-black/80" style={{ minHeight: 44 }}>
                         {displayedText}
                         <span
                           className="ml-0.5 inline-block w-[2px] bg-black/60"
@@ -727,7 +727,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                         </p>
                         <a
                           href={SIGNUP_URL}
-                          className="mt-8 inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
+                          className="mt-8 inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[16px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
                         >
                           Crear mi tienda con IA
                         </a>
@@ -774,7 +774,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
 
                         {/* Mobile: typed prompt below the preview */}
                         <div className="mt-4 rounded-[14px] border border-black/[0.06] bg-white tablet:hidden" style={{ padding: "14px 16px", boxShadow: "0 10px 30px rgba(0,0,0,0.10)" }}>
-                          <p className="font-inter text-[13px] text-black/80" style={{ minHeight: 38 }}>
+                          <p className="font-inter text-[14px] text-black/80" style={{ minHeight: 38 }}>
                             {displayedText}
                             <span className="ml-0.5 inline-block w-[2px] bg-[#DB3B2B]" style={{ height: 14, verticalAlign: "text-bottom", animation: "blink 0.8s step-end infinite" }} />
                           </p>
@@ -824,7 +824,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                             {s.n}
                           </span>
                           <h3 className="font-sora text-[18px] font-normal text-black" style={{ marginBottom: 6 }}>{s.title}</h3>
-                          <p className="font-inter text-[13px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{s.desc}</p>
+                          <p className="font-inter text-[14px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{s.desc}</p>
                         </div>
                       ))}
                     </div>
@@ -916,7 +916,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                             <svg width="24" height="24" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.99.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.09a6.6 6.6 0 0 1 0-4.18V7.07H2.18a11 11 0 0 0 0 9.86l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1A11 11 0 0 0 2.18 7.07l3.66 2.84C6.71 7.31 9.14 5.38 12 5.38z"/></svg>
                           </div>
                           <div className="mt-[26px] w-[216px] rounded-[13px] border border-white/12 bg-white/[0.08] p-3.5 backdrop-blur-md">
-                            <p className="font-inter text-[13px] font-medium text-[#8AB4F8]">Mi tienda | T1</p>
+                            <p className="font-inter text-[14px] font-medium text-[#8AB4F8]">Mi tienda | T1</p>
                             <p className="font-inter text-[9.5px] text-[#6EC58A]" style={{ marginTop: 2, marginBottom: 6 }}>mitienda.t1.com</p>
                             <p className="font-inter text-[9.5px] text-white/45" style={{ lineHeight: 1.5 }}>Encuentra todo lo que necesitas en un solo lugar, con envíos y pagos incluidos.</p>
                           </div>
@@ -940,7 +940,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                             <div className="mb-2.5 flex h-[94px] w-full items-center justify-center overflow-hidden rounded-[10px] bg-white/90">
                               <Image src="/img/tenis-transparente.png" alt="" width={132} height={92} className="object-contain" />
                             </div>
-                            <p className="font-inter text-[13px] font-semibold text-white">Tennis clásicos</p>
+                            <p className="font-inter text-[14px] font-semibold text-white">Tennis clásicos</p>
                             <p className="font-inter text-[11px] text-white/55" style={{ marginTop: 2 }}>$1,345.99</p>
                           </div>
                         </div>
@@ -1441,7 +1441,7 @@ function PhoneLinkPago() {
                 position: "relative",
               }}
             >
-              <span className="text-[13px] font-bold text-white">Pagar $1,345.99</span>
+              <span className="text-[14px] font-bold text-white">Pagar $1,345.99</span>
               {/* Simulated finger/cursor indicator */}
               {btnPressed && (
                 <div
@@ -1617,7 +1617,7 @@ function TiendaNuevoPedidoBadge({
         <span
           key={`monto-${idx}`}
           className={`tienda-text-fade ml-auto font-inter font-bold tabular-nums ${
-            orientation === "desktop" ? "text-[13px]" : "text-[12px]"
+            orientation === "desktop" ? "text-[14px]" : "text-[12px]"
           }`}
           style={{ color: OXFORD }}
         >
@@ -2171,7 +2171,7 @@ export default function T1Features() {
 
       {/* Section heading */}
       <div className="mx-auto max-w-[var(--max-w)] px-5 text-center tablet:px-6" style={{ paddingTop: 44 }}>
-        <h2 className="mx-auto font-sora text-[26px] font-light text-white tablet:whitespace-nowrap tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.2, marginBottom: 44 }}>
+        <h2 className="mx-auto font-sora text-[28px] font-light text-white tablet:whitespace-nowrap tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.2, marginBottom: 44 }}>
           Todo lo que tu negocio necesita
         </h2>
       </div>
@@ -2293,10 +2293,10 @@ export default function T1Features() {
                 <div className="flex h-full w-full flex-col tablet:flex-row-reverse" ref={tiendaOnlineRef}>
                   <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:p-8">
                     <div>
-                      <p className="font-sora text-[18px] font-normal text-white tablet:text-[22px] lg:text-[26px]">
+                      <p className="font-sora text-[18px] font-normal text-white tablet:text-[22px] lg:text-[28px]">
                         {card.title}
                       </p>
-                      <p className="font-inter text-[13px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
+                      <p className="font-inter text-[14px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
                         {withBoldIA(card.description)}
                       </p>
                       {/* AI capability bullets — sparkle marker + AI copy signal
@@ -2312,7 +2312,7 @@ export default function T1Features() {
                             <span className="mt-[1px] shrink-0">
                               <AISparkle size={16} />
                             </span>
-                            <span className="font-inter text-[13px] font-normal text-white/85 tablet:text-[14px]" style={{ lineHeight: 1.45 }}>
+                            <span className="font-inter text-[14px] font-normal text-white/85 tablet:text-[14px]" style={{ lineHeight: 1.45 }}>
                               {withBoldIA(b)}
                             </span>
                           </li>
@@ -2340,7 +2340,7 @@ export default function T1Features() {
                           target={card.ctaHref?.startsWith("http") ? "_blank" : undefined}
                           rel={card.ctaHref?.startsWith("http") ? "noopener noreferrer" : undefined}
                           onClick={(e) => e.stopPropagation()}
-                          className="inline-flex w-fit items-center font-inter text-[15px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
+                          className="inline-flex w-fit items-center font-inter text-[16px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
                         >
                           {card.ctaLabel}
                         </a>
@@ -2365,11 +2365,11 @@ export default function T1Features() {
                   <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:p-8" ref={tiendaRef}>
                     {/* Text info at top */}
                     <div>
-                      <p className="font-sora text-[18px] font-normal text-white tablet:text-[22px] lg:text-[26px]">
+                      <p className="font-sora text-[18px] font-normal text-white tablet:text-[22px] lg:text-[28px]">
                         {card.title}
                       </p>
                       <p
-                        className="font-inter text-[13px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]"
+                        className="font-inter text-[14px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]"
                         style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}
                       >
                         {withBoldIA(card.description)}
@@ -2414,7 +2414,7 @@ export default function T1Features() {
                                 </svg>
                               </span>
                             )}
-                            <span className="font-inter text-[13px] font-normal text-white/85 tablet:text-[14px]" style={{ lineHeight: 1.45 }}>
+                            <span className="font-inter text-[14px] font-normal text-white/85 tablet:text-[14px]" style={{ lineHeight: 1.45 }}>
                               {withBoldIA(b)}
                             </span>
                           </li>
@@ -2426,7 +2426,7 @@ export default function T1Features() {
                           target={card.ctaHref?.startsWith("http") ? "_blank" : undefined}
                           rel={card.ctaHref?.startsWith("http") ? "noopener noreferrer" : undefined}
                           onClick={(e) => e.stopPropagation()}
-                          className="inline-flex w-fit items-center font-inter text-[15px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
+                          className="inline-flex w-fit items-center font-inter text-[16px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
                         >
                           {card.ctaLabel}
                         </a>
@@ -2452,10 +2452,10 @@ export default function T1Features() {
                   {/* Right column (visually): text at top, payment methods centered below */}
                   <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:p-8 lg:p-10">
                     <div style={{ maxWidth: 420 }}>
-                      <p className="font-sora text-[18px] font-normal text-white tablet:text-[22px] lg:text-[26px]">
+                      <p className="font-sora text-[18px] font-normal text-white tablet:text-[22px] lg:text-[28px]">
                         {card.title}
                       </p>
-                      <p className="font-inter text-[13px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
+                      <p className="font-inter text-[14px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
                         {withBoldIA(card.description)}
                       </p>
                       {/* Mobile: just the IA capability bullet (✨) — desktop
@@ -2491,7 +2491,7 @@ export default function T1Features() {
                                 <path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
                               </svg>
                             </span>
-                            <span className="font-inter text-[13px] font-normal text-white/85 tablet:text-[14px]" style={{ lineHeight: 1.45 }}>
+                            <span className="font-inter text-[14px] font-normal text-white/85 tablet:text-[14px]" style={{ lineHeight: 1.45 }}>
                               {withBoldIA(b)}
                             </span>
                           </li>
@@ -2503,7 +2503,7 @@ export default function T1Features() {
                           target={card.ctaHref?.startsWith("http") ? "_blank" : undefined}
                           rel={card.ctaHref?.startsWith("http") ? "noopener noreferrer" : undefined}
                           onClick={(e) => e.stopPropagation()}
-                          className="inline-flex w-fit items-center font-inter text-[15px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
+                          className="inline-flex w-fit items-center font-inter text-[16px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
                         >
                           {card.ctaLabel}
                         </a>
@@ -2542,10 +2542,10 @@ export default function T1Features() {
                 <div className="flex h-full w-full flex-col tablet:flex-row" ref={enviosRef}>
                   <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:p-8">
                     <div>
-                      <p className="font-sora text-[18px] font-normal text-white tablet:text-[22px] lg:text-[26px]">
+                      <p className="font-sora text-[18px] font-normal text-white tablet:text-[22px] lg:text-[28px]">
                         {card.title}
                       </p>
-                      <p className="font-inter text-[13px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
+                      <p className="font-inter text-[14px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
                         {withBoldIA(card.description)}
                       </p>
                       {/* Mobile: just the IA capability bullet (✨) — desktop
@@ -2587,7 +2587,7 @@ export default function T1Features() {
                                 </svg>
                               </span>
                             )}
-                            <span className="font-inter text-[13px] font-normal text-white/85 tablet:text-[14px]" style={{ lineHeight: 1.45 }}>
+                            <span className="font-inter text-[14px] font-normal text-white/85 tablet:text-[14px]" style={{ lineHeight: 1.45 }}>
                               {withBoldIA(b)}
                             </span>
                           </li>
@@ -2599,7 +2599,7 @@ export default function T1Features() {
                           target={card.ctaHref?.startsWith("http") ? "_blank" : undefined}
                           rel={card.ctaHref?.startsWith("http") ? "noopener noreferrer" : undefined}
                           onClick={(e) => e.stopPropagation()}
-                          className="inline-flex w-fit items-center font-inter text-[15px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
+                          className="inline-flex w-fit items-center font-inter text-[16px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
                         >
                           {card.ctaLabel}
                         </a>
@@ -2627,10 +2627,10 @@ export default function T1Features() {
                   {/* Text column (visually RIGHT) */}
                   <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:p-8 lg:p-10">
                     <div style={{ maxWidth: 420 }}>
-                      <p className="font-sora text-[18px] font-normal text-white tablet:text-[22px] lg:text-[26px]">
+                      <p className="font-sora text-[18px] font-normal text-white tablet:text-[22px] lg:text-[28px]">
                         {card.title}
                       </p>
-                      <p className="font-inter text-[13px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
+                      <p className="font-inter text-[14px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
                         {card.description}
                       </p>
                       <ul className="hidden flex-col gap-2.5 tablet:flex" style={{ marginBottom: 26 }}>
@@ -2646,7 +2646,7 @@ export default function T1Features() {
                                 <path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
                               </svg>
                             </span>
-                            <span className="font-inter text-[13px] font-normal text-white/85 tablet:text-[14px]" style={{ lineHeight: 1.45 }}>
+                            <span className="font-inter text-[14px] font-normal text-white/85 tablet:text-[14px]" style={{ lineHeight: 1.45 }}>
                               {b}
                             </span>
                           </li>
@@ -2656,7 +2656,7 @@ export default function T1Features() {
                         <a
                           href={card.ctaHref}
                           onClick={(e) => e.stopPropagation()}
-                          className="inline-flex w-fit items-center font-inter text-[15px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
+                          className="inline-flex w-fit items-center font-inter text-[16px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
                         >
                           {card.ctaLabel}
                         </a>

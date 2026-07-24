@@ -125,7 +125,7 @@ function ScoreReportCard() {
             </svg>
           </span>
           <div className="min-w-0">
-            <p className="text-[13.5px] font-bold text-[#2E2A28]" style={{ lineHeight: 1.2 }}>
+            <p className="text-[14px] font-bold text-[#2E2A28]" style={{ lineHeight: 1.2 }}>
               Transacción rechazada
             </p>
             <p className="mt-0.5 text-[12px] text-[#6B6B6B]" style={{ lineHeight: 1.3 }}>
@@ -181,14 +181,14 @@ export default function T1Score() {
 
           <div className="relative z-10 p-7 tablet:p-12 tablet:max-w-[54%]">
             <h2
-              className="font-sora text-[24px] font-light text-white tablet:text-[30px] lg:text-[34px]"
+              className="font-sora text-[24px] font-light text-white tablet:text-[32px] lg:text-[36px]"
               style={{ letterSpacing: "-0.02em", lineHeight: 1.15 }}
             >
               Protégete del fraude con{" "}
               <span style={{ color: "#FF6F5E" }}>T1&nbsp;Score</span>
             </h2>
             <p
-              className="mt-3.5 font-inter text-[14px] font-normal text-white/70 tablet:text-[15px]"
+              className="mt-3.5 font-inter text-[14px] font-normal text-white/70 tablet:text-[16px]"
               style={{ letterSpacing: "-0.01em", lineHeight: 1.5, maxWidth: 440 }}
             >
               Evalúa el riesgo de tus clientes y transacciones en segundos.
@@ -203,7 +203,7 @@ export default function T1Score() {
                   <span className="shrink-0">
                     <PillarIcon id={p.id} />
                   </span>
-                  <p className="font-inter text-[15px] font-semibold text-white tablet:text-[16px]">
+                  <p className="font-inter text-[16px] font-semibold text-white tablet:text-[16px]">
                     {p.title}
                   </p>
                 </li>
@@ -212,7 +212,7 @@ export default function T1Score() {
 
             <a
               href="/productos/t1score"
-              className="mt-8 inline-flex h-[46px] w-fit items-center justify-center gap-2 rounded-[23px] bg-[#DB3B2B] px-6 font-inter text-[14px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A] hover:shadow-[0_4px_16px_rgba(226,97,83,0.4)] tablet:text-[15px]"
+              className="mt-8 inline-flex h-[46px] w-fit items-center justify-center gap-2 rounded-[23px] bg-[#DB3B2B] px-6 font-inter text-[14px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A] hover:shadow-[0_4px_16px_rgba(226,97,83,0.4)] tablet:text-[16px]"
             >
               Conoce T1 Score
               <svg width="15" height="15" viewBox="0 0 16 16" fill="none">

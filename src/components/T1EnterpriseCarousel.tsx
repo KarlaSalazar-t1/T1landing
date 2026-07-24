@@ -113,7 +113,7 @@ export default function T1EnterpriseCarousel() {
               Negocios que ya operan con T1
             </h2>
             <p
-              className="font-inter text-[14px] font-light text-white/55 tablet:text-[15px] lg:text-[16px]"
+              className="font-inter text-[14px] font-light text-white/55 tablet:text-[16px] lg:text-[16px]"
               style={{ lineHeight: 1.55, maxWidth: 620 }}
             >
               Desde comercios en crecimiento hasta empresas de alto volumen, T1 ayuda a conectar ventas, pagos y operación.
@@ -207,9 +207,9 @@ export default function T1EnterpriseCarousel() {
                 )}
               </div>
               <div className="p-5">
-                <p className="font-sora text-[26px] font-semibold leading-none text-white" style={{ letterSpacing: "-0.02em" }}>{c.metric}</p>
-                <p className="mt-2 font-inter text-[13px] font-medium leading-snug text-white/85">{c.metricLabel}</p>
-                <p className="mt-3 font-inter text-[13px] italic leading-relaxed text-white/70">&ldquo;{c.quote}&rdquo;</p>
+                <p className="font-sora text-[28px] font-semibold leading-none text-white" style={{ letterSpacing: "-0.02em" }}>{c.metric}</p>
+                <p className="mt-2 font-inter text-[14px] font-medium leading-snug text-white/85">{c.metricLabel}</p>
+                <p className="mt-3 font-inter text-[14px] italic leading-relaxed text-white/70">&ldquo;{c.quote}&rdquo;</p>
                 {c.person && (
                   <p className="mt-3 font-inter text-[11px] font-semibold uppercase text-white/70" style={{ letterSpacing: "0.04em" }}>
                     {c.person} <span className="font-normal text-white/45">· {c.role}</span>
@@ -268,7 +268,7 @@ export default function T1EnterpriseCarousel() {
                   <div className="flex h-[48px] w-[48px] items-center justify-center overflow-hidden rounded-[12px] bg-white" style={{ boxShadow: "0 4px 14px rgba(0,0,0,0.22)" }}>
                     <Image src={c.image} alt={c.name} width={38} height={38} className="object-contain" style={{ padding: 4 }} />
                   </div>
-                  <span className="font-inter text-[15px] font-semibold text-white" style={{ textShadow: "0 1px 8px rgba(0,0,0,0.6)" }}>{c.name}</span>
+                  <span className="font-inter text-[16px] font-semibold text-white" style={{ textShadow: "0 1px 8px rgba(0,0,0,0.6)" }}>{c.name}</span>
                 </div>
               )}
 

@@ -158,7 +158,7 @@ function FloatingCards({ type }: { type: string | null }) {
     return (
       <>
         <div className="absolute rounded-[16px] bg-white" style={{ right: 360, top: 70, width: 220, boxShadow: "0 0 25px 0 rgba(0,0,0,0.06)", fontFamily: font, padding: "16px 22px", zIndex: 10, animation: "none" }}>
-          <p className="text-[13px] font-bold text-[#4c4c4c]">Tasa de incidencias</p>
+          <p className="text-[14px] font-bold text-[#4c4c4c]">Tasa de incidencias</p>
           <p className="text-[34px] font-bold text-[#4c4c4c]" style={{ lineHeight: 1.1, marginTop: 4 }}>1.02%</p>
           <p className="text-[11px] font-normal text-[#828282]">148 / 3,452 envíos</p>
         </div>
@@ -397,7 +397,7 @@ export default function T1Solutions() {
               </p>
               <a
                 href={card.ctaHref}
-                className="mx-4 mb-5 inline-flex items-center gap-1.5 font-inter text-[13px] font-semibold text-black no-underline"
+                className="mx-4 mb-5 inline-flex items-center gap-1.5 font-inter text-[14px] font-semibold text-black no-underline"
               >
                 {card.cta}
                 <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
@@ -994,7 +994,7 @@ export default function T1Solutions() {
                 {/* Description — changes per sub-tab */}
                 <p
                   key={`desc-${activeTab}-${activeSubTab}`}
-                  className="font-inter text-[15px] font-light text-black/60"
+                  className="font-inter text-[16px] font-light text-black/60"
                   style={{ lineHeight: 1.6, animation: "none" }}
                 >
                   {currentSub.description}
@@ -1343,7 +1343,7 @@ export default function T1Solutions() {
                           <path d="M3 8L6.5 11.5L13 4.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       </div>
-                      <span className="font-inter text-[13px] font-semibold text-[#4c4c4c]">Pedido completado</span>
+                      <span className="font-inter text-[14px] font-semibold text-[#4c4c4c]">Pedido completado</span>
                     </div>
                   </div>
                 ) : currentSub.panel === "link-pago" ? (
@@ -1363,7 +1363,7 @@ export default function T1Solutions() {
                           <path d="M3 8L6.5 11.5L13 4.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       </div>
-                      <span className="font-inter text-[13px] font-semibold text-[#4c4c4c]">Pago completado</span>
+                      <span className="font-inter text-[14px] font-semibold text-[#4c4c4c]">Pago completado</span>
                     </div>
                   </div>
                 ) : currentSub.panel === "cotizador" ? (
@@ -1406,7 +1406,7 @@ export default function T1Solutions() {
                       <div className="flex items-center gap-3" style={{ marginBottom: 8 }}>
                         <Image src="/img/icons/fedex-logo.svg" alt="FedEx" width={36} height={22} className="object-contain" />
                         <div>
-                          <p className="text-[13px] font-bold text-[#4c4c4c]">43567890082</p>
+                          <p className="text-[14px] font-bold text-[#4c4c4c]">43567890082</p>
                           <p className="text-[11px] text-[#828282]">FedEx</p>
                         </div>
                         <div className="ml-auto flex h-[24px] w-[24px] items-center justify-center rounded-full bg-black/[0.04]">
@@ -1453,7 +1453,7 @@ export default function T1Solutions() {
                           <path d="M3 8L6.5 11.5L13 4.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       </div>
-                      <span className="font-inter text-[13px] font-semibold text-[#4c4c4c]">Evidencia recibida</span>
+                      <span className="font-inter text-[14px] font-semibold text-[#4c4c4c]">Evidencia recibida</span>
                     </div>
                   </div>
                 ) : /* T1Score hidden — DO NOT REMOVE (used for future launch). Desktop panels for fraude / riesgo / buro stay below. */
@@ -1678,7 +1678,7 @@ export default function T1Solutions() {
                       </div>
                       <div>
                         <p className="text-[10px] text-[#828282]">Efectivo ingresado</p>
-                        <p className="text-[15px] font-bold text-[#4c4c4c]">+$8,420.00</p>
+                        <p className="text-[16px] font-bold text-[#4c4c4c]">+$8,420.00</p>
                       </div>
                     </div>
                     {/* Floating: efectivo retirado */}
@@ -1688,7 +1688,7 @@ export default function T1Solutions() {
                       </div>
                       <div>
                         <p className="text-[10px] text-[#828282]">Efectivo retirado</p>
-                        <p className="text-[15px] font-bold text-[#4c4c4c]">−$1,250.00</p>
+                        <p className="text-[16px] font-bold text-[#4c4c4c]">−$1,250.00</p>
                       </div>
                     </div>
                   </div>

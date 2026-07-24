@@ -88,7 +88,7 @@ export default function T1AudienceRotator() {
                   </div>
                   {on && (
                     <>
-                      <p className="font-inter text-[14px] font-normal leading-relaxed text-white/60 tablet:text-[15px]" style={{ marginTop: 12 }}>
+                      <p className="font-inter text-[14px] font-normal leading-relaxed text-white/60 tablet:text-[16px]" style={{ marginTop: 12 }}>
                         {it.description}
                       </p>
                       {/* progress bar — auto-advance timer */}
