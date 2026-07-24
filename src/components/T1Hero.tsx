@@ -61,6 +61,14 @@ export default function T1Hero() {
   const [tabIdx, setTabIdx] = useState(0);
   const tab = TABS[tabIdx];
 
+  // Variante del selector para A/B temporal (?sel=b muestra la propuesta B)
+  const [selVariant, setSelVariant] = useState<"a" | "b">("a");
+  useEffect(() => {
+    if (typeof window !== "undefined" && new URLSearchParams(window.location.search).get("sel") === "b") {
+      setSelVariant("b");
+    }
+  }, []);
+
   // Modo tienda
   const [value, setValue] = useState("");
   const [phIdx, setPhIdx] = useState(0);
@@ -184,40 +192,73 @@ export default function T1Hero() {
           {/* Bloque central (centrado en el alto disponible) */}
           <div className="flex w-full flex-1 flex-col items-center justify-center gap-9 py-6">
 
-            {/* 2 · Selector (tabs con subrayado) */}
-            <div
-              role="radiogroup"
-              aria-label="¿Qué quieres hacer?"
-              onKeyDown={onSelectorKeyDown}
-              className="flex w-full items-end border-b border-white/10"
-            >
-              {TABS.map((t, i) => {
-                const selected = i === tabIdx;
-                return (
-                  <button
-                    key={t.id}
-                    ref={(el) => {
-                      btnRefs.current[i] = el;
-                    }}
-                    type="button"
-                    role="radio"
-                    aria-checked={selected}
-                    tabIndex={selected ? 0 : -1}
-                    onClick={() => selectTab(i)}
-                    className={`relative flex-1 whitespace-nowrap px-1 pb-3 pt-1 font-inter text-[15px] font-medium transition-colors tablet:text-[16px] ${
-                      selected ? "text-white" : "text-white/45 hover:text-white/70"
-                    }`}
-                  >
-                    {t.label}
-                    <span
-                      className={`absolute inset-x-2 -bottom-px h-[2px] rounded-full bg-white transition-transform duration-200 ${
-                        selected ? "scale-x-100" : "scale-x-0"
+            {/* 2 · Selector — A/B temporal (?sel=b) */}
+            {selVariant === "b" ? (
+              /* Propuesta B — segmented control con pill */
+              <div
+                role="radiogroup"
+                aria-label="¿Qué quieres hacer?"
+                onKeyDown={onSelectorKeyDown}
+                className="flex w-full items-center gap-1 rounded-full border border-white/10 bg-white/[0.04] p-1"
+              >
+                {TABS.map((t, i) => {
+                  const selected = i === tabIdx;
+                  return (
+                    <button
+                      key={t.id}
+                      ref={(el) => {
+                        btnRefs.current[i] = el;
+                      }}
+                      type="button"
+                      role="radio"
+                      aria-checked={selected}
+                      tabIndex={selected ? 0 : -1}
+                      onClick={() => selectTab(i)}
+                      className={`flex-1 whitespace-nowrap rounded-full px-2 py-2.5 font-inter text-[13px] font-semibold transition-colors tablet:text-[14px] ${
+                        selected ? "bg-white text-[#1A1A1A]" : "text-white/60 hover:text-white/85"
                       }`}
-                    />
-                  </button>
-                );
-              })}
-            </div>
+                    >
+                      {t.label}
+                    </button>
+                  );
+                })}
+              </div>
+            ) : (
+              /* Propuesta A — tabs con subrayado */
+              <div
+                role="radiogroup"
+                aria-label="¿Qué quieres hacer?"
+                onKeyDown={onSelectorKeyDown}
+                className="flex w-full items-end border-b border-white/10"
+              >
+                {TABS.map((t, i) => {
+                  const selected = i === tabIdx;
+                  return (
+                    <button
+                      key={t.id}
+                      ref={(el) => {
+                        btnRefs.current[i] = el;
+                      }}
+                      type="button"
+                      role="radio"
+                      aria-checked={selected}
+                      tabIndex={selected ? 0 : -1}
+                      onClick={() => selectTab(i)}
+                      className={`relative flex-1 whitespace-nowrap px-1 pb-3 pt-1 font-inter text-[15px] font-medium transition-colors tablet:text-[16px] ${
+                        selected ? "text-white" : "text-white/45 hover:text-white/70"
+                      }`}
+                    >
+                      {t.label}
+                      <span
+                        className={`absolute inset-x-2 -bottom-px h-[2px] rounded-full bg-white transition-transform duration-200 ${
+                          selected ? "scale-x-100" : "scale-x-0"
+                        }`}
+                      />
+                    </button>
+                  );
+                })}
+              </div>
+            )}
 
             {/* 3 · Zona que cambia por tab — altura fija para que el selector no se desfase */}
             <div className="flex min-h-[336px] w-full flex-col items-center gap-5 tablet:min-h-[300px]" aria-live="polite">

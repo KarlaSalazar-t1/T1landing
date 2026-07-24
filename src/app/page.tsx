@@ -22,16 +22,15 @@ export default function Home() {
       {/* Hero — sticky, stays behind */}
       <T1Hero />
 
-      {/* Dark band carrying the Vende / Cobra / Envia intro cards.
-          Mobile: minimal bottom padding so the band ends right under
-          the cards and the white section begins at a thin divider.
-          Desktop: keeps the deep 220px bottom padding for the card-peek
-          effect with the overlapping white card. */}
-      <div
-        className="relative isolate z-[5] -mt-2.5 rounded-t-[24px] bg-black pb-32 pt-4 tablet:pb-[300px]"
-      >
-        {/* El problema actual — antes de las cards Vende/Cobra/Envía */}
+      {/* El problema — scroll normal, sobre la tarjeta negra que empieza en el hero */}
+      <div className="relative z-[5] -mt-2.5 rounded-t-[24px] bg-black pt-4">
         <T1Problema />
+      </div>
+
+      {/* Cards Vende/Cobra/Envía — STICKY: se quedan fijas y la sección de abajo
+          ("Todo lo que tu negocio necesita") SUBE y las TAPA (efecto stack).
+          El hero ya baja con scroll normal; el stack arranca aquí. */}
+      <div className="sticky top-0 z-[5] bg-black pb-16 pt-2 tablet:pb-24">
         <T1FeatureIntro />
       </div>
 
