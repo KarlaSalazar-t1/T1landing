@@ -1,40 +1,43 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 
-/* ── Iconos de capacidades ── */
-const icons: Record<string, React.ReactNode> = {
-  catalogo: (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /><rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" strokeWidth="1.6" /></svg>
-  ),
-  ia: (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3l1.6 4.7a3 3 0 0 0 1.9 1.9L20 11.2l-4.5 1.6a3 3 0 0 0-1.9 1.9L12 19.4l-1.6-4.7a3 3 0 0 0-1.9-1.9L4 11.2l4.5-1.6a3 3 0 0 0 1.9-1.9L12 3z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" /></svg>
-  ),
-  market: (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 9.5 5.2 4.5A1 1 0 0 1 6.17 3.75h11.66a1 1 0 0 1 .97.75L20 9.5M4 9.5h16M4 9.5a2.5 2.5 0 0 0 4 0 2.5 2.5 0 0 0 4 0 2.5 2.5 0 0 0 4 0 2.5 2.5 0 0 0 4 0M5 11.5V20h14v-8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
-  ),
-  pos: (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="12" rx="2" stroke="currentColor" strokeWidth="1.6" /><path d="M7 20h10M9 16v4M15 16v4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /></svg>
-  ),
-  reportes: (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 19V9M12 19V5M19 19v-7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>
-  ),
-  clientes: (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.2" stroke="currentColor" strokeWidth="1.6" /><path d="M5 20a7 7 0 0 1 14 0" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /></svg>
-  ),
-};
+/* ══════════ 1 · Tu tienda con pagos y envíos integrados ══════════ */
+export function T1TiendaIncluido() {
+  return (
+    <section className="bg-[#141414] px-5 py-[80px] tablet:px-6 tablet:py-[110px]">
+      <div className="mx-auto max-w-[var(--max-w)]">
+        <div className="mx-auto max-w-[720px] text-center">
+          <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
+            Tu tienda, con pagos y envíos integrados
+          </h2>
+          <p className="mx-auto mt-4 max-w-[560px] font-inter text-[16px] font-light text-white/60 tablet:text-[18px]">
+            No necesitas integrar nada extra. Vende, cobra y envía desde el día uno, todo en un solo lugar.
+          </p>
+        </div>
+        <div className="mx-auto mt-10 grid max-w-[900px] grid-cols-1 gap-4 tablet:mt-14 tablet:grid-cols-2">
+          {[
+            { title: "T1 Pagos", desc: "Acepta tarjetas, SPEI, efectivo y meses sin intereses con el checkout más optimizado para convertir.", href: "/productos/t1pagos" },
+            { title: "T1 Envíos", desc: "Genera guías con +10 paqueterías al mejor precio y rastrea todos tus pedidos en un solo lugar.", href: "/productos/t1envios" },
+          ].map((it) => (
+            <a key={it.title} href={it.href} className="group flex flex-col rounded-[18px] border border-white/[0.08] bg-[#1A1A1D] p-7 no-underline transition-colors hover:border-white/20">
+              <h3 className="font-sora text-[22px] font-normal text-white" style={{ letterSpacing: "-0.02em" }}>{it.title}</h3>
+              <p className="mt-2.5 font-inter text-[15px] font-light leading-relaxed text-white/60 tablet:text-[16px]">{it.desc}</p>
+              <span className="mt-5 inline-flex items-center gap-1.5 font-inter text-[14px] font-medium text-white/80 group-hover:text-white">
+                Ver más
+                <svg width="15" height="15" viewBox="0 0 18 18" fill="none" className="transition-transform group-hover:translate-x-0.5"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
-const CAPACIDADES = [
-  { id: "ia", icon: "ia", title: "Tienda con IA", desc: "Describe tu negocio y arma tu tienda: estructura, secciones, copy y diseño en minutos.", href: "/productos/t1tienda/tienda-con-ia" },
-  { id: "catalogo", icon: "catalogo", title: "Catálogo e inventario", desc: "Inventario, precios y variantes centralizados y sincronizados en todos tus canales.", href: "/productos/t1tienda/productos" },
-  { id: "market", icon: "market", title: "Marketplaces", desc: "Vende en Mercado Libre, Amazon, TikTok Shop y más desde un solo panel.", href: "/productos/t1tienda/marketplaces" },
-  { id: "pos", icon: "pos", title: "Punto de venta", desc: "Vende en tu tienda física con un POS integrado a inventario, pagos y envíos.", href: "/productos/t1tienda/punto-de-venta" },
-  { id: "reportes", icon: "reportes", title: "Reportería avanzada", desc: "Ventas, tráfico y rendimiento en tiempo real para decidir con datos.", href: "/productos/t1tienda/reportes" },
-  { id: "pasarela", icon: "clientes", title: "Pasarela de pagos", desc: "Checkout optimizado para mayor conversión, con todos los métodos de pago.", href: "/productos/t1tienda/pasarela" },
-];
-
-const MARKETPLACE_LOGOS = [
+/* ══════════ 2 · Marketplaces — "Con T1, olvídate de todo esto" ══════════ */
+const MP_LOGOS = [
   { src: "/img/logos/brands/mercadolibre.webp", alt: "Mercado Libre" },
   { src: "/img/logos/brands/amazon.webp", alt: "Amazon" },
   { src: "/img/logos/brands/tiktokshop.webp", alt: "TikTok Shop" },
@@ -43,7 +46,146 @@ const MARKETPLACE_LOGOS = [
   { src: "/img/logos/brands/sears.webp", alt: "Sears" },
   { src: "/img/logos/brands/sanborns.webp", alt: "Sanborns" },
 ];
+/* posiciones flotantes (desktop) */
+const MP_FLOAT = [
+  { l: "10%", t: "18%", s: 62, r: -8 },
+  { l: "26%", t: "70%", s: 54, r: 7 },
+  { l: "84%", t: "20%", s: 64, r: 9 },
+  { l: "90%", t: "66%", s: 52, r: -6 },
+  { l: "16%", t: "44%", s: 46, r: 4 },
+  { l: "78%", t: "46%", s: 48, r: -5 },
+];
+export function T1TiendaMarketplaces() {
+  return (
+    <section className="relative overflow-hidden bg-black px-5 py-[90px] tablet:px-6 tablet:py-[130px]">
+      {/* logos flotantes — solo desktop */}
+      {MP_FLOAT.map((f, i) => {
+        const logo = MP_LOGOS[i % MP_LOGOS.length];
+        return (
+          <div key={i} aria-hidden className="pointer-events-none absolute hidden -translate-x-1/2 -translate-y-1/2 tablet:block" style={{ left: f.l, top: f.t }}>
+            <div className="flex items-center justify-center rounded-[16px] border border-white/[0.08] bg-[#1A1A1D]" style={{ width: f.s, height: f.s, transform: `rotate(${f.r}deg)` }}>
+              <Image src={logo.src} alt="" width={80} height={80} className="object-contain opacity-80" style={{ width: f.s * 0.62, height: f.s * 0.62 }} />
+            </div>
+          </div>
+        );
+      })}
 
+      <div className="relative mx-auto max-w-[620px] text-center">
+        <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
+          Con T1, olvídate de manejar cada canal por separado.
+        </h2>
+        <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 500 }}>
+          Conecta los marketplaces donde ya vendes y gestiona catálogo, inventario y pedidos desde un solo panel.
+        </p>
+        {/* logos en fila — móvil */}
+        <div className="mb-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-4 tablet:hidden">
+          {MP_LOGOS.slice(0, 6).map((l) => (
+            <Image key={l.alt} src={l.src} alt={l.alt} width={80} height={80} className="h-9 w-auto object-contain opacity-85" />
+          ))}
+        </div>
+        <a href="/productos/t1tienda/marketplaces" className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-8 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]">
+          Conecta tus canales
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        </a>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════ 3 · Administración — carrusel (catálogo, inventario, reportes) ══════════ */
+const ADMIN_CARDS = [
+  { title: "Catálogo con IA", desc: "Sube una foto y la IA genera título, descripción, categoría y atributos al instante.", img: "/img/admin-catalogo.png", w: 1248, h: 1024 },
+  { title: "Inventario centralizado", desc: "Controla stock, precios y variantes; se sincroniza en todos tus canales en tiempo real.", img: "/img/controla-inventario.png", w: 1269, h: 1240 },
+  { title: "Reportes en vivo", desc: "Ventas, tráfico y rendimiento en tiempo real para decidir con datos.", img: "/img/graficas-reportes.png", w: 1190, h: 1322 },
+];
+export function T1TiendaAdministracion() {
+  const ref = useRef<HTMLDivElement>(null);
+  const scrollBy = (dir: 1 | -1) => {
+    const el = ref.current;
+    if (!el) return;
+    const first = el.querySelector<HTMLElement>("[data-card]");
+    const step = first ? first.offsetWidth + 20 : el.clientWidth * 0.8;
+    el.scrollBy({ left: dir * step, behavior: "smooth" });
+  };
+  return (
+    <section className="overflow-hidden bg-[#141414] px-5 py-[90px] tablet:px-6 tablet:py-[128px]">
+      <div className="mx-auto max-w-[var(--max-w)]">
+        <div className="grid grid-cols-1 gap-10 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.35fr)] tablet:items-center tablet:gap-14">
+          <div>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 16, maxWidth: 420 }}>
+              Administra todo desde un solo lugar
+            </h2>
+            <p className="font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 400 }}>
+              Catálogo, inventario y reportes centralizados. Cambia una vez y se sincroniza en todos tus canales.
+            </p>
+            <a href="/productos/t1tienda/productos" className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]">
+              Conocer más
+              <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </a>
+          </div>
+          <div className="flex flex-col gap-5">
+            <div ref={ref} className="-mr-5 flex gap-5 overflow-x-auto pb-2 pr-5 tablet:mr-0 tablet:pr-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {ADMIN_CARDS.map((s) => (
+                <div key={s.title} data-card className="flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-white/[0.08] bg-[#1A1A1D] p-6">
+                  <h3 className="font-sora text-[19px] font-normal text-white" style={{ marginBottom: 8 }}>{s.title}</h3>
+                  <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.55, marginBottom: 20, minHeight: 63 }}>{s.desc}</p>
+                  <div className="mt-auto overflow-hidden rounded-[14px]">
+                    <Image src={s.img} alt={s.title} width={s.w} height={s.h} className="block h-[240px] w-full object-cover object-top" sizes="270px" />
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="flex items-center gap-3">
+              <button type="button" onClick={() => scrollBy(-1)} aria-label="Anterior" className="flex h-[40px] w-[40px] items-center justify-center rounded-full border border-white/15 bg-white/[0.04] text-white/55 transition-colors hover:border-white/30 hover:text-white">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              </button>
+              <button type="button" onClick={() => scrollBy(1)} aria-label="Siguiente" className="flex h-[40px] w-[40px] items-center justify-center rounded-full border border-white/15 bg-white/[0.04] text-white/55 transition-colors hover:border-white/30 hover:text-white">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════ 4 · Pagos — cobra como quieras ══════════ */
+export function T1TiendaPagos() {
+  return (
+    <section className="overflow-hidden bg-black px-5 py-[90px] tablet:px-6 tablet:py-[128px]">
+      <div className="mx-auto max-w-[var(--max-w)]">
+        <div className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
+          <div>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 16 }}>
+              Cobra como tus clientes prefieran
+            </h2>
+            <p className="font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 24, maxWidth: 440 }}>
+              Un checkout optimizado para convertir, con todos los métodos de pago y meses sin intereses.
+            </p>
+            <ul className="mb-8 flex flex-col gap-3">
+              {["Tarjetas, SPEI y efectivo", "Meses sin intereses", "Links de pago para vender por WhatsApp", "Antifraude con T1 Score"].map((it) => (
+                <li key={it} className="flex items-start gap-3 font-inter text-[15px] text-white/75 tablet:text-[16px]">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="mt-0.5 shrink-0"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  {it}
+                </li>
+              ))}
+            </ul>
+            <a href="/productos/t1tienda/pasarela" className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]">
+              Conocer la pasarela
+              <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </a>
+          </div>
+          <div className="overflow-hidden rounded-[20px] border border-white/[0.08] bg-[#1A1A1D]">
+            <Image src="/img/dashboard-pagos.png" alt="Panel de pagos T1" width={1440} height={1080} className="block h-auto w-full" sizes="(max-width: 768px) 92vw, 560px" />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════ 5 · FAQ ══════════ */
 const FAQS = [
   { q: "¿Necesito saber de diseño o programación?", a: "No. La IA crea tu tienda completa y el editor visual te permite ajustar todo sin código." },
   { q: "¿Cuánto tarda en estar lista mi tienda?", a: "En segundos tienes una tienda base lista para vender; personalizarla toma solo unos minutos." },
@@ -51,15 +193,10 @@ const FAQS = [
   { q: "¿Los pagos y envíos están incluidos?", a: "Sí. Tu tienda ya viene integrada con T1 Pagos (tarjetas, SPEI, MSI) y T1 Envíos (+10 paqueterías)." },
   { q: "¿Tiene costo crear mi tienda?", a: "Puedes empezar gratis y crear tu tienda sin tarjeta. Escalas a planes de pago cuando lo necesites." },
 ];
-
 function FAQItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
   return (
-    <button
-      type="button"
-      onClick={() => setOpen((o) => !o)}
-      className="w-full border-b border-white/10 py-5 text-left"
-    >
+    <button type="button" onClick={() => setOpen((o) => !o)} className="w-full border-b border-white/10 py-5 text-left">
       <div className="flex items-center justify-between gap-4">
         <span className="font-inter text-[16px] font-medium text-white tablet:text-[18px]">{q}</span>
         <span className={`shrink-0 text-white/50 transition-transform duration-200 ${open ? "rotate-45" : ""}`}>
@@ -74,112 +211,17 @@ function FAQItem({ q, a }: { q: string; a: string }) {
     </button>
   );
 }
-
-export default function T1TiendaSecciones() {
+export function T1TiendaFAQ() {
   return (
-    <div className="relative z-[5] bg-black">
-      {/* ── Capacidades ── */}
-      <section className="bg-[#141414] px-5 py-[80px] tablet:px-6 tablet:py-[120px]">
-        <div className="mx-auto max-w-[var(--max-w)]">
-          <div className="mx-auto max-w-[720px] text-center">
-            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
-              Todo lo que necesitas para crecer
-            </h2>
-            <p className="mx-auto mt-4 max-w-[600px] font-inter text-[16px] font-light text-white/60 tablet:text-[18px]">
-              Tu tienda en línea, tu punto de venta y tus marketplaces conectados desde un solo lugar.
-            </p>
-          </div>
-
-          <div className="mt-12 grid grid-cols-1 gap-4 tablet:mt-16 tablet:grid-cols-2 lg:grid-cols-3">
-            {CAPACIDADES.map((c) => (
-              <a
-                key={c.id}
-                href={c.href}
-                className="group flex flex-col rounded-[18px] border border-white/[0.08] bg-[#1A1A1D] p-6 no-underline transition-colors hover:border-white/20 tablet:p-7"
-              >
-                <span className="mb-5 flex h-11 w-11 items-center justify-center rounded-[12px] bg-white/[0.06] text-[#FF7363]">
-                  {icons[c.icon]}
-                </span>
-                <h3 className="font-sora text-[20px] font-normal text-white tablet:text-[22px]" style={{ letterSpacing: "-0.02em" }}>{c.title}</h3>
-                <p className="mt-2 font-inter text-[14px] font-light leading-relaxed text-white/60 tablet:text-[15px]">{c.desc}</p>
-                <span className="mt-5 inline-flex items-center gap-1.5 font-inter text-[14px] font-medium text-white/80 transition-colors group-hover:text-white">
-                  Ver más
-                  <svg width="15" height="15" viewBox="0 0 18 18" fill="none" className="transition-transform group-hover:translate-x-0.5"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                </span>
-              </a>
-            ))}
-          </div>
+    <section className="bg-[#141414] px-5 py-[80px] tablet:px-6 tablet:py-[110px]">
+      <div className="mx-auto max-w-[760px]">
+        <h2 className="mb-8 text-center font-sora text-[28px] font-light text-white tablet:mb-12 tablet:text-[40px]" style={{ letterSpacing: "-0.03em" }}>
+          Preguntas frecuentes
+        </h2>
+        <div className="border-t border-white/10">
+          {FAQS.map((f) => <FAQItem key={f.q} q={f.q} a={f.a} />)}
         </div>
-      </section>
-
-      {/* ── Marketplaces ── */}
-      <section className="bg-black px-5 py-[80px] tablet:px-6 tablet:py-[110px]">
-        <div className="mx-auto max-w-[var(--max-w)] text-center">
-          <h2 className="mx-auto max-w-[760px] font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
-            Conecta los marketplaces más grandes
-          </h2>
-          <p className="mx-auto mt-4 max-w-[600px] font-inter text-[16px] font-light text-white/60 tablet:text-[18px]">
-            Publica tu catálogo y sincroniza inventario, precios y pedidos en un click.
-          </p>
-          <div className="mx-auto mt-12 flex max-w-[820px] flex-wrap items-center justify-center gap-x-10 gap-y-8 tablet:mt-16">
-            {MARKETPLACE_LOGOS.map((l) => (
-              <Image key={l.alt} src={l.src} alt={l.alt} width={130} height={44} className="h-[34px] w-auto object-contain opacity-90 tablet:h-[40px]" />
-            ))}
-          </div>
-          <a
-            href="/productos/t1tienda/marketplaces"
-            className="mt-12 inline-flex items-center gap-2 rounded-full bg-[#DB3B2B] px-6 py-3 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]"
-          >
-            Conectar mis marketplaces
-            <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
-          </a>
-        </div>
-      </section>
-
-      {/* ── Pagos y envíos incluidos (franja secundaria) ── */}
-      <section className="bg-[#141414] px-5 py-[70px] tablet:px-6 tablet:py-[100px]">
-        <div className="mx-auto max-w-[var(--max-w)]">
-          <div className="mx-auto max-w-[680px] text-center">
-            <h2 className="font-sora text-[26px] font-light text-white tablet:text-[38px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
-              Tu tienda ya viene con pagos y envíos
-            </h2>
-            <p className="mx-auto mt-3.5 max-w-[560px] font-inter text-[16px] font-light text-white/60">
-              No necesitas integrar nada extra. Cobra y envía desde el día uno.
-            </p>
-          </div>
-          <div className="mx-auto mt-10 grid max-w-[860px] grid-cols-1 gap-4 tablet:grid-cols-2">
-            {[
-              { title: "T1 Pagos", desc: "Acepta tarjetas, SPEI, efectivo y meses sin intereses con el checkout más optimizado.", href: "/productos/t1pagos" },
-              { title: "T1 Envíos", desc: "Genera guías con +10 paqueterías al mejor precio y rastrea todo en un solo lugar.", href: "/productos/t1envios" },
-            ].map((it) => (
-              <a key={it.title} href={it.href} className="group flex items-start justify-between gap-4 rounded-[18px] border border-white/[0.08] bg-[#1A1A1D] p-6 no-underline transition-colors hover:border-white/20">
-                <div>
-                  <h3 className="font-sora text-[20px] font-normal text-white" style={{ letterSpacing: "-0.02em" }}>{it.title}</h3>
-                  <p className="mt-2 font-inter text-[14px] font-light leading-relaxed text-white/60 tablet:text-[15px]">{it.desc}</p>
-                  <span className="mt-4 inline-flex items-center gap-1.5 font-inter text-[14px] font-medium text-white/80 group-hover:text-white">
-                    Ver más
-                    <svg width="15" height="15" viewBox="0 0 18 18" fill="none" className="transition-transform group-hover:translate-x-0.5"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                  </span>
-                </div>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── FAQ ── */}
-      <section className="bg-black px-5 py-[80px] tablet:px-6 tablet:py-[110px]">
-        <div className="mx-auto max-w-[760px]">
-          <h2 className="mb-8 text-center font-sora text-[28px] font-light text-white tablet:mb-12 tablet:text-[40px]" style={{ letterSpacing: "-0.03em" }}>
-            Preguntas frecuentes
-          </h2>
-          <div className="border-t border-white/10">
-            {FAQS.map((f) => (
-              <FAQItem key={f.q} q={f.q} a={f.a} />
-            ))}
-          </div>
-        </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 }
