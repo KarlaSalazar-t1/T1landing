@@ -429,12 +429,12 @@ export default function T1Hero() {
                     {/* Origen → destino — label arriba de cada input */}
                     <div className="flex items-end gap-2.5">
                       <label className="flex-1">
-                        <span className="mb-1.5 block px-1 font-inter text-[12px] font-light text-white/60">Código postal origen</span>
+                        <span className="mb-1.5 block px-1 font-inter text-[14px] font-light text-white/70">Código postal origen</span>
                         <input value={cpDesde} onChange={(e) => setCpDesde(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Ej. 06600" aria-label="Código postal de origen" className={`${FIELD} w-full`} />
                       </label>
                       <span aria-hidden className="shrink-0 pb-3 text-white/40">→</span>
                       <label className="flex-1">
-                        <span className="mb-1.5 block px-1 font-inter text-[12px] font-light text-white/60">Código postal destino</span>
+                        <span className="mb-1.5 block px-1 font-inter text-[14px] font-light text-white/70">Código postal destino</span>
                         <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Ej. 44100" aria-label="Código postal de destino" className={`${FIELD} w-full`} />
                       </label>
                     </div>
