@@ -163,21 +163,29 @@ export default function T1Score() {
             section from Metrics below, so the band itself can share Metrics'
             black background. */}
         <div
-          className="relative mx-auto overflow-hidden rounded-[24px] border border-white/[0.08]"
+          className="relative mx-auto min-h-[660px] overflow-hidden rounded-[24px] border border-white/[0.08] tablet:min-h-0"
           style={{ maxWidth: 1040, boxShadow: "0 24px 60px rgba(0,0,0,0.5)" }}
         >
-          {/* Full-card background — the whole T1 Score scene as one fondo */}
+          {/* Full-card background — imagen v3 (desktop y móvil por separado) */}
           <Image
-            src="/img/bg-score-2.png"
+            src="/img/t1score-v3.png"
             alt="Score de riesgo T1 Score"
             fill
-            className="object-cover"
+            className="hidden object-cover tablet:block"
             style={{ objectPosition: "right center" }}
             sizes="(max-width: 1100px) 100vw, 1040px"
           />
+          <Image
+            src="/img/t1score-v3-mobil.png"
+            alt="Score de riesgo T1 Score"
+            fill
+            className="object-cover tablet:hidden"
+            style={{ objectPosition: "center bottom" }}
+            sizes="100vw"
+          />
           {/* Legibility gradient over the text side */}
           <div aria-hidden className="pointer-events-none absolute inset-0 hidden tablet:block" style={{ background: "linear-gradient(90deg, rgba(9,8,11,0.95) 0%, rgba(9,8,11,0.86) 32%, rgba(9,8,11,0.36) 56%, rgba(9,8,11,0) 78%)" }} />
-          <div aria-hidden className="pointer-events-none absolute inset-0 tablet:hidden" style={{ background: "linear-gradient(180deg, rgba(9,8,11,0.96) 0%, rgba(9,8,11,0.9) 55%, rgba(9,8,11,0.82) 100%)" }} />
+          <div aria-hidden className="pointer-events-none absolute inset-0 tablet:hidden" style={{ background: "linear-gradient(180deg, rgba(9,8,11,0.95) 0%, rgba(9,8,11,0.92) 30%, rgba(9,8,11,0.55) 52%, rgba(9,8,11,0) 80%)" }} />
 
           <div className="relative z-10 p-7 tablet:p-12 tablet:max-w-[54%]">
             <h2
