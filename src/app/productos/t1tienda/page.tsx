@@ -8,7 +8,6 @@ import {
   T1TiendaPagos,
   T1TiendaFAQ,
 } from "@/components/T1TiendaSecciones";
-import T1EnterpriseCarousel from "@/components/T1EnterpriseCarousel";
 import T1FinalCTA from "@/components/T1FinalCTA";
 import T1Footer from "@/components/T1Footer";
 
@@ -31,9 +30,7 @@ export default function TiendaLanding() {
         <T1TiendaAdministracion />
         {/* 5 · Pagos — cobra como quieras */}
         <T1TiendaPagos />
-        {/* 6 · Casos de éxito */}
-        <T1EnterpriseCarousel />
-        {/* 7 · FAQ */}
+        {/* 6 · FAQ */}
         <T1TiendaFAQ />
       </div>
 

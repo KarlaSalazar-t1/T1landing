@@ -1,40 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { SIGNUP_URL } from "@/lib/constants";
-
-/* ── Carrusel de logos de marcas ── */
-const LOGOS = [
-  { src: "/img/logos/sears.svg", alt: "Sears" },
-  { src: "/img/logos/circulo-de-credito.png", alt: "Círculo de Crédito" },
-  { src: "/img/logos/mercado-libre.svg", alt: "Mercado Libre" },
-  { src: "/img/logos/telcel.svg", alt: "Telcel" },
-  { src: "/img/logos/pirma.png", alt: "Pirma" },
-  { src: "/img/logos/makora.svg", alt: "Makora" },
-  { src: "/img/logos/sanborns.svg", alt: "Sanborns" },
-  { src: "/img/logos/pase.png", alt: "PASE" },
-  { src: "/img/logos/claro.svg", alt: "Claro" },
-];
-
-function LogoMarquee() {
-  return (
-    <div className="relative overflow-hidden" style={{ padding: "22px 0" }}>
-      <div className="marquee-track flex items-center">
-        {[...LOGOS, ...LOGOS].map((logo, i) => (
-          <Image
-            key={`${logo.alt}-${i}`}
-            src={logo.src}
-            alt={logo.alt}
-            width={120}
-            height={40}
-            className="mr-16 h-[26px] w-auto shrink-0 object-contain opacity-60 brightness-0 invert"
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
 
 const PLACEHOLDERS = [
   "Vendo ropa y accesorios de moda",
@@ -212,20 +179,13 @@ export default function T1TiendaHero() {
           </div>
 
           {/* Social proof */}
-          <div className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 px-2 text-center">
+          <div className="mb-10 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 px-2 text-center tablet:mb-14">
             {SOCIAL_PROOF.map((s, i) => (
               <span key={s} className="flex items-center gap-2.5 font-inter text-[16px] font-medium text-white">
                 {i > 0 && <span aria-hidden className="text-white/40">•</span>}
                 {s}
               </span>
             ))}
-          </div>
-        </div>
-
-        {/* Marquee de logos */}
-        <div className="relative z-10 -mx-5 mt-6 tablet:-mx-6 tablet:mt-8">
-          <div className="mx-auto max-w-[var(--max-w)] px-3">
-            <LogoMarquee />
           </div>
         </div>
       </section>

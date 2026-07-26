@@ -97,6 +97,8 @@ const ADMIN_CARDS = [
   { title: "Catálogo con IA", desc: "Sube una foto y la IA genera título, descripción, categoría y atributos al instante.", img: "/img/admin-catalogo.png", w: 1248, h: 1024 },
   { title: "Inventario centralizado", desc: "Controla stock, precios y variantes; se sincroniza en todos tus canales en tiempo real.", img: "/img/controla-inventario.png", w: 1269, h: 1240 },
   { title: "Reportes en vivo", desc: "Ventas, tráfico y rendimiento en tiempo real para decidir con datos.", img: "/img/graficas-reportes.png", w: 1190, h: 1322 },
+  { title: "Clientes", desc: "Conoce a tus clientes, su historial de compras y segméntalos para vender más.", img: "/img/admin-historico.png", w: 1248, h: 1024 },
+  { title: "Multi-sucursales", desc: "Gestiona varias sucursales o almacenes con inventario y ventas por ubicación.", img: "/img/pos-dispositivos.png", w: 1248, h: 1024 },
 ];
 export function T1TiendaAdministracion() {
   const ref = useRef<HTMLDivElement>(null);
