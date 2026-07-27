@@ -24,7 +24,7 @@ const AUDIENCES = [
   },
   {
     id: "enterprise",
-    title: "Enterprise",
+    title: "Empresas",
     description: "Opera alto volumen con infraestructura robusta, soporte dedicado e integraciones a la medida.",
     cta: "Habla con un experto",
     ctaHref: "/contacto-ventas",

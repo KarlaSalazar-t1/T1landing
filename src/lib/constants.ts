@@ -12,7 +12,7 @@ export const ENVIOS_QUOTE_URL = "/envios/cotizar";
 // ── Navigation ──
 export const NAV_LINKS = [
   { label: "Precios", href: "/precios" },
-  { label: "Enterprise", href: SALES_URL },
+  { label: "Empresas", href: SALES_URL },
 ];
 
 // ── Recursos mega menu ──
@@ -94,7 +94,7 @@ export const MEGA_MENU_SIDEBAR = {
 export const MEGA_MENU_BOTTOM = [
   { title: "Soy emprendedor", desc: "Empieza gratis sin tarjeta", href: SIGNUP_URL },
   { title: "Tengo una PyME", desc: "Planes y precios a tu medida", href: "/precios" },
-  { title: "Soy enterprise", desc: "Habla con un experto", href: SALES_URL },
+  { title: "Soy empresa", desc: "Habla con un experto", href: SALES_URL },
 ];
 
 // ── Hero ──

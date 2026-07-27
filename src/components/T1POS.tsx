@@ -423,7 +423,7 @@ export default function T1POS() {
               { name: "Gratuito", price: "$0", users: "1 usuario", branches: "1 sucursal", featured: false, custom: false },
               { name: "Básico", price: "$399", users: "5 usuarios", branches: "3 sucursales", featured: false, custom: false },
               { name: "Avanzado", price: "$899", users: "15 usuarios", branches: "10 sucursales", featured: true, custom: false },
-              { name: "Enterprise", price: "A tu medida", users: "Usuarios ilimitados", branches: "Sucursales ilimitadas", featured: false, custom: true },
+              { name: "Empresarial", price: "A tu medida", users: "Usuarios ilimitados", branches: "Sucursales ilimitadas", featured: false, custom: true },
             ].map((p, i) => (
               <div
                 key={p.name}

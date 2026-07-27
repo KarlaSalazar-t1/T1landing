@@ -325,8 +325,8 @@ export default function T1Hero() {
               role="radiogroup"
               aria-label="¿Qué quieres hacer?"
               onKeyDown={onSelectorKeyDown}
-              className="hidden w-full items-stretch overflow-hidden rounded-[16px] border tablet:flex"
-              style={{ borderColor: "rgba(255,255,255,0.14)", background: "transparent" }}
+              className="hidden w-full items-stretch overflow-hidden rounded-[16px] tablet:flex"
+              style={{ background: "transparent" }}
             >
               {TABS.map((t, i) => {
                 const selected = i === tabIdx;
@@ -453,7 +453,7 @@ export default function T1Hero() {
                       }}
                       aria-disabled={!linkOk}
                       style={kbBtnStyle}
-                      className={`mt-auto mb-6 flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors tablet:mt-0 tablet:mb-0 ${
+                      className={`mt-auto mb-6 flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors tablet:mt-0 tablet:mb-0 tablet:w-1/2 tablet:self-end ${
                         linkOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
                       }`}
                     >
@@ -477,13 +477,13 @@ export default function T1Hero() {
                       style={{ borderColor: "rgba(255,255,255,0.08)" }}
                     >
                       <label className="flex flex-1 flex-col justify-center px-4 py-2.5">
-                        <span className="font-inter text-[13px] font-semibold text-white">Origen</span>
-                        <input value={cpDesde} onChange={(e) => setCpDesde(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Código postal" aria-label="Código postal de origen" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
+                        <span className="font-inter text-[13px] font-semibold text-white">Código postal origen</span>
+                        <input value={cpDesde} onChange={(e) => setCpDesde(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Ej. 06600" aria-label="Código postal de origen" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
                       </label>
                       <span aria-hidden className="my-2.5 w-px shrink-0 bg-white/10" />
                       <label className="flex flex-1 flex-col justify-center px-4 py-2.5">
-                        <span className="font-inter text-[13px] font-semibold text-white">Destino</span>
-                        <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Código postal" aria-label="Código postal de destino" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
+                        <span className="font-inter text-[13px] font-semibold text-white">Código postal destino</span>
+                        <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Ej. 44100" aria-label="Código postal de destino" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
                       </label>
                     </div>
                     {/* Selector de tamaño de paquete — horizontal con swipe en móvil */}
@@ -526,7 +526,7 @@ export default function T1Hero() {
                       }}
                       aria-disabled={!envioOk}
                       style={kbBtnStyle}
-                      className={`mt-auto mb-6 flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors tablet:mt-1 tablet:mb-0 ${
+                      className={`mt-auto mb-6 flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors tablet:mt-1 tablet:mb-0 tablet:w-1/2 tablet:self-end ${
                         envioOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
                       }`}
                     >
