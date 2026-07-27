@@ -472,10 +472,19 @@ export default function T1Hero() {
                   </p>
                   <div className="flex w-full flex-1 flex-col gap-3 tablet:flex-none">
                     {/* Origen → destino — label arriba de cada input */}
-                    <div className="flex items-center gap-2.5">
-                      <input value={cpDesde} onChange={(e) => setCpDesde(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Código postal origen" aria-label="Código postal de origen" className={`${FIELD} flex-1`} />
-                      <span aria-hidden className="shrink-0 text-white/40">→</span>
-                      <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Código postal destino" aria-label="Código postal de destino" className={`${FIELD} flex-1`} />
+                    <div
+                      className="flex w-full items-stretch overflow-hidden rounded-[16px] border bg-[#1D1D1D] focus-within:ring-1 focus-within:ring-white/20"
+                      style={{ borderColor: "rgba(255,255,255,0.08)" }}
+                    >
+                      <label className="flex flex-1 flex-col justify-center px-4 py-2.5">
+                        <span className="font-inter text-[13px] font-semibold text-white">Origen</span>
+                        <input value={cpDesde} onChange={(e) => setCpDesde(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Código postal" aria-label="Código postal de origen" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
+                      </label>
+                      <span aria-hidden className="my-2.5 w-px shrink-0 bg-white/10" />
+                      <label className="flex flex-1 flex-col justify-center px-4 py-2.5">
+                        <span className="font-inter text-[13px] font-semibold text-white">Destino</span>
+                        <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Código postal" aria-label="Código postal de destino" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
+                      </label>
                     </div>
                     {/* Selector de tamaño de paquete — horizontal con swipe en móvil */}
                     <div className="mt-3">
