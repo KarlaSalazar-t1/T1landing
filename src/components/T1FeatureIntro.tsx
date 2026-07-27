@@ -56,7 +56,7 @@ const CARDS: Card[] = [
   {
     id: "vende",
     label: "VENDE",
-    desc: "Crea tu tienda con IA, conecta marketplaces y gestiona tus canales de venta desde un solo lugar.",
+    desc: "Crea tu tienda con IA y vende en marketplaces y redes, con un mismo catálogo e inventario para todos tus canales.",
     glow: "#E0402F", // red
     image: "/img/card-vende-v5.png", iw: 1254, ih: 1254,
     logos: [
@@ -72,7 +72,7 @@ const CARDS: Card[] = [
   {
     id: "cobra",
     label: "COBRA",
-    desc: "Recibe pagos con tarjetas, SPEI, Kueski, ofrece meses sin intereses y links de pago para vender más fácil.",
+    desc: "Cobra con tarjeta, SPEI o link de pago y ofrece meses sin intereses. Todo sincronizado con tus ventas.",
     glow: "#2F6BFF", // blue
     image: "/img/card-cobra-v5.png", iw: 1334, ih: 1254,
     logos: [
@@ -86,7 +86,7 @@ const CARDS: Card[] = [
   {
     id: "envia",
     label: "ENVÍA",
-    desc: "Cotiza, crea guías y rastrea tus pedidos con +10 paqueterías al mejor precio del mercado.",
+    desc: "Cotiza +10 paqueterías, crea guías y rastrea tus pedidos, conectado en el mismo panel de tu negocio.",
     glow: "#E0402F", // red
     image: "/img/card-envia-v5.png", iw: 1254, ih: 1254,
     logos: [

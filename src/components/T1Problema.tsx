@@ -7,8 +7,8 @@ export default function T1Problema() {
         <h2 className="mx-auto font-sora text-[32px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
           Crecer no debería complicar tu negocio.
         </h2>
-        <p className="mx-auto mt-5 font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, maxWidth: 600 }}>
-          Todo para vender, cobrar y enviar desde un solo lugar.
+        <p className="mx-auto mt-5 font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, maxWidth: 640 }}>
+          Vender, cobrar y enviar en un solo ecosistema conectado. Una cuenta para todo tu negocio.
         </p>
       </div>
     </section>
