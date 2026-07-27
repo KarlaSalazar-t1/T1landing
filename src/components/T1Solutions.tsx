@@ -286,7 +286,7 @@ export default function T1Solutions() {
           >
 
           <div
-            className="solutions-card-wrapper group/card relative overflow-hidden bg-white rounded-[16px] tablet:rounded-[20px]"
+            className="solutions-card-wrapper group/card relative overflow-hidden rounded-[16px] border border-white/10 bg-[#1A1A1D] tablet:rounded-[20px]"
             style={{
               width: "100%",
               minHeight: 360,
@@ -299,7 +299,7 @@ export default function T1Solutions() {
               type="button"
               onClick={() => handleSubTabChange((activeSubTab - 1 + card.subTabs.length) % card.subTabs.length)}
               aria-label="Herramienta anterior"
-              className="absolute left-3 z-[3] hidden h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-full border border-black/10 bg-white text-black/55 opacity-0 transition-all duration-200 hover:border-black/30 hover:text-black hover:shadow-[0_4px_14px_rgba(0,0,0,0.08)] group-hover/card:opacity-100 tablet:flex"
+              className="absolute left-3 z-[3] hidden h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/70 opacity-0 transition-all duration-200 hover:border-white/35 hover:text-white group-hover/card:opacity-100 tablet:flex"
               style={{ top: "calc(50% + 25px)", transform: "translateY(-50%)" }}
             >
               <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M10 4L6 8L10 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -308,14 +308,14 @@ export default function T1Solutions() {
               type="button"
               onClick={() => handleSubTabChange((activeSubTab + 1) % card.subTabs.length)}
               aria-label="Siguiente herramienta"
-              className="absolute right-3 z-[3] hidden h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-full border border-black/10 bg-white text-black/55 opacity-0 transition-all duration-200 hover:border-black/30 hover:text-black hover:shadow-[0_4px_14px_rgba(0,0,0,0.08)] group-hover/card:opacity-100 tablet:flex"
+              className="absolute right-3 z-[3] hidden h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/70 opacity-0 transition-all duration-200 hover:border-white/35 hover:text-white group-hover/card:opacity-100 tablet:flex"
               style={{ top: "calc(50% + 25px)", transform: "translateY(-50%)" }}
             >
               <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </button>
             {/* ── Level 2 — Sub-tabs strip at top of card (desktop only) ──
                 Evenly distributed, uppercase, with shared horizontal rule below */}
-            <div className="relative hidden bg-white tablet:block">
+            <div className="relative hidden bg-[#1A1A1D] tablet:block">
               <div
                 ref={desktopSubTabsRef}
                 className="mx-auto flex items-stretch"
@@ -327,12 +327,12 @@ export default function T1Solutions() {
                     <button
                       key={st.label}
                       onClick={() => handleSubTabChange(i)}
-                      className="relative flex-1 cursor-pointer border-none bg-transparent font-inter uppercase transition-all duration-200 hover:bg-black/[0.02]"
+                      className="relative flex-1 cursor-pointer border-none bg-transparent font-inter uppercase transition-all duration-200 hover:bg-white/[0.04]"
                       style={{
                         padding: "20px 12px",
                         fontSize: 13,
                         letterSpacing: "0.06em",
-                        color: isActive ? "#0A0A0A" : "rgba(0,0,0,0.40)",
+                        color: isActive ? "#FFFFFF" : "rgba(255,255,255,0.45)",
                         fontWeight: isActive ? 700 : 500,
                       }}
                     >
@@ -346,7 +346,7 @@ export default function T1Solutions() {
                           right: 0,
                           bottom: 0,
                           height: 2,
-                          background: isActive ? "#0A0A0A" : "transparent",
+                          background: isActive ? "#FFFFFF" : "transparent",
                           transition: "background 0.2s ease",
                         }}
                       />
@@ -355,25 +355,25 @@ export default function T1Solutions() {
                 })}
               </div>
               {/* Shared horizontal rule below all tabs */}
-              <div className="mx-auto" style={{ maxWidth: 940, height: 1, background: "rgba(0,0,0,0.10)" }} />
+              <div className="mx-auto" style={{ maxWidth: 940, height: 1, background: "rgba(255,255,255,0.12)" }} />
             </div>
             {/* Left panel bg — removed (was rgba(248,248,248,0.41)) per design */}
 
             {/* Mobile: fixed height so card doesn't jump between tabs */}
             <div className="flex flex-col tablet:hidden" style={{ padding: "0 0 16px 0", minHeight: 520 }}>
               {/* Sub-tabs (mobile) — single active label centered, with plain prev/next arrows */}
-              <div ref={mobileSubTabsRef} className="flex items-center justify-between border-b border-black/[0.08] px-4" style={{ paddingTop: 14, paddingBottom: 14, marginBottom: 18 }}>
+              <div ref={mobileSubTabsRef} className="flex items-center justify-between border-b border-white/10 px-4" style={{ paddingTop: 14, paddingBottom: 14, marginBottom: 18 }}>
                 <button
                   type="button"
                   onClick={() => handleSubTabChange((activeSubTab - 1 + card.subTabs.length) % card.subTabs.length)}
                   aria-label="Herramienta anterior"
-                  className="flex shrink-0 cursor-pointer items-center justify-center bg-transparent border-none p-1 text-black/55 transition-colors duration-150 hover:text-black"
+                  className="flex shrink-0 cursor-pointer items-center justify-center bg-transparent border-none p-1 text-white/55 transition-colors duration-150 hover:text-white"
                 >
                   <svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M10 4L6 8L10 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
                 </button>
                 <p
                   key={`mobile-subtab-${activeSubTab}`}
-                  className="font-inter font-bold uppercase text-black"
+                  className="font-inter font-bold uppercase text-white"
                   style={{ fontSize: 13, letterSpacing: "0.06em", animation: "none" }}
                 >
                   {currentSub.label}
@@ -382,7 +382,7 @@ export default function T1Solutions() {
                   type="button"
                   onClick={() => handleSubTabChange((activeSubTab + 1) % card.subTabs.length)}
                   aria-label="Siguiente herramienta"
-                  className="flex shrink-0 cursor-pointer items-center justify-center bg-transparent border-none p-1 text-black/55 transition-colors duration-150 hover:text-black"
+                  className="flex shrink-0 cursor-pointer items-center justify-center bg-transparent border-none p-1 text-white/55 transition-colors duration-150 hover:text-white"
                 >
                   <svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
                 </button>
@@ -390,14 +390,14 @@ export default function T1Solutions() {
 
               <p
                 key={`desc-m-${activeTab}-${activeSubTab}`}
-                className="font-inter text-[14px] font-light text-black/60 px-4"
+                className="font-inter text-[14px] font-light text-white/60 px-4"
                 style={{ lineHeight: 1.5, animation: "none", marginBottom: 12 }}
               >
                 {currentSub.description}
               </p>
               <a
                 href={card.ctaHref}
-                className="mx-4 mb-5 inline-flex items-center gap-1.5 font-inter text-[14px] font-semibold text-black no-underline"
+                className="mx-4 mb-5 inline-flex items-center gap-1.5 font-inter text-[14px] font-semibold text-white no-underline"
               >
                 {card.cta}
                 <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
@@ -994,7 +994,7 @@ export default function T1Solutions() {
                 {/* Description — changes per sub-tab */}
                 <p
                   key={`desc-${activeTab}-${activeSubTab}`}
-                  className="font-inter text-[16px] font-light text-black/60"
+                  className="font-inter text-[16px] font-light text-white/60"
                   style={{ lineHeight: 1.6, animation: "none" }}
                 >
                   {currentSub.description}
@@ -1003,7 +1003,7 @@ export default function T1Solutions() {
                 {/* CTA link */}
                 <a
                   href={card.ctaHref}
-                  className="inline-flex items-center gap-1.5 font-inter text-[14px] font-semibold text-black no-underline transition-colors duration-150 hover:text-black/70"
+                  className="inline-flex items-center gap-1.5 font-inter text-[14px] font-semibold text-white no-underline transition-colors duration-150 hover:text-white/70"
                 >
                   {card.cta}
                   <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
