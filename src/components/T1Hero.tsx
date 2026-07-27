@@ -22,8 +22,8 @@ const TABS = [
 /* Íconos por tab (tienda / link / envío) */
 function TabIcon({ id }: { id: string }) {
   const c = {
-    width: 19, height: 19, viewBox: "0 0 24 24", fill: "none",
-    stroke: "currentColor", strokeWidth: 1.7,
+    width: 15, height: 15, viewBox: "0 0 24 24", fill: "none",
+    stroke: "currentColor", strokeWidth: 1.8,
     strokeLinecap: "round" as const, strokeLinejoin: "round" as const,
   };
   if (id === "tienda") {
@@ -326,7 +326,7 @@ export default function T1Hero() {
               aria-label="¿Qué quieres hacer?"
               onKeyDown={onSelectorKeyDown}
               className="hidden w-full items-stretch overflow-hidden rounded-[16px] border tablet:flex"
-              style={{ borderColor: "rgba(255,255,255,0.14)", background: "rgba(18,8,8,0.45)" }}
+              style={{ borderColor: "rgba(255,255,255,0.14)", background: "transparent" }}
             >
               {TABS.map((t, i) => {
                 const selected = i === tabIdx;
@@ -346,7 +346,7 @@ export default function T1Hero() {
                     }`}
                     style={{
                       borderLeft: i > 0 ? "1px solid rgba(255,255,255,0.10)" : "none",
-                      background: selected ? "rgba(255,255,255,0.07)" : "transparent",
+                      background: selected ? "rgba(0,0,0,0.45)" : "transparent",
                     }}
                   >
                     <span className={selected ? "text-white" : "text-white/70"}>
@@ -472,16 +472,10 @@ export default function T1Hero() {
                   </p>
                   <div className="flex w-full flex-1 flex-col gap-3 tablet:flex-none">
                     {/* Origen → destino — label arriba de cada input */}
-                    <div className="flex items-end gap-2.5">
-                      <label className="flex-1">
-                        <span className="mb-1.5 block px-1 font-inter text-[14px] font-light text-white/70">Código postal origen</span>
-                        <input value={cpDesde} onChange={(e) => setCpDesde(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="¿Desde dónde envías?" aria-label="Código postal de origen" className={`${FIELD} w-full`} />
-                      </label>
-                      <span aria-hidden className="shrink-0 pb-3 text-white/40">→</span>
-                      <label className="flex-1">
-                        <span className="mb-1.5 block px-1 font-inter text-[14px] font-light text-white/70">Código postal destino</span>
-                        <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="¿Hacia dónde envías?" aria-label="Código postal de destino" className={`${FIELD} w-full`} />
-                      </label>
+                    <div className="flex items-center gap-2.5">
+                      <input value={cpDesde} onChange={(e) => setCpDesde(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Código postal origen" aria-label="Código postal de origen" className={`${FIELD} flex-1`} />
+                      <span aria-hidden className="shrink-0 text-white/40">→</span>
+                      <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Código postal destino" aria-label="Código postal de destino" className={`${FIELD} flex-1`} />
                     </div>
                     {/* Selector de tamaño de paquete — horizontal con swipe en móvil */}
                     <div className="mt-3">
@@ -505,7 +499,7 @@ export default function T1Hero() {
                                 e.currentTarget.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
                               }}
                               className={`flex w-[142px] shrink-0 flex-col items-start rounded-[12px] border-[1.5px] px-3.5 py-2 text-left transition-colors tablet:w-auto ${
-                                sel ? "border-[rgba(231,231,231,0.2)] bg-[rgba(255,255,255,0.12)]" : "border-white/10 bg-[#1D1D1D] hover:border-white/25"
+                                sel ? "border-[rgba(255,255,255,0.35)] bg-[rgba(0,0,0,0.45)]" : "border-white/10 bg-[#1D1D1D] hover:border-white/25"
                               }`}
                             >
                               <span className="whitespace-nowrap font-inter text-[14px] font-medium text-white">{p.label}</span>
