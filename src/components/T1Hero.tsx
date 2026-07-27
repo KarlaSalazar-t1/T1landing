@@ -14,10 +14,47 @@ function track(event: string, data: Record<string, unknown>) {
 
 /* ── Tabs (segmented control) ── */
 const TABS = [
-  { id: "tienda", label: "Crea tu tienda", href: SIGNUP_URL },
-  { id: "envio", label: "Cotizar envío", href: ENVIOS_QUOTE_URL },
-  { id: "link", label: "Cobra con link", href: PAGOS_START_URL },
+  { id: "tienda", label: "Crea tu tienda", mLabel: "Crea tu tienda", href: SIGNUP_URL },
+  { id: "link", label: "Crea link de pago", mLabel: "Link de pago", href: PAGOS_START_URL },
+  { id: "envio", label: "Cotizar envío", mLabel: "Cotizar envío", href: ENVIOS_QUOTE_URL },
 ];
+
+/* Íconos por tab (tienda / link / envío) */
+function TabIcon({ id }: { id: string }) {
+  const c = {
+    width: 19, height: 19, viewBox: "0 0 24 24", fill: "none",
+    stroke: "currentColor", strokeWidth: 1.7,
+    strokeLinecap: "round" as const, strokeLinejoin: "round" as const,
+  };
+  if (id === "tienda") {
+    return (
+      <svg {...c}>
+        <path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7" />
+        <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+        <path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4" />
+        <path d="M2 7h20" />
+        <path d="M2 7v3a2 2 0 0 0 2 2 2 2 0 0 0 2-2V7m0 3a2 2 0 0 0 2 2 2 2 0 0 0 2-2V7m0 3a2 2 0 0 0 2 2 2 2 0 0 0 2-2V7m0 3a2 2 0 0 0 2 2 2 2 0 0 0 2-2V7" />
+      </svg>
+    );
+  }
+  if (id === "link") {
+    return (
+      <svg {...c}>
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+      </svg>
+    );
+  }
+  return (
+    <svg {...c}>
+      <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2" />
+      <path d="M15 18H9" />
+      <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14" />
+      <circle cx="17" cy="18" r="2" />
+      <circle cx="7" cy="18" r="2" />
+    </svg>
+  );
+}
 
 /* ── Carrusel de logos de marcas (mismas que Casos de éxito) ── */
 const LOGOS = [
@@ -273,7 +310,7 @@ export default function T1Hero() {
                       selected ? "text-white" : "text-white/45 hover:text-white/70"
                     }`}
                   >
-                    {t.label}
+                    {t.mLabel}
                     <span
                       className={`absolute inset-x-2 -bottom-px h-[2px] rounded-full bg-white transition-transform duration-200 ${
                         selected ? "scale-x-100" : "scale-x-0"
@@ -283,13 +320,13 @@ export default function T1Hero() {
                 );
               })}
             </div>
-            {/* Desktop — segmented control (seleccionado semi-transparente) */}
+            {/* Desktop — segmented control con íconos, borde y divisores */}
             <div
               role="radiogroup"
               aria-label="¿Qué quieres hacer?"
               onKeyDown={onSelectorKeyDown}
-              className="hidden w-full items-center gap-1 rounded-[15px] p-1 tablet:flex"
-              style={{ background: "rgba(13,13,13,0.55)" }}
+              className="hidden w-full items-stretch overflow-hidden rounded-[16px] border tablet:flex"
+              style={{ borderColor: "rgba(255,255,255,0.14)", background: "rgba(18,8,8,0.45)" }}
             >
               {TABS.map((t, i) => {
                 const selected = i === tabIdx;
@@ -304,11 +341,17 @@ export default function T1Hero() {
                     aria-checked={selected}
                     tabIndex={selected ? 0 : -1}
                     onClick={() => selectTab(i)}
-                    className={`flex-1 whitespace-nowrap rounded-[12px] px-2 py-2.5 font-inter text-[14px] font-medium transition-colors ${
-                      selected ? "text-white" : "text-white/65 hover:text-white/85"
+                    className={`flex flex-1 items-center justify-center gap-2.5 whitespace-nowrap px-3 py-3.5 font-inter text-[16px] font-medium transition-colors ${
+                      selected ? "text-white" : "text-white/60 hover:text-white/85"
                     }`}
-                    style={selected ? { background: "rgba(255,255,255,0.12)", border: "1.5px solid rgba(231,231,231,0.2)" } : undefined}
+                    style={{
+                      borderLeft: i > 0 ? "1px solid rgba(255,255,255,0.10)" : "none",
+                      background: selected ? "rgba(255,255,255,0.07)" : "transparent",
+                    }}
                   >
+                    <span className={selected ? "text-white" : "text-white/70"}>
+                      <TabIcon id={t.id} />
+                    </span>
                     {t.label}
                   </button>
                 );
