@@ -39,8 +39,28 @@ const DURATION = 5000;
 export default function T1AudienceRotator() {
   const [active, setActive] = useState(0);
   const [barFull, setBarFull] = useState(false);
+  const [started, setStarted] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // Arranca el auto-avance solo cuando la sección entra en viewport
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setStarted(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.35 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   useEffect(() => {
+    if (!started) return;
     setBarFull(false);
     const raf = requestAnimationFrame(() => setBarFull(true));
     const timer = setTimeout(() => setActive((a) => (a + 1) % AUDIENCES.length), DURATION);
@@ -48,7 +68,7 @@ export default function T1AudienceRotator() {
       cancelAnimationFrame(raf);
       clearTimeout(timer);
     };
-  }, [active]);
+  }, [active, started]);
 
   const a = AUDIENCES[active];
 
@@ -78,7 +98,7 @@ export default function T1AudienceRotator() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-black" style={{ paddingTop: 100, paddingBottom: 100 }}>
+    <section ref={sectionRef} className="relative overflow-hidden bg-black" style={{ paddingTop: 100, paddingBottom: 100 }}>
       <div className="relative mx-auto max-w-[var(--max-w)] px-5 tablet:px-6">
         <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", textAlign: "center", marginBottom: 16 }}>
           Para cada etapa de tu negocio.

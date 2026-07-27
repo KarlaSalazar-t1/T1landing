@@ -280,9 +280,9 @@ export default function T1Hero() {
             className="text-center font-sora text-[32px] font-light leading-[1.14] text-white tablet:text-[48px] desktop:text-[48px]"
             style={{ letterSpacing: "-0.03em" }}
           >
-            Vende, cobra y envía.
+            La plataforma que conecta
             <br />
-            Todo en uno.
+            todo tu negocio.
           </h1>
 
           {/* Bloque central (centrado en el alto disponible) */}
@@ -325,7 +325,7 @@ export default function T1Hero() {
               role="radiogroup"
               aria-label="¿Qué quieres hacer?"
               onKeyDown={onSelectorKeyDown}
-              className="hidden w-full items-stretch overflow-hidden rounded-[16px] tablet:flex"
+              className="hidden w-full items-stretch gap-1 rounded-[16px] p-1 tablet:flex"
               style={{ background: "transparent" }}
             >
               {TABS.map((t, i) => {
@@ -341,12 +341,12 @@ export default function T1Hero() {
                     aria-checked={selected}
                     tabIndex={selected ? 0 : -1}
                     onClick={() => selectTab(i)}
-                    className={`flex flex-1 items-center justify-center gap-2.5 whitespace-nowrap px-3 py-3.5 font-inter text-[16px] font-medium transition-colors ${
+                    className={`flex flex-1 items-center justify-center gap-2.5 whitespace-nowrap rounded-[12px] px-3 py-3 font-inter text-[16px] font-medium transition-colors ${
                       selected ? "text-white" : "text-white/60 hover:text-white/85"
                     }`}
                     style={{
-                      borderLeft: i > 0 ? "1px solid rgba(255,255,255,0.10)" : "none",
                       background: selected ? "rgba(0,0,0,0.45)" : "transparent",
+                      border: selected ? "1px solid rgba(255,255,255,0.08)" : "1px solid transparent",
                     }}
                   >
                     <span className={selected ? "text-white" : "text-white/70"}>
@@ -366,7 +366,7 @@ export default function T1Hero() {
                   <p className="max-w-[360px] text-center font-inter text-[16px] font-light leading-[1.6] text-white">
                     Describe tu negocio y crea tu tienda con IA
                   </p>
-                  <div className="relative w-full rounded-[14px] bg-[#1D1D1D]" style={{ minHeight: 160 }}>
+                  <div className="relative w-full rounded-[14px] bg-[#1D1D1D] min-h-[160px] tablet:min-h-[124px]">
                     <textarea
                       ref={textareaRef}
                       value={value}
@@ -374,7 +374,7 @@ export default function T1Hero() {
                       rows={3}
                       aria-label="Describe tu negocio"
                       placeholder=""
-                      className="h-[160px] w-full resize-none rounded-[14px] bg-transparent px-[18px] py-[15px] font-inter text-[16px] leading-[1.5] text-white outline-none"
+                      className="h-[160px] tablet:h-[124px] w-full resize-none rounded-[14px] bg-transparent px-[18px] py-[15px] font-inter text-[16px] leading-[1.5] text-white outline-none"
                     />
                     {/* Placeholder animado con cursor (solo cuando el input está vacío) */}
                     {!value && (
@@ -453,7 +453,7 @@ export default function T1Hero() {
                       }}
                       aria-disabled={!linkOk}
                       style={kbBtnStyle}
-                      className={`mt-auto mb-6 flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors tablet:mt-0 tablet:mb-0 tablet:w-1/2 tablet:self-end ${
+                      className={`mt-auto mb-6 flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors tablet:mt-0 tablet:mb-0 tablet:w-1/2 tablet:self-center ${
                         linkOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
                       }`}
                     >
@@ -526,7 +526,7 @@ export default function T1Hero() {
                       }}
                       aria-disabled={!envioOk}
                       style={kbBtnStyle}
-                      className={`mt-auto mb-6 flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors tablet:mt-1 tablet:mb-0 tablet:w-1/2 tablet:self-end ${
+                      className={`mt-auto mb-6 flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors tablet:mt-1 tablet:mb-0 tablet:w-1/2 tablet:self-center ${
                         envioOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
                       }`}
                     >

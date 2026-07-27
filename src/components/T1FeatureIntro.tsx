@@ -55,7 +55,7 @@ type Card = { id: string; label: string; desc: string; glow: string; image: stri
 const CARDS: Card[] = [
   {
     id: "vende",
-    label: "Vende con T1 Tienda",
+    label: "Vende",
     desc: "Crea tu tienda con IA y vende en marketplaces y redes, con un mismo catálogo e inventario para todos tus canales.",
     glow: "#E0402F", // red
     image: "/img/card-vende-v5.png", iw: 1254, ih: 1254,
@@ -71,7 +71,7 @@ const CARDS: Card[] = [
   },
   {
     id: "cobra",
-    label: "Cobra con T1 Pagos",
+    label: "Cobra",
     desc: "Cobra con tarjeta, SPEI o link de pago y ofrece meses sin intereses. Todo sincronizado con tus ventas.",
     glow: "#2F6BFF", // blue
     image: "/img/card-cobra-v5.png", iw: 1334, ih: 1254,
@@ -85,7 +85,7 @@ const CARDS: Card[] = [
   },
   {
     id: "envia",
-    label: "Envía con T1 Envíos",
+    label: "Envía",
     desc: "Cotiza +10 paqueterías, crea guías y rastrea tus pedidos, conectado en el mismo panel de tu negocio.",
     glow: "#E0402F", // red
     image: "/img/card-envia-v5.png", iw: 1254, ih: 1254,

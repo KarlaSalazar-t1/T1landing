@@ -15,8 +15,9 @@ function AnimatedMetric({
 }) {
   const { ref, display } = useCountUp({
     end,
-    // Use hook default (2000ms, easeOutCubic) — a smooth, clearly visible
-    // roll-up; no stagger between the three metrics, they kick off together.
+    // Roll-up estilo boardy.ai: arranca en 0 al entrar en viewport y sube con
+    // easeOutCubic (~2.4s) para un conteo largo y suave que se lee como reveal.
+    duration: 2400,
     prefix,
     suffix,
   });
