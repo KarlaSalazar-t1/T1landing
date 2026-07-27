@@ -55,7 +55,7 @@ type Card = { id: string; label: string; desc: string; glow: string; image: stri
 const CARDS: Card[] = [
   {
     id: "vende",
-    label: "VENDE",
+    label: "Vende con T1 Tienda",
     desc: "Crea tu tienda con IA y vende en marketplaces y redes, con un mismo catálogo e inventario para todos tus canales.",
     glow: "#E0402F", // red
     image: "/img/card-vende-v5.png", iw: 1254, ih: 1254,
@@ -71,7 +71,7 @@ const CARDS: Card[] = [
   },
   {
     id: "cobra",
-    label: "COBRA",
+    label: "Cobra con T1 Pagos",
     desc: "Cobra con tarjeta, SPEI o link de pago y ofrece meses sin intereses. Todo sincronizado con tus ventas.",
     glow: "#2F6BFF", // blue
     image: "/img/card-cobra-v5.png", iw: 1334, ih: 1254,
@@ -85,7 +85,7 @@ const CARDS: Card[] = [
   },
   {
     id: "envia",
-    label: "ENVÍA",
+    label: "Envía con T1 Envíos",
     desc: "Cotiza +10 paqueterías, crea guías y rastrea tus pedidos, conectado en el mismo panel de tu negocio.",
     glow: "#E0402F", // red
     image: "/img/card-envia-v5.png", iw: 1254, ih: 1254,
@@ -153,7 +153,7 @@ export default function T1FeatureIntro() {
             className="fi-reveal flex flex-col overflow-hidden rounded-[12px]"
             style={{ ...cardStyle(item.glow, "20px 20px"), ["--fi-range" as string]: `entry ${8 + i * 5}% cover ${40 + i * 7}%` } as React.CSSProperties}
           >
-            <p className="font-inter text-[16px] font-medium uppercase tracking-[0.04em] text-white" style={{ marginBottom: 14 }}>
+            <p className="font-inter text-[16px] font-medium tracking-[0.01em] text-white" style={{ marginBottom: 14 }}>
               {item.label}
             </p>
             <p className="font-inter text-[14px] font-normal text-white/70" style={{ lineHeight: 1.5, marginBottom: 4, minHeight: 61 }}>
@@ -174,7 +174,7 @@ export default function T1FeatureIntro() {
             className="fi-reveal flex h-full flex-col overflow-hidden rounded-[15px] transition-transform duration-300 hover:scale-[1.01]"
             style={{ ...cardStyle(card.glow, "34px 30px"), ["--fi-range" as string]: `entry ${8 + i * 6}% cover ${42 + i * 8}%` } as React.CSSProperties}
           >
-            <p className="font-inter text-[18px] font-medium uppercase tracking-[0.03em] text-white tablet:text-[20px]" style={{ marginBottom: 22 }}>
+            <p className="font-inter text-[18px] font-medium tracking-[0.01em] text-white tablet:text-[20px]" style={{ marginBottom: 22 }}>
               {card.label}
             </p>
             <p className="w-full font-inter text-[16px] font-normal text-white/70 tablet:text-[16px]" style={{ lineHeight: 1.55, marginBottom: 8, minHeight: 76 }}>
