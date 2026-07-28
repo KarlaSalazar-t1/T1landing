@@ -55,7 +55,6 @@ const TAB_CARDS: TabCard[] = [
     subTabs: [
       { label: "Checkout integrado", description: "Un checkout rápido y sin fricción, optimizado para mayor conversión: menos carritos abandonados y más ventas cerradas.", image: null, floatingCards: null, panel: "checkout" },
       { label: "Links de pago", description: "Cobra compartiendo un enlace por WhatsApp, email o redes sociales.", image: null, floatingCards: null, panel: "link-pago" },
-      { label: "Enrutamiento de pagos", description: "Enruta cada pago por el mejor flujo para aprobar más ventas, con nuestra propia solución.", image: null, floatingCards: null, panel: "enrutamiento-pagos" },
     ],
   },
   {

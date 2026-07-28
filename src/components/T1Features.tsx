@@ -1119,10 +1119,9 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
 const SHOWCASE_CARDS = [
   {
     id: "t1tienda-en-linea",
-    title: "Tu tienda en línea con T1 Tienda",
+    title: "Tu tienda en línea en segundos con T1 Tienda",
     description:
-      "Describe tu negocio y la IA la crea completa, lista para vender.",
-    bullets: ["Créala con IA, sin saber de tecnología", "Vende en tu web y en marketplaces"],
+      "Describe tu negocio y la IA la crea completa, lista para vender, con envíos y pagos integrados.",
     bgImage: null,
     bgCSS: "stack-bg-tienda-online",
     panelLeft: null,
@@ -1132,10 +1131,9 @@ const SHOWCASE_CARDS = [
   },
   {
     id: "t1tienda",
-    title: "Vende en marketplaces con T1 Tienda",
+    title: "Vende en +8 marketplaces con T1 Tienda",
     description:
       "Conecta Mercado Libre, Amazon, Shein y más. Inventario y pedidos sincronizados en un solo panel.",
-    bullets: ["Mercado Libre, Amazon, Shein y más", "Inventario y pedidos en un solo panel"],
     bgImage: null,
     bgCSS: "stack-bg-tienda",
     panelLeft: "/img/card-producto.webp",
@@ -1145,10 +1143,9 @@ const SHOWCASE_CARDS = [
   },
   {
     id: "t1pagos",
-    title: "Cobra en línea con T1 Pagos",
+    title: "Cobra de forma fácil y segura con T1 Pagos",
     description:
       "Crea links de pago en segundos y cobra a distancia desde un solo lugar.",
-    bullets: ["Tarjeta, SPEI, Kueski y meses sin intereses", "Links de pago y cobro a distancia"],
     bgImage: null,
     bgCSS: "stack-bg-pagos",
     panelLeft: "/img/pagos.webp",
@@ -1158,10 +1155,9 @@ const SHOWCASE_CARDS = [
   },
   {
     id: "t1pos",
-    title: "Vende en persona con T1 POS",
+    title: "Cobra en tu tienda física con T1 POS",
     description:
-      "Un punto de venta con el mismo catálogo e inventario. Cobra, haz cortes de caja y entrega tickets al instante.",
-    bullets: ["Mismo catálogo e inventario", "Cobra, corta caja y entrega tickets"],
+      "Vende en persona con el mismo catálogo, inventario y pagos de tu tienda en línea. Corta caja y entrega tickets al instante.",
     bgImage: null,
     bgCSS: "stack-bg-pos",
     panelLeft: null,
@@ -1171,10 +1167,9 @@ const SHOWCASE_CARDS = [
   },
   {
     id: "t1envios",
-    title: "Envía con T1 Envíos",
+    title: "Envía a todo México con T1 Envíos",
     description:
       "Cotiza +10 paqueterías y crea guías en segundos. Sin mensualidad ni mínimo de envíos.",
-    bullets: ["+10 paqueterías en un solo lugar", "Guías en segundos, sin mínimos"],
     bgImage: null,
     bgCSS: "stack-bg-envios",
     panelLeft: "/img/envios.svg",
@@ -2254,8 +2249,8 @@ export default function T1Features() {
               disabled={idx === SHOWCASE_CARDS.length - 1}
               className="absolute z-20 flex cursor-pointer items-center gap-1.5 rounded-full border-none tablet:hidden"
               style={{
-                // Aligned with the card title now sitting at pt-24
-                top: 100,
+                // En la esquina superior, arriba del título (evita taparlo)
+                top: 24,
                 right: 20,
                 padding: "6px 12px",
                 background: "rgba(0,0,0,0.28)",
@@ -2299,18 +2294,6 @@ export default function T1Features() {
                       </p>
                       {/* CTA — underlined text instead of the small arrow chip
                           (CEO: "el call to action puede ser un texto subrayado"). */}
-                      {Array.isArray(card.bullets) && card.bullets.length > 0 && (
-                        <ul className="hidden flex-col gap-2 tablet:flex" style={{ marginBottom: 24 }}>
-                          {card.bullets.map((b) => (
-                            <li key={b} className="flex items-start gap-2.5">
-                              <span className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full" style={{ background: "rgba(255,255,255,0.14)" }}>
-                                <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                              </span>
-                              <span className="font-inter text-[14px] font-normal text-white/85" style={{ lineHeight: 1.45 }}>{b}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
                       {card.ctaLabel && (
                         <a
                           href={card.ctaHref}
@@ -2352,18 +2335,6 @@ export default function T1Features() {
                       >
                         {withBoldIA(card.description)}
                       </p>
-                      {Array.isArray(card.bullets) && card.bullets.length > 0 && (
-                        <ul className="hidden flex-col gap-2 tablet:flex" style={{ marginBottom: 24 }}>
-                          {card.bullets.map((b) => (
-                            <li key={b} className="flex items-start gap-2.5">
-                              <span className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full" style={{ background: "rgba(255,255,255,0.14)" }}>
-                                <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                              </span>
-                              <span className="font-inter text-[14px] font-normal text-white/85" style={{ lineHeight: 1.45 }}>{b}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
                       {card.ctaLabel && (
                         <a
                           href={card.ctaHref}
@@ -2403,18 +2374,6 @@ export default function T1Features() {
                       <p className="font-inter text-[14px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
                         {withBoldIA(card.description)}
                       </p>
-                      {Array.isArray(card.bullets) && card.bullets.length > 0 && (
-                        <ul className="hidden flex-col gap-2 tablet:flex" style={{ marginBottom: 24 }}>
-                          {card.bullets.map((b) => (
-                            <li key={b} className="flex items-start gap-2.5">
-                              <span className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full" style={{ background: "rgba(255,255,255,0.14)" }}>
-                                <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                              </span>
-                              <span className="font-inter text-[14px] font-normal text-white/85" style={{ lineHeight: 1.45 }}>{b}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
                       {card.ctaLabel && (
                         <a
                           href={card.ctaHref}
@@ -2467,18 +2426,6 @@ export default function T1Features() {
                       <p className="font-inter text-[14px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
                         {withBoldIA(card.description)}
                       </p>
-                      {Array.isArray(card.bullets) && card.bullets.length > 0 && (
-                        <ul className="hidden flex-col gap-2 tablet:flex" style={{ marginBottom: 24 }}>
-                          {card.bullets.map((b) => (
-                            <li key={b} className="flex items-start gap-2.5">
-                              <span className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full" style={{ background: "rgba(255,255,255,0.14)" }}>
-                                <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                              </span>
-                              <span className="font-inter text-[14px] font-normal text-white/85" style={{ lineHeight: 1.45 }}>{b}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
                       {card.ctaLabel && (
                         <a
                           href={card.ctaHref}
@@ -2520,18 +2467,6 @@ export default function T1Features() {
                       <p className="font-inter text-[14px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
                         {card.description}
                       </p>
-                      {Array.isArray(card.bullets) && card.bullets.length > 0 && (
-                        <ul className="hidden flex-col gap-2 tablet:flex" style={{ marginBottom: 24 }}>
-                          {card.bullets.map((b) => (
-                            <li key={b} className="flex items-start gap-2.5">
-                              <span className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full" style={{ background: "rgba(255,255,255,0.14)" }}>
-                                <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                              </span>
-                              <span className="font-inter text-[14px] font-normal text-white/85" style={{ lineHeight: 1.45 }}>{b}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
                       {card.ctaLabel && (
                         <a
                           href={card.ctaHref}
