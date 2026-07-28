@@ -325,13 +325,12 @@ export default function T1Hero() {
                 );
               })}
             </div>
-            {/* Desktop — segmented control con íconos, borde y divisores */}
+            {/* Desktop — tabs con línea inferior (sin recuadro) */}
             <div
               role="radiogroup"
               aria-label="¿Qué quieres hacer?"
               onKeyDown={onSelectorKeyDown}
-              className="hidden w-full items-stretch gap-1 rounded-[16px] p-1 tablet:flex"
-              style={{ background: "transparent" }}
+              className="hidden w-full items-end border-b border-white/10 tablet:flex"
             >
               {TABS.map((t, i) => {
                 const selected = i === tabIdx;
@@ -346,18 +345,19 @@ export default function T1Hero() {
                     aria-checked={selected}
                     tabIndex={selected ? 0 : -1}
                     onClick={() => selectTab(i)}
-                    className={`flex flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-[12px] px-3 py-2.5 font-inter text-[14px] font-medium transition-colors ${
-                      selected ? "text-white" : "text-white/60 hover:text-white/85"
+                    className={`relative flex flex-1 items-center justify-center gap-2 whitespace-nowrap px-2 pb-3 pt-1 font-inter text-[14px] font-medium transition-colors ${
+                      selected ? "text-white" : "text-white/50 hover:text-white/80"
                     }`}
-                    style={{
-                      background: selected ? "rgba(0,0,0,0.45)" : "transparent",
-                      border: selected ? "1px solid rgba(255,255,255,0.08)" : "1px solid transparent",
-                    }}
                   >
-                    <span className={selected ? "text-white" : "text-white/70"}>
+                    <span className={selected ? "text-white" : "text-white/60"}>
                       <TabIcon id={t.id} />
                     </span>
                     {t.label}
+                    <span
+                      className={`absolute inset-x-2 -bottom-px h-[2px] rounded-full bg-white transition-transform duration-200 ${
+                        selected ? "scale-x-100" : "scale-x-0"
+                      }`}
+                    />
                   </button>
                 );
               })}
@@ -549,19 +549,20 @@ export default function T1Hero() {
         {/* 4+5 · Clientes: en desktop título + dato rotativo a la izquierda,
             marquee de logos a la derecha en la misma línea. En móvil apilado. */}
         <div className="relative z-10 mt-6 w-full tablet:mt-8">
-          <div className="mx-auto flex max-w-[var(--max-w)] flex-col items-center gap-4 px-3 tablet:flex-row tablet:items-center tablet:gap-8">
-            {/* Título + dato rotativo */}
-            <div className="shrink-0 text-center tablet:max-w-[200px] tablet:text-left" aria-live="polite">
-              <p className="hidden font-inter text-[13px] font-light leading-snug text-white/45 tablet:block">
-                Las marcas que confían en nosotros
-              </p>
-              <span key={spIdx} className="block font-inter text-[16px] font-medium text-white tablet:mt-1 tablet:text-[18px]" style={{ animation: "fadeSlideIn 0.5s ease-out" }}>
+          <div className="mx-auto max-w-[var(--max-w)] px-3">
+            {/* Título — arriba de toda la línea del marquee */}
+            <p className="mb-3 hidden text-center font-inter text-[13px] font-light text-white/45 tablet:block tablet:text-left">
+              Las marcas que confían en nosotros
+            </p>
+            <div className="flex flex-col items-center gap-4 tablet:flex-row tablet:items-center tablet:gap-8">
+              {/* Dato rotativo */}
+              <span key={spIdx} className="shrink-0 font-inter text-[16px] font-medium text-white tablet:text-[18px]" style={{ animation: "fadeSlideIn 0.5s ease-out" }} aria-live="polite">
                 {SOCIAL_PROOF[spIdx]}
               </span>
-            </div>
-            {/* Marquee de logos */}
-            <div className="w-full min-w-0 flex-1 overflow-hidden">
-              <LogoMarquee />
+              {/* Marquee de logos */}
+              <div className="w-full min-w-0 flex-1 overflow-hidden">
+                <LogoMarquee />
+              </div>
             </div>
           </div>
         </div>

@@ -1119,9 +1119,10 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
 const SHOWCASE_CARDS = [
   {
     id: "t1tienda-en-linea",
-    title: "Tu tienda en línea, lista para vender en segundos",
+    title: "Tu tienda en línea con IA",
     description:
       "Describe tu negocio y la IA la crea completa, lista para vender.",
+    bullets: ["Créala con IA, sin saber de tecnología", "Vende en tu web y en marketplaces"],
     bgImage: null,
     bgCSS: "stack-bg-tienda-online",
     panelLeft: null,
@@ -1131,9 +1132,10 @@ const SHOWCASE_CARDS = [
   },
   {
     id: "t1tienda",
-    title: "Vende en todos los marketplaces desde un lugar",
+    title: "Vende en todos los marketplaces",
     description:
       "Conecta Mercado Libre, Amazon, Shein y más. Inventario y pedidos sincronizados en un solo panel.",
+    bullets: ["Mercado Libre, Amazon, Shein y más", "Inventario y pedidos en un solo panel"],
     bgImage: null,
     bgCSS: "stack-bg-tienda",
     panelLeft: "/img/card-producto.webp",
@@ -1146,6 +1148,7 @@ const SHOWCASE_CARDS = [
     title: "Cobra en línea, fácil y seguro",
     description:
       "Crea links de pago en segundos y cobra a distancia desde un solo lugar.",
+    bullets: ["Tarjeta, SPEI, Kueski y meses sin intereses", "Links de pago y cobro a distancia"],
     bgImage: null,
     bgCSS: "stack-bg-pagos",
     panelLeft: "/img/pagos.webp",
@@ -1155,9 +1158,10 @@ const SHOWCASE_CARDS = [
   },
   {
     id: "t1pos",
-    title: "Vende también en tu tienda física",
+    title: "Vende en tu tienda física",
     description:
       "Un punto de venta con el mismo catálogo e inventario. Cobra, haz cortes de caja y entrega tickets al instante.",
+    bullets: ["Mismo catálogo e inventario", "Cobra, corta caja y entrega tickets"],
     bgImage: null,
     bgCSS: "stack-bg-pos",
     panelLeft: null,
@@ -1167,9 +1171,10 @@ const SHOWCASE_CARDS = [
   },
   {
     id: "t1envios",
-    title: "Envía con las mejores tarifas del mercado",
+    title: "Envía con las mejores tarifas",
     description:
       "Cotiza +10 paqueterías y crea guías en segundos. Sin mensualidad ni mínimo de envíos.",
+    bullets: ["+10 paqueterías en un solo lugar", "Guías en segundos, sin mínimos"],
     bgImage: null,
     bgCSS: "stack-bg-envios",
     panelLeft: "/img/envios.svg",
@@ -2286,7 +2291,7 @@ export default function T1Features() {
                 <div className="flex h-full w-full flex-col tablet:flex-row-reverse" ref={tiendaOnlineRef}>
                   <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:p-8">
                     <div>
-                      <p className="font-sora text-[18px] font-normal text-white tablet:text-[22px] lg:text-[28px]">
+                      <p className="font-sora text-[20px] font-normal text-white tablet:text-[24px] lg:text-[32px]">
                         {card.title}
                       </p>
                       <p className="font-inter text-[14px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
@@ -2294,15 +2299,28 @@ export default function T1Features() {
                       </p>
                       {/* CTA — underlined text instead of the small arrow chip
                           (CEO: "el call to action puede ser un texto subrayado"). */}
+                      {Array.isArray(card.bullets) && card.bullets.length > 0 && (
+                        <ul className="hidden flex-col gap-2 tablet:flex" style={{ marginBottom: 24 }}>
+                          {card.bullets.map((b) => (
+                            <li key={b} className="flex items-start gap-2.5">
+                              <span className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full" style={{ background: "rgba(255,255,255,0.14)" }}>
+                                <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                              </span>
+                              <span className="font-inter text-[14px] font-normal text-white/85" style={{ lineHeight: 1.45 }}>{b}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                       {card.ctaLabel && (
                         <a
                           href={card.ctaHref}
                           target={card.ctaHref?.startsWith("http") ? "_blank" : undefined}
                           rel={card.ctaHref?.startsWith("http") ? "noopener noreferrer" : undefined}
                           onClick={(e) => e.stopPropagation()}
-                          className="inline-flex w-fit items-center font-inter text-[16px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
+                          className="group/cta inline-flex w-fit items-center gap-1.5 font-inter text-[16px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
                         >
                           {card.ctaLabel}
+                          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" className="shrink-0 transition-transform duration-150 group-hover/cta:translate-x-0.5"><path d="M4 8h8M9 5l3 3-3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
                         </a>
                       )}
                     </div>
@@ -2325,7 +2343,7 @@ export default function T1Features() {
                   <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:p-8" ref={tiendaRef}>
                     {/* Text info at top */}
                     <div>
-                      <p className="font-sora text-[18px] font-normal text-white tablet:text-[22px] lg:text-[28px]">
+                      <p className="font-sora text-[20px] font-normal text-white tablet:text-[24px] lg:text-[32px]">
                         {card.title}
                       </p>
                       <p
@@ -2334,15 +2352,28 @@ export default function T1Features() {
                       >
                         {withBoldIA(card.description)}
                       </p>
+                      {Array.isArray(card.bullets) && card.bullets.length > 0 && (
+                        <ul className="hidden flex-col gap-2 tablet:flex" style={{ marginBottom: 24 }}>
+                          {card.bullets.map((b) => (
+                            <li key={b} className="flex items-start gap-2.5">
+                              <span className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full" style={{ background: "rgba(255,255,255,0.14)" }}>
+                                <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                              </span>
+                              <span className="font-inter text-[14px] font-normal text-white/85" style={{ lineHeight: 1.45 }}>{b}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                       {card.ctaLabel && (
                         <a
                           href={card.ctaHref}
                           target={card.ctaHref?.startsWith("http") ? "_blank" : undefined}
                           rel={card.ctaHref?.startsWith("http") ? "noopener noreferrer" : undefined}
                           onClick={(e) => e.stopPropagation()}
-                          className="inline-flex w-fit items-center font-inter text-[16px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
+                          className="group/cta inline-flex w-fit items-center gap-1.5 font-inter text-[16px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
                         >
                           {card.ctaLabel}
+                          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" className="shrink-0 transition-transform duration-150 group-hover/cta:translate-x-0.5"><path d="M4 8h8M9 5l3 3-3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
                         </a>
                       )}
                     </div>
@@ -2366,21 +2397,34 @@ export default function T1Features() {
                   {/* Right column (visually): text at top, payment methods centered below */}
                   <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:p-8 lg:p-10">
                     <div style={{ maxWidth: 420 }}>
-                      <p className="font-sora text-[18px] font-normal text-white tablet:text-[22px] lg:text-[28px]">
+                      <p className="font-sora text-[20px] font-normal text-white tablet:text-[24px] lg:text-[32px]">
                         {card.title}
                       </p>
                       <p className="font-inter text-[14px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
                         {withBoldIA(card.description)}
                       </p>
+                      {Array.isArray(card.bullets) && card.bullets.length > 0 && (
+                        <ul className="hidden flex-col gap-2 tablet:flex" style={{ marginBottom: 24 }}>
+                          {card.bullets.map((b) => (
+                            <li key={b} className="flex items-start gap-2.5">
+                              <span className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full" style={{ background: "rgba(255,255,255,0.14)" }}>
+                                <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                              </span>
+                              <span className="font-inter text-[14px] font-normal text-white/85" style={{ lineHeight: 1.45 }}>{b}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                       {card.ctaLabel && (
                         <a
                           href={card.ctaHref}
                           target={card.ctaHref?.startsWith("http") ? "_blank" : undefined}
                           rel={card.ctaHref?.startsWith("http") ? "noopener noreferrer" : undefined}
                           onClick={(e) => e.stopPropagation()}
-                          className="inline-flex w-fit items-center font-inter text-[16px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
+                          className="group/cta inline-flex w-fit items-center gap-1.5 font-inter text-[16px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
                         >
                           {card.ctaLabel}
+                          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" className="shrink-0 transition-transform duration-150 group-hover/cta:translate-x-0.5"><path d="M4 8h8M9 5l3 3-3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
                         </a>
                       )}
                     </div>
@@ -2417,21 +2461,34 @@ export default function T1Features() {
                 <div className="flex h-full w-full flex-col tablet:flex-row" ref={enviosRef}>
                   <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:p-8">
                     <div>
-                      <p className="font-sora text-[18px] font-normal text-white tablet:text-[22px] lg:text-[28px]">
+                      <p className="font-sora text-[20px] font-normal text-white tablet:text-[24px] lg:text-[32px]">
                         {card.title}
                       </p>
                       <p className="font-inter text-[14px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
                         {withBoldIA(card.description)}
                       </p>
+                      {Array.isArray(card.bullets) && card.bullets.length > 0 && (
+                        <ul className="hidden flex-col gap-2 tablet:flex" style={{ marginBottom: 24 }}>
+                          {card.bullets.map((b) => (
+                            <li key={b} className="flex items-start gap-2.5">
+                              <span className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full" style={{ background: "rgba(255,255,255,0.14)" }}>
+                                <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                              </span>
+                              <span className="font-inter text-[14px] font-normal text-white/85" style={{ lineHeight: 1.45 }}>{b}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                       {card.ctaLabel && (
                         <a
                           href={card.ctaHref}
                           target={card.ctaHref?.startsWith("http") ? "_blank" : undefined}
                           rel={card.ctaHref?.startsWith("http") ? "noopener noreferrer" : undefined}
                           onClick={(e) => e.stopPropagation()}
-                          className="inline-flex w-fit items-center font-inter text-[16px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
+                          className="group/cta inline-flex w-fit items-center gap-1.5 font-inter text-[16px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
                         >
                           {card.ctaLabel}
+                          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" className="shrink-0 transition-transform duration-150 group-hover/cta:translate-x-0.5"><path d="M4 8h8M9 5l3 3-3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
                         </a>
                       )}
                     </div>
@@ -2457,19 +2514,32 @@ export default function T1Features() {
                   {/* Text column (visually RIGHT) */}
                   <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:p-8 lg:p-10">
                     <div style={{ maxWidth: 420 }}>
-                      <p className="font-sora text-[18px] font-normal text-white tablet:text-[22px] lg:text-[28px]">
+                      <p className="font-sora text-[20px] font-normal text-white tablet:text-[24px] lg:text-[32px]">
                         {card.title}
                       </p>
                       <p className="font-inter text-[14px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
                         {card.description}
                       </p>
+                      {Array.isArray(card.bullets) && card.bullets.length > 0 && (
+                        <ul className="hidden flex-col gap-2 tablet:flex" style={{ marginBottom: 24 }}>
+                          {card.bullets.map((b) => (
+                            <li key={b} className="flex items-start gap-2.5">
+                              <span className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full" style={{ background: "rgba(255,255,255,0.14)" }}>
+                                <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                              </span>
+                              <span className="font-inter text-[14px] font-normal text-white/85" style={{ lineHeight: 1.45 }}>{b}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                       {card.ctaLabel && (
                         <a
                           href={card.ctaHref}
                           onClick={(e) => e.stopPropagation()}
-                          className="inline-flex w-fit items-center font-inter text-[16px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
+                          className="group/cta inline-flex w-fit items-center gap-1.5 font-inter text-[16px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
                         >
                           {card.ctaLabel}
+                          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" className="shrink-0 transition-transform duration-150 group-hover/cta:translate-x-0.5"><path d="M4 8h8M9 5l3 3-3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
                         </a>
                       )}
                     </div>
