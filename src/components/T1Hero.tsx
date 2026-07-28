@@ -458,7 +458,7 @@ export default function T1Hero() {
                       }}
                       aria-disabled={!linkOk}
                       style={kbBtnStyle}
-                      className={`mt-auto mb-6 flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors tablet:mt-0 tablet:mb-0 tablet:w-1/2 tablet:self-center ${
+                      className={`mt-auto mb-6 flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors tablet:mt-0 tablet:mb-0 tablet:w-full tablet:max-w-[440px] tablet:self-center ${
                         linkOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
                       }`}
                     >
@@ -544,18 +544,25 @@ export default function T1Hero() {
             </div>
           </div>
 
-          {/* 4 · Social proof (abajo) — un dato a la vez, rotando */}
-          <div className="flex items-center justify-center px-2 text-center" style={{ minHeight: 24 }} aria-live="polite">
-            <span key={spIdx} className="font-inter text-[16px] font-medium text-white" style={{ animation: "fadeSlideIn 0.5s ease-out" }}>
-              {SOCIAL_PROOF[spIdx]}
-            </span>
-          </div>
         </div>
 
-        {/* 5 · Carrusel de logos — al fondo del hero, respetando el margen del header */}
-        <div className="relative z-10 -mx-5 mt-6 tablet:-mx-6 tablet:mt-8">
-          <div className="mx-auto max-w-[var(--max-w)] px-3">
-            <LogoMarquee />
+        {/* 4+5 · Clientes: en desktop título + dato rotativo a la izquierda,
+            marquee de logos a la derecha en la misma línea. En móvil apilado. */}
+        <div className="relative z-10 mt-6 w-full tablet:mt-8">
+          <div className="mx-auto flex max-w-[var(--max-w)] flex-col items-center gap-4 px-3 tablet:flex-row tablet:items-center tablet:gap-8">
+            {/* Título + dato rotativo */}
+            <div className="shrink-0 text-center tablet:max-w-[200px] tablet:text-left" aria-live="polite">
+              <p className="hidden font-inter text-[13px] font-light leading-snug text-white/45 tablet:block">
+                Las marcas que confían en nosotros
+              </p>
+              <span key={spIdx} className="block font-inter text-[16px] font-medium text-white tablet:mt-1 tablet:text-[18px]" style={{ animation: "fadeSlideIn 0.5s ease-out" }}>
+                {SOCIAL_PROOF[spIdx]}
+              </span>
+            </div>
+            {/* Marquee de logos */}
+            <div className="w-full min-w-0 flex-1 overflow-hidden">
+              <LogoMarquee />
+            </div>
           </div>
         </div>
       </section>
