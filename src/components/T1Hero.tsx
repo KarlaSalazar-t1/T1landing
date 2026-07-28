@@ -440,7 +440,7 @@ export default function T1Hero() {
                       />
                     </div>
                     {/* Concepto — pregunta arriba + hint abajo */}
-                    <div>
+                    <div className="mx-auto w-full tablet:max-w-[440px]">
                       <p className="mb-1.5 px-1 font-inter text-[14px] font-medium text-white/85">¿Qué quieres cobrar?</p>
                       <input
                         value={concepto}
@@ -473,7 +473,7 @@ export default function T1Hero() {
               {tab.id === "envio" && (
                 <>
                   <p className="max-w-[360px] text-center font-inter text-[16px] font-light leading-[1.6] text-white tablet:max-w-none tablet:whitespace-nowrap">
-                    Cotiza en segundos.
+                    Cotiza a todo México en segundos.
                   </p>
                   <div className="flex w-full flex-1 flex-col gap-3 tablet:flex-none">
                     {/* Origen → destino — label arriba de cada input */}

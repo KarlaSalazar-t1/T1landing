@@ -16,8 +16,8 @@ function AnimatedMetric({
   const { ref, display } = useCountUp({
     end,
     // Roll-up estilo boardy.ai: arranca en 0 al entrar en viewport y sube con
-    // easeOutCubic (~2.4s) para un conteo largo y suave que se lee como reveal.
-    duration: 2400,
+    // easeOutCubic (~1.5s) — ágil, sin sentirse lento.
+    duration: 1500,
     prefix,
     suffix,
   });

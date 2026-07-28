@@ -1222,13 +1222,6 @@ function withBoldIA(text: string) {
 /* Tienda en línea — AI capability bullets (CEO: "crea tu tienda con IA, crear
    imágenes, crear productos con una foto"). Shared by the desktop list and the
    compact mobile list so the copy stays in one place. */
-const TIENDA_AI_BULLETS = [
-  "Crea tu tienda completa en minutos",
-  "Genera imágenes de tus productos",
-  "Crea productos desde una sola foto",
-  "Redacta descripciones que venden",
-];
-
 /* PaymentMethodsGrid removed — the Pagos stack card now uses feature bullets,
    matching the other cards (CEO: "agrega bullet points en todos los cards
    stacks como en la stack card de tienda"). */
@@ -2299,39 +2292,6 @@ export default function T1Features() {
                       <p className="font-inter text-[14px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
                         {withBoldIA(card.description)}
                       </p>
-                      {/* AI capability bullets — sparkle marker + AI copy signal
-                          these are AI-built (CEO: "bullets de IA… en lugar del
-                          check mark las estrellas de IA"). A small subtitle frames
-                          the list; a compact mobile version renders right below. */}
-                      <p className="hidden font-inter text-[12.5px] font-semibold text-white/55 tablet:block" style={{ marginBottom: 12 }}>
-                        Lo que la <strong className="font-semibold text-white">IA</strong> hace por ti
-                      </p>
-                      <ul className="hidden flex-col gap-2.5 tablet:flex" style={{ marginBottom: 26 }}>
-                        {TIENDA_AI_BULLETS.map((b) => (
-                          <li key={b} className="flex items-start gap-2.5">
-                            <span className="mt-[1px] shrink-0">
-                              <AISparkle size={16} />
-                            </span>
-                            <span className="font-inter text-[14px] font-normal text-white/85 tablet:text-[14px]" style={{ lineHeight: 1.45 }}>
-                              {withBoldIA(b)}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                      {/* Compact mobile bullets (3) — slim so the card stays
-                          within its fixed height; the phone animation follows. */}
-                      <ul className="flex flex-col gap-1.5 tablet:hidden" style={{ marginTop: 2, marginBottom: 6 }}>
-                        {TIENDA_AI_BULLETS.slice(0, 3).map((b) => (
-                          <li key={b} className="flex items-center gap-2">
-                            <span className="shrink-0">
-                              <AISparkle size={13} />
-                            </span>
-                            <span className="font-inter text-[12px] font-normal text-white/80" style={{ lineHeight: 1.3 }}>
-                              {withBoldIA(b)}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
                       {/* CTA — underlined text instead of the small arrow chip
                           (CEO: "el call to action puede ser un texto subrayado"). */}
                       {card.ctaLabel && (
@@ -2374,52 +2334,6 @@ export default function T1Features() {
                       >
                         {withBoldIA(card.description)}
                       </p>
-                      {/* Mobile: just the IA capability bullet (✨) — desktop
-                          shows the full list; mobile highlights the AI value
-                          without crowding the fixed-height card. */}
-                      <ul className="flex flex-col gap-1.5 tablet:hidden" style={{ marginTop: 2, marginBottom: 14 }}>
-                        <li className="flex items-center gap-2">
-                          <span className="shrink-0">
-                            <AISparkle size={13} />
-                          </span>
-                          <span className="font-inter text-[12px] font-normal text-white/80" style={{ lineHeight: 1.3 }}>
-                            {withBoldIA("Crea y optimiza tus publicaciones con IA")}
-                          </span>
-                        </li>
-                      </ul>
-                      {/* Feature bullets — desktop only (mobile shows the phone
-                          mockup), matching the Tienda en línea card. */}
-                      {/* First bullet is the AI capability (✨ sparkle marker,
-                          like the Tienda card); the rest keep the checkmark. */}
-                      <ul className="hidden flex-col gap-2.5 tablet:flex" style={{ marginBottom: 26 }}>
-                        {[
-                          "Crea y optimiza tus publicaciones con IA",
-                          "Mercado Libre, Amazon, Walmart, Shein y más",
-                          "Inventario y precios sincronizados en automático",
-                          "Recibe y surte todos tus pedidos desde un panel",
-                          "Reportes de ventas y rendimiento en tiempo real",
-                        ].map((b, i) => (
-                          <li key={b} className="flex items-start gap-2.5">
-                            {i === 0 ? (
-                              <span className="mt-[1px] shrink-0">
-                                <AISparkle size={16} />
-                              </span>
-                            ) : (
-                              <span
-                                className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full"
-                                style={{ background: "rgba(255,255,255,0.14)" }}
-                              >
-                                <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
-                                  <path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                              </span>
-                            )}
-                            <span className="font-inter text-[14px] font-normal text-white/85 tablet:text-[14px]" style={{ lineHeight: 1.45 }}>
-                              {withBoldIA(b)}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
                       {card.ctaLabel && (
                         <a
                           href={card.ctaHref}
@@ -2458,45 +2372,6 @@ export default function T1Features() {
                       <p className="font-inter text-[14px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
                         {withBoldIA(card.description)}
                       </p>
-                      {/* Mobile: just the IA capability bullet (✨) — desktop
-                          shows the full list; mobile highlights the AI value
-                          without crowding the fixed-height card. */}
-                      <ul className="flex flex-col gap-1.5 tablet:hidden" style={{ marginTop: 2, marginBottom: 14 }}>
-                        <li className="flex items-center gap-2">
-                          <span className="flex h-[16px] w-[16px] shrink-0 items-center justify-center rounded-full" style={{ background: "rgba(255,255,255,0.14)" }}>
-                            <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                          </span>
-                          <span className="font-inter text-[12px] font-normal text-white/80" style={{ lineHeight: 1.3 }}>
-                            La mejor tasa de aprobación de la región
-                          </span>
-                        </li>
-                      </ul>
-                      {/* Feature bullets — desktop only, matching the other cards. */}
-                      {/* First bullet is the AI capability (✨ sparkle marker).
-                          Replaces the old "enrutamiento inteligente" bullet — the
-                          smart routing IS the AI, now labelled as such. */}
-                      <ul className="hidden flex-col gap-2.5 tablet:flex" style={{ marginBottom: 26 }}>
-                        {[
-                          "La mejor tasa de aprobación de la región",
-                          "Crea links de pago y cobra a distancia",
-                          "Acepta tarjetas, SPEI, Kueski y meses sin intereses",
-                          "Conciliación automática de todas tus ventas",
-                        ].map((b) => (
-                          <li key={b} className="flex items-start gap-2.5">
-                            <span
-                              className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full"
-                              style={{ background: "rgba(255,255,255,0.14)" }}
-                            >
-                              <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
-                                <path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
-                              </svg>
-                            </span>
-                            <span className="font-inter text-[14px] font-normal text-white/85 tablet:text-[14px]" style={{ lineHeight: 1.45 }}>
-                              {withBoldIA(b)}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
                       {card.ctaLabel && (
                         <a
                           href={card.ctaHref}
@@ -2548,51 +2423,6 @@ export default function T1Features() {
                       <p className="font-inter text-[14px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
                         {withBoldIA(card.description)}
                       </p>
-                      {/* Mobile: just the IA capability bullet (✨) — desktop
-                          shows the full list; mobile highlights the AI value
-                          without crowding the fixed-height card. */}
-                      <ul className="flex flex-col gap-1.5 tablet:hidden" style={{ marginTop: 2, marginBottom: 14 }}>
-                        <li className="flex items-center gap-2">
-                          <span className="shrink-0">
-                            <AISparkle size={13} />
-                          </span>
-                          <span className="font-inter text-[12px] font-normal text-white/80" style={{ lineHeight: 1.3 }}>
-                            {withBoldIA("La IA elige la mejor paquetería para cada envío")}
-                          </span>
-                        </li>
-                      </ul>
-                      {/* Feature bullets — desktop only, matching the other cards. */}
-                      {/* First bullet is the AI capability (✨ sparkle marker);
-                          the rest keep the checkmark. */}
-                      <ul className="hidden flex-col gap-2.5 tablet:flex" style={{ marginBottom: 26 }}>
-                        {[
-                          "La IA elige la mejor paquetería para cada envío",
-                          "Cotiza y compara +10 paqueterías al instante",
-                          "Crea guías en segundos con las mejores tarifas",
-                          "Rastrea todos tus pedidos en un solo lugar",
-                          "Sin mensualidad ni mínimo de envíos",
-                        ].map((b, i) => (
-                          <li key={b} className="flex items-start gap-2.5">
-                            {i === 0 ? (
-                              <span className="mt-[1px] shrink-0">
-                                <AISparkle size={16} />
-                              </span>
-                            ) : (
-                              <span
-                                className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full"
-                                style={{ background: "rgba(255,255,255,0.14)" }}
-                              >
-                                <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
-                                  <path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                              </span>
-                            )}
-                            <span className="font-inter text-[14px] font-normal text-white/85 tablet:text-[14px]" style={{ lineHeight: 1.45 }}>
-                              {withBoldIA(b)}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
                       {card.ctaLabel && (
                         <a
                           href={card.ctaHref}
@@ -2633,25 +2463,6 @@ export default function T1Features() {
                       <p className="font-inter text-[14px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
                         {card.description}
                       </p>
-                      <ul className="hidden flex-col gap-2.5 tablet:flex" style={{ marginBottom: 26 }}>
-                        {[
-                          "Vende en persona con el mismo catálogo e inventario",
-                          "Cobra con tarjeta, efectivo, SPEI y transferencia",
-                          "Corte de caja y control por sucursal",
-                          "Tickets por WhatsApp, SMS o correo",
-                        ].map((b) => (
-                          <li key={b} className="flex items-start gap-2.5">
-                            <span className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full" style={{ background: "rgba(255,255,255,0.14)" }}>
-                              <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
-                                <path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
-                              </svg>
-                            </span>
-                            <span className="font-inter text-[14px] font-normal text-white/85 tablet:text-[14px]" style={{ lineHeight: 1.45 }}>
-                              {b}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
                       {card.ctaLabel && (
                         <a
                           href={card.ctaHref}
