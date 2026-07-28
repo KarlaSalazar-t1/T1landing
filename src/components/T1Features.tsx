@@ -1119,9 +1119,9 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
 const SHOWCASE_CARDS = [
   {
     id: "t1tienda-en-linea",
-    title: "Tienda en línea",
+    title: "Tu tienda en línea, lista para vender en segundos",
     description:
-      "Describe tu negocio y la IA crea tu tienda completa, lista para vender.",
+      "Describe tu negocio y la IA la crea completa, lista para vender.",
     bgImage: null,
     bgCSS: "stack-bg-tienda-online",
     panelLeft: null,
@@ -1131,9 +1131,9 @@ const SHOWCASE_CARDS = [
   },
   {
     id: "t1tienda",
-    title: "Marketplaces",
+    title: "Vende en todos los marketplaces desde un lugar",
     description:
-      "Conecta Mercado Libre, Amazon, Shein, Sears y más en un solo lugar. Sincroniza inventario, recibe pedidos y gestiona todo desde un panel.",
+      "Conecta Mercado Libre, Amazon, Shein y más. Inventario y pedidos sincronizados en un solo panel.",
     bgImage: null,
     bgCSS: "stack-bg-tienda",
     panelLeft: "/img/card-producto.webp",
@@ -1143,9 +1143,9 @@ const SHOWCASE_CARDS = [
   },
   {
     id: "t1pagos",
-    title: "Pagos",
+    title: "Cobra en línea, fácil y seguro",
     description:
-      "Crea links de pago en segundos, cobra a distancia y gestiona todo desde un solo lugar.",
+      "Crea links de pago en segundos y cobra a distancia desde un solo lugar.",
     bgImage: null,
     bgCSS: "stack-bg-pagos",
     panelLeft: "/img/pagos.webp",
@@ -1155,9 +1155,9 @@ const SHOWCASE_CARDS = [
   },
   {
     id: "t1pos",
-    title: "Punto de venta",
+    title: "Vende también en tu tienda física",
     description:
-      "Vende en tu tienda física con el mismo catálogo e inventario. Cobra en persona, haz cortes de caja y entrega tickets al instante.",
+      "Un punto de venta con el mismo catálogo e inventario. Cobra, haz cortes de caja y entrega tickets al instante.",
     bgImage: null,
     bgCSS: "stack-bg-pos",
     panelLeft: null,
@@ -1167,9 +1167,9 @@ const SHOWCASE_CARDS = [
   },
   {
     id: "t1envios",
-    title: "Envíos",
+    title: "Envía con las mejores tarifas del mercado",
     description:
-      "Cotiza, compara paqueterías y crea guías en segundos. Las mejores tarifas del mercado, sin mensualidad ni mínimo de envíos.",
+      "Cotiza +10 paqueterías y crea guías en segundos. Sin mensualidad ni mínimo de envíos.",
     bgImage: null,
     bgCSS: "stack-bg-envios",
     panelLeft: "/img/envios.svg",

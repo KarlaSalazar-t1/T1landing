@@ -292,50 +292,11 @@ export function TodoEnUnoCard() {
 
 /* ── Words + cards ── */
 const WORDS = [
-  {
-    text: "Vende",
-    headline: "Tu tienda en línea, lista para vender en segundos.",
-    bullets: ["Créala con IA, sin saber de tecnología.", "Vende en tu web y en marketplaces."],
-    ctaLabel: "Crear tienda gratis",
-  },
-  {
-    text: "Cobra",
-    headline: "Cobra en línea, fácil y seguro.",
-    bullets: ["Tarjeta, SPEI, Kueski y meses sin intereses.", "En tu tienda o con un link de pago."],
-    ctaLabel: "Empezar a cobrar",
-  },
-  {
-    text: "Envía",
-    headline: "Envía con las mejores tarifas del mercado.",
-    bullets: ["+10 paqueterías en un solo lugar.", "Crea guías y rastrea, sin volumen mínimo."],
-    ctaLabel: "Cotizar envío",
-  },
-  {
-    text: "Todo en uno",
-    headline: "Vende, cobra y envía en una sola plataforma.",
-    bullets: ["Todo tu negocio conectado con IA.", "Una cuenta para operar de principio a fin."],
-    ctaLabel: "Crear cuenta gratis",
-  },
+  { text: "Vende", ctaCopy: "Crea tu tienda con IA y vende en línea y en marketplaces, desde un solo lugar.", ctaLabel: "Crear tienda gratis" },
+  { text: "Cobra", ctaCopy: "Acepta tarjetas, SPEI y meses sin intereses, o cobra con un link de pago.", ctaLabel: "Empezar a cobrar" },
+  { text: "Envía", ctaCopy: "Crea guías con +10 paqueterías al mejor precio y rastrea todo en un lugar.", ctaLabel: "Cotizar envío" },
+  { text: "Todo en uno", ctaCopy: "Vende, cobra y envía desde una sola plataforma potenciada con IA.", ctaLabel: "Crear cuenta gratis" },
 ];
-
-/* Bloque de texto claro: titular + 2 bullets (compartido móvil/desktop) */
-function CtaText({ w }: { w: (typeof WORDS)[number] }) {
-  return (
-    <>
-      <h4 className="mx-auto font-sora text-[18px] font-medium text-white tablet:text-[20px]" style={{ letterSpacing: "-0.02em", maxWidth: 340, lineHeight: 1.25 }}>
-        {w.headline}
-      </h4>
-      <ul className="mx-auto flex flex-col gap-1.5 text-left">
-        {w.bullets.map((b) => (
-          <li key={b} className="flex items-start gap-2 font-inter text-[13px] font-light text-white/65 tablet:text-[14px]">
-            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" className="mt-[3px] shrink-0"><path d="M3.5 8.5l3 3 6-7" stroke="#DB3B2B" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            <span>{b}</span>
-          </li>
-        ))}
-      </ul>
-    </>
-  );
-}
 
 const BG_GRADIENT = "radial-gradient(ellipse at 50% 60%, rgba(226,97,83,0.3) 0%, rgba(226,97,83,0.08) 40%, transparent 70%)";
 
@@ -391,11 +352,13 @@ function MobileScrollSections({ cards }: { cards: React.ReactNode[] }) {
         </div>
 
         {/* Contextual CTA */}
-        <div key={`cta-m-${tabIdx}`} className="mt-6 flex flex-col items-center gap-4 text-center" style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
-          <CtaText w={WORDS[tabIdx]} />
+        <div key={`cta-m-${tabIdx}`} className="mt-6 flex flex-col items-center gap-3 text-center" style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
+          <p className="font-inter text-[13px] font-light text-white/65" style={{ maxWidth: 280 }}>
+            {WORDS[tabIdx].ctaCopy}
+          </p>
           <a
             href={SIGNUP_URL}
-            className="mt-1 inline-flex h-[52px] items-center rounded-full bg-[#DB3B2B] px-7 font-inter text-[15px] font-semibold text-white no-underline transition-colors duration-200 hover:bg-[#C0332A]"
+            className="inline-flex h-[52px] items-center rounded-full bg-[#DB3B2B] px-7 font-inter text-[15px] font-semibold text-white no-underline transition-colors duration-200 hover:bg-[#C0332A]"
           >
             {WORDS[tabIdx].ctaLabel}
           </a>
@@ -436,10 +399,12 @@ function MobileScrollSections({ cards }: { cards: React.ReactNode[] }) {
             transform: todoVisible ? "translateY(0)" : "translateY(20px)",
             transition: "opacity 0.7s 0.2s ease-out, transform 0.7s 0.2s ease-out",
           }}>
-            <CtaText w={WORDS[3]} />
+            <p className="font-inter text-[13px] font-light text-white/65" style={{ maxWidth: 280 }}>
+              {WORDS[3].ctaCopy}
+            </p>
             <a
               href={SIGNUP_URL}
-              className="mt-1 inline-flex h-[52px] items-center rounded-full bg-[#DB3B2B] px-7 font-inter text-[15px] font-semibold text-white no-underline transition-colors duration-200 hover:bg-[#C0332A]"
+              className="inline-flex h-[52px] items-center rounded-full bg-[#DB3B2B] px-7 font-inter text-[15px] font-semibold text-white no-underline transition-colors duration-200 hover:bg-[#C0332A]"
             >
               {WORDS[3].ctaLabel}
             </a>
@@ -593,11 +558,13 @@ export default function T1ScrollShowcase() {
                 })}
               </div>
               {/* Contextual CTA below mockup */}
-              <div key={`cta-${activeIndex}`} className="relative z-10 flex flex-col items-center gap-4 text-center" style={{ marginTop: 28, animation: "fadeSlideIn 0.4s ease-out" }}>
-                <CtaText w={WORDS[activeIndex]} />
+              <div key={`cta-${activeIndex}`} className="relative z-10 flex flex-col items-center gap-3 text-center" style={{ marginTop: 28, animation: "fadeSlideIn 0.4s ease-out" }}>
+                <p className="font-inter text-[14px] font-light text-white/70">
+                  {WORDS[activeIndex].ctaCopy}
+                </p>
                 <a
                   href={SIGNUP_URL}
-                  className="mt-1 inline-flex h-[52px] items-center rounded-full bg-[#DB3B2B] px-7 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-200 hover:bg-[#C0332A] hover:scale-[1.02]"
+                  className="inline-flex h-[52px] items-center rounded-full bg-[#DB3B2B] px-7 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-200 hover:bg-[#C0332A] hover:scale-[1.02]"
                 >
                   {WORDS[activeIndex].ctaLabel}
                 </a>

@@ -160,6 +160,13 @@ export default function T1Hero() {
   const [cpHasta, setCpHasta] = useState("");
   const [paquete, setPaquete] = useState("pequeno");
 
+  // Social proof rotativo (un dato a la vez, cicla los 3)
+  const [spIdx, setSpIdx] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setSpIdx((i) => (i + 1) % SOCIAL_PROOF.length), 2600);
+    return () => clearInterval(t);
+  }, []);
+
   const btnRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   // Alto del teclado móvil (visualViewport) para subir el botón por encima
@@ -277,12 +284,10 @@ export default function T1Hero() {
         <div className="relative z-10 flex w-full max-w-[440px] grow flex-col items-center tablet:max-w-[640px]">
           {/* 1 · H1 (arriba) */}
           <h1
-            className="text-center font-sora text-[32px] font-light leading-[1.14] text-white tablet:text-[48px] desktop:text-[48px]"
+            className="text-center font-sora text-[32px] font-light leading-[1.14] text-white tablet:text-[48px] desktop:whitespace-nowrap"
             style={{ letterSpacing: "-0.03em" }}
           >
-            La plataforma que conecta
-            <br />
-            todo tu negocio.
+            Todo tu negocio en una plataforma.
           </h1>
 
           {/* Bloque central (centrado en el alto disponible) */}
@@ -341,7 +346,7 @@ export default function T1Hero() {
                     aria-checked={selected}
                     tabIndex={selected ? 0 : -1}
                     onClick={() => selectTab(i)}
-                    className={`flex flex-1 items-center justify-center gap-2.5 whitespace-nowrap rounded-[12px] px-3 py-3 font-inter text-[16px] font-medium transition-colors ${
+                    className={`flex flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-[12px] px-3 py-2.5 font-inter text-[14px] font-medium transition-colors ${
                       selected ? "text-white" : "text-white/60 hover:text-white/85"
                     }`}
                     style={{
@@ -398,14 +403,14 @@ export default function T1Hero() {
                       {ArrowUp}
                     </a>
                   </div>
-                  {/* chips */}
-                  <div className="flex min-h-[80px] flex-wrap items-start justify-center gap-2.5 tablet:min-h-[44px]">
+                  {/* chips — envuelven en móvil, una sola línea en desktop */}
+                  <div className="flex min-h-[80px] flex-wrap items-start justify-center gap-2.5 tablet:min-h-0 tablet:flex-nowrap tablet:gap-2">
                     {TIENDA_CHIPS.map((chip) => (
                       <button
                         key={chip.label}
                         type="button"
                         onClick={() => insertChip(chip)}
-                        className="rounded-[11px] border border-white/10 px-2.5 py-1.5 font-inter text-[14px] font-medium text-white transition-colors hover:border-white/25 tablet:text-[14px]"
+                        className="rounded-[11px] border border-white/10 px-2.5 py-1.5 font-inter text-[14px] font-medium text-white transition-colors hover:border-white/25 tablet:whitespace-nowrap tablet:px-2.5 tablet:py-1.5 tablet:text-[13px]"
                         style={{ background: "rgba(52,52,52,0.6)" }}
                       >
                         {chip.label}
@@ -468,7 +473,7 @@ export default function T1Hero() {
               {tab.id === "envio" && (
                 <>
                   <p className="max-w-[360px] text-center font-inter text-[16px] font-light leading-[1.6] text-white tablet:max-w-none tablet:whitespace-nowrap">
-                    Ingresa los códigos postales y cotiza en segundos.
+                    Cotiza en segundos.
                   </p>
                   <div className="flex w-full flex-1 flex-col gap-3 tablet:flex-none">
                     {/* Origen → destino — label arriba de cada input */}
@@ -539,14 +544,11 @@ export default function T1Hero() {
             </div>
           </div>
 
-          {/* 4 · Social proof (abajo) */}
-          <div className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 px-2 text-center">
-            {SOCIAL_PROOF.map((s, i) => (
-              <span key={s} className="flex items-center gap-2.5 font-inter text-[16px] font-medium text-white tablet:text-[16px]">
-                {i > 0 && <span aria-hidden className="text-white/40">•</span>}
-                {s}
-              </span>
-            ))}
+          {/* 4 · Social proof (abajo) — un dato a la vez, rotando */}
+          <div className="flex items-center justify-center px-2 text-center" style={{ minHeight: 24 }} aria-live="polite">
+            <span key={spIdx} className="font-inter text-[16px] font-medium text-white" style={{ animation: "fadeSlideIn 0.5s ease-out" }}>
+              {SOCIAL_PROOF[spIdx]}
+            </span>
           </div>
         </div>
 
