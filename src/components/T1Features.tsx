@@ -2228,55 +2228,29 @@ export default function T1Features() {
             {/* Dark overlay for readability */}
             <div className="absolute inset-0 bg-black/20" />
 
-            {/* Mobile-only stack indicator: glass pill at title height.
-                Click jumps to the next stack card. */}
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                const next = idx + 1 < SHOWCASE_CARDS.length
-                  ? document.querySelector(`[data-stack-idx="${idx + 1}"]`)
-                  : null;
-                if (next) {
-                  (next as HTMLElement).scrollIntoView({ behavior: "smooth", block: "start" });
-                }
-              }}
-              aria-label={
-                idx < SHOWCASE_CARDS.length - 1
-                  ? `Ir a la siguiente tarjeta (${idx + 2} de ${SHOWCASE_CARDS.length})`
-                  : `Tarjeta ${idx + 1} de ${SHOWCASE_CARDS.length}`
-              }
-              disabled={idx === SHOWCASE_CARDS.length - 1}
-              className="absolute z-20 flex cursor-pointer items-center gap-1.5 rounded-full border-none tablet:hidden"
-              style={{
-                // En la esquina superior, arriba del título (evita taparlo)
-                top: 24,
-                right: 20,
-                padding: "6px 12px",
-                background: "rgba(0,0,0,0.28)",
-                backdropFilter: "blur(10px)",
-                WebkitBackdropFilter: "blur(10px)",
-                boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.18)",
-              }}
-            >
-              <span
-                className="font-inter text-[12px] font-semibold tabular-nums text-white"
-                style={{ letterSpacing: "0.02em" }}
+            {/* Móvil: flecha animada al final de la card → scroll a la siguiente */}
+            {idx < SHOWCASE_CARDS.length - 1 && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const next = document.querySelector(`[data-stack-idx="${idx + 1}"]`);
+                  if (next) (next as HTMLElement).scrollIntoView({ behavior: "smooth", block: "start" });
+                }}
+                aria-label={`Ir a la siguiente tarjeta (${idx + 2} de ${SHOWCASE_CARDS.length})`}
+                className="absolute bottom-4 left-1/2 z-20 flex h-[38px] w-[38px] -translate-x-1/2 cursor-pointer items-center justify-center rounded-full border-none tablet:hidden"
+                style={{
+                  background: "rgba(0,0,0,0.32)",
+                  backdropFilter: "blur(10px)",
+                  WebkitBackdropFilter: "blur(10px)",
+                  boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.18)",
+                }}
               >
-                {idx + 1} / {SHOWCASE_CARDS.length}
-              </span>
-              {idx < SHOWCASE_CARDS.length - 1 && (
-                <svg className="scroll-hint" width="12" height="12" viewBox="0 0 16 16" fill="none">
-                  <path
-                    d="M3 6L8 11L13 6"
-                    stroke="rgba(255,255,255,0.95)"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
+                <svg className="scroll-hint" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M3 6L8 11L13 6" stroke="rgba(255,255,255,0.95)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-              )}
-            </button>
+              </button>
+            )}
 
             {/* Content wrapper */}
             <div className="relative z-10 flex h-full flex-col tablet:flex-row" style={{ minHeight: 320 }}>
@@ -2286,10 +2260,10 @@ export default function T1Features() {
                 <div className="flex h-full w-full flex-col tablet:flex-row-reverse" ref={tiendaOnlineRef}>
                   <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:justify-center tablet:p-8">
                     <div>
-                      <p className="font-sora text-[20px] font-normal text-white tablet:text-[24px] lg:text-[32px]">
+                      <p className="font-sora text-[24px] font-normal text-white tablet:text-[24px] lg:text-[32px]">
                         {card.title}
                       </p>
-                      <p className="font-inter text-[14px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
+                      <p className="font-inter text-[16px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
                         {withBoldIA(card.description)}
                       </p>
                       {/* CTA — underlined text instead of the small arrow chip
@@ -2325,12 +2299,12 @@ export default function T1Features() {
                   {/* Left column — text at top + product card below */}
                   <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:justify-center tablet:p-8" ref={tiendaRef}>
                     {/* Text info at top */}
-                    <div>
-                      <p className="font-sora text-[20px] font-normal text-white tablet:text-[24px] lg:text-[32px]">
+                    <div style={{ maxWidth: 380 }}>
+                      <p className="font-sora text-[24px] font-normal text-white tablet:text-[24px] lg:text-[32px]">
                         {card.title}
                       </p>
                       <p
-                        className="font-inter text-[14px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]"
+                        className="font-inter text-[16px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]"
                         style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}
                       >
                         {withBoldIA(card.description)}
@@ -2368,10 +2342,10 @@ export default function T1Features() {
                   {/* Right column (visually): text at top, payment methods centered below */}
                   <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:justify-center tablet:p-8 lg:p-10">
                     <div style={{ maxWidth: 420 }}>
-                      <p className="font-sora text-[20px] font-normal text-white tablet:text-[24px] lg:text-[32px]">
+                      <p className="font-sora text-[24px] font-normal text-white tablet:text-[24px] lg:text-[32px]">
                         {card.title}
                       </p>
-                      <p className="font-inter text-[14px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
+                      <p className="font-inter text-[16px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
                         {withBoldIA(card.description)}
                       </p>
                       {card.ctaLabel && (
@@ -2420,10 +2394,10 @@ export default function T1Features() {
                 <div className="flex h-full w-full flex-col tablet:flex-row" ref={enviosRef}>
                   <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:justify-center tablet:p-8">
                     <div>
-                      <p className="font-sora text-[20px] font-normal text-white tablet:text-[24px] lg:text-[32px]">
+                      <p className="font-sora text-[24px] font-normal text-white tablet:text-[24px] lg:text-[32px]">
                         {card.title}
                       </p>
-                      <p className="font-inter text-[14px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
+                      <p className="font-inter text-[16px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
                         {withBoldIA(card.description)}
                       </p>
                       {card.ctaLabel && (
@@ -2461,10 +2435,10 @@ export default function T1Features() {
                   {/* Text column (visually RIGHT) */}
                   <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:justify-center tablet:p-8 lg:p-10">
                     <div style={{ maxWidth: 420 }}>
-                      <p className="font-sora text-[20px] font-normal text-white tablet:text-[24px] lg:text-[32px]">
+                      <p className="font-sora text-[24px] font-normal text-white tablet:text-[24px] lg:text-[32px]">
                         {card.title}
                       </p>
-                      <p className="font-inter text-[14px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
+                      <p className="font-inter text-[16px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
                         {card.description}
                       </p>
                       {card.ctaLabel && (

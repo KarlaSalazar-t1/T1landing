@@ -71,7 +71,7 @@ function LandingPrompt({ typed, isActive, compact = false }: { typed: string; is
           style={{ fontSize: 30, lineHeight: 1.08, letterSpacing: "-0.025em" }}
         >
           Crea tu tienda en{" "}
-          <span style={{ color: "#F05A45" }}>menos de un minuto</span>
+          <span style={{ color: "#FFFFFF" }}>menos de un minuto</span>
         </h2>
         <p
           className="mt-2.5 text-center font-inter text-[12px] font-light text-white/70"
@@ -394,7 +394,7 @@ export default function TiendaPromptPanel({ animate, mobile = false }: { animate
       <div className="relative mx-auto" style={{ width: "88%", maxWidth: 320, fontFamily: FONT }}>
         <div
           className="flex flex-col overflow-hidden bg-white"
-          style={{ borderRadius: 22, boxShadow: "0 8px 30px rgba(0,0,0,0.15)", height: 460 }}
+          style={{ borderRadius: 22, boxShadow: "0 8px 30px rgba(0,0,0,0.15)", height: 540 }}
         >
           <MiniStatusBar />
           <div

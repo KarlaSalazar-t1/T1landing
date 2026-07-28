@@ -416,27 +416,28 @@ function MobileScrollSections({ cards }: { cards: React.ReactNode[] }) {
 }
 
 export default function T1ScrollShowcase() {
-  const containerRef = useRef<HTMLDivElement>(null);
   const mobileOuterRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [mobileTranslateX, setMobileTranslateX] = useState(0);
   const [ctaVisible, setCtaVisible] = useState(false);
 
-  /* Desktop: vertical scroll → active word/card index */
+  /* Desktop: la card que cruza el centro del viewport marca la sección activa */
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-    const onScroll = () => {
-      const rect = container.getBoundingClientRect();
-      const containerHeight = container.offsetHeight;
-      const scrollProgress = -rect.top / (containerHeight - window.innerHeight);
-      const clamped = Math.max(0, Math.min(1, scrollProgress));
-      const idx = Math.min(WORDS.length - 1, Math.floor(clamped * WORDS.length));
-      setActiveIndex(idx);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const idx = cardRefs.current.findIndex((el) => el === entry.target);
+            if (idx >= 0) setActiveIndex(idx);
+          }
+        });
+      },
+      { rootMargin: "-45% 0px -45% 0px", threshold: 0 }
+    );
+    cardRefs.current.forEach((el) => el && observer.observe(el));
+    return () => observer.disconnect();
   }, []);
 
   /* Mobile: vertical scroll → horizontal translateX */
@@ -474,21 +475,14 @@ export default function T1ScrollShowcase() {
       className="relative bg-black"
       style={{ borderRadius: "40px 40px 0 0", marginTop: -60 }}
     >
-      {/* ── Desktop ── */}
-      <div
-        ref={containerRef}
-        className="hidden tablet:block"
-        /* 60vh per word (was 100vh) so the four words/cards don't demand four
-           full screens of scroll — the CEO felt the block "necesita mucho
-           scroll". At 60vh each (~240vh total) every word still gets ample
-           scroll distance to register its transition, just snappier. */
-        style={{ height: `${WORDS.length * 60}vh` }}
-      >
-        <div className="sticky top-0 flex items-center" style={{ height: "100vh" }}>
-          <div className="mx-auto flex max-w-[var(--max-w)] items-center px-6" style={{ width: "100%" }}>
-            {/* Left — All words listed with subtle gradient blob */}
-            <div className="relative w-1/2" style={{ paddingRight: 60 }}>
-              {/* Decorative blob behind text */}
+      {/* ── Desktop — panel izq FIJO (sticky) + tira de cards a la derecha que
+             suben con el scroll; la card que llena el viewport activa su sección ── */}
+      <div className="hidden tablet:block">
+        <div className="mx-auto flex max-w-[var(--max-w)] gap-8 px-6">
+          {/* Left — sticky: palabras + (activo) descripción corta + botón */}
+          <div className="w-1/2">
+            <div className="sticky top-0 flex h-screen flex-col justify-center" style={{ paddingRight: 40 }}>
+              {/* Decorative blob */}
               <div
                 className="pointer-events-none absolute"
                 style={{
@@ -497,17 +491,10 @@ export default function T1ScrollShowcase() {
                   filter: "blur(50px)",
                 }}
               />
-              <div className="flex flex-col" style={{ gap: 16 }}>
+              <div className="relative flex flex-col" style={{ gap: 16 }}>
                 {WORDS.map((w, i) => {
                   const on = activeIndex === i;
-                  const goTo = () => {
-                    const container = containerRef.current;
-                    if (!container) return;
-                    const containerTop = container.getBoundingClientRect().top + window.scrollY;
-                    const totalScroll = container.offsetHeight - window.innerHeight;
-                    const targetScroll = containerTop + ((i + 0.5) / WORDS.length) * totalScroll;
-                    window.scrollTo({ top: targetScroll, behavior: "smooth" });
-                  };
+                  const goTo = () => cardRefs.current[i]?.scrollIntoView({ behavior: "smooth", block: "center" });
                   return (
                     <div key={w.text}>
                       <h2
@@ -522,7 +509,7 @@ export default function T1ScrollShowcase() {
                       >
                         {w.text}
                       </h2>
-                      {/* Solo el activo muestra la línea explicativa + botón */}
+                      {/* Solo el activo "abre": muestra la línea explicativa + botón */}
                       {on && (
                         <div key={`d-${i}`} style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
                           <p className="mt-3 font-inter text-[15px] font-light text-white/65" style={{ maxWidth: 380, lineHeight: 1.55 }}>
@@ -541,41 +528,34 @@ export default function T1ScrollShowcase() {
                 })}
               </div>
             </div>
+          </div>
 
-            {/* Right — Glass cards with PayPal-style 3D transition + contextual CTA */}
-            <div className="relative flex w-1/2 flex-col items-center justify-center" style={{ height: "70vh", perspective: 1200 }}>
-              {/* Warm glow background */}
-              <div
-                className="absolute inset-0 rounded-[24px]"
-                style={{ background: BG_GRADIENT }}
-              />
-              {/* Card area */}
-              <div className="relative flex flex-1 w-full items-center justify-center">
-                {cards.map((card, i) => {
-                  const isActive = i === activeIndex;
-                  const isPrev = i < activeIndex;
-                  return (
+          {/* Right — tira vertical de cards; cada una ocupa ~1 viewport */}
+          <div className="w-1/2">
+            {cards.map((card, i) => {
+              const on = activeIndex === i;
+              return (
+                <div
+                  key={i}
+                  ref={(el) => { cardRefs.current[i] = el; }}
+                  className="flex min-h-screen items-center justify-center"
+                >
+                  <div className="relative" style={{ perspective: 1200 }}>
+                    <div className="pointer-events-none absolute inset-0 rounded-[24px]" style={{ background: BG_GRADIENT }} />
                     <div
-                      key={i}
-                      className="absolute z-10"
+                      className="relative z-10 transition-all duration-500"
                       style={{
-                        transition: "transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease-out, filter 0.6s ease-out",
-                        transform: isActive
-                          ? "translateY(0) scale(1) rotateX(0deg)"
-                          : isPrev
-                            ? "translateY(-60px) scale(0.92) rotateX(4deg)"
-                            : "translateY(60px) scale(0.92) rotateX(-4deg)",
-                        opacity: isActive ? 1 : 0,
-                        filter: isActive ? "blur(0px)" : "blur(6px)",
-                        pointerEvents: isActive ? "auto" : "none",
+                        opacity: on ? 1 : 0.4,
+                        transform: on ? "scale(1)" : "scale(0.92)",
+                        filter: on ? "blur(0px)" : "blur(2px)",
                       }}
                     >
                       {card}
                     </div>
-                  );
-                })}
-              </div>
-            </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

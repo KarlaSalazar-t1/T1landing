@@ -287,7 +287,7 @@ export default function T1Hero() {
             className="text-center font-sora text-[32px] font-light leading-[1.14] text-white tablet:text-[48px] desktop:whitespace-nowrap"
             style={{ letterSpacing: "-0.03em" }}
           >
-            Todo tu negocio, todo en uno.
+            Todo tu negocio en un lugar.
           </h1>
 
           {/* Bloque central (centrado en el alto disponible) */}
@@ -479,12 +479,12 @@ export default function T1Hero() {
                     {/* Origen → destino — label arriba de cada input */}
                     <div className="flex w-full items-stretch overflow-hidden rounded-[16px] bg-[#1D1D1D]">
                       <label className="flex flex-1 flex-col justify-center px-4 py-2.5">
-                        <span className="font-inter text-[12px] font-semibold text-white">Código postal origen</span>
+                        <span className="font-inter text-[12px] font-normal text-white/50">Código postal origen</span>
                         <input value={cpDesde} onChange={(e) => setCpDesde(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Ej. 06600" aria-label="Código postal de origen" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
                       </label>
                       <span aria-hidden className="my-2.5 w-px shrink-0 bg-white/10" />
                       <label className="flex flex-1 flex-col justify-center px-4 py-2.5">
-                        <span className="font-inter text-[12px] font-semibold text-white">Código postal destino</span>
+                        <span className="font-inter text-[12px] font-normal text-white/50">Código postal destino</span>
                         <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Ej. 44100" aria-label="Código postal de destino" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
                       </label>
                     </div>
