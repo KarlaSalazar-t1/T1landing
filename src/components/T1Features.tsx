@@ -2165,7 +2165,7 @@ export default function T1Features() {
       {/* Section heading */}
       <div className="mx-auto max-w-[var(--max-w)] px-5 text-center tablet:px-6" style={{ paddingTop: 44 }}>
         <h2 className="mx-auto font-sora text-[28px] font-light text-white tablet:whitespace-nowrap tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.2, marginBottom: 44 }}>
-          Todo lo que tu negocio necesita
+          Lo que tu negocio necesita
         </h2>
       </div>
 
@@ -2274,7 +2274,7 @@ export default function T1Features() {
                           target={card.ctaHref?.startsWith("http") ? "_blank" : undefined}
                           rel={card.ctaHref?.startsWith("http") ? "noopener noreferrer" : undefined}
                           onClick={(e) => e.stopPropagation()}
-                          className="group/cta inline-flex w-fit items-center gap-1.5 font-inter text-[16px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
+                          className="group/cta inline-flex w-fit items-center gap-2 rounded-full border border-white/25 px-5 py-2.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:border-white/50 hover:bg-white/[0.06]"
                         >
                           {card.ctaLabel}
                           <svg width="15" height="15" viewBox="0 0 16 16" fill="none" className="shrink-0 transition-transform duration-150 group-hover/cta:translate-x-0.5"><path d="M4 8h8M9 5l3 3-3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -2315,7 +2315,7 @@ export default function T1Features() {
                           target={card.ctaHref?.startsWith("http") ? "_blank" : undefined}
                           rel={card.ctaHref?.startsWith("http") ? "noopener noreferrer" : undefined}
                           onClick={(e) => e.stopPropagation()}
-                          className="group/cta inline-flex w-fit items-center gap-1.5 font-inter text-[16px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
+                          className="group/cta inline-flex w-fit items-center gap-2 rounded-full border border-white/25 px-5 py-2.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:border-white/50 hover:bg-white/[0.06]"
                         >
                           {card.ctaLabel}
                           <svg width="15" height="15" viewBox="0 0 16 16" fill="none" className="shrink-0 transition-transform duration-150 group-hover/cta:translate-x-0.5"><path d="M4 8h8M9 5l3 3-3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -2354,7 +2354,7 @@ export default function T1Features() {
                           target={card.ctaHref?.startsWith("http") ? "_blank" : undefined}
                           rel={card.ctaHref?.startsWith("http") ? "noopener noreferrer" : undefined}
                           onClick={(e) => e.stopPropagation()}
-                          className="group/cta inline-flex w-fit items-center gap-1.5 font-inter text-[16px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
+                          className="group/cta inline-flex w-fit items-center gap-2 rounded-full border border-white/25 px-5 py-2.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:border-white/50 hover:bg-white/[0.06]"
                         >
                           {card.ctaLabel}
                           <svg width="15" height="15" viewBox="0 0 16 16" fill="none" className="shrink-0 transition-transform duration-150 group-hover/cta:translate-x-0.5"><path d="M4 8h8M9 5l3 3-3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -2406,7 +2406,7 @@ export default function T1Features() {
                           target={card.ctaHref?.startsWith("http") ? "_blank" : undefined}
                           rel={card.ctaHref?.startsWith("http") ? "noopener noreferrer" : undefined}
                           onClick={(e) => e.stopPropagation()}
-                          className="group/cta inline-flex w-fit items-center gap-1.5 font-inter text-[16px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
+                          className="group/cta inline-flex w-fit items-center gap-2 rounded-full border border-white/25 px-5 py-2.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:border-white/50 hover:bg-white/[0.06]"
                         >
                           {card.ctaLabel}
                           <svg width="15" height="15" viewBox="0 0 16 16" fill="none" className="shrink-0 transition-transform duration-150 group-hover/cta:translate-x-0.5"><path d="M4 8h8M9 5l3 3-3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -2445,7 +2445,7 @@ export default function T1Features() {
                         <a
                           href={card.ctaHref}
                           onClick={(e) => e.stopPropagation()}
-                          className="group/cta inline-flex w-fit items-center gap-1.5 font-inter text-[16px] font-semibold text-white underline underline-offset-[5px] decoration-1 decoration-white/50 transition-colors hover:decoration-white tablet:text-[16px]"
+                          className="group/cta inline-flex w-fit items-center gap-2 rounded-full border border-white/25 px-5 py-2.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:border-white/50 hover:bg-white/[0.06]"
                         >
                           {card.ctaLabel}
                           <svg width="15" height="15" viewBox="0 0 16 16" fill="none" className="shrink-0 transition-transform duration-150 group-hover/cta:translate-x-0.5"><path d="M4 8h8M9 5l3 3-3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>

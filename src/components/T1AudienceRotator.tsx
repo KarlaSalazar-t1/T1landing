@@ -107,8 +107,36 @@ export default function T1AudienceRotator() {
           Desde tu primera venta hasta una operación de alto volumen.
         </p>
 
-        {/* MÓVIL — carrusel con timer + glow que recorre la imagen */}
+        {/* MÓVIL — título + descripción + timer ARRIBA, imagen abajo */}
         <div className="tablet:hidden">
+          {/* Título + descripción del activo */}
+          <div key={`m-txt-${active}`} className="px-1 text-center" style={{ marginBottom: 16, animation: "fadeSlideIn 0.4s ease-out" }}>
+            <h3 className="font-sora text-[24px] font-normal text-white" style={{ letterSpacing: "-0.02em" }}>{a.title}</h3>
+            <p className="mx-auto mt-2 max-w-[420px] font-inter text-[14px] font-normal leading-relaxed text-white/60">{a.description}</p>
+          </div>
+          {/* barra segmentada — timer de auto-avance */}
+          <div className="mb-6 flex gap-2 px-1">
+            {AUDIENCES.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                aria-label={`Ir a ${AUDIENCES[i].title}`}
+                onClick={() => setActive(i)}
+                className="h-[4px] flex-1 overflow-hidden rounded-full"
+                style={{ background: "rgba(255,255,255,0.12)" }}
+              >
+                <div
+                  style={{
+                    height: "100%",
+                    width: i < active ? "100%" : i === active ? (barFull ? "100%" : "0%") : "0%",
+                    background: "#DB3B2B",
+                    transition: i === active && barFull ? `width ${DURATION}ms linear` : "none",
+                  }}
+                />
+              </button>
+            ))}
+          </div>
+          {/* carrusel de imágenes */}
           <div
             ref={scrollRef}
             onScroll={onCarouselScroll}
@@ -133,33 +161,7 @@ export default function T1AudienceRotator() {
                     </div>
                   </div>
                 </div>
-                <div className="px-1 pt-5 text-center">
-                  <h3 className="font-sora text-[24px] font-normal text-white" style={{ letterSpacing: "-0.02em" }}>{it.title}</h3>
-                  <p className="mx-auto mt-2 max-w-[420px] font-inter text-[14px] font-normal leading-relaxed text-white/60">{it.description}</p>
-                </div>
               </div>
-            ))}
-          </div>
-          {/* barra segmentada — timer de auto-avance */}
-          <div className="mt-6 flex gap-2 px-1">
-            {AUDIENCES.map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                aria-label={`Ir a ${AUDIENCES[i].title}`}
-                onClick={() => setActive(i)}
-                className="h-[4px] flex-1 overflow-hidden rounded-full"
-                style={{ background: "rgba(255,255,255,0.12)" }}
-              >
-                <div
-                  style={{
-                    height: "100%",
-                    width: i < active ? "100%" : i === active ? (barFull ? "100%" : "0%") : "0%",
-                    background: "#DB3B2B",
-                    transition: i === active && barFull ? `width ${DURATION}ms linear` : "none",
-                  }}
-                />
-              </button>
             ))}
           </div>
         </div>

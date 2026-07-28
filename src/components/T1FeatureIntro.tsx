@@ -68,11 +68,10 @@ const CARDS: Card[] = [
 
 /* Charcoal card + halo suave por card (rojo / azul) para que resalte sobre el
    fondo negro. */
-function cardStyle(glow: string, padding: string): React.CSSProperties {
+function cardStyle(_glow: string, padding: string): React.CSSProperties {
   return {
-    background: "#141414",
-    border: "1px solid rgba(255,255,255,0.12)",
-    boxShadow: `0 14px 34px rgba(0,0,0,0.55), 0 0 60px -20px ${glow}55`,
+    background: "transparent",
+    border: "1px solid rgba(255,255,255,0.14)",
     padding,
   };
 }
@@ -82,9 +81,9 @@ function cardStyle(glow: string, padding: string): React.CSSProperties {
 function IconGrid({ card }: { card: Card }) {
   if (card.iconStyle === "card") {
     return (
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap justify-center gap-2">
         {card.icons.map((ic) => (
-          <div key={ic.src} className="flex h-[38px] w-[58px] items-center justify-center rounded-[9px] bg-white">
+          <div key={ic.src} className="flex h-[32px] w-[50px] items-center justify-center rounded-[8px] bg-white">
             <Image src={ic.src} alt="" width={80} height={52} className="h-[56%] w-auto max-w-[74%] object-contain" />
           </div>
         ))}
@@ -92,18 +91,18 @@ function IconGrid({ card }: { card: Card }) {
     );
   }
   return (
-    <div className="flex flex-wrap gap-2.5">
+    <div className="flex flex-wrap justify-center gap-2.5">
       {card.icons.map((ic) => (
         <div
           key={ic.src}
-          className="flex h-[46px] w-[46px] items-center justify-center overflow-hidden rounded-full"
+          className="flex h-[38px] w-[38px] items-center justify-center overflow-hidden rounded-full"
           style={ic.white ? { background: "#fff" } : undefined}
         >
           <Image
             src={ic.src}
             alt=""
-            width={92}
-            height={92}
+            width={76}
+            height={76}
             className={ic.white ? "h-[62%] w-[62%] object-contain" : "h-full w-full object-cover"}
             style={ic.white ? undefined : { filter: "drop-shadow(0 3px 6px rgba(0,0,0,0.4))" }}
           />

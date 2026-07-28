@@ -4,140 +4,97 @@ import Image from "next/image";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
 
-/* ── Auto-tilt glass card wrapper with animated blob ── */
-function AutoTiltCard({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+const FONT = "var(--font-manrope-var), sans-serif";
+
+/* Fila etiqueta/valor para el resumen de compra (Cobra) */
+function Row({ label, value, green = false }: { label: string; value: string; green?: boolean }) {
   return (
-    <div
-      className="glass-card-wrapper w-[300px]"
-      style={{ animation: `cardTilt 6s ease-in-out ${delay}s infinite` }}
-    >
-      <div className="glass-card">
-        {/* Animated white blob for depth */}
-        <div
-          className="pointer-events-none absolute inset-0 z-[1]"
-          style={{
-            background: "radial-gradient(ellipse 200px 200px at 30% 20%, rgba(255,255,255,0.08) 0%, transparent 70%)",
-            animation: `blobMove 8s ease-in-out ${delay}s infinite`,
-          }}
-        />
-        <div className="glass-card-spotlight" />
-        {children}
+    <div className="flex items-center justify-between">
+      <span className="text-black/45">{label}</span>
+      <span className={green ? "font-medium text-[#16A34A]" : "font-medium text-black/70"}>{value}</span>
+    </div>
+  );
+}
+
+/* ── Vende — ficha de producto ── */
+function VendeCard() {
+  return (
+    <div className="w-[320px] overflow-hidden rounded-[18px] bg-white" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.45)", fontFamily: FONT }}>
+      <div className="relative flex items-center justify-center" style={{ height: 200, background: "#EDEBE8" }}>
+        <Image src="/img/tenis-transparente.png" alt="" width={230} height={150} className="object-contain" />
+        <span className="absolute left-3 top-3 rounded-full bg-black px-2.5 py-1 text-[11px] font-bold text-white">-14%</span>
+      </div>
+      <div className="p-5">
+        <p className="text-[12px] font-medium text-black/45">Tienda en línea</p>
+        <p className="mt-0.5 text-[16px] font-semibold text-black">Sneakers Court Premium</p>
+        <div className="mt-2 flex items-baseline gap-2">
+          <span className="text-[20px] font-bold text-black">$1,890</span>
+          <span className="text-[13px] text-black/40 line-through">$2,190</span>
+        </div>
+        <div className="mt-4 w-full rounded-[12px] bg-black py-3 text-center text-[13px] font-semibold text-white">Agregar al carrito</div>
       </div>
     </div>
   );
 }
 
-/* ── Vende card ── */
-function VendeCard() {
-  return (
-    <AutoTiltCard>
-      <div className="relative z-[3] flex flex-col items-center p-6 gap-[14px]" style={{ fontFamily: "var(--font-manrope-var), sans-serif" }}>
-        <div className="flex h-[90px] w-[150px] items-center justify-center">
-          <Image src="/img/tenis-transparente.png" alt="Tenis" width={140} height={90} className="object-contain" />
-        </div>
-        <p className="text-[26px] font-bold text-white" style={{ letterSpacing: "-0.02em" }}>$1,345.99</p>
-        <p className="text-[13px] font-medium text-white/80">Tenis blancos clasicos</p>
-        <p className="text-[12px] font-medium text-white/50">1,003 unidades</p>
-        <div className="w-full" style={{ height: 1, background: "rgba(255,255,255,0.15)" }} />
-        <div className="flex items-center gap-2.5">
-          {["/img/meli-iso.svg", "/img/amazon-iso.svg", "/img/walmart.svg", "/img/sears-isotipo.svg", "/img/shein-iso.svg"].map((src, i) => (
-            <div key={i} className="flex h-[28px] w-[28px] items-center justify-center overflow-hidden rounded-[7px]">
-              <Image src={src} alt="" width={28} height={28} className="object-contain" />
-            </div>
-          ))}
-        </div>
-        <div className="w-full rounded-[10px] border border-white/15 bg-white/[0.06] py-2.5 text-center text-[12px] font-medium text-white/55">Comprar</div>
-      </div>
-    </AutoTiltCard>
-  );
-}
-
-/* ── Cobra card — payment focused ── */
+/* ── Cobra — checkout / resumen de compra ── */
 function CobraCard() {
   return (
-    <AutoTiltCard delay={1.5}>
-      <div className="relative z-[3] flex flex-col p-5 gap-[10px]" style={{ fontFamily: "var(--font-manrope-var), sans-serif" }}>
-        {/* Card info */}
-        <div className="flex w-full items-center gap-2.5 rounded-[10px] px-3.5 py-2.5" style={{ background: "rgba(255,255,255,0.08)" }}>
-          <div className="flex h-[26px] w-[40px] items-center justify-center overflow-hidden rounded-[4px] bg-white">
-            <span className="text-[8px] font-bold text-[#1434CB]">VISA</span>
-          </div>
-          <div className="flex-1">
-            <p className="text-[12px] font-medium text-white">Miguel Luna</p>
-            <p className="text-[12px] font-medium text-white/40">•••• •••• •••• 1234</p>
-          </div>
+    <div className="w-[320px] rounded-[18px] bg-white p-5" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.45)", fontFamily: FONT }}>
+      <p className="text-[14px] font-bold text-black">Resumen de tu compra</p>
+      <div className="mt-4 flex items-center gap-3 border-b border-black/[0.07] pb-4">
+        <div className="flex h-[46px] w-[46px] items-center justify-center overflow-hidden rounded-[10px] bg-[#EDEBE8]">
+          <Image src="/img/tenis-transparente.png" alt="" width={40} height={28} className="object-contain" />
         </div>
-
-        {/* MSI dropdown */}
-        <div className="flex items-center justify-between rounded-[8px] px-3.5 py-2.5" style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)" }}>
-          <div>
-            <p className="text-[11px] font-medium text-white/70">Meses sin intereses</p>
-            <p className="text-[13px] font-semibold text-white">6x $224.33 <span className="text-[10px] font-normal text-white/35">MXN/mes</span></p>
-          </div>
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <path d="M3 4.5L6 7.5L9 4.5" stroke="rgba(255,255,255,0.4)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+        <div className="flex-1">
+          <p className="text-[13px] font-medium text-black">Sneakers Court</p>
+          <p className="text-[12px] text-black/45">Talla 27 · x1</p>
         </div>
-
-        {/* Divider */}
-        <div className="w-full" style={{ height: 1, background: "rgba(255,255,255,0.1)" }} />
-
-        {/* Breakdown */}
-        <div className="flex flex-col gap-1.5">
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] text-white/40">Subtotal</span>
-            <span className="text-[11px] text-white/60">$1,495.99</span>
-          </div>
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] text-white/40">Descuento</span>
-            <span className="text-[11px] font-medium text-[#22C55E]">-$150.00</span>
-          </div>
-          <div className="w-full" style={{ height: 1, background: "rgba(255,255,255,0.06)" }} />
-          <div className="flex items-center justify-between">
-            <span className="text-[13px] font-semibold text-white/70">Total</span>
-            <span className="text-[20px] font-bold text-white">$1,345.99</span>
-          </div>
-        </div>
-
-        {/* CTA — ghost (illustrative only) */}
-        <div className="mt-1 w-full rounded-[10px] border border-white/15 bg-white/[0.06] py-2.5 text-center text-[12px] font-medium text-white/55">Pagar ahora</div>
+        <span className="text-[13px] font-semibold text-black">$1,890</span>
       </div>
-    </AutoTiltCard>
+      <div className="mt-3 flex flex-col gap-1.5 text-[12px]">
+        <Row label="Subtotal" value="$1,890.00" />
+        <Row label="Envío" value="Gratis" green />
+        <Row label="IVA" value="$302.40" />
+      </div>
+      <div className="mt-3 flex items-center justify-between border-t border-black/[0.07] pt-3">
+        <span className="text-[14px] font-bold text-black">Total</span>
+        <span className="text-[18px] font-bold text-black">$2,192.40</span>
+      </div>
+      <div className="mt-4 flex items-center justify-center gap-2 rounded-[12px] bg-[#DB3B2B] py-3 text-[13px] font-semibold text-white">
+        <span className="flex h-[16px] items-center rounded-[3px] bg-white px-1"><span className="text-[8px] font-extrabold italic text-[#1434CB]">VISA</span></span>
+        Pagar ahora
+      </div>
+    </div>
   );
 }
 
-/* ── Envía card ── */
+/* ── Envía — guía de envío ── */
 function EnviaCard() {
   return (
-    <AutoTiltCard delay={3}>
-      <div className="relative z-[3] flex flex-col p-6 gap-[12px]" style={{ fontFamily: "var(--font-manrope-var), sans-serif" }}>
-        <div className="flex items-center gap-2.5 rounded-[10px] px-4 py-3" style={{ background: "rgba(255,255,255,0.08)" }}>
-          <Image src="/img/dhl-iso.svg" alt="DHL" width={44} height={28} className="object-contain" />
-          <span className="text-[13px] font-medium text-white">4657891234</span>
+    <div className="w-[320px] rounded-[18px] bg-white p-5" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.45)", fontFamily: FONT }}>
+      <div className="flex items-center justify-between">
+        <Image src="/img/dhl-iso.svg" alt="DHL" width={46} height={30} className="object-contain" />
+        <span className="rounded-full bg-[rgba(34,197,94,0.12)] px-2.5 py-1 text-[11px] font-bold text-[#16A34A]">En camino</span>
+      </div>
+      <p className="mt-4 text-[11px] text-black/45">Guía de envío</p>
+      <p className="text-[16px] font-bold tracking-wide text-black">4657 8912 34</p>
+      <div className="mt-4 flex items-center gap-3">
+        <div className="flex-1">
+          <p className="text-[11px] text-black/40">Origen</p>
+          <p className="text-[13px] font-semibold text-black">CDMX · 06600</p>
         </div>
-        <p className="text-center text-[13px] font-medium text-white/50">Entrega estimada</p>
-        <p className="text-center text-[26px] font-bold text-white" style={{ marginBottom: 4 }}>Mañana</p>
-        <div className="flex flex-col gap-0 pl-3">
-          {[
-            { label: "Entregado", sub: "", dim: true },
-            { label: "En camino", sub: "Hoy", dim: false },
-            { label: "Recolectado", sub: "22 abril", dim: false },
-            { label: "Envío creado", sub: "22 abril", dim: false },
-          ].map((step, i) => (
-            <div key={i} className="flex items-start gap-3">
-              <div className="flex flex-col items-center">
-                <div className={`h-[7px] w-[7px] rounded-full ${i === 0 ? "bg-white/40" : "bg-white"}`} />
-                {i < 3 && <div className="w-[1px] bg-white/30" style={{ height: 18 }} />}
-              </div>
-              <div style={{ marginTop: -2 }}>
-                <p className={`text-[11px] font-semibold ${step.dim ? "text-white/40" : "text-white"}`}>{step.label}</p>
-                {step.sub && <p className="text-[11px] font-light text-white/50">{step.sub}</p>}
-              </div>
-            </div>
-          ))}
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 12h16M14 6l6 6-6 6" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        <div className="flex-1 text-right">
+          <p className="text-[11px] text-black/40">Destino</p>
+          <p className="text-[13px] font-semibold text-black">GDL · 44100</p>
         </div>
       </div>
-    </AutoTiltCard>
+      <div className="mt-4 rounded-[12px] bg-[#F5F4F2] p-3 text-center">
+        <p className="text-[11px] text-black/45">Entrega estimada</p>
+        <p className="text-[18px] font-bold text-black">Mañana</p>
+      </div>
+    </div>
   );
 }
 
@@ -499,10 +456,10 @@ export default function T1ScrollShowcase() {
                     <div key={w.text}>
                       <h2
                         onClick={goTo}
-                        className="cursor-pointer font-sora font-medium transition-all duration-500 hover:opacity-80"
+                        className="cursor-pointer font-sora font-normal transition-all duration-500 hover:opacity-80"
                         style={{
-                          fontSize: 44,
-                          letterSpacing: "-0.03em",
+                          fontSize: 34,
+                          letterSpacing: "-0.02em",
                           lineHeight: 1.15,
                           color: on ? "#FFFFFF" : "rgba(255,255,255,0.22)",
                         }}

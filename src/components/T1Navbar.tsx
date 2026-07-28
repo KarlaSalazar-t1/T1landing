@@ -126,8 +126,6 @@ export default function T1Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileScreen, setMobileScreen] = useState<"main" | "productos" | "recursos">("main");
   const [isLight, setIsLight] = useState(false);
-  const [solid, setSolid] = useState(false);
-  const [hidden, setHidden] = useState(false);
 
   const close = useCallback(() => { setMenuOpen(false); setRecursosOpen(false); setMobileOpen(false); setMobileScreen("main"); }, []);
 
@@ -151,29 +149,15 @@ export default function T1Navbar() {
 
   /* Detect when white card section enters viewport + auto-hide on scroll down */
   useEffect(() => {
-    let lastY = window.scrollY;
     let ticking = false;
     const onScroll = () => {
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(() => {
-        const y = window.scrollY;
         const whiteCard = document.querySelector("[data-white-card]");
         if (whiteCard) {
           const rect = whiteCard.getBoundingClientRect();
           setIsLight(rect.top <= 60);
-        }
-        // Solid black bar once scrolled past the hero (transparent only over
-        // the hero) so the header doesn't blend into the dark sections.
-        setSolid(y > window.innerHeight * 0.8);
-        // Stay visible through the entire hero area; only allow hide once
-        // the user has scrolled past it. Show again on scroll up.
-        const delta = y - lastY;
-        const heroThreshold = window.innerHeight * 0.9;
-        if (Math.abs(delta) > 4) {
-          if (y > heroThreshold && delta > 0) setHidden(true);
-          else if (delta < 0) setHidden(false);
-          lastY = y;
         }
         ticking = false;
       });
@@ -195,30 +179,20 @@ export default function T1Navbar() {
     <>
       {/* Navbar */}
       <nav
-        className="fixed left-0 right-0 top-0 z-[100] transition-transform duration-300 ease-out"
+        className="fixed left-0 right-0 top-0 z-[100]"
         style={{
+          // Barra flotante sólida — siempre visible (no se esconde en scroll).
           background: menuOpen || recursosOpen || mobileOpen
             ? "#000000"
             : isLight
-              ? "rgba(255,255,255,0.92)"
-              : solid
-                ? "#000000"
-                : "linear-gradient(180deg, rgba(0,0,0,0.4) 44%, rgba(102,102,102,0) 100%)",
-          backdropFilter: "none",
-          WebkitBackdropFilter: "none",
+              ? "rgba(255,255,255,0.9)"
+              : "rgba(14,11,11,0.78)",
+          backdropFilter: "blur(14px)",
+          WebkitBackdropFilter: "blur(14px)",
           padding: "10px 12px",
-          // White hairline + drop shadow draw the bar's bottom edge so a black
-          // header never disappears into the dark sections below it.
-          boxShadow: (menuOpen || recursosOpen || mobileOpen || solid)
-            ? "0 1px 0 rgba(255,255,255,0.08), 0 8px 24px rgba(0,0,0,0.5)"
-            : isLight
-              ? "0 1px 0 rgba(0,0,0,0.06)"
-              : "none",
-          // Hide on scroll down, show on scroll up. Never hide while a menu is open.
-          transform:
-            hidden && !menuOpen && !recursosOpen && !mobileOpen
-              ? "translateY(-100%)"
-              : "translateY(0)",
+          boxShadow: isLight
+            ? "0 1px 0 rgba(0,0,0,0.06), 0 6px 20px rgba(0,0,0,0.06)"
+            : "0 1px 0 rgba(255,255,255,0.08), 0 8px 24px rgba(0,0,0,0.45)",
         }}
       >
         <div className="mx-auto flex max-w-[var(--max-w)] items-center justify-between">
