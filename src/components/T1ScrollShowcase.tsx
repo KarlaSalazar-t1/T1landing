@@ -16,29 +16,73 @@ function Row({ label, value, green = false }: { label: string; value: string; gr
   );
 }
 
-/* ── Vende — ficha de producto ── */
+/* Datos que ciclan dentro de las cards (canales, pagos, paqueterías) */
+const CHANNELS = [
+  { name: "Mercado Libre", src: "/img/circles/ml.svg", sales: "$8,240" },
+  { name: "Amazon", src: "/img/circles/amazon.svg", sales: "$5,120" },
+  { name: "Shein", src: "/img/circles/shein.svg", sales: "$3,980" },
+  { name: "Tienda en línea", src: "/img/circles/meta.svg", sales: "$6,510" },
+];
+const PAY_METHODS = [
+  { name: "Visa", src: "/img/icons/visa.svg" },
+  { name: "Mastercard", src: "/img/icons/mastercard.svg" },
+  { name: "SPEI", src: "/img/icons/spei.svg" },
+  { name: "Kueski", src: "/img/icons/kueski.svg" },
+];
+const CARRIERS = [
+  { name: "DHL", src: "/img/circles/dhl.svg" },
+  { name: "FedEx", src: "/img/circles/fedex.svg" },
+  { name: "UPS", src: "/img/circles/ups.svg" },
+  { name: "99 minutos", src: "/img/circles/99.svg" },
+];
+
+/* índice que avanza cada `ms` (para el ciclado de las cards) */
+function useCycle(len: number, ms: number) {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setI((v) => (v + 1) % len), ms);
+    return () => clearInterval(t);
+  }, [len, ms]);
+  return i;
+}
+
+/* ── Vende — ficha de producto + canales de venta que ciclan ── */
 function VendeCard() {
+  const i = useCycle(CHANNELS.length, 1800);
+  const c = CHANNELS[i];
   return (
     <div className="w-[320px] overflow-hidden rounded-[18px] bg-white" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.45)", fontFamily: FONT }}>
       <div className="relative flex items-center justify-center" style={{ height: 200, background: "#EDEBE8" }}>
         <Image src="/img/tenis-transparente.png" alt="" width={230} height={150} className="object-contain" />
         <span className="absolute left-3 top-3 rounded-full bg-black px-2.5 py-1 text-[11px] font-bold text-white">-14%</span>
+        {/* Canal de venta (cicla) */}
+        <div key={i} className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1" style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.14)", animation: "fadeSlideIn 0.4s ease-out" }}>
+          <span className="h-[15px] w-[15px] overflow-hidden rounded-full"><Image src={c.src} alt="" width={30} height={30} className="h-full w-full object-cover" /></span>
+          <span className="text-[11px] font-semibold text-black">{c.name}</span>
+        </div>
       </div>
       <div className="p-5">
-        <p className="text-[12px] font-medium text-black/45">Tienda en línea</p>
+        <p className="text-[12px] font-medium text-black/45">Todos tus canales de venta</p>
         <p className="mt-0.5 text-[16px] font-semibold text-black">Sneakers Court Premium</p>
         <div className="mt-2 flex items-baseline gap-2">
           <span className="text-[20px] font-bold text-black">$1,890</span>
           <span className="text-[13px] text-black/40 line-through">$2,190</span>
         </div>
-        <div className="mt-4 w-full rounded-[12px] bg-black py-3 text-center text-[13px] font-semibold text-white">Agregar al carrito</div>
+        {/* Ventas por canal (cicla) */}
+        <div className="mt-3 flex items-center justify-between rounded-[10px] bg-[#F5F4F2] px-3 py-2">
+          <span className="text-[11px] text-black/50">Ventas hoy · {c.name}</span>
+          <span key={i} className="text-[13px] font-bold text-black" style={{ animation: "fadeSlideIn 0.4s ease-out" }}>{c.sales}</span>
+        </div>
+        <div className="mt-3 w-full rounded-[12px] bg-black py-3 text-center text-[13px] font-semibold text-white">Agregar al carrito</div>
       </div>
     </div>
   );
 }
 
-/* ── Cobra — checkout / resumen de compra ── */
+/* ── Cobra — checkout con método de pago que cicla ── */
 function CobraCard() {
+  const i = useCycle(PAY_METHODS.length, 1500);
+  const m = PAY_METHODS[i];
   return (
     <div className="w-[320px] rounded-[18px] bg-white p-5" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.45)", fontFamily: FONT }}>
       <p className="text-[14px] font-bold text-black">Resumen de tu compra</p>
@@ -61,25 +105,38 @@ function CobraCard() {
         <span className="text-[14px] font-bold text-black">Total</span>
         <span className="text-[18px] font-bold text-black">$2,192.40</span>
       </div>
-      <div className="mt-4 flex items-center justify-center gap-2 rounded-[12px] bg-[#DB3B2B] py-3 text-[13px] font-semibold text-white">
-        <span className="flex h-[16px] items-center rounded-[3px] bg-white px-1"><span className="text-[8px] font-extrabold italic text-[#1434CB]">VISA</span></span>
-        Pagar ahora
+      {/* Método de pago (cicla) */}
+      <div className="mt-3 flex items-center justify-between rounded-[10px] border border-black/[0.08] px-3 py-2.5">
+        <span className="text-[12px] text-black/50">Método de pago</span>
+        <span key={i} className="flex items-center gap-2" style={{ animation: "fadeSlideIn 0.35s ease-out" }}>
+          <Image src={m.src} alt={m.name} width={34} height={22} className="h-[18px] w-auto object-contain" />
+          <span className="text-[12px] font-semibold text-black">{m.name}</span>
+        </span>
       </div>
+      <div className="mt-3 w-full rounded-[12px] bg-[#DB3B2B] py-3 text-center text-[13px] font-semibold text-white">Pagar ahora</div>
     </div>
   );
 }
 
-/* ── Envía — guía de envío ── */
+/* ── Envía — guía con paquetería que cicla + tracking animado ── */
+const TRACK_STEPS = ["Recolectado", "En camino", "Entregado"];
 function EnviaCard() {
+  const i = useCycle(CARRIERS.length, 1900);
+  const step = useCycle(TRACK_STEPS.length, 1200);
+  const c = CARRIERS[i];
   return (
     <div className="w-[320px] rounded-[18px] bg-white p-5" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.45)", fontFamily: FONT }}>
       <div className="flex items-center justify-between">
-        <Image src="/img/dhl-iso.svg" alt="DHL" width={46} height={30} className="object-contain" />
+        {/* Paquetería (cicla) */}
+        <span key={i} className="flex items-center gap-2" style={{ animation: "fadeSlideIn 0.35s ease-out" }}>
+          <span className="h-[26px] w-[26px] overflow-hidden rounded-full"><Image src={c.src} alt={c.name} width={52} height={52} className="h-full w-full object-cover" /></span>
+          <span className="text-[13px] font-semibold text-black">{c.name}</span>
+        </span>
         <span className="rounded-full bg-[rgba(34,197,94,0.12)] px-2.5 py-1 text-[11px] font-bold text-[#16A34A]">En camino</span>
       </div>
       <p className="mt-4 text-[11px] text-black/45">Guía de envío</p>
       <p className="text-[16px] font-bold tracking-wide text-black">4657 8912 34</p>
-      <div className="mt-4 flex items-center gap-3">
+      <div className="mt-3 flex items-center gap-3">
         <div className="flex-1">
           <p className="text-[11px] text-black/40">Origen</p>
           <p className="text-[13px] font-semibold text-black">CDMX · 06600</p>
@@ -90,9 +147,14 @@ function EnviaCard() {
           <p className="text-[13px] font-semibold text-black">GDL · 44100</p>
         </div>
       </div>
-      <div className="mt-4 rounded-[12px] bg-[#F5F4F2] p-3 text-center">
-        <p className="text-[11px] text-black/45">Entrega estimada</p>
-        <p className="text-[18px] font-bold text-black">Mañana</p>
+      {/* Tracking (avanza) */}
+      <div className="mt-4 flex items-end gap-1.5">
+        {TRACK_STEPS.map((s, si) => (
+          <div key={s} className="flex-1">
+            <div className="h-[4px] rounded-full" style={{ background: si <= step ? "#DB3B2B" : "rgba(0,0,0,0.08)", transition: "background 0.4s ease" }} />
+            <p className="mt-1.5 text-[9px] font-medium" style={{ color: si <= step ? "rgba(0,0,0,0.7)" : "rgba(0,0,0,0.35)" }}>{s}</p>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -448,12 +510,19 @@ export default function T1ScrollShowcase() {
                   filter: "blur(50px)",
                 }}
               />
-              <div className="relative flex flex-col" style={{ gap: 16 }}>
+              <div className="relative flex flex-col" style={{ gap: 0 }}>
                 {WORDS.map((w, i) => {
                   const on = activeIndex === i;
                   const goTo = () => cardRefs.current[i]?.scrollIntoView({ behavior: "smooth", block: "center" });
                   return (
-                    <div key={w.text}>
+                    <div
+                      key={w.text}
+                      style={{
+                        borderTop: i > 0 ? "1px solid rgba(255,255,255,0.09)" : "none",
+                        paddingTop: i > 0 ? 22 : 0,
+                        paddingBottom: 22,
+                      }}
+                    >
                       <h2
                         onClick={goTo}
                         className="cursor-pointer font-sora font-normal transition-all duration-500 hover:opacity-80"

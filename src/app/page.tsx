@@ -42,15 +42,17 @@ export default function Home() {
       <div
         className="relative isolate z-10 rounded-t-[24px] bg-[#141414] tablet:rounded-t-[28px]"
       >
-        {/* Orden: IA → stack cards → Score → Para quién es T1 → Métricas */}
+        {/* Orden: stack cards → Métricas → Para cada etapa */}
         {/* Sección "De una frase a tu tienda" oculta a solicitud */}
         {/* <T1AISectionV2 /> */}
         <T1Features />
-        <T1Score />
+        {/* T1 Score oculto a solicitud */}
+        {/* <T1Score /> */}
+        {/* "Nuestros números" arriba de "Para cada etapa" */}
+        <T1Metrics />
         {/* Versión anterior (grid de 3 cards) oculta — reemplazada por la auto-rotativa */}
         {/* <T1Audience /> */}
         <T1AudienceRotator />
-        <T1Metrics />
       </div>
 
       {/* Casos de éxito — scroll normal. */}

@@ -99,7 +99,6 @@ const TAB_CARDS: TabCard[] = [
     ctaHref: "/registro",
     subTabs: [
       { label: "Crea incidencias", description: "Crea y gestiona incidencias de tus envíos directamente desde el panel.", image: "/img/incidencias.png", floatingCards: "incidencia" },
-      { label: "Métricas de desempeño", description: "Monitorea tu tasa de incidencias y el desempeño de cada paquetería.", image: "/img/metricas.png", floatingCards: "metrics" },
       { label: "Gestiona sobrepesos", description: "Detecta y gestiona sobrepesos para evitar cargos adicionales.", image: null, floatingCards: "sobrepesos", panel: "sobrepesos-cards" },
     ],
   },

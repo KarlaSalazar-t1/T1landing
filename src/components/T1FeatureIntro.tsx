@@ -44,7 +44,6 @@ const CARDS: Card[] = [
       { src: "/img/logos/brands/visa.webp" },
       { src: "/img/logos/brands/mastercard.webp" },
       { src: "/img/logos/brands/amex.webp" },
-      { src: "/img/logos/brands/carnet.webp" },
       { src: "/img/logos/brands/spei.webp" },
     ],
   },
