@@ -605,9 +605,9 @@ export default function T1ScrollShowcase() {
               className="mx-auto font-sora text-[32px] font-light text-white tablet:text-[48px] lg:text-[60px]"
               style={{ letterSpacing: "-0.03em", lineHeight: 1.1, maxWidth: 800, marginBottom: 24 }}
             >
-              ¿Listo para conectar{" "}
+              ¿Listo para hacer crecer{" "}
               <br className="hidden tablet:block" />
-              tu negocio con T1?
+              tu negocio?
             </h2>
             <p
               className="mx-auto font-inter text-[15px] font-light text-white/55 tablet:text-[18px]"

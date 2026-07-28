@@ -287,7 +287,7 @@ export default function T1Hero() {
             className="text-center font-sora text-[32px] font-light leading-[1.14] text-white tablet:text-[48px] desktop:whitespace-nowrap"
             style={{ letterSpacing: "-0.03em" }}
           >
-            Todo tu negocio en una plataforma.
+            Todo tu negocio, todo en uno.
           </h1>
 
           {/* Bloque central (centrado en el alto disponible) */}
@@ -553,7 +553,7 @@ export default function T1Hero() {
             </p>
             <div className="flex flex-col items-center gap-4 tablet:flex-row tablet:items-center tablet:gap-8">
               {/* Dato rotativo */}
-              <span key={spIdx} className="shrink-0 font-inter text-[16px] font-medium text-white tablet:text-[18px]" style={{ animation: "fadeSlideIn 0.5s ease-out" }} aria-live="polite">
+              <span key={spIdx} className="shrink-0 font-inter text-[16px] font-medium text-white tablet:w-[220px] tablet:text-left tablet:text-[18px]" style={{ animation: "fadeSlideIn 0.5s ease-out" }} aria-live="polite">
                 {SOCIAL_PROOF[spIdx]}
               </span>
               {/* Marquee de logos */}

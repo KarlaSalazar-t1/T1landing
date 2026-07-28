@@ -24,7 +24,7 @@ function AnimatedMetric({
 
   return (
     <div className="text-center" ref={ref}>
-      <p className="font-sora text-[40px] font-light leading-none tracking-tight text-white tablet:text-[72px]">
+      <p className="font-sora text-[34px] font-light leading-none tracking-tight text-white tablet:text-[58px]">
         {display}
       </p>
       <p className="mt-4 font-inter text-[16px] font-normal text-white">
