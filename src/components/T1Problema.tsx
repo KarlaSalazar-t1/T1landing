@@ -8,7 +8,7 @@ export default function T1Problema() {
           Crecer no debería complicar tu negocio.
         </h2>
         <p className="mx-auto mt-5 font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, maxWidth: 640 }}>
-          Vender, cobrar y enviar en un solo ecosistema conectado. Una cuenta para todo tu negocio.
+          Vender, cobrar y enviar en un solo ecosistema conectado.
         </p>
       </div>
     </section>

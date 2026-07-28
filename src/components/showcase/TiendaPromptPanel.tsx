@@ -45,12 +45,12 @@ function LandingPrompt({ typed, isActive, compact = false }: { typed: string; is
         {compact ? (
           /* Mobile: hamburger only */
           <div className="flex flex-col gap-[3px]">
-            <span className="block h-[1.5px] w-[16px] rounded-full bg-black/55" />
-            <span className="block h-[1.5px] w-[16px] rounded-full bg-black/55" />
-            <span className="block h-[1.5px] w-[16px] rounded-full bg-black/55" />
+            <span className="block h-[1.5px] w-[16px] rounded-full bg-white/55" />
+            <span className="block h-[1.5px] w-[16px] rounded-full bg-white/55" />
+            <span className="block h-[1.5px] w-[16px] rounded-full bg-white/55" />
           </div>
         ) : (
-          <div className="flex items-center gap-3 text-[9px] text-black/60">
+          <div className="flex items-center gap-3 text-[9px] text-white/60">
             <span>Ecosistema</span>
             <span>¿Qué es T1?</span>
             <span>Iniciar sesión</span>
@@ -67,14 +67,14 @@ function LandingPrompt({ typed, isActive, compact = false }: { typed: string; is
       {/* Hero copy + prompt */}
       <div className="flex flex-1 flex-col items-center justify-center px-6">
         <h2
-          className="text-center font-sora font-normal text-black"
+          className="text-center font-sora font-normal text-white"
           style={{ fontSize: 30, lineHeight: 1.08, letterSpacing: "-0.025em" }}
         >
           Crea tu tienda en{" "}
-          <span style={{ color: "#DB3B2B" }}>menos de un minuto</span>
+          <span style={{ color: "#F05A45" }}>menos de un minuto</span>
         </h2>
         <p
-          className="mt-2.5 text-center font-inter text-[12px] font-light text-black/60"
+          className="mt-2.5 text-center font-inter text-[12px] font-light text-white/70"
           style={{ maxWidth: 380 }}
         >
           T1 te ayuda a vender, cobrar y enviar a todo México. Todo en uno.
@@ -82,27 +82,26 @@ function LandingPrompt({ typed, isActive, compact = false }: { typed: string; is
 
         {/* Prompt input — big, rounded, like the screenshot */}
         <div
-          className="mt-4 w-full overflow-hidden rounded-[18px] border bg-white"
+          className="mt-4 w-full overflow-hidden rounded-[18px] bg-[#1D1D1D]"
           style={{
             maxWidth: 480,
-            borderColor: "rgba(0,0,0,0.08)",
             padding: "18px 20px",
-            boxShadow: "0 4px 30px rgba(0,0,0,0.04)",
+            boxShadow: "0 4px 30px rgba(0,0,0,0.35)",
             minHeight: 104,
           }}
         >
-          <span className="font-inter text-[13px] text-black/85" style={{ lineHeight: 1.4 }}>
+          <span className="font-inter text-[13px] text-white/85" style={{ lineHeight: 1.4 }}>
             {typed}
             {isActive && (
               <span
-                className="ml-0.5 inline-block w-[2px] bg-black/70"
+                className="ml-0.5 inline-block w-[2px] bg-white/70"
                 style={{ height: "0.9em", verticalAlign: "text-bottom", animation: "blink 0.7s step-end infinite" }}
               />
             )}
           </span>
           <div className="mt-3 flex items-center justify-end gap-2">
-            <span className="font-inter text-[9px] text-black/35">{typed.length}/500</span>
-            <span className="flex h-[20px] w-[20px] items-center justify-center rounded-full border border-black/10 bg-white text-black/55">
+            <span className="font-inter text-[9px] text-white/35">{typed.length}/500</span>
+            <span className="flex h-[20px] w-[20px] items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/55">
               <svg width="9" height="9" viewBox="0 0 16 16" fill="none">
                 <rect x="6" y="2" width="4" height="8" rx="2" stroke="currentColor" strokeWidth="1.5" />
                 <path d="M3.5 8C3.5 10.4853 5.51472 12.5 8 12.5C10.4853 12.5 12.5 10.4853 12.5 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
@@ -124,7 +123,7 @@ function LandingPrompt({ typed, isActive, compact = false }: { typed: string; is
           {["Moda", "Deportes", "Belleza", "Joyería", "Electrónica", "Hogar"].map((c) => (
             <span
               key={c}
-              className="rounded-full bg-black/[0.04] px-2.5 py-1 font-inter text-[9px] font-medium text-black/65"
+              className="rounded-full bg-white/[0.08] px-2.5 py-1 font-inter text-[9px] font-medium text-white/70"
             >
               {c}
             </span>
@@ -133,11 +132,11 @@ function LandingPrompt({ typed, isActive, compact = false }: { typed: string; is
       </div>
 
       {/* Stats footer */}
-      <div className="flex items-center justify-center gap-3 border-t border-black/[0.05] py-2.5 font-inter text-[9px] text-black/55">
+      <div className="flex items-center justify-center gap-3 border-t border-white/10 py-2.5 font-inter text-[9px] text-white/55">
         <span>+5,000 negocios</span>
-        <span className="text-black/20">•</span>
+        <span className="text-white/20">•</span>
         <span>+40,000 envíos</span>
-        <span className="text-black/20">•</span>
+        <span className="text-white/20">•</span>
         <span>+$1,000M procesados</span>
       </div>
     </div>
@@ -378,7 +377,7 @@ export default function TiendaPromptPanel({ animate, mobile = false }: { animate
 
   const stageBg =
     stage === "typing"
-      ? "radial-gradient(ellipse 80% 55% at 50% 8%, #FFF3EF 0%, #FFFFFF 55%)"
+      ? "radial-gradient(ellipse 90% 60% at 50% 0%, rgba(112,10,10,0.30) 0%, transparent 55%), linear-gradient(180deg, #141414 0%, #050303 100%)"
       : "#FFFFFF";
 
   const content = (

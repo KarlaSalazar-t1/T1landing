@@ -1020,7 +1020,7 @@ export default function T1Solutions() {
               >
                 {currentSub.panel === "tienda-ia" ? (
                   /* Tienda con IA — store preview with floating prompt on top */
-                  <div className="relative h-full bg-white" style={{ padding: "20px" }}>
+                  <div className="relative h-full" style={{ padding: "20px" }}>
                     {/* Browser mockup with store */}
                     <div className="h-full overflow-hidden rounded-[8px] border border-black/[0.05] bg-white">
                       <div className="flex items-center gap-1.5 border-b border-black/[0.04] px-3 py-1.5">
@@ -1051,7 +1051,7 @@ export default function T1Solutions() {
                   </div>
                 ) : currentSub.panel === "producto-grid" ? (
                   /* Product list — centered image, floating cards overlapping */
-                  <div className="relative flex h-full items-center justify-center bg-white">
+                  <div className="relative flex h-full items-center justify-center">
                     <div className="relative overflow-hidden rounded-[12px]" style={{ width: 260, height: "88%", boxShadow: "0 4px 20px rgba(0,0,0,0.08)" }}>
                       <Image src="/img/list-product.webp" alt="Lista de productos" fill className="object-cover object-top" />
                     </div>
@@ -1067,7 +1067,7 @@ export default function T1Solutions() {
                   </div>
                 ) : currentSub.panel === "pedidos" ? (
                   /* Conecta canales — T1 center with marketplace logos radiating */
-                  <div className="relative flex h-full items-center justify-center bg-white">
+                  <div className="relative flex h-full items-center justify-center">
                     {/* T1 logo center */}
                     <div className="relative flex h-[60px] w-[60px] items-center justify-center rounded-[14px] bg-white" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.08)", zIndex: 10 }}>
                       <svg width="30" height="28" viewBox="0 0 45 44" fill="none">
@@ -1100,7 +1100,7 @@ export default function T1Solutions() {
                   </div>
                 ) : currentSub.panel === "personaliza" ? (
                   /* Personaliza — store with floating design elements */
-                  <div className="relative h-full bg-white" style={{ padding: "20px" }}>
+                  <div className="relative h-full" style={{ padding: "20px" }}>
                     {/* Store browser mockup */}
                     <div className="h-full overflow-hidden rounded-[8px] border border-black/[0.05] bg-white">
                       <div className="flex items-center gap-1.5 border-b border-black/[0.04] px-3 py-1.5">
@@ -1158,7 +1158,7 @@ export default function T1Solutions() {
                   </div>
                 ) : currentSub.panel === "sync-inventory" ? (
                   /* Sincroniza inventario — T1 + marketplace tree like modal */
-                  <div className="relative flex h-full items-center justify-center bg-white">
+                  <div className="relative flex h-full items-center justify-center">
                     {/* Product card left */}
                     <div className="absolute overflow-hidden rounded-[14px]" style={{ left: 20, top: "50%", transform: "translateY(-50%)", width: 120, padding: 14, background: "rgba(0,0,0,0.03)", border: "1px solid rgba(0,0,0,0.06)" }}>
                       <div className="mb-2 flex items-center justify-center">
@@ -1201,7 +1201,7 @@ export default function T1Solutions() {
                   </div>
                 ) : currentSub.panel === "order-list" ? (
                   /* Order list — photo behind, panel overlapping */
-                  <div className="relative h-full bg-white">
+                  <div className="relative h-full">
                     {/* Background photo — 50px smaller, 20px left */}
                     <div className="absolute overflow-hidden rounded-[12px]" style={{ left: 40, top: 50, width: 210, bottom: 50 }}>
                       <Image src="/img/pedidos-bg.png" alt="" fill className="object-cover" />
@@ -1213,19 +1213,19 @@ export default function T1Solutions() {
                   </div>
                 ) : currentSub.panel === "carrito" ? (
                   /* Carrito abandonado — full image with shadow */
-                  <div className="relative flex h-full items-center justify-center bg-white" style={{ padding: "20px" }}>
+                  <div className="relative flex h-full items-center justify-center" style={{ padding: "20px" }}>
                     <div className="overflow-hidden rounded-[12px]" style={{ boxShadow: "0 4px 24px rgba(0,0,0,0.08)" }}>
                       <Image src="/img/carrito-desktop.svg" alt="Carrito abandonado" width={520} height={380} className="object-contain" />
                     </div>
                   </div>
                 ) : currentSub.panel === "rastreo" ? (
                   /* Rastreo de guías — smaller */
-                  <div className="relative flex h-full items-center justify-center bg-white">
+                  <div className="relative flex h-full items-center justify-center">
                     <Image src="/img/rastrear.svg" alt="Rastreo de guías" width={380} height={300} className="object-contain" />
                   </div>
                 ) : currentSub.panel === "guias-masivas" ? (
                   /* Guías masivas — bulk shipment generator mock with progress bar */
-                  <div className="relative flex h-full items-center justify-center bg-white" style={{ padding: "20px 24px" }}>
+                  <div className="relative flex h-full items-center justify-center" style={{ padding: "20px 24px" }}>
                     <div className="w-[440px] rounded-[14px] border border-black/[0.06] bg-white" style={{ padding: 22, fontFamily: font, boxShadow: "0 4px 24px rgba(0,0,0,0.06)" }}>
                       {/* Header — title + counter */}
                       <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
@@ -1283,7 +1283,7 @@ export default function T1Solutions() {
                   </div>
                 ) : currentSub.panel === "enrutamiento-pagos" ? (
                   /* Enrutamiento de pagos — diagram: card → 3 processors → bank, animated */
-                  <div className="relative flex h-full items-center justify-center bg-white" style={{ padding: "20px 24px" }}>
+                  <div className="relative flex h-full items-center justify-center" style={{ padding: "20px 24px" }}>
                     <div className="w-[460px] rounded-[14px] border border-black/[0.06] bg-white" style={{ padding: 24, fontFamily: font, boxShadow: "0 4px 24px rgba(0,0,0,0.06)" }}>
                       <p className="text-[14px] font-bold text-[#4c4c4c]" style={{ marginBottom: 16 }}>Enrutamiento por flujo</p>
                       <div className="relative" style={{ minHeight: 220 }}>
@@ -1332,7 +1332,7 @@ export default function T1Solutions() {
                   </div>
                 ) : currentSub.panel === "checkout" ? (
                   /* Checkout — image with shadow + floating "Pedido completado" */
-                  <div className="relative flex h-full items-center justify-center bg-white" style={{ padding: "20px" }}>
+                  <div className="relative flex h-full items-center justify-center" style={{ padding: "20px" }}>
                     <div className="overflow-hidden rounded-[12px]" style={{ boxShadow: "0 4px 24px rgba(0,0,0,0.08)" }}>
                       <Image src="/img/checkout-desktop.svg" alt="Checkout" width={480} height={380} className="object-contain" />
                     </div>
@@ -1348,7 +1348,7 @@ export default function T1Solutions() {
                   </div>
                 ) : currentSub.panel === "link-pago" ? (
                   /* Links de pago — smaller image + message floating + pago completado */
-                  <div className="relative flex h-full items-center justify-center bg-white">
+                  <div className="relative flex h-full items-center justify-center">
                     <div className="overflow-hidden rounded-[16px]">
                       <Image src="/img/link-pago.png" alt="Link de pago" width={280} height={240} className="object-contain" />
                     </div>
@@ -1368,7 +1368,7 @@ export default function T1Solutions() {
                   </div>
                 ) : currentSub.panel === "cotizador" ? (
                   /* Cotizador — full image + floating DHL card */
-                  <div className="relative flex h-full items-center justify-center bg-white">
+                  <div className="relative flex h-full items-center justify-center">
                     <Image src="/img/cotizador-desktop.svg" alt="Cotizador" width={500} height={400} className="object-contain" />
                     {/* Floating DHL card — right, slightly up */}
                     <div className="absolute overflow-hidden rounded-[12px]" style={{ right: 30, top: 180, width: 220, boxShadow: "0 6px 24px rgba(0,0,0,0.1)" }}>
@@ -1427,7 +1427,7 @@ export default function T1Solutions() {
                   </div>
                 ) : currentSub.panel === "metricas-contracargos" ? (
                   /* Métricas contracargos — image with rounded corners + floating reclamacion cards */
-                  <div className="relative flex h-full items-center justify-center bg-white">
+                  <div className="relative flex h-full items-center justify-center">
                     <div className="overflow-hidden rounded-[14px]">
                       <Image src="/img/metricas-contracargos.png" alt="Métricas contracargos" width={320} height={300} className="object-contain" />
                     </div>
@@ -1442,7 +1442,7 @@ export default function T1Solutions() {
                   </div>
                 ) : currentSub.panel === "disputas" ? (
                   /* Panel de disputas — image + floating "Evidencia recibida" */
-                  <div className="relative flex h-full items-center justify-center bg-white" style={{ padding: "15px" }}>
+                  <div className="relative flex h-full items-center justify-center" style={{ padding: "15px" }}>
                     <div className="overflow-hidden rounded-[12px]" style={{ boxShadow: "0 4px 24px rgba(0,0,0,0.08)" }}>
                       <Image src="/img/reclamaciones-desktop.svg" alt="Panel de disputas" width={500} height={380} className="object-contain" />
                     </div>
@@ -1459,7 +1459,7 @@ export default function T1Solutions() {
                 ) : /* T1Score hidden — DO NOT REMOVE (used for future launch). Desktop panels for fraude / riesgo / buro stay below. */
                 currentSub.panel === "fraude" ? (
                   /* Prevención de fraude — gauge + transaction floats */
-                  <div className="relative flex h-full items-center justify-center bg-white">
+                  <div className="relative flex h-full items-center justify-center">
                     {/* Gauge */}
                     <svg width="240" height="240" viewBox="0 0 110 110" fill="none" className="shrink-0">
                       <circle cx="55" cy="55" r="48" stroke="rgba(0,0,0,0.04)" strokeWidth="6" />
@@ -1501,7 +1501,7 @@ export default function T1Solutions() {
                   </div>
                 ) : currentSub.panel === "riesgo" ? (
                   /* Análisis de riesgo — gauge with transaction floats */
-                  <div className="relative flex h-full items-center justify-center bg-white">
+                  <div className="relative flex h-full items-center justify-center">
                     {/* Concentric ring chart */}
                     <svg width="240" height="240" viewBox="0 0 110 110" fill="none">
                       <circle cx="55" cy="55" r="48" stroke="rgba(0,0,0,0.04)" strokeWidth="6" />
@@ -1556,7 +1556,7 @@ export default function T1Solutions() {
                   </div>
                 ) : currentSub.panel === "buro" ? (
                   /* Evaluación crediticia — credit report style */
-                  <div className="relative flex h-full items-center justify-center bg-white" style={{ padding: "20px" }}>
+                  <div className="relative flex h-full items-center justify-center" style={{ padding: "20px" }}>
                     <div className="overflow-hidden rounded-[14px] border border-black/[0.06] bg-white" style={{ width: 380, padding: "20px 24px", boxShadow: "0 4px 24px rgba(0,0,0,0.06)", fontFamily: font }}>
                       {/* Header */}
                       <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
@@ -1621,7 +1621,7 @@ export default function T1Solutions() {
                   </div>
                 ) : currentSub.panel === "pos-cobro" ? (
                   /* POS — carrito image + cobra mockup */
-                  <div className="relative flex h-full items-center justify-center bg-white" style={{ padding: "16px 24px" }}>
+                  <div className="relative flex h-full items-center justify-center" style={{ padding: "16px 24px" }}>
                     {/* Carrito — natural ratio 713:1409 (very tall), object-contain so full screen visible */}
                     <div className="relative h-[94%]" style={{ aspectRatio: "713 / 1409", filter: "drop-shadow(0 8px 20px rgba(0,0,0,0.14))" }}>
                       <Image src="/img/pos-carrito.webp" alt="Carrito de cobro POS" fill className="object-contain" sizes="220px" />
@@ -1633,7 +1633,7 @@ export default function T1Solutions() {
                   </div>
                 ) : currentSub.panel === "pos-inventario" ? (
                   /* POS inventory — single sucursal stock list */
-                  <div className="relative flex h-full items-center justify-center bg-white">
+                  <div className="relative flex h-full items-center justify-center">
                     <div className="relative flex w-[440px] flex-col rounded-[14px] border border-black/[0.06] bg-white" style={{ padding: 22, fontFamily: font, boxShadow: "0 4px 24px rgba(0,0,0,0.06)" }}>
                       <div className="flex items-center justify-between" style={{ marginBottom: 12 }}>
                         <p className="text-[14px] font-bold text-[#4c4c4c]">Inventario en tiempo real</p>
@@ -1666,7 +1666,7 @@ export default function T1Solutions() {
                   </div>
                 ) : currentSub.panel === "pos-control-caja" ? (
                   /* POS — control de caja image + floating movement cards */
-                  <div className="relative flex h-full items-center justify-center bg-white" style={{ padding: "16px 24px" }}>
+                  <div className="relative flex h-full items-center justify-center" style={{ padding: "16px 24px" }}>
                     {/* Natural ratio 909:1001 (near-square), object-contain so full image visible */}
                     <div className="relative h-[88%]" style={{ aspectRatio: "909 / 1001", filter: "drop-shadow(0 10px 24px rgba(0,0,0,0.14))" }}>
                       <Image src="/img/pos-control-caja.svg" alt="Control de caja POS" fill className="object-contain" sizes="360px" />
@@ -1693,7 +1693,7 @@ export default function T1Solutions() {
                     </div>
                   </div>
                 ) : currentSub.image ? (
-                  <div className="relative h-full bg-white">
+                  <div className="relative h-full">
                     <Image src={currentSub.image} alt="" fill className="object-contain" sizes="600px" style={{ padding: "10px 80px 10px 80px" }} />
                   </div>
                 ) : null}

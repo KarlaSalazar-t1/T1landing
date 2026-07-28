@@ -477,23 +477,20 @@ export default function T1Hero() {
                   </p>
                   <div className="flex w-full flex-1 flex-col gap-3 tablet:flex-none">
                     {/* Origen → destino — label arriba de cada input */}
-                    <div
-                      className="flex w-full items-stretch overflow-hidden rounded-[16px] border bg-[#1D1D1D] focus-within:ring-1 focus-within:ring-white/20"
-                      style={{ borderColor: "rgba(255,255,255,0.08)" }}
-                    >
+                    <div className="flex w-full items-stretch overflow-hidden rounded-[16px] bg-[#1D1D1D]">
                       <label className="flex flex-1 flex-col justify-center px-4 py-2.5">
-                        <span className="font-inter text-[13px] font-semibold text-white">Código postal origen</span>
+                        <span className="font-inter text-[12px] font-semibold text-white">Código postal origen</span>
                         <input value={cpDesde} onChange={(e) => setCpDesde(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Ej. 06600" aria-label="Código postal de origen" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
                       </label>
                       <span aria-hidden className="my-2.5 w-px shrink-0 bg-white/10" />
                       <label className="flex flex-1 flex-col justify-center px-4 py-2.5">
-                        <span className="font-inter text-[13px] font-semibold text-white">Código postal destino</span>
+                        <span className="font-inter text-[12px] font-semibold text-white">Código postal destino</span>
                         <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Ej. 44100" aria-label="Código postal de destino" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
                       </label>
                     </div>
                     {/* Selector de tamaño de paquete — horizontal con swipe en móvil */}
                     <div className="mt-3">
-                      <p className="mb-2 font-inter text-[14px] font-light text-white/70">¿Qué tamaño es tu paquete?</p>
+                      <p className="mb-2 px-1 font-inter text-[14px] font-medium text-white/85">¿Qué tamaño es tu paquete?</p>
                       <div
                         role="radiogroup"
                         aria-label="Tamaño del paquete"
@@ -551,7 +548,7 @@ export default function T1Hero() {
         <div className="relative z-10 mt-6 w-full tablet:mt-8">
           <div className="mx-auto max-w-[var(--max-w)] px-3">
             {/* Título — arriba de toda la línea del marquee */}
-            <p className="mb-3 hidden text-center font-inter text-[13px] font-light text-white/45 tablet:block tablet:text-left">
+            <p className="mb-4 hidden text-center font-inter text-[15px] font-light text-white/55 tablet:block">
               Las marcas que confían en nosotros
             </p>
             <div className="flex flex-col items-center gap-4 tablet:flex-row tablet:items-center tablet:gap-8">

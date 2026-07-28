@@ -1119,7 +1119,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
 const SHOWCASE_CARDS = [
   {
     id: "t1tienda-en-linea",
-    title: "Tu tienda en línea con IA",
+    title: "Tu tienda en línea con T1 Tienda",
     description:
       "Describe tu negocio y la IA la crea completa, lista para vender.",
     bullets: ["Créala con IA, sin saber de tecnología", "Vende en tu web y en marketplaces"],
@@ -1132,7 +1132,7 @@ const SHOWCASE_CARDS = [
   },
   {
     id: "t1tienda",
-    title: "Vende en todos los marketplaces",
+    title: "Vende en marketplaces con T1 Tienda",
     description:
       "Conecta Mercado Libre, Amazon, Shein y más. Inventario y pedidos sincronizados en un solo panel.",
     bullets: ["Mercado Libre, Amazon, Shein y más", "Inventario y pedidos en un solo panel"],
@@ -1145,7 +1145,7 @@ const SHOWCASE_CARDS = [
   },
   {
     id: "t1pagos",
-    title: "Cobra en línea, fácil y seguro",
+    title: "Cobra en línea con T1 Pagos",
     description:
       "Crea links de pago en segundos y cobra a distancia desde un solo lugar.",
     bullets: ["Tarjeta, SPEI, Kueski y meses sin intereses", "Links de pago y cobro a distancia"],
@@ -1158,7 +1158,7 @@ const SHOWCASE_CARDS = [
   },
   {
     id: "t1pos",
-    title: "Vende en tu tienda física",
+    title: "Vende en persona con T1 POS",
     description:
       "Un punto de venta con el mismo catálogo e inventario. Cobra, haz cortes de caja y entrega tickets al instante.",
     bullets: ["Mismo catálogo e inventario", "Cobra, corta caja y entrega tickets"],
@@ -1171,7 +1171,7 @@ const SHOWCASE_CARDS = [
   },
   {
     id: "t1envios",
-    title: "Envía con las mejores tarifas",
+    title: "Envía con T1 Envíos",
     description:
       "Cotiza +10 paqueterías y crea guías en segundos. Sin mensualidad ni mínimo de envíos.",
     bullets: ["+10 paqueterías en un solo lugar", "Guías en segundos, sin mínimos"],
@@ -2289,7 +2289,7 @@ export default function T1Features() {
                 /* ── Tienda en línea — AI prompt panel on the LEFT,
                        text on the RIGHT (swapped from default). ── */
                 <div className="flex h-full w-full flex-col tablet:flex-row-reverse" ref={tiendaOnlineRef}>
-                  <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:p-8">
+                  <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:justify-center tablet:p-8">
                     <div>
                       <p className="font-sora text-[20px] font-normal text-white tablet:text-[24px] lg:text-[32px]">
                         {card.title}
@@ -2340,7 +2340,7 @@ export default function T1Features() {
                 /* ── Two-column layout (T1 Tienda) ── */
                 <>
                   {/* Left column — text at top + product card below */}
-                  <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:p-8" ref={tiendaRef}>
+                  <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:justify-center tablet:p-8" ref={tiendaRef}>
                     {/* Text info at top */}
                     <div>
                       <p className="font-sora text-[20px] font-normal text-white tablet:text-[24px] lg:text-[32px]">
@@ -2395,7 +2395,7 @@ export default function T1Features() {
                        LEFT, text/payment-method tiles on the RIGHT. ── */
                 <div className="flex h-full w-full flex-col tablet:flex-row-reverse">
                   {/* Right column (visually): text at top, payment methods centered below */}
-                  <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:p-8 lg:p-10">
+                  <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:justify-center tablet:p-8 lg:p-10">
                     <div style={{ maxWidth: 420 }}>
                       <p className="font-sora text-[20px] font-normal text-white tablet:text-[24px] lg:text-[32px]">
                         {card.title}
@@ -2459,7 +2459,7 @@ export default function T1Features() {
               ) : card.id === "t1envios" ? (
                 /* ── Envíos — text + shipment card left, panel right ── */
                 <div className="flex h-full w-full flex-col tablet:flex-row" ref={enviosRef}>
-                  <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:p-8">
+                  <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:justify-center tablet:p-8">
                     <div>
                       <p className="font-sora text-[20px] font-normal text-white tablet:text-[24px] lg:text-[32px]">
                         {card.title}
@@ -2512,7 +2512,7 @@ export default function T1Features() {
                        style as the other cards). ── */
                 <div className="flex h-full w-full flex-col tablet:flex-row-reverse">
                   {/* Text column (visually RIGHT) */}
-                  <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:p-8 lg:p-10">
+                  <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:justify-center tablet:p-8 lg:p-10">
                     <div style={{ maxWidth: 420 }}>
                       <p className="font-sora text-[20px] font-normal text-white tablet:text-[24px] lg:text-[32px]">
                         {card.title}

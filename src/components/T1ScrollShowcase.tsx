@@ -497,30 +497,48 @@ export default function T1ScrollShowcase() {
                   filter: "blur(50px)",
                 }}
               />
-              <div className="flex flex-col" style={{ gap: 24 }}>
-                {WORDS.map((w, i) => (
-                  <h2
-                    key={w.text}
-                    className="cursor-pointer font-sora font-medium transition-all duration-500 hover:opacity-80"
-                    style={{
-                      fontSize: 56,
-                      letterSpacing: "-0.03em",
-                      lineHeight: 1.2,
-                      color: activeIndex === i ? "#FFFFFF" : "rgba(255,255,255,0.2)",
-                    }}
-                    onClick={() => {
-                      const container = containerRef.current;
-                      if (!container) return;
-                      const containerTop = container.getBoundingClientRect().top + window.scrollY;
-                      const totalScroll = container.offsetHeight - window.innerHeight;
-                      // Center of this word's zone
-                      const targetScroll = containerTop + ((i + 0.5) / WORDS.length) * totalScroll;
-                      window.scrollTo({ top: targetScroll, behavior: "smooth" });
-                    }}
-                  >
-                    {w.text}
-                  </h2>
-                ))}
+              <div className="flex flex-col" style={{ gap: 16 }}>
+                {WORDS.map((w, i) => {
+                  const on = activeIndex === i;
+                  const goTo = () => {
+                    const container = containerRef.current;
+                    if (!container) return;
+                    const containerTop = container.getBoundingClientRect().top + window.scrollY;
+                    const totalScroll = container.offsetHeight - window.innerHeight;
+                    const targetScroll = containerTop + ((i + 0.5) / WORDS.length) * totalScroll;
+                    window.scrollTo({ top: targetScroll, behavior: "smooth" });
+                  };
+                  return (
+                    <div key={w.text}>
+                      <h2
+                        onClick={goTo}
+                        className="cursor-pointer font-sora font-medium transition-all duration-500 hover:opacity-80"
+                        style={{
+                          fontSize: 44,
+                          letterSpacing: "-0.03em",
+                          lineHeight: 1.15,
+                          color: on ? "#FFFFFF" : "rgba(255,255,255,0.22)",
+                        }}
+                      >
+                        {w.text}
+                      </h2>
+                      {/* Solo el activo muestra la línea explicativa + botón */}
+                      {on && (
+                        <div key={`d-${i}`} style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
+                          <p className="mt-3 font-inter text-[15px] font-light text-white/65" style={{ maxWidth: 380, lineHeight: 1.55 }}>
+                            {w.ctaCopy}
+                          </p>
+                          <a
+                            href={SIGNUP_URL}
+                            className="mt-5 inline-flex h-[48px] items-center rounded-full bg-[#DB3B2B] px-6 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-200 hover:bg-[#C0332A]"
+                          >
+                            {w.ctaLabel}
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
@@ -556,18 +574,6 @@ export default function T1ScrollShowcase() {
                     </div>
                   );
                 })}
-              </div>
-              {/* Contextual CTA below mockup */}
-              <div key={`cta-${activeIndex}`} className="relative z-10 flex flex-col items-center gap-3 text-center" style={{ marginTop: 28, animation: "fadeSlideIn 0.4s ease-out" }}>
-                <p className="font-inter text-[14px] font-light text-white/70">
-                  {WORDS[activeIndex].ctaCopy}
-                </p>
-                <a
-                  href={SIGNUP_URL}
-                  className="inline-flex h-[52px] items-center rounded-full bg-[#DB3B2B] px-7 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-200 hover:bg-[#C0332A] hover:scale-[1.02]"
-                >
-                  {WORDS[activeIndex].ctaLabel}
-                </a>
               </div>
             </div>
           </div>
