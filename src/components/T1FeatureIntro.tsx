@@ -60,7 +60,6 @@ const CARDS: Card[] = [
       { src: "/img/circles/jt.svg" },
       { src: "/img/circles/ampm.svg" },
       { src: "/img/circles/99.svg" },
-      { src: "/img/circles/paquetexpress.svg" },
     ],
   },
 ];
@@ -80,17 +79,18 @@ function cardStyle(_glow: string, padding: string): React.CSSProperties {
 function IconGrid({ card }: { card: Card }) {
   if (card.iconStyle === "card") {
     return (
-      <div className="flex flex-wrap justify-center gap-2">
+      <div className="flex flex-wrap items-center justify-center gap-2">
         {card.icons.map((ic) => (
           <div key={ic.src} className="flex h-[32px] w-[50px] items-center justify-center rounded-[8px] bg-white">
             <Image src={ic.src} alt="" width={80} height={52} className="h-[56%] w-auto max-w-[74%] object-contain" />
           </div>
         ))}
+        <span className="flex h-[32px] items-center rounded-full border border-white/20 px-3 font-inter text-[12px] font-medium text-white/65">y más</span>
       </div>
     );
   }
   return (
-    <div className="flex flex-wrap justify-center gap-2.5">
+    <div className="flex flex-wrap items-center justify-center gap-2.5">
       {card.icons.map((ic) => (
         <div
           key={ic.src}
@@ -107,6 +107,7 @@ function IconGrid({ card }: { card: Card }) {
           />
         </div>
       ))}
+      <span className="flex h-[38px] items-center rounded-full border border-white/20 px-3 font-inter text-[12px] font-medium text-white/65">y más</span>
     </div>
   );
 }

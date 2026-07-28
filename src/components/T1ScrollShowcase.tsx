@@ -148,13 +148,16 @@ function EnviaCard() {
         </div>
       </div>
       {/* Tracking (avanza) */}
-      <div className="mt-4 flex items-end gap-1.5">
-        {TRACK_STEPS.map((s, si) => (
-          <div key={s} className="flex-1">
-            <div className="h-[4px] rounded-full" style={{ background: si <= step ? "#DB3B2B" : "rgba(0,0,0,0.08)", transition: "background 0.4s ease" }} />
-            <p className="mt-1.5 text-[9px] font-medium" style={{ color: si <= step ? "rgba(0,0,0,0.7)" : "rgba(0,0,0,0.35)" }}>{s}</p>
-          </div>
-        ))}
+      <div className="mt-5 rounded-[12px] bg-[#F7F6F4] p-4">
+        <p className="mb-3 text-[12px] font-semibold text-black">Rastrea tu envío en tiempo real</p>
+        <div className="flex items-end gap-2">
+          {TRACK_STEPS.map((s, si) => (
+            <div key={s} className="flex-1">
+              <div className="h-[6px] rounded-full" style={{ background: si <= step ? "#DB3B2B" : "rgba(0,0,0,0.10)", transition: "background 0.4s ease" }} />
+              <p className="mt-2 text-[11px] font-medium" style={{ color: si <= step ? "rgba(0,0,0,0.8)" : "rgba(0,0,0,0.35)" }}>{s}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -321,114 +324,30 @@ const BG_GRADIENT = "radial-gradient(ellipse at 50% 60%, rgba(226,97,83,0.3) 0%,
 
 /* ── Mobile section: Vende/Cobra/Envía as tabs + Todo en uno as scroll-driven ── */
 function MobileScrollSections({ cards }: { cards: React.ReactNode[] }) {
-  const [tabIdx, setTabIdx] = useState(0); // 0 = Vende, 1 = Cobra, 2 = Envía
-  const todoEnUnoRef = useRef<HTMLDivElement>(null);
-  const [todoVisible, setTodoVisible] = useState(false);
-
-  useEffect(() => {
-    const el = todoEnUnoRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => setTodoVisible(entry.isIntersecting),
-      { threshold: 0.3 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
+  // Móvil: scroll normal, cada punto apilado — título, descripción, botón, imagen.
   return (
-    <div className="tablet:hidden">
-      {/* ── Section 1: Tabs for Vende / Cobra / Envía ── */}
-      <div className="px-5" style={{ paddingTop: 60, paddingBottom: 60 }}>
-        {/* Tab strip */}
-        <div className="flex border-b border-white/10" style={{ marginBottom: 28 }}>
-          {WORDS.slice(0, 3).map((w, i) => (
-            <button
-              key={w.text}
-              onClick={() => setTabIdx(i)}
-              className="flex-1 cursor-pointer border-none bg-transparent py-3 font-sora text-[16px] font-medium transition-colors duration-200"
-              style={{
-                color: tabIdx === i ? "#fff" : "rgba(255,255,255,0.4)",
-                borderBottom: tabIdx === i ? "2px solid #E26153" : "2px solid transparent",
-                marginBottom: -1,
-              }}
-            >
+    <div className="tablet:hidden px-5" style={{ paddingTop: 40, paddingBottom: 48 }}>
+      <div className="flex flex-col" style={{ gap: 64 }}>
+        {WORDS.map((w, i) => (
+          <div key={w.text} className="flex flex-col items-center text-center">
+            <h3 className="font-sora text-[30px] font-normal text-white" style={{ letterSpacing: "-0.02em" }}>
               {w.text}
-            </button>
-          ))}
-        </div>
-
-        {/* Active card */}
-        <div className="relative flex w-full justify-center" style={{ perspective: 800 }}>
-          <div className="absolute inset-0 rounded-[20px]" style={{ background: BG_GRADIENT }} />
-          <div
-            key={tabIdx}
-            className="relative z-10 py-6"
-            style={{ animation: "fadeSlideIn 0.4s ease-out" }}
-          >
-            {cards[tabIdx]}
-          </div>
-        </div>
-
-        {/* Contextual CTA */}
-        <div key={`cta-m-${tabIdx}`} className="mt-6 flex flex-col items-center gap-3 text-center" style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
-          <p className="font-inter text-[13px] font-light text-white/65" style={{ maxWidth: 280 }}>
-            {WORDS[tabIdx].ctaCopy}
-          </p>
-          <a
-            href={SIGNUP_URL}
-            className="inline-flex h-[52px] items-center rounded-full bg-[#DB3B2B] px-7 font-inter text-[15px] font-semibold text-white no-underline transition-colors duration-200 hover:bg-[#C0332A]"
-          >
-            {WORDS[tabIdx].ctaLabel}
-          </a>
-        </div>
-      </div>
-
-      {/* ── Section 2: Todo en uno — scroll-driven dramatic reveal ── */}
-      <div ref={todoEnUnoRef} className="relative" style={{ height: "100vh" }}>
-        <div className="sticky top-0 flex flex-col items-center justify-center px-5" style={{ height: "100vh" }}>
-          <h3
-            className="mb-6 font-sora text-[36px] font-semibold text-white"
-            style={{
-              letterSpacing: "-0.03em",
-              textAlign: "center",
-              opacity: todoVisible ? 1 : 0.3,
-              transform: todoVisible ? "translateY(0)" : "translateY(20px)",
-              transition: "opacity 0.6s ease-out, transform 0.6s ease-out",
-            }}
-          >
-            {WORDS[3].text}
-          </h3>
-          <div className="relative flex w-full justify-center" style={{ perspective: 800 }}>
-            <div className="absolute inset-0 rounded-[20px]" style={{ background: BG_GRADIENT, opacity: todoVisible ? 1 : 0.5, transition: "opacity 0.6s ease-out" }} />
-            <div
-              className="relative z-10 py-6"
-              style={{
-                opacity: todoVisible ? 1 : 0,
-                transform: todoVisible ? "scale(1)" : "scale(0.85)",
-                filter: todoVisible ? "blur(0px)" : "blur(8px)",
-                transition: "opacity 0.7s ease-out, transform 0.7s ease-out, filter 0.6s ease-out",
-              }}
-            >
-              {cards[3]}
-            </div>
-          </div>
-          <div className="mt-6 flex flex-col items-center gap-3 text-center" style={{
-            opacity: todoVisible ? 1 : 0,
-            transform: todoVisible ? "translateY(0)" : "translateY(20px)",
-            transition: "opacity 0.7s 0.2s ease-out, transform 0.7s 0.2s ease-out",
-          }}>
-            <p className="font-inter text-[13px] font-light text-white/65" style={{ maxWidth: 280 }}>
-              {WORDS[3].ctaCopy}
+            </h3>
+            <p className="mt-3 max-w-[320px] font-inter text-[15px] font-light leading-relaxed text-white/65">
+              {w.ctaCopy}
             </p>
             <a
               href={SIGNUP_URL}
-              className="inline-flex h-[52px] items-center rounded-full bg-[#DB3B2B] px-7 font-inter text-[15px] font-semibold text-white no-underline transition-colors duration-200 hover:bg-[#C0332A]"
+              className="mt-5 inline-flex h-[50px] items-center rounded-full bg-[#DB3B2B] px-7 font-inter text-[15px] font-semibold text-white no-underline transition-colors duration-200 hover:bg-[#C0332A]"
             >
-              {WORDS[3].ctaLabel}
+              {w.ctaLabel}
             </a>
+            <div className="relative mt-7 flex w-full justify-center" style={{ perspective: 800 }}>
+              <div className="absolute inset-0 rounded-[20px]" style={{ background: BG_GRADIENT }} />
+              <div className="relative z-10">{cards[i]}</div>
+            </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );

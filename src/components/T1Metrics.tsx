@@ -42,7 +42,7 @@ export default function T1Metrics() {
           Trimmed because 80px on top of the section's 60px padding made
           the metrics feel pushed down and off-centre. */}
       <div aria-hidden className="tablet:hidden bg-black" style={{ height: 32 }} />
-    <section className="relative overflow-hidden bg-black pb-[120px] pt-[20px]">
+    <section className="relative overflow-hidden bg-black pb-[120px] pt-[72px] tablet:pt-[100px]">
       {/* Color blobs */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute" style={{ top: "-30%", left: "10%", width: 500, height: 500, borderRadius: "50%", background: "radial-gradient(circle, rgba(219,59,43,0.1) 0%, transparent 55%)", filter: "blur(70px)" }} />
@@ -52,7 +52,7 @@ export default function T1Metrics() {
 
       <div className="relative mx-auto max-w-[var(--max-w)] px-5 tablet:px-6">
         <h3
-          className="font-sora text-[32px] font-light text-white tablet:text-[44px]"
+          className="font-sora text-[32px] font-light text-white"
           style={{
             textAlign: "center",
             letterSpacing: "-0.03em",

@@ -178,24 +178,23 @@ export default function T1Navbar() {
   return (
     <>
       {/* Navbar */}
-      <nav
-        className="fixed left-0 right-0 top-0 z-[100]"
-        style={{
-          // Barra flotante sólida — siempre visible (no se esconde en scroll).
-          background: menuOpen || recursosOpen || mobileOpen
-            ? "#000000"
-            : isLight
-              ? "rgba(255,255,255,0.9)"
-              : "rgba(14,11,11,0.78)",
-          backdropFilter: "blur(14px)",
-          WebkitBackdropFilter: "blur(14px)",
-          padding: "10px 12px",
-          boxShadow: isLight
-            ? "0 1px 0 rgba(0,0,0,0.06), 0 6px 20px rgba(0,0,0,0.06)"
-            : "0 1px 0 rgba(255,255,255,0.08), 0 8px 24px rgba(0,0,0,0.45)",
-        }}
-      >
-        <div className="mx-auto flex max-w-[var(--max-w)] items-center justify-between">
+      <nav className="fixed left-0 right-0 top-0 z-[100] px-3 pt-3 tablet:px-5 tablet:pt-4">
+        <div
+          className="mx-auto flex max-w-[var(--max-w)] items-center justify-between rounded-[20px] px-4 py-2 tablet:px-6"
+          style={{
+            // Pill flotante — siempre visible (no se esconde en scroll).
+            background: menuOpen || recursosOpen || mobileOpen
+              ? "#000000"
+              : isLight
+                ? "rgba(255,255,255,0.92)"
+                : "rgba(20,16,16,0.72)",
+            backdropFilter: "blur(16px)",
+            WebkitBackdropFilter: "blur(16px)",
+            boxShadow: isLight
+              ? "0 10px 34px rgba(0,0,0,0.12), inset 0 0 0 1px rgba(0,0,0,0.06)"
+              : "0 12px 34px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.09)",
+          }}
+        >
           {/* Left: Logo + nav links */}
           <div className="flex items-center gap-4 tablet:gap-10">
             <a href="/" className="flex shrink-0 items-center">
@@ -261,7 +260,7 @@ export default function T1Navbar() {
 
       {/* Mobile drawer */}
       <div
-        className={`fixed inset-0 top-[60px] z-[90] overflow-hidden bg-[#1b1714] transition-all duration-300 tablet:hidden ${
+        className={`fixed inset-0 top-[64px] z-[90] overflow-hidden bg-[#1b1714] transition-all duration-300 tablet:hidden ${
           mobileOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0 pointer-events-none"
         }`}
       >
@@ -399,7 +398,7 @@ export default function T1Navbar() {
 
       {/* Mega Menu - desktop only */}
       <div
-        className={`fixed left-0 right-0 top-[60px] z-[60] hidden overflow-hidden border-t border-white/[0.08] bg-[#1b1714] shadow-[0_24px_50px_rgba(0,0,0,0.55)] tablet:block ${
+        className={`fixed left-0 right-0 top-[86px] z-[60] hidden overflow-hidden rounded-b-[20px] border-t border-white/[0.08] bg-[#1b1714] shadow-[0_24px_50px_rgba(0,0,0,0.55)] tablet:block ${
           menuOpen ? "tablet:block animate-slide-down" : "!hidden"
         }`}
       >
@@ -476,7 +475,7 @@ export default function T1Navbar() {
 
       {/* Mega Menu Recursos - desktop only */}
       <div
-        className={`fixed left-0 right-0 top-[60px] z-[60] hidden overflow-hidden border-t border-white/[0.08] bg-[#1b1714] shadow-[0_24px_50px_rgba(0,0,0,0.55)] tablet:block ${
+        className={`fixed left-0 right-0 top-[86px] z-[60] hidden overflow-hidden rounded-b-[20px] border-t border-white/[0.08] bg-[#1b1714] shadow-[0_24px_50px_rgba(0,0,0,0.55)] tablet:block ${
           recursosOpen ? "tablet:block animate-slide-down" : "!hidden"
         }`}
       >
