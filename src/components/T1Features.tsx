@@ -1121,7 +1121,7 @@ const SHOWCASE_CARDS = [
     id: "t1tienda-en-linea",
     title: "Tu tienda en línea en segundos con T1 Tienda",
     description:
-      "Describe tu negocio y la IA la crea completa, lista para vender, con envíos y pagos integrados.",
+      "Describe tu negocio y la IA la crea, lista para vender, con envíos y pagos integrados.",
     bgImage: null,
     bgCSS: "stack-bg-tienda-online",
     panelLeft: null,
