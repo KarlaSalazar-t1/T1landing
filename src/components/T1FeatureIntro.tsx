@@ -16,9 +16,7 @@ type Card = {
   icons: Icon[];
 };
 
-/* NOTA: si tienes tus propios íconos "circle" (dhl-circle, ml-circle, etc.),
-   colócalos en /public/img y cambia los `src` de abajo. Aquí uso los isotipos y
-   logos de marca que ya existen en el proyecto. */
+/* Íconos circulares de marca en /public/img/circles (provistos por el equipo). */
 const CARDS: Card[] = [
   {
     id: "vende",
@@ -27,13 +25,12 @@ const CARDS: Card[] = [
     glow: "#E0402F",
     iconStyle: "circle",
     icons: [
-      { src: "/img/logos/brands/mercadolibre.webp" },
-      { src: "/img/logos/brands/amazon.webp" },
-      { src: "/img/aliexpress.svg", white: true },
-      { src: "/img/logos/brands/shein.webp" },
-      { src: "/img/logos/brands/sears.webp" },
-      { src: "/img/logos/brands/tiktokshop.webp" },
-      { src: "/img/meta.png", white: true },
+      { src: "/img/circles/ml.svg" },
+      { src: "/img/circles/amazon.svg" },
+      { src: "/img/circles/shein.svg" },
+      { src: "/img/circles/sears.svg" },
+      { src: "/img/circles/sanborns.svg" },
+      { src: "/img/circles/meta.svg" },
     ],
   },
   {
@@ -58,13 +55,13 @@ const CARDS: Card[] = [
     glow: "#E0402F",
     iconStyle: "circle",
     icons: [
-      { src: "/img/logos/brands/dhl.webp" },
-      { src: "/img/logos/brands/fedex.webp" },
-      { src: "/img/ups-iso.svg" },
-      { src: "/img/carriers/jtexpress.svg", white: true },
-      { src: "/img/logos/brands/grupo-ampm.webp" },
-      { src: "/img/logos/brands/99minutos.webp" },
-      { src: "/img/logos/brands/paquetexpress.webp" },
+      { src: "/img/circles/dhl.svg" },
+      { src: "/img/circles/fedex.svg" },
+      { src: "/img/circles/ups.svg" },
+      { src: "/img/circles/jt.svg" },
+      { src: "/img/circles/ampm.svg" },
+      { src: "/img/circles/99.svg" },
+      { src: "/img/circles/paquetexpress.svg" },
     ],
   },
 ];
