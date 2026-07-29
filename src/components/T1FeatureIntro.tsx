@@ -14,6 +14,9 @@ type Card = {
   glow: string;
   iconStyle: "circle" | "card";
   icons: Icon[];
+  /* Máx. de íconos visibles en una línea antes del "+X" (undefined = todos). */
+  maxVisible?: number;
+  plus?: string;
 };
 
 /* Íconos circulares de marca en /public/img/circles (provistos por el equipo). */
@@ -32,6 +35,8 @@ const CARDS: Card[] = [
       { src: "/img/circles/sanborns.svg" },
       { src: "/img/circles/meta.svg" },
     ],
+    maxVisible: 5,
+    plus: "+5",
   },
   {
     id: "cobra",
@@ -61,6 +66,8 @@ const CARDS: Card[] = [
       { src: "/img/circles/ampm.svg" },
       { src: "/img/circles/99.svg" },
     ],
+    maxVisible: 5,
+    plus: "+5",
   },
 ];
 
@@ -74,39 +81,38 @@ function cardStyle(_glow: string, padding: string): React.CSSProperties {
   };
 }
 
-/* Grid de íconos: círculos para canales/paqueterías, tarjetas blancas para
-   métodos de pago (como en la referencia). */
+/* Íconos en una sola línea: pagos muestra todos; canales/paqueterías muestran
+   los que caben (maxVisible) y un "+X" al final. */
 function IconGrid({ card }: { card: Card }) {
   const isCard = card.iconStyle === "card";
-  const renderItem = (ic: Icon, key: string) =>
-    isCard ? (
-      <div key={key} className="mr-2.5 flex h-[32px] w-[50px] shrink-0 items-center justify-center rounded-[8px] bg-white">
-        <Image src={ic.src} alt="" width={80} height={52} className="h-[56%] w-auto max-w-[74%] object-contain" />
-      </div>
-    ) : (
-      <div
-        key={key}
-        className="mr-2.5 flex h-[38px] w-[38px] shrink-0 items-center justify-center overflow-hidden rounded-full"
-        style={ic.white ? { background: "#fff" } : undefined}
-      >
-        <Image
-          src={ic.src}
-          alt=""
-          width={76}
-          height={76}
-          className={ic.white ? "h-[62%] w-[62%] object-contain" : "h-full w-full object-cover"}
-          style={ic.white ? undefined : { filter: "drop-shadow(0 3px 6px rgba(0,0,0,0.4))" }}
-        />
-      </div>
-    );
+  const visible = card.maxVisible != null ? card.icons.slice(0, card.maxVisible) : card.icons;
   return (
-    <div className="relative overflow-hidden">
-      {/* Fades a negro en los bordes (la card es transparente sobre banda negra) */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-6" style={{ background: "linear-gradient(90deg, #000 0%, transparent 100%)" }} />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-6" style={{ background: "linear-gradient(270deg, #000 0%, transparent 100%)" }} />
-      <div className="marquee-track flex w-max items-center" style={{ animationDuration: "16s" }}>
-        {[...card.icons, ...card.icons].map((ic, i) => renderItem(ic, `${ic.src}-${i}`))}
-      </div>
+    <div className="flex items-center justify-center gap-2">
+      {visible.map((ic) =>
+        isCard ? (
+          <div key={ic.src} className="flex h-[30px] w-[46px] shrink-0 items-center justify-center rounded-[8px] bg-white">
+            <Image src={ic.src} alt="" width={80} height={52} className="h-[56%] w-auto max-w-[74%] object-contain" />
+          </div>
+        ) : (
+          <div
+            key={ic.src}
+            className="flex h-[32px] w-[32px] shrink-0 items-center justify-center overflow-hidden rounded-full"
+            style={ic.white ? { background: "#fff" } : undefined}
+          >
+            <Image
+              src={ic.src}
+              alt=""
+              width={64}
+              height={64}
+              className={ic.white ? "h-[62%] w-[62%] object-contain" : "h-full w-full object-cover"}
+              style={ic.white ? undefined : { filter: "drop-shadow(0 3px 6px rgba(0,0,0,0.4))" }}
+            />
+          </div>
+        )
+      )}
+      {card.plus && (
+        <span className="flex h-[32px] shrink-0 items-center rounded-full border border-white/20 px-2.5 font-inter text-[12px] font-semibold text-white/70">{card.plus}</span>
+      )}
     </div>
   );
 }

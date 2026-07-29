@@ -1127,7 +1127,7 @@ const SHOWCASE_CARDS = [
     panelLeft: null,
     panelRight: "ai-prompt",
     ctaLabel: "Crear tienda",
-    ctaHref: "https://www.t1.com/mx/tienda",
+    ctaHref: "/productos/t1tienda/tienda-con-ia",
   },
   {
     id: "t1tienda",
@@ -1139,7 +1139,7 @@ const SHOWCASE_CARDS = [
     panelLeft: "/img/card-producto.webp",
     panelRight: "/img/lista-pedidos-t1.webp",
     ctaLabel: "Conectar canales",
-    ctaHref: "https://www.t1.com/mx/tienda",
+    ctaHref: "/productos/t1tienda/marketplaces",
   },
   {
     id: "t1pagos",
@@ -1151,7 +1151,7 @@ const SHOWCASE_CARDS = [
     panelLeft: "/img/pagos.webp",
     panelRight: null,
     ctaLabel: "Empezar a cobrar",
-    ctaHref: "https://t1.com/mx/pagos/",
+    ctaHref: "/productos/t1pagos/links-de-pago",
   },
   {
     id: "t1pos",
@@ -1175,7 +1175,7 @@ const SHOWCASE_CARDS = [
     panelLeft: "/img/envios.svg",
     panelRight: null,
     ctaLabel: "Cotizar envío",
-    ctaHref: "https://www.t1.com/mx/envios",
+    ctaHref: "/productos/t1envios/multipaqueteria",
   },
 ];
 
