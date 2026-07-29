@@ -1126,7 +1126,7 @@ const SHOWCASE_CARDS = [
     bgCSS: "stack-bg-tienda-online",
     panelLeft: null,
     panelRight: "ai-prompt",
-    ctaLabel: "Crear tienda con IA",
+    ctaLabel: "Crear tienda",
     ctaHref: "https://www.t1.com/mx/tienda",
   },
   {
@@ -1138,7 +1138,7 @@ const SHOWCASE_CARDS = [
     bgCSS: "stack-bg-tienda",
     panelLeft: "/img/card-producto.webp",
     panelRight: "/img/lista-pedidos-t1.webp",
-    ctaLabel: "Conoce T1 Tienda",
+    ctaLabel: "Conectar canales",
     ctaHref: "https://www.t1.com/mx/tienda",
   },
   {
@@ -1150,7 +1150,7 @@ const SHOWCASE_CARDS = [
     bgCSS: "stack-bg-pagos",
     panelLeft: "/img/pagos.webp",
     panelRight: null,
-    ctaLabel: "Conoce T1 Pagos",
+    ctaLabel: "Empezar a cobrar",
     ctaHref: "https://t1.com/mx/pagos/",
   },
   {
@@ -1162,7 +1162,7 @@ const SHOWCASE_CARDS = [
     bgCSS: "stack-bg-pos",
     panelLeft: null,
     panelRight: null,
-    ctaLabel: "Conoce T1 POS",
+    ctaLabel: "Vender en persona",
     ctaHref: "/productos/t1tienda/punto-de-venta",
   },
   {
@@ -1174,7 +1174,7 @@ const SHOWCASE_CARDS = [
     bgCSS: "stack-bg-envios",
     panelLeft: "/img/envios.svg",
     panelRight: null,
-    ctaLabel: "Conoce T1 Envíos",
+    ctaLabel: "Cotizar envío",
     ctaHref: "https://www.t1.com/mx/envios",
   },
 ];

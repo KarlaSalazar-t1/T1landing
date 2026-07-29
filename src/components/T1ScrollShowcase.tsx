@@ -10,8 +10,8 @@ const FONT = "var(--font-manrope-var), sans-serif";
 function Row({ label, value, green = false }: { label: string; value: string; green?: boolean }) {
   return (
     <div className="flex items-center justify-between">
-      <span className="text-black/45">{label}</span>
-      <span className={green ? "font-medium text-[#16A34A]" : "font-medium text-black/70"}>{value}</span>
+      <span className="text-white/45">{label}</span>
+      <span className={green ? "font-medium text-[#4ADE80]" : "font-medium text-white/75"}>{value}</span>
     </div>
   );
 }
@@ -51,27 +51,27 @@ function VendeCard() {
   const i = useCycle(CHANNELS.length, 1800);
   const c = CHANNELS[i];
   return (
-    <div className="w-[320px] overflow-hidden rounded-[18px] bg-white" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.45)", fontFamily: FONT }}>
-      <div className="relative flex items-center justify-center" style={{ height: 200, background: "#EDEBE8" }}>
+    <div className="w-[320px] overflow-hidden rounded-[18px] border border-white/[0.14] bg-white/[0.06] backdrop-blur-2xl" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.14)", fontFamily: FONT }}>
+      <div className="relative flex items-center justify-center" style={{ height: 200, background: "rgba(255,255,255,0.05)" }}>
         <Image src="/img/tenis-transparente.png" alt="" width={230} height={150} className="object-contain" />
-        <span className="absolute left-3 top-3 rounded-full bg-black px-2.5 py-1 text-[11px] font-bold text-white">-14%</span>
+        <span className="absolute left-3 top-3 rounded-full bg-white px-2.5 py-1 text-[11px] font-bold text-black">-14%</span>
         {/* Canal de venta (cicla) */}
-        <div key={i} className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1" style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.14)", animation: "fadeSlideIn 0.4s ease-out" }}>
+        <div key={i} className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1" style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.25)", animation: "fadeSlideIn 0.4s ease-out" }}>
           <span className="h-[15px] w-[15px] overflow-hidden rounded-full"><Image src={c.src} alt="" width={30} height={30} className="h-full w-full object-cover" /></span>
           <span className="text-[11px] font-semibold text-black">{c.name}</span>
         </div>
       </div>
       <div className="p-5">
-        <p className="text-[12px] font-medium text-black/45">Todos tus canales de venta</p>
-        <p className="mt-0.5 text-[16px] font-semibold text-black">Sneakers Court Premium</p>
+        <p className="text-[12px] font-medium text-white/45">Todos tus canales de venta</p>
+        <p className="mt-0.5 text-[16px] font-semibold text-white">Sneakers Court Premium</p>
         <div className="mt-2 flex items-baseline gap-2">
-          <span className="text-[20px] font-bold text-black">$1,890</span>
-          <span className="text-[13px] text-black/40 line-through">$2,190</span>
+          <span className="text-[20px] font-bold text-white">$1,890</span>
+          <span className="text-[13px] text-white/40 line-through">$2,190</span>
         </div>
         {/* Ventas por canal (cicla) */}
-        <div className="mt-3 flex items-center justify-between rounded-[10px] bg-[#F5F4F2] px-3 py-2">
-          <span className="text-[11px] text-black/50">Ventas hoy · {c.name}</span>
-          <span key={i} className="text-[13px] font-bold text-black" style={{ animation: "fadeSlideIn 0.4s ease-out" }}>{c.sales}</span>
+        <div className="mt-3 flex items-center justify-between rounded-[10px] border border-white/10 bg-white/[0.05] px-3 py-2">
+          <span className="text-[11px] text-white/55">Ventas hoy · {c.name}</span>
+          <span key={i} className="text-[13px] font-bold text-white" style={{ animation: "fadeSlideIn 0.4s ease-out" }}>{c.sales}</span>
         </div>
         <div className="mt-3 w-full rounded-[12px] bg-black py-3 text-center text-[13px] font-semibold text-white">Agregar al carrito</div>
       </div>
@@ -84,33 +84,33 @@ function CobraCard() {
   const i = useCycle(PAY_METHODS.length, 1500);
   const m = PAY_METHODS[i];
   return (
-    <div className="w-[320px] rounded-[18px] bg-white p-5" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.45)", fontFamily: FONT }}>
-      <p className="text-[14px] font-bold text-black">Resumen de tu compra</p>
-      <div className="mt-4 flex items-center gap-3 border-b border-black/[0.07] pb-4">
-        <div className="flex h-[46px] w-[46px] items-center justify-center overflow-hidden rounded-[10px] bg-[#EDEBE8]">
+    <div className="w-[320px] rounded-[18px] border border-white/[0.14] bg-white/[0.06] p-5 backdrop-blur-2xl" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.14)", fontFamily: FONT }}>
+      <p className="text-[14px] font-bold text-white">Resumen de tu compra</p>
+      <div className="mt-4 flex items-center gap-3 border-b border-white/10 pb-4">
+        <div className="flex h-[46px] w-[46px] items-center justify-center overflow-hidden rounded-[10px] bg-white/[0.08]">
           <Image src="/img/tenis-transparente.png" alt="" width={40} height={28} className="object-contain" />
         </div>
         <div className="flex-1">
-          <p className="text-[13px] font-medium text-black">Sneakers Court</p>
-          <p className="text-[12px] text-black/45">Talla 27 · x1</p>
+          <p className="text-[13px] font-medium text-white">Sneakers Court</p>
+          <p className="text-[12px] text-white/45">Talla 27 · x1</p>
         </div>
-        <span className="text-[13px] font-semibold text-black">$1,890</span>
+        <span className="text-[13px] font-semibold text-white">$1,890</span>
       </div>
       <div className="mt-3 flex flex-col gap-1.5 text-[12px]">
         <Row label="Subtotal" value="$1,890.00" />
         <Row label="Envío" value="Gratis" green />
         <Row label="IVA" value="$302.40" />
       </div>
-      <div className="mt-3 flex items-center justify-between border-t border-black/[0.07] pt-3">
-        <span className="text-[14px] font-bold text-black">Total</span>
-        <span className="text-[18px] font-bold text-black">$2,192.40</span>
+      <div className="mt-3 flex items-center justify-between border-t border-white/10 pt-3">
+        <span className="text-[14px] font-bold text-white">Total</span>
+        <span className="text-[18px] font-bold text-white">$2,192.40</span>
       </div>
       {/* Método de pago (cicla) */}
-      <div className="mt-3 flex items-center justify-between rounded-[10px] border border-black/[0.08] px-3 py-2.5">
-        <span className="text-[12px] text-black/50">Método de pago</span>
+      <div className="mt-3 flex items-center justify-between rounded-[10px] border border-white/12 px-3 py-2.5">
+        <span className="text-[12px] text-white/50">Método de pago</span>
         <span key={i} className="flex items-center gap-2" style={{ animation: "fadeSlideIn 0.35s ease-out" }}>
-          <Image src={m.src} alt={m.name} width={34} height={22} className="h-[18px] w-auto object-contain" />
-          <span className="text-[12px] font-semibold text-black">{m.name}</span>
+          <span className="flex h-[22px] items-center justify-center rounded-[5px] bg-white px-1.5"><Image src={m.src} alt={m.name} width={34} height={22} className="h-[14px] w-auto object-contain" /></span>
+          <span className="text-[12px] font-semibold text-white">{m.name}</span>
         </span>
       </div>
       <div className="mt-3 w-full rounded-[12px] bg-black py-3 text-center text-[13px] font-semibold text-white">Pagar ahora</div>
@@ -130,31 +130,31 @@ function EnviaCard() {
   const step = useCycle(TRACK.length, 1300);
   const c = CARRIERS[i];
   return (
-    <div className="w-[320px] rounded-[18px] bg-white p-5" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.45)", fontFamily: FONT }}>
+    <div className="w-[320px] rounded-[18px] border border-white/[0.14] bg-white/[0.06] p-5 backdrop-blur-2xl" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.14)", fontFamily: FONT }}>
       <div className="flex items-center justify-between">
         {/* Paquetería (cicla) */}
         <span key={i} className="flex items-center gap-2" style={{ animation: "fadeSlideIn 0.35s ease-out" }}>
           <span className="h-[26px] w-[26px] overflow-hidden rounded-full"><Image src={c.src} alt={c.name} width={52} height={52} className="h-full w-full object-cover" /></span>
-          <span className="text-[13px] font-semibold text-black">{c.name}</span>
+          <span className="text-[13px] font-semibold text-white">{c.name}</span>
         </span>
-        <span className="rounded-full bg-[rgba(34,197,94,0.12)] px-2.5 py-1 text-[11px] font-bold text-[#16A34A]">En camino</span>
+        <span className="rounded-full bg-[rgba(74,222,128,0.16)] px-2.5 py-1 text-[11px] font-bold text-[#4ADE80]">En camino</span>
       </div>
-      <p className="mt-4 text-[11px] text-black/45">Guía de envío</p>
-      <p className="text-[16px] font-bold tracking-wide text-black">4657 8912 34</p>
+      <p className="mt-4 text-[11px] text-white/45">Guía de envío</p>
+      <p className="text-[16px] font-bold tracking-wide text-white">4657 8912 34</p>
       <div className="mt-3 flex items-center gap-3">
         <div className="flex-1">
-          <p className="text-[11px] text-black/40">Origen</p>
-          <p className="text-[13px] font-semibold text-black">CDMX · 06600</p>
+          <p className="text-[11px] text-white/40">Origen</p>
+          <p className="text-[13px] font-semibold text-white">CDMX · 06600</p>
         </div>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 12h16M14 6l6 6-6 6" stroke="#DB3B2B" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 12h16M14 6l6 6-6 6" stroke="#E2604C" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
         <div className="flex-1 text-right">
-          <p className="text-[11px] text-black/40">Destino</p>
-          <p className="text-[13px] font-semibold text-black">GDL · 44100</p>
+          <p className="text-[11px] text-white/40">Destino</p>
+          <p className="text-[13px] font-semibold text-white">GDL · 44100</p>
         </div>
       </div>
       {/* Tracking — línea de tiempo clásica (avanza) */}
-      <div className="mt-5 rounded-[12px] bg-[#F7F6F4] p-4">
-        <p className="mb-4 text-[12px] font-semibold text-black">Rastrea tu envío en tiempo real</p>
+      <div className="mt-5 rounded-[12px] border border-white/10 bg-white/[0.05] p-4">
+        <p className="mb-4 text-[12px] font-semibold text-white">Rastrea tu envío en tiempo real</p>
         <div className="flex flex-col">
           {TRACK.map((t, si) => {
             const done = si <= step;
@@ -162,14 +162,14 @@ function EnviaCard() {
             return (
               <div key={t.label} className="flex gap-3">
                 <div className="flex flex-col items-center">
-                  <div className="flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full" style={{ background: done ? "#DB3B2B" : "rgba(0,0,0,0.12)", transition: "background 0.4s ease" }}>
+                  <div className="flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full" style={{ background: done ? "#E2604C" : "rgba(255,255,255,0.15)", transition: "background 0.4s ease" }}>
                     {done && <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>}
                   </div>
-                  {!last && <div className="w-[2px] flex-1" style={{ minHeight: 20, background: si < step ? "#DB3B2B" : "rgba(0,0,0,0.10)", transition: "background 0.4s ease" }} />}
+                  {!last && <div className="w-[2px] flex-1" style={{ minHeight: 20, background: si < step ? "#E2604C" : "rgba(255,255,255,0.12)", transition: "background 0.4s ease" }} />}
                 </div>
                 <div style={{ paddingBottom: last ? 0 : 12 }}>
-                  <p className="text-[13px] font-semibold leading-none" style={{ color: done ? "#111" : "rgba(0,0,0,0.4)" }}>{t.label}</p>
-                  <p className="mt-1 text-[11px] text-black/45">{t.sub}</p>
+                  <p className="text-[13px] font-semibold leading-none" style={{ color: done ? "#fff" : "rgba(255,255,255,0.4)" }}>{t.label}</p>
+                  <p className="mt-1 text-[11px] text-white/45">{t.sub}</p>
                 </div>
               </div>
             );
@@ -343,7 +343,7 @@ const BG_GRADIENT = "radial-gradient(ellipse at 50% 60%, rgba(226,97,83,0.3) 0%,
 function MobileScrollSections({ cards }: { cards: React.ReactNode[] }) {
   // Móvil: scroll normal, cada punto apilado — título, descripción, botón, imagen.
   return (
-    <div className="tablet:hidden px-5" style={{ paddingTop: 40, paddingBottom: 48 }}>
+    <div className="tablet:hidden px-5" style={{ paddingTop: 88, paddingBottom: 48 }}>
       <div className="flex flex-col" style={{ gap: 64 }}>
         {WORDS.map((w, i) => (
           <div key={w.text} className="flex flex-col items-center text-center">

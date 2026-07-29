@@ -129,7 +129,7 @@ export default function T1AudienceRotator() {
                   style={{
                     height: "100%",
                     width: i < active ? "100%" : i === active ? (barFull ? "100%" : "0%") : "0%",
-                    background: "#DB3B2B",
+                    background: "#A62819",
                     transition: i === active && barFull ? `width ${DURATION}ms linear` : "none",
                   }}
                 />
@@ -201,7 +201,7 @@ export default function T1AudienceRotator() {
                           style={{
                             height: "100%",
                             width: barFull ? "100%" : "0%",
-                            background: "#DB3B2B",
+                            background: "#A62819",
                             transition: barFull ? `width ${DURATION}ms linear` : "none",
                           }}
                         />
