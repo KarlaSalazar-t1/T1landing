@@ -15,8 +15,8 @@ function track(event: string, data: Record<string, unknown>) {
 /* ── Tabs (segmented control) ── */
 const TABS = [
   { id: "tienda", label: "Crea tu tienda", mLabel: "Crea tu tienda", href: SIGNUP_URL },
-  { id: "link", label: "Crea link de pago", mLabel: "Link de pago", href: PAGOS_START_URL },
   { id: "envio", label: "Cotizar envío", mLabel: "Cotizar envío", href: ENVIOS_QUOTE_URL },
+  { id: "link", label: "Crea link de pago", mLabel: "Link de pago", href: PAGOS_START_URL },
 ];
 
 /* Íconos por tab (tienda / link / envío) */
@@ -545,7 +545,7 @@ export default function T1Hero() {
 
         {/* 4+5 · Clientes: en desktop título + dato rotativo a la izquierda,
             marquee de logos a la derecha en la misma línea. En móvil apilado. */}
-        <div className="relative z-10 mt-6 w-full tablet:mt-8">
+        <div className="relative z-10 mt-6 w-full tablet:-mt-2">
           <div className="mx-auto max-w-[var(--max-w)] px-3">
             {/* Título — arriba de toda la línea del marquee */}
             <p className="mb-4 hidden text-center font-inter text-[15px] font-light text-white/55 tablet:block">

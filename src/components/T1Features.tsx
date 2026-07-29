@@ -1119,7 +1119,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
 const SHOWCASE_CARDS = [
   {
     id: "t1tienda-en-linea",
-    title: "Tienda en línea en segundos con T1 Tienda",
+    title: "Crea tu tienda con IA",
     description:
       "Describe tu negocio y la IA la crea, lista para vender, con envíos y pagos integrados.",
     bgImage: null,
@@ -1131,15 +1131,15 @@ const SHOWCASE_CARDS = [
   },
   {
     id: "t1tienda",
-    title: "Vende en +8 marketplaces con T1 Tienda",
+    title: "Administra tus ventas de todos tus canales",
     description:
-      "Conecta Mercado Libre, Amazon, Shein y más. Inventario y pedidos sincronizados en un solo panel.",
+      "Gestiona pedidos, revisa tu dashboard de ventas y ten visibilidad omnicanal de Mercado Libre, Amazon, Shein y más.",
     bgImage: null,
     bgCSS: "stack-bg-tienda",
     panelLeft: "/img/card-producto.webp",
     panelRight: "/img/lista-pedidos-t1.webp",
-    ctaLabel: "Conectar canales",
-    ctaHref: "/productos/t1tienda/marketplaces",
+    ctaLabel: "Ver reportes",
+    ctaHref: "/productos/t1tienda/reportes",
   },
   {
     id: "t1pagos",

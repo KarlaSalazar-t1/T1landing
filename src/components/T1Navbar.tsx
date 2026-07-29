@@ -125,7 +125,7 @@ export default function T1Navbar() {
   const [recursosOpen, setRecursosOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileScreen, setMobileScreen] = useState<"main" | "productos" | "recursos">("main");
-  const [isLight, setIsLight] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   const close = useCallback(() => { setMenuOpen(false); setRecursosOpen(false); setMobileOpen(false); setMobileScreen("main"); }, []);
 
@@ -147,52 +147,43 @@ export default function T1Navbar() {
     return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
 
-  /* Detect when white card section enters viewport + auto-hide on scroll down */
+  /* Arriba: transparente. Al hacer scroll: pill flotante. Sin modo claro. */
   useEffect(() => {
     let ticking = false;
     const onScroll = () => {
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(() => {
-        const whiteCard = document.querySelector("[data-white-card]");
-        if (whiteCard) {
-          const rect = whiteCard.getBoundingClientRect();
-          setIsLight(rect.top <= 60);
-        }
+        setScrolled(window.scrollY > 24);
         ticking = false;
       });
     };
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /* Determine visual mode. Text is white whenever the bar reads dark — over the
-     hero, scrolled (solid black), or with a menu open (the menus are dark now
-     too). Only light mode (white-card pages, menu closed) uses dark text. */
-  const darkMode = !isLight || menuOpen || recursosOpen || mobileOpen;
-  const textClass = darkMode
-    ? "text-white/80 hover:text-white"
-    : "text-black/70 hover:text-black";
-  const textActive = darkMode ? "text-white" : "text-black";
+  // Texto siempre blanco (el CEO no quería el cambio de color a claro).
+  const textClass = "text-white/80 hover:text-white";
+  const textActive = "text-white";
+  const pill = scrolled || menuOpen || recursosOpen || mobileOpen;
 
   return (
     <>
       {/* Navbar */}
-      <nav className="fixed left-0 right-0 top-0 z-[100] px-3 pt-3 tablet:px-5 tablet:pt-4">
+      <nav className={`fixed left-0 right-0 top-0 z-[100] transition-all duration-300 ${pill ? "px-3 pt-3 tablet:px-5 tablet:pt-4" : "px-0 pt-0"}`}>
         <div
-          className="mx-auto flex max-w-[var(--max-w)] items-center justify-between rounded-[20px] px-4 py-2 tablet:px-6"
+          className={`mx-auto flex max-w-[var(--max-w)] items-center justify-between transition-all duration-300 ${pill ? "rounded-[20px] px-4 py-2 tablet:px-6" : "px-5 py-3 tablet:px-6"}`}
           style={{
-            // Pill flotante — siempre visible (no se esconde en scroll).
-            background: menuOpen || recursosOpen || mobileOpen
+            // Arriba transparente; al scrollear pill flotante oscuro.
+            background: (menuOpen || recursosOpen || mobileOpen)
               ? "#000000"
-              : isLight
-                ? "rgba(255,255,255,0.92)"
-                : "rgba(20,16,16,0.72)",
-            backdropFilter: "blur(16px)",
-            WebkitBackdropFilter: "blur(16px)",
-            boxShadow: isLight
-              ? "0 10px 34px rgba(0,0,0,0.12)"
-              : "0 12px 34px rgba(0,0,0,0.5)",
+              : scrolled
+                ? "rgba(20,16,16,0.72)"
+                : "transparent",
+            backdropFilter: pill ? "blur(16px)" : "none",
+            WebkitBackdropFilter: pill ? "blur(16px)" : "none",
+            boxShadow: pill ? "0 12px 34px rgba(0,0,0,0.5)" : "none",
           }}
         >
           {/* Left: Logo + nav links */}
@@ -250,7 +241,7 @@ export default function T1Navbar() {
             {/* Hamburger button - mobile only */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className={`flex cursor-pointer items-center justify-center border-none bg-transparent p-1 transition-colors duration-150 tablet:hidden ${darkMode ? "text-white" : "text-black"}`}
+              className="flex cursor-pointer items-center justify-center border-none bg-transparent p-1 text-white transition-colors duration-150 tablet:hidden"
             >
               <HamburgerIcon open={mobileOpen} />
             </button>
