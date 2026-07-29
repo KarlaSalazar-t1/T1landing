@@ -6,7 +6,7 @@ import Image from "next/image";
 /* ══════════ 1 · Tu tienda con pagos y envíos integrados ══════════ */
 export function T1TiendaIncluido() {
   return (
-    <section className="bg-[#141414] px-5 py-[80px] tablet:px-6 tablet:py-[110px]">
+    <section className="bg-[#0e0d0d] px-5 py-[80px] tablet:px-6 tablet:py-[110px]">
       <div className="mx-auto max-w-[var(--max-w)]">
         <div className="mx-auto max-w-[720px] text-center">
           <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
@@ -110,7 +110,7 @@ export function T1TiendaAdministracion() {
     el.scrollBy({ left: dir * step, behavior: "smooth" });
   };
   return (
-    <section className="overflow-hidden bg-[#141414] px-5 py-[90px] tablet:px-6 tablet:py-[128px]">
+    <section className="overflow-hidden bg-[#0e0d0d] px-5 py-[90px] tablet:px-6 tablet:py-[128px]">
       <div className="mx-auto max-w-[var(--max-w)]">
         <div className="grid grid-cols-1 gap-10 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.35fr)] tablet:items-center tablet:gap-14">
           <div>
@@ -215,7 +215,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
 }
 export function T1TiendaFAQ() {
   return (
-    <section className="bg-[#141414] px-5 py-[80px] tablet:px-6 tablet:py-[110px]">
+    <section className="bg-[#0e0d0d] px-5 py-[80px] tablet:px-6 tablet:py-[110px]">
       <div className="mx-auto max-w-[760px]">
         <h2 className="mb-8 text-center font-sora text-[28px] font-light text-white tablet:mb-12 tablet:text-[40px]" style={{ letterSpacing: "-0.03em" }}>
           Preguntas frecuentes

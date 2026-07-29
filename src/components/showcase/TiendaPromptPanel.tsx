@@ -377,7 +377,7 @@ export default function TiendaPromptPanel({ animate, mobile = false }: { animate
 
   const stageBg =
     stage === "typing"
-      ? "radial-gradient(ellipse 90% 60% at 50% 0%, rgba(112,10,10,0.30) 0%, transparent 55%), linear-gradient(180deg, #141414 0%, #050303 100%)"
+      ? "radial-gradient(ellipse 90% 60% at 50% 0%, rgba(112,10,10,0.30) 0%, transparent 55%), linear-gradient(180deg, #0e0d0d 0%, #050303 100%)"
       : "#FFFFFF";
 
   const content = (

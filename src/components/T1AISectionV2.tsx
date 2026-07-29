@@ -79,7 +79,7 @@ export default function T1AISectionV2() {
   };
 
   return (
-    <section className="relative isolate" style={{ background: "#141414" }}>
+    <section className="relative isolate" style={{ background: "#0e0d0d" }}>
       <div className="ai-section-bg relative flex w-full flex-col overflow-hidden">
         {/* Decorative warm glow — pre-blurred radial gradients (no filter:blur).
             The previous three filter:blur(70–100px) blobs each forced a large

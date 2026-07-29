@@ -98,7 +98,7 @@ export default function T1AudienceRotator() {
   };
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden bg-black" style={{ paddingTop: 100, paddingBottom: 100 }}>
+    <section ref={sectionRef} className="relative overflow-hidden bg-black pt-[40px] pb-[80px] tablet:pt-[100px] tablet:pb-[100px]">
       <div className="relative mx-auto max-w-[var(--max-w)] px-5 tablet:px-6">
         <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", textAlign: "center", marginBottom: 16 }}>
           Para cada etapa de tu negocio.

@@ -28,7 +28,7 @@ export default function T1PagosHero() {
     <div className="relative z-0">
       <section className="relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-5 pb-0 pt-24 tablet:min-h-screen tablet:px-6 tablet:pt-28 tablet:pb-0">
         {/* Fondo */}
-        <div aria-hidden className="absolute inset-0 z-0" style={{ background: "linear-gradient(180deg, #141414 0%, #020101 100%)" }} />
+        <div aria-hidden className="absolute inset-0 z-0" style={{ background: "linear-gradient(180deg, #0e0d0d 0%, #020101 100%)" }} />
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 z-0"

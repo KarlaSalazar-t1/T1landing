@@ -231,7 +231,7 @@ export default function T1Solutions() {
   }, []);
 
   return (
-    <section className="overflow-x-hidden bg-[#141414]" style={{ paddingTop: 60, paddingBottom: 100 }}>
+    <section className="overflow-x-hidden bg-[#0e0d0d]" style={{ paddingTop: 60, paddingBottom: 100 }}>
       <div className="mx-auto max-w-[var(--max-w)] px-5 tablet:px-6">
         {/* Heading */}
         <h2
@@ -259,7 +259,7 @@ export default function T1Solutions() {
                 onClick={() => handleTabChange(i)}
                 className={`shrink-0 cursor-pointer whitespace-nowrap rounded-full font-inter transition-all duration-200 ${
                   activeTab === i
-                    ? "bg-white font-semibold text-[#141414] shadow-[0_4px_16px_rgba(0,0,0,0.4)]"
+                    ? "bg-white font-semibold text-[#0e0d0d] shadow-[0_4px_16px_rgba(0,0,0,0.4)]"
                     : "border border-white/[0.14] bg-white/[0.04] font-medium text-white/70 hover:border-white/30 hover:bg-white/[0.08] hover:text-white"
                 }`}
                 style={{ padding: "9px 17px", fontSize: 13.5 }}

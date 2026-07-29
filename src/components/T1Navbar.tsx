@@ -191,8 +191,8 @@ export default function T1Navbar() {
             backdropFilter: "blur(16px)",
             WebkitBackdropFilter: "blur(16px)",
             boxShadow: isLight
-              ? "0 10px 34px rgba(0,0,0,0.12), inset 0 0 0 1px rgba(0,0,0,0.06)"
-              : "0 12px 34px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.09)",
+              ? "0 10px 34px rgba(0,0,0,0.12)"
+              : "0 12px 34px rgba(0,0,0,0.5)",
           }}
         >
           {/* Left: Logo + nav links */}

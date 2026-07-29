@@ -2190,7 +2190,7 @@ export default function T1Features() {
               // a GPU layer by the JS 3D transform; pairing a solid base color
               // with `isolation` guarantees the sticky hero <video> can never
               // composite through it (Safari bleed fix).
-              background: STACK_BACKSTOP[card.bgCSS ?? ""] ?? "#141414",
+              background: STACK_BACKSTOP[card.bgCSS ?? ""] ?? "#0e0d0d",
               isolation: "isolate",
               // Dark-bg legibility: a light hairline ring + a top inset
               // edge-highlight give each card a crisp lit top edge as it

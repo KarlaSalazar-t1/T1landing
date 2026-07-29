@@ -247,7 +247,7 @@ export default function T1Hero() {
     <div className="relative z-0">
       <section className="relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-5 pb-0 pt-24 tablet:min-h-screen tablet:px-6 tablet:pt-28 tablet:pb-0">
         {/* Fondo — degradado exacto de Figma */}
-        <div aria-hidden className="absolute inset-0 z-0" style={{ background: "linear-gradient(180deg, #141414 0%, #020101 100%)" }} />
+        <div aria-hidden className="absolute inset-0 z-0" style={{ background: "linear-gradient(180deg, #0e0d0d 0%, #020101 100%)" }} />
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 z-0"
@@ -428,7 +428,7 @@ export default function T1Hero() {
                   </p>
                   <div className="flex w-full flex-1 flex-col gap-3.5 tablet:flex-none">
                     {/* Monto grande, sin caja */}
-                    <div className="flex items-baseline justify-center gap-1.5 py-1">
+                    <div className="flex items-center justify-center gap-1.5" style={{ minHeight: 85 }}>
                       <span className="font-sora text-[28px] font-light text-white/45">$</span>
                       <input
                         inputMode="numeric"

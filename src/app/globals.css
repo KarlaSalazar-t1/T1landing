@@ -246,7 +246,7 @@ body {
      (sticky hero video bleeding through the bottom of stack cards in
      Safari). Slightly higher opacity to compensate for the loss of
      overlay-blend brightness. */
-  opacity: 0.19;
+  opacity: 0.05;
   /* numOctaves lowered 4→2 — feTurbulence is rasterized once per card (×4) on
      first paint and is one of the costliest SVG filters; 2 octaves is visually
      indistinguishable at 0.12 opacity but much cheaper, cutting load-time jank. */
@@ -342,11 +342,11 @@ body {
 
 /* ─── Dark section surfaces (P3 tonality) ───
    Warm neutral darks (not pure black) so the big block reads cohesive and
-   the light↔dark flips between sections go away. Reference: footer #141414. */
+   the light↔dark flips between sections go away. Reference: footer #0e0d0d. */
 
 /* Neutral base — the page wrapper behind the dark block. */
 .section-dark {
-  background-color: #141414;
+  background-color: #0e0d0d;
 }
 
 /* Stack-showcase backdrop — neutral dark with VERY subtle ambient color
@@ -356,17 +356,17 @@ body {
   /* Sin glow rojo a la izquierda (CEO) — sólo un azul muy sutil a la derecha. */
   background:
     radial-gradient(55% 45% at 90% 22%, rgba(59,130,246,0.05) 0%, transparent 60%),
-    #141414;
+    #0e0d0d;
 }
 
 /* IA section — keeps the warm "AI moment" as a glow on dark instead of a
    bright peach field, so the stack→IA transition becomes dark-to-dark. */
 .ai-section-bg {
   /* Base is a vertical gradient so the section blends into its neighbours with
-     no hard line: top = #141414 (stack cards), middle keeps the warm #161311,
+     no hard line: top = #0e0d0d (stack cards), middle keeps the warm #161311,
      bottom = #000 (métricas / bg-black). Warm glows sit on top. */
   /* Base = smooth vertical dark gradient that matches the neighbours at the
-     seams (top #000 = bg-black intro band above, bottom #141414 = stack cards
+     seams (top #000 = bg-black intro band above, bottom #0e0d0d = stack cards
      below) with uniform dark SIDES. On top, the red lives as ONE elongated
      horizontal oval blob centred in the section — a "blob alargado", not a
      straight band across the full width. It fades out well before the top/bottom
@@ -382,7 +382,7 @@ body {
       #0a0505 28%,
       #100909 50%,
       #120c0c 72%,
-      #141414 100%);
+      #0e0d0d 100%);
 }
 
 /* Movimiento flotante MUY sutil para las burbujas de métodos de pago. */

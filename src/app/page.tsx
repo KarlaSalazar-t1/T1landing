@@ -40,7 +40,7 @@ export default function Home() {
           que las cards se vean completas antes de ser tapadas. El navbar queda en
           modo oscuro (texto blanco) todo el bloque. */}
       <div
-        className="relative isolate z-10 rounded-t-[24px] bg-[#141414] tablet:rounded-t-[28px]"
+        className="relative isolate z-10 rounded-t-[24px] bg-[#0e0d0d] tablet:rounded-t-[28px]"
       >
         {/* Orden: stack cards → Métricas → Para cada etapa */}
         {/* Sección "De una frase a tu tienda" oculta a solicitud */}

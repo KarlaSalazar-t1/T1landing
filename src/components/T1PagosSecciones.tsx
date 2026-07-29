@@ -60,7 +60,7 @@ export function T1PagosMetodos() {
 /* ══════════ 2 · Aprueba más, protege cada venta (antifraude) ══════════ */
 export function T1PagosAprobacion() {
   return (
-    <section className="overflow-hidden bg-[#141414] px-5 py-[90px] tablet:px-6 tablet:py-[128px]">
+    <section className="overflow-hidden bg-[#0e0d0d] px-5 py-[90px] tablet:px-6 tablet:py-[128px]">
       <div className="mx-auto max-w-[var(--max-w)]">
         <div className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
           <div>
@@ -179,7 +179,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
 }
 export function T1PagosFAQ() {
   return (
-    <section className="bg-[#141414] px-5 py-[80px] tablet:px-6 tablet:py-[110px]">
+    <section className="bg-[#0e0d0d] px-5 py-[80px] tablet:px-6 tablet:py-[110px]">
       <div className="mx-auto max-w-[760px]">
         <h2 className="mb-8 text-center font-sora text-[28px] font-light text-white tablet:mb-12 tablet:text-[40px]" style={{ letterSpacing: "-0.03em" }}>
           Preguntas frecuentes

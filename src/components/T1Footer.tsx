@@ -202,7 +202,7 @@ export default function T1Footer() {
             </button>
             {langOpen && (
               <div
-                className="absolute bottom-full left-0 mb-2 overflow-hidden rounded-[14px] border border-white/10 bg-[#141414]"
+                className="absolute bottom-full left-0 mb-2 overflow-hidden rounded-[14px] border border-white/10 bg-[#0e0d0d]"
                 style={{ width: 260, padding: "8px 0", animation: "fadeSlideIn 0.2s ease-out" }}
               >
                 {[
