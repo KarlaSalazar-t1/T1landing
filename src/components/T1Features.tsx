@@ -2226,7 +2226,7 @@ export default function T1Features() {
             )}
 
             {/* Dark overlay for readability */}
-            <div className="absolute inset-0 bg-black/20" />
+            <div className="absolute inset-0 bg-black/[0.08]" />
 
             {/* Móvil: flecha animada al final de la card → scroll a la siguiente */}
             {idx < SHOWCASE_CARDS.length - 1 && (

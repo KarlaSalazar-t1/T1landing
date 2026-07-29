@@ -311,7 +311,7 @@ export default function T1Hero() {
                     aria-checked={selected}
                     tabIndex={selected ? 0 : -1}
                     onClick={() => selectTab(i)}
-                    className={`relative flex-1 whitespace-nowrap px-1 pb-3 pt-1 font-inter text-[16px] font-normal transition-colors ${
+                    className={`relative flex-1 whitespace-nowrap px-1 pb-3 pt-1 font-inter text-[13px] font-medium uppercase tracking-[0.03em] transition-colors ${
                       selected ? "text-white" : "text-white/45 hover:text-white/70"
                     }`}
                   >
@@ -345,7 +345,7 @@ export default function T1Hero() {
                     aria-checked={selected}
                     tabIndex={selected ? 0 : -1}
                     onClick={() => selectTab(i)}
-                    className={`relative flex flex-1 items-center justify-center gap-2 whitespace-nowrap px-2 pb-3 pt-1 font-inter text-[14px] font-medium transition-colors ${
+                    className={`relative flex flex-1 items-center justify-center gap-2 whitespace-nowrap px-2 pb-3 pt-1 font-inter text-[14px] font-medium uppercase tracking-[0.04em] transition-colors ${
                       selected ? "text-white" : "text-white/50 hover:text-white/80"
                     }`}
                   >

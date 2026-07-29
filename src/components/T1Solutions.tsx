@@ -238,7 +238,7 @@ export default function T1Solutions() {
           className="font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]"
           style={{ letterSpacing: "-1.32px", textAlign: "center", marginBottom: 28 }}
         >
-          Todo lo que puedes hacer
+          Una plataforma, todas las herramientas
         </h2>
 
         {/* ── Level 1 chips OUTSIDE the card — single line.
@@ -284,7 +284,7 @@ export default function T1Solutions() {
           >
 
           <div
-            className="solutions-card-wrapper group/card relative overflow-hidden rounded-[16px] border border-white/10 bg-[#1A1A1D] tablet:rounded-[20px]"
+            className="solutions-card-wrapper group/card relative overflow-hidden rounded-[16px] bg-[#1A1A1D] tablet:rounded-[20px]"
             style={{
               width: "100%",
               minHeight: 360,

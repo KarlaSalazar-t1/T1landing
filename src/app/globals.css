@@ -264,8 +264,8 @@ body {
    so the card no longer reads "muy oscuro" — warmer + more elevated. */
 .stack-bg-tienda-online {
   background:
-    radial-gradient(ellipse 65% 60% at 72% 60%, rgba(219,59,43,0.42) 0%, transparent 62%),
-    radial-gradient(ellipse 55% 50% at 30% 25%, rgba(127,29,29,0.20) 0%, transparent 60%),
+    radial-gradient(ellipse 65% 60% at 72% 60%, rgba(226,64,47,0.55) 0%, transparent 64%),
+    radial-gradient(ellipse 55% 50% at 30% 25%, rgba(150,34,34,0.26) 0%, transparent 60%),
     linear-gradient(150deg, #2c1c1e 0%, #301a22 50%, #341c20 100%);
 }
 .stack-bg-tienda-online::after {
@@ -279,9 +279,9 @@ body {
 /* Tienda — warm red/violet mesh with animated blob */
 .stack-bg-tienda {
   background:
-    radial-gradient(ellipse 80% 60% at 75% 30%, rgba(219,59,43,0.35) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 80% at 20% 80%, rgba(99,102,241,0.2) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(127,29,29,0.15) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 60% at 75% 30%, rgba(226,64,47,0.46) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 80% at 20% 80%, rgba(109,112,255,0.28) 0%, transparent 62%),
+    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(150,34,34,0.18) 0%, transparent 50%),
     linear-gradient(135deg, #1a0a0f 0%, #0f0a1a 40%, #1a0f0a 100%);
 }
 .stack-bg-tienda::after {
@@ -295,9 +295,9 @@ body {
 /* Pagos — blue/violet electric mesh */
 .stack-bg-pagos {
   background:
-    radial-gradient(ellipse 70% 70% at 70% 25%, rgba(59,130,246,0.3) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 60% at 25% 75%, rgba(99,102,241,0.25) 0%, transparent 60%),
-    radial-gradient(ellipse 80% 40% at 50% 100%, rgba(219,59,43,0.12) 0%, transparent 50%),
+    radial-gradient(ellipse 70% 70% at 70% 25%, rgba(56,138,255,0.42) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 60% at 25% 75%, rgba(109,112,255,0.34) 0%, transparent 62%),
+    radial-gradient(ellipse 80% 40% at 50% 100%, rgba(226,64,47,0.14) 0%, transparent 50%),
     linear-gradient(160deg, #0a0f1a 0%, #0f0a1a 50%, #0a1020 100%);
 }
 .stack-bg-pagos::after {
@@ -311,9 +311,9 @@ body {
 /* Envíos — violet/red warm gradient with organic shapes */
 .stack-bg-envios {
   background:
-    radial-gradient(ellipse 60% 70% at 30% 30%, rgba(99,102,241,0.3) 0%, transparent 65%),
-    radial-gradient(ellipse 70% 50% at 80% 70%, rgba(219,59,43,0.25) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 60% at 50% 50%, rgba(127,29,29,0.1) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 70% at 30% 30%, rgba(109,112,255,0.42) 0%, transparent 66%),
+    radial-gradient(ellipse 70% 50% at 80% 70%, rgba(226,64,47,0.34) 0%, transparent 62%),
+    radial-gradient(ellipse 50% 60% at 50% 50%, rgba(150,34,34,0.12) 0%, transparent 50%),
     linear-gradient(200deg, #0f0a1a 0%, #1a0a0f 50%, #0a0f1a 100%);
 }
 .stack-bg-envios::after {
@@ -327,9 +327,9 @@ body {
 /* Punto de venta — warm red/violet mesh (in-store energy) */
 .stack-bg-pos {
   background:
-    radial-gradient(ellipse 70% 60% at 28% 30%, rgba(219,59,43,0.32) 0%, transparent 65%),
-    radial-gradient(ellipse 60% 60% at 82% 72%, rgba(139,92,246,0.22) 0%, transparent 62%),
-    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(127,29,29,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 60% at 28% 30%, rgba(226,64,47,0.44) 0%, transparent 66%),
+    radial-gradient(ellipse 60% 60% at 82% 72%, rgba(150,100,252,0.30) 0%, transparent 64%),
+    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(150,34,34,0.14) 0%, transparent 55%),
     linear-gradient(150deg, #170b12 0%, #140a16 50%, #1a0b10 100%);
 }
 .stack-bg-pos::after {
