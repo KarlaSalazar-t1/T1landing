@@ -52,7 +52,7 @@ export default function T1Metrics() {
 
       <div className="relative mx-auto max-w-[var(--max-w)] px-5 tablet:px-6">
         <h3
-          className="font-sora text-[32px] font-light text-white"
+          className="font-sora text-[28px] font-light text-white tablet:text-[32px]"
           style={{
             textAlign: "center",
             letterSpacing: "-0.03em",

@@ -264,9 +264,9 @@ body {
    so the card no longer reads "muy oscuro" — warmer + more elevated. */
 .stack-bg-tienda-online {
   background:
-    radial-gradient(ellipse 65% 60% at 72% 60%, rgba(226,64,47,0.55) 0%, transparent 64%),
-    radial-gradient(ellipse 55% 50% at 30% 25%, rgba(150,34,34,0.26) 0%, transparent 60%),
-    linear-gradient(150deg, #2c1c1e 0%, #301a22 50%, #341c20 100%);
+    radial-gradient(ellipse 72% 66% at 70% 55%, rgba(230,58,40,0.62) 0%, transparent 66%),
+    radial-gradient(ellipse 60% 55% at 25% 22%, rgba(150,30,30,0.30) 0%, transparent 60%),
+    linear-gradient(150deg, #1c0b10 0%, #220d15 50%, #260f16 100%);
 }
 .stack-bg-tienda-online::after {
   content: "";
