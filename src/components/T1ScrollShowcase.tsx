@@ -113,16 +113,21 @@ function CobraCard() {
           <span className="text-[12px] font-semibold text-black">{m.name}</span>
         </span>
       </div>
-      <div className="mt-3 w-full rounded-[12px] bg-[#DB3B2B] py-3 text-center text-[13px] font-semibold text-white">Pagar ahora</div>
+      <div className="mt-3 w-full rounded-[12px] bg-black py-3 text-center text-[13px] font-semibold text-white">Pagar ahora</div>
     </div>
   );
 }
 
 /* ── Envía — guía con paquetería que cicla + tracking animado ── */
-const TRACK_STEPS = ["Recolectado", "En camino", "Entregado"];
+const TRACK = [
+  { label: "Envío creado", sub: "Hoy · 9:14 am" },
+  { label: "Recolectado", sub: "Hoy · 2:30 pm" },
+  { label: "En camino", sub: "En reparto" },
+  { label: "Entregado", sub: "Estimado: mañana" },
+];
 function EnviaCard() {
   const i = useCycle(CARRIERS.length, 1900);
-  const step = useCycle(TRACK_STEPS.length, 1200);
+  const step = useCycle(TRACK.length, 1300);
   const c = CARRIERS[i];
   return (
     <div className="w-[320px] rounded-[18px] bg-white p-5" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.45)", fontFamily: FONT }}>
@@ -147,16 +152,28 @@ function EnviaCard() {
           <p className="text-[13px] font-semibold text-black">GDL · 44100</p>
         </div>
       </div>
-      {/* Tracking (avanza) */}
+      {/* Tracking — línea de tiempo clásica (avanza) */}
       <div className="mt-5 rounded-[12px] bg-[#F7F6F4] p-4">
-        <p className="mb-3 text-[12px] font-semibold text-black">Rastrea tu envío en tiempo real</p>
-        <div className="flex items-end gap-2">
-          {TRACK_STEPS.map((s, si) => (
-            <div key={s} className="flex-1">
-              <div className="h-[6px] rounded-full" style={{ background: si <= step ? "#DB3B2B" : "rgba(0,0,0,0.10)", transition: "background 0.4s ease" }} />
-              <p className="mt-2 text-[11px] font-medium" style={{ color: si <= step ? "rgba(0,0,0,0.8)" : "rgba(0,0,0,0.35)" }}>{s}</p>
-            </div>
-          ))}
+        <p className="mb-4 text-[12px] font-semibold text-black">Rastrea tu envío en tiempo real</p>
+        <div className="flex flex-col">
+          {TRACK.map((t, si) => {
+            const done = si <= step;
+            const last = si === TRACK.length - 1;
+            return (
+              <div key={t.label} className="flex gap-3">
+                <div className="flex flex-col items-center">
+                  <div className="flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full" style={{ background: done ? "#DB3B2B" : "rgba(0,0,0,0.12)", transition: "background 0.4s ease" }}>
+                    {done && <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>}
+                  </div>
+                  {!last && <div className="w-[2px] flex-1" style={{ minHeight: 20, background: si < step ? "#DB3B2B" : "rgba(0,0,0,0.10)", transition: "background 0.4s ease" }} />}
+                </div>
+                <div style={{ paddingBottom: last ? 0 : 12 }}>
+                  <p className="text-[13px] font-semibold leading-none" style={{ color: done ? "#111" : "rgba(0,0,0,0.4)" }}>{t.label}</p>
+                  <p className="mt-1 text-[11px] text-black/45">{t.sub}</p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
@@ -338,7 +355,7 @@ function MobileScrollSections({ cards }: { cards: React.ReactNode[] }) {
             </p>
             <a
               href={SIGNUP_URL}
-              className="mt-5 inline-flex h-[50px] items-center rounded-full bg-[#DB3B2B] px-7 font-inter text-[15px] font-semibold text-white no-underline transition-colors duration-200 hover:bg-[#C0332A]"
+              className="mt-5 inline-flex h-[50px] items-center rounded-[14px] bg-[#DB3B2B] px-7 font-inter text-[15px] font-semibold text-white no-underline transition-colors duration-200 hover:bg-[#C0332A]"
             >
               {w.ctaLabel}
             </a>
@@ -462,7 +479,7 @@ export default function T1ScrollShowcase() {
                           </p>
                           <a
                             href={SIGNUP_URL}
-                            className="mt-5 inline-flex h-[48px] items-center rounded-full bg-[#DB3B2B] px-6 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-200 hover:bg-[#C0332A]"
+                            className="mt-5 inline-flex h-[48px] items-center rounded-[14px] bg-[#DB3B2B] px-6 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-200 hover:bg-[#C0332A]"
                           >
                             {w.ctaLabel}
                           </a>
@@ -542,7 +559,7 @@ export default function T1ScrollShowcase() {
             </p>
             <a
               href={SIGNUP_URL}
-              className="inline-flex h-[54px] items-center rounded-[23px] bg-[#DB3B2B] px-10 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-200 hover:bg-[#C0332A] hover:shadow-[0_6px_24px_rgba(226,97,83,0.4)] hover:scale-[1.02] tablet:h-[58px] tablet:px-12 tablet:text-[16px]"
+              className="inline-flex h-[54px] items-center rounded-[14px] bg-[#DB3B2B] px-10 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-200 hover:bg-[#C0332A] hover:shadow-[0_6px_24px_rgba(226,97,83,0.4)] hover:scale-[1.02] tablet:h-[58px] tablet:px-12 tablet:text-[16px]"
             >
               Comenzar ahora
             </a>

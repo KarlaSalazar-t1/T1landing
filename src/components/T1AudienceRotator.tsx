@@ -110,9 +110,9 @@ export default function T1AudienceRotator() {
         {/* MÓVIL — título + descripción + timer ARRIBA, imagen abajo */}
         <div className="tablet:hidden">
           {/* Título + descripción del activo */}
-          <div key={`m-txt-${active}`} className="px-1 text-center" style={{ marginBottom: 16, animation: "fadeSlideIn 0.4s ease-out" }}>
+          <div key={`m-txt-${active}`} className="px-1 text-left" style={{ marginBottom: 16, animation: "fadeSlideIn 0.4s ease-out" }}>
             <h3 className="font-sora text-[24px] font-normal text-white" style={{ letterSpacing: "-0.02em" }}>{a.title}</h3>
-            <p className="mx-auto mt-2 max-w-[420px] font-inter text-[14px] font-normal leading-relaxed text-white/60">{a.description}</p>
+            <p className="mt-2 max-w-[420px] font-inter text-[14px] font-normal leading-relaxed text-white/60">{a.description}</p>
           </div>
           {/* barra segmentada — timer de auto-avance */}
           <div className="mb-6 flex gap-2 px-1">

@@ -114,7 +114,7 @@ const PAQUETES = [
   { id: "grande", label: "Grande", ej: "Electrodomésticos" },
 ];
 
-const SOCIAL_PROOF = ["+25,000 tiendas", "+10M de envíos", "+500mil transacciones"];
+const SOCIAL_PROOF = ["+50,000 negocios", "+30M de envíos", "+200M transacciones"];
 
 /* Formatea dígitos como monto: "10" → "0.10", "109999" → "1,099.99" */
 function formatMonto(digits: string): string {
