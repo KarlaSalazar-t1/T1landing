@@ -257,12 +257,15 @@ export default function T1Solutions() {
               <button
                 key={tab}
                 onClick={() => handleTabChange(i)}
-                className={`shrink-0 cursor-pointer whitespace-nowrap rounded-full font-inter transition-all duration-200 ${
-                  activeTab === i
-                    ? "bg-white font-semibold text-[#0e0d0d] shadow-[0_4px_16px_rgba(0,0,0,0.4)]"
-                    : "border border-white/[0.14] bg-white/[0.04] font-medium text-white/70 hover:border-white/30 hover:bg-white/[0.08] hover:text-white"
+                className={`shrink-0 cursor-pointer whitespace-nowrap rounded-[12px] border font-inter transition-all duration-200 ${
+                  activeTab === i ? "font-semibold text-white" : "font-medium text-white/65 hover:text-white"
                 }`}
-                style={{ padding: "9px 17px", fontSize: 13.5 }}
+                style={{
+                  padding: "9px 16px",
+                  fontSize: 13.5,
+                  background: activeTab === i ? "rgba(255,255,255,0.12)" : "rgba(52,52,52,0.55)",
+                  borderColor: activeTab === i ? "rgba(231,231,231,0.22)" : "rgba(255,255,255,0.10)",
+                }}
               >
                 {tab}
               </button>
