@@ -168,8 +168,8 @@ export default function T1AudienceRotator() {
 
         {/* DESKTOP — 2 columnas (tabs + imagen) */}
         <div className="hidden gap-8 tablet:grid tablet:grid-cols-[minmax(0,0.95fr)_minmax(0,1fr)] tablet:items-center tablet:gap-8">
-          {/* Left — selectable tabs */}
-          <div className="flex flex-col gap-3.5">
+          {/* Left — selectable tabs (sin card, separados por línea) */}
+          <div className="flex flex-col">
             {AUDIENCES.map((it, i) => {
               const on = i === active;
               return (
@@ -177,10 +177,9 @@ export default function T1AudienceRotator() {
                   key={it.id}
                   type="button"
                   onClick={() => setActive(i)}
-                  className="w-full cursor-pointer rounded-[16px] border p-5 text-left transition-all duration-300"
+                  className="w-full cursor-pointer bg-transparent px-1 py-5 text-left transition-all duration-300"
                   style={{
-                    borderColor: on ? "rgba(255,255,255,0.16)" : "rgba(255,255,255,0.07)",
-                    background: on ? "rgba(255,255,255,0.05)" : "transparent",
+                    borderTop: i > 0 ? "1px solid rgba(255,255,255,0.10)" : "none",
                   }}
                 >
                   <div className="flex items-center justify-between gap-3">

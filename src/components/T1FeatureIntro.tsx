@@ -79,35 +79,35 @@ function cardStyle(_glow: string, padding: string): React.CSSProperties {
 function IconGrid({ card }: { card: Card }) {
   if (card.iconStyle === "card") {
     return (
-      <div className="flex flex-wrap items-center justify-center gap-2">
+      <div className="mx-auto grid w-max grid-cols-3 items-center justify-items-center gap-2">
         {card.icons.map((ic) => (
-          <div key={ic.src} className="flex h-[32px] w-[50px] items-center justify-center rounded-[8px] bg-white">
+          <div key={ic.src} className="flex h-[30px] w-[46px] items-center justify-center rounded-[8px] bg-white">
             <Image src={ic.src} alt="" width={80} height={52} className="h-[56%] w-auto max-w-[74%] object-contain" />
           </div>
         ))}
-        <span className="flex h-[32px] items-center rounded-full border border-white/20 px-3 font-inter text-[12px] font-medium text-white/65">y más</span>
+        <span className="flex h-[30px] items-center rounded-full border border-white/20 px-2.5 font-inter text-[11px] font-medium text-white/65">y más</span>
       </div>
     );
   }
   return (
-    <div className="flex flex-wrap items-center justify-center gap-2.5">
+    <div className="mx-auto grid w-max grid-cols-4 items-center justify-items-center gap-2">
       {card.icons.map((ic) => (
         <div
           key={ic.src}
-          className="flex h-[38px] w-[38px] items-center justify-center overflow-hidden rounded-full"
+          className="flex h-[34px] w-[34px] items-center justify-center overflow-hidden rounded-full"
           style={ic.white ? { background: "#fff" } : undefined}
         >
           <Image
             src={ic.src}
             alt=""
-            width={76}
-            height={76}
+            width={68}
+            height={68}
             className={ic.white ? "h-[62%] w-[62%] object-contain" : "h-full w-full object-cover"}
             style={ic.white ? undefined : { filter: "drop-shadow(0 3px 6px rgba(0,0,0,0.4))" }}
           />
         </div>
       ))}
-      <span className="flex h-[38px] items-center rounded-full border border-white/20 px-3 font-inter text-[12px] font-medium text-white/65">y más</span>
+      <span className="flex h-[34px] items-center rounded-full border border-white/20 px-2.5 font-inter text-[11px] font-medium text-white/65">y más</span>
     </div>
   );
 }

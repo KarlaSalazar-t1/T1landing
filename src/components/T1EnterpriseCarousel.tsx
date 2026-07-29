@@ -110,13 +110,13 @@ export default function T1EnterpriseCarousel() {
               className="font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]"
               style={{ letterSpacing: "-0.03em", lineHeight: "1.2em" }}
             >
-              Negocios que ya operan con T1
+              Marcas que crecen con T1
             </h2>
             <p
               className="font-inter text-[14px] font-light text-white/55 tablet:text-[16px] lg:text-[16px]"
               style={{ lineHeight: 1.55, maxWidth: 620 }}
             >
-              Desde comercios en crecimiento hasta empresas de alto volumen, T1 ayuda a conectar ventas, pagos y operación.
+              De emprendedores a grandes empresas.
             </p>
           </div>
           <div className="hidden items-center gap-2 tablet:flex">
