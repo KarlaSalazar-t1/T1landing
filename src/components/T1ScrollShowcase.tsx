@@ -500,7 +500,7 @@ export default function T1ScrollShowcase() {
                 <div
                   key={i}
                   ref={(el) => { cardRefs.current[i] = el; }}
-                  className="flex min-h-screen items-center justify-center"
+                  className="flex min-h-[80vh] items-center justify-center"
                 >
                   <div className="relative" style={{ perspective: 1200 }}>
                     <div className="pointer-events-none absolute inset-0 rounded-[24px]" style={{ background: BG_GRADIENT }} />
