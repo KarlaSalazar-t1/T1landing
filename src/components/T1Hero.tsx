@@ -467,8 +467,8 @@ export default function T1Hero() {
                     Cotiza a todo México en segundos.
                   </p>
                   <div className="flex w-full flex-1 flex-col gap-4 tablet:flex-none">
-                    {/* CP en vertical con línea de tiempo (origen → destino) */}
-                    <div className="w-full rounded-[16px] bg-[#1D1D1D] px-4 py-2">
+                    {/* CP en vertical con línea de tiempo (origen → destino) — mismo ancho que concepto en link de pago */}
+                    <div className="mx-auto w-full rounded-[16px] bg-[#1D1D1D] px-4 py-2 tablet:max-w-[440px]">
                       <div className="flex gap-3.5">
                         <div className="flex flex-col items-center self-stretch py-[18px]">
                           <span className="h-[11px] w-[11px] shrink-0 rounded-full border-[1.5px] border-[#DB3B2B]" />
@@ -496,7 +496,7 @@ export default function T1Hero() {
                       }}
                       aria-disabled={!envioOk}
                       style={kbBtnStyle}
-                      className={`mt-auto mb-6 flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors tablet:mt-1 tablet:mb-0 tablet:w-1/2 tablet:self-center ${
+                      className={`mt-auto mb-6 flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors tablet:mt-1 tablet:mb-0 tablet:w-full tablet:max-w-[440px] tablet:self-center ${
                         envioOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
                       }`}
                     >

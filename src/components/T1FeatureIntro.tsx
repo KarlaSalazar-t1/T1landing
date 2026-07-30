@@ -17,6 +17,8 @@ type Card = {
   /* Máx. de íconos visibles en una línea antes del "+X" (undefined = todos). */
   maxVisible?: number;
   plus?: string;
+  ctaLabel: string;
+  ctaHref: string;
 };
 
 /* Íconos circulares de marca en /public/img/circles (provistos por el equipo). */
@@ -37,6 +39,8 @@ const CARDS: Card[] = [
     ],
     maxVisible: 5,
     plus: "+5",
+    ctaLabel: "Conoce T1 Tienda",
+    ctaHref: "/productos/t1tienda",
   },
   {
     id: "cobra",
@@ -51,6 +55,8 @@ const CARDS: Card[] = [
       { src: "/img/logos/brands/amex.webp" },
       { src: "/img/logos/brands/spei.webp" },
     ],
+    ctaLabel: "Conoce T1 Pagos",
+    ctaHref: "/productos/t1pagos",
   },
   {
     id: "envia",
@@ -68,8 +74,25 @@ const CARDS: Card[] = [
     ],
     maxVisible: 5,
     plus: "+5",
+    ctaLabel: "Conoce T1 Envíos",
+    ctaHref: "/productos/t1envios",
   },
 ];
+
+/* Link CTA con flecha (mismo patrón que "Comienza gratis →") */
+function CardCta({ label, href }: { label: string; href: string }) {
+  return (
+    <a
+      href={href}
+      className="group/cta inline-flex items-center gap-1.5 font-inter text-[14px] font-semibold text-white no-underline transition-colors hover:text-white/70"
+    >
+      {label}
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="transition-transform duration-150 group-hover/cta:translate-x-0.5">
+        <path d="M4 8h8M9 5l3 3-3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </a>
+  );
+}
 
 /* Charcoal card + halo suave por card (rojo / azul) para que resalte sobre el
    fondo negro. */
@@ -142,6 +165,9 @@ export default function T1FeatureIntro() {
               {item.desc}
             </p>
             <IconGrid card={item} />
+            <div style={{ marginTop: 22 }}>
+              <CardCta label={item.ctaLabel} href={item.ctaHref} />
+            </div>
           </div>
         ))}
       </div>
@@ -162,6 +188,9 @@ export default function T1FeatureIntro() {
             </p>
             <div className="mt-auto">
               <IconGrid card={card} />
+              <div style={{ marginTop: 26 }}>
+                <CardCta label={card.ctaLabel} href={card.ctaHref} />
+              </div>
             </div>
           </div>
         ))}
