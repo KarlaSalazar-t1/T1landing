@@ -106,14 +106,6 @@ const TIENDA_CHIPS: { label: string; example: string }[] = [
   { label: "Hogar", example: "Vendo artículos de decoración para el hogar" },
 ];
 
-/* Paquetes para cotizar envío (con ejemplo de qué cabe) */
-const PAQUETES = [
-  { id: "sobre", label: "Sobre", ej: "Documentos" },
-  { id: "pequeno", label: "Pequeño", ej: "Celular, accesorios" },
-  { id: "mediano", label: "Mediano", ej: "Ropa, zapatos" },
-  { id: "grande", label: "Grande", ej: "Electrodomésticos" },
-];
-
 const SOCIAL_PROOF = ["+50,000 negocios", "+30M de envíos", "+200M transacciones"];
 
 /* Formatea dígitos como monto: "10" → "0.10", "109999" → "1,099.99" */
@@ -158,7 +150,6 @@ export default function T1Hero() {
   // Modo envío
   const [cpDesde, setCpDesde] = useState("");
   const [cpHasta, setCpHasta] = useState("");
-  const [paquete, setPaquete] = useState("pequeno");
 
   // Social proof rotativo (un dato a la vez, cicla los 3)
   const [spIdx, setSpIdx] = useState(0);
@@ -241,7 +232,7 @@ export default function T1Hero() {
 
   const tiendaOk = value.trim().length > 0;
   const linkOk = Number(monto) > 0;
-  const envioOk = cpDesde.trim().length > 0 && cpHasta.trim().length > 0 && paquete.length > 0;
+  const envioOk = cpDesde.trim().length > 0 && cpHasta.trim().length > 0;
 
   return (
     <div className="relative z-0">
@@ -475,56 +466,33 @@ export default function T1Hero() {
                   <p className="max-w-[360px] text-center font-inter text-[16px] font-light leading-[1.6] text-white tablet:max-w-none tablet:whitespace-nowrap">
                     Cotiza a todo México en segundos.
                   </p>
-                  <div className="flex w-full flex-1 flex-col gap-3 tablet:flex-none">
-                    {/* Origen → destino — label arriba de cada input */}
-                    <div className="flex w-full items-stretch overflow-hidden rounded-[16px] bg-[#1D1D1D]">
-                      <label className="flex flex-1 flex-col justify-center px-4 py-2.5">
-                        <span className="font-inter text-[12px] font-normal text-white/50">Código postal origen</span>
-                        <input value={cpDesde} onChange={(e) => setCpDesde(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Ej. 06600" aria-label="Código postal de origen" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
-                      </label>
-                      <span aria-hidden className="my-2.5 w-px shrink-0 bg-white/10" />
-                      <label className="flex flex-1 flex-col justify-center px-4 py-2.5">
-                        <span className="font-inter text-[12px] font-normal text-white/50">Código postal destino</span>
-                        <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Ej. 44100" aria-label="Código postal de destino" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
-                      </label>
-                    </div>
-                    {/* Selector de tamaño de paquete — horizontal con swipe en móvil */}
-                    <div className="mt-3">
-                      <p className="mb-2 px-1 font-inter text-[14px] font-medium text-white/85">¿Qué tamaño es tu paquete?</p>
-                      <div
-                        role="radiogroup"
-                        aria-label="Tamaño del paquete"
-                        className="-mx-5 flex gap-2.5 overflow-x-auto px-5 pb-1 tablet:mx-0 tablet:grid tablet:grid-cols-4 tablet:overflow-visible tablet:px-0"
-                        style={{ scrollbarWidth: "none" }}
-                      >
-                        {PAQUETES.map((p) => {
-                          const sel = paquete === p.id;
-                          return (
-                            <button
-                              key={p.id}
-                              type="button"
-                              role="radio"
-                              aria-checked={sel}
-                              onClick={(e) => {
-                                setPaquete(p.id);
-                                e.currentTarget.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-                              }}
-                              className={`flex w-[142px] shrink-0 flex-col items-start rounded-[12px] border-[1.5px] px-3.5 py-2 text-left transition-colors tablet:w-auto ${
-                                sel ? "border-[rgba(255,255,255,0.35)] bg-[rgba(0,0,0,0.45)]" : "border-white/10 bg-[#1D1D1D] hover:border-white/25"
-                              }`}
-                            >
-                              <span className="whitespace-nowrap font-inter text-[14px] font-medium text-white">{p.label}</span>
-                              <span className="whitespace-nowrap font-inter text-[12px] font-light text-white/55">{p.ej}</span>
-                            </button>
-                          );
-                        })}
+                  <div className="flex w-full flex-1 flex-col gap-4 tablet:flex-none">
+                    {/* CP en vertical con línea de tiempo (origen → destino) */}
+                    <div className="w-full rounded-[16px] bg-[#1D1D1D] px-4 py-2">
+                      <div className="flex gap-3.5">
+                        <div className="flex flex-col items-center self-stretch py-[18px]">
+                          <span className="h-[11px] w-[11px] shrink-0 rounded-full border-[1.5px] border-[#DB3B2B]" />
+                          <span className="my-1 w-px flex-1" style={{ background: "repeating-linear-gradient(#DB3B2B 0 3px, transparent 3px 7px)" }} />
+                          <span className="h-[11px] w-[11px] shrink-0 rounded-full bg-[#DB3B2B]" />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <label className="block py-2">
+                            <span className="font-inter text-[12px] font-normal text-white/50">Código postal origen</span>
+                            <input value={cpDesde} onChange={(e) => setCpDesde(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Ej. 06600" aria-label="Código postal de origen" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
+                          </label>
+                          <span className="block h-px w-full bg-white/10" />
+                          <label className="block py-2">
+                            <span className="font-inter text-[12px] font-normal text-white/50">Código postal destino</span>
+                            <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Ej. 44100" aria-label="Código postal de destino" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
+                          </label>
+                        </div>
                       </div>
                     </div>
                     <a
                       href={tab.href}
                       onClick={(e) => {
                         if (!envioOk) e.preventDefault();
-                        else submit({ paquete });
+                        else submit({ mode: "envio" });
                       }}
                       aria-disabled={!envioOk}
                       style={kbBtnStyle}
@@ -545,7 +513,7 @@ export default function T1Hero() {
 
         {/* 4+5 · Clientes: en desktop título + dato rotativo a la izquierda,
             marquee de logos a la derecha en la misma línea. En móvil apilado. */}
-        <div className="relative z-10 mt-6 w-full tablet:-mt-2">
+        <div className="relative z-10 mt-6 w-full tablet:-mt-10">
           <div className="mx-auto max-w-[var(--max-w)] px-3">
             {/* Título — arriba de toda la línea del marquee */}
             <p className="mb-4 hidden text-center font-inter text-[15px] font-light text-white/55 tablet:block">

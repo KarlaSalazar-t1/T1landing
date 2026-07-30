@@ -471,18 +471,12 @@ export default function T1ScrollShowcase() {
                       >
                         {w.text}
                       </h2>
-                      {/* Solo el activo "abre": muestra la línea explicativa + botón */}
+                      {/* Solo el activo "abre": muestra la línea explicativa (el botón va dentro de la card) */}
                       {on && (
                         <div key={`d-${i}`} style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
                           <p className="mt-3 font-inter text-[15px] font-light text-white/65" style={{ maxWidth: 380, lineHeight: 1.55 }}>
                             {w.ctaCopy}
                           </p>
-                          <a
-                            href={SIGNUP_URL}
-                            className="mt-5 inline-flex h-[48px] items-center rounded-[14px] bg-[#DB3B2B] px-6 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-200 hover:bg-[#C0332A]"
-                          >
-                            {w.ctaLabel}
-                          </a>
                         </div>
                       )}
                     </div>
@@ -500,7 +494,7 @@ export default function T1ScrollShowcase() {
                 <div
                   key={i}
                   ref={(el) => { cardRefs.current[i] = el; }}
-                  className="flex min-h-[80vh] items-center justify-center"
+                  className={`flex flex-col items-center justify-center ${i === 0 ? "min-h-screen" : "min-h-[80vh]"}`}
                 >
                   <div className="relative" style={{ perspective: 1200 }}>
                     <div className="pointer-events-none absolute inset-0 rounded-[24px]" style={{ background: BG_GRADIENT }} />
@@ -515,6 +509,20 @@ export default function T1ScrollShowcase() {
                       {card}
                     </div>
                   </div>
+                  {/* CTA dentro de cada card (aparece con la card activa) */}
+                  <a
+                    href={SIGNUP_URL}
+                    tabIndex={on ? 0 : -1}
+                    aria-hidden={!on}
+                    className="mt-8 inline-flex h-[48px] items-center rounded-[14px] bg-[#DB3B2B] px-6 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-500 hover:bg-[#C0332A]"
+                    style={{
+                      opacity: on ? 1 : 0,
+                      transform: on ? "translateY(0)" : "translateY(10px)",
+                      pointerEvents: on ? "auto" : "none",
+                    }}
+                  >
+                    {WORDS[i].ctaLabel}
+                  </a>
                 </div>
               );
             })}
