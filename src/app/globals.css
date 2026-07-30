@@ -488,6 +488,14 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Entrada de la palabra/acción rotativa del H1 — SOLO desplazamiento (la
+   opacidad se queda en 1 siempre, para que nunca se vea tenue aunque la
+   animación se pause con la pestaña en segundo plano). */
+@keyframes heroWordIn {
+  from { transform: translateY(9px); }
+  to { transform: translateY(0); }
+}
+
 /* Carousel slide-in (T1Solutions tab change) */
 @keyframes carouselSlideRight {
   from { opacity: 0; transform: translateX(60px); }

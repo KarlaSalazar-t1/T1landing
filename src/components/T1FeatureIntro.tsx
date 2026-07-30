@@ -26,7 +26,7 @@ const CARDS: Card[] = [
   {
     id: "vende",
     label: "Vende",
-    desc: "En más de 10 canales de venta: tienda en línea, marketplaces y redes sociales.",
+    desc: "En tu tienda en línea, marketplaces y redes sociales, todo desde un mismo catálogo.",
     glow: "#E0402F",
     iconStyle: "circle",
     icons: [
@@ -45,7 +45,7 @@ const CARDS: Card[] = [
   {
     id: "cobra",
     label: "Cobra",
-    desc: "Con múltiples métodos de pago y ofrece meses sin intereses.",
+    desc: "Acepta tarjetas, transferencias y meses sin intereses, con la mejor tasa de aprobación.",
     glow: "#2F6BFF",
     iconStyle: "card",
     icons: [
@@ -61,7 +61,7 @@ const CARDS: Card[] = [
   {
     id: "envia",
     label: "Envía",
-    desc: "Con más de 10 paqueterías: rastrea y administra tus envíos en un panel.",
+    desc: "Crea guías con +10 paqueterías al mejor precio y rastréalas todas en un solo panel.",
     glow: "#E0402F",
     iconStyle: "circle",
     icons: [

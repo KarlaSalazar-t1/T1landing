@@ -108,6 +108,9 @@ const TIENDA_CHIPS: { label: string; example: string }[] = [
 
 const SOCIAL_PROOF = ["+50,000 negocios", "+30M de envíos", "+200M transacciones"];
 
+/* H1 rotativo (versión A): rota el sustantivo, marco fijo "Todos tus ___ en un solo lugar." */
+const HERO_WORDS = ["productos", "pedidos", "pagos", "envíos", "ventas"];
+
 /* Formatea dígitos como monto: "10" → "0.10", "109999" → "1,099.99" */
 function formatMonto(digits: string): string {
   const cents = digits.replace(/\D/g, "");
@@ -117,11 +120,6 @@ function formatMonto(digits: string): string {
   return int.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "." + dec;
 }
 
-const ArrowUp = (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-    <path d="M12 19V5M12 5l-6 6M12 5l6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
 const ArrowRight = (
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
     <path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
@@ -146,10 +144,12 @@ export default function T1Hero() {
   // Modo link de pago
   const [monto, setMonto] = useState("");
   const [concepto, setConcepto] = useState("");
+  const montoRef = useRef<HTMLInputElement>(null);
 
   // Modo envío
   const [cpDesde, setCpDesde] = useState("");
   const [cpHasta, setCpHasta] = useState("");
+  const cpDesdeRef = useRef<HTMLInputElement>(null);
 
   // Social proof rotativo (un dato a la vez, cicla los 3)
   const [spIdx, setSpIdx] = useState(0);
@@ -157,6 +157,20 @@ export default function T1Hero() {
     const t = setInterval(() => setSpIdx((i) => (i + 1) % SOCIAL_PROOF.length), 2600);
     return () => clearInterval(t);
   }, []);
+
+  // H1 rotativo — cicla el sustantivo cada 2.2s
+  const [wIdx, setWIdx] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setWIdx((i) => (i + 1) % HERO_WORDS.length), 2200);
+    return () => clearInterval(t);
+  }, []);
+
+  // Al abrir la pestaña de link o envío, enfoca su primer campo para escribir de inmediato
+  useEffect(() => {
+    if (tab.id === "link") montoRef.current?.focus();
+    else if (tab.id === "envio") cpDesdeRef.current?.focus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tabIdx]);
 
   const btnRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
@@ -273,12 +287,22 @@ export default function T1Hero() {
 
         {/* Contenido — título arriba · selector+contenido centrado en medio · social proof abajo */}
         <div className="relative z-10 flex w-full max-w-[440px] grow flex-col items-center tablet:max-w-[640px]">
-          {/* 1 · H1 (arriba) */}
+          {/* 1 · H1 (arriba) — rotativo: "Todos tus [sustantivo] en un solo lugar." */}
           <h1
-            className="text-center font-sora text-[32px] font-light leading-[1.14] text-white tablet:text-[48px] desktop:whitespace-nowrap"
+            className="text-center font-sora text-[32px] font-light leading-[1.14] text-white tablet:text-[48px]"
             style={{ letterSpacing: "-0.03em" }}
           >
-            Todo tu negocio en un lugar.
+            <span className="block">
+              Todos tus{" "}
+              <span
+                key={wIdx}
+                className="inline-block font-medium text-[#FFD8C4]"
+                style={{ animation: "heroWordIn 0.4s ease-out" }}
+              >
+                {HERO_WORDS[wIdx]}
+              </span>
+            </span>
+            <span className="block">en un solo lugar.</span>
           </h1>
 
           {/* Bloque central (centrado en el alto disponible) */}
@@ -385,13 +409,14 @@ export default function T1Hero() {
                         if (!tiendaOk) e.preventDefault();
                         else submit({ length: value.trim().length });
                       }}
-                      aria-label="Crear tienda"
+                      aria-label="Comenzar gratis"
                       style={kbOpen ? { position: "fixed", right: 16, bottom: kbH + 10, zIndex: 60 } : undefined}
-                      className={`absolute bottom-3 right-3 flex h-[38px] w-[38px] items-center justify-center rounded-full transition-colors ${
+                      className={`absolute bottom-3 right-3 flex h-[40px] items-center gap-1.5 rounded-full pl-4 pr-3 font-inter text-[14px] font-semibold transition-colors ${
                         tiendaOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
                       }`}
                     >
-                      {ArrowUp}
+                      Comenzar gratis
+                      {ArrowRight}
                     </a>
                   </div>
                   {/* chips — envuelven en móvil, una sola línea en desktop */}
@@ -422,6 +447,7 @@ export default function T1Hero() {
                     <div className="flex items-center justify-center gap-1.5" style={{ minHeight: 85 }}>
                       <span className="font-sora text-[28px] font-light text-white/45">$</span>
                       <input
+                        ref={montoRef}
                         inputMode="numeric"
                         value={monto === "" ? "" : formatMonto(monto)}
                         onChange={(e) => setMonto(e.target.value.replace(/\D/g, "").slice(0, 9))}
@@ -478,7 +504,7 @@ export default function T1Hero() {
                         <div className="min-w-0 flex-1">
                           <label className="block py-2">
                             <span className="font-inter text-[12px] font-normal text-white/50">Desde</span>
-                            <input value={cpDesde} onChange={(e) => setCpDesde(e.target.value.slice(0, 40))} placeholder="Ingresa código postal o colonia" aria-label="Origen del envío" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
+                            <input ref={cpDesdeRef} value={cpDesde} onChange={(e) => setCpDesde(e.target.value.slice(0, 40))} placeholder="Ingresa código postal o colonia" aria-label="Origen del envío" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
                           </label>
                           <span className="block h-px w-full bg-white/10" />
                           <label className="block py-2">
