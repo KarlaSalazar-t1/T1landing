@@ -477,13 +477,13 @@ export default function T1Hero() {
                         </div>
                         <div className="min-w-0 flex-1">
                           <label className="block py-2">
-                            <span className="font-inter text-[12px] font-normal text-white/50">Código postal origen</span>
-                            <input value={cpDesde} onChange={(e) => setCpDesde(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Ej. 06600" aria-label="Código postal de origen" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
+                            <span className="font-inter text-[12px] font-normal text-white/50">Desde</span>
+                            <input value={cpDesde} onChange={(e) => setCpDesde(e.target.value.slice(0, 40))} placeholder="Ingresa código postal o colonia" aria-label="Origen del envío" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
                           </label>
                           <span className="block h-px w-full bg-white/10" />
                           <label className="block py-2">
-                            <span className="font-inter text-[12px] font-normal text-white/50">Código postal destino</span>
-                            <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Ej. 44100" aria-label="Código postal de destino" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
+                            <span className="font-inter text-[12px] font-normal text-white/50">Hacia</span>
+                            <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.slice(0, 40))} placeholder="Ingresa código postal o colonia" aria-label="Destino del envío" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
                           </label>
                         </div>
                       </div>
