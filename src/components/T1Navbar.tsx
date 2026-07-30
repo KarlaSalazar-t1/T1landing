@@ -389,7 +389,7 @@ export default function T1Navbar() {
 
       {/* Mega Menu - desktop only */}
       <div
-        className={`fixed left-0 right-0 top-[86px] z-[60] hidden overflow-hidden rounded-b-[20px] border-t border-white/[0.08] bg-[#1b1714] shadow-[0_24px_50px_rgba(0,0,0,0.55)] tablet:block ${
+        className={`fixed left-1/2 top-[86px] z-[60] hidden w-[calc(100%-40px)] max-w-[var(--max-w)] -translate-x-1/2 overflow-hidden rounded-[20px] border border-white/[0.10] bg-[#1b1714] shadow-[0_24px_50px_rgba(0,0,0,0.55)] tablet:block ${
           menuOpen ? "tablet:block animate-slide-down" : "!hidden"
         }`}
       >
@@ -466,7 +466,7 @@ export default function T1Navbar() {
 
       {/* Mega Menu Recursos - desktop only */}
       <div
-        className={`fixed left-0 right-0 top-[86px] z-[60] hidden overflow-hidden rounded-b-[20px] border-t border-white/[0.08] bg-[#1b1714] shadow-[0_24px_50px_rgba(0,0,0,0.55)] tablet:block ${
+        className={`fixed left-1/2 top-[86px] z-[60] hidden w-[calc(100%-40px)] max-w-[var(--max-w)] -translate-x-1/2 overflow-hidden rounded-[20px] border border-white/[0.10] bg-[#1b1714] shadow-[0_24px_50px_rgba(0,0,0,0.55)] tablet:block ${
           recursosOpen ? "tablet:block animate-slide-down" : "!hidden"
         }`}
       >

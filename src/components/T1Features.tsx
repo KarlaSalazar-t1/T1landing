@@ -1119,7 +1119,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
 const SHOWCASE_CARDS = [
   {
     id: "t1tienda-en-linea",
-    title: "Crea tu tienda con IA",
+    title: "Crea tu tienda con IA con T1 Tienda",
     description:
       "Describe tu negocio y la IA la crea, lista para vender, con envíos y pagos integrados.",
     bgImage: null,
@@ -1131,7 +1131,7 @@ const SHOWCASE_CARDS = [
   },
   {
     id: "t1tienda",
-    title: "Administra tus ventas de todos tus canales",
+    title: "Gestiona todas tus ventas en T1 Tienda",
     description:
       "Gestiona pedidos, revisa tu dashboard de ventas y ten visibilidad omnicanal de Mercado Libre, Amazon, Shein y más.",
     bgImage: null,

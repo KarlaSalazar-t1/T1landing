@@ -341,7 +341,7 @@ const BG_GRADIENT = "radial-gradient(ellipse at 50% 60%, rgba(226,97,83,0.3) 0%,
 
 /* ── Mobile section: Vende/Cobra/Envía as tabs + Todo en uno as scroll-driven ── */
 function MobileScrollSections({ cards }: { cards: React.ReactNode[] }) {
-  // Móvil: scroll normal, cada punto apilado — título, descripción, botón, imagen.
+  // Móvil: scroll normal, cada punto apilado — título, descripción, imagen y el botón dentro de cada card (abajo).
   return (
     <div className="tablet:hidden px-5" style={{ paddingTop: 88, paddingBottom: 48 }}>
       <div className="flex flex-col" style={{ gap: 64 }}>
@@ -353,16 +353,16 @@ function MobileScrollSections({ cards }: { cards: React.ReactNode[] }) {
             <p className="mt-3 max-w-[320px] font-inter text-[15px] font-light leading-relaxed text-white/65">
               {w.ctaCopy}
             </p>
-            <a
-              href={SIGNUP_URL}
-              className="mt-5 inline-flex h-[50px] items-center rounded-[14px] bg-[#DB3B2B] px-7 font-inter text-[15px] font-semibold text-white no-underline transition-colors duration-200 hover:bg-[#C0332A]"
-            >
-              {w.ctaLabel}
-            </a>
             <div className="relative mt-7 flex w-full justify-center" style={{ perspective: 800 }}>
               <div className="absolute inset-0 rounded-[20px]" style={{ background: BG_GRADIENT }} />
               <div className="relative z-10">{cards[i]}</div>
             </div>
+            <a
+              href={SIGNUP_URL}
+              className="mt-6 inline-flex h-[50px] items-center rounded-[14px] bg-[#DB3B2B] px-7 font-inter text-[15px] font-semibold text-white no-underline transition-colors duration-200 hover:bg-[#C0332A]"
+            >
+              {w.ctaLabel}
+            </a>
           </div>
         ))}
       </div>

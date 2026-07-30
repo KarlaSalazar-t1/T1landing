@@ -12,7 +12,7 @@ export const ENVIOS_QUOTE_URL = "/envios/cotizar";
 // ── Navigation ──
 export const NAV_LINKS = [
   { label: "Precios", href: "/precios" },
-  { label: "Empresas", href: SALES_URL },
+  { label: "Casos de éxito", href: CASES_URL },
 ];
 
 // ── Recursos mega menu ──
