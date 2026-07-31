@@ -143,7 +143,10 @@ export default function T1EnterpriseCarousel({ bVariant = false }: { bVariant?: 
           paddingRight: 24,
         }}
       >
-        {CASES.filter((c) => !c.hidden).map((c) => {
+        {(bVariant
+          ? [...CASES.filter((c) => !c.hidden && c.hasVideo), ...CASES.filter((c) => !c.hidden && !c.hasVideo)]
+          : CASES.filter((c) => !c.hidden)
+        ).map((c) => {
           // Pre-treated art carries the spotlight baked into the PNG, so it
           // skips the CSS overlay. Subject side varies per photo: text goes on
           // the empty color side (opposite the person).

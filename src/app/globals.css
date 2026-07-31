@@ -488,6 +488,13 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Pausa TODAS las animaciones dentro del contenedor cuando está fuera de vista
+   (la órbita "Todo en uno" gira siempre y consume compositor aunque no se vea). */
+.anim-paused,
+.anim-paused * {
+  animation-play-state: paused !important;
+}
+
 /* Entrada de la palabra/acción rotativa del H1 — SOLO desplazamiento (la
    opacidad se queda en 1 siempre, para que nunca se vea tenue aunque la
    animación se pause con la pestaña en segundo plano). */

@@ -51,7 +51,7 @@ function VendeCard() {
   const i = useCycle(CHANNELS.length, 1800);
   const c = CHANNELS[i];
   return (
-    <div className="w-[320px] overflow-hidden rounded-[18px] border border-white/[0.14] bg-white/[0.06] backdrop-blur-2xl" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.14)", fontFamily: FONT }}>
+    <div className="w-[320px] overflow-hidden rounded-[18px] border border-white/[0.14] bg-white/[0.06] backdrop-blur-sm" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.14)", fontFamily: FONT }}>
       <div className="relative flex items-center justify-center" style={{ height: 200 }}>
         <Image src="/img/tenis-transparente.png" alt="" width={230} height={150} className="object-contain" />
         <span className="absolute left-3 top-3 rounded-full bg-white px-2.5 py-1 text-[11px] font-bold text-black">-14%</span>
@@ -84,7 +84,7 @@ function CobraCard() {
   const i = useCycle(PAY_METHODS.length, 1500);
   const m = PAY_METHODS[i];
   return (
-    <div className="w-[320px] rounded-[18px] border border-white/[0.14] bg-white/[0.06] p-5 backdrop-blur-2xl" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.14)", fontFamily: FONT }}>
+    <div className="w-[320px] rounded-[18px] border border-white/[0.14] bg-white/[0.06] p-5 backdrop-blur-sm" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.14)", fontFamily: FONT }}>
       <p className="text-[14px] font-bold text-white">Resumen de tu compra</p>
       <div className="mt-4 flex items-center gap-3 border-b border-white/10 pb-4">
         <div className="flex h-[46px] w-[46px] items-center justify-center overflow-hidden rounded-[10px] bg-white/[0.08]">
@@ -130,7 +130,7 @@ function EnviaCard() {
   const step = useCycle(TRACK.length, 1300);
   const c = CARRIERS[i];
   return (
-    <div className="w-[320px] rounded-[18px] border border-white/[0.14] bg-white/[0.06] p-5 backdrop-blur-2xl" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.14)", fontFamily: FONT }}>
+    <div className="w-[320px] rounded-[18px] border border-white/[0.14] bg-white/[0.06] p-5 backdrop-blur-sm" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.14)", fontFamily: FONT }}>
       <div className="flex items-center justify-between">
         {/* Paquetería (cicla) */}
         <span key={i} className="flex items-center gap-2" style={{ animation: "fadeSlideIn 0.35s ease-out" }}>
@@ -229,8 +229,19 @@ export function TodoEnUnoCard() {
   // The 420×420 composition with orbit radius 180 gets clipped on small
   // phones (≤375px). Scale the whole thing down to ~70% on mobile so the
   // orbiting icons stay fully visible without rewriting the geometry.
+  // La órbita gira en bucle infinito; la pausamos cuando no está en pantalla
+  // para no gastar compositor (mejora el scroll del resto del landing).
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setVisible(e.isIntersecting), { rootMargin: "120px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
   return (
-    <div className="origin-center scale-[0.7] tablet:scale-100">
+    <div ref={ref} className={`origin-center scale-[0.7] tablet:scale-100 ${visible ? "" : "anim-paused"}`}>
     <div className="relative flex items-center justify-center" style={{ width: 420, height: 420 }}>
       {/* Outer glow halo — gives the whole system presence on the black bg */}
       <div
@@ -371,11 +382,9 @@ function MobileScrollSections({ cards }: { cards: React.ReactNode[] }) {
 }
 
 export default function T1ScrollShowcase() {
-  const mobileOuterRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [mobileTranslateX, setMobileTranslateX] = useState(0);
   const [ctaVisible, setCtaVisible] = useState(false);
 
   /* Desktop: la card que cruza el centro del viewport marca la sección activa */
@@ -393,23 +402,6 @@ export default function T1ScrollShowcase() {
     );
     cardRefs.current.forEach((el) => el && observer.observe(el));
     return () => observer.disconnect();
-  }, []);
-
-  /* Mobile: vertical scroll → horizontal translateX */
-  useEffect(() => {
-    const outer = mobileOuterRef.current;
-    if (!outer) return;
-    const onScroll = () => {
-      const rect = outer.getBoundingClientRect();
-      const scrollableHeight = outer.offsetHeight - window.innerHeight;
-      if (scrollableHeight <= 0) return;
-      const progress = Math.max(0, Math.min(1, -rect.top / scrollableHeight));
-      // Map progress to translateX: 0% to -(items-1)*100%
-      const translate = progress * (WORDS.length - 1) * 100;
-      setMobileTranslateX(translate);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
