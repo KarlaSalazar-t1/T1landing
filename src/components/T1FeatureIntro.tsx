@@ -49,11 +49,11 @@ const CARDS: Card[] = [
     glow: "#2F6BFF",
     iconStyle: "card",
     icons: [
-      { src: "/img/logos/brands/kueski.webp" },
-      { src: "/img/logos/brands/visa.webp" },
-      { src: "/img/logos/brands/mastercard.webp" },
-      { src: "/img/logos/brands/amex.webp" },
-      { src: "/img/logos/brands/spei.webp" },
+      { src: "/img/icons/visa.svg" },
+      { src: "/img/icons/mastercard.svg" },
+      { src: "/img/icons/amex.svg" },
+      { src: "/img/icons/spei.svg" },
+      { src: "/img/icons/kueski.svg" },
     ],
     ctaLabel: "Conoce T1 Pagos",
     ctaHref: "/productos/t1pagos",
@@ -110,12 +110,11 @@ function IconGrid({ card }: { card: Card }) {
   const isCard = card.iconStyle === "card";
   const visible = card.maxVisible != null ? card.icons.slice(0, card.maxVisible) : card.icons;
   return (
-    <div className="flex items-center justify-center gap-2">
+    <div className="flex items-center justify-start gap-3">
       {visible.map((ic) =>
         isCard ? (
-          <div key={ic.src} className="flex h-[30px] w-[46px] shrink-0 items-center justify-center rounded-[8px] bg-white">
-            <Image src={ic.src} alt="" width={80} height={52} className="h-[56%] w-auto max-w-[74%] object-contain" />
-          </div>
+          /* Métodos de pago sin contenedor — a color, directos sobre la card */
+          <Image key={ic.src} src={ic.src} alt="" width={80} height={52} className="h-[26px] w-auto shrink-0 object-contain" />
         ) : (
           <div
             key={ic.src}

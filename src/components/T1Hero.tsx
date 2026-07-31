@@ -296,7 +296,7 @@ export default function T1Hero() {
               Todos tus{" "}
               <span
                 key={wIdx}
-                className="inline-block text-[#FFD8C4]"
+                className="inline-block text-white"
                 style={{ animation: "heroWordIn 0.4s ease-out" }}
               >
                 {HERO_WORDS[wIdx]}
@@ -543,7 +543,7 @@ export default function T1Hero() {
           <div className="mx-auto max-w-[var(--max-w)] px-3">
             {/* Título — arriba de toda la línea del marquee */}
             <p className="mb-4 hidden text-center font-inter text-[15px] font-light text-white/55 tablet:block">
-              Las marcas que confían en nosotros
+              Negocios que ya crecen con T1
             </p>
             <div className="flex flex-col items-center gap-4 tablet:flex-row tablet:items-center tablet:gap-8">
               {/* Dato rotativo */}

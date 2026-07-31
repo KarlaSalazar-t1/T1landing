@@ -101,21 +101,20 @@ function LogoMarquee() {
 
 /* ── Logos de métodos de pago (link de pago) — tarjeta blanca ── */
 const PAY_LOGOS = [
-  "/img/logos/brands/visa.webp",
-  "/img/logos/brands/mastercard.webp",
-  "/img/logos/brands/amex.webp",
-  "/img/logos/brands/spei.webp",
-  "/img/logos/brands/kueski.webp",
+  "/img/icons/visa.svg",
+  "/img/icons/mastercard.svg",
+  "/img/icons/amex.svg",
+  "/img/icons/spei.svg",
+  "/img/icons/kueski.svg",
 ];
 function PayLogos() {
   return (
-    <div className="mt-6 flex flex-col items-center gap-2.5">
+    <div className="mt-6 flex flex-col items-center gap-3">
       <span className="font-inter text-[12px] font-normal text-white/45">Acepta todos los métodos de pago</span>
-      <div className="flex items-center justify-center gap-2">
+      {/* Logos sin contenedor — a color, directos sobre el fondo */}
+      <div className="flex items-center justify-center gap-4">
         {PAY_LOGOS.map((src) => (
-          <div key={src} className="flex h-[30px] w-[46px] shrink-0 items-center justify-center rounded-[8px] bg-white">
-            <Image src={src} alt="" width={80} height={52} className="h-[56%] w-auto max-w-[74%] object-contain" />
-          </div>
+          <Image key={src} src={src} alt="" width={80} height={52} className="h-[26px] w-auto object-contain" />
         ))}
       </div>
     </div>
@@ -343,7 +342,7 @@ export default function T1HeroB() {
             <span className="block">Un solo lugar para</span>
             <span
               key={pIdx}
-              className="block text-[#FFD8C4]"
+              className="block text-white"
               style={{ animation: "heroWordIn 0.4s ease-out" }}
             >
               {HERO_PHRASES[pIdx]}
@@ -586,19 +585,20 @@ export default function T1HeroB() {
         </div>
 
         {/* ══ BAJO EL FOLD ══ datos + marquee a todo el ancho (alineado al header) ══ */}
-        <div className="relative z-10 w-full pb-8 pt-14 tablet:pt-20">
+        <div className="relative z-10 w-full pb-8 pt-14 tablet:pt-24">
           <div className="mx-auto w-full max-w-[var(--max-w)] px-5 tablet:px-6">
-            {/* Datos: negocios centrado arriba; envíos + transacciones en una línea abajo */}
-            <div className="mb-8 flex flex-col items-center gap-2.5">
-              <span className="font-inter text-[22px] font-semibold text-white tablet:text-[28px]">+50,000 negocios</span>
-              <div className="flex items-center gap-6 tablet:gap-12">
+            {/* Datos: negocios centrado arriba; envíos + transacciones en una línea abajo.
+                Más aire entre líneas y contra el marquee (desktop y móvil). */}
+            <div className="mb-14 flex flex-col items-center gap-3.5 tablet:mb-20 tablet:gap-6">
+              <span className="font-inter text-[22px] font-semibold text-white tablet:text-[30px]">+50,000 negocios</span>
+              <div className="flex items-center gap-6 tablet:gap-14">
                 <span className="font-inter text-[16px] font-medium text-white/80 tablet:text-[20px]">+30M de envíos</span>
                 <span className="font-inter text-[16px] font-medium text-white/80 tablet:text-[20px]">+200M transacciones</span>
               </div>
             </div>
             {/* Título del marquee */}
-            <p className="mb-2 text-center font-inter text-[13px] font-light text-white/45">
-              Las marcas que confían en nosotros
+            <p className="mb-3 text-center font-inter text-[13px] font-light text-white/45">
+              Negocios que ya crecen con T1
             </p>
             {/* Marquee a todo el ancho (alineado con el header) */}
             <LogoMarquee />
