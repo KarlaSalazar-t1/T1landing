@@ -120,7 +120,7 @@ function HamburgerIcon({ open }: { open: boolean }) {
 }
 
 /* ── Main Component ── */
-export default function T1Navbar() {
+export default function T1Navbar({ bVariant = false }: { bVariant?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [recursosOpen, setRecursosOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -399,9 +399,10 @@ export default function T1Navbar() {
             <MenuColumn key={col.title} col={col} />
           ))}
 
-          {/* Sidebar */}
-          <div className="relative w-[270px] shrink-0 bg-[#242019] px-6 pb-8 pt-6">
-            <div className="absolute bottom-0 left-full top-0 w-screen bg-[#242019]" />
+          {/* Sidebar — casos de éxito (solo versión A; en B se oculta) */}
+          {!bVariant && (
+          <div className="relative w-[270px] shrink-0 bg-[#212125] px-6 pb-8 pt-6">
+            <div className="absolute bottom-0 left-full top-0 w-screen bg-[#212125]" />
             <p className="mb-3 font-inter text-[11px] font-semibold uppercase tracking-[0.06em] text-white/40">
               Casos de exito
             </p>
@@ -430,6 +431,7 @@ export default function T1Navbar() {
               ))}
             </ul>
           </div>
+          )}
         </div>
 
         {/* Bottom bar */}

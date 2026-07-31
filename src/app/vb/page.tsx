@@ -16,7 +16,7 @@ import T1Footer from "@/components/T1Footer";
 export default function HomeVariantB() {
   return (
     <main className="min-h-screen">
-      <T1Navbar />
+      <T1Navbar bVariant />
 
       {/* Hero — VERSIÓN B */}
       <T1HeroB />

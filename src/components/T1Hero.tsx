@@ -165,8 +165,10 @@ export default function T1Hero() {
     return () => clearInterval(t);
   }, []);
 
-  // Al abrir la pestaña de link o envío, enfoca su primer campo para escribir de inmediato
+  // Al abrir la pestaña de link o envío, enfoca su primer campo para escribir de inmediato.
+  // En móvil NO se enfoca (abriría el teclado de golpe, molesto).
   useEffect(() => {
+    if (typeof window !== "undefined" && window.innerWidth < 768) return;
     if (tab.id === "link") montoRef.current?.focus();
     else if (tab.id === "envio") cpDesdeRef.current?.focus();
     // eslint-disable-next-line react-hooks/exhaustive-deps
