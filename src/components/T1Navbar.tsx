@@ -251,7 +251,7 @@ export default function T1Navbar() {
 
       {/* Mobile drawer */}
       <div
-        className={`fixed inset-0 top-[64px] z-[90] overflow-hidden bg-[#1b1714] transition-all duration-300 tablet:hidden ${
+        className={`fixed inset-0 top-0 z-[90] overflow-hidden bg-[#0e0d0d] pt-[68px] transition-all duration-300 tablet:hidden ${
           mobileOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0 pointer-events-none"
         }`}
       >
@@ -389,7 +389,7 @@ export default function T1Navbar() {
 
       {/* Mega Menu - desktop only */}
       <div
-        className={`fixed left-1/2 top-[86px] z-[60] hidden w-[calc(100%-40px)] max-w-[var(--max-w)] -translate-x-1/2 overflow-hidden rounded-[20px] border border-white/[0.10] bg-[#1b1714] shadow-[0_24px_50px_rgba(0,0,0,0.55)] tablet:block ${
+        className={`fixed left-1/2 top-[86px] z-[60] hidden w-[calc(100%-40px)] max-w-[var(--max-w)] -translate-x-1/2 overflow-hidden rounded-[20px] border border-white/[0.10] bg-[#1A1A1D] shadow-[0_24px_50px_rgba(0,0,0,0.55)] tablet:block ${
           menuOpen ? "tablet:block animate-slide-down" : "!hidden"
         }`}
       >
@@ -466,7 +466,7 @@ export default function T1Navbar() {
 
       {/* Mega Menu Recursos - desktop only */}
       <div
-        className={`fixed left-1/2 top-[86px] z-[60] hidden w-[calc(100%-40px)] max-w-[var(--max-w)] -translate-x-1/2 overflow-hidden rounded-[20px] border border-white/[0.10] bg-[#1b1714] shadow-[0_24px_50px_rgba(0,0,0,0.55)] tablet:block ${
+        className={`fixed left-1/2 top-[86px] z-[60] hidden w-[calc(100%-40px)] max-w-[var(--max-w)] -translate-x-1/2 overflow-hidden rounded-[20px] border border-white/[0.10] bg-[#1A1A1D] shadow-[0_24px_50px_rgba(0,0,0,0.55)] tablet:block ${
           recursosOpen ? "tablet:block animate-slide-down" : "!hidden"
         }`}
       >

@@ -36,7 +36,7 @@ export default function HomeVariantB() {
       </div>
 
       <div className="relative z-[10]">
-        <T1EnterpriseCarousel />
+        <T1EnterpriseCarousel bVariant />
       </div>
 
       <div className="sticky top-0 z-[11]">

@@ -9,19 +9,21 @@ const TINT = "#241014";
 /* ── Case studies data (same source as T1Enterprise) ── */
 type CaseStudy = {
   id: string; name: string; image: string; whiteLogo?: string; coverImage: string;
+  /* Foto-still real del entrevistado (solo versión B, para las tarjetas con video). */
+  videoCover?: string;
   treated?: boolean; textSide?: "left" | "right"; hidden?: boolean; logoH?: number; logoHm?: number; bgColor: string;
   metric: string; metricLabel: string; quote: string;
   person: string; role: string; hasVideo: boolean; videoId?: string;
 };
 const CASES: CaseStudy[] = [
   {
-    id: "sears", name: "Sears", image: "/img/logos/sears-v2.png", whiteLogo: "/img/logo-sears-white.png", coverImage: "/img/caso-sears-art.png", treated: true, bgColor: "#241014",
+    id: "sears", name: "Sears", image: "/img/logos/sears-v2.png", whiteLogo: "/img/logo-sears-white.png", coverImage: "/img/caso-sears-art.png", videoCover: "/img/sears-video.png", treated: true, bgColor: "#241014",
     metric: "Cobertura", metricLabel: "nacional con entrega el mismo día",
     quote: "T1 como core logístico, con cobertura a nivel nacional y entrega el mismo día.",
     person: "Mario Muñoz", role: "CHIEF DIGITAL OFFICER | SEARS", hasVideo: true, videoId: "KtUy7AhmdlA",
   },
   {
-    id: "circulo", name: "Círculo de Crédito", image: "/img/logos/circulo-v3.png", whiteLogo: "/img/logo-circulo-white.png", coverImage: "/img/caso-circulo-art.png", treated: true, logoH: 40, bgColor: "#241014",
+    id: "circulo", name: "Círculo de Crédito", image: "/img/logos/circulo-v3.png", whiteLogo: "/img/logo-circulo-white.png", coverImage: "/img/caso-circulo-art.png", videoCover: "/img/circulo-video.png", treated: true, logoH: 40, bgColor: "#241014",
     metric: "−40%", metricLabel: "de mora temprana gracias a data alternativa",
     quote: "Con T1 Score logramos reducir 40% la mora temprana gracias a la data alternativa que integran al modelo.",
     person: "Juan Manuel Ruiz", role: "DIRECTOR GENERAL | CÍRCULO DE CRÉDITO", hasVideo: true, videoId: "MPXrBe7iNgE",
@@ -45,13 +47,13 @@ const CASES: CaseStudy[] = [
     person: "Fernando Díaz", role: "HEAD OF LOGISTICS | PIRMA", hasVideo: false,
   },
   {
-    id: "makora", name: "Makora", image: "/img/logos/makora-v2.png", whiteLogo: "/img/logo-makora-white.png", coverImage: "/img/caso-makora-art.png", treated: true, textSide: "right", bgColor: "#241014",
+    id: "makora", name: "Makora", image: "/img/logos/makora-v2.png", whiteLogo: "/img/logo-makora-white.png", coverImage: "/img/caso-makora-art.png", videoCover: "/img/makora-video.png", treated: true, textSide: "right", bgColor: "#241014",
     metric: "+ Conversión", metricLabel: "y centralización de operación",
     quote: "T1 nos ayudó a aumentar la conversión y centralizar toda nuestra operación en una sola plataforma.",
     person: "Marín Ramos", role: "FUNDADOR Y DIRECTOR GENERAL | MAKORA", hasVideo: true, videoId: "7l0BDngMRUk",
   },
   {
-    id: "pase", name: "PASE", image: "/img/logos/pase-v3.png", whiteLogo: "/img/logo-pase-white.png", coverImage: "/img/caso-pase-art.png", treated: true, textSide: "right", logoH: 45, logoHm: 36, bgColor: "#241014",
+    id: "pase", name: "PASE", image: "/img/logos/pase-v3.png", whiteLogo: "/img/logo-pase-white.png", coverImage: "/img/caso-pase-art.png", videoCover: "/img/pase-video.png", treated: true, textSide: "right", logoH: 45, logoHm: 36, bgColor: "#241014",
     metric: "<0.5 s", metricLabel: "tiempo de respuesta · 98% aprobación · +2 mil entregas de tags al mes",
     quote: "Con T1 procesamos en menos de 0.5 segundos con 98% de aprobación y entregamos más de 2 mil tags al mes.",
     person: "Alexis Reséndiz Meza", role: "DIRECTOR GENERAL | PASE", hasVideo: true, videoId: "ezeCCveM8y4",
@@ -85,7 +87,7 @@ function ArrowBtn({ direction, onClick }: { direction: "left" | "right"; onClick
   );
 }
 
-export default function T1EnterpriseCarousel() {
+export default function T1EnterpriseCarousel({ bVariant = false }: { bVariant?: boolean }) {
   const [videoOpen, setVideoOpen] = useState(false);
   const [activeVideo, setActiveVideo] = useState<(typeof CASES)[number] | null>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -145,8 +147,11 @@ export default function T1EnterpriseCarousel() {
           // Pre-treated art carries the spotlight baked into the PNG, so it
           // skips the CSS overlay. Subject side varies per photo: text goes on
           // the empty color side (opposite the person).
-          const treated = !!c.treated;
-          const isRight = c.textSide === "right";
+          // Versión B: las tarjetas con video usan la foto-still real del entrevistado.
+          const videoCard = bVariant && c.hasVideo && !!c.videoCover;
+          const cover = videoCard ? c.videoCover! : c.coverImage;
+          const treated = videoCard ? true : !!c.treated; // videoCard trae su propio degradado, sin spotlight
+          const isRight = videoCard ? false : c.textSide === "right";
           const logoH = c.logoH ?? 26;   // desktop white-logo height
           const logoHm = c.logoHm ?? Math.round(logoH * 0.9); // mobile height
           return (
@@ -163,14 +168,14 @@ export default function T1EnterpriseCarousel() {
             {/* ── MOBILE / responsive: image on top, text below ── */}
             <div className="flex flex-col tablet:hidden">
               <div className="relative h-[200px]" style={{ background: c.bgColor }}>
-                {c.coverImage && (
+                {cover && (
                   <Image
-                    src={c.coverImage}
+                    src={cover}
                     alt={c.name}
                     fill
                     quality={92}
                     className="object-cover"
-                    style={{ objectPosition: isRight ? "18% center" : "82% center" }}
+                    style={{ objectPosition: videoCard ? "center 20%" : isRight ? "18% center" : "82% center" }}
                     sizes="82vw"
                   />
                 )}
@@ -220,14 +225,14 @@ export default function T1EnterpriseCarousel() {
 
             {/* ── DESKTOP: full-bleed treated photo with text overlaid ── */}
             <div className="hidden tablet:contents">
-              {c.coverImage && (
+              {cover && (
                 <Image
-                  src={c.coverImage}
+                  src={cover}
                   alt={c.name}
                   fill
                   quality={92}
                   className="object-cover"
-                  style={{ objectPosition: "center" }}
+                  style={{ objectPosition: videoCard ? "center 20%" : "center" }}
                   sizes="720px"
                 />
               )}
@@ -245,10 +250,12 @@ export default function T1EnterpriseCarousel() {
                   />
                 </>
               )}
-              {/* Bottom legibility gradient */}
+              {/* Bottom legibility gradient — más fuerte para las foto-still de video */}
               <div
                 className="absolute inset-0"
-                style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.25) 0%, transparent 34%, rgba(0,0,0,0.18) 58%, rgba(0,0,0,0.82) 100%)" }}
+                style={{ background: videoCard
+                  ? "linear-gradient(180deg, rgba(0,0,0,0.42) 0%, transparent 26%, rgba(0,0,0,0.45) 58%, rgba(0,0,0,0.92) 100%)"
+                  : "linear-gradient(180deg, rgba(0,0,0,0.25) 0%, transparent 34%, rgba(0,0,0,0.18) 58%, rgba(0,0,0,0.82) 100%)" }}
               />
 
               {/* Brand logo — color side */}

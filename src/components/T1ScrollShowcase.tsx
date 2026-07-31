@@ -504,12 +504,15 @@ export default function T1ScrollShowcase() {
                 >
                   <div className="relative" style={{ perspective: 1200 }}>
                     <div className="pointer-events-none absolute inset-0 rounded-[24px]" style={{ background: BG_GRADIENT }} />
+                    {/* Sin filter:blur (encima del backdrop-blur del glass causaba
+                        jank/desenfoque momentáneo). Solo opacidad + escala, y se
+                        transicionan solo esas props para que sea fluido. */}
                     <div
-                      className="relative z-10 transition-all duration-500"
+                      className="relative z-10 transition-[opacity,transform] duration-300 ease-out"
                       style={{
-                        opacity: on ? 1 : 0.4,
-                        transform: on ? "scale(1)" : "scale(0.92)",
-                        filter: on ? "blur(0px)" : "blur(2px)",
+                        opacity: on ? 1 : 0.55,
+                        transform: on ? "scale(1)" : "scale(0.96)",
+                        willChange: "opacity, transform",
                       }}
                     >
                       {card}
