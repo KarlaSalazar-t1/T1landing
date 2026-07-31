@@ -41,7 +41,7 @@ const TAB_CARDS: TabCard[] = [
     cta: "Crear mi tienda",
     ctaHref: "/registro",
     subTabs: [
-      { label: "Tienda con IA", description: "Describe tu negocio y nuestra IA creará tu tienda en menos de 2 minutos, lista para vender.", image: null, floatingCards: null, panel: "tienda-ia" },
+      { label: "Tienda con IA", description: "Describe tu negocio y nuestra IA creará tu tienda en menos de 1 minuto, lista para vender.", image: null, floatingCards: null, panel: "tienda-ia" },
       { label: "Catálogo de productos", description: "Gestiona productos, variantes, precios e inventario desde un solo lugar centralizado.", image: null, floatingCards: null, panel: "producto-grid" },
       { label: "Personaliza diseño", description: "Personaliza colores, tipografías, banners y secciones de tu tienda sin necesidad de código.", image: null, floatingCards: null, panel: "personaliza" },
     ],
@@ -76,7 +76,7 @@ const TAB_CARDS: TabCard[] = [
     cta: "Conectar canales",
     ctaHref: "/registro",
     subTabs: [
-      { label: "Conecta canales", description: "Conecta Amazon, Mercado Libre, Walmart, SHEIN y más en un solo click.", image: null, floatingCards: null, panel: "pedidos" },
+      { label: "Conecta canales", description: "Conecta más de 8 canales de venta —Amazon, Mercado Libre, Walmart, SHEIN y más— en un solo click.", image: null, floatingCards: null, panel: "pedidos" },
       { label: "Sincroniza inventario", description: "Tu inventario se actualiza en tiempo real en todos tus canales de venta.", image: null, floatingCards: null, panel: "sync-inventory" },
     ],
   },
@@ -109,8 +109,8 @@ const TAB_CARDS: TabCard[] = [
     cta: "Empezar a vender",
     ctaHref: "/registro",
     subTabs: [
-      { label: "Cobra en sucursal", description: "Acepta tarjeta, efectivo y transferencia desde una sola terminal.", image: null, floatingCards: null, panel: "pos-cobro" },
-      { label: "Control de inventario", description: "Lleva el control de tu stock en tiempo real desde el punto de venta.", image: null, floatingCards: null, panel: "pos-inventario" },
+      { label: "Cobra en sucursal", description: "Registra tus ventas en sucursal y configura tus métodos de pago; los cobros con tarjeta se procesan con tu propia terminal.", image: null, floatingCards: null, panel: "pos-cobro" },
+      { label: "Control de inventario", description: "Lleva el control de tu inventario en tiempo real desde el punto de venta.", image: null, floatingCards: null, panel: "pos-inventario" },
       { label: "Control de caja", description: "Cierra turno con el detalle de cobros, devoluciones y efectivo en caja.", image: null, floatingCards: null, panel: "pos-control-caja" },
     ],
   },
@@ -759,12 +759,12 @@ export default function T1Solutions() {
                     </div>
                   ))}
                   <svg className="pointer-events-none absolute inset-0 h-full w-full" fill="none">
-                    <line x1="50%" y1="50%" x2="25%" y2="10%" stroke="rgba(0,0,0,0.06)" strokeWidth="1" strokeDasharray="4 3" />
-                    <line x1="50%" y1="50%" x2="75%" y2="10%" stroke="rgba(0,0,0,0.06)" strokeWidth="1" strokeDasharray="4 3" />
-                    <line x1="50%" y1="50%" x2="10%" y2="46%" stroke="rgba(0,0,0,0.06)" strokeWidth="1" strokeDasharray="4 3" />
-                    <line x1="50%" y1="50%" x2="90%" y2="46%" stroke="rgba(0,0,0,0.06)" strokeWidth="1" strokeDasharray="4 3" />
-                    <line x1="50%" y1="50%" x2="25%" y2="90%" stroke="rgba(0,0,0,0.06)" strokeWidth="1" strokeDasharray="4 3" />
-                    <line x1="50%" y1="50%" x2="75%" y2="90%" stroke="rgba(0,0,0,0.06)" strokeWidth="1" strokeDasharray="4 3" />
+                    <line x1="50%" y1="50%" x2="25%" y2="10%" stroke="rgba(255,255,255,0.30)" strokeWidth="1" strokeDasharray="4 3" />
+                    <line x1="50%" y1="50%" x2="75%" y2="10%" stroke="rgba(255,255,255,0.30)" strokeWidth="1" strokeDasharray="4 3" />
+                    <line x1="50%" y1="50%" x2="10%" y2="46%" stroke="rgba(255,255,255,0.30)" strokeWidth="1" strokeDasharray="4 3" />
+                    <line x1="50%" y1="50%" x2="90%" y2="46%" stroke="rgba(255,255,255,0.30)" strokeWidth="1" strokeDasharray="4 3" />
+                    <line x1="50%" y1="50%" x2="25%" y2="90%" stroke="rgba(255,255,255,0.30)" strokeWidth="1" strokeDasharray="4 3" />
+                    <line x1="50%" y1="50%" x2="75%" y2="90%" stroke="rgba(255,255,255,0.30)" strokeWidth="1" strokeDasharray="4 3" />
                   </svg>
                 </div>
               ) : currentSub.panel === "personaliza" ? (
@@ -817,11 +817,11 @@ export default function T1Solutions() {
                   <svg className="pointer-events-none absolute inset-0 h-full w-full" fill="none">
                     <line x1="50%" y1="28%" x2="50%" y2="40%" stroke="rgba(0,0,0,0.08)" strokeWidth="1" strokeDasharray="4 3" />
                     <line x1="50%" y1="46%" x2="50%" y2="70%" stroke="rgba(0,0,0,0.08)" strokeWidth="1" strokeDasharray="4 3" />
-                    <line x1="22%" y1="70%" x2="78%" y2="70%" stroke="rgba(0,0,0,0.06)" strokeWidth="1" strokeDasharray="4 3" />
-                    <line x1="28%" y1="70%" x2="28%" y2="80%" stroke="rgba(0,0,0,0.06)" strokeWidth="1" strokeDasharray="3 2" />
-                    <line x1="42%" y1="70%" x2="42%" y2="80%" stroke="rgba(0,0,0,0.06)" strokeWidth="1" strokeDasharray="3 2" />
-                    <line x1="58%" y1="70%" x2="58%" y2="80%" stroke="rgba(0,0,0,0.06)" strokeWidth="1" strokeDasharray="3 2" />
-                    <line x1="72%" y1="70%" x2="72%" y2="80%" stroke="rgba(0,0,0,0.06)" strokeWidth="1" strokeDasharray="3 2" />
+                    <line x1="22%" y1="70%" x2="78%" y2="70%" stroke="rgba(255,255,255,0.30)" strokeWidth="1" strokeDasharray="4 3" />
+                    <line x1="28%" y1="70%" x2="28%" y2="80%" stroke="rgba(255,255,255,0.30)" strokeWidth="1" strokeDasharray="3 2" />
+                    <line x1="42%" y1="70%" x2="42%" y2="80%" stroke="rgba(255,255,255,0.30)" strokeWidth="1" strokeDasharray="3 2" />
+                    <line x1="58%" y1="70%" x2="58%" y2="80%" stroke="rgba(255,255,255,0.30)" strokeWidth="1" strokeDasharray="3 2" />
+                    <line x1="72%" y1="70%" x2="72%" y2="80%" stroke="rgba(255,255,255,0.30)" strokeWidth="1" strokeDasharray="3 2" />
                   </svg>
                 </div>
               ) : currentSub.panel === "order-list" ? (
@@ -928,9 +928,10 @@ export default function T1Solutions() {
                   <div className="relative overflow-hidden rounded-[14px]" style={{ width: 200, height: 280 }}>
                     <Image src="/img/link-pago.png" alt="Link de pago" fill className="object-cover object-top" />
                   </div>
-                  {/* Floating: WhatsApp message — raised 70px */}
-                  <div className="absolute overflow-hidden rounded-[8px]" style={{ left: 8, top: 60, width: 140, boxShadow: "0 4px 16px rgba(0,0,0,0.1)" }}>
-                    <Image src="/img/message-wa.svg" alt="" width={140} height={80} className="w-full" />
+                  {/* Floating: WhatsApp message — el SVG ya trae su forma de burbuja
+                      (con colita); sin recuadro que la recorte, sombra por drop-shadow. */}
+                  <div className="absolute" style={{ left: 4, top: 60, width: 168 }}>
+                    <Image src="/img/message-wa.svg" alt="" width={376} height={122} className="w-full" style={{ filter: "drop-shadow(0 6px 16px rgba(0,0,0,0.16))" }} />
                   </div>
                   {/* Floating: Pago completado */}
                   <div className="absolute flex items-center gap-1.5 rounded-[10px] bg-white" style={{ right: 8, bottom: 20, padding: "8px 12px", boxShadow: "0 4px 16px rgba(0,0,0,0.1)" }}>
@@ -1070,6 +1071,7 @@ export default function T1Solutions() {
                 ) : currentSub.panel === "pedidos" ? (
                   /* Conecta canales — T1 center with marketplace logos radiating */
                   <div className="relative flex h-full items-center justify-center">
+                   <div className="relative flex h-full w-full items-center justify-center" style={{ maxWidth: 340 }}>
                     {/* T1 logo center */}
                     <div className="relative flex h-[60px] w-[60px] items-center justify-center rounded-[14px] bg-white" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.08)", zIndex: 10 }}>
                       <svg width="30" height="28" viewBox="0 0 45 44" fill="none">
@@ -1090,15 +1092,16 @@ export default function T1Solutions() {
                         <Image src={mp.src} alt="" width={30} height={30} className="object-contain" />
                       </div>
                     ))}
-                    {/* Connecting lines SVG */}
+                    {/* Connecting lines SVG — blancas para que se vean sobre el panel oscuro */}
                     <svg className="pointer-events-none absolute inset-0 h-full w-full" fill="none">
-                      <line x1="50%" y1="50%" x2="20%" y2="15%" stroke="rgba(0,0,0,0.06)" strokeWidth="1" strokeDasharray="4 3" />
-                      <line x1="50%" y1="50%" x2="80%" y2="15%" stroke="rgba(0,0,0,0.06)" strokeWidth="1" strokeDasharray="4 3" />
-                      <line x1="50%" y1="50%" x2="8%" y2="50%" stroke="rgba(0,0,0,0.06)" strokeWidth="1" strokeDasharray="4 3" />
-                      <line x1="50%" y1="50%" x2="92%" y2="50%" stroke="rgba(0,0,0,0.06)" strokeWidth="1" strokeDasharray="4 3" />
-                      <line x1="50%" y1="50%" x2="20%" y2="85%" stroke="rgba(0,0,0,0.06)" strokeWidth="1" strokeDasharray="4 3" />
-                      <line x1="50%" y1="50%" x2="80%" y2="85%" stroke="rgba(0,0,0,0.06)" strokeWidth="1" strokeDasharray="4 3" />
+                      <line x1="50%" y1="50%" x2="20%" y2="15%" stroke="rgba(255,255,255,0.30)" strokeWidth="1" strokeDasharray="4 3" />
+                      <line x1="50%" y1="50%" x2="80%" y2="15%" stroke="rgba(255,255,255,0.30)" strokeWidth="1" strokeDasharray="4 3" />
+                      <line x1="50%" y1="50%" x2="8%" y2="50%" stroke="rgba(255,255,255,0.30)" strokeWidth="1" strokeDasharray="4 3" />
+                      <line x1="50%" y1="50%" x2="92%" y2="50%" stroke="rgba(255,255,255,0.30)" strokeWidth="1" strokeDasharray="4 3" />
+                      <line x1="50%" y1="50%" x2="20%" y2="85%" stroke="rgba(255,255,255,0.30)" strokeWidth="1" strokeDasharray="4 3" />
+                      <line x1="50%" y1="50%" x2="80%" y2="85%" stroke="rgba(255,255,255,0.30)" strokeWidth="1" strokeDasharray="4 3" />
                     </svg>
+                   </div>
                   </div>
                 ) : currentSub.panel === "personaliza" ? (
                   /* Personaliza — store with floating design elements */
@@ -1161,6 +1164,7 @@ export default function T1Solutions() {
                 ) : currentSub.panel === "sync-inventory" ? (
                   /* Sincroniza inventario — T1 + marketplace tree like modal */
                   <div className="relative flex h-full items-center justify-center">
+                   <div className="relative flex h-full w-full items-center justify-center" style={{ maxWidth: 400 }}>
                     {/* Product card left */}
                     <div className="absolute overflow-hidden rounded-[14px]" style={{ left: 20, top: "50%", transform: "translateY(-50%)", width: 120, padding: 14, background: "rgba(0,0,0,0.03)", border: "1px solid rgba(0,0,0,0.06)" }}>
                       <div className="mb-2 flex items-center justify-center">
@@ -1189,17 +1193,18 @@ export default function T1Solutions() {
                         <Image src={mp.src} alt="" width={36} height={36} className="object-contain" />
                       </div>
                     ))}
-                    {/* Dashed lines */}
+                    {/* Dashed lines — blancas para que se vean sobre el panel oscuro */}
                     <svg className="pointer-events-none absolute inset-0 h-full w-full" fill="none">
-                      <line x1="28%" y1="50%" x2="50%" y2="50%" stroke="rgba(0,0,0,0.06)" strokeWidth="1" strokeDasharray="4 3" />
-                      <line x1="50%" y1="50%" x2="58%" y2="50%" stroke="rgba(0,0,0,0.06)" strokeWidth="1" strokeDasharray="4 3" />
-                      <line x1="58%" y1="15%" x2="58%" y2="93%" stroke="rgba(0,0,0,0.06)" strokeWidth="1" strokeDasharray="4 3" />
-                      <line x1="58%" y1="15%" x2="82%" y2="15%" stroke="rgba(0,0,0,0.06)" strokeWidth="1" strokeDasharray="4 3" />
-                      <line x1="58%" y1="35%" x2="92%" y2="35%" stroke="rgba(0,0,0,0.06)" strokeWidth="1" strokeDasharray="4 3" />
-                      <line x1="58%" y1="55%" x2="82%" y2="55%" stroke="rgba(0,0,0,0.06)" strokeWidth="1" strokeDasharray="4 3" />
-                      <line x1="58%" y1="75%" x2="92%" y2="75%" stroke="rgba(0,0,0,0.06)" strokeWidth="1" strokeDasharray="4 3" />
-                      <line x1="58%" y1="93%" x2="82%" y2="93%" stroke="rgba(0,0,0,0.06)" strokeWidth="1" strokeDasharray="4 3" />
+                      <line x1="28%" y1="50%" x2="50%" y2="50%" stroke="rgba(255,255,255,0.30)" strokeWidth="1" strokeDasharray="4 3" />
+                      <line x1="50%" y1="50%" x2="58%" y2="50%" stroke="rgba(255,255,255,0.30)" strokeWidth="1" strokeDasharray="4 3" />
+                      <line x1="58%" y1="15%" x2="58%" y2="93%" stroke="rgba(255,255,255,0.30)" strokeWidth="1" strokeDasharray="4 3" />
+                      <line x1="58%" y1="15%" x2="82%" y2="15%" stroke="rgba(255,255,255,0.30)" strokeWidth="1" strokeDasharray="4 3" />
+                      <line x1="58%" y1="35%" x2="92%" y2="35%" stroke="rgba(255,255,255,0.30)" strokeWidth="1" strokeDasharray="4 3" />
+                      <line x1="58%" y1="55%" x2="82%" y2="55%" stroke="rgba(255,255,255,0.30)" strokeWidth="1" strokeDasharray="4 3" />
+                      <line x1="58%" y1="75%" x2="92%" y2="75%" stroke="rgba(255,255,255,0.30)" strokeWidth="1" strokeDasharray="4 3" />
+                      <line x1="58%" y1="93%" x2="82%" y2="93%" stroke="rgba(255,255,255,0.30)" strokeWidth="1" strokeDasharray="4 3" />
                     </svg>
+                   </div>
                   </div>
                 ) : currentSub.panel === "order-list" ? (
                   /* Order list — photo behind, panel overlapping */
@@ -1354,9 +1359,10 @@ export default function T1Solutions() {
                     <div className="overflow-hidden rounded-[16px]">
                       <Image src="/img/link-pago.png" alt="Link de pago" width={280} height={240} className="object-contain" />
                     </div>
-                    {/* Floating: WhatsApp message — higher */}
-                    <div className="absolute overflow-hidden rounded-[12px]" style={{ left: 20, top: 80, width: 180, boxShadow: "0 6px 24px rgba(0,0,0,0.1)" }}>
-                      <Image src="/img/message-wa.svg" alt="Mensaje" width={180} height={100} className="w-full" />
+                    {/* Floating: WhatsApp message — el SVG ya trae su forma de burbuja
+                        (con colita); sin recuadro que la recorte, sombra por drop-shadow. */}
+                    <div className="absolute" style={{ left: 12, top: 80, width: 216 }}>
+                      <Image src="/img/message-wa.svg" alt="Mensaje" width={376} height={122} className="w-full" style={{ filter: "drop-shadow(0 8px 22px rgba(0,0,0,0.14))" }} />
                     </div>
                     {/* Floating: Pago completado */}
                     <div className="absolute flex items-center gap-2 rounded-[12px] bg-white" style={{ right: 30, bottom: 70, padding: "12px 18px", boxShadow: "0 6px 24px rgba(0,0,0,0.1)" }}>
@@ -1644,7 +1650,7 @@ export default function T1Solutions() {
                       {[
                         { name: "Tenis blancos clásicos", sku: "TBC-042", stock: 24, status: "Disponible", color: "#22C55E" },
                         { name: "Playera básica", sku: "PB-101", stock: 87, status: "Disponible", color: "#22C55E" },
-                        { name: "Sudadera hoodie", sku: "SH-220", stock: 8, status: "Bajo stock", color: "#F59E0B" },
+                        { name: "Sudadera hoodie", sku: "SH-220", stock: 8, status: "Inventario bajo", color: "#F59E0B" },
                       ].map((row, i) => (
                         <div key={row.sku} className={`flex items-center justify-between py-3 ${i < 2 ? "border-b border-black/[0.04]" : ""}`}>
                           <div>
@@ -1663,7 +1669,7 @@ export default function T1Solutions() {
                     </div>
                     <div className="absolute flex items-center gap-2 rounded-[12px] bg-white" style={{ left: 40, top: 70, padding: "10px 14px", boxShadow: "0 6px 24px rgba(0,0,0,0.08)" }}>
                       <span className="flex h-[8px] w-[8px] rounded-full bg-[#22C55E]" style={{ animation: "pulse-soft 2s ease-in-out infinite" }} />
-                      <span className="text-[12px] font-semibold text-[#4c4c4c]">Stock actualizado</span>
+                      <span className="text-[12px] font-semibold text-[#4c4c4c]">Inventario actualizado</span>
                     </div>
                   </div>
                 ) : currentSub.panel === "pos-control-caja" ? (

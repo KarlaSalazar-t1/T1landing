@@ -351,8 +351,9 @@ export default function T1HeroB() {
             </span>
           </h1>
 
-          {/* Bloque central (centrado en el alto disponible) */}
-          <div className="flex w-full flex-1 flex-col items-center justify-center gap-9 py-6">
+          {/* Bloque central — anclado bajo el H1 (NO centrado) para que el selector
+              quede fijo y no suba/baje al cambiar de tab (el contenido varía de alto). */}
+          <div className="flex w-full flex-col items-center gap-8 pt-10 tablet:pt-14">
 
             {/* 2 · Selector — móvil: tabs con subrayado · desktop: segmented pill */}
             {/* Móvil — tabs con subrayado */}
@@ -424,7 +425,8 @@ export default function T1HeroB() {
               })}
             </div>
 
-            {/* 3 · Zona que cambia por tab — altura fija para que el selector no se desfase */}
+            {/* 3 · Zona que cambia por tab. El selector va anclado ARRIBA (bloque no
+                centrado), así que aunque esta zona cambie de alto el selector no se mueve. */}
             <div className="flex min-h-[336px] w-full flex-col items-center gap-5 tablet:min-h-[300px]" aria-live="polite">
               {/* ── TIENDA ── */}
               {tab.id === "tienda" && (
@@ -591,18 +593,14 @@ export default function T1HeroB() {
           <div className="mx-auto w-full max-w-[var(--max-w)] px-5 tablet:px-6">
             {/* Datos: negocios centrado arriba; envíos + transacciones en una línea abajo.
                 Más aire entre líneas y contra el marquee (desktop y móvil). */}
-            <div className="mb-14 flex flex-col items-center gap-3.5 tablet:mb-20 tablet:gap-6">
-              <span className="font-inter text-[22px] font-semibold text-white tablet:text-[30px]">+50,000 negocios</span>
+            <div className="mb-12 flex flex-col items-center gap-3 tablet:mb-16 tablet:gap-5">
+              <span className="font-inter text-[19px] font-medium text-white tablet:text-[24px]">+50,000 negocios</span>
               <div className="flex items-center gap-6 tablet:gap-14">
-                <span className="font-inter text-[16px] font-medium text-white/80 tablet:text-[20px]">+30M de envíos</span>
-                <span className="font-inter text-[16px] font-medium text-white/80 tablet:text-[20px]">+200M transacciones</span>
+                <span className="font-inter text-[15px] font-normal text-white/75 tablet:text-[18px]">+30M de envíos</span>
+                <span className="font-inter text-[15px] font-normal text-white/75 tablet:text-[18px]">+200M transacciones</span>
               </div>
             </div>
-            {/* Título del marquee */}
-            <p className="mb-3 text-center font-inter text-[13px] font-light text-white/45">
-              Negocios que ya crecen con T1
-            </p>
-            {/* Marquee a todo el ancho (alineado con el header) */}
+            {/* Marquee a todo el ancho (alineado con el header) — sin título */}
             <LogoMarquee />
           </div>
         </div>
