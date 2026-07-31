@@ -343,7 +343,7 @@ export default function T1HeroB() {
             <span className="block">Un solo lugar para</span>
             <span
               key={pIdx}
-              className="block font-medium text-[#FFD8C4]"
+              className="block text-[#FFD8C4]"
               style={{ animation: "heroWordIn 0.4s ease-out" }}
             >
               {HERO_PHRASES[pIdx]}

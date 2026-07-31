@@ -179,7 +179,7 @@ export default function T1Navbar() {
             background: (menuOpen || recursosOpen || mobileOpen)
               ? "#000000"
               : scrolled
-                ? "rgba(20,16,16,0.72)"
+                ? "rgba(0,0,0,0.6)"
                 : "transparent",
             backdropFilter: pill ? "blur(16px)" : "none",
             WebkitBackdropFilter: pill ? "blur(16px)" : "none",

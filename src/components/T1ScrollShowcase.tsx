@@ -52,7 +52,7 @@ function VendeCard() {
   const c = CHANNELS[i];
   return (
     <div className="w-[320px] overflow-hidden rounded-[18px] border border-white/[0.14] bg-white/[0.06] backdrop-blur-2xl" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.14)", fontFamily: FONT }}>
-      <div className="relative flex items-center justify-center" style={{ height: 200, background: "rgba(255,255,255,0.05)" }}>
+      <div className="relative flex items-center justify-center" style={{ height: 200 }}>
         <Image src="/img/tenis-transparente.png" alt="" width={230} height={150} className="object-contain" />
         <span className="absolute left-3 top-3 rounded-full bg-white px-2.5 py-1 text-[11px] font-bold text-black">-14%</span>
         {/* Canal de venta (cicla) */}

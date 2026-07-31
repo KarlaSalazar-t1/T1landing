@@ -296,7 +296,7 @@ export default function T1Hero() {
               Todos tus{" "}
               <span
                 key={wIdx}
-                className="inline-block font-medium text-[#FFD8C4]"
+                className="inline-block text-[#FFD8C4]"
                 style={{ animation: "heroWordIn 0.4s ease-out" }}
               >
                 {HERO_WORDS[wIdx]}
