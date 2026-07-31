@@ -49,11 +49,11 @@ const CARDS: Card[] = [
     glow: "#2F6BFF",
     iconStyle: "card",
     icons: [
-      { src: "/img/icons/visa.svg" },
-      { src: "/img/icons/mastercard.svg" },
-      { src: "/img/icons/amex.svg" },
-      { src: "/img/icons/spei.svg" },
-      { src: "/img/icons/kueski.svg" },
+      { src: "/img/icons/visa-card.svg" },
+      { src: "/img/icons/mc-card.svg" },
+      { src: "/img/icons/amex-card.svg" },
+      { src: "/img/icons/spei-card.svg" },
+      { src: "/img/icons/kueski-card.svg" },
     ],
     ctaLabel: "Conoce T1 Pagos",
     ctaHref: "/productos/t1pagos",
@@ -113,8 +113,8 @@ function IconGrid({ card }: { card: Card }) {
     <div className="flex items-center justify-start gap-3">
       {visible.map((ic) =>
         isCard ? (
-          /* Métodos de pago sin contenedor — a color, directos sobre la card */
-          <Image key={ic.src} src={ic.src} alt="" width={80} height={52} className="h-[26px] w-auto shrink-0 object-contain" />
+          /* Métodos de pago — chips de tarjeta ya diseñados (sin contenedor extra) */
+          <Image key={ic.src} src={ic.src} alt="" width={80} height={52} className="h-[30px] w-auto shrink-0 object-contain" />
         ) : (
           <div
             key={ic.src}

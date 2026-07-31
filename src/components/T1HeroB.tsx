@@ -101,11 +101,11 @@ function LogoMarquee() {
 
 /* ── Logos de métodos de pago (link de pago) — tarjeta blanca ── */
 const PAY_LOGOS = [
-  "/img/icons/visa.svg",
-  "/img/icons/mastercard.svg",
-  "/img/icons/amex.svg",
-  "/img/icons/spei.svg",
-  "/img/icons/kueski.svg",
+  "/img/icons/visa-card.svg",
+  "/img/icons/mc-card.svg",
+  "/img/icons/amex-card.svg",
+  "/img/icons/spei-card.svg",
+  "/img/icons/kueski-card.svg",
 ];
 function PayLogos() {
   return (
@@ -114,7 +114,7 @@ function PayLogos() {
       {/* Logos sin contenedor — a color, directos sobre el fondo */}
       <div className="flex items-center justify-center gap-4">
         {PAY_LOGOS.map((src) => (
-          <Image key={src} src={src} alt="" width={80} height={52} className="h-[26px] w-auto object-contain" />
+          <Image key={src} src={src} alt="" width={80} height={52} className="h-[30px] w-auto object-contain" />
         ))}
       </div>
     </div>

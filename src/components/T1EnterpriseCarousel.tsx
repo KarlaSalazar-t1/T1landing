@@ -195,8 +195,8 @@ export default function T1EnterpriseCarousel({ bVariant = false }: { bVariant?: 
                     <Image src={c.image} alt={c.name} width={34} height={34} className="object-contain" style={{ padding: 3 }} />
                   </div>
                 )}
-                {/* Ver video — opposite the logo */}
-                {c.hasVideo && (
+                {/* Ver video — chip (versión A / no-videoCard) */}
+                {c.hasVideo && !videoCard && (
                   <button
                     type="button"
                     onClick={() => { setActiveVideo(c); setVideoOpen(true); }}
@@ -208,6 +208,18 @@ export default function T1EnterpriseCarousel({ bVariant = false }: { bVariant?: 
                       <svg width="7" height="9" viewBox="0 0 8 10" fill="none"><path d="M1 1L7 5L1 9V1Z" fill="white" /></svg>
                     </span>
                     Ver video
+                  </button>
+                )}
+
+                {/* Play centrado (versión B, foto-still) */}
+                {videoCard && (
+                  <button
+                    type="button"
+                    onClick={() => { setActiveVideo(c); setVideoOpen(true); }}
+                    aria-label={`Ver video de ${c.name}`}
+                    className="group/play absolute left-1/2 top-1/2 z-10 flex -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center border-none bg-transparent p-0"
+                  >
+                    <Image src="/img/play-circle.svg" alt="" width={56} height={56} className="h-[56px] w-[56px]" style={{ filter: "drop-shadow(0 4px 16px rgba(0,0,0,0.45))" }} />
                   </button>
                 )}
               </div>
@@ -279,8 +291,8 @@ export default function T1EnterpriseCarousel({ bVariant = false }: { bVariant?: 
                 </div>
               )}
 
-              {/* Ver video — opposite the color side */}
-              {c.hasVideo && (
+              {/* Ver video — chip (versión A / no-videoCard) */}
+              {c.hasVideo && !videoCard && (
                 <button
                   type="button"
                   onClick={() => { setActiveVideo(c); setVideoOpen(true); }}
@@ -292,6 +304,25 @@ export default function T1EnterpriseCarousel({ bVariant = false }: { bVariant?: 
                     <svg width="8" height="10" viewBox="0 0 8 10" fill="none"><path d="M1 1L7 5L1 9V1Z" fill="white" /></svg>
                   </span>
                   Ver video
+                </button>
+              )}
+
+              {/* Play centrado (versión B, foto-still) */}
+              {videoCard && (
+                <button
+                  type="button"
+                  onClick={() => { setActiveVideo(c); setVideoOpen(true); }}
+                  aria-label={`Ver video de ${c.name}`}
+                  className="group/play absolute left-1/2 top-1/2 z-20 flex -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center border-none bg-transparent p-0"
+                >
+                  <Image
+                    src="/img/play-circle.svg"
+                    alt=""
+                    width={76}
+                    height={76}
+                    className="h-[76px] w-[76px] transition-transform duration-200 group-hover/play:scale-110"
+                    style={{ filter: "drop-shadow(0 4px 18px rgba(0,0,0,0.45))" }}
+                  />
                 </button>
               )}
 
