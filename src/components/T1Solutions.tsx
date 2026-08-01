@@ -238,7 +238,7 @@ export default function T1Solutions() {
           className="font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]"
           style={{ letterSpacing: "-1.32px", textAlign: "center", marginBottom: 28 }}
         >
-          Un ecosistema, todas las herramientas
+          Un ecosistema para todo tu negocio
         </h2>
 
         {/* ── Level 1 chips OUTSIDE the card — single line.

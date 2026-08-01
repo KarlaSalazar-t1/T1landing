@@ -488,10 +488,12 @@ export default function T1HeroB() {
               {/* ── LINK DE PAGO ── */}
               {tab.id === "link" && (
                 <>
-                  <p className="max-w-[360px] text-center font-inter text-[16px] font-light leading-[1.6] text-white tablet:max-w-none tablet:whitespace-nowrap">
+                  <p className="flex min-h-[52px] max-w-[360px] items-center justify-center text-center font-inter text-[16px] font-light leading-[1.6] text-white tablet:min-h-0 tablet:max-w-none tablet:whitespace-nowrap">
                     Cobra sin terminal. Comparte un link y listo.
                   </p>
                   <div className="flex w-full flex-1 flex-col gap-3.5 tablet:flex-none">
+                    {/* Campos (monto + concepto) — misma altura mín. que el CP de envío para alinear los logos entre pestañas */}
+                    <div className="flex min-h-[172px] flex-col gap-3.5">
                     {/* Monto grande, sin caja */}
                     <div className="flex items-center justify-center gap-1.5" style={{ minHeight: 85 }}>
                       <span className="font-sora text-[28px] font-light text-white/45">$</span>
@@ -516,6 +518,7 @@ export default function T1HeroB() {
                         className={FIELD}
                       />
                     </div>
+                    </div>
                     <a
                       href={tab.href}
                       onClick={(e) => {
@@ -524,7 +527,7 @@ export default function T1HeroB() {
                       }}
                       aria-disabled={!linkOk}
                       style={kbBtnStyle}
-                      className={`mt-auto flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors tablet:mt-0 tablet:w-full tablet:max-w-[440px] tablet:self-center ${
+                      className={`mt-auto flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors tablet:mt-3 tablet:w-full tablet:max-w-[440px] tablet:self-center ${
                         linkOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
                       }`}
                     >
@@ -540,12 +543,12 @@ export default function T1HeroB() {
               {/* ── ENVÍO ── */}
               {tab.id === "envio" && (
                 <>
-                  <p className="max-w-[360px] text-center font-inter text-[16px] font-light leading-[1.6] text-white tablet:max-w-none tablet:whitespace-nowrap">
+                  <p className="flex min-h-[52px] max-w-[360px] items-center justify-center text-center font-inter text-[16px] font-light leading-[1.6] text-white tablet:min-h-0 tablet:max-w-none tablet:whitespace-nowrap">
                     Cotiza a todo México en segundos.
                   </p>
                   <div className="flex w-full flex-1 flex-col gap-4 tablet:flex-none">
-                    {/* CP en vertical con línea de tiempo (origen → destino) — mismo ancho que concepto en link de pago */}
-                    <div className="mx-auto w-full rounded-[16px] bg-[#1D1D1D] px-4 py-2 tablet:max-w-[440px]">
+                    {/* CP — misma altura mín. que los campos de link para alinear los logos entre pestañas */}
+                    <div className="mx-auto flex min-h-[172px] w-full flex-col justify-center rounded-[16px] bg-[#1D1D1D] px-4 py-2 tablet:max-w-[440px]">
                       <div className="flex gap-3.5">
                         <div className="flex flex-col items-center self-stretch py-[18px]">
                           <span className="h-[11px] w-[11px] shrink-0 rounded-full border-[1.5px] border-white" />
@@ -573,7 +576,7 @@ export default function T1HeroB() {
                       }}
                       aria-disabled={!envioOk}
                       style={kbBtnStyle}
-                      className={`mt-auto flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors tablet:mt-1 tablet:w-full tablet:max-w-[440px] tablet:self-center ${
+                      className={`mt-auto flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors tablet:mt-3 tablet:w-full tablet:max-w-[440px] tablet:self-center ${
                         envioOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
                       }`}
                     >
@@ -590,7 +593,7 @@ export default function T1HeroB() {
         </div>
 
         {/* ══ BAJO EL FOLD ══ datos + marquee a todo el ancho (alineado al header) ══ */}
-        <div className="relative z-10 w-full pb-8 pt-7 tablet:pt-24">
+        <div className="relative z-10 w-full pb-8 pt-11 tablet:pt-24">
           <div className="mx-auto w-full max-w-[var(--max-w)] px-5 tablet:px-6">
             {/* Datos: negocios centrado arriba; envíos + transacciones en una línea abajo.
                 Más aire entre líneas y contra el marquee (desktop y móvil). */}

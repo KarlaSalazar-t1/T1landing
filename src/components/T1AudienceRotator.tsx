@@ -111,7 +111,7 @@ export default function T1AudienceRotator() {
         <div className="tablet:hidden">
           {/* Título + descripción del activo */}
           <div key={`m-txt-${active}`} className="px-1 text-left" style={{ marginBottom: 16, animation: "fadeSlideIn 0.4s ease-out" }}>
-            <h3 className="font-sora text-[24px] font-normal text-white" style={{ letterSpacing: "-0.02em" }}>{a.title}</h3>
+            <h3 className="font-sora text-[19px] font-light text-white" style={{ letterSpacing: "-0.02em" }}>{a.title}</h3>
             <p className="mt-2 max-w-[420px] font-inter text-[14px] font-normal leading-relaxed text-white/60">{a.description}</p>
           </div>
           {/* barra segmentada — timer de auto-avance */}
@@ -183,7 +183,7 @@ export default function T1AudienceRotator() {
                   }}
                 >
                   <div className="flex items-center justify-between gap-3">
-                    <h3 className="font-sora text-[20px] font-normal tablet:text-[24px]" style={{ letterSpacing: "-0.02em", color: on ? "#FFFFFF" : "rgba(255,255,255,0.45)", transition: "color 0.3s" }}>
+                    <h3 className="font-sora text-[18px] font-light tablet:text-[22px]" style={{ letterSpacing: "-0.02em", color: on ? "#FFFFFF" : "rgba(255,255,255,0.45)", transition: "color 0.3s" }}>
                       {it.title}
                     </h3>
                     <span className="flex h-[26px] w-[26px] items-center justify-center rounded-full" style={{ background: on ? "#DB3B2B" : "rgba(255,255,255,0.08)", transition: "background 0.3s" }}>
