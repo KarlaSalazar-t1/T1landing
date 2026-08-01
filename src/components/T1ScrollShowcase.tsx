@@ -53,7 +53,7 @@ function VendeCard() {
   return (
     <div className="w-[320px] overflow-hidden rounded-[18px] border border-white/[0.14] bg-white/[0.06] backdrop-blur-sm" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.14)", fontFamily: FONT }}>
       <div className="relative flex items-center justify-center" style={{ height: 200 }}>
-        <Image src="/img/tenis-transparente.png" alt="" width={230} height={150} className="object-contain" />
+        <Image src="/img/tennis-big.png" alt="" width={230} height={150} className="object-contain" />
         <span className="absolute left-3 top-3 rounded-full bg-white px-2.5 py-1 text-[11px] font-bold text-black">-14%</span>
         {/* Canal de venta (cicla) */}
         <div key={i} className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1" style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.25)", animation: "fadeSlideIn 0.4s ease-out" }}>
@@ -88,7 +88,7 @@ function CobraCard() {
       <p className="text-[14px] font-bold text-white">Resumen de tu compra</p>
       <div className="mt-4 flex items-center gap-3 border-b border-white/10 pb-4">
         <div className="flex h-[46px] w-[46px] items-center justify-center overflow-hidden rounded-[10px] bg-white/[0.08]">
-          <Image src="/img/tenis-transparente.png" alt="" width={40} height={28} className="object-contain" />
+          <Image src="/img/tennis-big.png" alt="" width={40} height={28} className="object-contain" />
         </div>
         <div className="flex-1">
           <p className="text-[13px] font-medium text-white">Sneakers Court</p>

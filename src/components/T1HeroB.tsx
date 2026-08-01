@@ -132,11 +132,11 @@ const CARRIER_LOGOS = [
 ];
 function CarrierLogos() {
   return (
-    <div className="mt-6 flex flex-col items-center gap-2.5">
+    <div className="mt-6 flex flex-col items-center gap-3">
       <span className="font-inter text-[12px] font-normal text-white/45">Con las mejores paqueterías</span>
-      <div className="flex items-center justify-center gap-2">
+      <div className="flex items-center justify-center gap-2.5">
         {CARRIER_LOGOS.map((src) => (
-          <div key={src} className="flex h-[32px] w-[32px] shrink-0 items-center justify-center overflow-hidden rounded-full">
+          <div key={src} className="flex h-[30px] w-[30px] shrink-0 items-center justify-center overflow-hidden rounded-full">
             <Image src={src} alt="" width={64} height={64} className="h-full w-full object-cover" style={{ filter: "drop-shadow(0 3px 6px rgba(0,0,0,0.4))" }} />
           </div>
         ))}
@@ -334,8 +334,9 @@ export default function T1HeroB() {
           style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(3,1,1,0.85) 55%, #000 100%)" }}
         />
 
-        {/* ══ FIRST FOLD ══ título + selector + contenido, llena la pantalla ══ */}
-        <div className="relative z-10 flex min-h-[calc(92svh-96px)] w-full max-w-[440px] flex-col items-center tablet:min-h-[calc(100vh-112px)] tablet:max-w-[640px]">
+        {/* ══ FIRST FOLD ══ título + selector + contenido. En móvil un poco menos alto
+            (85svh) para que asome un hint de los datos/marquee = "hay scroll". ══ */}
+        <div className="relative z-10 flex min-h-[calc(85svh-96px)] w-full max-w-[440px] flex-col items-center tablet:min-h-[calc(100vh-112px)] tablet:max-w-[640px]">
           {/* 1 · H1 (arriba) — rotativo: "Un solo lugar para [acción]." */}
           <h1
             className="text-center font-sora text-[32px] font-light leading-[1.14] text-white tablet:text-[48px]"
@@ -547,9 +548,9 @@ export default function T1HeroB() {
                     <div className="mx-auto w-full rounded-[16px] bg-[#1D1D1D] px-4 py-2 tablet:max-w-[440px]">
                       <div className="flex gap-3.5">
                         <div className="flex flex-col items-center self-stretch py-[18px]">
-                          <span className="h-[11px] w-[11px] shrink-0 rounded-full border-[1.5px] border-[#DB3B2B]" />
-                          <span className="my-1 w-px flex-1" style={{ background: "repeating-linear-gradient(#DB3B2B 0 3px, transparent 3px 7px)" }} />
-                          <span className="h-[11px] w-[11px] shrink-0 rounded-full bg-[#DB3B2B]" />
+                          <span className="h-[11px] w-[11px] shrink-0 rounded-full border-[1.5px] border-white" />
+                          <span className="my-1 w-px flex-1" style={{ background: "repeating-linear-gradient(#FFFFFF 0 3px, transparent 3px 7px)" }} />
+                          <span className="h-[11px] w-[11px] shrink-0 rounded-full bg-white" />
                         </div>
                         <div className="min-w-0 flex-1">
                           <label className="block py-2">
@@ -589,12 +590,12 @@ export default function T1HeroB() {
         </div>
 
         {/* ══ BAJO EL FOLD ══ datos + marquee a todo el ancho (alineado al header) ══ */}
-        <div className="relative z-10 w-full pb-8 pt-14 tablet:pt-24">
+        <div className="relative z-10 w-full pb-8 pt-7 tablet:pt-24">
           <div className="mx-auto w-full max-w-[var(--max-w)] px-5 tablet:px-6">
             {/* Datos: negocios centrado arriba; envíos + transacciones en una línea abajo.
                 Más aire entre líneas y contra el marquee (desktop y móvil). */}
             <div className="mb-12 flex flex-col items-center gap-3 tablet:mb-16 tablet:gap-5">
-              <span className="font-inter text-[19px] font-medium text-white tablet:text-[24px]">+50,000 negocios</span>
+              <span className="font-inter text-[19px] font-normal text-white tablet:text-[24px]">+50,000 negocios</span>
               <div className="flex items-center gap-6 tablet:gap-14">
                 <span className="font-inter text-[15px] font-normal text-white/75 tablet:text-[18px]">+30M de envíos</span>
                 <span className="font-inter text-[15px] font-normal text-white/75 tablet:text-[18px]">+200M transacciones</span>

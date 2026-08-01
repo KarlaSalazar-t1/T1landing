@@ -499,9 +499,9 @@ export default function T1Hero() {
                     <div className="mx-auto w-full rounded-[16px] bg-[#1D1D1D] px-4 py-2 tablet:max-w-[440px]">
                       <div className="flex gap-3.5">
                         <div className="flex flex-col items-center self-stretch py-[18px]">
-                          <span className="h-[11px] w-[11px] shrink-0 rounded-full border-[1.5px] border-[#DB3B2B]" />
-                          <span className="my-1 w-px flex-1" style={{ background: "repeating-linear-gradient(#DB3B2B 0 3px, transparent 3px 7px)" }} />
-                          <span className="h-[11px] w-[11px] shrink-0 rounded-full bg-[#DB3B2B]" />
+                          <span className="h-[11px] w-[11px] shrink-0 rounded-full border-[1.5px] border-white" />
+                          <span className="my-1 w-px flex-1" style={{ background: "repeating-linear-gradient(#FFFFFF 0 3px, transparent 3px 7px)" }} />
+                          <span className="h-[11px] w-[11px] shrink-0 rounded-full bg-white" />
                         </div>
                         <div className="min-w-0 flex-1">
                           <label className="block py-2">
