@@ -26,13 +26,13 @@ export default function HomeVariantB() {
       </div>
 
       <div className="fi-pinned relative z-[5] bg-black pb-8 pt-2 tablet:sticky tablet:top-0 tablet:pb-10">
-        <T1FeatureIntro />
+        <T1FeatureIntro bVariant />
       </div>
 
       <div className="relative isolate z-10 rounded-t-[24px] bg-[#0e0d0d] tablet:rounded-t-[28px]">
         <T1Features />
-        <T1Metrics />
-        <T1AudienceRotator />
+        <T1Metrics bVariant />
+        <T1AudienceRotator bVariant />
       </div>
 
       <div className="relative z-[10]">
@@ -44,7 +44,7 @@ export default function HomeVariantB() {
       </div>
 
       <div className="relative z-[12]">
-        <T1ScrollShowcase />
+        <T1ScrollShowcase bVariant />
         <T1Footer />
       </div>
     </main>

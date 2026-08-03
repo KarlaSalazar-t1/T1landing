@@ -146,7 +146,11 @@ function IconGrid({ card }: { card: Card }) {
  * métodos de pago y paqueterías) sobre la banda negra entre el hero y la sección
  * de cards blanca.
  */
-export default function T1FeatureIntro() {
+/* Versión B: la card de "Vende" enfatiza que con T1 creas tu tienda súper fácil y lista para vender. */
+const VENDE_DESC_B = "Con T1 creas tu tienda súper fácil y lista para vender en línea, marketplaces y redes sociales.";
+
+export default function T1FeatureIntro({ bVariant = false }: { bVariant?: boolean }) {
+  const descFor = (c: Card) => (bVariant && c.id === "vende" ? VENDE_DESC_B : c.desc);
   return (
     <div className="relative mx-auto w-full max-w-[var(--max-w)] px-5 tablet:px-6">
       {/* MOBILE — 3 cards apiladas */}
@@ -161,7 +165,7 @@ export default function T1FeatureIntro() {
               {item.label}
             </p>
             <p className="font-inter text-[16px] font-normal leading-relaxed text-white/70" style={{ marginBottom: 22 }}>
-              {item.desc}
+              {descFor(item)}
             </p>
             <IconGrid card={item} />
             <div style={{ marginTop: 22 }}>
@@ -183,7 +187,7 @@ export default function T1FeatureIntro() {
               {card.label}
             </p>
             <p className="w-full font-inter text-[15px] font-normal leading-relaxed text-white/70" style={{ marginBottom: 28, minHeight: 66 }}>
-              {card.desc}
+              {descFor(card)}
             </p>
             <div className="mt-auto">
               <IconGrid card={card} />

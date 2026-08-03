@@ -336,7 +336,7 @@ export default function T1HeroB() {
 
         {/* ══ FIRST FOLD ══ título + selector + contenido. En móvil un poco menos alto
             (85svh) para que asome un hint de los datos/marquee = "hay scroll". ══ */}
-        <div className="relative z-10 flex min-h-[calc(85svh-96px)] w-full max-w-[440px] flex-col items-center tablet:min-h-[calc(100vh-112px)] tablet:max-w-[640px]">
+        <div className="relative z-10 flex min-h-[calc(85svh-96px)] w-full max-w-[440px] flex-col items-center tablet:min-h-[680px] tablet:max-w-[640px]">
           {/* 1 · H1 (arriba) — rotativo: "Un solo lugar para [acción]." */}
           <h1
             className="text-center font-sora text-[32px] font-light leading-[1.14] text-white tablet:text-[48px]"

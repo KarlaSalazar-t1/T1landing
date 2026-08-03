@@ -7,17 +7,19 @@ function AnimatedMetric({
   prefix,
   suffix,
   label,
+  duration = 1200,
 }: {
   end: number;
   prefix?: string;
   suffix?: string;
   label: string;
+  duration?: number;
 }) {
   const { ref, display } = useCountUp({
     end,
     // Roll-up estilo boardy.ai: arranca en 0 al entrar en viewport y sube con
-    // easeOutCubic (~1.2s) — ágil, sin sentirse lento.
-    duration: 1200,
+    // easeOutCubic — ágil (~1.2s); la versión B lo hace un poco más lento.
+    duration,
     prefix,
     suffix,
   });
@@ -34,7 +36,8 @@ function AnimatedMetric({
   );
 }
 
-export default function T1Metrics() {
+export default function T1Metrics({ bVariant = false }: { bVariant?: boolean }) {
+  const dur = bVariant ? 1900 : 1200; // B: un poco más lento
   return (
     <>
       {/* Mobile-only black bridge that absorbs any sliver of space
@@ -63,9 +66,9 @@ export default function T1Metrics() {
         </h3>
 
         <div className="grid grid-cols-1 items-start gap-10 tablet:grid-cols-3 tablet:gap-16">
-          <AnimatedMetric end={50000} prefix="+" suffix="" label="negocios usando T1" />
-          <AnimatedMetric end={30} prefix="+" suffix="M" label="envíos entregados" />
-          <AnimatedMetric end={200} prefix="+" suffix="M" label="transacciones procesadas" />
+          <AnimatedMetric end={50000} prefix="+" suffix="" label="negocios usando T1" duration={dur} />
+          <AnimatedMetric end={30} prefix="+" suffix="M" label="envíos entregados" duration={dur} />
+          <AnimatedMetric end={200} prefix="+" suffix="M" label="transacciones procesadas" duration={dur} />
         </div>
       </div>
     </section>

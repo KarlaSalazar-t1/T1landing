@@ -36,11 +36,13 @@ const AUDIENCES = [
 
 const DURATION = 5000;
 
-export default function T1AudienceRotator() {
+export default function T1AudienceRotator({ bVariant = false }: { bVariant?: boolean }) {
   const [active, setActive] = useState(0);
   const [barFull, setBarFull] = useState(false);
   const [started, setStarted] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  // B: CTA más bajo (35px) — el resto usa el alto natural (py-3).
+  const ctaCls = `inline-flex items-center gap-2 rounded-[13px] bg-[#DB3B2B] px-6 font-inter text-[14px] font-semibold text-white no-underline transition-colors duration-150 hover:bg-[#C0332A] ${bVariant ? "h-[35px]" : "py-3"}`;
 
   // Arranca el auto-avance solo cuando la sección entra en viewport
   useEffect(() => {
@@ -152,7 +154,7 @@ export default function T1AudienceRotator() {
                         <Image src={it.image} alt={it.title} fill className="object-cover" sizes="90vw" />
                         <div className="pointer-events-none absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 45%, rgba(0,0,0,0.75) 100%)" }} />
                         <div className="absolute bottom-0 left-0 right-0 p-5">
-                          <a href={it.ctaHref} className="inline-flex items-center gap-2 rounded-[13px] bg-[#DB3B2B] px-6 py-3 font-inter text-[14px] font-semibold text-white no-underline transition-colors duration-150 hover:bg-[#C0332A]">
+                          <a href={it.ctaHref} className={ctaCls}>
                             {it.cta}
                             <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
                           </a>
@@ -234,7 +236,7 @@ export default function T1AudienceRotator() {
                   <div className="absolute bottom-0 left-0 right-0 p-5 tablet:p-7">
                     <a
                       href={a.ctaHref}
-                      className="inline-flex items-center gap-2 rounded-[13px] bg-[#DB3B2B] px-6 py-3 font-inter text-[14px] font-semibold text-white no-underline transition-colors duration-150 hover:bg-[#C0332A]"
+                      className={ctaCls}
                     >
                       {a.cta}
                       <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>

@@ -351,7 +351,7 @@ const WORDS = [
 const BG_GRADIENT = "radial-gradient(ellipse at 50% 60%, rgba(226,97,83,0.3) 0%, rgba(226,97,83,0.08) 40%, transparent 70%)";
 
 /* ── Mobile section: Vende/Cobra/Envía as tabs + Todo en uno as scroll-driven ── */
-function MobileScrollSections({ cards }: { cards: React.ReactNode[] }) {
+function MobileScrollSections({ cards, bVariant = false }: { cards: React.ReactNode[]; bVariant?: boolean }) {
   // Móvil: scroll normal, cada punto apilado — título, descripción, imagen y el botón dentro de cada card (abajo).
   return (
     <div className="tablet:hidden px-5" style={{ paddingTop: 88, paddingBottom: 48 }}>
@@ -370,7 +370,7 @@ function MobileScrollSections({ cards }: { cards: React.ReactNode[] }) {
             </div>
             <a
               href={SIGNUP_URL}
-              className="mt-6 inline-flex h-[50px] items-center rounded-[14px] bg-[#DB3B2B] px-7 font-inter text-[15px] font-semibold text-white no-underline transition-colors duration-200 hover:bg-[#C0332A]"
+              className={`mt-6 inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 font-inter text-[15px] font-semibold text-white no-underline transition-colors duration-200 hover:bg-[#C0332A] ${bVariant ? "h-[35px]" : "h-[50px]"}`}
             >
               {w.ctaLabel}
             </a>
@@ -381,7 +381,7 @@ function MobileScrollSections({ cards }: { cards: React.ReactNode[] }) {
   );
 }
 
-export default function T1ScrollShowcase() {
+export default function T1ScrollShowcase({ bVariant = false }: { bVariant?: boolean }) {
   const ctaRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -471,7 +471,7 @@ export default function T1ScrollShowcase() {
                           </p>
                           <a
                             href={SIGNUP_URL}
-                            className="mt-5 inline-flex h-[48px] items-center rounded-[14px] bg-[#DB3B2B] px-6 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-200 hover:bg-[#C0332A]"
+                            className={`mt-5 inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-6 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-200 hover:bg-[#C0332A] ${bVariant ? "h-[35px]" : "h-[48px]"}`}
                           >
                             {w.ctaLabel}
                           </a>
@@ -518,7 +518,7 @@ export default function T1ScrollShowcase() {
       </div>
 
       {/* ── Mobile — vertical scroll with fade-in/out transitions ── */}
-      <MobileScrollSections cards={cards} />
+      <MobileScrollSections cards={cards} bVariant={bVariant} />
 
       {/* ── CTA — final brand moment. Trimmed from 75/82vh to 62/68vh so the
           closing headline isn't floating in a near-empty screen (CEO: "muchos
