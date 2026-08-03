@@ -597,7 +597,7 @@ export default function T1HeroB() {
         </div>
 
         {/* ══ BAJO EL FOLD ══ datos + marquee a todo el ancho (alineado al header) ══ */}
-        <div className="relative z-10 w-full pb-8 pt-11 tablet:pt-24">
+        <div className="relative z-10 w-full pb-8 pt-11 tablet:pt-[60px]">
           <div className="mx-auto w-full max-w-[var(--max-w)] px-5 tablet:px-6">
             {/* Datos: negocios centrado arriba; envíos + transacciones en una línea abajo.
                 Más aire entre líneas y contra el marquee (desktop y móvil). */}
