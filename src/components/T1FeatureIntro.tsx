@@ -147,7 +147,7 @@ function IconGrid({ card }: { card: Card }) {
  * de cards blanca.
  */
 /* Versión B: la card de "Vende" enfatiza que con T1 creas tu tienda súper fácil y lista para vender. */
-const VENDE_DESC_B = "Con T1 creas tu tienda súper fácil y lista para vender en línea, marketplaces y redes sociales.";
+const VENDE_DESC_B = "Crea tu tienda con T1 en minutos, lista para vender en línea, marketplaces y redes sociales.";
 
 export default function T1FeatureIntro({ bVariant = false }: { bVariant?: boolean }) {
   const descFor = (c: Card) => (bVariant && c.id === "vende" ? VENDE_DESC_B : c.desc);

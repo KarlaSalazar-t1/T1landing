@@ -14,7 +14,7 @@ const AUDIENCES = [
     description: "Crea tu tienda, conecta pagos y envía tus primeros pedidos sin experiencia técnica.",
     cta: "Comienza gratis",
     ctaHref: "/registro",
-    image: "/img/emprendedor-v4.png",
+    image: "/img/emprendedor-v5.png",
   },
   {
     id: "pyme",
@@ -22,7 +22,7 @@ const AUDIENCES = [
     description: "Conecta todos tus canales de venta, automatiza envíos y optimiza tus cobros.",
     cta: "Empezar ahora",
     ctaHref: "/registro",
-    image: "/img/pyme-v4.png",
+    image: "/img/pyme-v5.png",
   },
   {
     id: "enterprise",
@@ -30,7 +30,7 @@ const AUDIENCES = [
     description: "Opera alto volumen con infraestructura robusta, soporte dedicado e integraciones a la medida.",
     cta: "Habla con un experto",
     ctaHref: "/contacto-ventas",
-    image: "/img/enterprise-v4.png",
+    image: "/img/empresa-v5.png",
   },
 ];
 
