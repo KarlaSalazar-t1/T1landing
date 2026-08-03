@@ -482,6 +482,10 @@ export default function T1HeroB() {
                       </button>
                     ))}
                   </div>
+                  {/* Línea de cierre — balancea con los logos de las otras pestañas y ata al ecosistema */}
+                  <p className="mt-2 text-center font-inter text-[12px] font-normal text-white/45">
+                    Lista para vender, cobrar y enviar
+                  </p>
                 </>
               )}
 
