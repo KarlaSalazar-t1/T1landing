@@ -322,16 +322,22 @@ export default function T1HeroB() {
   return (
     <div className="relative z-0">
       <section className="relative flex flex-col items-center overflow-hidden px-5 pb-0 pt-24 tablet:px-6 tablet:pt-28 tablet:pb-0">
-        {/* Fondo — degradado exacto de Figma */}
-        <div aria-hidden className="absolute inset-0 z-0" style={{ background: "linear-gradient(180deg, #0e0d0d 0%, #020101 100%)" }} />
+        {/* Fondo (versión B) — inspirado en las stack cards: base cálida oscura
+            (#1c0b10) con glows rojo/coral + acento rosa y un toque frío al pie. */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 z-0"
+          className="absolute inset-0 z-0"
           style={{
             background:
-              "radial-gradient(circle at 6% 102%, rgba(3,20,70,0.6) 0%, rgba(17,0,85,0) 26%), radial-gradient(circle at 79% 52%, rgba(112,10,10,0.95) 0%, rgba(87,9,9,0) 60%), radial-gradient(circle at -7% 48%, rgba(112,10,10,1) 0%, rgba(87,9,9,0) 60%)",
+              "radial-gradient(ellipse 88% 72% at 66% 34%, rgba(230,58,40,0.42) 0%, transparent 60%)," +
+              "radial-gradient(ellipse 62% 60% at 14% 20%, rgba(150,30,30,0.30) 0%, transparent 58%)," +
+              "radial-gradient(ellipse 48% 46% at 80% 82%, rgba(244,114,182,0.11) 0%, transparent 62%)," +
+              "radial-gradient(ellipse 60% 55% at 6% 98%, rgba(52,40,120,0.24) 0%, transparent 55%)," +
+              "linear-gradient(160deg, #1c0b10 0%, #180a12 46%, #110710 100%)",
           }}
         />
+        {/* Grano sutil para dar textura como en las cards */}
+        <div aria-hidden className="noise-grain pointer-events-none absolute inset-0 z-0" style={{ opacity: 0.04 }} />
         {/* Viñeta lateral — solo desktop: orillas a negro/rojo oscuro */}
         <div
           aria-hidden
@@ -572,22 +578,26 @@ export default function T1HeroB() {
                   </p>
                   <div className="flex w-full flex-1 flex-col gap-4 tablet:flex-none">
                     {/* CP — misma altura mín. que los campos de link para alinear los logos entre pestañas */}
-                    <div className="mx-auto flex min-h-[172px] w-full flex-col justify-center rounded-[16px] bg-[#1D1D1D] px-4 py-2 tablet:max-w-[440px]">
+                    <div className="mx-auto flex min-h-[172px] w-full flex-col justify-center rounded-[16px] bg-[#1D1D1D] px-4 py-2 transition-shadow focus-within:ring-1 focus-within:ring-white/25 tablet:max-w-[440px]">
                       <div className="flex gap-3.5">
                         <div className="flex flex-col items-center self-stretch py-[18px]">
-                          <span className="h-[11px] w-[11px] shrink-0 rounded-full border-[1.5px] border-white" />
+                          {/* Origen: punto · Destino: pin de localización */}
+                          <span className="h-[10px] w-[10px] shrink-0 rounded-full border-[1.5px] border-white/80" />
                           <span className="my-1 w-px flex-1" style={{ background: "repeating-linear-gradient(#FFFFFF 0 3px, transparent 3px 7px)" }} />
-                          <span className="h-[11px] w-[11px] shrink-0 rounded-full bg-white" />
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="shrink-0" style={{ filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.5))" }}>
+                            <path d="M12 22s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z" fill="#FFFFFF" />
+                            <circle cx="12" cy="10" r="2.6" fill="#1D1D1D" />
+                          </svg>
                         </div>
                         <div className="min-w-0 flex-1">
                           <label className="block py-2">
                             <span className="font-inter text-[12px] font-normal text-white/50">Desde</span>
-                            <input ref={cpDesdeRef} value={cpDesde} onChange={(e) => setCpDesde(e.target.value.slice(0, 40))} placeholder="Ingresa código postal o colonia" aria-label="Origen del envío" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
+                            <input ref={cpDesdeRef} value={cpDesde} onChange={(e) => setCpDesde(e.target.value.slice(0, 40))} placeholder="Ej. 06600, CDMX" aria-label="Origen del envío" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
                           </label>
                           <span className="block h-px w-full bg-white/10" />
                           <label className="block py-2">
                             <span className="font-inter text-[12px] font-normal text-white/50">Hacia</span>
-                            <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.slice(0, 40))} placeholder="Ingresa código postal o colonia" aria-label="Destino del envío" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
+                            <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.slice(0, 40))} placeholder="Ej. 44100, Guadalajara" aria-label="Destino del envío" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
                           </label>
                         </div>
                       </div>
@@ -604,7 +614,7 @@ export default function T1HeroB() {
                         envioOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
                       }`}
                     >
-                      Cotizar envío
+                      Cotizar gratis
                       {ArrowRight}
                     </a>
                     {/* B: espacio + logos de paqueterías debajo del botón */}
