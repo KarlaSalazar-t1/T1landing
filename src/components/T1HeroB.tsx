@@ -186,7 +186,7 @@ const TIENDA_CHIPS: { label: string; example: string }[] = [
 ];
 
 /* H1 rotativo (versión B): marco fijo "Un solo lugar para" + acción que rota. */
-const HERO_PHRASES = ["crear tu tienda.", "cobrar tus ventas.", "enviar tus pedidos.", "crecer sin límites."];
+const HERO_PHRASES = ["crear tu tienda", "cobrar tus ventas", "enviar tus pedidos", "crecer sin límites"];
 
 /* Formatea dígitos como monto: "10" → "0.10", "109999" → "1,099.99" */
 function formatMonto(digits: string): string {
@@ -480,13 +480,13 @@ export default function T1HeroB() {
                         if (!tiendaOk) e.preventDefault();
                         else submit({ length: value.trim().length });
                       }}
-                      aria-label="Comenzar gratis"
+                      aria-label="Comienza gratis"
                       style={kbOpen ? { position: "fixed", right: 16, bottom: kbH + 10, zIndex: 60 } : undefined}
                       className={`absolute bottom-3 right-3 flex h-[40px] items-center gap-1.5 rounded-full pl-4 pr-3 font-inter text-[14px] font-semibold transition-colors ${
                         tiendaOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
                       }`}
                     >
-                      Comenzar gratis
+                      Comienza gratis
                       {ArrowRight}
                     </a>
                   </div>

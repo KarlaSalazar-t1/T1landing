@@ -342,10 +342,10 @@ export function TodoEnUnoCard() {
 
 /* ── Words + cards ── */
 const WORDS = [
-  { text: "Vende", ctaCopy: "Crea tu tienda con IA y vende en línea y en marketplaces, desde un solo lugar.", ctaLabel: "Crear tienda gratis" },
-  { text: "Cobra", ctaCopy: "Acepta tarjetas, SPEI y meses sin intereses, o cobra con un link de pago.", ctaLabel: "Empezar a cobrar" },
-  { text: "Envía", ctaCopy: "Crea guías con +10 paqueterías al mejor precio y rastrea todo en un lugar.", ctaLabel: "Cotizar envío" },
-  { text: "Todo en uno", ctaCopy: "Vende, cobra y envía desde una sola plataforma potenciada con IA.", ctaLabel: "Crear cuenta gratis" },
+  { text: "Vende", ctaCopy: "Crea tu tienda con IA y vende en línea y en marketplaces, desde un solo lugar.", ctaLabel: "Crea tu tienda gratis" },
+  { text: "Cobra", ctaCopy: "Acepta tarjetas, SPEI y meses sin intereses, o cobra con un link de pago.", ctaLabel: "Empieza a cobrar gratis" },
+  { text: "Envía", ctaCopy: "Crea guías con +10 paqueterías al mejor precio y rastrea todo en un lugar.", ctaLabel: "Empieza a enviar gratis" },
+  { text: "Todo en uno", ctaCopy: "Vende, cobra y envía desde una sola plataforma potenciada con IA.", ctaLabel: "Crea tu cuenta gratis" },
 ];
 
 const BG_GRADIENT = "radial-gradient(ellipse at 50% 60%, rgba(226,97,83,0.3) 0%, rgba(226,97,83,0.08) 40%, transparent 70%)";
@@ -550,13 +550,13 @@ export default function T1ScrollShowcase({ bVariant = false }: { bVariant?: bool
               className="mx-auto font-inter text-[15px] font-light text-white/55 tablet:text-[18px]"
               style={{ maxWidth: 500, lineHeight: 1.5, marginBottom: 40 }}
             >
-              Comienza gratis y haz crecer tu negocio con T1.
+              Vende, cobra y envía desde un solo lugar. Sin tarjeta de crédito.
             </p>
             <a
               href={SIGNUP_URL}
               className="inline-flex h-[54px] items-center rounded-[14px] bg-[#DB3B2B] px-10 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-200 hover:bg-[#C0332A] hover:shadow-[0_6px_24px_rgba(226,97,83,0.4)] hover:scale-[1.02] tablet:h-[58px] tablet:px-12 tablet:text-[16px]"
             >
-              Comenzar ahora
+              Comienza gratis
             </a>
           </div>
         </div>

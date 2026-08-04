@@ -38,7 +38,7 @@ const TAB_CARDS: TabCard[] = [
     title: "TIENDA EN LÍNEA",
     description:
       "Crea tu tienda con IA, personaliza tu diseño y empieza a vender en minutos. Gestiona tu catálogo de productos desde un solo lugar.",
-    cta: "Crear mi tienda",
+    cta: "Crea tu tienda gratis",
     ctaHref: "/registro",
     subTabs: [
       { label: "Tienda con IA", description: "Describe tu negocio y nuestra IA creará tu tienda en menos de 1 minuto, lista para vender.", image: null, floatingCards: null, panel: "tienda-ia" },

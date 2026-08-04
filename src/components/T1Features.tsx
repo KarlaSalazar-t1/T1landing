@@ -545,7 +545,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                     className="font-sora text-[32px] font-normal text-white tablet:text-[44px]"
                     style={{ lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: 16 }}
                   >
-                    Crea tu tienda en menos de un minuto
+                    Crea tu tienda en menos de 1 minuto
                   </h1>
                   <p
                     className="font-inter text-[16px] font-light text-white/80 tablet:text-[19px]"
@@ -563,10 +563,10 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                   <div className="flex flex-col gap-4 tablet:flex-row tablet:items-start tablet:justify-between tablet:gap-6" style={{ marginBottom: 28, paddingTop: 0 }}>
                     <div>
                       <h3 className="font-sora text-[22px] font-normal text-white tablet:text-[28px]" style={{ marginBottom: 8 }}>
-                        Crea tu tienda en menos de un minuto
+                        Crea tu tienda en menos de 1 minuto
                       </h3>
                       <p className="font-inter text-[17px] font-normal text-white/80" style={{ lineHeight: 1.6 }}>
-                        Cuéntanos de que trata tu negocio y nuestra IA creará tu tienda en menos de un minuto.
+                        Cuéntanos de que trata tu negocio y nuestra IA creará tu tienda en menos de 1 minuto.
                       </p>
                     </div>
                     <a
@@ -1126,7 +1126,7 @@ const SHOWCASE_CARDS = [
     bgCSS: "stack-bg-tienda-online",
     panelLeft: null,
     panelRight: "ai-prompt",
-    ctaLabel: "Crear tienda",
+    ctaLabel: "Crea tu tienda con IA",
     ctaHref: "/productos/t1tienda/tienda-con-ia",
   },
   {
@@ -1138,7 +1138,7 @@ const SHOWCASE_CARDS = [
     bgCSS: "stack-bg-tienda",
     panelLeft: "/img/card-producto.webp",
     panelRight: "/img/lista-pedidos-t1.webp",
-    ctaLabel: "Ver reportes",
+    ctaLabel: "Conoce los reportes",
     ctaHref: "/productos/t1tienda/reportes",
   },
   {
@@ -1162,7 +1162,7 @@ const SHOWCASE_CARDS = [
     bgCSS: "stack-bg-pos",
     panelLeft: null,
     panelRight: null,
-    ctaLabel: "Vender en persona",
+    ctaLabel: "Conoce T1 POS",
     ctaHref: "/productos/t1tienda/punto-de-venta",
   },
   {

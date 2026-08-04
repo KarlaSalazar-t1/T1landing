@@ -228,7 +228,7 @@ export default function T1Navbar({ bVariant = false }: { bVariant?: boolean }) {
               href={LOGIN_URL}
               className={`hidden whitespace-nowrap font-inter text-[16px] font-medium no-underline transition-colors duration-150 tablet:block ${textClass}`}
             >
-              Iniciar sesion
+              Iniciar sesión
             </a>
             <a
               href={SIGNUP_URL}

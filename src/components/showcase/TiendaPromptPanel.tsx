@@ -58,7 +58,7 @@ function LandingPrompt({ typed, isActive, compact = false }: { typed: string; is
               className="rounded-full px-2.5 py-1 text-[8px] font-semibold text-white"
               style={{ background: "#DB3B2B" }}
             >
-              Comenzar gratis
+              Comienza gratis
             </span>
           </div>
         )}
@@ -71,7 +71,7 @@ function LandingPrompt({ typed, isActive, compact = false }: { typed: string; is
           style={{ fontSize: 30, lineHeight: 1.08, letterSpacing: "-0.025em" }}
         >
           Crea tu tienda en{" "}
-          <span style={{ color: "#FFFFFF" }}>menos de un minuto</span>
+          <span style={{ color: "#FFFFFF" }}>menos de 1 minuto</span>
         </h2>
         <p
           className="mt-2.5 text-center font-inter text-[12px] font-light text-white/70"
@@ -133,11 +133,11 @@ function LandingPrompt({ typed, isActive, compact = false }: { typed: string; is
 
       {/* Stats footer */}
       <div className="flex items-center justify-center gap-3 border-t border-white/10 py-2.5 font-inter text-[9px] text-white/55">
-        <span>+5,000 negocios</span>
+        <span>+50,000 negocios</span>
         <span className="text-white/20">•</span>
-        <span>+40,000 envíos</span>
+        <span>+30M envíos</span>
         <span className="text-white/20">•</span>
-        <span>+$1,000M procesados</span>
+        <span>+200M transacciones</span>
       </div>
     </div>
   );

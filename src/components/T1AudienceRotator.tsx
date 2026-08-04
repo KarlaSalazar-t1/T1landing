@@ -103,7 +103,7 @@ export default function T1AudienceRotator({ bVariant = false }: { bVariant?: boo
     <section ref={sectionRef} className="relative overflow-hidden bg-black pt-[40px] pb-[80px] tablet:pt-[100px] tablet:pb-[100px]">
       <div className="relative mx-auto max-w-[var(--max-w)] px-5 tablet:px-6">
         <h2 className="text-left font-sora text-[28px] font-light text-white tablet:text-center tablet:text-[44px]" style={{ letterSpacing: "-0.03em", marginBottom: 16 }}>
-          Para cada etapa de tu negocio.
+          Para cada etapa de tu negocio
         </h2>
         <p className="text-left font-inter text-[16px] font-light text-white/85 tablet:mx-auto tablet:whitespace-nowrap tablet:text-center tablet:text-[18px]" style={{ marginBottom: 56 }}>
           Desde tu primera venta hasta una operación de alto volumen.

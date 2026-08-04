@@ -41,7 +41,7 @@ export const MEGA_MENU_COLUMNS = [
     title: "T1 Tienda",
     href: "/productos/t1tienda",
     items: [
-      { title: "Tienda con IA", desc: "Crea tu tienda online en minutos", href: "/productos/t1tienda/tienda-con-ia" },
+      { title: "Tienda con IA", desc: "Crea tu tienda online en menos de 1 minuto", href: "/productos/t1tienda/tienda-con-ia" },
       { title: "Marketplaces", desc: "Vende en Mercado Libre, Amazon y más", href: "/productos/t1tienda/marketplaces" },
       { title: "Productos e inventario", desc: "Inventario, precios y variantes centralizados", href: "/productos/t1tienda/productos" },
       { title: "Pasarela de pagos", desc: "Optimizado para mayor conversión", href: "/productos/t1tienda/pasarela" },
@@ -53,7 +53,7 @@ export const MEGA_MENU_COLUMNS = [
     title: "T1 Envíos",
     href: "/productos/t1envios",
     items: [
-      { title: "Multipaquetería", desc: "Conecta +25 paqueterías en un click", href: "/productos/t1envios/multipaqueteria" },
+      { title: "Multipaquetería", desc: "Conecta +10 paqueterías en un clic", href: "/productos/t1envios/multipaqueteria" },
       { title: "Reglas de envío", desc: "Asignación automática de carriers", href: "/productos/t1envios/reglas" },
       { title: "Rastreo de guías", desc: "Rastrea todas tus guías en un lugar", href: "/productos/t1envios/rastreo" },
       { title: "Control de calidad", desc: "Detecta problemas antes que tu cliente", href: "/productos/t1envios/control-calidad" },
@@ -66,7 +66,7 @@ export const MEGA_MENU_COLUMNS = [
     items: [
       { title: "Pagos en línea", desc: "Tarjetas, transferencias y efectivo", href: "/productos/t1pagos/pagos-en-linea" },
       { title: "Links de pago", desc: "Cobra compartiendo un enlace", href: "/productos/t1pagos/links-de-pago" },
-      { title: "Reclamaciones", desc: "Gestiona disputas y chargebacks", href: "/productos/t1pagos/reclamaciones" },
+      { title: "Reclamaciones", desc: "Gestiona reclamaciones y contracargos", href: "/productos/t1pagos/reclamaciones" },
     ],
   },
   {
