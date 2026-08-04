@@ -145,23 +145,21 @@ function CarrierLogos() {
   );
 }
 
-/* ── Logos de canales de venta (crea tu tienda) — círculos de marca ── */
-const STORE_LOGOS = [
-  "/img/circles/ml.svg",
-  "/img/circles/amazon.svg",
-  "/img/circles/shein.svg",
-  "/img/circles/sears.svg",
-  "/img/circles/sanborns.svg",
-  "/img/circles/meta.svg",
+/* ── Crea tu tienda: en vez de logos de marca (el prompt es de tienda en línea),
+   3 iconos que representan los pilares vender / cobrar / enviar (todo en uno). ── */
+const STORE_PILLARS = [
+  { src: "/img/icon-tienda.svg", label: "Vender" },
+  { src: "/img/icon-pagos.svg", label: "Cobrar" },
+  { src: "/img/icon-envios.svg", label: "Enviar" },
 ];
 function StoreLogos() {
   return (
     <div className="mt-6 flex flex-col items-center gap-3">
-      <span className="font-inter text-[12px] font-normal text-white/45">Lista para vender, cobrar y enviar</span>
+      <span className="font-inter text-[12px] font-normal text-white/45">Tu tienda, lista para vender, cobrar y enviar</span>
       <div className="flex items-center justify-center gap-2.5">
-        {STORE_LOGOS.map((src) => (
-          <div key={src} className="flex h-[30px] w-[30px] shrink-0 items-center justify-center overflow-hidden rounded-full">
-            <Image src={src} alt="" width={64} height={64} className="h-full w-full object-cover" style={{ filter: "drop-shadow(0 3px 6px rgba(0,0,0,0.4))" }} />
+        {STORE_PILLARS.map((p) => (
+          <div key={p.label} className="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-full border border-white/12 bg-white/[0.06]">
+            <Image src={p.src} alt={p.label} width={18} height={18} className="h-[15px] w-auto object-contain [filter:brightness(0)_invert(1)]" />
           </div>
         ))}
       </div>
