@@ -145,6 +145,30 @@ function CarrierLogos() {
   );
 }
 
+/* ── Logos de canales de venta (crea tu tienda) — círculos de marca ── */
+const STORE_LOGOS = [
+  "/img/circles/ml.svg",
+  "/img/circles/amazon.svg",
+  "/img/circles/shein.svg",
+  "/img/circles/sears.svg",
+  "/img/circles/sanborns.svg",
+  "/img/circles/meta.svg",
+];
+function StoreLogos() {
+  return (
+    <div className="mt-6 flex flex-col items-center gap-3">
+      <span className="font-inter text-[12px] font-normal text-white/45">Lista para vender, cobrar y enviar</span>
+      <div className="flex items-center justify-center gap-2.5">
+        {STORE_LOGOS.map((src) => (
+          <div key={src} className="flex h-[30px] w-[30px] shrink-0 items-center justify-center overflow-hidden rounded-full">
+            <Image src={src} alt="" width={64} height={64} className="h-full w-full object-cover" style={{ filter: "drop-shadow(0 3px 6px rgba(0,0,0,0.4))" }} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /* Placeholders rotativos + chips para el modo tienda */
 const TIENDA_PLACEHOLDERS = [
   "Vendo ropa y accesorios de moda",
@@ -435,7 +459,7 @@ export default function T1HeroB() {
                   <p className="max-w-[360px] text-center font-inter text-[16px] font-light leading-[1.6] text-white">
                     Describe tu negocio y crea tu tienda con IA
                   </p>
-                  <div className="relative w-full rounded-[14px] bg-[#1D1D1D] min-h-[160px] tablet:min-h-[124px]">
+                  <div className="relative w-full rounded-[14px] bg-[#1D1D1D] min-h-[160px] tablet:min-h-[180px]">
                     <textarea
                       ref={textareaRef}
                       value={value}
@@ -443,7 +467,7 @@ export default function T1HeroB() {
                       rows={3}
                       aria-label="Describe tu negocio"
                       placeholder=""
-                      className="h-[160px] tablet:h-[124px] w-full resize-none rounded-[14px] bg-transparent px-[18px] py-[15px] font-inter text-[16px] leading-[1.5] text-white outline-none"
+                      className="h-[160px] tablet:h-[180px] w-full resize-none rounded-[14px] bg-transparent px-[18px] py-[15px] font-inter text-[16px] leading-[1.5] text-white outline-none"
                     />
                     {/* Placeholder animado con cursor (solo cuando el input está vacío) */}
                     {!value && (
@@ -482,10 +506,8 @@ export default function T1HeroB() {
                       </button>
                     ))}
                   </div>
-                  {/* Línea de cierre — balancea con los logos de las otras pestañas y ata al ecosistema */}
-                  <p className="mt-2 text-center font-inter text-[12px] font-normal text-white/45">
-                    Lista para vender, cobrar y enviar
-                  </p>
+                  {/* Cierre — caption + logos de canales, para que se vea parejo con envío/pago */}
+                  <StoreLogos />
                 </>
               )}
 
