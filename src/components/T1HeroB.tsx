@@ -321,18 +321,18 @@ export default function T1HeroB() {
   return (
     <div className="relative z-0">
       <section className="relative flex flex-col items-center overflow-hidden px-5 pb-0 pt-24 tablet:px-6 tablet:pt-28 tablet:pb-0">
-        {/* Fondo (versión B, v2) — base grafito neutra (no rojo-cálido) y menos
-            saturada: glow rojo SUAVE arriba-derecha + acento frío azul abajo-izq
-            + coral tenue. Se ve menos oscuro y menos "rojo intenso" que la v1. */}
+        {/* Fondo (versión B, v3) — grafito NEUTRO-CÁLIDO (sin azul): glow rojo
+            suave arriba-derecha + acentos cálidos tenues. Menos oscuro y sin el
+            exceso de azul de la v2. */}
         <div
           aria-hidden
           className="absolute inset-0 z-0"
           style={{
             background:
-              "radial-gradient(ellipse 78% 62% at 72% 26%, rgba(219,59,43,0.22) 0%, transparent 58%)," +
-              "radial-gradient(ellipse 66% 60% at 10% 82%, rgba(74,86,170,0.20) 0%, transparent 60%)," +
-              "radial-gradient(ellipse 44% 42% at 92% 92%, rgba(244,132,104,0.09) 0%, transparent 60%)," +
-              "linear-gradient(160deg, #24222b 0%, #1c1a22 50%, #16151b 100%)",
+              "radial-gradient(ellipse 80% 64% at 70% 26%, rgba(219,59,43,0.22) 0%, transparent 58%)," +
+              "radial-gradient(ellipse 52% 50% at 12% 86%, rgba(122,92,80,0.12) 0%, transparent 60%)," +
+              "radial-gradient(ellipse 44% 42% at 92% 92%, rgba(244,132,104,0.08) 0%, transparent 60%)," +
+              "linear-gradient(160deg, #262320 0%, #201d1b 50%, #191615 100%)",
           }}
         />
         {/* Grano sutil para dar textura como en las cards */}
