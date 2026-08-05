@@ -331,7 +331,8 @@ export default function T1HeroB() {
               "radial-gradient(ellipse 86% 70% at 67% 32%, rgba(226,64,47,0.40) 0%, transparent 60%)," +
               "radial-gradient(ellipse 60% 58% at 14% 22%, rgba(150,34,34,0.26) 0%, transparent 58%)," +
               "radial-gradient(ellipse 50% 46% at 82% 84%, rgba(244,114,150,0.12) 0%, transparent 62%)," +
-              "radial-gradient(ellipse 52% 48% at 6% 94%, rgba(58,72,150,0.13) 0%, transparent 56%)," +
+              "radial-gradient(ellipse 60% 70% at -4% 88%, rgba(58,74,158,0.28) 0%, transparent 52%)," +
+              "radial-gradient(ellipse 42% 60% at 102% 10%, rgba(58,74,158,0.20) 0%, transparent 50%)," +
               "linear-gradient(160deg, #22101a 0%, #1c0d15 48%, #160a11 100%)",
           }}
         />
@@ -552,7 +553,7 @@ export default function T1HeroB() {
                         linkOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
                       }`}
                     >
-                      Crear link de pago
+                      Crea link de pago
                       {ArrowRight}
                     </a>
                     {/* B: espacio + logos de métodos de pago debajo del botón */}
@@ -605,7 +606,7 @@ export default function T1HeroB() {
                         envioOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
                       }`}
                     >
-                      Cotizar gratis
+                      Cotiza gratis
                       {ArrowRight}
                     </a>
                     {/* B: espacio + logos de paqueterías debajo del botón */}
