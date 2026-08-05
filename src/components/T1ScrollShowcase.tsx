@@ -371,15 +371,10 @@ function MobileScrollSections({ cards, bVariant = false }: { cards: React.ReactN
             <a
               href={SIGNUP_URL}
               className={bVariant
-                ? "group/cta mt-6 inline-flex items-center gap-1.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:text-white/70"
+                ? "mt-6 inline-flex h-[44px] items-center rounded-[14px] border border-white/40 px-7 font-inter text-[15px] font-semibold text-white no-underline transition-colors duration-200 hover:border-white hover:bg-white/[0.06]"
                 : "mt-6 inline-flex h-[50px] items-center rounded-[14px] bg-[#DB3B2B] px-7 font-inter text-[15px] font-semibold text-white no-underline transition-colors duration-200 hover:bg-[#C0332A]"}
             >
               {w.ctaLabel}
-              {bVariant && (
-                <svg width="15" height="15" viewBox="0 0 16 16" fill="none" className="transition-transform duration-150 group-hover/cta:translate-x-0.5">
-                  <path d="M4 8h8M9 5l3 3-3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              )}
             </a>
           </div>
         ))}
@@ -479,15 +474,10 @@ export default function T1ScrollShowcase({ bVariant = false }: { bVariant?: bool
                           <a
                             href={SIGNUP_URL}
                             className={bVariant
-                              ? "group/cta mt-5 inline-flex items-center gap-1.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:text-white/70"
+                              ? "mt-5 inline-flex h-[44px] items-center rounded-[14px] border border-white/40 px-6 font-inter text-[15px] font-semibold text-white no-underline transition-colors duration-200 hover:border-white hover:bg-white/[0.06]"
                               : "mt-5 inline-flex h-[48px] items-center rounded-[14px] bg-[#DB3B2B] px-6 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-200 hover:bg-[#C0332A]"}
                           >
                             {w.ctaLabel}
-                            {bVariant && (
-                              <svg width="15" height="15" viewBox="0 0 16 16" fill="none" className="transition-transform duration-150 group-hover/cta:translate-x-0.5">
-                                <path d="M4 8h8M9 5l3 3-3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                              </svg>
-                            )}
                           </a>
                         </div>
                       )}

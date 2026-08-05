@@ -68,7 +68,6 @@ const CARDS: Card[] = [
       { src: "/img/circles/dhl.svg" },
       { src: "/img/circles/fedex.svg" },
       { src: "/img/circles/ups.svg" },
-      { src: "/img/circles/jt.svg" },
       { src: "/img/circles/ampm.svg" },
       { src: "/img/circles/99.svg" },
     ],
