@@ -35,13 +35,13 @@ const CASES: CaseStudy[] = [
     person: "", role: "", hasVideo: false,
   },
   {
-    id: "telcel", name: "Telcel", image: "/img/logos/telcel-v2.png", whiteLogo: "/img/logo-telcel-white.png", coverImage: "/img/caso-telcel-art.png", treated: true, textSide: "right", bgColor: "#241014",
+    id: "telcel", name: "Telcel", image: "/img/logos/telcel-v2.png", whiteLogo: "/img/logo-telcel-white.png", coverImage: "/img/telcel-card-v5.png", treated: true, textSide: "right", bgColor: "#241014",
     metric: "+2 M", metricLabel: "de recargas procesadas",
     quote: "T1 Pagos ha procesado más de 2 millones de paquetes y recargas Telcel, consolidando una operación digital de alto volumen dentro del ecosistema.",
     person: "", role: "", hasVideo: false,
   },
   {
-    id: "pirma", name: "Pirma", image: "/img/logos/pirma-v2.png", whiteLogo: "/img/logo-pirma-white.png", coverImage: "/img/caso-pirma-art.png", treated: true, logoH: 45, logoHm: 36, bgColor: "#241014",
+    id: "pirma", name: "Pirma", image: "/img/logos/pirma-v2.png", whiteLogo: "/img/logo-pirma-white.png", coverImage: "/img/pirma-card-v5.png", treated: true, logoH: 45, logoHm: 36, bgColor: "#241014",
     metric: "45%", metricLabel: "reducción en tiempo de entrega promedio",
     quote: "T1 Envíos nos dio acceso a las mejores paqueterías con tarifas que no podíamos negociar solos.",
     person: "Fernando Díaz", role: "HEAD OF LOGISTICS | PIRMA", hasVideo: false,

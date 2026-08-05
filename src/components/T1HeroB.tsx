@@ -321,18 +321,17 @@ export default function T1HeroB() {
   return (
     <div className="relative z-0">
       <section className="relative flex flex-col items-center overflow-hidden px-5 pb-0 pt-24 tablet:px-6 tablet:pt-28 tablet:pb-0">
-        {/* Fondo (versión B, v3) — grafito NEUTRO-CÁLIDO (sin azul): glow rojo
-            suave arriba-derecha + acentos cálidos tenues. Menos oscuro y sin el
-            exceso de azul de la v2. */}
+        {/* Fondo (versión B, v4) — cálido y rico como la v1 (tipo stack cards),
+            un pelín menos intenso y SIN azul: glow rojo/coral sobre base cálida. */}
         <div
           aria-hidden
           className="absolute inset-0 z-0"
           style={{
             background:
-              "radial-gradient(ellipse 80% 64% at 70% 26%, rgba(219,59,43,0.22) 0%, transparent 58%)," +
-              "radial-gradient(ellipse 52% 50% at 12% 86%, rgba(122,92,80,0.12) 0%, transparent 60%)," +
-              "radial-gradient(ellipse 44% 42% at 92% 92%, rgba(244,132,104,0.08) 0%, transparent 60%)," +
-              "linear-gradient(160deg, #262320 0%, #201d1b 50%, #191615 100%)",
+              "radial-gradient(ellipse 86% 70% at 67% 32%, rgba(226,64,47,0.40) 0%, transparent 60%)," +
+              "radial-gradient(ellipse 60% 58% at 14% 22%, rgba(150,34,34,0.26) 0%, transparent 58%)," +
+              "radial-gradient(ellipse 50% 46% at 82% 84%, rgba(244,114,150,0.12) 0%, transparent 62%)," +
+              "linear-gradient(160deg, #22101a 0%, #1c0d15 48%, #160a11 100%)",
           }}
         />
         {/* Grano sutil para dar textura como en las cards */}
@@ -571,7 +570,7 @@ export default function T1HeroB() {
                     {/* CP — misma altura mín. que los campos de link para alinear los logos entre pestañas */}
                     <div className="mx-auto flex min-h-[172px] w-full flex-col justify-center rounded-[16px] bg-[#1D1D1D] px-4 py-2 transition-shadow focus-within:ring-1 focus-within:ring-white/25 tablet:max-w-[440px]">
                       <div className="flex gap-3.5">
-                        <div className="flex flex-col items-center self-stretch py-[18px]">
+                        <div className="flex flex-col items-center self-stretch py-[22px]">
                           {/* Origen: punto · Destino: pin de localización */}
                           <span className="h-[10px] w-[10px] shrink-0 rounded-full border-[1.5px] border-white/80" />
                           <span className="my-1 w-px flex-1" style={{ background: "repeating-linear-gradient(#FFFFFF 0 3px, transparent 3px 7px)" }} />
@@ -581,12 +580,12 @@ export default function T1HeroB() {
                           </svg>
                         </div>
                         <div className="min-w-0 flex-1">
-                          <label className="block py-2">
+                          <label className="block py-4">
                             <span className="font-inter text-[12px] font-normal text-white">Desde</span>
                             <input ref={cpDesdeRef} value={cpDesde} onChange={(e) => setCpDesde(e.target.value.slice(0, 40))} placeholder="Código postal o colonia" aria-label="Origen del envío" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
                           </label>
                           <span className="block h-px w-full bg-white/10" />
-                          <label className="block py-2">
+                          <label className="block py-4">
                             <span className="font-inter text-[12px] font-normal text-white">Hacia</span>
                             <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.slice(0, 40))} placeholder="Código postal o colonia" aria-label="Destino del envío" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
                           </label>
