@@ -321,8 +321,8 @@ export default function T1HeroB() {
   return (
     <div className="relative z-0">
       <section className="relative flex flex-col items-center overflow-hidden px-5 pb-0 pt-24 tablet:px-6 tablet:pt-28 tablet:pb-0">
-        {/* Fondo (versión B, v4) — cálido y rico como la v1 (tipo stack cards),
-            un pelín menos intenso, con un TOQUE muy sutil de azul abajo-izq. */}
+        {/* Fondo (versión B, v5) — valores afinados por diseño: glow rojo/coral,
+            azul más presente en las orillas (55%/45%) y base #3e1f30. */}
         <div
           aria-hidden
           className="absolute inset-0 z-0"
@@ -331,9 +331,9 @@ export default function T1HeroB() {
               "radial-gradient(ellipse 86% 70% at 67% 32%, rgba(226,64,47,0.40) 0%, transparent 60%)," +
               "radial-gradient(ellipse 60% 58% at 14% 22%, rgba(150,34,34,0.26) 0%, transparent 58%)," +
               "radial-gradient(ellipse 50% 46% at 82% 84%, rgba(244,114,150,0.12) 0%, transparent 62%)," +
-              "radial-gradient(ellipse 60% 70% at -4% 88%, rgba(58,74,158,0.28) 0%, transparent 52%)," +
-              "radial-gradient(ellipse 42% 60% at 102% 10%, rgba(58,74,158,0.20) 0%, transparent 50%)," +
-              "linear-gradient(160deg, #22101a 0%, #1c0d15 48%, #160a11 100%)",
+              "radial-gradient(ellipse 60% 70% at -4% 88%, rgba(58,74,158,0.55) 0%, transparent 52%)," +
+              "radial-gradient(ellipse 42% 60% at 102% 10%, rgba(58,74,158,0.45) 0%, transparent 50%)," +
+              "linear-gradient(160deg, #3e1f30 0%, #1c0d15 48%, #160a11 100%)",
           }}
         />
         {/* Grano sutil para dar textura como en las cards */}
@@ -526,7 +526,7 @@ export default function T1HeroB() {
                         onChange={(e) => setMonto(e.target.value.replace(/\D/g, "").slice(0, 9))}
                         placeholder="0.00"
                         aria-label="Monto a cobrar"
-                        className="w-[200px] bg-transparent text-center font-sora text-[44px] font-light leading-none text-white outline-none placeholder:text-white/25 focus:placeholder:text-transparent"
+                        className="w-[200px] bg-transparent text-center font-sora text-[44px] font-light leading-none text-white outline-none placeholder:text-white/25 [&:placeholder-shown]:caret-transparent"
                       />
                     </div>
                     {/* Concepto — pregunta arriba + hint abajo */}
