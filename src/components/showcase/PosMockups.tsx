@@ -120,7 +120,7 @@ function PosDesktop() {
           </div>
           <div className="flex items-center gap-2 rounded-[12px] border border-black/[0.10] px-4" style={{ height: 44, marginBottom: 14 }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="1.8"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4-4" /></svg>
-            <span className="font-inter text-[14px] text-black/40">Búsqueda</span>
+            <span className="font-inter text-[14px] text-black/40">Buscar producto</span>
           </div>
           <div className="flex items-center gap-5 border-b border-black/[0.06]" style={{ marginBottom: 6 }}>
             {["Destacados", "Playeras", "Tenis", "Caballero", "Dama", "Niño", "Outlet", "Promociones"].map((t, i) => (
@@ -339,7 +339,7 @@ function PosCheckoutDesktop() {
           </div>
           <div className="flex items-center gap-2 rounded-[12px] border border-black/[0.10] px-4" style={{ height: 44, marginBottom: 14 }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="1.8"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4-4" /></svg>
-            <span className="font-inter text-[14px] text-black/40">Búsqueda</span>
+            <span className="font-inter text-[14px] text-black/40">Buscar producto</span>
           </div>
           {DESK_PRODUCTS.map((p) => (
             <div key={p.name} className="relative flex items-center gap-3 border-b border-black/[0.04]" style={{ height: 56, opacity: p.state === "out" ? 0.45 : 1 }}>
@@ -545,7 +545,7 @@ function PosCheckoutMobile({ liftButtons = false }: { liftButtons?: boolean }) {
           <div className="flex items-center gap-2 px-4" style={{ marginBottom: 12 }}>
             <div className="flex flex-1 items-center gap-2 rounded-[11px] bg-black/[0.04] px-3" style={{ height: 38 }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="1.8"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4-4" /></svg>
-              <span className="font-inter text-[12px] text-black/40">Búsqueda</span>
+              <span className="font-inter text-[12px] text-black/40">Buscar producto</span>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="1.6" className="ml-auto"><path d="M4 6v12M7 6v12M10 6v12M13 6v12M16 6v12M19 6v12" /></svg>
             </div>
             <div className="flex h-[38px] w-[38px] items-center justify-center rounded-[11px] bg-[#DB3B2B]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2"><path d="M12 5v14M5 12h14" /></svg></div>
@@ -564,7 +564,7 @@ function PosCheckoutMobile({ liftButtons = false }: { liftButtons?: boolean }) {
                 <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center overflow-hidden rounded-[8px] border border-black/[0.05] bg-[#FAFAF9]"><Image src={p.img} alt="" width={30} height={22} className="object-contain" /></div>
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-inter text-[12px] font-medium text-black">{p.name}</p>
-                  <p className="font-inter text-[12px] font-semibold text-black">{p.price}{p.state === "ok" && <span className="font-normal text-black/45"> · {p.sub}</span>}{p.state === "low" && <span className="ml-1.5 rounded-[4px] bg-[rgba(245,158,11,0.12)] px-1 py-0.5 text-[9px] font-semibold text-[#B45309]">{p.sub}</span>}{p.state === "out" && <span className="ml-1.5 rounded-[4px] bg-[rgba(219,59,43,0.10)] px-1 py-0.5 text-[9px] font-semibold text-[#DB3B2B]">{p.sub}</span>}</p>
+                  <p className="font-inter text-[12px] font-semibold text-black">{p.price}<span className={`font-normal ${p.state === "low" ? "text-[#B45309]" : p.state === "out" ? "text-[#DB3B2B]" : "text-black/45"}`}> · {p.sub}</span></p>
                 </div>
                 {p.name === "Playera básica algodón" && step === 0 && <Tap left="28%" top="50%" />}
               </div>
@@ -758,7 +758,7 @@ function PosHeroMobile({ cartCount = 0, showNew = false }: { cartCount?: number;
       <div className="flex items-center gap-2 px-4" style={{ marginBottom: 12 }}>
         <div className="flex flex-1 items-center gap-2 rounded-[11px] bg-black/[0.04] px-3" style={{ height: 38 }}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="1.8"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4-4" /></svg>
-          <span className="font-inter text-[12px] text-black/40">Búsqueda</span>
+          <span className="font-inter text-[12px] text-black/40">Buscar producto</span>
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="1.6" className="ml-auto"><path d="M4 6v12M7 6v12M10 6v12M13 6v12M16 6v12M19 6v12" /></svg>
         </div>
         <div className="flex h-[38px] w-[38px] items-center justify-center rounded-[11px] bg-[#DB3B2B]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2"><path d="M12 5v14M5 12h14" /></svg></div>

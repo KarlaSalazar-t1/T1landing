@@ -45,7 +45,7 @@ const CARDS: Card[] = [
   {
     id: "cobra",
     label: "Cobra",
-    desc: "Acepta tarjetas, transferencias y meses sin intereses, con la mejor tasa de aprobación.",
+    desc: "Acepta tarjetas, transferencias y meses sin intereses, con antifraude integrado.",
     glow: "#2F6BFF",
     iconStyle: "card",
     icons: [
@@ -61,7 +61,7 @@ const CARDS: Card[] = [
   {
     id: "envia",
     label: "Envía",
-    desc: "Crea guías con +10 paqueterías al mejor precio y rastréalas todas en un solo panel.",
+    desc: "Crea guías con +10 paqueterías a tarifas negociadas por volumen y rastréalas todas en un solo panel.",
     glow: "#E0402F",
     iconStyle: "circle",
     icons: [
@@ -146,7 +146,7 @@ function IconGrid({ card }: { card: Card }) {
  * de cards blanca.
  */
 /* Versión B: la card de "Vende" enfatiza que con T1 creas tu tienda súper fácil y lista para vender. */
-const VENDE_DESC_B = "Crea tu tienda con T1 en minutos, lista para vender en línea, marketplaces y redes sociales.";
+const VENDE_DESC_B = "Crea tu tienda con T1 en menos de 1 minuto, lista para vender en línea, marketplaces y redes sociales.";
 
 export default function T1FeatureIntro({ bVariant = false }: { bVariant?: boolean }) {
   const descFor = (c: Card) => (bVariant && c.id === "vende" ? VENDE_DESC_B : c.desc);

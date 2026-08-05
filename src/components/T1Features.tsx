@@ -1121,7 +1121,7 @@ const SHOWCASE_CARDS = [
     id: "t1tienda-en-linea",
     title: "Crea tu tienda con IA con T1 Tienda",
     description:
-      "Describe tu negocio y la IA la crea, lista para vender, con envíos y pagos integrados.",
+      "Describe tu negocio y la IA crea tu tienda, lista para vender, con envíos y pagos integrados.",
     bgImage: null,
     bgCSS: "stack-bg-tienda-online",
     panelLeft: null,
@@ -1379,7 +1379,7 @@ function PhoneLinkPago() {
           </div>
           <div className="flex flex-col items-center px-5 py-3">
             <Image src="/img/tenis-transparente.png" alt="Tenis" width={60} height={42} className="object-contain" />
-            <p className="mt-1 text-[11px] text-black/50 text-center">Tenis blancos clasicos</p>
+            <p className="mt-1 text-[11px] text-black/50 text-center">Tenis blancos clásicos</p>
             <p className="mt-0.5 text-[18px] font-bold text-black">$1,345.99</p>
           </div>
           <div className="border-t border-black/[0.06] px-5 py-2.5">
@@ -1924,7 +1924,7 @@ function DesktopTiendaPanel({ animate }: { animate: boolean }) {
             <circle cx="7" cy="7" r="5" stroke="rgba(0,0,0,0.35)" strokeWidth="1.5" />
             <path d="M11 11L14 14" stroke="rgba(0,0,0,0.35)" strokeWidth="1.5" strokeLinecap="round" />
           </svg>
-          <span className="text-[10px] text-black/35">Búsqueda</span>
+          <span className="text-[10px] text-black/35">Buscar producto</span>
         </div>
       </div>
 

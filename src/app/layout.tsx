@@ -23,7 +23,7 @@ const manrope = Manrope({
 export const metadata: Metadata = {
   title: "T1 - La plataforma del comercio moderno",
   description:
-    "Todo en uno. Tienda, pagos y envios para tu negocio.",
+    "Todo en uno. Tienda, pagos y envíos para tu negocio.",
 };
 
 export default function RootLayout({

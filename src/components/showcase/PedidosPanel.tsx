@@ -263,7 +263,7 @@ export default function PedidosPanel({
                     <Image src="/img/tennis-tabla.png" alt="Tenis" width={26} height={26} className="object-contain" />
                   </div>
                   <div>
-                    <p className="text-[10px] font-semibold text-black/80">Tenis blancos clasicos</p>
+                    <p className="text-[10px] font-semibold text-black/80">Tenis blancos clásicos</p>
                     <p className="text-[9px] text-black/40">102292 / 14229-2</p>
                   </div>
                   <span className="ml-auto text-[10px] font-semibold text-black/60">$1,345.99</span>

@@ -22,7 +22,7 @@ export const RECURSOS_MENU_COLUMNS = [
     title: "Soporte",
     items: [
       { title: "Centro de ayuda", desc: "Documentación y soporte", href: "/ayuda" },
-      { title: "Página de estatus", desc: "Estado de la plataforma en tiempo real", href: "/estatus" },
+      { title: "Estatus del servicio", desc: "Disponibilidad de la plataforma en tiempo real", href: "/estatus" },
     ],
   },
   {
@@ -128,7 +128,7 @@ export const FOOTER_COLUMNS = [
       { label: "Blog", href: BLOG_URL },
       { label: "Centro de ayuda", href: "/ayuda" },
       { label: "Documentación", href: "/documentacion" },
-      { label: "Página de estatus", href: "/estatus" },
+      { label: "Estatus del servicio", href: "/estatus" },
     ],
   },
   {
@@ -136,7 +136,7 @@ export const FOOTER_COLUMNS = [
     links: [
       { label: "Historias de éxito", href: CASES_URL },
       { label: "Partners", href: "/partners" },
-      { label: "Careers", href: "/careers" },
+      { label: "Vacantes", href: "/careers" },
     ],
   },
   {

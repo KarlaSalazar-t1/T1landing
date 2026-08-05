@@ -439,7 +439,7 @@ export default function T1Navbar({ bVariant = false }: { bVariant?: boolean }) {
           <div className="mx-auto flex max-w-[var(--max-w)] gap-0 px-6">
             <div className="flex flex-1 items-center px-5 first:pl-0" style={{ paddingTop: 20, paddingBottom: 20 }}>
               <span className="font-inter text-[12px] font-medium text-white/40">
-                ¿Como quieres empezar?
+                ¿Cómo quieres empezar?
               </span>
             </div>
             {MEGA_MENU_BOTTOM.map((opt) => (
