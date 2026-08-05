@@ -29,13 +29,13 @@ const CASES: CaseStudy[] = [
     person: "Juan Manuel Ruiz", role: "DIRECTOR GENERAL | CÍRCULO DE CRÉDITO", hasVideo: true, videoId: "MPXrBe7iNgE",
   },
   {
-    id: "casadetono", name: "Casa de Toño", image: "/img/logos/casadetono-v3.png", whiteLogo: "/img/logo-casadetono-white.png", coverImage: "/img/caso-casadetono-art.png", treated: true, logoH: 60, logoHm: 45, bgColor: "#241014",
+    id: "casadetono", name: "Casa de Toño", image: "/img/logos/casadetono-v3.png", whiteLogo: "/img/logo-casadetono-white.png", coverImage: "/img/casa-card-v5.png", treated: true, logoH: 60, logoHm: 45, bgColor: "#241014",
     metric: "+92%", metricLabel: "de aprobación y fraude casi cero",
     quote: "T1 Pagos permitió a Casa de Toño mantener altos niveles de aprobación, con fraude prácticamente nulo en sus operaciones digitales a través de su canal de WhatsApp.",
     person: "", role: "", hasVideo: false,
   },
   {
-    id: "telcel", name: "Telcel", image: "/img/logos/telcel-v2.png", whiteLogo: "/img/logo-telcel-white.png", coverImage: "/img/telcel-card-v5.png", treated: true, textSide: "right", bgColor: "#241014",
+    id: "telcel", name: "Telcel", image: "/img/logos/telcel-v2.png", whiteLogo: "/img/logo-telcel-white.png", coverImage: "/img/telcel-card-v5.png", treated: true, bgColor: "#241014",
     metric: "+2 M", metricLabel: "de recargas procesadas",
     quote: "T1 Pagos ha procesado más de 2 millones de paquetes y recargas Telcel, consolidando una operación digital de alto volumen dentro del ecosistema.",
     person: "", role: "", hasVideo: false,

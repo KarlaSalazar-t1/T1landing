@@ -132,7 +132,7 @@ const CARRIER_LOGOS = [
 function CarrierLogos() {
   return (
     <div className="mt-6 flex flex-col items-center gap-3">
-      <span className="font-inter text-[12px] font-normal text-white/45">Con las mejores paqueterías</span>
+      <span className="font-inter text-[12px] font-normal text-white/45">Envía con las mejores paqueterías</span>
       <div className="flex items-center justify-center gap-2.5">
         {CARRIER_LOGOS.map((src) => (
           <div key={src} className="flex h-[30px] w-[30px] shrink-0 items-center justify-center overflow-hidden rounded-full">
@@ -322,7 +322,7 @@ export default function T1HeroB() {
     <div className="relative z-0">
       <section className="relative flex flex-col items-center overflow-hidden px-5 pb-0 pt-24 tablet:px-6 tablet:pt-28 tablet:pb-0">
         {/* Fondo (versión B, v4) — cálido y rico como la v1 (tipo stack cards),
-            un pelín menos intenso y SIN azul: glow rojo/coral sobre base cálida. */}
+            un pelín menos intenso, con un TOQUE muy sutil de azul abajo-izq. */}
         <div
           aria-hidden
           className="absolute inset-0 z-0"
@@ -331,6 +331,7 @@ export default function T1HeroB() {
               "radial-gradient(ellipse 86% 70% at 67% 32%, rgba(226,64,47,0.40) 0%, transparent 60%)," +
               "radial-gradient(ellipse 60% 58% at 14% 22%, rgba(150,34,34,0.26) 0%, transparent 58%)," +
               "radial-gradient(ellipse 50% 46% at 82% 84%, rgba(244,114,150,0.12) 0%, transparent 62%)," +
+              "radial-gradient(ellipse 52% 48% at 6% 94%, rgba(58,72,150,0.13) 0%, transparent 56%)," +
               "linear-gradient(160deg, #22101a 0%, #1c0d15 48%, #160a11 100%)",
           }}
         />
@@ -524,7 +525,7 @@ export default function T1HeroB() {
                         onChange={(e) => setMonto(e.target.value.replace(/\D/g, "").slice(0, 9))}
                         placeholder="0.00"
                         aria-label="Monto a cobrar"
-                        className="w-[200px] bg-transparent text-center font-sora text-[44px] font-light leading-none text-white outline-none placeholder:text-white/25"
+                        className="w-[200px] bg-transparent text-center font-sora text-[44px] font-light leading-none text-white outline-none placeholder:text-white/25 focus:placeholder:text-transparent"
                       />
                     </div>
                     {/* Concepto — pregunta arriba + hint abajo */}
@@ -564,7 +565,7 @@ export default function T1HeroB() {
               {tab.id === "envio" && (
                 <>
                   <p className="flex min-h-[52px] max-w-[360px] items-center justify-center text-center font-inter text-[16px] font-light leading-[1.6] text-white tablet:min-h-0 tablet:max-w-none tablet:whitespace-nowrap">
-                    Cotiza a todo México en segundos.
+                    Cotiza con +10 paqueterías en un clic.
                   </p>
                   <div className="flex w-full flex-1 flex-col gap-4 tablet:flex-none">
                     {/* CP — misma altura mín. que los campos de link para alinear los logos entre pestañas */}
