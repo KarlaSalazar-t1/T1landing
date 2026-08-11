@@ -489,10 +489,8 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                      the store preview animation now lives in the "Hoy basta una
                      frase" section below). */
                   <>
-                    {/* Red + blue color blobs over black for an IA-gradient feel */}
-                    <div className="absolute" style={{ top: "-14%", left: "2%", width: 560, height: 560, borderRadius: "50%", background: "radial-gradient(circle, rgba(219,59,43,0.40) 0%, transparent 62%)", filter: "blur(90px)" }} />
-                    <div className="absolute" style={{ top: "-6%", right: "-8%", width: 520, height: 520, borderRadius: "50%", background: "radial-gradient(circle, rgba(56,120,255,0.36) 0%, transparent 62%)", filter: "blur(90px)" }} />
-                    <div className="absolute" style={{ bottom: "-10%", left: "34%", width: 540, height: 540, borderRadius: "50%", background: "radial-gradient(circle, rgba(139,92,246,0.26) 0%, transparent 64%)", filter: "blur(100px)" }} />
+                    {/* Base derivada de la home — misma línea, más apagada (página secundaria) */}
+                    <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 86% 70% at 67% 32%, rgba(226,64,47,0.26) 0%, transparent 60%), radial-gradient(ellipse 60% 58% at 14% 22%, rgba(150,34,34,0.18) 0%, transparent 58%), radial-gradient(ellipse 50% 46% at 82% 84%, rgba(244,114,150,0.08) 0%, transparent 62%), radial-gradient(ellipse 60% 70% at -4% 88%, rgba(58,74,158,0.30) 0%, transparent 52%), radial-gradient(ellipse 42% 60% at 102% 10%, rgba(58,74,158,0.24) 0%, transparent 50%), linear-gradient(160deg, #2e1622 0%, #180b13 50%, #0d070b 100%)" }} />
                     {/* Bottom fade to solid black to fuse with the next section */}
                     <div aria-hidden className="absolute inset-x-0 bottom-0" style={{ height: "45%", background: "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.6) 60%, #000 100%)" }} />
                   </>
