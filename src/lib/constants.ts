@@ -54,7 +54,7 @@ export const MEGA_MENU_COLUMNS = [
     href: "/productos/t1envios",
     items: [
       { title: "Multipaquetería", desc: "Conecta +10 paqueterías en un clic", href: "/productos/t1envios/multipaqueteria" },
-      { title: "Reglas de envío", desc: "Asignación automática de carriers", href: "/productos/t1envios/reglas" },
+      { title: "Reglas de envío", desc: "Asignación automática de paqueterías", href: "/productos/t1envios/reglas" },
       { title: "Rastreo de guías", desc: "Rastrea todas tus guías en un lugar", href: "/productos/t1envios/rastreo" },
       { title: "Control de calidad", desc: "Detecta problemas antes que tu cliente", href: "/productos/t1envios/control-calidad" },
       { title: "Reportes logísticos", desc: "Tiempos de entrega, costos y paqueterías", href: "/productos/t1envios/reportes" },

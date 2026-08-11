@@ -526,7 +526,7 @@ export default function T1HeroB() {
                         onChange={(e) => setMonto(e.target.value.replace(/\D/g, "").slice(0, 9))}
                         placeholder="0.00"
                         aria-label="Monto a cobrar"
-                        className="w-[200px] bg-transparent text-center font-sora text-[44px] font-light leading-none text-white outline-none placeholder:text-white/25 [&:placeholder-shown]:caret-transparent"
+                        className="min-w-[64px] max-w-[280px] bg-transparent text-center font-sora text-[44px] font-light leading-none text-white caret-[#DB3B2B] outline-none [field-sizing:content] placeholder:text-white/25 [&:placeholder-shown:not(:focus)]:caret-transparent"
                       />
                     </div>
                     {/* Concepto — pregunta arriba + hint abajo */}

@@ -42,11 +42,11 @@ function orderStatusStyle(status: string) {
 /* ── Animated panel 1 — Mis productos (inventory ticks up/down) ────────────── */
 const INVENTORY_ROWS = [
   { name: "Tenis blancos clásicos", sku: "TBC-042", price: "$1,345", channels: "3/3", start: 24, img: "/img/moda-tennis.png" },
-  { name: "Playera básica oversize", sku: "PB-101", price: "$299", channels: "2/3", start: 87, img: "/img/moda-playera.png" },
-  { name: "Sudadera hoodie premium", sku: "SH-220", price: "$899", channels: "3/3", start: 12, img: "/img/moda-hoodie.png" },
-  { name: "Gorra snapback negra", sku: "GS-088", price: "$249", channels: "2/3", start: 41, img: "/img/moda-gorra.png" },
+  { name: "Playera básica holgada", sku: "PB-101", price: "$299", channels: "2/3", start: 87, img: "/img/moda-playera.png" },
+  { name: "Sudadera con capucha", sku: "SH-220", price: "$899", channels: "3/3", start: 12, img: "/img/moda-hoodie.png" },
+  { name: "Gorra plana negra", sku: "GS-088", price: "$249", channels: "2/3", start: 41, img: "/img/moda-gorra.png" },
   { name: "Playera polo mujer", sku: "PP-305", price: "$399", channels: "3/3", start: 63, img: "/img/moda-playera.png" },
-  { name: "Sudadera crop violeta", sku: "SC-142", price: "$690", channels: "2/3", start: 18, img: "/img/moda-hoodie.png" },
+  { name: "Sudadera corta violeta", sku: "SC-142", price: "$690", channels: "2/3", start: 18, img: "/img/moda-hoodie.png" },
 ];
 
 function MpInventoryPanel() {
@@ -320,7 +320,7 @@ export default function T1Marketplaces() {
       <section
         className="relative px-5 pt-28 pb-16 tablet:px-10 tablet:pt-36 tablet:pb-24"
         style={{
-          background: "linear-gradient(135deg, #261515 0%, #1A0A0A 40%, #261515 100%)",
+          background: "radial-gradient(ellipse 86% 70% at 67% 32%, rgba(226,64,47,0.26) 0%, transparent 60%), radial-gradient(ellipse 60% 58% at 14% 22%, rgba(150,34,34,0.18) 0%, transparent 58%), radial-gradient(ellipse 50% 46% at 82% 84%, rgba(244,114,150,0.08) 0%, transparent 62%), radial-gradient(ellipse 60% 70% at -4% 88%, rgba(58,74,158,0.30) 0%, transparent 52%), radial-gradient(ellipse 42% 60% at 102% 10%, rgba(58,74,158,0.24) 0%, transparent 50%), linear-gradient(160deg, #2e1622 0%, #180b13 50%, #0d070b 100%)",
         }}
       >
         <div className="mx-auto max-w-[var(--max-w)]">
@@ -329,9 +329,9 @@ export default function T1Marketplaces() {
             <div>
               <h1
                 className="font-sora text-[32px] font-light text-white tablet:text-[44px]"
-                style={{ lineHeight: 1.05, letterSpacing: "-1.5px", marginBottom: 22 }}
+                style={{ lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: 22 }}
               >
-                Vende en +10 marketplaces desde un solo lugar.
+                Vende en +10 marketplaces desde un solo lugar
               </h1>
               <p
                 className="font-inter text-[16px] font-light text-white/65 tablet:text-[19px]"
@@ -344,7 +344,7 @@ export default function T1Marketplaces() {
                   href={SIGNUP_URL}
                   className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
                 >
-                  Comenzar ahora
+                  Comienza gratis
                 </a>
               </div>
             </div>
@@ -538,8 +538,8 @@ export default function T1Marketplaces() {
         <div aria-hidden className="pointer-events-none absolute" style={{ top: "-14%", right: "-6%", width: 580, height: 580, borderRadius: "50%", background: "radial-gradient(circle, rgba(125,26,26,0.07) 0%, transparent 62%)", filter: "blur(30px)" }} />
         <div className="relative mx-auto max-w-[var(--max-w)]">
           <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 48 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15 }}>
-              Vender en varios canales puede ser complicado
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
+              Vender en varios canales es complicado
             </h2>
           </div>
           <div className="flex flex-wrap justify-center gap-5">
@@ -657,11 +657,11 @@ export default function T1Marketplaces() {
 
         {/* centered copy */}
         <div className="relative mx-auto max-w-[620px] text-center">
-          <h2 className="font-sora text-[26px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-            Con T1, olvídate de todo esto.
+          <h2 className="font-sora text-[26px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
+            Actualizar cada canal a mano
           </h2>
           <p className="mx-auto font-inter text-[15px] font-light text-black/60 tablet:text-[17px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 500 }}>
-            Conecta los canales donde ya vendes y gestiona todas tus ventas desde un solo lugar.
+            Conecta los canales donde ya vendes y gestiona todas tus ventas sin salir de T1.
           </p>
 
           <a
@@ -683,7 +683,7 @@ export default function T1Marketplaces() {
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div>
-                <h3 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
+                <h3 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 18 }}>
                   Importa y publica tus productos
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, maxWidth: 460 }}>
@@ -702,11 +702,11 @@ export default function T1Marketplaces() {
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div>
-                <h3 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 14 }}>
+                <h3 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 14 }}>
                   Un solo inventario
                 </h3>
                 <p className="font-inter text-[14px] font-light text-black/55 tablet:text-[15px]" style={{ lineHeight: 1.55, marginBottom: 22 }}>
-                  Se actualiza al instante en todos tus canales. Adiós a las sobreventas.
+                  Se actualiza al instante en todos tus canales y evitas sobreventas.
                 </p>
                 <ul className="flex flex-col gap-2.5">
                   {["Inventario unificado entre tu tienda y marketplaces", "Actualización en tiempo real al vender"].map((it) => (
@@ -731,7 +731,7 @@ export default function T1Marketplaces() {
               </div>
 
               <div className="order-1 tablet:order-2">
-                <h3 className="font-sora text-[32px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 14 }}>
+                <h3 className="font-sora text-[32px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 14 }}>
                   Todos tus pedidos en un lugar
                 </h3>
                 <p className="font-inter text-[14px] font-light text-white/60 tablet:text-[15px]" style={{ lineHeight: 1.55, marginBottom: 22 }}>
@@ -757,7 +757,7 @@ export default function T1Marketplaces() {
       <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[760px]">
           <div className="text-center" style={{ marginBottom: 40 }}>
-            <h2 className="font-sora text-[32px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>
+            <h2 className="font-sora text-[32px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
               Preguntas frecuentes
             </h2>
           </div>
@@ -765,7 +765,7 @@ export default function T1Marketplaces() {
             {[
               { q: "¿Qué canales de venta puedo conectar?", a: "Mercado Libre, Amazon, Walmart, SHEIN, Sears, Sanborns, AliExpress, TikTok Shop, Total Play, Shopify, Tienda Nube, WooCommerce y más." },
               { q: "¿Necesito tener cuenta en cada marketplace?", a: "Sí, necesitas una cuenta de vendedor en cada marketplace que quieras conectar. T1 te ayuda con la configuración y conecta cada cuenta una sola vez." },
-              { q: "¿Cómo se sincroniza el inventario?", a: "En tiempo real. Cada venta en cualquier canal descuenta el inventario en menos de 2 segundos en todos los demás. Adiós sobreventas." },
+              { q: "¿Cómo se sincroniza el inventario?", a: "En tiempo real. Cada venta en cualquier canal descuenta el inventario al instante en todos los demás." },
               { q: "¿Puedo tener precios diferentes por canal?", a: "Sí. Cada SKU puede tener un precio distinto en cada marketplace para optimizar margen según las comisiones de cada plataforma." },
               { q: "¿Qué pasa con las categorías de cada marketplace?", a: "T1 mapea automáticamente tus categorías a las taxonomías de cada marketplace. Tú nombras una vez, T1 traduce al lenguaje de cada canal." },
             ].map((f) => (
@@ -791,7 +791,7 @@ export default function T1Marketplaces() {
       {/* ── Final CTA — scroll-reveal pattern like the main T1 landing ── */}
       <T1FinalCTA
         title="¿Listo para vender en todos lados?"
-        description="Conecta tus canales en minutos y comienza a sincronizar inventario, pedidos y precios sin esfuerzo."
+        description="Crea tu cuenta gratis y sincroniza inventario, pedidos y precios de todos tus canales desde un solo lugar."
       />
     </div>
   );

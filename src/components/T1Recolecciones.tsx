@@ -164,12 +164,12 @@ export default function T1Recolecciones() {
   return (
     <div ref={rootRef} className="w-full" style={{ ["--max-w" as string]: "1220px" }}>
       {/* ════════════ HERO — copy left, interactive scheduler right ════════════ */}
-      <section className="relative flex items-center overflow-hidden px-5 pt-28 pb-16 tablet:px-10 tablet:pt-20 tablet:pb-10 tablet:h-[660px]" style={{ background: "linear-gradient(135deg, #261515 0%, #1A0A0A 40%, #261515 100%)" }}>
+      <section className="relative flex items-center overflow-hidden px-5 pt-28 pb-16 tablet:px-10 tablet:pt-20 tablet:pb-10 tablet:h-[660px]" style={{ background: "radial-gradient(ellipse 86% 70% at 67% 32%, rgba(226,64,47,0.26) 0%, transparent 60%), radial-gradient(ellipse 60% 58% at 14% 22%, rgba(150,34,34,0.18) 0%, transparent 58%), radial-gradient(ellipse 50% 46% at 82% 84%, rgba(244,114,150,0.08) 0%, transparent 62%), radial-gradient(ellipse 60% 70% at -4% 88%, rgba(58,74,158,0.30) 0%, transparent 52%), radial-gradient(ellipse 42% 60% at 102% 10%, rgba(58,74,158,0.24) 0%, transparent 50%), linear-gradient(160deg, #2e1622 0%, #180b13 50%, #0d070b 100%)" }}>
         <div className="relative mx-auto w-full max-w-[var(--max-w)]">
           <div className="grid grid-cols-1 items-center gap-12 tablet:grid-cols-[minmax(0,1fr)_minmax(0,0.95fr)] tablet:gap-16">
             {/* Copy */}
             <div>
-              <h1 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[56px]" style={{ lineHeight: 1.05, letterSpacing: "-1.5px", marginBottom: 22 }}>
+              <h1 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[56px]" style={{ lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: 22 }}>
                 Tus paquetes siempre{" "}
                 <span className="relative inline-block">
                   en camino
@@ -196,7 +196,7 @@ export default function T1Recolecciones() {
       <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32" data-modal-animate>
         <div className="mx-auto max-w-[var(--max-w)]">
           <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15 }}>
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
               Configura tus recolecciones desde donde operes
             </h2>
           </div>
@@ -221,7 +221,7 @@ export default function T1Recolecciones() {
         <div className="mx-auto flex max-w-[var(--max-w)] items-center">
           <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
             <div>
-              <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[46px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
+              <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[46px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 18 }}>
                 Recolecciones automáticas
               </h2>
               <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
@@ -308,7 +308,7 @@ export default function T1Recolecciones() {
             </div>
 
             <div className="order-1 tablet:order-2">
-              <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[46px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
+              <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[46px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 18 }}>
                 Varias paqueterías, una sola visita
               </h2>
               <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
@@ -331,7 +331,7 @@ export default function T1Recolecciones() {
       <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[760px]">
           <div className="text-center" style={{ marginBottom: 40 }}>
-            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
               Preguntas frecuentes
             </h2>
           </div>

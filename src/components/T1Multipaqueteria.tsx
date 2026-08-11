@@ -273,13 +273,13 @@ function CotizadorPhone() {
 /* Panel "Cronograma" (auto-scroll) — variant "card" (desktop) / "phone" (responsive) */
 function CronogramaPanel({ className = "", variant = "card" }: { className?: string; variant?: "card" | "phone" }) {
   const EVENTS = [
-    { chip: "Ayer", title: "Devolución #5127-RE01 rechazada — no vale", time: "12:20:39 p.m." },
-    { title: "Devolución #5127-RE01 solicitada — 2 artículos", time: "12:19:49 p.m." },
-    { icon: "box", title: "Paquete entregado · Recibió: test lopez quiroz", time: "12:02:59 p.m." },
-    { icon: "truck", title: "Evento de envío: delivered · #5127-SH1 · Mexico City · Package delivered successfully", time: "12:02:59 p.m." },
-    { title: "Guía manual almacenada QA-Manual · QA-1782237769", time: "12:02:55 p.m." },
+    { chip: "Ayer", title: "Devolución #5127-RE01 rechazada · fuera de plazo", time: "12:20:39 p.m." },
+    { title: "Devolución #5127-RE01 solicitada · 2 artículos", time: "12:19:49 p.m." },
+    { icon: "box", title: "Paquete entregado · Recibió: Ana Martínez", time: "12:02:59 p.m." },
+    { icon: "truck", title: "Envío entregado · Guía #5127-SH1 · Ciudad de México", time: "12:02:59 p.m." },
+    { title: "Guía generada · #5127-SH1", time: "12:02:55 p.m." },
     { title: "Pedido preparado", time: "12:02:33 p.m." },
-    { title: "Orden marcada como pagada · $292.0 via manual", time: "12:02:29 p.m." },
+    { title: "Pedido pagado · $292.00 MXN", time: "12:02:29 p.m." },
   ];
 
   const header = (
@@ -370,7 +370,7 @@ export default function T1Multipaqueteria() {
             <div>
               <h1
                 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[56px]"
-                style={{ lineHeight: 1.05, letterSpacing: "-1.5px", marginBottom: 22 }}
+                style={{ lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: 22 }}
               >
                 Envía con +25<br />
                 <span className="relative inline-block">
@@ -403,7 +403,7 @@ export default function T1Multipaqueteria() {
       <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32" data-white-card>
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15 }}>
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
               Negociar con cada paquetería <em className="not-italic text-black">no debería ser tu trabajo.</em>
             </h2>
           </div>
@@ -480,7 +480,7 @@ export default function T1Multipaqueteria() {
 
         {/* centered copy */}
         <div className="relative mx-auto max-w-[620px] text-center">
-          <h2 className="font-sora text-[26px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+          <h2 className="font-sora text-[26px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
             Con T1, olvídate de todo esto.
           </h2>
           <p className="mx-auto font-inter text-[15px] font-light text-black/60 tablet:text-[17px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 500 }}>
@@ -500,7 +500,7 @@ export default function T1Multipaqueteria() {
           <div className="mx-auto flex max-w-[var(--max-w)] items-center">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div>
-                <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
+                <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 18 }}>
                   Cotiza con múltiples paqueterías
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
@@ -605,7 +605,7 @@ export default function T1Multipaqueteria() {
             <div className="grid grid-cols-1 gap-5 tablet:grid-cols-2 tablet:gap-6">
               {/* Card 1 — Asignación automática */}
               <div className="tienda-card flex flex-col rounded-[20px] border border-black/[0.07] bg-white p-7" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.05)" }}>
-                <h3 className="font-sora text-[22px] font-normal text-black tablet:text-[26px]" style={{ letterSpacing: "-0.5px", marginBottom: 8 }}>Asignación automática inteligente</h3>
+                <h3 className="font-sora text-[22px] font-normal text-black tablet:text-[26px]" style={{ letterSpacing: "-0.03em", marginBottom: 8 }}>Asignación automática inteligente</h3>
                 <p className="font-inter text-[15px] font-light text-black/60" style={{ lineHeight: 1.6, marginBottom: 24 }}>Reglas por CP, peso, dimensión o monto que optimizan por costo, tiempo o servicio, y reasignan solas si una paquetería falla.</p>
                 <div className="mt-auto flex items-center justify-center overflow-hidden rounded-[14px]">
                   <Image src="/img/asignacion.png" alt="Asignación automática de paqueterías" width={1152} height={932} className="block h-auto w-full max-w-[360px]" sizes="(max-width: 768px) 100vw, 360px" />
@@ -613,7 +613,7 @@ export default function T1Multipaqueteria() {
               </div>
               {/* Card 2 — Rastreo (conserva la animación del cronograma) */}
               <div className="tienda-card flex flex-col rounded-[20px] border border-black/[0.07] bg-white p-7" style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.05)" }}>
-                <h3 className="font-sora text-[22px] font-normal text-black tablet:text-[26px]" style={{ letterSpacing: "-0.5px", marginBottom: 8 }}>Rastrea todos tus envíos</h3>
+                <h3 className="font-sora text-[22px] font-normal text-black tablet:text-[26px]" style={{ letterSpacing: "-0.03em", marginBottom: 8 }}>Rastrea todos tus envíos</h3>
                 <p className="font-inter text-[15px] font-light text-black/60" style={{ lineHeight: 1.6, marginBottom: 24 }}>Estatus unificado de todas las paqueterías, con notificaciones por WhatsApp y detección de demoras antes que tu cliente.</p>
                 <div className="mt-auto">
                   <CronogramaPanel variant="phone" className="tablet:hidden" />
@@ -644,7 +644,7 @@ export default function T1Multipaqueteria() {
             <DimensionesPanel variant="phone" className="order-2 tablet:hidden" />
             <DimensionesPanel className="hidden tablet:block tablet:order-1" />
             <div className="order-1 tablet:order-2">
-              <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
+              <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 18 }}>
                 Crea tus envíos más rápido con plantillas
               </h3>
               <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
@@ -659,7 +659,7 @@ export default function T1Multipaqueteria() {
       <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[760px]">
           <div data-modal-animate className="text-center" style={{ marginBottom: 40 }}>
-            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>Preguntas frecuentes</h2>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>Preguntas frecuentes</h2>
           </div>
           <div data-modal-animate className="flex flex-col gap-3">
             {[

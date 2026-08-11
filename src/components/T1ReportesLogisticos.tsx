@@ -92,7 +92,7 @@ function CostoPesoCard() {
           <div key={LABELS[idx]} className="px-4 py-4" style={{ borderLeft: idx > 0 ? "1px solid rgba(0,0,0,0.06)" : "none" }}>
             <p className="text-[12px] text-black/55" style={{ marginBottom: 14, lineHeight: 1.3 }}>{LABELS[idx]}</p>
             <div key={`${i}-${idx}`} className="flex flex-wrap items-center gap-1.5" style={{ animation: "countBump 0.45s ease-out" }}>
-              <span className="font-sora text-[22px] font-light text-black" style={{ letterSpacing: "-0.5px" }}>{it.v}</span>
+              <span className="font-sora text-[22px] font-light text-black" style={{ letterSpacing: "-0.02em" }}>{it.v}</span>
               <span className="rounded-full px-1.5 py-0.5 text-[10px] font-semibold" style={{ background: it.up ? "rgba(34,197,94,0.14)" : "rgba(219,59,43,0.12)", color: it.up ? "#16A34A" : "#DB3B2B" }}>{it.d}</span>
             </div>
           </div>
@@ -488,12 +488,12 @@ export default function T1ReportesLogisticos() {
   return (
     <div ref={rootRef} className="w-full" style={{ ["--max-w" as string]: "1220px" }}>
       {/* ════════════ HERO — copy left, dashboard right ════════════ */}
-      <section className="relative flex items-center overflow-hidden px-5 pt-28 pb-16 tablet:px-10 tablet:pt-20 tablet:pb-10 tablet:h-[660px]" style={{ background: "linear-gradient(135deg, #261515 0%, #1A0A0A 40%, #261515 100%)" }}>
+      <section className="relative flex items-center overflow-hidden px-5 pt-28 pb-16 tablet:px-10 tablet:pt-20 tablet:pb-10 tablet:h-[660px]" style={{ background: "radial-gradient(ellipse 86% 70% at 67% 32%, rgba(226,64,47,0.26) 0%, transparent 60%), radial-gradient(ellipse 60% 58% at 14% 22%, rgba(150,34,34,0.18) 0%, transparent 58%), radial-gradient(ellipse 50% 46% at 82% 84%, rgba(244,114,150,0.08) 0%, transparent 62%), radial-gradient(ellipse 60% 70% at -4% 88%, rgba(58,74,158,0.30) 0%, transparent 52%), radial-gradient(ellipse 42% 60% at 102% 10%, rgba(58,74,158,0.24) 0%, transparent 50%), linear-gradient(160deg, #2e1622 0%, #180b13 50%, #0d070b 100%)" }}>
         <div className="relative mx-auto w-full max-w-[var(--max-w)]">
           <div className="grid grid-cols-1 items-center gap-12 tablet:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] tablet:gap-16">
             {/* Copy */}
             <div>
-              <h1 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[56px]" style={{ lineHeight: 1.05, letterSpacing: "-1.5px", marginBottom: 22 }}>
+              <h1 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[56px]" style={{ lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: 22 }}>
                 Entiende el desempeño de{" "}
                 <span className="relative inline-block">
                   tus envíos
@@ -528,7 +528,7 @@ export default function T1ReportesLogisticos() {
       {/* ════════════ STATEMENT — por qué medir ════════════ */}
       <section className="relative bg-white px-5 pt-24 pb-12 tablet:px-10 tablet:pt-32 tablet:pb-16" data-modal-animate>
         <div className="mx-auto max-w-[1000px] text-center">
-          <h2 className="font-sora text-[26px] font-light text-black tablet:text-[36px] lg:whitespace-nowrap lg:text-[42px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.2, marginBottom: 16 }}>
+          <h2 className="font-sora text-[26px] font-light text-black tablet:text-[36px] lg:whitespace-nowrap lg:text-[42px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.2, marginBottom: 16 }}>
             No todos los envíos cuestan ni funcionan igual.
           </h2>
           <p className="mx-auto font-inter text-[16px] font-light text-black/60 tablet:text-[18px] lg:whitespace-nowrap" style={{ lineHeight: 1.55 }}>
@@ -541,7 +541,7 @@ export default function T1ReportesLogisticos() {
       <section className="relative bg-white px-5 pt-12 pb-24 tablet:px-10 tablet:pt-16 tablet:pb-32">
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[900px] text-center" style={{ marginBottom: 40 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[38px] lg:text-[46px] lg:whitespace-nowrap" style={{ letterSpacing: "-1.3px", lineHeight: 1.1, marginBottom: 14 }}>
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[38px] lg:text-[46px] lg:whitespace-nowrap" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 14 }}>
               Mide, compara y mejora tus envíos.
             </h2>
             <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
@@ -614,7 +614,7 @@ export default function T1ReportesLogisticos() {
             </div>
 
             <div className="order-1 tablet:order-2">
-              <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[46px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
+              <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[46px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 18 }}>
                 Identifica tendencias
               </h2>
               <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
@@ -640,7 +640,7 @@ export default function T1ReportesLogisticos() {
           <div className="grid grid-cols-1 gap-10 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.35fr)] tablet:items-center tablet:gap-14">
             {/* Left — título + CTA */}
             <div>
-              <h2 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.12, marginBottom: 16, maxWidth: 420 }}>
+              <h2 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 16, maxWidth: 420 }}>
                 Todo lo que puedes medir en un panel
               </h2>
               <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 400 }}>
@@ -687,7 +687,7 @@ export default function T1ReportesLogisticos() {
       <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[760px]">
           <div className="text-center" style={{ marginBottom: 40 }}>
-            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
               Preguntas frecuentes
             </h2>
           </div>

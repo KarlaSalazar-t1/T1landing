@@ -5,7 +5,7 @@ import T1ReglasEnvio from "@/components/T1ReglasEnvio";
 export const metadata = {
   title: "Reglas de envío · T1 Envíos",
   description:
-    "Asignación automática de paqueterías con reglas inteligentes. Define una vez tus criterios y T1 elige el carrier ideal —por costo, tiempo o servicio— en cada pedido.",
+    "Asignación automática de paqueterías con reglas inteligentes. Define una vez tus criterios y T1 elige la paquetería ideal —por costo, tiempo o servicio— en cada pedido.",
 };
 
 export default function ReglasEnvioPage() {

@@ -142,7 +142,7 @@ function IncidenciasPhone({ className = "" }: { className?: string }) {
       <PhoneShell>
         {/* Header */}
         <div className="flex items-center justify-between" style={{ marginBottom: 12 }}>
-          <h4 className="text-[22px] font-bold text-black" style={{ letterSpacing: "-0.5px" }}>Incidencias</h4>
+          <h4 className="text-[22px] font-bold text-black" style={{ letterSpacing: "-0.02em" }}>Incidencias</h4>
           <span className="rounded-[11px] px-3.5 py-2 text-[12px] font-semibold text-white" style={{ background: BR }}>Reportar incidencia</span>
         </div>
         <p className="text-[13px] font-light text-black/55" style={{ lineHeight: 1.45, marginBottom: 16 }}>
@@ -327,12 +327,12 @@ export default function T1ControlCalidad() {
   return (
     <div ref={rootRef} className="w-full" style={{ ["--max-w" as string]: "1220px" }}>
       {/* ════════════ HERO — asymmetric: copy left, score dashboard right ════════════ */}
-      <section className="relative flex items-center overflow-hidden px-5 pt-28 pb-16 tablet:px-10 tablet:pt-20 tablet:pb-10 tablet:h-[660px]" style={{ background: "linear-gradient(135deg, #261515 0%, #1A0A0A 40%, #261515 100%)" }}>
+      <section className="relative flex items-center overflow-hidden px-5 pt-28 pb-16 tablet:px-10 tablet:pt-20 tablet:pb-10 tablet:h-[660px]" style={{ background: "radial-gradient(ellipse 86% 70% at 67% 32%, rgba(226,64,47,0.26) 0%, transparent 60%), radial-gradient(ellipse 60% 58% at 14% 22%, rgba(150,34,34,0.18) 0%, transparent 58%), radial-gradient(ellipse 50% 46% at 82% 84%, rgba(244,114,150,0.08) 0%, transparent 62%), radial-gradient(ellipse 60% 70% at -4% 88%, rgba(58,74,158,0.30) 0%, transparent 52%), radial-gradient(ellipse 42% 60% at 102% 10%, rgba(58,74,158,0.24) 0%, transparent 50%), linear-gradient(160deg, #2e1622 0%, #180b13 50%, #0d070b 100%)" }}>
         <div className="relative mx-auto w-full max-w-[var(--max-w)]">
           <div className="grid grid-cols-1 items-center gap-12 tablet:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] tablet:gap-16">
             {/* Copy */}
             <div>
-              <h1 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[56px]" style={{ lineHeight: 1.05, letterSpacing: "-1.5px", marginBottom: 22 }}>
+              <h1 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[56px]" style={{ lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: 22 }}>
                 Resuelve incidencias de envío desde{" "}
                 <span className="relative inline-block">
                   un solo lugar
@@ -392,7 +392,7 @@ export default function T1ControlCalidad() {
       <section className="relative bg-[#FBFBFB] px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[860px] text-center" style={{ marginBottom: 48 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[38px] lg:text-[46px]" style={{ letterSpacing: "-1.3px", lineHeight: 1.1, marginBottom: 14 }}>
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[38px] lg:text-[46px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 14 }}>
               Dos formas de gestionar problemas de envío
             </h2>
             <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px] lg:whitespace-nowrap" style={{ lineHeight: 1.55 }}>
@@ -409,7 +409,7 @@ export default function T1ControlCalidad() {
                   <Image src={c.img} alt={c.title} width={c.w} height={c.h} className="h-[180px] w-auto object-contain tablet:h-[196px]" style={{ filter: "drop-shadow(0 16px 30px rgba(0,0,0,0.14))" }} />
                 </div>
                 <div className="p-7">
-                  <h3 className="font-sora text-[22px] font-normal text-black tablet:text-[26px]" style={{ letterSpacing: "-0.5px", marginBottom: 10 }}>{c.title}</h3>
+                  <h3 className="font-sora text-[22px] font-normal text-black tablet:text-[26px]" style={{ letterSpacing: "-0.03em", marginBottom: 10 }}>{c.title}</h3>
                   <p className="font-inter text-[15px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{c.desc}</p>
                 </div>
               </div>
@@ -423,7 +423,7 @@ export default function T1ControlCalidad() {
         <div aria-hidden className="pointer-events-none absolute top-0 left-1/2 h-[360px] w-[680px] -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(ellipse at center, rgba(219,59,43,0.12) 0%, transparent 64%)", filter: "blur(44px)" }} />
         <div className="relative mx-auto max-w-[760px]">
           <div data-modal-animate className="text-center" style={{ marginBottom: 32 }}>
-            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[40px] lg:text-[46px]" style={{ letterSpacing: "-1.3px", lineHeight: 1.1 }}>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[40px] lg:text-[46px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.1 }}>
               Cómo funciona
             </h2>
           </div>
@@ -471,7 +471,7 @@ export default function T1ControlCalidad() {
         <div className="mx-auto max-w-[var(--max-w)]">
           <div className="grid grid-cols-1 gap-12 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] tablet:gap-16 tablet:items-center">
             <div data-modal-animate>
-              <h2 className="font-sora text-[28px] font-light text-black tablet:text-[38px] lg:text-[46px]" style={{ letterSpacing: "-1.3px", lineHeight: 1.1, marginBottom: 18 }}>
+              <h2 className="font-sora text-[28px] font-light text-black tablet:text-[38px] lg:text-[46px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 18 }}>
                 Convierte incidencias en mejoras.
               </h2>
               <p className="font-inter text-[15px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
@@ -570,7 +570,7 @@ export default function T1ControlCalidad() {
             </div>
 
             <div className="order-1 tablet:order-2">
-              <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[46px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
+              <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[46px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 18 }}>
                 Resuelve incidencias más rápido.
               </h2>
               <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
@@ -594,7 +594,7 @@ export default function T1ControlCalidad() {
         <div aria-hidden className="pointer-events-none absolute top-0 left-1/2 h-[340px] w-[640px] -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(ellipse at center, rgba(219,59,43,0.12) 0%, transparent 66%)", filter: "blur(46px)" }} />
         <div className="relative mx-auto max-w-[var(--max-w)]">
           <div className="mx-auto max-w-[900px] text-center" style={{ marginBottom: 48 }}>
-            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px] lg:whitespace-nowrap" style={{ letterSpacing: "-1.3px", lineHeight: 1.15, marginBottom: 14 }}>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px] lg:whitespace-nowrap" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
               Todo lo que necesitas para cada caso.
             </h2>
             <p className="font-inter text-[16px] font-light text-white/55 tablet:text-[18px] lg:whitespace-nowrap" style={{ lineHeight: 1.55 }}>
@@ -622,7 +622,7 @@ export default function T1ControlCalidad() {
                   </div>
                 </div>
                 <div className="px-6 pb-6 pt-1">
-                  <h3 className="font-sora text-[18px] font-normal text-white tablet:text-[19px]" style={{ marginBottom: 8, letterSpacing: "-0.3px" }}>{c.t}</h3>
+                  <h3 className="font-sora text-[18px] font-normal text-white tablet:text-[19px]" style={{ marginBottom: 8, letterSpacing: "-0.02em" }}>{c.t}</h3>
                   <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.6 }}>{c.d}</p>
                 </div>
               </div>
@@ -650,7 +650,7 @@ export default function T1ControlCalidad() {
       <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[760px]">
           <div className="text-center" style={{ marginBottom: 40 }}>
-            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
               Preguntas frecuentes
             </h2>
           </div>

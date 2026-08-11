@@ -83,7 +83,7 @@ export default function T1TiendaDondeVender() {
             <div className="absolute bottom-0 left-0 right-0 p-5 tablet:p-7">
               <a
                 href={it.ctaHref}
-                className="inline-flex items-center gap-2 rounded-[13px] bg-[#DB3B2B] px-6 py-3 font-inter text-[14px] font-semibold text-white no-underline transition-colors duration-150 hover:bg-[#C0332A]"
+                className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-6 py-3 font-inter text-[14px] font-semibold text-white no-underline transition-colors duration-150 hover:bg-[#C0332A]"
               >
                 {it.cta}
                 <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>

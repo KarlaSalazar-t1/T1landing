@@ -697,13 +697,13 @@ export default function T1PagosEnLinea() {
   return (
     <div ref={rootRef} className="w-full">
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden px-5 pt-28 pb-16 tablet:px-10 tablet:pt-36 tablet:pb-24" style={{ background: "linear-gradient(135deg, #1A1212 0%, #261515 50%, #1A0A0A 100%)" }}>
+      <section className="relative overflow-hidden px-5 pt-28 pb-16 tablet:px-10 tablet:pt-36 tablet:pb-24" style={{ background: "radial-gradient(ellipse 86% 70% at 67% 32%, rgba(226,64,47,0.26) 0%, transparent 60%), radial-gradient(ellipse 60% 58% at 14% 22%, rgba(150,34,34,0.18) 0%, transparent 58%), radial-gradient(ellipse 50% 46% at 82% 84%, rgba(244,114,150,0.08) 0%, transparent 62%), radial-gradient(ellipse 60% 70% at -4% 88%, rgba(58,74,158,0.30) 0%, transparent 52%), radial-gradient(ellipse 42% 60% at 102% 10%, rgba(58,74,158,0.24) 0%, transparent 50%), linear-gradient(160deg, #2e1622 0%, #180b13 50%, #0d070b 100%)" }}>
         <div aria-hidden className="pointer-events-none absolute -top-32 -right-32 h-[480px] w-[480px] rounded-full" style={{ background: "radial-gradient(circle at center, rgba(219,59,43,0.16) 0%, transparent 65%)", filter: "blur(40px)" }} />
         <div aria-hidden className="pointer-events-none absolute -bottom-40 -left-24 h-[440px] w-[440px] rounded-full" style={{ background: "radial-gradient(circle at center, rgba(59,99,219,0.12) 0%, transparent 65%)", filter: "blur(50px)" }} />
         <div className="relative mx-auto max-w-[var(--max-w)]">
           <div className="grid grid-cols-1 items-center gap-10 tablet:min-h-[420px] tablet:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] tablet:gap-12">
             <div>
-              <h1 className="font-sora text-[32px] font-light text-white tablet:text-[44px] lg:text-[52px]" style={{ lineHeight: 1.08, letterSpacing: "-1.5px", marginBottom: 20 }}>
+              <h1 className="font-sora text-[32px] font-light text-white tablet:text-[44px] lg:text-[52px]" style={{ lineHeight: 1.08, letterSpacing: "-0.03em", marginBottom: 20 }}>
                 Cobra en línea{" "}
                 <span className="relative inline-block">
                   fácil, rápido y seguro
@@ -734,7 +734,7 @@ export default function T1PagosEnLinea() {
       <section className="relative bg-white px-5 pt-10 pb-12 tablet:px-10 tablet:pt-14 tablet:pb-16" data-white-card>
         <div className="mx-auto max-w-[var(--max-w)]">
           <div className="mx-auto max-w-[900px] text-center" style={{ marginBottom: 48, animation: "fadeSlideIn 0.6s ease-out both" }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:whitespace-nowrap lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15 }}>
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:whitespace-nowrap lg:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
               Un pago perdido es una venta perdida.
             </h2>
           </div>
@@ -756,7 +756,7 @@ export default function T1PagosEnLinea() {
       {/* ── Stack cards intro ── */}
       <section className="relative bg-white px-5 pt-12 pb-8 tablet:px-10 tablet:pt-16 tablet:pb-10">
         <div data-modal-animate className="mx-auto max-w-[760px] text-center">
-          <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.4px", lineHeight: 1.1, marginBottom: 16 }}>
+          <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 16 }}>
             Cobrar en línea, de principio a fin.
           </h2>
           <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[19px]" style={{ lineHeight: 1.5 }}>
@@ -771,14 +771,14 @@ export default function T1PagosEnLinea() {
           <div className="grid grid-cols-1 gap-10 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.35fr)] tablet:items-center tablet:gap-14">
             {/* Left — título + CTA */}
             <div data-modal-animate>
-              <h2 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.12, marginBottom: 16, maxWidth: 420 }}>
+              <h2 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 16, maxWidth: 420 }}>
                 Acepta todos los métodos de pago
               </h2>
               <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 400 }}>
                 Tarjetas, meses sin intereses y antifraude, incluidos en cada cobro sin configurar nada.
               </p>
               <a href={SIGNUP_URL} className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
-                Empezar a cobrar
+                Empieza a cobrar
               </a>
             </div>
 
@@ -823,7 +823,7 @@ export default function T1PagosEnLinea() {
               <SettlementPanel />
             </div>
             <div className="order-1 tablet:order-2">
-              <h2 className="font-sora text-[28px] font-light text-black tablet:text-[38px] lg:text-[44px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.12, marginBottom: 18 }}>
+              <h2 className="font-sora text-[28px] font-light text-black tablet:text-[38px] lg:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 18 }}>
                 Tu dinero, rápido y claro
               </h2>
               <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
@@ -846,7 +846,7 @@ export default function T1PagosEnLinea() {
       <section className="relative bg-[#FBFBFB] px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[820px] text-center" style={{ marginBottom: 56 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:whitespace-nowrap lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:whitespace-nowrap lg:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
               Empieza a cobrar en cuatro pasos
             </h2>
             <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
@@ -878,7 +878,7 @@ export default function T1PagosEnLinea() {
           <div aria-hidden className="pointer-events-none absolute top-0 left-1/2 h-[340px] w-[640px] -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(ellipse at center, rgba(219,59,43,0.12) 0%, transparent 66%)", filter: "blur(46px)" }} />
           <div className="relative mx-auto max-w-[var(--max-w)]">
             <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
-              <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+              <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
                 Todo para operar tus cobros
               </h2>
               <p className="font-inter text-[16px] font-light text-white/55 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
@@ -904,7 +904,7 @@ export default function T1PagosEnLinea() {
                     </div>
                   </div>
                   <div className="px-6 pb-7 pt-1">
-                    <h3 className="font-sora text-[18px] font-normal text-white" style={{ marginBottom: 8, letterSpacing: "-0.3px" }}>{f.title}</h3>
+                    <h3 className="font-sora text-[18px] font-normal text-white" style={{ marginBottom: 8, letterSpacing: "-0.02em" }}>{f.title}</h3>
                     <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.6 }}>{f.desc}</p>
                   </div>
                 </div>
@@ -942,7 +942,7 @@ export default function T1PagosEnLinea() {
       <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[760px]">
           <div data-modal-animate className="text-center" style={{ marginBottom: 40 }}>
-            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>Preguntas frecuentes</h2>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.02em", lineHeight: 1.15 }}>Preguntas frecuentes</h2>
           </div>
           <div data-modal-animate className="flex flex-col gap-3">
             {[

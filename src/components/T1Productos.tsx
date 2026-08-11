@@ -38,7 +38,7 @@ const PANEL_PRODUCTS = [
   { name: "Tenis blancos clásicos", units: 24, price: "$1,345.99", img: "/img/tenis-transparente.png" },
   { name: "Playera básica algodón", units: 87, price: "$249.00", img: "/img/playera.png" },
   { name: "Gorra clásica bordada", units: 53, price: "$329.00", img: "/img/gorra.png" },
-  { name: "Sudadera hoodie premium", units: 12, price: "$890.00", img: "/img/moda-hoodie.png" },
+  { name: "Sudadera con capucha", units: 12, price: "$890.00", img: "/img/moda-hoodie.png" },
   { name: "Playera polo mujer", units: 41, price: "$399.00", img: "/img/moda-playera.png" },
   { name: "Mochila urbana 25L", units: 38, price: "$1,120.00", img: "/img/moda-gorra.png" },
 ];
@@ -107,7 +107,7 @@ function InventoryPanel() {
   const [rows, setRows] = useState([
     { name: "Tenis blancos clásicos", img: "/img/tenis-transparente.png", avail: 10, nv: 1 },
     { name: "Playera básica algodón", img: "/img/playera.png", avail: 8, nv: 1 },
-    { name: "Sudadera hoodie premium", img: "/img/moda-hoodie.png", avail: 6, nv: 1 },
+    { name: "Sudadera con capucha", img: "/img/moda-hoodie.png", avail: 6, nv: 1 },
     { name: "Gorra clásica bordada", img: "/img/gorra.png", avail: 4, nv: 1 },
     { name: "Playera polo mujer", img: "/img/moda-playera.png", avail: 12, nv: 2 },
     { name: "Mochila urbana 25L", img: "/img/moda-gorra.png", avail: 3, nv: 1 },
@@ -346,7 +346,7 @@ export default function T1Productos() {
       {/* ── Hero — text left, product list mock right ── */}
       <section
         className="relative overflow-hidden px-5 pt-28 pb-16 tablet:px-10 tablet:pt-36 tablet:pb-24"
-        style={{ background: "linear-gradient(135deg, #1A1212 0%, #261515 50%, #1A0A0A 100%)" }}
+        style={{ background: "radial-gradient(ellipse 86% 70% at 67% 32%, rgba(226,64,47,0.26) 0%, transparent 60%), radial-gradient(ellipse 60% 58% at 14% 22%, rgba(150,34,34,0.18) 0%, transparent 58%), radial-gradient(ellipse 50% 46% at 82% 84%, rgba(244,114,150,0.08) 0%, transparent 62%), radial-gradient(ellipse 60% 70% at -4% 88%, rgba(58,74,158,0.30) 0%, transparent 52%), radial-gradient(ellipse 42% 60% at 102% 10%, rgba(58,74,158,0.24) 0%, transparent 50%), linear-gradient(160deg, #2e1622 0%, #180b13 50%, #0d070b 100%)" }}
       >
         <div aria-hidden className="pointer-events-none absolute -top-32 -right-32 h-[480px] w-[480px] rounded-full" style={{ background: "radial-gradient(circle at center, rgba(219,59,43,0.15) 0%, transparent 65%)", filter: "blur(40px)" }} />
         <div className="relative mx-auto max-w-[var(--max-w)]">
@@ -355,11 +355,11 @@ export default function T1Productos() {
             <div>
               <h1
                 className="font-sora text-[32px] font-light text-white tablet:text-[44px]"
-                style={{ lineHeight: 1.05, letterSpacing: "-1.7px", marginBottom: 22 }}
+                style={{ lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: 22 }}
               >
                 Un catálogo para{" "}
                 <span className="relative inline-block">
-                  todos tus canales.
+                  todos tus canales
                   <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.30)", borderRadius: 5, zIndex: -1 }} />
                 </span>
               </h1>
@@ -374,7 +374,7 @@ export default function T1Productos() {
                   href={SIGNUP_URL}
                   className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
                 >
-                  Comenzar ahora
+                  Comienza gratis
                 </a>
               </div>
             </div>
@@ -417,8 +417,8 @@ export default function T1Productos() {
       {/* ── Intro — No actualices tus productos en cada canal ── */}
       <section className="relative bg-white px-5 pt-16 pb-8 tablet:px-10 tablet:pt-24 tablet:pb-10">
         <div className="mx-auto max-w-[900px] text-center" style={{ animation: "fadeSlideIn 0.6s ease-out both" }}>
-          <h2 className="font-sora text-[30px] font-light text-black tablet:whitespace-nowrap tablet:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 16 }}>
-            No actualices tus productos en cada canal.
+          <h2 className="font-sora text-[30px] font-light text-black tablet:whitespace-nowrap tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 16 }}>
+            No repitas trabajo en cada canal
           </h2>
           <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[19px]" style={{ lineHeight: 1.5 }}>
             Con T1 cambias productos, precios e inventario una vez y lo mantienes sincronizado en tus canales conectados.
@@ -432,7 +432,7 @@ export default function T1Productos() {
           <div className="grid grid-cols-1 gap-10 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.35fr)] tablet:items-center tablet:gap-14">
             {/* Left — title */}
             <div data-modal-animate>
-              <h2 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.12, marginBottom: 16, maxWidth: 420 }}>
+              <h2 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 16, maxWidth: 420 }}>
                 Crea productos como prefieras
               </h2>
               <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 400 }}>
@@ -442,7 +442,7 @@ export default function T1Productos() {
                 href={SIGNUP_URL}
                 className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
               >
-                Crear mi catálogo
+                Crea tu catálogo
               </a>
             </div>
 
@@ -487,7 +487,7 @@ export default function T1Productos() {
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div className="tablet:order-2">
-                <h3 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
+                <h3 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 18 }}>
                   Mantén tu catálogo claro y completo
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
@@ -515,7 +515,7 @@ export default function T1Productos() {
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div>
-                <h3 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
+                <h3 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 18 }}>
                   Sincroniza tu inventario
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
@@ -542,7 +542,7 @@ export default function T1Productos() {
       <section className="relative px-5 py-[100px] tablet:px-10 tablet:py-[128px]" style={{ background: "linear-gradient(180deg, #1A0A0A 0%, #000000 100%)" }}>
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[760px] text-center" style={{ marginBottom: 56 }}>
-            <h2 className="font-sora text-[32px] font-light text-white tablet:whitespace-nowrap tablet:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+            <h2 className="font-sora text-[32px] font-light text-white tablet:whitespace-nowrap tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
               Todo para administrar productos
             </h2>
             <p className="font-inter text-[16px] font-light text-white/55 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
@@ -563,7 +563,7 @@ export default function T1Productos() {
               { img: "/img/admin-ia-fotos.png", title: "IA para fotos", desc: "Sube una imagen y obtén título, descripción y atributos al instante." },
               { img: "/img/admin-variantes.png", title: "Variantes y combinaciones", desc: "Hasta 3 atributos —como color, talla o material— con todas sus combinaciones." },
               { img: "/img/admin-categoria.png", title: "Categorías inteligentes", desc: "Mapeo automático a la categoría correcta de cada marketplace." },
-              { img: "/img/admin-historico.png", title: "Histórico y reportes", desc: "Productos top, rotación y baja rotación con datos reales." },
+              { img: "/img/admin-historico.png", title: "Histórico y reportes", desc: "Productos más vendidos, rotación y baja rotación con datos reales." },
             ].map((c, i) => (
               <div key={c.title} data-stagger style={{ ["--i" as string]: i }} className="incluye-card flex shrink-0 snap-start w-[80vw] max-w-[300px] tablet:w-[300px] flex-col rounded-[18px] border border-white/[0.08] bg-[#121214] px-6 pb-6">
                 <div className="relative" style={{ height: 150 }}>
@@ -639,15 +639,15 @@ export default function T1Productos() {
       <section className="relative bg-black px-5 py-[100px] tablet:px-10 tablet:py-[128px]">
         <div className="mx-auto max-w-[760px]">
           <div data-modal-animate className="text-center" style={{ marginBottom: 40 }}>
-            <h2 className="font-sora text-[32px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>Preguntas frecuentes</h2>
+            <h2 className="font-sora text-[32px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>Preguntas frecuentes</h2>
           </div>
           <div data-modal-animate className="flex flex-col gap-3">
             {[
-              { q: "¿Cuántos productos puedo subir?", a: "Ilimitados. Hemos visto catálogos de cientos de miles de SKUs operando sin problemas." },
+              { q: "¿Cuántos productos puedo subir?", a: "Ilimitados. La plataforma maneja catálogos de cientos de miles de productos sin perder velocidad." },
               { q: "¿La IA crea descripciones automáticamente?", a: "Sí. Sube una foto y la IA genera título, descripción y atributos. Tú revisas y publicas." },
               { q: "¿Cómo se manejan las variantes?", a: "Define cualquier atributo (talla, color, material…) y T1 genera todas las combinaciones automáticamente." },
               { q: "Ya tengo una tienda en línea, ¿puedo migrar mi catálogo?", a: "Sí. Importas tu catálogo e inventario desde otras plataformas o desde un archivo CSV/Excel, sin volver a capturarlo todo." },
-              { q: "¿El inventario se actualiza en tiempo real?", a: "Sí. Cada venta en cualquier canal descuenta inventario en menos de 2 segundos en todos los demás." },
+              { q: "¿El inventario se actualiza en tiempo real?", a: "Sí. Cada venta en cualquier canal descuenta inventario al instante en todos los demás." },
             ].map((f, i) => (
               <details key={f.q} data-stagger className="group rounded-[14px] border border-white/[0.08] bg-white/[0.03] transition-all duration-200 open:border-[rgba(219,59,43,0.4)] open:bg-white/[0.05]" style={{ ["--i" as string]: i }}>
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-sora text-[16px] font-normal text-white transition-colors duration-150 hover:text-[#FF6F5E]">
@@ -663,7 +663,8 @@ export default function T1Productos() {
 
       <T1FinalCTA
         title="¿Listo para centralizar tu catálogo?"
-        description="Sube tus productos una sola vez y véndelos en todos tus canales con inventario sincronizado."
+        description="Crea tu cuenta gratis y sube tus productos una sola vez para venderlos en todos tus canales con inventario sincronizado."
+        buttonLabel="Empieza gratis"
       />
     </div>
   );

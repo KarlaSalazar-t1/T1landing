@@ -114,7 +114,7 @@ export default function T1POS() {
       {/* ── Hero — text left, POS terminal mock right ── */}
       <section
         className="relative overflow-hidden px-5 pt-28 pb-16 tablet:px-10 tablet:pt-36 tablet:pb-24"
-        style={{ background: "linear-gradient(135deg, #1A1212 0%, #261515 50%, #1A0A0A 100%)" }}
+        style={{ background: "radial-gradient(ellipse 86% 70% at 67% 32%, rgba(226,64,47,0.26) 0%, transparent 60%), radial-gradient(ellipse 60% 58% at 14% 22%, rgba(150,34,34,0.18) 0%, transparent 58%), radial-gradient(ellipse 50% 46% at 82% 84%, rgba(244,114,150,0.08) 0%, transparent 62%), radial-gradient(ellipse 60% 70% at -4% 88%, rgba(58,74,158,0.30) 0%, transparent 52%), radial-gradient(ellipse 42% 60% at 102% 10%, rgba(58,74,158,0.24) 0%, transparent 50%), linear-gradient(160deg, #2e1622 0%, #180b13 50%, #0d070b 100%)" }}
       >
         <div aria-hidden className="pointer-events-none absolute -top-32 -right-32 h-[480px] w-[480px] rounded-full" style={{ background: "radial-gradient(circle at center, rgba(219,59,43,0.15) 0%, transparent 65%)", filter: "blur(40px)" }} />
         <div className="relative mx-auto max-w-[var(--max-w)]">
@@ -123,11 +123,11 @@ export default function T1POS() {
             <div className="tablet:self-center">
               <h1
                 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[60px]"
-                style={{ lineHeight: 1.05, letterSpacing: "-1.7px", marginBottom: 22 }}
+                style={{ lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: 22 }}
               >
                 El punto de venta{" "}
                 <span className="relative inline-block">
-                  todo en uno.
+                  todo en uno
                   <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.30)", borderRadius: 5, zIndex: -1 }} />
                 </span>
               </h1>
@@ -135,7 +135,7 @@ export default function T1POS() {
                 className="font-inter text-[16px] font-light text-white/65 tablet:text-[19px]"
                 style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 500 }}
               >
-                Vende en piso, cobra con distintos métodos y mantén tu catálogo e inventario sincronizados en T1.
+                Vende en piso, cobra con distintos métodos y mantén tus productos e inventario sincronizados en T1.
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <a
@@ -160,8 +160,8 @@ export default function T1POS() {
       <section className="relative bg-white px-5 pt-10 pb-10 tablet:px-10 tablet:pt-14 tablet:pb-14">
         <div className="mx-auto max-w-[var(--max-w)]">
           <div className="mx-auto max-w-[760px] text-center" style={{ marginBottom: 48, animation: "fadeSlideIn 0.6s ease-out both" }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[34px] lg:text-[42px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15 }}>
-              Todo tu negocio, en un solo lugar.
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[34px] lg:text-[42px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
+              Vende, cobra y controla en un solo lugar
             </h2>
           </div>
           <div data-modal-animate className="grid grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
@@ -173,12 +173,12 @@ export default function T1POS() {
               },
               {
                 title: "Cobra con cualquier método",
-                desc: "Efectivo, SPEI, transferencia y pagos con tarjeta o métodos personalizados. Envía tickets por WhatsApp, SMS o email.",
+                desc: "Efectivo, SPEI, transferencia y pagos con tarjeta o métodos personalizados. Envía recibos por WhatsApp, SMS o correo electrónico.",
                 img: "/img/cobra-cualquier-metodo.png",
               },
               {
                 title: "Controla tu inventario",
-                desc: "Stock por sucursal, actualizado en tiempo real con cada venta en piso o en línea. Sin sobreventas.",
+                desc: "Existencias por sucursal, actualizadas en tiempo real con cada venta en piso o en línea. Sin sobreventas.",
                 img: "/img/controla-inventario.png",
               },
             ].map((f, i) => (
@@ -198,11 +198,11 @@ export default function T1POS() {
       <section className="relative bg-white px-5 pt-4 pb-16 tablet:px-10 tablet:pt-6 tablet:pb-20">
         <div className="relative mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 44 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-              Cobra en segundos.
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
+              Cobra en segundos
             </h2>
             <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-              Agrega productos, cobra con cualquier forma de pago y comparte el ticket al terminar. Así de rápido cobran tus vendedores.
+              Agrega productos, cobra con cualquier forma de pago y comparte el recibo al terminar. Así de rápido cobra tu equipo.
             </p>
           </div>
           <div data-modal-animate className="mx-auto" style={{ maxWidth: 760 }}>
@@ -231,7 +231,7 @@ export default function T1POS() {
           <div data-modal-animate className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
             <InventoryPanel />
             <div className="order-1 tablet:order-2">
-              <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
+              <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 18 }}>
                 Crea y administra tu catálogo
               </h3>
               <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
@@ -257,14 +257,14 @@ export default function T1POS() {
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div>
-                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
+                <h3 className="font-sora text-[22px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 18 }}>
                   Controla todo tu negocio
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
                   Administra sucursales, equipo y corte de caja desde una sola cuenta. Todo bajo control, sin pelear con hojas de cálculo.
                 </p>
                 <ul className="flex flex-col gap-2.5">
-                  {["Multi-sucursal: cada tienda con su propio inventario", "Multi-empleado: cuentas por vendedor con permisos y reportes", "Apertura y corte de caja por sucursal y turno"].map((it) => (
+                  {["Multi-sucursal: cada una con su propio inventario", "Multi-empleado: cuentas por empleado con permisos y reportes", "Apertura y corte de caja por sucursal y turno"].map((it) => (
                     <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                       {it}
@@ -302,7 +302,7 @@ export default function T1POS() {
 
                 {/* Right — texto + QR / botones (centrados en su contenedor) */}
                 <div className="relative order-1 pb-10 text-center tablet:order-2 tablet:py-20">
-                  <p className="font-sora text-[24px] font-medium text-white tablet:whitespace-nowrap tablet:text-[30px]" style={{ letterSpacing: "-0.5px", marginBottom: 8 }}>Tu POS en cualquier dispositivo</p>
+                  <p className="font-sora text-[24px] font-medium text-white tablet:whitespace-nowrap tablet:text-[30px]" style={{ letterSpacing: "-0.03em", marginBottom: 8 }}>Tu POS en cualquier dispositivo</p>
                   <p className="font-inter text-[15px] font-light text-white/60 tablet:hidden" style={{ marginBottom: 28 }}>Descárgalo gratis o ábrelo desde la web.</p>
                   <p className="hidden font-inter text-[15px] font-light text-white/60 tablet:block tablet:whitespace-nowrap" style={{ marginBottom: 28 }}>Descárgalo gratis escaneando el código o ábrelo desde la web.</p>
 
@@ -350,7 +350,7 @@ export default function T1POS() {
       <section className="relative bg-[#FBFBFB] px-5 pt-14 pb-16 tablet:px-10 tablet:pt-16 tablet:pb-20">
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
               Tu sucursal, lista para vender
             </h2>
             <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
@@ -360,9 +360,9 @@ export default function T1POS() {
           <div data-modal-animate className="grid grid-cols-1 gap-4 tablet:grid-cols-2 lg:grid-cols-3 lg:gap-5">
             {[
               { title: "Lector de código", desc: "Escaneo rápido por código de barras mediante escáner o la cámara de tu dispositivo.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 5v14 M7 5v14 M11 5v14 M15 5v14 M19 5v14 M21 5v14" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
-              { title: "Tickets digitales", desc: "Envía recibos por WhatsApp, SMS o email al instante.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 3h14a2 2 0 0 1 2 2v14l-3-3H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round" /><path d="M8 9h8 M8 13h5" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
+              { title: "Recibos digitales", desc: "Envía recibos por WhatsApp, SMS o correo electrónico al instante.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 3h14a2 2 0 0 1 2 2v14l-3-3H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round" /><path d="M8 9h8 M8 13h5" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
               { title: "Promociones", desc: "Descuentos directo al cobrar o automatizados.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M21 11.5V7l-9-4-9 4v9l9 4 9-4v-1.5" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round" /><circle cx="14" cy="14" r="2" stroke="#111827" strokeWidth="1.6" /></svg>) },
-              { title: "Multi-vendedor", desc: "Cuentas por colaborador con permisos y reportes.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="#111827" strokeWidth="1.6" /><circle cx="17" cy="9" r="2.5" stroke="#111827" strokeWidth="1.6" /><path d="M3 19c0-3.3 2.7-6 6-6s6 2.7 6 6 M14 14a5 5 0 0 1 7 5" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
+              { title: "Multi-empleado", desc: "Cuentas por empleado con permisos y reportes.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="#111827" strokeWidth="1.6" /><circle cx="17" cy="9" r="2.5" stroke="#111827" strokeWidth="1.6" /><path d="M3 19c0-3.3 2.7-6 6-6s6 2.7 6 6 M14 14a5 5 0 0 1 7 5" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" /></svg>) },
               { title: "Devoluciones", desc: "Procesa reembolsos sin fricción.", icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 1 0 3-6.7 M3 4v5h5" stroke="#111827" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
             ].map((f, i) => (
               <div key={f.title} data-stagger className="tienda-card flex items-start gap-4 rounded-[16px] border border-black/[0.07] bg-white p-6" style={{ ["--i" as string]: i, boxShadow: "0 4px 20px rgba(0,0,0,0.04)" }}>
@@ -379,7 +379,7 @@ export default function T1POS() {
               href={SIGNUP_URL}
               className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
             >
-              Activar mi punto de venta
+              Activa tu punto de venta
             </a>
           </div>
         </div>
@@ -410,7 +410,7 @@ export default function T1POS() {
       <section className="relative bg-white px-5 py-[100px] tablet:px-10 tablet:py-[128px]">
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[700px] text-center" style={{ marginBottom: 48 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
               Un plan para cada operación
             </h2>
             <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
@@ -453,7 +453,7 @@ export default function T1POS() {
                   href={p.custom ? SALES_URL : SIGNUP_URL}
                   className={`mt-auto inline-flex items-center justify-center rounded-[12px] px-5 py-3 font-inter text-[14px] font-semibold no-underline transition-colors duration-150 ${p.featured ? "bg-[#DB3B2B] text-white hover:bg-[#C0332A]" : "border border-black/15 text-black hover:border-black/35"}`}
                 >
-                  {p.custom ? "Contactar ventas" : "Comenzar"}
+                  {p.custom ? "Habla con un experto" : "Comienza gratis"}
                 </a>
               </div>
             ))}
@@ -471,7 +471,7 @@ export default function T1POS() {
                 "Control y corte de caja",
                 "Roles y permisos por usuario",
                 "Reportes de ventas",
-                "Tickets digitales por WhatsApp, SMS y email",
+                "Recibos digitales por WhatsApp, SMS y correo electrónico",
                 "Promociones y descuentos al cobrar",
                 "Devoluciones y reembolsos",
               ].map((f) => (
@@ -495,17 +495,17 @@ export default function T1POS() {
           <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-8">
             {/* Text */}
             <div data-modal-animate>
-              <h2 className="font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 16 }}>
+              <h2 className="font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 16 }}>
                 T1 POS es parte del ecosistema T1
               </h2>
               <p className="font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 460 }}>
-                T1pos no trabaja solo: comparte catálogo, inventario y clientes con el resto de T1 para que manejes todo tu negocio desde un solo lugar.
+                T1 POS no trabaja solo: comparte catálogo, inventario y clientes con el resto de T1 para que manejes todo tu negocio desde un solo lugar.
               </p>
               <ul className="flex flex-col gap-4" style={{ marginBottom: 32 }}>
                 {[
-                  { t: "Un solo catálogo", d: "el mismo catálogo de tu tienda en línea, con inventario por sucursal." },
-                  { t: "Cobros conectados", d: "cobra en persona, en línea o con links de pago de T1 Pagos, todo en un lugar." },
-                  { t: "Envíos a un click", d: "genera guías con T1 Envíos desde la misma plataforma para tus ventas en línea." },
+                  { t: "Un solo catálogo", d: "el mismo de tu tienda en línea, con inventario por sucursal." },
+                  { t: "Cobros conectados", d: "cobra en persona, en línea o con links de pago de T1 Pagos, sin cambiar de sistema." },
+                  { t: "Envíos a un clic", d: "genera guías con T1 Envíos desde la misma plataforma para tus ventas en línea." },
                 ].map((b) => (
                   <li key={b.t} className="flex items-start gap-3">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="mt-1 shrink-0"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -517,7 +517,7 @@ export default function T1POS() {
                 ))}
               </ul>
               <a href={SIGNUP_URL} className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
-                Empezar con T1
+                Empieza con T1
               </a>
             </div>
             {/* Orbit */}
@@ -532,12 +532,12 @@ export default function T1POS() {
       <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[760px]">
           <div data-modal-animate className="text-center" style={{ marginBottom: 40 }}>
-            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>Preguntas frecuentes</h2>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>Preguntas frecuentes</h2>
           </div>
           <div data-modal-animate className="flex flex-col gap-3">
             {[
-              { q: "¿Funciona sin conexión a internet?", a: "Sí. El POS opera offline y sincroniza ventas e inventario en cuanto recupera conexión." },
-              { q: "¿Necesito hardware especial?", a: "No. Funciona en tus dispositivos Android, iPhone, iPad y navegador web." },
+              { q: "¿Funciona sin conexión a internet?", a: "Sí. El POS opera sin conexión y sincroniza ventas e inventario en cuanto recupera conexión." },
+              { q: "¿Necesito equipo especial?", a: "No. Funciona en tus dispositivos Android, iPhone, iPad y navegador web." },
               { q: "¿Cómo se actualiza el inventario?", a: "Cada venta en sucursal descuenta inventario en tiempo real. Sin acciones manuales." },
               { q: "¿Cuánto tarda en operar mi sucursal?", a: "Configuración inicial en menos de un día. Capacitación a tu equipo incluida." },
             ].map((f, i) => (
@@ -555,7 +555,8 @@ export default function T1POS() {
 
       <T1FinalCTA
         title="¿Listo para vender en piso?"
-        description="Activa tu punto de venta hoy. Conecta ventas, inventario y reportes en una sola plataforma."
+        description="Crea tu cuenta gratis y conecta ventas, inventario y reportes en una sola plataforma."
+        buttonLabel="Crea tu cuenta gratis"
       />
     </div>
   );

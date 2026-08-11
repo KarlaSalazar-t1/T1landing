@@ -51,9 +51,9 @@ type PayMethod = {
 };
 const PAY_METHODS: PayMethod[] = [
   { id: "card", label: "Tarjetas de crédito o débito", logo: "cards", kind: "card" },
-  { id: "spei", label: "Transferencia bancaria", logo: "img", img: "/img/icons/spei.svg", h: 13, kind: "note", note: "Al dar click en pagar te mostraremos los datos para efectuar tu pago." },
-  { id: "oxxo", label: "Oxxo Pay", logo: "img", img: "/img/oxxo.jpg", h: 18, kind: "note", detailIcon: "barcode", note: "Con el código de barras generado, tienes 2 días para pagar en cualquier tienda Oxxo. Una vez realizado el pago, el status de tu pedido se actualizará en 1 o 2 días hábiles." },
-  { id: "kueski", label: "Kueski Pay", logo: "img", img: "/img/icons/kueski.svg", h: 14, kind: "note", note: "Al dar click en pagar, te redirigiremos a Kueski para completar tu compra." },
+  { id: "spei", label: "Transferencia bancaria", logo: "img", img: "/img/icons/spei.svg", h: 13, kind: "note", note: "Al dar clic en pagar te mostraremos los datos para efectuar tu pago." },
+  { id: "oxxo", label: "Oxxo Pay", logo: "img", img: "/img/oxxo.jpg", h: 18, kind: "note", detailIcon: "barcode", note: "Con el código de barras generado, tienes 2 días para pagar en cualquier tienda Oxxo. Una vez realizado el pago, el estado de tu pedido se actualizará en 1 o 2 días hábiles." },
+  { id: "kueski", label: "Kueski Pay", logo: "img", img: "/img/icons/kueski.svg", h: 14, kind: "note", note: "Al dar clic en pagar, te redirigiremos a Kueski para completar tu compra." },
   { id: "paypal", label: "PayPal", logo: "paypal", kind: "note", detailIcon: "card", note: "Después de hacer clic en “Pagar con PayPal”, se te redirigirá a PayPal para completar tu compra de forma segura." },
 ];
 
@@ -368,7 +368,7 @@ export default function T1Pasarela() {
       {/* ── Hero — text left, checkout mock right ── */}
       <section
         className="relative overflow-hidden px-5 pt-28 pb-16 tablet:px-10 tablet:pt-36 tablet:pb-24"
-        style={{ background: "linear-gradient(135deg, #1A1212 0%, #261515 50%, #1A0A0A 100%)" }}
+        style={{ background: "radial-gradient(ellipse 86% 70% at 67% 32%, rgba(226,64,47,0.26) 0%, transparent 60%), radial-gradient(ellipse 60% 58% at 14% 22%, rgba(150,34,34,0.18) 0%, transparent 58%), radial-gradient(ellipse 50% 46% at 82% 84%, rgba(244,114,150,0.08) 0%, transparent 62%), radial-gradient(ellipse 60% 70% at -4% 88%, rgba(58,74,158,0.30) 0%, transparent 52%), radial-gradient(ellipse 42% 60% at 102% 10%, rgba(58,74,158,0.24) 0%, transparent 50%), linear-gradient(160deg, #2e1622 0%, #180b13 50%, #0d070b 100%)" }}
       >
         {/* Ambient red glow */}
         <div aria-hidden className="pointer-events-none absolute -top-32 -right-32 h-[480px] w-[480px] rounded-full" style={{ background: "radial-gradient(circle at center, rgba(219,59,43,0.15) 0%, transparent 65%)", filter: "blur(40px)" }} />
@@ -378,11 +378,11 @@ export default function T1Pasarela() {
             <div>
               <h1
                 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[60px]"
-                style={{ lineHeight: 1.05, letterSpacing: "-1.7px", marginBottom: 22 }}
+                style={{ lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: 22 }}
               >
-                Un checkout diseñado para{" "}
+                Una pasarela diseñada para{" "}
                 <span className="relative inline-block whitespace-nowrap">
-                  vender más.
+                  vender más
                   <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.30)", borderRadius: 5, zIndex: -1 }} />
                 </span>
               </h1>
@@ -397,7 +397,7 @@ export default function T1Pasarela() {
                   href={SIGNUP_URL}
                   className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
                 >
-                  Comenzar ahora
+                  Comienza gratis
                 </a>
               </div>
             </div>
@@ -444,8 +444,8 @@ export default function T1Pasarela() {
         <div aria-hidden className="pointer-events-none absolute" style={{ top: "-14%", right: "-6%", width: 580, height: 580, borderRadius: "50%", background: "radial-gradient(circle, rgba(125,26,26,0.07) 0%, transparent 62%)", filter: "blur(30px)" }} />
         <div className="relative mx-auto max-w-[var(--max-w)]">
           <div className="mx-auto max-w-[760px] text-center" style={{ marginBottom: 56, animation: "fadeSlideIn 0.6s ease-out both" }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15 }}>
-              Cada checkout abandonado es venta perdida.
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
+              Cada pago abandonado es venta perdida
             </h2>
           </div>
 
@@ -472,8 +472,8 @@ export default function T1Pasarela() {
       {/* ── Section 3 — Header for stack cards ── */}
       <section className="relative bg-white px-5 pt-12 pb-8 tablet:px-10 tablet:pt-16 tablet:pb-10">
         <div data-modal-animate className="mx-auto max-w-[680px] text-center">
-          <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15 }}>
-            Todo lo que necesita un checkout para convertir
+          <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
+            Todo lo que tu pasarela necesita para convertir
           </h2>
         </div>
       </section>
@@ -493,7 +493,7 @@ export default function T1Pasarela() {
               </div>
               {/* Texto a la derecha */}
               <div className="order-1 tablet:order-2">
-                <h3 className="font-sora text-[28px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-1px", lineHeight: 1.12, marginBottom: 18 }}>
+                <h3 className="font-sora text-[28px] font-light text-black tablet:text-[30px] lg:text-[36px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 18 }}>
                   Variedad de métodos de pago
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6 }}>
@@ -513,7 +513,7 @@ export default function T1Pasarela() {
             <div className="grid w-full grid-cols-1 gap-10 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.35fr)] tablet:items-center tablet:gap-14">
               {/* Left — title */}
               <div>
-                <h2 className="font-sora text-[28px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.12, marginBottom: 16, maxWidth: 420 }}>
+                <h2 className="font-sora text-[28px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 16, maxWidth: 420 }}>
                   Antifraude inteligente
                 </h2>
                 <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 400 }}>
@@ -523,7 +523,7 @@ export default function T1Pasarela() {
                   href={SIGNUP_URL}
                   className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
                 >
-                  Comenzar ahora
+                  Comienza gratis
                 </a>
               </div>
 
@@ -569,7 +569,7 @@ export default function T1Pasarela() {
           <div className="grid grid-cols-1 items-center gap-12 tablet:grid-cols-2 tablet:gap-16">
             {/* Left — copy */}
             <div data-modal-animate>
-              <h2 className="font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 16 }}>
+              <h2 className="font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 16 }}>
                 Compra en un toque
               </h2>
               <p className="font-inter text-[16px] font-light text-white/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 480 }}>
@@ -579,7 +579,7 @@ export default function T1Pasarela() {
                 {[
                   "Guardan tarjeta y dirección una sola vez",
                   "Pagan con un toque en futuras compras",
-                  "Menos fricción, más conversión.",
+                  "Menos pasos, más ventas",
                 ].map((it) => (
                   <li key={it} className="flex items-start gap-3 font-inter text-[15px] text-white/75">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="mt-0.5 shrink-0"><circle cx="12" cy="12" r="11" fill="rgba(219,59,43,0.22)" /><path d="M7 12.5L10.5 16L17 8.5" stroke="#FF7363" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -591,7 +591,7 @@ export default function T1Pasarela() {
                 href={SIGNUP_URL}
                 className="mt-8 inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
               >
-                Activar Pago con T1
+                Activa Pago con T1
               </a>
             </div>
 
@@ -607,11 +607,11 @@ export default function T1Pasarela() {
       <section className="relative bg-[#FBFBFB] px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-              Qué pasa detrás de cada pago.
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
+              Qué pasa detrás de cada pago
             </h2>
             <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-              T1 optimiza el cobro sin complicar la experiencia de tu cliente.
+              T1 optimiza el cobro y cuida la experiencia de tu cliente.
             </p>
           </div>
 
@@ -646,8 +646,8 @@ export default function T1Pasarela() {
       <section className="relative px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto mb-10 max-w-[680px] text-center tablet:mb-[104px]">
-            <h2 className="font-sora text-[28px] font-light text-white tablet:whitespace-nowrap tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-              Más control después de cada pago.
+            <h2 className="font-sora text-[28px] font-light text-white tablet:whitespace-nowrap tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
+              Más control después de cada pago
             </h2>
             <p className="font-inter text-[16px] font-light text-white/55 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
               Da seguimiento a tus cobros, protege transacciones sensibles y gestiona aclaraciones desde T1.
@@ -657,15 +657,15 @@ export default function T1Pasarela() {
           <div ref={masControlRef} data-modal-animate className="-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pt-14 pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden tablet:mx-auto tablet:grid tablet:max-w-[1040px] tablet:grid-cols-3 tablet:gap-5 tablet:overflow-visible tablet:px-0 tablet:pt-0">
             {[
               {
-                title: "Disputas y contracargos", desc: "Gestiona reclamaciones desde el panel, con evidencia automática para ganar más casos.",
+                title: "Reclamaciones", desc: "Gestiona reclamaciones desde el panel, con evidencia automática para ganar más casos.",
                 img: "/img/disputas-v2.png", w: 1177, h: 864,
               },
               {
-                title: "Reportes en vivo", desc: "Aprobación, conversión y devoluciones en un dashboard claro y en tiempo real.",
+                title: "Reportes en vivo", desc: "Aprobación, conversión y devoluciones en un panel claro y en tiempo real.",
                 img: "/img/reportes-en-vivo-v2.png", w: 1349, h: 864,
               },
               {
-                title: "3D Secure", desc: "Autenticación adicional cuando el riesgo lo amerita, sin romper la conversión.",
+                title: "3D Secure", desc: "Autenticación adicional cuando el riesgo lo amerita, cuidando la conversión.",
                 img: "/img/3d-secure-v2.png", w: 1536, h: 764,
               },
             ].map((f, i) => (
@@ -698,7 +698,7 @@ export default function T1Pasarela() {
               href={SIGNUP_URL}
               className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
             >
-              Crear mi pasarela
+              Crea tu pasarela
             </a>
           </div>
         </div>
@@ -709,13 +709,13 @@ export default function T1Pasarela() {
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[640px] text-center" style={{ marginBottom: 48 }}>
             <h2 className="font-sora text-[24px] font-light text-white tablet:text-[34px]" style={{ letterSpacing: "-0.02em", lineHeight: 1.2 }}>
-              Números que hablan por sí solos.
+              Resultados que se notan en tu operación
             </h2>
           </div>
 
           <div data-modal-animate className="grid grid-cols-1 gap-10 text-center tablet:grid-cols-3">
             <div data-stagger style={{ ["--i" as string]: 0 }}>
-              <CountStat end={90} prefix=">" suffix="%" label="aprobación promedio" />
+              <CountStat end={90} prefix="+" suffix="%" label="aprobación promedio" />
             </div>
             <div data-stagger style={{ ["--i" as string]: 1 }}>
               <CountStat end={18} prefix="+" suffix="%" label="conversión con el botón T1 Pagos" />
@@ -732,7 +732,7 @@ export default function T1Pasarela() {
       <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[760px]">
           <div data-modal-animate className="text-center" style={{ marginBottom: 40 }}>
-            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
               Preguntas frecuentes
             </h2>
           </div>
@@ -768,7 +768,8 @@ export default function T1Pasarela() {
       {/* ── Final CTA — scroll-reveal pattern like the main T1 landing ── */}
       <T1FinalCTA
         title="¿Listo para vender más?"
-        description="Activa tu pasarela en minutos. Empieza a cobrar con la tasa de aprobación más alta de México."
+        description="Crea tu cuenta gratis y activa tu pasarela. Empieza a cobrar con la tasa de aprobación más alta de México."
+        buttonLabel="Crea tu cuenta"
       />
     </div>
   );

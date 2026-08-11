@@ -71,7 +71,7 @@ export function T1PagosAprobacion() {
               Con T1 Score analizamos cada transacción en tiempo real para aprobar más operaciones legítimas y frenar el fraude.
             </p>
             <ul className="mb-8 flex flex-col gap-3">
-              {["+85% de tasa de aprobación", "Antifraude personalizado con T1 Score", "Seguro contra contracargos", "Certificación PCI DSS"].map((it) => (
+              {["+90% de tasa de aprobación", "Antifraude personalizado con T1 Score", "Seguro contra contracargos", "Certificación PCI DSS"].map((it) => (
                 <li key={it} className="flex items-start gap-3 font-inter text-[15px] text-white/75 tablet:text-[16px]">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="mt-0.5 shrink-0"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                   {it}

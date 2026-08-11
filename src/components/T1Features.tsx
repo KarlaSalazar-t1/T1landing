@@ -129,7 +129,7 @@ const PROMPT_PAGES = [
   { text: "Tengo una tienda de skincare.", image: "/img/tienda-skincare.png", bg: "/img/fondo-modal-1.png", gradientColor: "#C7A99A" },
   { text: "Necesito una tienda de ropa deportiva.", image: "/img/tienda-deporte.png", bg: "/img/fondo-modal-2.png", gradientColor: "#7FA1B6" },
   { text: "Quiero vender ropa de moda.", image: "/img/tienda-ropa.png", bg: "/img/fondo-modal-3.png", gradientColor: "#998E67" },
-  { text: "Quiero vender muebles de la más alta calidad.", image: "/img/tienda-muebles.png", bg: "/img/fondo-modal-4.png", gradientColor: "#978478" },
+  { text: "Quiero vender muebles de diseño.", image: "/img/tienda-muebles.png", bg: "/img/fondo-modal-4.png", gradientColor: "#978478" },
 ];
 
 /* ── Hero prompt input ───────────────────────────────────────────────────────
@@ -263,9 +263,10 @@ function HeroPromptInput() {
           <span className="font-inter text-[12px] text-black/35">{charCount}/500</span>
           <a
             href="#"
-            aria-label="Crear con IA"
-            className="inline-flex h-[44px] w-[44px] items-center justify-center rounded-full bg-[#DB3B2B] text-white no-underline transition-all duration-200 hover:scale-[1.05] hover:bg-[#C0332A]"
+            aria-label="Crea tu tienda"
+            className="inline-flex h-[44px] items-center gap-2 rounded-full bg-[#DB3B2B] px-5 font-inter text-[14px] font-semibold text-white no-underline transition-all duration-200 hover:scale-[1.03] hover:bg-[#C0332A]"
           >
+            Crea tu tienda
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
@@ -551,8 +552,8 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                     className="font-inter text-[16px] font-light text-white/80 tablet:text-[19px]"
                     style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 560 }}
                   >
-                    Describe tu negocio y T1 genera una tienda lista para vender,
-                    cobrar y enviar.
+                    Describe tu negocio y la IA crea tu tienda, lista para
+                    vender, cobrar y enviar.
                   </p>
 
                   {/* Prompt input — self-contained typing loop (see HeroPromptInput) */}
@@ -566,14 +567,14 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                         Crea tu tienda en menos de 1 minuto
                       </h3>
                       <p className="font-inter text-[17px] font-normal text-white/80" style={{ lineHeight: 1.6 }}>
-                        Cuéntanos de que trata tu negocio y nuestra IA creará tu tienda en menos de 1 minuto.
+                        Cuéntanos qué vendes y nuestra IA arma tu tienda, lista para vender.
                       </p>
                     </div>
                     <a
                       href="#"
                       className="inline-flex shrink-0 items-center rounded-[14px] bg-[#DB3B2B] px-6 py-3 font-inter text-[14px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
                     >
-                      Crear mi tienda
+                      Crea tu tienda
                     </a>
                   </div>
 
@@ -659,8 +660,8 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                 <section className="relative bg-white px-5 pt-24 pb-14 tablet:px-10 tablet:pt-32 tablet:pb-20" data-white-card data-tienda-act-2>
                   <div className="mx-auto max-w-[var(--max-w)]">
                     <div data-modal-animate className="mx-auto text-center" style={{ marginBottom: 48 }}>
-                      <h2 className="font-sora text-[32px] font-light text-black tablet:text-[44px] tablet:whitespace-nowrap" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>
-                        Antes, lanzar una tienda tomaba meses.
+                      <h2 className="font-sora text-[32px] font-light text-black tablet:text-[44px] tablet:whitespace-nowrap" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
+                        Antes, lanzar una tienda tomaba meses
                       </h2>
                     </div>
 
@@ -716,8 +717,8 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                     <div className="grid grid-cols-1 items-center gap-12 tablet:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] tablet:gap-16">
                       {/* Left: title + text */}
                       <div data-modal-animate>
-                        <h2 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-1.5px", lineHeight: 1.05, marginBottom: 20 }}>
-                          Hoy basta una frase.
+                        <h2 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.05, marginBottom: 20 }}>
+                          Hoy basta una frase
                           <span className="ml-2 inline-flex translate-y-1 items-center">
                             <AISparkle size={30} color="#E26153" />
                           </span>
@@ -729,7 +730,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                           href={SIGNUP_URL}
                           className="mt-8 inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[16px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
                         >
-                          Crear mi tienda con IA
+                          Crea tu tienda con IA
                         </a>
                       </div>
 
@@ -796,7 +797,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                 <section className="relative bg-[#FBFBFB] px-5 py-24 tablet:px-10 tablet:py-32">
                   <div className="mx-auto max-w-[var(--max-w)]">
                     <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
-                      <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+                      <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
                         Tu tienda lista en 4 pasos
                       </h2>
                       <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
@@ -836,7 +837,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                 <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32">
                   <div className="mx-auto max-w-[var(--max-w)]">
                     <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
-                      <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+                      <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
                         Todo incluido desde el día uno
                       </h2>
                       <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
@@ -1045,13 +1046,13 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                   <div className="mx-auto max-w-[var(--max-w)]">
                     <div data-modal-animate className="mx-auto max-w-[640px] text-center" style={{ marginBottom: 48 }}>
                       <h2 className="font-sora text-[32px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.02em", lineHeight: 1.2 }}>
-                        Los números hablan.
+                        Miles ya venden con T1
                       </h2>
                     </div>
 
                     <div data-modal-animate className="grid grid-cols-1 gap-10 text-center tablet:grid-cols-3">
                       <div data-stagger style={{ ["--i" as string]: 0 }}>
-                        <CountStat end={1} prefix="<" suffix=" min" label="para crear tu tienda" />
+                        <CountStat end={1} prefix="menos de " suffix=" min" label="para crear tu tienda" />
                       </div>
                       <div data-stagger style={{ ["--i" as string]: 1 }}>
                         <CountStat end={6} prefix="+" suffix=" mil" label="tiendas creadas con T1" />
@@ -1068,16 +1069,16 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                 <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
                   <div className="mx-auto max-w-[760px]">
                     <div data-modal-animate className="text-center" style={{ marginBottom: 40 }}>
-                      <h2 className="font-sora text-[32px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>
+                      <h2 className="font-sora text-[32px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
                         Preguntas frecuentes
                       </h2>
                     </div>
                     <div data-modal-animate className="flex flex-col gap-3">
                       {[
                         { q: "¿Necesito saber programar?", a: "No. La IA crea tu tienda y el editor visual te permite ajustar todo sin código." },
-                        { q: "¿Cuánto tarda en estar lista?", a: "Menos de 2 minutos para la primera versión. Puedes seguir personalizándola sin límite." },
+                        { q: "¿Cuánto tarda en estar lista?", a: "Menos de 1 minuto para la primera versión. Puedes seguir personalizándola sin límite." },
                         { q: "¿Puedo usar mi propio dominio?", a: "Sí. Conecta tu dominio existente o usa uno de cortesía mientras decides." },
-                        { q: "¿Cómo recibo el dinero de mis ventas?", a: "Cada venta entra a tu cuenta de T1 Pagos. Con SPEI y transferencias el pago se acredita en minutos, y con tarjeta se confirma al momento; en ambos casos el dinero queda disponible para retiro al día siguiente hábil (T+1)." },
+                        { q: "¿Cómo recibo el dinero de mis ventas?", a: "Con T1 Pagos. Recibes pagos con tarjeta, SPEI y transferencias, y tu dinero queda disponible para retiro al día siguiente hábil." },
                       ].map((f, i) => (
                         <details
                           key={f.q}
@@ -1102,8 +1103,8 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
 
                 <T1FinalCTA
                   title="¿Listo para crear tu tienda con T1?"
-                  description="Empieza gratis, sin tarjeta. Cuéntale a la IA qué vendes y deja que arme tu tienda en menos de 2 minutos."
-                  buttonLabel="Crear mi tienda gratis"
+                  description="Empieza gratis, sin tarjeta. Cuéntale a la IA qué vendes y deja que arme tu tienda en menos de 1 minuto."
+                  buttonLabel="Crea tu tienda gratis"
                 />
               </>
             )}
@@ -1119,7 +1120,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
 const SHOWCASE_CARDS = [
   {
     id: "t1tienda-en-linea",
-    title: "Crea tu tienda con IA con T1 Tienda",
+    title: "Crea tu tienda con IA en T1 Tienda",
     description:
       "Describe tu negocio y la IA crea tu tienda, lista para vender, con envíos y pagos integrados.",
     bgImage: null,
@@ -1150,7 +1151,7 @@ const SHOWCASE_CARDS = [
     bgCSS: "stack-bg-pagos",
     panelLeft: "/img/pagos.webp",
     panelRight: null,
-    ctaLabel: "Empezar a cobrar",
+    ctaLabel: "Empieza a cobrar",
     ctaHref: "/productos/t1pagos/links-de-pago",
   },
   {
@@ -1174,7 +1175,7 @@ const SHOWCASE_CARDS = [
     bgCSS: "stack-bg-envios",
     panelLeft: "/img/envios.svg",
     panelRight: null,
-    ctaLabel: "Cotizar envío",
+    ctaLabel: "Cotiza tu envío",
     ctaHref: "/productos/t1envios/multipaqueteria",
   },
 ];

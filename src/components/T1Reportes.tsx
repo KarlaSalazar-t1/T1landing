@@ -399,7 +399,7 @@ export default function T1Reportes() {
       {/* ── Hero — text left, dashboard mock right ── */}
       <section
         className="relative overflow-hidden px-5 pt-28 pb-16 tablet:px-10 tablet:pt-36 tablet:pb-24"
-        style={{ background: "linear-gradient(135deg, #1A1212 0%, #261515 50%, #1A0A0A 100%)" }}
+        style={{ background: "radial-gradient(ellipse 86% 70% at 67% 32%, rgba(226,64,47,0.26) 0%, transparent 60%), radial-gradient(ellipse 60% 58% at 14% 22%, rgba(150,34,34,0.18) 0%, transparent 58%), radial-gradient(ellipse 50% 46% at 82% 84%, rgba(244,114,150,0.08) 0%, transparent 62%), radial-gradient(ellipse 60% 70% at -4% 88%, rgba(58,74,158,0.30) 0%, transparent 52%), radial-gradient(ellipse 42% 60% at 102% 10%, rgba(58,74,158,0.24) 0%, transparent 50%), linear-gradient(160deg, #2e1622 0%, #180b13 50%, #0d070b 100%)" }}
       >
         <div aria-hidden className="pointer-events-none absolute -top-32 -right-32 h-[480px] w-[480px] rounded-full" style={{ background: "radial-gradient(circle at center, rgba(219,59,43,0.15) 0%, transparent 65%)", filter: "blur(40px)" }} />
         <div className="relative mx-auto max-w-[var(--max-w)]">
@@ -407,14 +407,13 @@ export default function T1Reportes() {
             <div>
               <h1
                 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[60px]"
-                style={{ lineHeight: 1.05, letterSpacing: "-1.7px", marginBottom: 22 }}
+                style={{ lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: 22 }}
               >
                 Entiende tu{" "}
                 <span className="relative inline-block">
                   negocio
                   <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.30)", borderRadius: 5, zIndex: -1 }} />
                 </span>
-                .
               </h1>
               <p
                 className="font-inter text-[16px] font-light text-white/65 tablet:text-[19px]"
@@ -424,7 +423,7 @@ export default function T1Reportes() {
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <a href={SIGNUP_URL} className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
-                  Comenzar ahora
+                  Comienza gratis
                 </a>
               </div>
             </div>
@@ -463,8 +462,8 @@ export default function T1Reportes() {
       <section className="relative bg-white px-5 pt-16 pb-12 tablet:px-10 tablet:pt-20 tablet:pb-16" data-white-card>
         <div className="mx-auto max-w-[var(--max-w)]">
           <div className="mx-auto text-center" style={{ marginBottom: 48, animation: "fadeSlideIn 0.6s ease-out both" }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15 }}>
-              Más canales, datos más difíciles de leer.
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
+              Más canales, menos claridad
             </h2>
           </div>
           <div data-modal-animate className="flex flex-wrap justify-center gap-5">
@@ -486,8 +485,8 @@ export default function T1Reportes() {
       {/* ── Stack cards intro ── */}
       <section className="relative bg-white px-5 pt-12 pb-8 tablet:px-10 tablet:pt-16 tablet:pb-10">
         <div data-modal-animate className="mx-auto max-w-[1120px] text-center">
-          <h2 className="font-sora text-[28px] font-light text-black tablet:whitespace-nowrap tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.4px", lineHeight: 1.1, marginBottom: 16 }}>
-            Todo lo importante, listo para revisar.
+          <h2 className="font-sora text-[28px] font-light text-black tablet:whitespace-nowrap tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 16 }}>
+            Todo lo importante, listo para revisar
           </h2>
           <p className="font-inter text-[16px] font-light text-black/60 lg:whitespace-nowrap tablet:text-[19px]" style={{ lineHeight: 1.5 }}>
             Ventas, pedidos, tráfico, conversión, ticket promedio y desempeño por canal desde un solo panel.
@@ -502,7 +501,7 @@ export default function T1Reportes() {
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div className="order-2 tablet:order-1">
-                <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
+                <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 18 }}>
                   Ventas en tiempo real
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
@@ -533,14 +532,14 @@ export default function T1Reportes() {
               <ChannelComparePanel />
 
               <div className="order-1 tablet:order-2">
-                <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
+                <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 18 }}>
                   Compara el desempeño de cada canal
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
                   Revisa qué vende más y en qué canal para invertir mejor tu tiempo, inventario y promociones.
                 </p>
                 <ul className="flex flex-col gap-2.5">
-                  {["Ventas por canal.", "Productos top y baja rotación.", "Ticket promedio por canal."].map((it) => (
+                  {["Ventas por canal.", "Productos más y menos vendidos.", "Ticket promedio por canal."].map((it) => (
                     <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                       {it}
@@ -558,7 +557,7 @@ export default function T1Reportes() {
           <div className="mx-auto flex h-full max-w-[var(--max-w)] items-center px-5 tablet:px-10">
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div>
-                <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>
+                <h3 className="font-sora text-[26px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 18 }}>
                   Insights de IA, no solo gráficas
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
@@ -585,8 +584,8 @@ export default function T1Reportes() {
       <section className="relative bg-[#FBFBFB] px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[820px] text-center" style={{ marginBottom: 56 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:whitespace-nowrap tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-              Empieza a leer tu operación en 3 pasos
+            <h2 className="font-sora text-[28px] font-light text-black tablet:whitespace-nowrap tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
+              Lee tu operación en 3 pasos
             </h2>
             <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
               Conecta, revisa y compara para tomar mejores decisiones desde el primer día.
@@ -611,7 +610,7 @@ export default function T1Reportes() {
               href={SIGNUP_URL}
               className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
             >
-              Comenzar ahora
+              Comienza gratis
             </a>
           </div>
         </div>
@@ -621,8 +620,8 @@ export default function T1Reportes() {
       <section className="relative px-5 py-24 tablet:px-10 tablet:py-32" style={{ background: "linear-gradient(180deg, #1A0A0A 0%, #000000 100%)" }}>
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
-            <h2 className="font-sora text-[28px] font-light text-white tablet:whitespace-nowrap tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
-              Toda tu operación, en un solo panel
+            <h2 className="font-sora text-[28px] font-light text-white tablet:whitespace-nowrap tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
+              Toda tu operación en un panel
             </h2>
             <p className="font-inter text-[16px] font-light text-white/55 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
               Métricas, comparativas y exportables listos desde el primer día.
@@ -630,8 +629,8 @@ export default function T1Reportes() {
           </div>
           <div ref={opRef} data-modal-animate className="-mr-5 flex gap-5 overflow-x-auto pb-2 pr-5 pt-16 tablet:mr-0 tablet:justify-center tablet:pr-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             {[
-              { title: "Dashboards prediseñados", desc: "Ventas, tráfico, productos, clientes y más, listos para usar.", img: "/img/predisenados-v2.png", w: 1719, h: 915 },
-              { title: "Exportación a Excel/CSV", desc: "Descarga cualquier reporte en un click para análisis externo.", img: "/img/excel-v2.png", w: 1497, h: 823 },
+              { title: "Reportes listos para usar", desc: "Ventas, tráfico, productos, clientes y más, listos para usar.", img: "/img/predisenados-v2.png", w: 1719, h: 915 },
+              { title: "Exportación a Excel/CSV", desc: "Descarga cualquier reporte en un clic para análisis externo.", img: "/img/excel-v2.png", w: 1497, h: 823 },
               { title: "Filtros y comparativas", desc: "Filtra por canal, periodo o categoría y compara contra el periodo que quieras.", img: "/img/filtros-v2.png", w: 1329, h: 717 },
             ].map((f, i) => (
               <div key={f.title} data-stagger style={{ ["--i" as string]: i }} className="op-card relative flex w-[80vw] max-w-[300px] shrink-0 snap-start flex-col rounded-[18px] border border-white/[0.08] bg-[#121214] px-6 pt-0 pb-6">
@@ -658,7 +657,7 @@ export default function T1Reportes() {
               href={SIGNUP_URL}
               className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
             >
-              Conectar mis canales
+              Conecta tus canales
             </a>
           </div>
         </div>
@@ -692,15 +691,14 @@ export default function T1Reportes() {
       <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[760px]">
           <div data-modal-animate className="text-center" style={{ marginBottom: 40 }}>
-            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>Preguntas frecuentes</h2>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>Preguntas frecuentes</h2>
           </div>
           <div data-modal-animate className="flex flex-col gap-3">
             {[
-              { q: "¿Qué dashboards vienen incluidos?", a: "Ventas, tráfico, conversión, ticket promedio, productos top, comparativa por canal, antifraude y más, todos pre-configurados." },
-              { q: "¿Puedo crear reportes personalizados?", a: "Sí. Editor drag & drop para construir tus propias vistas combinando KPIs y filtros." },
-              { q: "¿Se exporta a Excel?", a: "Cualquier reporte se descarga como Excel (.xlsx) o CSV con un click." },
-              { q: "¿Cómo funcionan las alertas?", a: "Configuras umbrales por KPI y recibes notificación por email o WhatsApp cuando se cruzan." },
-              { q: "¿La IA realmente analiza mis datos?", a: "Sí. Detecta patrones, anomalías y oportunidades. También puedes preguntarle en lenguaje natural." },
+              { q: "¿Qué reportes vienen incluidos?", a: "Ventas, tráfico, conversión, ticket promedio, productos más vendidos, comparativa por canal, antifraude y más, todos preconfigurados." },
+              { q: "¿Los reportes se actualizan solos?", a: "Sí. Cada venta se refleja en tus reportes en tiempo real, sin que actualices nada." },
+              { q: "¿Necesito conectar mis canales?", a: "Sí. Conectas tu tienda, sucursales y marketplaces una vez y T1 reúne todo en un panel." },
+              { q: "¿Se exporta a Excel?", a: "Cualquier reporte se descarga como Excel (.xlsx) o CSV con un clic." },
             ].map((f, i) => (
               <details key={f.q} data-stagger className="group rounded-[14px] border border-white/[0.08] bg-white/[0.03] transition-all duration-200 open:border-[rgba(219,59,43,0.4)] open:bg-white/[0.05]" style={{ ["--i" as string]: i }}>
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-sora text-[16px] font-normal text-white transition-colors duration-150 hover:text-[#FF6F5E]">
@@ -716,7 +714,8 @@ export default function T1Reportes() {
 
       <T1FinalCTA
         title="¿Listo para decidir con datos?"
-        description="Conecta tus canales y empieza a ver tu negocio claro desde el primer día."
+        description="Crea tu cuenta gratis y empieza a ver tu negocio claro desde el primer día."
+        buttonLabel="Empieza ahora"
       />
     </div>
   );

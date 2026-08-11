@@ -117,11 +117,11 @@ export default function T1Reclamaciones() {
   return (
     <div ref={rootRef} className="w-full" style={{ ["--max-w" as string]: "1220px" }}>
       {/* ════════════ HERO ════════════ */}
-      <section className="relative flex items-center overflow-hidden px-5 pt-28 pb-16 tablet:px-10 tablet:pt-20 tablet:pb-10 tablet:h-[660px]" style={{ background: "linear-gradient(135deg, #261515 0%, #1A0A0A 40%, #261515 100%)" }}>
+      <section className="relative flex items-center overflow-hidden px-5 pt-28 pb-16 tablet:px-10 tablet:pt-20 tablet:pb-10 tablet:h-[660px]" style={{ background: "radial-gradient(ellipse 86% 70% at 67% 32%, rgba(226,64,47,0.26) 0%, transparent 60%), radial-gradient(ellipse 60% 58% at 14% 22%, rgba(150,34,34,0.18) 0%, transparent 58%), radial-gradient(ellipse 50% 46% at 82% 84%, rgba(244,114,150,0.08) 0%, transparent 62%), radial-gradient(ellipse 60% 70% at -4% 88%, rgba(58,74,158,0.30) 0%, transparent 52%), radial-gradient(ellipse 42% 60% at 102% 10%, rgba(58,74,158,0.24) 0%, transparent 50%), linear-gradient(160deg, #2e1622 0%, #180b13 50%, #0d070b 100%)" }}>
         <div className="relative mx-auto w-full max-w-[var(--max-w)]">
           <div className="grid grid-cols-1 items-center gap-12 tablet:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] tablet:gap-16">
             <div>
-              <h1 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[56px]" style={{ lineHeight: 1.05, letterSpacing: "-1.5px", marginBottom: 22 }}>
+              <h1 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[56px]" style={{ lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: 22 }}>
                 Ten visibilidad y gestiona{" "}
                 <span className="relative inline-block">reclamaciones<span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.35)", borderRadius: 5, zIndex: -1 }} /></span>
               </h1>
@@ -150,7 +150,7 @@ export default function T1Reclamaciones() {
       <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[720px] text-center" style={{ marginBottom: 56 }}>
-            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[38px] lg:text-[46px]" style={{ letterSpacing: "-1.3px", lineHeight: 1.1, marginBottom: 16 }}>
+            <h2 className="font-sora text-[28px] font-light text-black tablet:text-[38px] lg:text-[46px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 16 }}>
               Responde tus reclamaciones sin complicaciones
             </h2>
             <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
@@ -165,7 +165,7 @@ export default function T1Reclamaciones() {
             ].map((c, i) => (
               <div key={c.title} data-stagger className="tienda-card flex flex-col rounded-[18px] border border-black/[0.06] bg-white p-7" style={{ ["--i" as string]: i, boxShadow: "0 4px 20px rgba(0,0,0,0.05)" }}>
                 <div className="flex h-[40px] w-[40px] items-center justify-center" style={{ marginBottom: 18 }}>{c.icon}</div>
-                <h3 className="font-sora text-[19px] font-normal text-black" style={{ marginBottom: 8, letterSpacing: "-0.3px" }}>{c.title}</h3>
+                <h3 className="font-sora text-[19px] font-normal text-black" style={{ marginBottom: 8, letterSpacing: "-0.02em" }}>{c.title}</h3>
                 <p className="font-inter text-[14px] font-light text-black/60" style={{ lineHeight: 1.6 }}>{c.desc}</p>
               </div>
             ))}
@@ -178,7 +178,7 @@ export default function T1Reclamaciones() {
         <div className="mx-auto max-w-[var(--max-w)]">
           <div className="grid grid-cols-1 gap-10 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.35fr)] tablet:items-center tablet:gap-14">
             <div data-modal-animate>
-              <h2 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.12, marginBottom: 16, maxWidth: 420 }}>
+              <h2 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 16, maxWidth: 420 }}>
                 Reclamaciones de tus cobros con T1
               </h2>
               <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 400 }}>
@@ -220,7 +220,7 @@ export default function T1Reclamaciones() {
         <div className="mx-auto max-w-[var(--max-w)]">
           <div className="grid grid-cols-1 gap-12 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] tablet:items-center tablet:gap-16">
             <div data-modal-animate>
-              <h2 className="font-sora text-[28px] font-light text-black tablet:text-[38px] lg:text-[46px]" style={{ letterSpacing: "-1.3px", lineHeight: 1.1, marginBottom: 18 }}>Reclamaciones en un solo lugar.</h2>
+              <h2 className="font-sora text-[28px] font-light text-black tablet:text-[38px] lg:text-[46px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 18 }}>Reclamaciones en un solo lugar.</h2>
               <p className="font-inter text-[15px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>Reunimos las reclamaciones de los cobros que procesas con T1 Pagos para que las respondas a tiempo desde un solo panel.</p>
               <ul className="flex flex-col gap-2.5">
                 {["Reclamaciones de tus cobros con T1 Pagos", "Desde tu checkout, link de pago o Paga con T1", "Control de plazos con alertas automáticas"].map((it) => (
@@ -235,7 +235,7 @@ export default function T1Reclamaciones() {
             <div className="tablet:hidden">
               <PhoneShell>
                 <div className="flex items-center justify-between" style={{ marginBottom: 12 }}>
-                  <h4 className="text-[22px] font-bold text-black" style={{ letterSpacing: "-0.5px" }}>Disputas</h4>
+                  <h4 className="text-[22px] font-bold text-black" style={{ letterSpacing: "-0.02em" }}>Disputas</h4>
                   <span className="rounded-[11px] px-3.5 py-2 text-[12px] font-semibold text-white" style={{ background: "#DB3B2B" }}>Responder</span>
                 </div>
                 <p className="text-[13px] font-light text-black/55" style={{ lineHeight: 1.45, marginBottom: 16 }}>Gestiona chargebacks y disputas de todos tus procesadores en un solo lugar.</p>
@@ -304,7 +304,7 @@ export default function T1Reclamaciones() {
         <div aria-hidden className="pointer-events-none absolute top-0 left-1/2 h-[360px] w-[680px] -translate-x-1/2 rounded-full" style={{ background: "radial-gradient(ellipse at center, rgba(219,59,43,0.12) 0%, transparent 64%)", filter: "blur(44px)" }} />
         <div className="relative mx-auto max-w-[760px]">
           <div data-modal-animate className="text-center" style={{ marginBottom: 56 }}>
-            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[40px] lg:text-[46px]" style={{ letterSpacing: "-1.3px", lineHeight: 1.1, marginBottom: 14 }}>Cómo gestionas una disputa en T1</h2>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[40px] lg:text-[46px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 14 }}>Cómo gestionas una disputa en T1</h2>
             <p className="font-inter text-[16px] font-light text-white/55 tablet:text-[18px]" style={{ lineHeight: 1.5 }}>De la notificación a la resolución, con evidencia, plazos y seguimiento en un solo lugar.</p>
           </div>
           <div className="relative">
@@ -401,7 +401,7 @@ export default function T1Reclamaciones() {
             </div>
 
             <div className="order-1 tablet:order-2">
-              <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[46px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>Responde con evidencia completa.</h2>
+              <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[46px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 18 }}>Responde con evidencia completa.</h2>
               <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>Responde fácilmente, sin correos o llamadas. Adjunta comprobantes, facturas y capturas de guías directamente desde T1. Todo queda vinculado a la disputa.</p>
               <ul className="flex flex-col gap-2.5">
                 {["Sube evidencia sin salir del panel", "Historial completo de cada caso", "Notificación inmediata de resolución"].map((it) => (
@@ -419,7 +419,7 @@ export default function T1Reclamaciones() {
       <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[760px]">
           <div className="text-center" style={{ marginBottom: 40 }}>
-            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>Preguntas frecuentes</h2>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>Preguntas frecuentes</h2>
           </div>
           <div className="flex flex-col gap-3">
             {[

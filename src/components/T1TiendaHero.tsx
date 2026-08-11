@@ -86,13 +86,13 @@ export default function T1TiendaHero() {
     <div className="relative z-0">
       <section className="relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-5 pb-0 pt-24 tablet:min-h-screen tablet:px-6 tablet:pt-28 tablet:pb-0">
         {/* Fondo */}
-        <div aria-hidden className="absolute inset-0 z-0" style={{ background: "linear-gradient(180deg, #0e0d0d 0%, #020101 100%)" }} />
+        <div aria-hidden className="absolute inset-0 z-0" style={{ background: "linear-gradient(160deg, #2e1622 0%, #180b13 50%, #0d070b 100%)" }} />
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 z-0"
           style={{
             background:
-              "radial-gradient(circle at 6% 102%, rgba(3,20,70,0.6) 0%, rgba(17,0,85,0) 26%), radial-gradient(circle at 79% 52%, rgba(112,10,10,0.95) 0%, rgba(87,9,9,0) 60%), radial-gradient(circle at -7% 48%, rgba(112,10,10,1) 0%, rgba(87,9,9,0) 60%)",
+              "radial-gradient(ellipse 86% 70% at 67% 32%, rgba(226,64,47,0.26) 0%, transparent 60%), radial-gradient(ellipse 60% 58% at 14% 22%, rgba(150,34,34,0.18) 0%, transparent 58%), radial-gradient(ellipse 50% 46% at 82% 84%, rgba(244,114,150,0.08) 0%, transparent 62%), radial-gradient(ellipse 60% 70% at -4% 88%, rgba(58,74,158,0.30) 0%, transparent 52%), radial-gradient(ellipse 42% 60% at 102% 10%, rgba(58,74,158,0.24) 0%, transparent 50%)",
           }}
         />
         <div
@@ -152,12 +152,13 @@ export default function T1TiendaHero() {
                 onClick={(e) => {
                   if (!tiendaOk) e.preventDefault();
                 }}
-                aria-label="Crear tienda"
+                aria-label="Crea tu tienda"
                 style={kbOpen ? { position: "fixed", right: 16, bottom: kbH + 10, zIndex: 60 } : undefined}
-                className={`absolute bottom-3 right-3 flex h-[38px] w-[38px] items-center justify-center rounded-full transition-colors ${
+                className={`absolute bottom-3 right-3 flex h-[38px] items-center gap-1.5 rounded-full px-4 font-inter text-[13px] font-semibold transition-colors ${
                   tiendaOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
                 }`}
               >
+                Crea tu tienda
                 {ArrowUp}
               </a>
             </div>

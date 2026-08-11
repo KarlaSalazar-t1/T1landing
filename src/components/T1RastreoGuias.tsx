@@ -120,11 +120,11 @@ export default function T1RastreoGuias() {
   return (
     <div ref={rootRef} className="w-full" style={{ ["--max-w" as string]: "1220px" }}>
       {/* ════════════ HERO ════════════ */}
-      <section className="relative flex items-center overflow-hidden px-5 pt-28 pb-16 tablet:px-10 tablet:pt-20 tablet:pb-10 tablet:h-[660px]" style={{ background: "linear-gradient(135deg, #261515 0%, #1A0A0A 40%, #261515 100%)" }}>
+      <section className="relative flex items-center overflow-hidden px-5 pt-28 pb-16 tablet:px-10 tablet:pt-20 tablet:pb-10 tablet:h-[660px]" style={{ background: "radial-gradient(ellipse 86% 70% at 67% 32%, rgba(226,64,47,0.26) 0%, transparent 60%), radial-gradient(ellipse 60% 58% at 14% 22%, rgba(150,34,34,0.18) 0%, transparent 58%), radial-gradient(ellipse 50% 46% at 82% 84%, rgba(244,114,150,0.08) 0%, transparent 62%), radial-gradient(ellipse 60% 70% at -4% 88%, rgba(58,74,158,0.30) 0%, transparent 52%), radial-gradient(ellipse 42% 60% at 102% 10%, rgba(58,74,158,0.24) 0%, transparent 50%), linear-gradient(160deg, #2e1622 0%, #180b13 50%, #0d070b 100%)" }}>
         <div className="relative mx-auto flex w-full max-w-[860px] flex-col items-center text-center">
           {/* Copy + interactive search */}
           <div className="flex w-full flex-col items-center">
-            <h1 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[56px]" style={{ lineHeight: 1.05, letterSpacing: "-1.5px", marginBottom: 22 }}>
+            <h1 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[56px]" style={{ lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: 22 }}>
               Rastrea todas tus guías desde{" "}
               <span className="relative inline-block">
                 T1
@@ -188,7 +188,7 @@ export default function T1RastreoGuias() {
             ].map(({ b, l, t, s, r }) => (
               <img key={`m-${b}`} src={`/img/carriers/${b}.svg`} alt="" width={s} height={s} className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 object-contain tablet:hidden" style={{ left: l, top: t, width: s, height: s, transform: `translate(-50%,-50%) rotate(${r}deg)`, filter: "drop-shadow(0 12px 22px rgba(0,0,0,0.12))" }} />
             ))}
-            <h2 className="relative z-[1] mx-auto font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-1.4px", lineHeight: 1.1, maxWidth: 460 }}>
+            <h2 className="relative z-[1] mx-auto font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[48px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, maxWidth: 460 }}>
               Un solo lugar para todos tus envíos.
             </h2>
           </div>
@@ -196,7 +196,7 @@ export default function T1RastreoGuias() {
           {/* Block 1 — Tablero (texto + tabla, panel más grande) */}
           <div data-modal-animate className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.28fr)] tablet:gap-14" style={{ marginBottom: 112 }}>
             <div>
-              <h3 className="font-sora text-[26px] font-light text-black tablet:text-[36px] lg:text-[42px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>Todas tus guías en una sola vista</h3>
+              <h3 className="font-sora text-[26px] font-light text-black tablet:text-[36px] lg:text-[42px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 18 }}>Todas tus guías en una sola vista</h3>
               <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6 }}>Filtra por estado y encuentra en segundos qué pedidos van en camino, cuáles entregaste y cuáles necesitan atención.</p>
             </div>
             {/* Panel — teléfono "Mis envíos" en responsive */}
@@ -253,7 +253,7 @@ export default function T1RastreoGuias() {
               <Image src="/img/estatus-v2.png" alt="Estatus estandarizado de paqueterías" width={1179} height={967} className="block h-auto w-full" sizes="(max-width: 768px) 100vw, 560px" />
             </div>
             <div className="order-1 tablet:order-2">
-              <h3 className="font-sora text-[26px] font-light text-black tablet:text-[36px] lg:text-[42px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.1, marginBottom: 18 }}>El mismo estatus para todas tus paqueterías</h3>
+              <h3 className="font-sora text-[26px] font-light text-black tablet:text-[36px] lg:text-[42px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 18 }}>El mismo estatus para todas tus paqueterías</h3>
               <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6 }}>Cada paquetería nombra sus estados diferente. T1 los estandariza en un solo lenguaje claro, para que entiendas el estatus de cada guía al instante, sin descifrar los términos de cada una.</p>
             </div>
           </div>
@@ -265,7 +265,7 @@ export default function T1RastreoGuias() {
         <div className="mx-auto max-w-[var(--max-w)]">
           {/* C/D/E — capacidades restantes (estilo "Todo incluido desde el día uno") */}
           <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 104 }}>
-            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-1.32px", lineHeight: 1.15, marginBottom: 14 }}>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
               Seguimiento automático para cada guía
             </h2>
             <p className="font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
@@ -308,7 +308,7 @@ export default function T1RastreoGuias() {
       <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
         <div className="mx-auto max-w-[760px]">
           <div className="text-center" style={{ marginBottom: 40 }}>
-            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-1.2px", lineHeight: 1.15 }}>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
               Preguntas frecuentes
             </h2>
           </div>
