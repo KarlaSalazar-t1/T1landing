@@ -208,7 +208,7 @@ export default function T1Footer() {
                 {[
                   { flag: "🇧🇷", name: "Brasil", langs: ["Português", "Inglés"], selected: false, href: undefined },
                   { flag: "🇨🇴", name: "Colombia", langs: ["Inglés", "Español"], selected: false, href: "/colombia" },
-                  { flag: "🇺🇸", name: "Estados Unidos", langs: ["Inglés", "Español"], selected: false, href: undefined },
+                  { flag: "🇺🇸", name: "Estados Unidos", langs: ["Inglés", "Español"], selected: false, href: "/usa" },
                   { flag: "🇲🇽", name: "México", langs: ["Español", "Inglés"], selected: true, href: "/" },
                 ].map((country) => (
                   <button
