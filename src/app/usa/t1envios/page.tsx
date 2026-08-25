@@ -12,7 +12,7 @@ export default function USAShippingPage() {
       variant="not-available"
       product="T1 Shipping"
       headline="T1 Shipping isn't available in the U.S. yet"
-      description="Quote, create labels, and track across 10+ carriers from one panel. We haven't brought it to the United States — but T1 Store and Payments are on the way."
+      description="Quote, create labels, and track across 10+ carriers from one panel. We haven't brought it to the United States yet, but T1 Store and Payments are on the way."
     />
   );
 }

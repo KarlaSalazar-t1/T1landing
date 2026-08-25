@@ -7,7 +7,7 @@ const HERO_BG =
 const PRODUCTS = [
   {
     name: "T1 Store",
-    desc: "Launch an online store in under a minute — describe your business and AI builds it.",
+    desc: "Describe your business and AI builds your online store in under a minute.",
     href: "/usa/t1tienda",
     status: { label: "Coming soon", note: "Nov 2026", color: "#F59E0B" },
   },
