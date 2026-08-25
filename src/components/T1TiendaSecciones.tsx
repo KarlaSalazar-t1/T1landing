@@ -132,7 +132,7 @@ export function T1TiendaAdministracion() {
                   <h3 className="font-sora text-[19px] font-normal text-white" style={{ marginBottom: 8 }}>{s.title}</h3>
                   <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.55, marginBottom: 20, minHeight: 63 }}>{s.desc}</p>
                   <div className="mt-auto overflow-hidden rounded-[14px]">
-                    <Image src={s.img} alt={s.title} width={s.w} height={s.h} className="block h-[240px] w-full object-cover object-top" sizes="270px" />
+                    <Image src={s.img} alt={s.title} width={s.w} height={s.h} className="block h-auto w-full" sizes="270px" />
                   </div>
                 </div>
               ))}

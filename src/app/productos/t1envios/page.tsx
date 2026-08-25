@@ -20,10 +20,10 @@ export default function EnviosLanding() {
       <T1EnviosHero />
 
       <div className="relative z-[5] bg-black">
+        {/* Tarifas de ejemplo — Ahorra en cada envío */}
+        <T1EnviosTarifas />
         {/* 1 · Paqueterías — olvídate de negociar con cada una */}
         <T1EnviosPaqueterias />
-        {/* 1.5 · Tarifas de ejemplo — Ahorra en cada envío */}
-        <T1EnviosTarifas />
         {/* 2 · Cotiza, crea y rastrea (pilares) */}
         <T1EnviosPilares />
         {/* 3 · Conecta tus canales de venta */}

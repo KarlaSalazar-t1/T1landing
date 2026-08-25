@@ -3,16 +3,8 @@
 import { useState } from "react";
 import { ENVIOS_QUOTE_URL } from "@/lib/constants";
 
-const PAQUETES = [
-  { id: "sobre", label: "Sobre", ej: "Documentos" },
-  { id: "pequeno", label: "Pequeño", ej: "Celular, accesorios" },
-  { id: "mediano", label: "Mediano", ej: "Ropa, zapatos" },
-  { id: "grande", label: "Grande", ej: "Electrodomésticos" },
-];
-
 const SOCIAL_PROOF = ["+30M de envíos", "+50,000 negocios", "+10 paqueterías"];
 
-const FIELD = "w-full rounded-[14px] bg-[#1D1D1D] px-4 py-3 font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A] focus:ring-1 focus:ring-white/20";
 const ArrowRight = (
   <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
 );
@@ -20,8 +12,7 @@ const ArrowRight = (
 export default function T1EnviosHero() {
   const [cpDesde, setCpDesde] = useState("");
   const [cpHasta, setCpHasta] = useState("");
-  const [paquete, setPaquete] = useState("pequeno");
-  const ok = cpDesde.trim().length > 0 && cpHasta.trim().length > 0 && paquete.length > 0;
+  const ok = cpDesde.trim().length > 0 && cpHasta.trim().length > 0;
 
   return (
     <div className="relative z-0">
@@ -48,52 +39,44 @@ export default function T1EnviosHero() {
             un solo lugar
           </h1>
 
-          <div className="flex w-full flex-1 flex-col items-center justify-center gap-6 py-6">
-            <p className="max-w-[400px] text-center font-inter text-[16px] font-light leading-[1.6] text-white tablet:max-w-none">
-              Cotiza, crea guías y rastrea con tarifas competitivas de +10 paqueterías.
+          <div className="flex w-full flex-1 flex-col items-center justify-center gap-5 py-6">
+            <p className="flex min-h-[52px] max-w-[360px] items-center justify-center text-center font-inter text-[16px] font-light leading-[1.6] text-white tablet:min-h-0 tablet:max-w-none tablet:whitespace-nowrap">
+              Cotiza con +10 paqueterías en un clic.
             </p>
 
-            {/* Cotizador */}
-            <div className="w-full">
-              <div className="flex items-end gap-2.5">
-                <label className="flex-1">
-                  <span className="mb-1.5 block px-1 font-inter text-[14px] font-light text-white/70">Código postal origen</span>
-                  <input value={cpDesde} onChange={(e) => setCpDesde(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Ej. 06600" aria-label="Código postal de origen" className={`${FIELD} w-full`} />
-                </label>
-                <span aria-hidden className="shrink-0 pb-3 text-white/40">→</span>
-                <label className="flex-1">
-                  <span className="mb-1.5 block px-1 font-inter text-[14px] font-light text-white/70">Código postal destino</span>
-                  <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} inputMode="numeric" placeholder="Ej. 44100" aria-label="Código postal de destino" className={`${FIELD} w-full`} />
-                </label>
-              </div>
-
-              <div className="mt-3">
-                <p className="mb-2 font-inter text-[14px] font-light text-white/70">¿Qué tamaño es tu paquete?</p>
-                <div className="-mx-5 flex gap-2.5 overflow-x-auto px-5 pb-1 tablet:mx-0 tablet:grid tablet:grid-cols-4 tablet:overflow-visible tablet:px-0" style={{ scrollbarWidth: "none" }}>
-                  {PAQUETES.map((p) => {
-                    const sel = paquete === p.id;
-                    return (
-                      <button
-                        key={p.id}
-                        type="button"
-                        onClick={(e) => { setPaquete(p.id); e.currentTarget.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" }); }}
-                        className={`flex w-[142px] shrink-0 flex-col items-start rounded-[12px] border-[1.5px] px-3.5 py-2 text-left transition-colors tablet:w-auto ${sel ? "border-[rgba(231,231,231,0.2)] bg-[rgba(255,255,255,0.12)]" : "border-white/10 bg-[#1D1D1D] hover:border-white/25"}`}
-                      >
-                        <span className="whitespace-nowrap font-inter text-[14px] font-medium text-white">{p.label}</span>
-                        <span className="whitespace-nowrap font-inter text-[12px] font-light text-white/55">{p.ej}</span>
-                      </button>
-                    );
-                  })}
+            {/* Cotizador Desde/Hacia — mismo componente que el tab de envíos de la home */}
+            <div className="w-full tablet:max-w-[440px]">
+              <div className="mx-auto flex min-h-[172px] w-full flex-col justify-center rounded-[16px] bg-[#1D1D1D] px-4 py-2 transition-shadow focus-within:ring-1 focus-within:ring-white/25">
+                <div className="flex gap-3.5">
+                  <div className="flex flex-col items-center self-stretch py-[22px]">
+                    {/* Origen: punto · Destino: pin de localización */}
+                    <span className="h-[10px] w-[10px] shrink-0 rounded-full border-[1.5px] border-white/80" />
+                    <span className="my-1 w-px flex-1" style={{ background: "repeating-linear-gradient(#FFFFFF 0 3px, transparent 3px 7px)" }} />
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="shrink-0" style={{ filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.5))" }}>
+                      <path d="M12 22s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z" fill="#FFFFFF" />
+                      <circle cx="12" cy="10" r="2.6" fill="#1D1D1D" />
+                    </svg>
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <label className="block py-4">
+                      <span className="font-inter text-[12px] font-normal text-white">Desde</span>
+                      <input value={cpDesde} onChange={(e) => setCpDesde(e.target.value.slice(0, 40))} placeholder="Código postal o colonia" aria-label="Origen del envío" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
+                    </label>
+                    <span className="block h-px w-full bg-white/10" />
+                    <label className="block py-4">
+                      <span className="font-inter text-[12px] font-normal text-white">Hacia</span>
+                      <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.slice(0, 40))} placeholder="Código postal o colonia" aria-label="Destino del envío" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
+                    </label>
+                  </div>
                 </div>
               </div>
-
               <a
                 href={ENVIOS_QUOTE_URL}
                 onClick={(e) => { if (!ok) e.preventDefault(); }}
                 aria-disabled={!ok}
-                className={`mt-4 flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors ${ok ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"}`}
+                className={`mt-4 flex h-[46px] w-full items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors ${ok ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"}`}
               >
-                Cotiza tu envío
+                Cotiza gratis
                 {ArrowRight}
               </a>
             </div>
