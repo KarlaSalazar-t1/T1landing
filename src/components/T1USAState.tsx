@@ -1,23 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import T1Navbar from "@/components/T1Navbar";
 import T1Footer from "@/components/T1Footer";
-
-/* ── T1 logo (coral wordmark) ── */
-function T1Logo() {
-  return (
-    <svg width="40" height="39" viewBox="0 0 45 44" fill="none" aria-label="T1">
-      <path
-        d="M27.6733 19.1041H31.4027C31.5444 19.1041 31.6388 19.1041 31.7332 19.1985V19.2457V37.7039C31.7332 38.5064 32.4885 39.0729 33.291 38.8369C35.0377 38.1288 37.3037 37.2318 38.956 36.4765C39.2392 36.3349 39.6169 36.1932 39.6169 35.6268V19.2457V19.1513V19.1041V7.86867C39.6169 7.20776 39.0976 6.68848 38.4367 6.68848H35.6514C35.1321 6.68848 34.7073 7.01893 34.5184 7.491C33.3855 10.6539 31.2139 13.0143 27.9566 13.5808C24.6992 14.1473 27.6733 13.628 27.4845 13.628C26.8708 13.7224 26.4459 14.1945 26.4459 14.8082V17.8767C26.4459 18.5376 26.9652 19.0569 27.6261 19.0569L27.6733 19.1041Z"
-        fill="#E2614F"
-      />
-      <path
-        d="M32.5831 5.41411C32.4415 5.27248 32.2055 5.13086 31.9694 5.13086H4.63622C3.78648 5.13086 3.07837 5.74456 3.07837 6.54709V10.7014C3.07837 11.6927 3.2672 12.1648 4.4946 12.1648H13.6057C13.8417 12.1648 14.0305 12.3536 14.0305 12.5897V16.083V35.5326C14.0305 35.9574 14.3138 36.2879 14.7387 36.4767C15.5412 36.8072 18.3264 38.1762 19.2706 38.6955C20.2147 39.2148 21.867 38.3178 21.867 36.996V13.2506V13.0617C21.8198 12.7313 21.867 12.4008 22.1975 12.2592H22.4335H25.4076C31.9222 11.6455 32.5831 6.5943 32.6303 6.02781V5.93339V5.79177C32.6303 5.65014 32.6303 5.55573 32.4887 5.46131L32.5831 5.41411Z"
-        fill="#E2614F"
-      />
-    </svg>
-  );
-}
 
 /* Shared hero gradient — same family as every product hero (warm plum + red/blue),
    dimmed so international pages read as a distinct, quieter surface. */
@@ -26,23 +11,16 @@ const HERO_BG =
 
 export type USAVariant = "coming-soon" | "waitlist" | "not-available";
 
-const BADGE: Record<USAVariant, { dot: string; text: string }> = {
-  "coming-soon": { dot: "#F59E0B", text: "Coming soon" },
-  waitlist: { dot: "#3B82F6", text: "Waitlist open" },
-  "not-available": { dot: "#9CA3AF", text: "Not available in the U.S. yet" },
-};
-
 export default function T1USAState({
   variant,
-  product,
   headline,
   description,
   date,
   features,
 }: {
   variant: USAVariant;
-  /** Product name shown as the eyebrow, e.g. "T1 Store". */
-  product: string;
+  /** Kept for page clarity / metadata; not rendered. */
+  product?: string;
   headline: string;
   description: string;
   /** Only for "coming-soon" — the launch window, e.g. "November 2026". */
@@ -58,7 +36,6 @@ export default function T1USAState({
     if (valid) setDone(true);
   };
 
-  const badge = BADGE[variant];
   const showForm = variant !== "not-available";
   const ctaLabel = variant === "waitlist" ? "Join the waitlist" : "Notify me";
   const doneMsg =
@@ -68,12 +45,8 @@ export default function T1USAState({
 
   return (
     <main className="min-h-screen bg-black">
-      {/* Minimal header — just the logo (no nav/CTAs: they'd be dead ends here). */}
-      <header className="absolute left-0 right-0 top-0 z-20 mx-auto flex w-full max-w-[var(--max-w)] items-center px-5 pt-7 tablet:px-10">
-        <a href="/usa" aria-label="T1 United States">
-          <T1Logo />
-        </a>
-      </header>
+      {/* Full site header — some products ARE available/coming, so we keep the nav. */}
+      <T1Navbar />
 
       <section
         className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-5 pb-20 pt-[120px] text-center"
@@ -87,20 +60,9 @@ export default function T1USAState({
         />
 
         <div className="relative z-10 mx-auto flex w-full max-w-[620px] flex-col items-center">
-          {/* Status badge */}
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.05] px-3.5 py-1.5 font-inter text-[12px] font-medium text-white/75">
-            <span className="h-[6px] w-[6px] rounded-full" style={{ background: badge.dot }} />
-            {badge.text}
-          </span>
-
-          {/* Product eyebrow */}
-          <p className="font-inter text-[14px] font-semibold uppercase tracking-[0.14em] text-white/45" style={{ marginTop: 20 }}>
-            {product}
-          </p>
-
           <h1
             className="font-sora text-[34px] font-light text-white tablet:text-[52px]"
-            style={{ letterSpacing: "-0.03em", lineHeight: 1.08, marginTop: 12, maxWidth: 620 }}
+            style={{ letterSpacing: "-0.03em", lineHeight: 1.08, maxWidth: 620 }}
           >
             {headline}
           </h1>
@@ -162,10 +124,11 @@ export default function T1USAState({
                   aria-label="Email"
                   className="h-[54px] w-full flex-1 rounded-[14px] border border-white/15 bg-white/[0.04] px-5 font-inter text-[15px] text-white outline-none transition-colors placeholder:text-white/40 focus:border-white/40"
                 />
+                {/* Inactive state matches the main hero submit (dark muted red + dimmed text). */}
                 <button
                   type="submit"
                   disabled={!valid}
-                  className="h-[54px] w-full shrink-0 rounded-[14px] bg-[#DB3B2B] px-7 font-inter text-[15px] font-semibold text-white transition-colors duration-150 hover:bg-[#C0332A] disabled:cursor-not-allowed disabled:bg-[#F1B0A9] disabled:hover:bg-[#F1B0A9] tablet:w-auto"
+                  className="h-[54px] w-full shrink-0 rounded-[14px] bg-[#DB3B2B] px-7 font-inter text-[15px] font-semibold text-white transition-colors duration-150 hover:bg-[#C0332A] disabled:bg-[#60160F] disabled:text-white/45 disabled:hover:bg-[#60160F] tablet:w-auto"
                 >
                   {ctaLabel}
                 </button>
