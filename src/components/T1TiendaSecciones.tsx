@@ -8,7 +8,7 @@ export function T1TiendaIncluido() {
   return (
     <section className="bg-[#0e0d0d] px-5 py-[80px] tablet:px-6 tablet:py-[110px]">
       <div className="mx-auto max-w-[var(--max-w)]">
-        <div className="mx-auto max-w-[720px] text-center">
+        <div className="text-center">
           <h2 className="font-sora text-[28px] font-light text-white tablet:whitespace-nowrap tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
             Tu tienda, con pagos y envíos integrados
           </h2>
