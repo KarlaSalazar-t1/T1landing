@@ -19,7 +19,7 @@ const CHIPS: { label: string; example: string }[] = [
   { label: "Hogar", example: "Vendo artículos de decoración para el hogar" },
 ];
 
-const SOCIAL_PROOF = ["+25,000 tiendas", "+30M de envíos", "+200M transacciones"];
+const SOCIAL_PROOF = ["+50,000 negocios", "+30M de envíos", "+200M transacciones"];
 
 const ArrowUp = (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -121,8 +121,12 @@ export default function T1TiendaHero() {
             className="text-center font-sora text-[32px] font-light leading-[1.14] text-white tablet:text-[48px] desktop:text-[48px]"
             style={{ letterSpacing: "-0.03em" }}
           >
-            Crea tu tienda en segundos.
+            Crea tu tienda en menos de 1 minuto
           </h1>
+
+          <p className="mt-4 max-w-[440px] text-center font-inter text-[16px] font-light leading-[1.55] text-white/70 tablet:mt-5 tablet:max-w-[600px] tablet:text-[18px]">
+            T1 te ayuda a vender, cobrar y enviar a todo México. Todo desde una sola plataforma.
+          </p>
 
           {/* Bloque central */}
           <div className="flex w-full flex-1 flex-col items-center justify-center gap-6 py-6">

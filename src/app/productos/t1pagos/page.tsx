@@ -33,9 +33,9 @@ export default function PagosLanding() {
 
       {/* CTA final */}
       <T1FinalCTA
-        title={<>Empieza a cobrar hoy mismo</>}
-        description="Crea tu link de pago o integra la pasarela y cobra en línea de forma segura desde el día uno."
-        buttonLabel="Crear cuenta gratis"
+        title={<>¿Listo para empezar a cobrar?</>}
+        description="Crea tu cuenta gratis y cobra con un link o integra la pasarela desde el día uno."
+        buttonLabel="Crea tu cuenta gratis"
       />
 
       <T1Footer />

@@ -49,7 +49,7 @@ export function T1PagosMetodos() {
           ))}
         </div>
         <a href="/productos/t1pagos/pagos-en-linea" className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-8 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]">
-          Ver la pasarela
+          Conoce la pasarela
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
         </a>
       </div>
@@ -71,7 +71,7 @@ export function T1PagosAprobacion() {
               Con T1 Score analizamos cada transacción en tiempo real para aprobar más operaciones legítimas y frenar el fraude.
             </p>
             <ul className="mb-8 flex flex-col gap-3">
-              {["+90% de tasa de aprobación", "Antifraude personalizado con T1 Score", "Seguro contra contracargos", "Certificación PCI DSS"].map((it) => (
+              {["+90% de tasa de aprobación", "Antifraude personalizado con T1 Score", "Seguro contra reclamaciones", "Certificación PCI DSS"].map((it) => (
                 <li key={it} className="flex items-start gap-3 font-inter text-[15px] text-white/75 tablet:text-[16px]">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="mt-0.5 shrink-0"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                   {it}
@@ -79,7 +79,7 @@ export function T1PagosAprobacion() {
               ))}
             </ul>
             <a href="/productos/t1pagos/reclamaciones" className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]">
-              Conocer más
+              Conoce más
               <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </a>
           </div>
@@ -95,9 +95,9 @@ export function T1PagosAprobacion() {
 /* ══════════ 3 · Administra tus cobros (carrusel) ══════════ */
 const ADMIN_CARDS = [
   { title: "Panel de pagos", desc: "Visualiza y filtra todas tus transacciones, con reportes y conciliación automática.", img: "/img/dashboard-pagos.png", w: 1440, h: 1080, href: "/productos/t1pagos/pagos-en-linea" },
-  { title: "Contracargos", desc: "Gestiona disputas con evidencia y monitorea tu tasa de contracargos en un panel.", img: "/img/metricas-contracargos.png", w: 1248, h: 1024, href: "/productos/t1pagos/reclamaciones" },
+  { title: "Reclamaciones", desc: "Gestiona reclamaciones con evidencia y monitorea tu tasa de reclamaciones en un panel.", img: "/img/metricas-contracargos.png", w: 1248, h: 1024, href: "/productos/t1pagos/reclamaciones" },
   { title: "Dinero al día siguiente", desc: "Recibe tus depósitos al día hábil siguiente, con dispersión flexible.", img: "/img/dinero-dia-siguiente.png", w: 1269, h: 1240, href: "/productos/t1pagos/pagos-en-linea" },
-  { title: "Enrutamiento", desc: "Optimiza la aprobación enrutando cada transacción por el mejor flujo.", img: "/img/reglas-link.png", w: 1190, h: 1322, href: "/productos/t1pagos/enrutamiento" },
+  { title: "Enrutamiento", desc: "Optimiza la aprobación enrutando cada transacción por el flujo con mayor aprobación.", img: "/img/reglas-link.png", w: 1190, h: 1322, href: "/productos/t1pagos/enrutamiento" },
 ];
 export function T1PagosAdministracion() {
   const ref = useRef<HTMLDivElement>(null);
@@ -117,10 +117,10 @@ export function T1PagosAdministracion() {
               Administra todos tus cobros
             </h2>
             <p className="font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 400 }}>
-              Transacciones, contracargos, dispersión y enrutamiento, todo desde un solo panel.
+              Transacciones, reclamaciones, dispersión y enrutamiento, todo desde un solo panel.
             </p>
             <a href="/productos/t1pagos/pagos-en-linea" className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]">
-              Conocer más
+              Conoce más
               <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </a>
           </div>
@@ -155,9 +155,9 @@ export function T1PagosAdministracion() {
 const FAQS = [
   { q: "¿Necesito una tienda para cobrar con T1 Pagos?", a: "No. Puedes cobrar con un link de pago aunque no tengas tienda, o integrar la pasarela a tu sitio." },
   { q: "¿Qué métodos de pago acepta?", a: "Tarjetas Visa, Mastercard, Amex y Carnet, SPEI, efectivo, meses sin intereses y Kueski." },
-  { q: "¿Cuánto cobra T1 Pagos?", a: "Desde 3.5% + $1 MXN por transacción, o 4.5% + $1 con cobertura de contracargos incluida." },
+  { q: "¿Cuánto cobra T1 Pagos?", a: "Desde 3.5% + $1 MXN por transacción, o 4.5% + $1 con cobertura de reclamaciones incluida." },
   { q: "¿Cuándo recibo mi dinero?", a: "Con depósitos al día hábil siguiente, con opción de dispersión flexible según tu plan." },
-  { q: "¿Cómo protegen contra el fraude?", a: "Con T1 Score analizamos cada transacción en tiempo real y ofrecemos seguro contra contracargos." },
+  { q: "¿Cómo protegen contra el fraude?", a: "Con T1 Score analizamos cada transacción en tiempo real y ofrecemos seguro contra reclamaciones." },
 ];
 function FAQItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);

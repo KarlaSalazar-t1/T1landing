@@ -9,7 +9,7 @@ export function T1TiendaIncluido() {
     <section className="bg-[#0e0d0d] px-5 py-[80px] tablet:px-6 tablet:py-[110px]">
       <div className="mx-auto max-w-[var(--max-w)]">
         <div className="mx-auto max-w-[720px] text-center">
-          <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
+          <h2 className="font-sora text-[28px] font-light text-white tablet:whitespace-nowrap tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
             Tu tienda, con pagos y envíos integrados
           </h2>
           <p className="mx-auto mt-4 max-w-[560px] font-inter text-[16px] font-light text-white/60 tablet:text-[18px]">
@@ -18,14 +18,14 @@ export function T1TiendaIncluido() {
         </div>
         <div className="mx-auto mt-10 grid max-w-[900px] grid-cols-1 gap-4 tablet:mt-14 tablet:grid-cols-2">
           {[
-            { title: "T1 Pagos", desc: "Acepta tarjetas, SPEI, efectivo y meses sin intereses con el checkout más optimizado para convertir.", href: "/productos/t1pagos" },
-            { title: "T1 Envíos", desc: "Genera guías con +10 paqueterías al mejor precio y rastrea todos tus pedidos en un solo lugar.", href: "/productos/t1envios" },
+            { title: "T1 Pagos", desc: "Acepta tarjetas, SPEI, efectivo y meses sin intereses con una pasarela de pago pensada para convertir.", href: "/productos/t1pagos" },
+            { title: "T1 Envíos", desc: "Genera guías con +10 paqueterías a precio competitivo y rastrea todos tus pedidos en un solo lugar.", href: "/productos/t1envios" },
           ].map((it) => (
             <a key={it.title} href={it.href} className="group flex flex-col rounded-[18px] border border-white/[0.08] bg-[#1A1A1D] p-7 no-underline transition-colors hover:border-white/20">
               <h3 className="font-sora text-[22px] font-normal text-white" style={{ letterSpacing: "-0.02em" }}>{it.title}</h3>
               <p className="mt-2.5 font-inter text-[15px] font-light leading-relaxed text-white/60 tablet:text-[16px]">{it.desc}</p>
               <span className="mt-5 inline-flex items-center gap-1.5 font-inter text-[14px] font-medium text-white/80 group-hover:text-white">
-                Ver más
+                Conoce más
                 <svg width="15" height="15" viewBox="0 0 18 18" fill="none" className="transition-transform group-hover:translate-x-0.5"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
               </span>
             </a>
@@ -72,7 +72,7 @@ export function T1TiendaMarketplaces() {
 
       <div className="relative mx-auto max-w-[620px] text-center">
         <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
-          Con T1, olvídate de manejar cada canal por separado.
+          Vende en todos tus canales sin duplicar trabajo
         </h2>
         <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 500 }}>
           Conecta los marketplaces donde ya vendes y gestiona catálogo, inventario y pedidos desde un solo panel.
@@ -95,7 +95,7 @@ export function T1TiendaMarketplaces() {
 /* ══════════ 3 · Administración — carrusel (catálogo, inventario, reportes) ══════════ */
 const ADMIN_CARDS = [
   { title: "Catálogo con IA", desc: "Sube una foto y la IA genera título, descripción, categoría y atributos al instante.", img: "/img/admin-catalogo.png", w: 1248, h: 1024 },
-  { title: "Inventario centralizado", desc: "Controla stock, precios y variantes; se sincroniza en todos tus canales en tiempo real.", img: "/img/controla-inventario.png", w: 1269, h: 1240 },
+  { title: "Inventario centralizado", desc: "Controla inventario, precios y variantes; se sincroniza en todos tus canales en tiempo real.", img: "/img/controla-inventario.png", w: 1269, h: 1240 },
   { title: "Reportes en vivo", desc: "Ventas, tráfico y rendimiento en tiempo real para decidir con datos.", img: "/img/graficas-reportes.png", w: 1190, h: 1322 },
   { title: "Clientes", desc: "Conoce a tus clientes, su historial de compras y segméntalos para vender más.", img: "/img/admin-historico.png", w: 1248, h: 1024 },
   { title: "Multi-sucursales", desc: "Gestiona varias sucursales o almacenes con inventario y ventas por ubicación.", img: "/img/pos-dispositivos.png", w: 1248, h: 1024 },
@@ -121,7 +121,7 @@ export function T1TiendaAdministracion() {
               Catálogo, inventario y reportes centralizados. Cambia una vez y se sincroniza en todos tus canales.
             </p>
             <a href="/productos/t1tienda/productos" className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]">
-              Conocer más
+              Conoce más
               <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </a>
           </div>
@@ -163,7 +163,7 @@ export function T1TiendaPagos() {
               Cobra como tus clientes prefieran
             </h2>
             <p className="font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 24, maxWidth: 440 }}>
-              Un checkout optimizado para convertir, con todos los métodos de pago y meses sin intereses.
+              Una pasarela de pago pensada para convertir, con todos los métodos de pago y meses sin intereses.
             </p>
             <ul className="mb-8 flex flex-col gap-3">
               {["Tarjetas, SPEI y efectivo", "Meses sin intereses", "Links de pago para vender por WhatsApp", "Antifraude con T1 Score"].map((it) => (
@@ -174,11 +174,11 @@ export function T1TiendaPagos() {
               ))}
             </ul>
             <a href="/productos/t1tienda/pasarela" className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]">
-              Conocer la pasarela
+              Conoce la pasarela
               <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </a>
           </div>
-          <div className="overflow-hidden rounded-[20px] border border-white/[0.08] bg-[#1A1A1D]">
+          <div className="overflow-hidden rounded-[20px]">
             <Image src="/img/dashboard-pagos.png" alt="Panel de pagos T1" width={1440} height={1080} className="block h-auto w-full" sizes="(max-width: 768px) 92vw, 560px" />
           </div>
         </div>
@@ -190,7 +190,7 @@ export function T1TiendaPagos() {
 /* ══════════ 5 · FAQ ══════════ */
 const FAQS = [
   { q: "¿Necesito saber de diseño o programación?", a: "No. La IA crea tu tienda completa y el editor visual te permite ajustar todo sin código." },
-  { q: "¿Cuánto tarda en estar lista mi tienda?", a: "En segundos tienes una tienda base lista para vender; personalizarla toma solo unos minutos." },
+  { q: "¿Cuánto tarda en estar lista mi tienda?", a: "En menos de 1 minuto tienes una tienda base lista para vender; personalizarla toma solo unos minutos." },
   { q: "¿Puedo vender en marketplaces desde T1?", a: "Sí. Conectas Mercado Libre, Amazon, TikTok Shop y más, y gestionas todo desde un solo panel." },
   { q: "¿Los pagos y envíos están incluidos?", a: "Sí. Tu tienda ya viene integrada con T1 Pagos (tarjetas, SPEI, MSI) y T1 Envíos (+10 paqueterías)." },
   { q: "¿Tiene costo crear mi tienda?", a: "Puedes empezar gratis y crear tu tienda sin tarjeta. Escalas a planes de pago cuando lo necesites." },

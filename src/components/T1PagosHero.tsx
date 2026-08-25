@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { PAGOS_START_URL } from "@/lib/constants";
 
-const SOCIAL_PROOF = ["86.3% de aprobación", "+121M transacciones", "8 países"];
+const SOCIAL_PROOF = ["+90% de aprobación", "+200M transacciones", "8 países"];
 
 const FIELD = "w-full rounded-[14px] bg-[#1D1D1D] px-4 py-3 font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A] focus:ring-1 focus:ring-white/20";
 const ArrowRight = (
@@ -44,9 +44,7 @@ export default function T1PagosHero() {
         {/* Contenido */}
         <div className="relative z-10 flex w-full max-w-[440px] grow flex-col items-center tablet:max-w-[640px]">
           <h1 className="text-center font-sora text-[32px] font-light leading-[1.14] text-white tablet:text-[48px] desktop:text-[48px]" style={{ letterSpacing: "-0.03em" }}>
-            Cobra en línea,
-            <br />
-            fácil y seguro.
+            Cobra en línea
           </h1>
 
           <div className="flex w-full flex-1 flex-col items-center justify-center gap-6 py-6">
@@ -78,7 +76,7 @@ export default function T1PagosHero() {
                 aria-disabled={!ok}
                 className={`flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors ${ok ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"}`}
               >
-                Crear link de pago
+                Crea tu link de pago
                 {ArrowRight}
               </a>
             </div>

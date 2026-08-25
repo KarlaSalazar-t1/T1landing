@@ -38,10 +38,10 @@ export function T1EnviosPaqueterias() {
 
       <div className="relative mx-auto max-w-[620px] text-center">
         <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
-          Olvídate de negociar con cada paquetería.
+          Una sola cuenta para todas las paqueterías
         </h2>
         <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 500 }}>
-          Accede a las mejores tarifas de +10 paqueterías, sin volumen mínimo y sin contratos con cada una.
+          Accede a tarifas competitivas de +10 paqueterías, sin volumen mínimo y sin contratos con cada una.
         </p>
         <div className="mb-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-4 tablet:hidden">
           {CARRIERS.slice(0, 6).map((l) => (
@@ -51,7 +51,7 @@ export function T1EnviosPaqueterias() {
           ))}
         </div>
         <a href="/productos/t1envios/multipaqueteria" className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-8 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]">
-          Ver las paqueterías
+          Conoce las paqueterías
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
         </a>
       </div>
@@ -93,7 +93,7 @@ export function T1EnviosCanales() {
 const ADMIN_CARDS = [
   { title: "Reportes logísticos", desc: "Tiempos de entrega, costos y desempeño por paquetería en tiempo real.", img: "/img/graficas-reportes.png", w: 1190, h: 1322, href: "/productos/t1envios/reportes" },
   { title: "Control de calidad", desc: "Detecta y gestiona incidencias antes que tu cliente, desde un solo panel.", img: "/img/incidencias.png", w: 1248, h: 1024, href: "/productos/t1envios/control-calidad" },
-  { title: "Reglas de envío", desc: "Asigna automáticamente la mejor paquetería según reglas que tú defines.", img: "/img/reglas-link.png", w: 1269, h: 1240, href: "/productos/t1envios/reglas" },
+  { title: "Reglas de envío", desc: "Asigna automáticamente la paquetería ideal según reglas que tú defines.", img: "/img/reglas-link.png", w: 1269, h: 1240, href: "/productos/t1envios/reglas" },
   { title: "Recolecciones", desc: "Programa que pasen por tus paquetes a tu puerta, sin ir a la sucursal.", img: "/img/rastreo-v2.png", w: 1190, h: 1322, href: "/productos/t1envios/recolecciones" },
 ];
 export function T1EnviosAdministracion() {
@@ -117,7 +117,7 @@ export function T1EnviosAdministracion() {
               Reportes, reglas, recolecciones y control de calidad, todo desde un solo panel.
             </p>
             <a href="/productos/t1envios/reportes" className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]">
-              Conocer más
+              Conoce más
               <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </a>
           </div>

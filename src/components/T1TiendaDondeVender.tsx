@@ -11,7 +11,7 @@ const ITEMS = [
     id: "linea",
     title: "Tienda en línea",
     description: "Crea tu tienda con IA y véndele a todo México desde tu propio sitio, sin saber de diseño.",
-    cta: "Conocer más",
+    cta: "Conoce más",
     ctaHref: "/productos/t1tienda/tienda-con-ia",
     image: "/img/miniatura-tienda-desktop.png",
   },
@@ -19,7 +19,7 @@ const ITEMS = [
     id: "market",
     title: "Marketplaces",
     description: "Publica y vende en Mercado Libre, Amazon, TikTok Shop y más desde un solo panel.",
-    cta: "Conocer más",
+    cta: "Conoce más",
     ctaHref: "/productos/t1tienda/marketplaces",
     image: "/img/importa.png",
   },
@@ -27,7 +27,7 @@ const ITEMS = [
     id: "pos",
     title: "Punto de venta",
     description: "Vende en tu tienda física con un POS integrado a inventario, pagos y envíos.",
-    cta: "Conocer más",
+    cta: "Conoce más",
     ctaHref: "/productos/t1tienda/punto-de-venta",
     image: "/img/pos-dispositivos.png",
   },
@@ -99,7 +99,7 @@ export default function T1TiendaDondeVender() {
     <section className="relative overflow-hidden bg-black px-5 tablet:px-6" style={{ paddingTop: 100, paddingBottom: 100 }}>
       <div className="relative mx-auto max-w-[var(--max-w)]">
         <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", textAlign: "center", marginBottom: 16 }}>
-          Vende donde estén tus clientes.
+          Vende donde estén tus clientes
         </h2>
         <p className="mx-auto font-inter text-[16px] font-light text-white/85 tablet:whitespace-nowrap tablet:text-[18px]" style={{ textAlign: "center", marginBottom: 56 }}>
           Tienda en línea, marketplaces y punto de venta, conectados en un solo lugar.

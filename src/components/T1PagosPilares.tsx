@@ -6,9 +6,9 @@ import { useState, useEffect, useRef } from "react";
 const ITEMS = [
   {
     id: "checkout",
-    title: "Checkout en línea",
+    title: "Pasarela en línea",
     description: "Una pasarela optimizada para convertir, con todos los métodos de pago y meses sin intereses.",
-    cta: "Conocer más",
+    cta: "Conoce más",
     ctaHref: "/productos/t1pagos/pagos-en-linea",
     image: "/img/metodos-pago-v2.png",
   },
@@ -16,15 +16,15 @@ const ITEMS = [
     id: "links",
     title: "Links de pago",
     description: "Cobra sin tienda ni terminal: comparte un link por WhatsApp, redes o correo y te pagan con tarjeta.",
-    cta: "Conocer más",
+    cta: "Conoce más",
     ctaHref: "/productos/t1pagos/links-de-pago",
     image: "/img/links-de-pago-v2.png",
   },
   {
     id: "reclamaciones",
     title: "Reclamaciones",
-    description: "Gestiona disputas y contracargos desde un panel, con opción de seguro contra chargebacks.",
-    cta: "Conocer más",
+    description: "Gestiona reclamaciones desde un panel, con opción de seguro incluido.",
+    cta: "Conoce más",
     ctaHref: "/productos/t1pagos/reclamaciones",
     image: "/img/contracargos-db-v2.png",
   },
@@ -92,10 +92,10 @@ export default function T1PagosPilares() {
     <section className="relative overflow-hidden bg-black px-5 tablet:px-6" style={{ paddingTop: 100, paddingBottom: 100 }}>
       <div className="relative mx-auto max-w-[var(--max-w)]">
         <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", textAlign: "center", marginBottom: 16 }}>
-          Una plataforma, cero complicaciones.
+          Una plataforma para todos tus cobros
         </h2>
         <p className="mx-auto font-inter text-[16px] font-light text-white/85 tablet:whitespace-nowrap tablet:text-[18px]" style={{ textAlign: "center", marginBottom: 56 }}>
-          Cobra en tu checkout, con un link o gestiona tus disputas, todo en un lugar.
+          Cobra en tu pasarela, con un link o gestiona tus reclamaciones, todo en un lugar.
         </p>
 
         <div className="hidden grid-cols-1 gap-8 tablet:grid tablet:grid-cols-[minmax(0,0.95fr)_minmax(0,1fr)] tablet:items-center tablet:gap-8">

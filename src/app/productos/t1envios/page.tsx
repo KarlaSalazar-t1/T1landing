@@ -34,8 +34,8 @@ export default function EnviosLanding() {
       {/* CTA final */}
       <T1FinalCTA
         title={<>¿Listo para optimizar tus envíos?</>}
-        description="Cotiza, crea guías y rastrea con las mejores tarifas del mercado. Sin volumen mínimo."
-        buttonLabel="Comenzar a enviar"
+        description="Cotiza, crea guías y rastrea con tarifas competitivas. Sin volumen mínimo."
+        buttonLabel="Empieza a enviar"
       />
 
       <T1Footer />
