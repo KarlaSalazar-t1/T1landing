@@ -118,15 +118,11 @@ export default function T1TiendaHero() {
         <div className="relative z-10 flex w-full max-w-[440px] grow flex-col items-center tablet:max-w-[720px]">
           {/* Título */}
           <h1
-            className="text-center font-sora text-[32px] font-light leading-[1.14] text-white tablet:whitespace-nowrap tablet:text-[44px] desktop:text-[44px]"
+            className="mt-8 text-center font-sora text-[32px] font-light leading-[1.14] text-white tablet:mt-14 tablet:whitespace-nowrap tablet:text-[44px] desktop:text-[44px]"
             style={{ letterSpacing: "-0.03em" }}
           >
             Crea tu tienda en menos de 1 minuto
           </h1>
-
-          <p className="mt-4 max-w-[440px] text-center font-inter text-[16px] font-light leading-[1.55] text-white/70 tablet:mt-5 tablet:max-w-[600px] tablet:text-[18px]">
-            T1 te ayuda a vender, cobrar y enviar a todo México. Todo desde una sola plataforma.
-          </p>
 
           {/* Bloque central */}
           <div className="flex w-full flex-1 flex-col items-center justify-center gap-6 py-6">

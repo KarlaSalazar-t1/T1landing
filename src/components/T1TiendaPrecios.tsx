@@ -181,7 +181,7 @@ export default function T1TiendaPrecios() {
                   {PLANS.map((p) => (
                     <th key={p.name} className="px-3 pb-4 text-center">
                       <span className="font-sora text-[16px] font-medium text-white">{p.name}</span>
-                      {p.featured && <span className="mt-1 block font-inter text-[10px] font-semibold uppercase tracking-wide text-[#22C55E]">Recomendado</span>}
+                      {p.featured && <span className="mx-auto mt-1.5 inline-block rounded-full bg-[#DB3B2B] px-2.5 py-1 font-inter text-[10px] font-bold text-white">Recomendado</span>}
                     </th>
                   ))}
                 </tr>

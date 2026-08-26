@@ -18,13 +18,40 @@ export function T1TiendaIncluido() {
         </div>
         <div className="mx-auto mt-10 grid max-w-[900px] grid-cols-1 gap-4 tablet:mt-14 tablet:grid-cols-2">
           {[
-            { title: "T1 Pagos", desc: "Acepta tarjetas, SPEI, efectivo y meses sin intereses con una pasarela de pago pensada para convertir.", href: "/productos/t1pagos" },
-            { title: "T1 Envíos", desc: "Genera guías con +10 paqueterías a precio competitivo y rastrea todos tus pedidos en un solo lugar.", href: "/productos/t1envios" },
+            {
+              title: "T1 Pagos",
+              desc: "Acepta tarjetas, SPEI, Kueski y meses sin intereses con una pasarela de pago pensada para convertir.",
+              href: "/productos/t1pagos",
+              type: "card" as const,
+              icons: ["/img/icons/visa-card.svg", "/img/icons/mc-card.svg", "/img/icons/amex-card.svg", "/img/icons/spei-card.svg", "/img/icons/kueski-card.svg"],
+            },
+            {
+              title: "T1 Envíos",
+              desc: "Genera guías con +10 paqueterías a precio competitivo y rastrea todos tus pedidos en un solo lugar.",
+              href: "/productos/t1envios",
+              type: "circle" as const,
+              icons: ["/img/circles/dhl.svg", "/img/circles/fedex.svg", "/img/circles/ups.svg", "/img/circles/ampm.svg", "/img/circles/99.svg"],
+              plus: "+5",
+            },
           ].map((it) => (
             <a key={it.title} href={it.href} className="group flex flex-col rounded-[18px] border border-white/[0.08] bg-[#1A1A1D] p-7 no-underline transition-colors hover:border-white/20">
               <h3 className="font-sora text-[22px] font-normal text-white" style={{ letterSpacing: "-0.02em" }}>{it.title}</h3>
               <p className="mt-2.5 font-inter text-[15px] font-light leading-relaxed text-white/60 tablet:text-[16px]">{it.desc}</p>
-              <span className="mt-5 inline-flex items-center gap-1.5 font-inter text-[14px] font-medium text-white/80 group-hover:text-white">
+              <div className="mt-6 flex items-center gap-3">
+                {it.type === "card"
+                  ? it.icons.map((src) => (
+                      <Image key={src} src={src} alt="" width={80} height={52} className="h-[30px] w-auto shrink-0 object-contain" />
+                    ))
+                  : it.icons.map((src) => (
+                      <span key={src} className="flex h-[32px] w-[32px] shrink-0 items-center justify-center overflow-hidden rounded-full">
+                        <Image src={src} alt="" width={64} height={64} className="h-full w-full object-cover" style={{ filter: "drop-shadow(0 3px 6px rgba(0,0,0,0.4))" }} />
+                      </span>
+                    ))}
+                {it.plus && (
+                  <span className="flex h-[32px] shrink-0 items-center rounded-full border border-white/20 px-2.5 font-inter text-[12px] font-semibold text-white/70">{it.plus}</span>
+                )}
+              </div>
+              <span className="mt-6 inline-flex items-center gap-1.5 font-inter text-[14px] font-medium text-white/80 group-hover:text-white">
                 Conoce más
                 <svg width="15" height="15" viewBox="0 0 18 18" fill="none" className="transition-transform group-hover:translate-x-0.5"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
               </span>
@@ -63,9 +90,7 @@ export function T1TiendaMarketplaces() {
         const logo = MP_LOGOS[i % MP_LOGOS.length];
         return (
           <div key={i} aria-hidden className="pointer-events-none absolute hidden -translate-x-1/2 -translate-y-1/2 tablet:block" style={{ left: f.l, top: f.t }}>
-            <div className="flex items-center justify-center rounded-[16px] border border-white/[0.08] bg-[#1A1A1D]" style={{ width: f.s, height: f.s, transform: `rotate(${f.r}deg)` }}>
-              <Image src={logo.src} alt="" width={80} height={80} className="object-contain opacity-80" style={{ width: f.s * 0.62, height: f.s * 0.62 }} />
-            </div>
+            <Image src={logo.src} alt="" width={110} height={110} className="object-contain opacity-90" style={{ width: f.s, height: f.s, transform: `rotate(${f.r}deg)` }} />
           </div>
         );
       })}
@@ -95,7 +120,7 @@ export function T1TiendaMarketplaces() {
 /* ══════════ 3 · Administración — carrusel (catálogo, inventario, reportes) ══════════ */
 const ADMIN_CARDS = [
   { title: "Catálogo con IA", desc: "Sube una foto y la IA genera título, descripción, categoría y atributos al instante.", img: "/img/admin-catalogo.png", w: 1248, h: 1024 },
-  { title: "Inventario centralizado", desc: "Controla inventario, precios y variantes; se sincroniza en todos tus canales en tiempo real.", img: "/img/controla-inventario.png", w: 1269, h: 1240 },
+  { title: "Inventario centralizado", desc: "Controla inventario, precios y variantes; se sincroniza en todos tus canales en tiempo real.", img: "/img/tienda-inventario.png", w: 1254, h: 1254 },
   { title: "Reportes en vivo", desc: "Ventas, tráfico y rendimiento en tiempo real para decidir con datos.", img: "/img/graficas-reportes.png", w: 1190, h: 1322 },
   { title: "Clientes", desc: "Conoce a tus clientes, su historial de compras y segméntalos para vender más.", img: "/img/admin-historico.png", w: 1248, h: 1024 },
   { title: "Multi-sucursales", desc: "Gestiona varias sucursales o almacenes con inventario y ventas por ubicación.", img: "/img/pos-dispositivos.png", w: 1248, h: 1024 },
@@ -166,7 +191,7 @@ export function T1TiendaPagos() {
               Una pasarela de pago pensada para convertir, con todos los métodos de pago y meses sin intereses.
             </p>
             <ul className="mb-8 flex flex-col gap-3">
-              {["Tarjetas, SPEI y efectivo", "Meses sin intereses", "Links de pago para vender por WhatsApp", "Antifraude con T1 Score"].map((it) => (
+              {["Tarjetas, SPEI y Kueski", "Meses sin intereses", "Links de pago para vender por WhatsApp", "Antifraude con T1 Score"].map((it) => (
                 <li key={it} className="flex items-start gap-3 font-inter text-[15px] text-white/75 tablet:text-[16px]">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="mt-0.5 shrink-0"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                   {it}

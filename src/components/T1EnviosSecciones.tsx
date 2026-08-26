@@ -28,9 +28,7 @@ export function T1EnviosCanales() {
         const logo = CHANNELS[i % CHANNELS.length];
         return (
           <div key={i} aria-hidden className="pointer-events-none absolute hidden -translate-x-1/2 -translate-y-1/2 tablet:block" style={{ left: f.l, top: f.t }}>
-            <div className="flex items-center justify-center rounded-[16px] border border-white/[0.10]" style={{ width: f.s, height: f.s, transform: `rotate(${f.r}deg)`, background: "rgba(255,255,255,0.06)" }}>
-              <Image src={logo.src} alt="" width={90} height={90} className="object-contain" style={{ width: f.s * 0.64, height: f.s * 0.5 }} />
-            </div>
+            <Image src={logo.src} alt="" width={130} height={90} className="object-contain opacity-90" style={{ width: f.s, height: f.s * 0.78, transform: `rotate(${f.r}deg)` }} />
           </div>
         );
       })}

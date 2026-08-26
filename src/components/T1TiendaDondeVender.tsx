@@ -13,7 +13,7 @@ const ITEMS = [
     description: "Crea tu tienda con IA y véndele a todo México desde tu propio sitio, sin saber de diseño.",
     cta: "Conoce más",
     ctaHref: "/productos/t1tienda/tienda-con-ia",
-    image: "/img/miniatura-tienda-desktop.png",
+    image: "/img/incluye-responsive-v2.png",
   },
   {
     id: "market",
@@ -30,6 +30,7 @@ const ITEMS = [
     cta: "Conoce más",
     ctaHref: "/productos/t1tienda/punto-de-venta",
     image: "/img/pos-dispositivos.png",
+    fit: "contain" as const,
   },
 ];
 
@@ -78,7 +79,7 @@ export default function T1TiendaDondeVender() {
         <span className="audience-beam" aria-hidden />
         <div className="relative z-[1] w-full overflow-hidden rounded-[18.5px]" style={{ background: "#1b1714" }}>
           <div className="relative w-full" style={{ aspectRatio: "741 / 565" }}>
-            <Image src={it.image} alt={it.title} fill className="object-cover" sizes="(max-width: 768px) 90vw, 460px" />
+            <Image src={it.image} alt={it.title} fill className={(it as { fit?: string }).fit === "contain" ? "object-contain" : "object-cover"} sizes="(max-width: 768px) 90vw, 460px" />
             <div className="pointer-events-none absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 45%, rgba(0,0,0,0.75) 100%)" }} />
             <div className="absolute bottom-0 left-0 right-0 p-5 tablet:p-7">
               <a

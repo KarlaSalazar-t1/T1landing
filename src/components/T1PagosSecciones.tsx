@@ -27,9 +27,7 @@ export function T1PagosMetodos() {
         const logo = METODOS[i % METODOS.length];
         return (
           <div key={i} aria-hidden className="pointer-events-none absolute hidden -translate-x-1/2 -translate-y-1/2 tablet:block" style={{ left: f.l, top: f.t }}>
-            <div className="flex items-center justify-center rounded-[16px] border border-white/[0.08] bg-[#1A1A1D]" style={{ width: f.s, height: f.s, transform: `rotate(${f.r}deg)` }}>
-              <Image src={logo.src} alt="" width={100} height={80} className="object-contain" style={{ width: f.s * 0.66, height: f.s * 0.5 }} />
-            </div>
+            <Image src={logo.src} alt="" width={140} height={90} className="object-contain opacity-90" style={{ width: f.s, height: f.s * 0.72, transform: `rotate(${f.r}deg)` }} />
           </div>
         );
       })}

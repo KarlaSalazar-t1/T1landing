@@ -14,17 +14,19 @@ const VALUE_PROPS = [
 
 const FIELD =
   "h-[50px] w-full rounded-[12px] bg-[#1D1D1D] px-4 font-inter text-[15px] text-white outline-none transition-shadow placeholder:text-[#8A8A8A] focus:ring-1 focus:ring-white/25";
-const SELECT = `${FIELD} appearance-none pr-10`;
+const SELECT_BASE =
+  "h-[50px] w-full appearance-none rounded-[12px] bg-[#1D1D1D] px-4 pr-10 font-inter text-[15px] outline-none transition-shadow focus:ring-1 focus:ring-white/25";
 const LABEL = "mb-1.5 block font-inter text-[13px] font-medium text-white/70";
 
 function Select({ label, opts, required }: { label: string; opts: string[]; required?: boolean }) {
+  const [val, setVal] = useState("");
   return (
     <label className="block">
       <span className={LABEL}>{label}{!required && <span className="text-white/35"> (opcional)</span>}</span>
       <div className="relative">
-        <select required={required} defaultValue="" className={SELECT}>
+        <select required={required} value={val} onChange={(e) => setVal(e.target.value)} className={`${SELECT_BASE} ${val ? "text-white" : "text-[#8A8A8A]"}`}>
           <option value="" disabled>Selecciona una opción</option>
-          {opts.map((o) => <option key={o} value={o}>{o}</option>)}
+          {opts.map((o) => <option key={o} value={o} className="text-white">{o}</option>)}
         </select>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-white/45"><path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
       </div>
@@ -56,7 +58,7 @@ export default function T1ContactoVentas() {
 
         <div className="relative z-10 mx-auto grid max-w-[var(--max-w)] grid-cols-1 gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.1fr)] lg:gap-16">
           {/* Left — pitch fijo; solo el formulario hace scroll. */}
-          <div className="lg:sticky lg:top-[48px] lg:self-start lg:pt-4">
+          <div className="lg:sticky lg:top-[80px] lg:self-start">
             <h1 className="font-sora text-[28px] font-light text-white tablet:text-[38px]" style={{ letterSpacing: "-0.02em", lineHeight: 1.12, maxWidth: 420 }}>
               Una solución a la medida de tu empresa
             </h1>

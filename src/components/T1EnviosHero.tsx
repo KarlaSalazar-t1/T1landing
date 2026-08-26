@@ -33,7 +33,7 @@ export default function T1EnviosHero() {
 
         {/* Contenido */}
         <div className="relative z-10 flex w-full max-w-[440px] grow flex-col items-center tablet:max-w-[640px]">
-          <h1 className="text-center font-sora text-[32px] font-light leading-[1.14] text-white tablet:text-[48px] desktop:text-[48px]" style={{ letterSpacing: "-0.03em" }}>
+          <h1 className="mt-8 text-center font-sora text-[32px] font-light leading-[1.14] text-white tablet:mt-14 tablet:text-[48px] desktop:text-[48px]" style={{ letterSpacing: "-0.03em" }}>
             Todos tus envíos,
             <br />
             un solo lugar
