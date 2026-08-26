@@ -50,12 +50,12 @@ export default function T1ContactoVentas() {
     <main className="min-h-screen bg-black">
       <T1Navbar />
 
-      <section className="relative overflow-hidden px-5 pb-24 pt-[130px] tablet:px-10 tablet:pt-[150px]" style={{ background: HERO_BG }}>
+      <section className="relative px-5 pb-24 pt-[130px] tablet:px-10 tablet:pt-[150px]" style={{ background: HERO_BG }}>
         <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 z-0" style={{ height: "26%", background: "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.5) 70%, #000 100%)" }} />
 
         <div className="relative z-10 mx-auto grid max-w-[var(--max-w)] grid-cols-1 gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.1fr)] lg:gap-16">
-          {/* Left — pitch (compacto) */}
-          <div className="lg:pt-8">
+          {/* Left — pitch (compacto, fijo en desktop) */}
+          <div className="lg:sticky lg:top-[112px] lg:self-start lg:pt-8">
             <h1 className="font-sora text-[28px] font-light text-white tablet:text-[38px]" style={{ letterSpacing: "-0.02em", lineHeight: 1.12, maxWidth: 420 }}>
               Una solución a la medida de tu empresa
             </h1>
