@@ -1,6 +1,7 @@
 import T1Navbar from "@/components/T1Navbar";
 import T1TiendaHero from "@/components/T1TiendaHero";
 import T1TiendaDondeVender from "@/components/T1TiendaDondeVender";
+import T1TiendaVideo from "@/components/T1TiendaVideo";
 import {
   T1TiendaIncluido,
   T1TiendaMarketplaces,
@@ -20,6 +21,8 @@ export default function TiendaLanding() {
       <T1TiendaHero />
 
       <div className="relative z-[5] bg-black">
+        {/* Video demo — cómo funciona (store creation) */}
+        <T1TiendaVideo />
         {/* 1 · Tu tienda con pagos y envíos integrados */}
         <T1TiendaIncluido />
         {/* 2 · Dónde vender — tienda en línea / marketplaces / POS */}

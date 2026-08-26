@@ -3,9 +3,9 @@ import { SIGNUP_URL } from "@/lib/constants";
 /* Sample shipping rates — reference prices for 1 kg, standard service.
    Replace the numbers with T1's real published rates. */
 const ROUTES = [
-  { from: "CDMX", to: "CDMX", price: "89", carrier: "Estafeta" },
-  { from: "CDMX", to: "Guadalajara", price: "115", carrier: "Estafeta" },
-  { from: "CDMX", to: "Monterrey", price: "119", carrier: "Estafeta" },
+  { from: "CDMX", to: "CDMX", price: "89", carrier: "FedEx" },
+  { from: "CDMX", to: "Guadalajara", price: "115", carrier: "DHL" },
+  { from: "CDMX", to: "Monterrey", price: "119", carrier: "FedEx" },
 ];
 
 const BoxIcon = (
@@ -23,7 +23,7 @@ export default function T1EnviosTarifas() {
           <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
             Ahorra en cada envío
           </h2>
-          <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, maxWidth: 520 }}>
+          <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:whitespace-nowrap tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
             Tarifas preferenciales de +10 paqueterías, sin volumen mínimo ni contratos.
           </p>
         </div>

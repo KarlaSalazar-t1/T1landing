@@ -115,10 +115,10 @@ export default function T1TiendaHero() {
         />
 
         {/* Contenido */}
-        <div className="relative z-10 flex w-full max-w-[440px] grow flex-col items-center tablet:max-w-[640px]">
+        <div className="relative z-10 flex w-full max-w-[440px] grow flex-col items-center tablet:max-w-[720px]">
           {/* Título */}
           <h1
-            className="text-center font-sora text-[32px] font-light leading-[1.14] text-white tablet:text-[48px] desktop:text-[48px]"
+            className="text-center font-sora text-[32px] font-light leading-[1.14] text-white tablet:whitespace-nowrap tablet:text-[44px] desktop:text-[44px]"
             style={{ letterSpacing: "-0.03em" }}
           >
             Crea tu tienda en menos de 1 minuto

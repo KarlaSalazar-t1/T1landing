@@ -693,14 +693,6 @@ export default function T1Pasarela() {
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </button>
           </div>
-          <div data-modal-animate className="mt-12 flex justify-center">
-            <a
-              href={SIGNUP_URL}
-              className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
-            >
-              Crea tu pasarela
-            </a>
-          </div>
         </div>
       </section>
 
