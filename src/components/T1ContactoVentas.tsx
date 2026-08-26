@@ -60,19 +60,16 @@ export default function T1ContactoVentas() {
               Una solución a la medida de tu empresa
             </h1>
             <p className="font-inter text-[15px] font-light text-white/65 tablet:text-[16px]" style={{ lineHeight: 1.55, marginTop: 16, maxWidth: 400 }}>
-              Cuéntanos de tu operación y un experto arma un plan a la escala de tu negocio.
+              Déjanos tus datos y un especialista de T1 se comunica contigo para conocer tu negocio y armar juntos la solución ideal.
             </p>
 
-            <ul className="mt-8 flex flex-col gap-5" style={{ maxWidth: 420 }}>
+            <ul className="mt-8 flex flex-col gap-4" style={{ maxWidth: 420 }}>
               {VALUE_PROPS.map((v) => (
-                <li key={v.t} className="flex items-start gap-3">
-                  <span className="mt-0.5 flex h-[24px] w-[24px] shrink-0 items-center justify-center rounded-full bg-[rgba(219,59,43,0.14)]">
+                <li key={v.t} className="flex items-center gap-3">
+                  <span className="flex h-[24px] w-[24px] shrink-0 items-center justify-center rounded-full bg-[rgba(219,59,43,0.14)]">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                   </span>
-                  <span>
-                    <span className="block font-sora text-[15px] font-normal text-white">{v.t}</span>
-                    <span className="mt-0.5 block font-inter text-[13px] font-light leading-relaxed text-white/55">{v.d}</span>
-                  </span>
+                  <span className="font-sora text-[16px] font-normal text-white">{v.t}</span>
                 </li>
               ))}
             </ul>
