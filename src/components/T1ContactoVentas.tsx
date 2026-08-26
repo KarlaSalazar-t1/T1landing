@@ -81,8 +81,8 @@ export default function T1ContactoVentas() {
             </ul>
           </div>
 
-          {/* Right — form */}
-          <div className="rounded-[24px] border border-white/[0.10] bg-white/[0.03] p-6 tablet:p-8">
+          {/* Right — form (fondo sólido para que el degradado no distraiga) */}
+          <div className="rounded-[24px] border border-white/[0.08] bg-[#121013] p-6 tablet:p-8" style={{ boxShadow: "0 30px 80px -30px rgba(0,0,0,0.7)" }}>
             {sent ? (
               <div className="flex min-h-[420px] flex-col items-center justify-center text-center">
                 <div className="mb-4 flex h-[52px] w-[52px] items-center justify-center rounded-full bg-[#16A34A]">
