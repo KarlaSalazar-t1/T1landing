@@ -158,6 +158,10 @@ const FAQS = [
   { q: "¿Cuánto cobra T1 Pagos?", a: "Desde 3.5% + $1 MXN por transacción, o 4.5% + $1 con cobertura de reclamaciones incluida." },
   { q: "¿Cuándo recibo mi dinero?", a: "Con depósitos al día hábil siguiente, con opción de dispersión flexible según tu plan." },
   { q: "¿Cómo protegen contra el fraude?", a: "Con T1 Score analizamos cada transacción en tiempo real y ofrecemos seguro contra reclamaciones." },
+  { q: "¿Necesito integración técnica?", a: "No siempre. Cobra sin integrar con un link de pago, o conecta tu e-commerce con nuestra API REST." },
+  { q: "¿Cuánto tarda en verificarse mi cuenta?", a: "Entre 48 y 72 horas hábiles. Crear tu cuenta es gratis y toma unos minutos." },
+  { q: "¿Cuánto cuestan los meses sin intereses?", a: "Desde 2.7% por transacción, según el plazo que elijas (de 3 a 18 meses)." },
+  { q: "¿En qué países puedo cobrar?", a: "En 8 países de Latinoamérica: México, Colombia, Brasil, El Salvador, Guatemala, Nicaragua, Honduras y Costa Rica." },
 ];
 function FAQItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);

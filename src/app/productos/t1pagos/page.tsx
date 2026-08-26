@@ -7,6 +7,7 @@ import {
   T1PagosAdministracion,
   T1PagosFAQ,
 } from "@/components/T1PagosSecciones";
+import { T1PagosApi, T1PagosPrecios, T1PagosPaises, T1PagosPCI } from "@/components/T1PagosExtra";
 import T1FinalCTA from "@/components/T1FinalCTA";
 import T1Footer from "@/components/T1Footer";
 
@@ -27,7 +28,15 @@ export default function PagosLanding() {
         <T1PagosAprobacion />
         {/* 4 · Administra tus cobros */}
         <T1PagosAdministracion />
-        {/* 5 · FAQ */}
+        {/* 5 · Integra con la API (desarrolladores) */}
+        <T1PagosApi />
+        {/* 6 · Precios / comisiones */}
+        <T1PagosPrecios />
+        {/* 7 · 8 países LATAM */}
+        <T1PagosPaises />
+        {/* 8 · Certificación PCI DSS */}
+        <T1PagosPCI />
+        {/* 9 · FAQ */}
         <T1PagosFAQ />
       </div>
 
