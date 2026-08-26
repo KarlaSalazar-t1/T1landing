@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import T1Navbar from "@/components/T1Navbar";
-import T1Footer from "@/components/T1Footer";
 
 const HERO_BG =
   "radial-gradient(ellipse 86% 70% at 67% 32%, rgba(226,64,47,0.26) 0%, transparent 60%), radial-gradient(ellipse 60% 58% at 14% 22%, rgba(150,34,34,0.18) 0%, transparent 58%), radial-gradient(ellipse 50% 46% at 82% 84%, rgba(244,114,150,0.08) 0%, transparent 62%), radial-gradient(ellipse 60% 70% at -4% 88%, rgba(58,74,158,0.30) 0%, transparent 52%), radial-gradient(ellipse 42% 60% at 102% 10%, rgba(58,74,158,0.24) 0%, transparent 50%), linear-gradient(160deg, #2e1622 0%, #180b13 50%, #0d070b 100%)";
@@ -47,15 +45,18 @@ export default function T1ContactoVentas() {
   const [sent, setSent] = useState(false);
 
   return (
-    <main className="min-h-screen bg-black">
-      <T1Navbar />
+    <main className="relative min-h-screen bg-black">
+      {/* Cerrar / volver al inicio */}
+      <a href="/" aria-label="Cerrar" className="fixed right-5 top-5 z-30 flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-black/40 text-white/70 backdrop-blur transition-colors hover:border-white/35 hover:text-white">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>
+      </a>
 
-      <section className="relative px-5 pb-24 pt-[130px] tablet:px-10 tablet:pt-[150px]" style={{ background: HERO_BG }}>
+      <section className="relative px-5 pb-20 pt-20 tablet:px-10 tablet:pt-24" style={{ background: HERO_BG }}>
         <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 z-0" style={{ height: "26%", background: "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.5) 70%, #000 100%)" }} />
 
         <div className="relative z-10 mx-auto grid max-w-[var(--max-w)] grid-cols-1 gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.1fr)] lg:gap-16">
-          {/* Left — pitch (compacto). Se centra junto al formulario y hace scroll natural. */}
-          <div className="lg:self-center lg:pt-8">
+          {/* Left — pitch fijo; solo el formulario hace scroll. */}
+          <div className="lg:sticky lg:top-[48px] lg:self-start lg:pt-4">
             <h1 className="font-sora text-[28px] font-light text-white tablet:text-[38px]" style={{ letterSpacing: "-0.02em", lineHeight: 1.12, maxWidth: 420 }}>
               Una solución a la medida de tu empresa
             </h1>
@@ -123,8 +124,6 @@ export default function T1ContactoVentas() {
           </div>
         </div>
       </section>
-
-      <T1Footer />
     </main>
   );
 }

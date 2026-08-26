@@ -108,7 +108,7 @@ export default function T1TiendaPrecios() {
         <div className="mx-auto grid max-w-[1120px] grid-cols-1 items-stretch gap-4 tablet:grid-cols-2 lg:grid-cols-4 lg:gap-5">
           {PLANS.map((p) => {
             const price = annual ? p.annual : p.monthly;
-            const redBtn = p.featured || p.custom;
+            const redBtn = p.name !== "Gratuito";
             return (
               <div
                 key={p.name}
