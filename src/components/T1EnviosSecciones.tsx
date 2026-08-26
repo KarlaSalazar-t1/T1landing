@@ -137,7 +137,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
 }
 export function T1EnviosFAQ() {
   return (
-    <section className="bg-[#0e0d0d] px-5 py-[80px] tablet:px-6 tablet:py-[110px]">
+    <section className="bg-black px-5 py-[80px] tablet:px-6 tablet:py-[110px]">
       <div className="mx-auto max-w-[760px]">
         <h2 className="mb-8 text-center font-sora text-[28px] font-light text-white tablet:mb-12 tablet:text-[40px]" style={{ letterSpacing: "-0.03em" }}>
           Preguntas frecuentes

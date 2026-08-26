@@ -64,7 +64,7 @@ export default function T1TiendaCobraCard() {
           <span className="text-[12px] font-semibold text-white">{m.name}</span>
         </span>
       </div>
-      <div className="mt-3 w-full rounded-[12px] bg-black py-3 text-center text-[13px] font-semibold text-white">Pagar ahora</div>
+      <div className="mt-3 w-full rounded-[12px] bg-[#2F6BFF] py-3 text-center text-[13px] font-semibold text-white">Pagar ahora</div>
     </div>
   );
 }
