@@ -7,6 +7,7 @@ import {
   T1EnviosAdministracion,
   T1EnviosFAQ,
 } from "@/components/T1EnviosSecciones";
+import T1ProductMetrics from "@/components/T1ProductMetrics";
 import T1FinalCTA from "@/components/T1FinalCTA";
 import T1Footer from "@/components/T1Footer";
 
@@ -27,7 +28,15 @@ export default function EnviosLanding() {
         <T1EnviosCanales />
         {/* 4 · Administra tu operación */}
         <T1EnviosAdministracion />
-        {/* 5 · FAQ */}
+        {/* 5 · Métricas */}
+        <T1ProductMetrics
+          metrics={[
+            { end: 30, prefix: "+", suffix: "M", label: "envíos entregados" },
+            { end: 10, prefix: "+", label: "paqueterías conectadas" },
+            { end: 50000, prefix: "+", label: "negocios usando T1" },
+          ]}
+        />
+        {/* 6 · FAQ */}
         <T1EnviosFAQ />
       </div>
 

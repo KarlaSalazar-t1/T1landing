@@ -9,6 +9,7 @@ import {
   T1TiendaPagos,
   T1TiendaFAQ,
 } from "@/components/T1TiendaSecciones";
+import T1ProductMetrics from "@/components/T1ProductMetrics";
 import T1FinalCTA from "@/components/T1FinalCTA";
 import T1Footer from "@/components/T1Footer";
 
@@ -33,7 +34,15 @@ export default function TiendaLanding() {
         <T1TiendaAdministracion />
         {/* 5 · Pagos — cobra como quieras */}
         <T1TiendaPagos />
-        {/* 6 · FAQ */}
+        {/* 6 · Métricas */}
+        <T1ProductMetrics
+          metrics={[
+            { end: 50000, prefix: "+", label: "negocios usando T1" },
+            { end: 6000, prefix: "+", label: "tiendas creadas" },
+            { end: 200, prefix: "+", suffix: "M", label: "transacciones procesadas" },
+          ]}
+        />
+        {/* 7 · FAQ */}
         <T1TiendaFAQ />
       </div>
 

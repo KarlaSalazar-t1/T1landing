@@ -23,7 +23,7 @@ const CHANNEL_FLOAT = [
 ];
 export function T1EnviosCanales() {
   return (
-    <section className="relative overflow-hidden bg-[#0e0d0d] px-5 py-[90px] tablet:px-6 tablet:py-[130px]">
+    <section className="relative overflow-hidden bg-black px-5 py-[90px] tablet:px-6 tablet:py-[130px]">
       {CHANNEL_FLOAT.map((f, i) => {
         const logo = CHANNELS[i % CHANNELS.length];
         return (

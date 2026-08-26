@@ -98,10 +98,10 @@ export function T1TiendaMarketplaces() {
 
       <div className="relative mx-auto max-w-[620px] text-center">
         <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
-          Vende en todos tus canales sin duplicar trabajo
+          Un solo panel para todos tus marketplaces
         </h2>
         <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 500 }}>
-          Conecta los marketplaces donde ya vendes y gestiona catálogo, inventario y pedidos desde un solo panel.
+          Conecta los marketplaces donde ya vendes y gestiona catálogo, inventario y pedidos sin duplicar trabajo.
         </p>
         {/* logos en fila — móvil */}
         <div className="mb-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-4 tablet:hidden">
@@ -154,11 +154,11 @@ export function T1TiendaAdministracion() {
           <div className="flex flex-col gap-5">
             <div ref={ref} className="-mr-5 flex gap-5 overflow-x-auto pb-2 pr-5 tablet:mr-0 tablet:pr-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {ADMIN_CARDS.map((s) => (
-                <div key={s.title} data-card className="flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-white/[0.08] bg-[#1A1A1D] p-6">
+                <div key={s.title} data-card className="flex w-[240px] shrink-0 snap-start flex-col rounded-[20px] border border-white/[0.08] bg-[#1A1A1D] p-5">
                   <h3 className="font-sora text-[19px] font-normal text-white" style={{ marginBottom: 8 }}>{s.title}</h3>
-                  <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.55, marginBottom: 20, minHeight: 63 }}>{s.desc}</p>
+                  <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.5, marginBottom: 16, minHeight: 60 }}>{s.desc}</p>
                   <div className="mt-auto overflow-hidden rounded-[14px]">
-                    <Image src={s.img} alt={s.title} width={s.w} height={s.h} className="block h-[185px] w-full object-cover object-top" sizes="270px" />
+                    <Image src={s.img} alt={s.title} width={s.w} height={s.h} className="block h-auto w-full" sizes="240px" />
                   </div>
                 </div>
               ))}
