@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
+import T1TiendaCobraCard from "@/components/T1TiendaCobraCard";
 
 /* ══════════ 1 · Tu tienda con pagos y envíos integrados ══════════ */
 export function T1TiendaIncluido() {
@@ -37,7 +38,7 @@ export function T1TiendaIncluido() {
             <a key={it.title} href={it.href} className="group flex flex-col rounded-[18px] border border-white/[0.08] bg-[#1A1A1D] p-7 no-underline transition-colors hover:border-white/20">
               <h3 className="font-sora text-[22px] font-normal text-white" style={{ letterSpacing: "-0.02em" }}>{it.title}</h3>
               <p className="mt-2.5 font-inter text-[15px] font-light leading-relaxed text-white/60 tablet:text-[16px]">{it.desc}</p>
-              <div className="mt-6 flex items-center gap-3">
+              <div className="mt-auto flex items-center gap-3 pt-6">
                 {it.type === "card"
                   ? it.icons.map((src) => (
                       <Image key={src} src={src} alt="" width={80} height={52} className="h-[30px] w-auto shrink-0 object-contain" />
@@ -121,9 +122,9 @@ export function T1TiendaMarketplaces() {
 const ADMIN_CARDS = [
   { title: "Catálogo con IA", desc: "Sube una foto y la IA genera título, descripción, categoría y atributos al instante.", img: "/img/admin-catalogo.png", w: 1248, h: 1024 },
   { title: "Inventario centralizado", desc: "Controla inventario, precios y variantes; se sincroniza en todos tus canales en tiempo real.", img: "/img/tienda-inventario.png", w: 1254, h: 1254 },
-  { title: "Reportes en vivo", desc: "Ventas, tráfico y rendimiento en tiempo real para decidir con datos.", img: "/img/graficas-reportes.png", w: 1190, h: 1322 },
-  { title: "Clientes", desc: "Conoce a tus clientes, su historial de compras y segméntalos para vender más.", img: "/img/admin-historico.png", w: 1248, h: 1024 },
-  { title: "Multi-sucursales", desc: "Gestiona varias sucursales o almacenes con inventario y ventas por ubicación.", img: "/img/pos-dispositivos.png", w: 1248, h: 1024 },
+  { title: "Reportes en vivo", desc: "Ventas, tráfico y rendimiento en tiempo real para decidir con datos.", img: "/img/tienda-reportes.png", w: 1254, h: 1254 },
+  { title: "Clientes", desc: "Conoce a tus clientes, su historial de compras y segméntalos para vender más.", img: "/img/tienda-clientes.png", w: 1254, h: 1254 },
+  { title: "Multi-sucursales", desc: "Gestiona varias sucursales o almacenes con inventario y ventas por ubicación.", img: "/img/tienda-sucursales.png", w: 1536, h: 1024 },
 ];
 export function T1TiendaAdministracion() {
   const ref = useRef<HTMLDivElement>(null);
@@ -203,8 +204,8 @@ export function T1TiendaPagos() {
               <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </a>
           </div>
-          <div className="overflow-hidden rounded-[20px]">
-            <Image src="/img/dashboard-pagos.png" alt="Panel de pagos T1" width={1440} height={1080} className="block h-auto w-full" sizes="(max-width: 768px) 92vw, 560px" />
+          <div className="flex justify-center tablet:justify-end">
+            <T1TiendaCobraCard />
           </div>
         </div>
       </div>

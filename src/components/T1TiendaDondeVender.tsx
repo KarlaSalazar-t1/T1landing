@@ -14,6 +14,7 @@ const ITEMS = [
     cta: "Conoce más",
     ctaHref: "/productos/t1tienda/tienda-con-ia",
     image: "/img/incluye-responsive-v2.png",
+    fit: "contain" as const,
   },
   {
     id: "market",
@@ -21,7 +22,8 @@ const ITEMS = [
     description: "Publica y vende en Mercado Libre, Amazon, TikTok Shop y más desde un solo panel.",
     cta: "Conoce más",
     ctaHref: "/productos/t1tienda/marketplaces",
-    image: "/img/importa.png",
+    image: "/img/tienda-marketplace.png",
+    fit: "contain" as const,
   },
   {
     id: "pos",
@@ -29,7 +31,7 @@ const ITEMS = [
     description: "Vende en tu tienda física con un POS integrado a inventario, pagos y envíos.",
     cta: "Conoce más",
     ctaHref: "/productos/t1tienda/punto-de-venta",
-    image: "/img/pos-dispositivos.png",
+    image: "/img/tienda-pos.png",
     fit: "contain" as const,
   },
 ];

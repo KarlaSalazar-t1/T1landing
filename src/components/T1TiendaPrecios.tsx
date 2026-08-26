@@ -180,8 +180,8 @@ export default function T1TiendaPrecios() {
                   <th className="sticky left-0 z-[1] bg-[#0e0d0d] pb-4 pr-4" />
                   {PLANS.map((p) => (
                     <th key={p.name} className="px-3 pb-4 text-center">
+                      {p.featured && <span className="mx-auto mb-1.5 block w-fit rounded-full bg-[#DB3B2B] px-2.5 py-1 font-inter text-[10px] font-bold text-white">Recomendado</span>}
                       <span className="font-sora text-[16px] font-medium text-white">{p.name}</span>
-                      {p.featured && <span className="mx-auto mt-1.5 inline-block rounded-full bg-[#DB3B2B] px-2.5 py-1 font-inter text-[10px] font-bold text-white">Recomendado</span>}
                     </th>
                   ))}
                 </tr>
