@@ -64,7 +64,7 @@ const COMPARE: { label: string; v: (boolean | string)[] }[] = [
 ];
 
 function Cell({ val }: { val: boolean | string }) {
-  if (val === true) return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="mx-auto"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>;
+  if (val === true) return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="mx-auto"><path d="M5 12L10 17L19 7" stroke="#22C55E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>;
   if (val === false) return <span className="text-white/25">—</span>;
   return <span className="font-inter text-[13px] text-white/80">{val}</span>;
 }
@@ -90,22 +90,15 @@ export default function T1TiendaPrecios() {
           </p>
 
           {/* Toggle mensual/anual + chip verde */}
-          <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-9 flex justify-center">
             <div className="inline-flex items-center gap-1 rounded-full border border-white/12 bg-white/[0.05] p-1">
-              {([["Mensual", false], ["Anual", true]] as const).map(([label, val]) => (
-                <button
-                  key={label}
-                  type="button"
-                  onClick={() => setAnnual(val)}
-                  className={`rounded-full px-5 py-2 font-inter text-[14px] font-semibold transition-colors ${annual === val ? "bg-white text-black" : "text-white/70 hover:text-white"}`}
-                >
-                  {label}
-                </button>
-              ))}
+              <button type="button" onClick={() => setAnnual(false)} className={`rounded-full px-5 py-2 font-inter text-[14px] font-semibold transition-colors ${!annual ? "bg-white text-black" : "text-white/70 hover:text-white"}`}>
+                Mensual
+              </button>
+              <button type="button" onClick={() => setAnnual(true)} className={`rounded-full px-5 py-2 font-inter text-[14px] font-semibold transition-colors ${annual ? "bg-white text-black" : "text-white/70 hover:text-white"}`}>
+                Anual <span className={annual ? "text-[#16A34A]" : "text-[#22C55E]"}>· 2 meses gratis</span>
+              </button>
             </div>
-            <span className="rounded-full bg-[rgba(34,197,94,0.15)] px-3 py-1.5 font-inter text-[12px] font-semibold text-[#22C55E]">
-              Anual · 2 meses gratis
-            </span>
           </div>
         </div>
       </section>
@@ -150,7 +143,7 @@ export default function T1TiendaPrecios() {
                 <ul className="mt-3 flex flex-col gap-2.5">
                   {p.features.map((f) => (
                     <li key={f} className="flex items-start gap-2.5 font-inter text-[13.5px] font-light text-white/75">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="mt-0.5 shrink-0"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="mt-0.5 shrink-0"><path d="M5 12L10 17L19 7" stroke="#22C55E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                       {f}
                     </li>
                   ))}
@@ -187,7 +180,8 @@ export default function T1TiendaPrecios() {
                   <th className="sticky left-0 z-[1] bg-[#0e0d0d] pb-4 pr-4" />
                   {PLANS.map((p) => (
                     <th key={p.name} className="px-3 pb-4 text-center">
-                      <span className={`font-sora text-[16px] font-medium ${p.featured ? "text-[#FF7060]" : "text-white"}`}>{p.name}</span>
+                      <span className="font-sora text-[16px] font-medium text-white">{p.name}</span>
+                      {p.featured && <span className="mt-1 block font-inter text-[10px] font-semibold uppercase tracking-wide text-[#22C55E]">Recomendado</span>}
                     </th>
                   ))}
                 </tr>
