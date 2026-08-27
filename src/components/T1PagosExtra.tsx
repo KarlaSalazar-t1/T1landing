@@ -1,60 +1,50 @@
 import { SIGNUP_URL } from "@/lib/constants";
 
-const Arrow = (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-);
-
-/* ══════════ API / desarrolladores ══════════ */
-export function T1PagosApi() {
+/* ══════════ ¿Por qué elegir T1 Pagos? ══════════ */
+const REASONS = [
+  {
+    title: "Aprobación más alta",
+    desc: "Cierra más ventas con una tasa de aprobación de +90%, por encima del promedio del mercado.",
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 15l4.5-4.5 3 3L20 6" stroke="#DB3B2B" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /><path d="M15 6h5v5" stroke="#DB3B2B" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+    ),
+  },
+  {
+    title: "Antifraude personalizado",
+    desc: "Protege cada transacción con un antifraude adaptado a tu negocio con T1 Score.",
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2.5l7 3v6c0 4.5-3 7.8-7 9.5-4-1.7-7-5-7-9.5v-6l7-3z" stroke="#DB3B2B" strokeWidth="1.6" strokeLinejoin="round" /><path d="M8.5 12l2.3 2.3 4.7-4.6" stroke="#DB3B2B" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+    ),
+  },
+  {
+    title: "Seguro contra reclamaciones",
+    desc: "Cobertura total que elimina las pérdidas por fraude y reclamaciones en tus cobros.",
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4-2.7 7.4-7 9-4.3-1.6-7-5-7-9V6l7-3z" stroke="#DB3B2B" strokeWidth="1.6" strokeLinejoin="round" /><path d="M12 8v5m0 3h.01" stroke="#DB3B2B" strokeWidth="1.8" strokeLinecap="round" /></svg>
+    ),
+  },
+];
+export function T1PagosPorQue() {
   return (
-    <section className="overflow-hidden bg-[#0e0d0d] px-5 py-[90px] tablet:px-6 tablet:py-[128px]">
+    <section className="bg-[#0e0d0d] px-5 py-[90px] tablet:px-6 tablet:py-[128px]">
       <div className="mx-auto max-w-[var(--max-w)]">
-        <div className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
-          <div>
-            <span className="font-inter text-[13px] font-semibold uppercase tracking-[0.08em] text-[#DB3B2B]">Para desarrolladores</span>
-            <h2 className="mt-3 font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 16, maxWidth: 440 }}>
-              Integra pagos con nuestra API
-            </h2>
-            <p className="font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 24, maxWidth: 440 }}>
-              API REST orientada a recursos, con respuestas estandarizadas y webhooks. Conecta tu e-commerce en horas, no semanas.
-            </p>
-            <ul className="mb-8 flex flex-col gap-3">
-              {["API REST con documentación clara", "Webhooks para eventos en tiempo real", "Entornos de prueba y producción", "Certificación PCI DSS de extremo a extremo"].map((it) => (
-                <li key={it} className="flex items-start gap-3 font-inter text-[15px] text-white/75 tablet:text-[16px]">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="mt-0.5 shrink-0"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                  {it}
-                </li>
-              ))}
-            </ul>
-            <a href={SIGNUP_URL} className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]">
-              Comienza gratis
-              {Arrow}
-            </a>
-          </div>
+        <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 48 }}>
+          <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
+            ¿Por qué elegir T1 Pagos?
+          </h2>
+          <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, maxWidth: 560 }}>
+            Tecnología, seguridad y soporte diseñados para maximizar tus cobros y proteger cada transacción.
+          </p>
+        </div>
 
-          {/* Code snippet mock */}
-          <div className="overflow-hidden rounded-[18px] border border-white/[0.08] bg-[#141216]">
-            <div className="flex items-center gap-1.5 border-b border-white/[0.06] px-5 py-3.5">
-              <span className="h-[10px] w-[10px] rounded-full bg-white/15" />
-              <span className="h-[10px] w-[10px] rounded-full bg-white/15" />
-              <span className="h-[10px] w-[10px] rounded-full bg-white/15" />
-              <span className="ml-2 font-inter text-[12px] text-white/40">POST /v1/charges</span>
+        <div className="mx-auto grid max-w-[980px] grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
+          {REASONS.map((r) => (
+            <div key={r.title} className="flex flex-col rounded-[18px] border border-white/[0.08] bg-[#141215] p-7">
+              <span className="mb-5 flex h-[48px] w-[48px] items-center justify-center rounded-[14px] border border-white/[0.08] bg-[rgba(219,59,43,0.08)]">{r.icon}</span>
+              <h3 className="font-sora text-[19px] font-normal text-white" style={{ marginBottom: 8 }}>{r.title}</h3>
+              <p className="font-inter text-[14px] font-light text-white/60 tablet:text-[15px]" style={{ lineHeight: 1.6 }}>{r.desc}</p>
             </div>
-            <pre className="overflow-x-auto px-5 py-5 font-mono text-[12.5px] leading-[1.7] text-white/80 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              <code>{`curl https://api.t1.com/v1/charges \\
-  -H "Authorization: Bearer sk_live_..." \\
-  -d amount=245000 \\
-  -d currency=mxn \\
-  -d payment_method=card
-
-{
-  "id": "ch_9f2a...",
-  "status": `}<span className="text-[#22C55E]">{`"approved"`}</span>{`,
-  "amount": 245000,
-  "currency": "mxn"
-}`}</code>
-            </pre>
-          </div>
+          ))}
         </div>
       </div>
     </section>

@@ -7,6 +7,7 @@ import {
   T1EnviosAdministracion,
   T1EnviosFAQ,
 } from "@/components/T1EnviosSecciones";
+import { T1EnviosRecarga, T1EnviosIncidencias } from "@/components/T1EnviosExtra";
 import T1ProductMetrics from "@/components/T1ProductMetrics";
 import T1FinalCTA from "@/components/T1FinalCTA";
 import T1Footer from "@/components/T1Footer";
@@ -32,11 +33,15 @@ export default function EnviosLanding() {
             { end: 50000, prefix: "+", label: "negocios usando T1" },
           ]}
         />
-        {/* 3 · Conecta tus canales de venta */}
+        {/* 3 · Recarga — saldo prepago */}
+        <T1EnviosRecarga />
+        {/* 4 · Conecta tus canales de venta */}
         <T1EnviosCanales />
-        {/* 4 · Administra tu operación */}
+        {/* 5 · Administra tu operación */}
         <T1EnviosAdministracion />
-        {/* 5 · FAQ */}
+        {/* 6 · Incidencias — resuélvelas antes que tu cliente */}
+        <T1EnviosIncidencias />
+        {/* 7 · FAQ */}
         <T1EnviosFAQ />
       </div>
 

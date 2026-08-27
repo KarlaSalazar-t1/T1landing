@@ -7,7 +7,7 @@ import {
   T1PagosAdministracion,
   T1PagosFAQ,
 } from "@/components/T1PagosSecciones";
-import { T1PagosApi, T1PagosPrecios, T1PagosPaises, T1PagosPCI } from "@/components/T1PagosExtra";
+import { T1PagosPorQue, T1PagosPrecios, T1PagosPaises, T1PagosPCI } from "@/components/T1PagosExtra";
 import T1ProductMetrics from "@/components/T1ProductMetrics";
 import T1FinalCTA from "@/components/T1FinalCTA";
 import T1Footer from "@/components/T1Footer";
@@ -23,11 +23,19 @@ export default function PagosLanding() {
       <div className="relative z-[5] bg-black">
         {/* 1 · Acepta todos los métodos de pago */}
         <T1PagosMetodos />
-        {/* 2 · Una plataforma, cero complicaciones (pilares) */}
+        {/* 2 · ¿Por qué elegir T1 Pagos? (panel claro) */}
+        <T1PagosPorQue />
+        {/* 3 · Una plataforma, cero complicaciones (pilares) */}
         <T1PagosPilares />
-        {/* 3 · Aprueba más, protege cada venta (antifraude) */}
+        {/* 4 · Aprueba más, protege cada venta (antifraude) */}
         <T1PagosAprobacion />
-        {/* Métricas — prueba social */}
+        {/* 5 · Administra tus cobros */}
+        <T1PagosAdministracion />
+        {/* 6 · Precios / comisiones */}
+        <T1PagosPrecios />
+        {/* 7 · 8 países LATAM */}
+        <T1PagosPaises />
+        {/* 8 · Métricas — junto a países */}
         <T1ProductMetrics
           metrics={[
             { end: 200, prefix: "+", suffix: "M", label: "transacciones procesadas" },
@@ -35,17 +43,9 @@ export default function PagosLanding() {
             { end: 8, label: "países en Latinoamérica" },
           ]}
         />
-        {/* 4 · Administra tus cobros */}
-        <T1PagosAdministracion />
-        {/* 5 · Integra con la API (desarrolladores) */}
-        <T1PagosApi />
-        {/* 6 · Precios / comisiones */}
-        <T1PagosPrecios />
-        {/* 7 · 8 países LATAM */}
-        <T1PagosPaises />
-        {/* 8 · Certificación PCI DSS */}
+        {/* 9 · Certificación PCI DSS */}
         <T1PagosPCI />
-        {/* 9 · FAQ */}
+        {/* 10 · FAQ */}
         <T1PagosFAQ />
       </div>
 
