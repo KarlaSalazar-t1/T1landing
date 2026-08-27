@@ -6,21 +6,21 @@ const REASONS = [
     title: "Aprobación más alta",
     desc: "Cierra más ventas con una tasa de aprobación de +90%, por encima del promedio del mercado.",
     icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 15l4.5-4.5 3 3L20 6" stroke="#DB3B2B" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /><path d="M15 6h5v5" stroke="#DB3B2B" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 15l4.5-4.5 3 3L20 6" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /><path d="M15 6h5v5" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
     ),
   },
   {
     title: "Antifraude personalizado",
     desc: "Protege cada transacción con un antifraude adaptado a tu negocio con T1 Score.",
     icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2.5l7 3v6c0 4.5-3 7.8-7 9.5-4-1.7-7-5-7-9.5v-6l7-3z" stroke="#DB3B2B" strokeWidth="1.6" strokeLinejoin="round" /><path d="M8.5 12l2.3 2.3 4.7-4.6" stroke="#DB3B2B" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 2.5l7 3v6c0 4.5-3 7.8-7 9.5-4-1.7-7-5-7-9.5v-6l7-3z" stroke="#FFFFFF" strokeWidth="1.6" strokeLinejoin="round" /><path d="M8.5 12l2.3 2.3 4.7-4.6" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
     ),
   },
   {
     title: "Seguro contra reclamaciones",
     desc: "Cobertura total que elimina las pérdidas por fraude y reclamaciones en tus cobros.",
     icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4-2.7 7.4-7 9-4.3-1.6-7-5-7-9V6l7-3z" stroke="#DB3B2B" strokeWidth="1.6" strokeLinejoin="round" /><path d="M12 8v5m0 3h.01" stroke="#DB3B2B" strokeWidth="1.8" strokeLinecap="round" /></svg>
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4-2.7 7.4-7 9-4.3-1.6-7-5-7-9V6l7-3z" stroke="#FFFFFF" strokeWidth="1.6" strokeLinejoin="round" /><path d="M12 8v5m0 3h.01" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" /></svg>
     ),
   },
 ];
@@ -40,7 +40,7 @@ export function T1PagosPorQue() {
         <div className="mx-auto grid max-w-[980px] grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
           {REASONS.map((r) => (
             <div key={r.title} className="flex flex-col rounded-[18px] border border-white/[0.08] bg-[#141215] p-7">
-              <span className="mb-5 flex h-[48px] w-[48px] items-center justify-center rounded-[14px] border border-white/[0.08] bg-[rgba(219,59,43,0.08)]">{r.icon}</span>
+              <span className="mb-5 inline-flex">{r.icon}</span>
               <h3 className="font-sora text-[19px] font-normal text-white" style={{ marginBottom: 8 }}>{r.title}</h3>
               <p className="font-inter text-[14px] font-light text-white/60 tablet:text-[15px]" style={{ lineHeight: 1.6 }}>{r.desc}</p>
             </div>
@@ -58,7 +58,7 @@ const PRICING = [
 ];
 export function T1PagosPrecios() {
   return (
-    <section className="bg-black px-5 py-[90px] tablet:px-6 tablet:py-[128px]">
+    <section className="bg-black px-5 pt-[40px] pb-[90px] tablet:px-6 tablet:pt-[48px] tablet:pb-[128px]">
       <div className="mx-auto max-w-[var(--max-w)]">
         <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 48 }}>
           <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>

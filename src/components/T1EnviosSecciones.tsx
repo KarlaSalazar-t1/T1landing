@@ -52,10 +52,10 @@ export function T1EnviosCanales() {
 
 /* ══════════ 3 · Administra tu operación (carrusel) ══════════ */
 const ADMIN_CARDS = [
-  { title: "Reportes logísticos", desc: "Tiempos de entrega, costos y desempeño por paquetería en tiempo real.", img: "/img/graficas-reportes.png", w: 1190, h: 1322, href: "/productos/t1envios/reportes" },
-  { title: "Control de calidad", desc: "Detecta y gestiona incidencias antes que tu cliente, desde un solo panel.", img: "/img/incidencias.png", w: 1248, h: 1024, href: "/productos/t1envios/control-calidad" },
-  { title: "Reglas de envío", desc: "Asigna automáticamente la paquetería ideal según reglas que tú defines.", img: "/img/reglas-link.png", w: 1269, h: 1240, href: "/productos/t1envios/reglas" },
-  { title: "Recolecciones", desc: "Programa que pasen por tus paquetes a tu puerta, sin ir a la sucursal.", img: "/img/rastreo-v2.png", w: 1190, h: 1322, href: "/productos/t1envios/recolecciones" },
+  { title: "Reportes logísticos", desc: "Tiempos de entrega, costos y desempeño por paquetería en tiempo real.", img: "/img/envios-reportes.png", w: 1254, h: 1254, href: "/productos/t1envios/reportes" },
+  { title: "Control de calidad", desc: "Detecta y gestiona incidencias antes que tu cliente, desde un solo panel.", img: "/img/envios-calidad.png", w: 1254, h: 1254, href: "/productos/t1envios/control-calidad" },
+  { title: "Reglas de envío", desc: "Asigna automáticamente la paquetería ideal según reglas que tú defines.", img: "/img/envios-reglas.png", w: 1254, h: 1254, href: "/productos/t1envios/reglas" },
+  { title: "Recolecciones", desc: "Programa que pasen por tus paquetes a tu puerta, sin ir a la sucursal.", img: "/img/envios-recolecciones.png", w: 1254, h: 1254, href: "/productos/t1envios/recolecciones" },
 ];
 export function T1EnviosAdministracion() {
   const ref = useRef<HTMLDivElement>(null);
@@ -88,8 +88,8 @@ export function T1EnviosAdministracion() {
                 <a key={s.title} href={s.href} data-card className="flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-white/[0.08] bg-[#1A1A1D] p-6 no-underline transition-colors hover:border-white/20">
                   <h3 className="font-sora text-[19px] font-normal text-white" style={{ marginBottom: 8 }}>{s.title}</h3>
                   <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.55, marginBottom: 20, minHeight: 63 }}>{s.desc}</p>
-                  <div className="mt-auto overflow-hidden rounded-[14px]">
-                    <Image src={s.img} alt={s.title} width={s.w} height={s.h} className="block h-[240px] w-full object-cover object-top" sizes="270px" />
+                  <div className="mt-auto flex h-[210px] items-center justify-center overflow-hidden rounded-[14px]">
+                    <Image src={s.img} alt={s.title} width={s.w} height={s.h} className="h-full w-full object-contain" sizes="270px" />
                   </div>
                 </a>
               ))}

@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
 
 const Check = (
@@ -8,8 +11,15 @@ const ArrowLink = (
   <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
 );
 
+const SALDOS = ["$2,450.00", "$4,820.00", "$6,150.00", "$3,900.00"];
+
 /* ══════════ Recarga — saldo prepago ══════════ */
 export function T1EnviosRecarga() {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setI((v) => (v + 1) % SALDOS.length), 2200);
+    return () => clearInterval(t);
+  }, []);
   return (
     <section className="overflow-hidden bg-[#0e0d0d] px-5 py-[90px] tablet:px-6 tablet:py-[128px]">
       <div className="mx-auto max-w-[var(--max-w)]">
@@ -39,7 +49,10 @@ export function T1EnviosRecarga() {
           <div className="flex justify-center tablet:justify-end">
             <div className="w-full max-w-[360px] rounded-[20px] border border-white/[0.10] bg-[#151318] p-6" style={{ boxShadow: "0 24px 60px -30px rgba(0,0,0,0.7)" }}>
               <p className="font-inter text-[13px] font-medium text-white/50">Saldo disponible</p>
-              <p className="mt-1 font-sora text-[36px] font-light text-white" style={{ letterSpacing: "-0.02em" }}>$4,820.00<span className="ml-1 text-[15px] text-white/40">MXN</span></p>
+              <p className="mt-1 font-sora text-[36px] font-light text-white" style={{ letterSpacing: "-0.02em" }}>
+                <span key={i} className="inline-block" style={{ animation: "fadeSlideIn 0.4s ease-out" }}>{SALDOS[i]}</span>
+                <span className="ml-1 text-[15px] text-white/40">MXN</span>
+              </p>
 
               <div className="mt-5 flex items-center justify-between rounded-[12px] border border-white/[0.08] bg-white/[0.03] px-4 py-3">
                 <span className="font-inter text-[14px] text-white/75">Recarga automática</span>
@@ -49,11 +62,16 @@ export function T1EnviosRecarga() {
               </div>
 
               <div className="mt-3 flex items-center gap-2">
-                <span className="flex h-9 flex-1 items-center justify-center rounded-[10px] border border-white/[0.08] bg-white/[0.03] font-inter text-[13px] text-white/70">Tarjeta</span>
-                <span className="flex h-9 flex-1 items-center justify-center rounded-[10px] border border-white/[0.08] bg-white/[0.03] font-inter text-[13px] text-white/70">SPEI</span>
+                <span className="flex h-11 flex-1 items-center justify-center gap-1.5 rounded-[10px] border border-white/[0.08] bg-white/[0.04]">
+                  <Image src="/img/icons/visa-card.svg" alt="Visa" width={40} height={26} className="h-[22px] w-auto object-contain" />
+                  <Image src="/img/icons/mc-card.svg" alt="Mastercard" width={40} height={26} className="h-[22px] w-auto object-contain" />
+                </span>
+                <span className="flex h-11 flex-1 items-center justify-center rounded-[10px] border border-white/[0.08] bg-white/[0.04]">
+                  <Image src="/img/icons/spei-card.svg" alt="SPEI" width={54} height={26} className="h-[22px] w-auto object-contain" />
+                </span>
               </div>
 
-              <div className="mt-4 flex h-[46px] w-full items-center justify-center rounded-[12px] bg-[#DB3B2B] font-inter text-[14px] font-semibold text-white">
+              <div className="mt-4 flex h-[46px] w-full items-center justify-center rounded-[12px] bg-white font-inter text-[14px] font-semibold text-[#151318]">
                 Recargar saldo
               </div>
             </div>

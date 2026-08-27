@@ -1,4 +1,7 @@
+import Image from "next/image";
 import { SIGNUP_URL } from "@/lib/constants";
+
+const CARRIER_LOGOS = ["/img/circles/dhl.svg", "/img/circles/fedex.svg", "/img/circles/ups.svg", "/img/circles/ampm.svg", "/img/circles/99.svg"];
 
 /* Sample shipping rates — reference prices for 1 kg, standard service.
    Replace the numbers with T1's real published rates. */
@@ -26,6 +29,16 @@ export default function T1EnviosTarifas() {
           <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:whitespace-nowrap tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
             Tarifas preferenciales de +10 paqueterías, sin volumen mínimo ni contratos.
           </p>
+
+          {/* Logos de paqueterías */}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4 tablet:gap-6">
+            {CARRIER_LOGOS.map((src) => (
+              <span key={src} className="flex h-[42px] w-[42px] items-center justify-center overflow-hidden rounded-full">
+                <Image src={src} alt="" width={64} height={64} className="h-full w-full object-cover" style={{ filter: "drop-shadow(0 3px 6px rgba(0,0,0,0.4))" }} />
+              </span>
+            ))}
+            <span className="flex h-[42px] items-center rounded-full border border-white/20 px-3 font-inter text-[13px] font-semibold text-white/70">+5</span>
+          </div>
         </div>
 
         <div className="mx-auto grid max-w-[1040px] grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">

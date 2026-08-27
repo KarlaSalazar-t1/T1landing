@@ -92,11 +92,12 @@ export function T1PagosAprobacion() {
 
 /* ══════════ 3 · Administra tus cobros (carrusel) ══════════ */
 const ADMIN_CARDS = [
-  { title: "Panel de pagos", desc: "Visualiza y filtra todas tus transacciones, con reportes y conciliación automática.", img: "/img/dashboard-pagos.png", w: 1440, h: 1080, href: "/productos/t1pagos/pagos-en-linea" },
-  { title: "Reclamaciones", desc: "Gestiona reclamaciones con evidencia y monitorea tu tasa de reclamaciones en un panel.", img: "/img/metricas-contracargos.png", w: 1248, h: 1024, href: "/productos/t1pagos/reclamaciones" },
-  { title: "Dinero al día siguiente", desc: "Recibe tus depósitos al día hábil siguiente, con dispersión flexible.", img: "/img/dinero-dia-siguiente.png", w: 1269, h: 1240, href: "/productos/t1pagos/pagos-en-linea" },
+  { title: "Panel de pagos", desc: "Visualiza y filtra todas tus transacciones, con reportes y conciliación automática.", img: "/img/pagos-panel.png", w: 1254, h: 1254, href: "/productos/t1pagos/pagos-en-linea" },
+  { title: "Reclamaciones", desc: "Gestiona reclamaciones con evidencia y monitorea tu tasa de reclamaciones en un panel.", img: "/img/pagos-contracargos.png", w: 1536, h: 1024, href: "/productos/t1pagos/reclamaciones" },
+  { title: "Dinero al día siguiente", desc: "Recibe tus depósitos al día hábil siguiente, con dispersión flexible.", img: "/img/pagos-dinero.png", w: 1536, h: 1024, href: "/productos/t1pagos/pagos-en-linea" },
   { title: "Enrutamiento", desc: "Optimiza la aprobación enrutando cada transacción por el flujo con mayor aprobación.", img: "/img/reglas-link.png", w: 1190, h: 1322, href: "/productos/t1pagos/enrutamiento" },
 ];
+/* padding inferior reducido para acercar la sección de Precios */
 export function T1PagosAdministracion() {
   const ref = useRef<HTMLDivElement>(null);
   const scrollBy = (dir: 1 | -1) => {
@@ -107,7 +108,7 @@ export function T1PagosAdministracion() {
     el.scrollBy({ left: dir * step, behavior: "smooth" });
   };
   return (
-    <section className="overflow-hidden bg-black px-5 py-[90px] tablet:px-6 tablet:py-[128px]">
+    <section className="overflow-hidden bg-black px-5 pt-[90px] pb-[64px] tablet:px-6 tablet:pt-[128px] tablet:pb-[72px]">
       <div className="mx-auto max-w-[var(--max-w)]">
         <div className="grid grid-cols-1 gap-10 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.35fr)] tablet:items-center tablet:gap-14">
           <div>
@@ -128,8 +129,8 @@ export function T1PagosAdministracion() {
                 <a key={s.title} href={s.href} data-card className="flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-white/[0.08] bg-[#1A1A1D] p-6 no-underline transition-colors hover:border-white/20">
                   <h3 className="font-sora text-[19px] font-normal text-white" style={{ marginBottom: 8 }}>{s.title}</h3>
                   <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.55, marginBottom: 20, minHeight: 63 }}>{s.desc}</p>
-                  <div className="mt-auto overflow-hidden rounded-[14px]">
-                    <Image src={s.img} alt={s.title} width={s.w} height={s.h} className="block h-[240px] w-full object-cover object-top" sizes="270px" />
+                  <div className="mt-auto flex h-[210px] items-center justify-center overflow-hidden rounded-[14px]">
+                    <Image src={s.img} alt={s.title} width={s.w} height={s.h} className="h-full w-full object-contain" sizes="270px" />
                   </div>
                 </a>
               ))}
