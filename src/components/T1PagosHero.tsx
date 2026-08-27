@@ -52,7 +52,7 @@ export default function T1PagosHero() {
               Crea un link de pago y cobra por WhatsApp, redes o donde vendas.
             </p>
 
-            <div className="flex w-full flex-col gap-3.5">
+            <div className="mx-auto flex w-full flex-col gap-3.5 tablet:max-w-[440px]">
               {/* Monto grande */}
               <div className="flex items-baseline justify-center gap-1.5 py-1">
                 <span className="font-sora text-[28px] font-light text-white/45">$</span>

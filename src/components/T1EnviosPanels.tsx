@@ -15,27 +15,14 @@ function PhoneShell({ children, flat = false }: { children: React.ReactNode; fla
 /* ── Cotizador (versión móvil simplificada del panel de multipaquetería) ── */
 export function CotizadorPanel() {
   const BR = "#C0453A";
-  const FILTERS = ["Paquetería", "Tipo de servicio", "Ventajas"];
   const OPTIONS = [
     { brand: "fedex", name: "FedEx", sub: "Servicio express", eta: "2 días hábiles", etaSub: "Mié · 24 ene", price: "$143.00", highlight: true },
     { brand: "dhl", name: "DHL", sub: "Estándar", eta: "3 días hábiles", etaSub: "Jue · 25 ene", price: "$128.00", highlight: false },
   ];
-  const Chevron = () => (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" className="shrink-0"><path d="M6 9l6 6 6-6" stroke="rgba(0,0,0,0.5)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-  );
   return (
     <PhoneShell>
-      <div className="flex flex-wrap gap-1.5" style={{ marginBottom: 2 }}>
-        {FILTERS.map((f) => (
-          <span key={f} className="flex items-center gap-1 rounded-full border px-2.5 py-1.5 text-[10.5px] font-medium text-black/75" style={{ borderColor: "rgba(0,0,0,0.14)" }}>
-            {f}
-            <Chevron />
-          </span>
-        ))}
-      </div>
-
       {OPTIONS.map((o, i) => (
-        <div key={i} className="relative overflow-hidden" style={{ borderTop: "1px solid rgba(0,0,0,0.08)", paddingTop: 12, paddingBottom: 12 }}>
+        <div key={i} className="relative overflow-hidden" style={{ borderTop: i === 0 ? "none" : "1px solid rgba(0,0,0,0.08)", paddingTop: i === 0 ? 0 : 12, paddingBottom: 12 }}>
           {o.highlight && (
             <span aria-hidden className="cotiza-sweep pointer-events-none absolute inset-y-0 left-0 z-20 w-1/2" style={{ background: "linear-gradient(100deg, transparent 0%, rgba(219,59,43,0.14) 50%, transparent 100%)" }} />
           )}

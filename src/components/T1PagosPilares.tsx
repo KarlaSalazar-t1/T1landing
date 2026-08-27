@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
+import { OrigenCheckoutPanel } from "@/components/T1PagosCheckoutPanel";
 
 const ITEMS = [
   {
@@ -10,7 +11,8 @@ const ITEMS = [
     description: "Una pasarela optimizada para convertir, con todos los métodos de pago y meses sin intereses.",
     cta: "Conoce más",
     ctaHref: "/productos/t1pagos/pagos-en-linea",
-    image: "/img/metodos-pago-v2.png",
+    panel: "checkout" as const,
+    image: "",
   },
   {
     id: "links",
@@ -68,25 +70,40 @@ export default function T1PagosPilares() {
     }, 110);
   };
 
-  const Card = ({ it }: { it: (typeof ITEMS)[number] }) => (
-    <div className="audience-card-wrap flex w-full justify-center tablet:justify-start">
-      <div className="audience-card flex w-full" style={{ maxWidth: 460 }}>
-        <span className="audience-beam" aria-hidden />
-        <div className="relative z-[1] w-full overflow-hidden rounded-[18.5px]" style={{ background: "#1b1714" }}>
-          <div className="relative w-full" style={{ aspectRatio: "741 / 565" }}>
-            <Image src={it.image} alt={it.title} fill className="object-cover" sizes="(max-width: 768px) 90vw, 460px" />
-            <div className="pointer-events-none absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 45%, rgba(0,0,0,0.75) 100%)" }} />
-            <div className="absolute bottom-0 left-0 right-0 p-5 tablet:p-7">
-              <a href={it.ctaHref} className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-6 py-3 font-inter text-[14px] font-semibold text-white no-underline transition-colors duration-150 hover:bg-[#C0332A]">
-                {it.cta}
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-              </a>
+  const Cta = ({ it }: { it: (typeof ITEMS)[number] }) => (
+    <a href={it.ctaHref} className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-6 py-3 font-inter text-[14px] font-semibold text-white no-underline transition-colors duration-150 hover:bg-[#C0332A]">
+      {it.cta}
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+    </a>
+  );
+
+  const Card = ({ it }: { it: (typeof ITEMS)[number] }) => {
+    // "Pasarela en línea" muestra el panel de checkout Origen MX; el resto usa imagen.
+    if ("panel" in it && it.panel) {
+      return (
+        <div className="flex w-full flex-col items-center gap-6 py-2">
+          <OrigenCheckoutPanel />
+          <Cta it={it} />
+        </div>
+      );
+    }
+    return (
+      <div className="audience-card-wrap flex w-full justify-center tablet:justify-start">
+        <div className="audience-card flex w-full" style={{ maxWidth: 460 }}>
+          <span className="audience-beam" aria-hidden />
+          <div className="relative z-[1] w-full overflow-hidden rounded-[18.5px]" style={{ background: "#1b1714" }}>
+            <div className="relative w-full" style={{ aspectRatio: "741 / 565" }}>
+              <Image src={it.image} alt={it.title} fill className="object-cover" sizes="(max-width: 768px) 90vw, 460px" />
+              <div className="pointer-events-none absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 45%, rgba(0,0,0,0.75) 100%)" }} />
+              <div className="absolute bottom-0 left-0 right-0 p-5 tablet:p-7">
+                <Cta it={it} />
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <section className="relative overflow-hidden bg-black px-5 tablet:px-6" style={{ paddingTop: 100, paddingBottom: 100 }}>
