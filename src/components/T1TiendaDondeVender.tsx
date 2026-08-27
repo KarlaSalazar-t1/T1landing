@@ -31,7 +31,8 @@ const ITEMS = [
     description: "Vende en tu tienda física con un POS integrado a inventario, pagos y envíos.",
     cta: "Conoce más",
     ctaHref: "/productos/t1tienda/punto-de-venta",
-    image: "/img/vende-en-piso.png",
+    image: "/img/tienda-pos.png",
+    fit: "contain" as const,
   },
 ];
 

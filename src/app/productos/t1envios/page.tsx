@@ -24,11 +24,7 @@ export default function EnviosLanding() {
         <T1EnviosTarifas />
         {/* Cotiza, crea y rastrea (pilares) */}
         <T1EnviosPilares />
-        {/* 3 · Conecta tus canales de venta */}
-        <T1EnviosCanales />
-        {/* 4 · Administra tu operación */}
-        <T1EnviosAdministracion />
-        {/* 5 · Métricas */}
+        {/* Métricas — prueba social temprana */}
         <T1ProductMetrics
           metrics={[
             { end: 30, prefix: "+", suffix: "M", label: "envíos entregados" },
@@ -36,7 +32,11 @@ export default function EnviosLanding() {
             { end: 50000, prefix: "+", label: "negocios usando T1" },
           ]}
         />
-        {/* 6 · FAQ */}
+        {/* 3 · Conecta tus canales de venta */}
+        <T1EnviosCanales />
+        {/* 4 · Administra tu operación */}
+        <T1EnviosAdministracion />
+        {/* 5 · FAQ */}
         <T1EnviosFAQ />
       </div>
 

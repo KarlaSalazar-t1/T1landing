@@ -27,6 +27,14 @@ export default function PagosLanding() {
         <T1PagosPilares />
         {/* 3 · Aprueba más, protege cada venta (antifraude) */}
         <T1PagosAprobacion />
+        {/* Métricas — prueba social */}
+        <T1ProductMetrics
+          metrics={[
+            { end: 200, prefix: "+", suffix: "M", label: "transacciones procesadas" },
+            { end: 90, prefix: "+", suffix: "%", label: "tasa de aprobación" },
+            { end: 8, label: "países en Latinoamérica" },
+          ]}
+        />
         {/* 4 · Administra tus cobros */}
         <T1PagosAdministracion />
         {/* 5 · Integra con la API (desarrolladores) */}
@@ -37,15 +45,7 @@ export default function PagosLanding() {
         <T1PagosPaises />
         {/* 8 · Certificación PCI DSS */}
         <T1PagosPCI />
-        {/* 9 · Métricas */}
-        <T1ProductMetrics
-          metrics={[
-            { end: 200, prefix: "+", suffix: "M", label: "transacciones procesadas" },
-            { end: 90, prefix: "+", suffix: "%", label: "tasa de aprobación" },
-            { end: 8, label: "países en Latinoamérica" },
-          ]}
-        />
-        {/* 10 · FAQ */}
+        {/* 9 · FAQ */}
         <T1PagosFAQ />
       </div>
 

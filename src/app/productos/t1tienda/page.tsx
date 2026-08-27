@@ -26,6 +26,14 @@ export default function TiendaLanding() {
         <T1TiendaVideo />
         {/* 1 · Tu tienda con pagos y envíos integrados */}
         <T1TiendaIncluido />
+        {/* Métricas — prueba social temprana */}
+        <T1ProductMetrics
+          metrics={[
+            { end: 50000, prefix: "+", label: "negocios usando T1" },
+            { end: 6000, prefix: "+", label: "tiendas creadas" },
+            { end: 200, prefix: "+", suffix: "M", label: "transacciones procesadas" },
+          ]}
+        />
         {/* 2 · Dónde vender — tienda en línea / marketplaces / POS */}
         <T1TiendaDondeVender />
         {/* 3 · Marketplaces — "olvídate de manejar cada canal" */}
@@ -34,15 +42,7 @@ export default function TiendaLanding() {
         <T1TiendaAdministracion />
         {/* 5 · Pagos — cobra como quieras */}
         <T1TiendaPagos />
-        {/* 6 · Métricas */}
-        <T1ProductMetrics
-          metrics={[
-            { end: 50000, prefix: "+", label: "negocios usando T1" },
-            { end: 6000, prefix: "+", label: "tiendas creadas" },
-            { end: 200, prefix: "+", suffix: "M", label: "transacciones procesadas" },
-          ]}
-        />
-        {/* 7 · FAQ */}
+        {/* 6 · FAQ */}
         <T1TiendaFAQ />
       </div>
 

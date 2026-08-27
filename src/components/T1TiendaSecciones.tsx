@@ -120,11 +120,11 @@ export function T1TiendaMarketplaces() {
 
 /* ══════════ 3 · Administración — carrusel (catálogo, inventario, reportes) ══════════ */
 const ADMIN_CARDS = [
-  { title: "Catálogo con IA", desc: "Sube una foto y la IA genera título, descripción, categoría y atributos al instante.", img: "/img/admin-catalogo.png", w: 1248, h: 1024 },
-  { title: "Inventario centralizado", desc: "Controla inventario, precios y variantes; se sincroniza en todos tus canales en tiempo real.", img: "/img/tienda-inventario.png", w: 1254, h: 1254 },
-  { title: "Reportes en vivo", desc: "Ventas, tráfico y rendimiento en tiempo real para decidir con datos.", img: "/img/tienda-reportes.png", w: 1254, h: 1254 },
-  { title: "Clientes", desc: "Conoce a tus clientes, su historial de compras y segméntalos para vender más.", img: "/img/tienda-clientes.png", w: 1254, h: 1254 },
-  { title: "Multi-sucursales", desc: "Gestiona varias sucursales o almacenes con inventario y ventas por ubicación.", img: "/img/tienda-sucursales.png", w: 1536, h: 1024 },
+  { title: "Catálogo con IA", desc: "Sube una foto y la IA crea título, descripción y atributos al instante.", img: "/img/admin-catalogo.png", w: 1248, h: 1024 },
+  { title: "Inventario", desc: "Precios, variantes y existencias sincronizadas en todos tus canales.", img: "/img/tienda-inventario.png", w: 1254, h: 1254 },
+  { title: "Reportes", desc: "Ventas, tráfico y rendimiento en tiempo real para decidir con datos.", img: "/img/tienda-reportes.png", w: 1254, h: 1254 },
+  { title: "Clientes", desc: "Historial de compras y segmentación de clientes para vender más.", img: "/img/tienda-clientes.png", w: 1254, h: 1254 },
+  { title: "Sucursales", desc: "Inventario y ventas por ubicación en cada sucursal o almacén.", img: "/img/tienda-sucursales.png", w: 1536, h: 1024 },
 ];
 export function T1TiendaAdministracion() {
   const ref = useRef<HTMLDivElement>(null);
@@ -156,9 +156,9 @@ export function T1TiendaAdministracion() {
               {ADMIN_CARDS.map((s) => (
                 <div key={s.title} data-card className="flex w-[240px] shrink-0 snap-start flex-col rounded-[20px] border border-white/[0.08] bg-[#1A1A1D] p-5">
                   <h3 className="font-sora text-[19px] font-normal text-white" style={{ marginBottom: 8 }}>{s.title}</h3>
-                  <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.5, marginBottom: 16, minHeight: 60 }}>{s.desc}</p>
-                  <div className="mt-auto overflow-hidden rounded-[14px]">
-                    <Image src={s.img} alt={s.title} width={s.w} height={s.h} className="block h-auto w-full" sizes="240px" />
+                  <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.5, marginBottom: 18, minHeight: 42 }}>{s.desc}</p>
+                  <div className="mt-auto flex h-[188px] items-center justify-center overflow-hidden rounded-[14px]">
+                    <Image src={s.img} alt={s.title} width={s.w} height={s.h} className="h-full w-full object-contain" sizes="240px" />
                   </div>
                 </div>
               ))}
