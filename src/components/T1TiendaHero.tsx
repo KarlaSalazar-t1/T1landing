@@ -86,13 +86,13 @@ export default function T1TiendaHero() {
     <div className="relative z-0">
       <section className="relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-5 pb-0 pt-24 tablet:min-h-screen tablet:px-6 tablet:pt-28 tablet:pb-0">
         {/* Fondo */}
-        <div aria-hidden className="absolute inset-0 z-0" style={{ background: "linear-gradient(160deg, #5a2c40 0%, #351a29 52%, #20111b 100%)" }} />
+        <div aria-hidden className="absolute inset-0 z-0" style={{ background: "linear-gradient(160deg, #78405c 0%, #4a2638 50%, #2c1826 100%)" }} />
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 z-0"
           style={{
             background:
-              "radial-gradient(ellipse 86% 70% at 67% 32%, rgba(232,78,60,0.40) 0%, transparent 62%), radial-gradient(ellipse 60% 58% at 14% 22%, rgba(170,46,46,0.28) 0%, transparent 60%), radial-gradient(ellipse 50% 46% at 82% 84%, rgba(244,114,150,0.14) 0%, transparent 64%), radial-gradient(ellipse 60% 70% at -4% 88%, rgba(72,92,190,0.36) 0%, transparent 54%), radial-gradient(ellipse 42% 60% at 102% 10%, rgba(72,92,190,0.30) 0%, transparent 52%)",
+              "radial-gradient(ellipse 90% 74% at 67% 32%, rgba(236,86,66,0.52) 0%, transparent 64%), radial-gradient(ellipse 62% 60% at 14% 22%, rgba(184,54,54,0.38) 0%, transparent 62%), radial-gradient(ellipse 52% 48% at 82% 84%, rgba(246,126,160,0.20) 0%, transparent 66%), radial-gradient(ellipse 62% 72% at -4% 88%, rgba(84,104,208,0.46) 0%, transparent 56%), radial-gradient(ellipse 44% 62% at 102% 10%, rgba(84,104,208,0.38) 0%, transparent 54%)",
           }}
         />
         <div

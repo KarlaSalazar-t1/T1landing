@@ -1,14 +1,11 @@
-import Image from "next/image";
-import { SIGNUP_URL } from "@/lib/constants";
-
-const CARRIER_LOGOS = ["/img/circles/dhl.svg", "/img/circles/fedex.svg", "/img/circles/ups.svg", "/img/circles/ampm.svg", "/img/circles/99.svg"];
+import T1EnviosCotizador from "@/components/T1EnviosCotizador";
 
 /* Sample shipping rates — reference prices for 1 kg, standard service.
    Replace the numbers with T1's real published rates. */
 const ROUTES = [
-  { from: "CDMX", to: "CDMX", price: "89", carrier: "FedEx" },
-  { from: "CDMX", to: "Guadalajara", price: "115", carrier: "DHL" },
-  { from: "CDMX", to: "Monterrey", price: "119", carrier: "FedEx" },
+  { from: "CDMX", to: "CDMX", price: "89" },
+  { from: "CDMX", to: "Guadalajara", price: "115" },
+  { from: "CDMX", to: "Monterrey", price: "119" },
 ];
 
 const BoxIcon = (
@@ -29,16 +26,6 @@ export default function T1EnviosTarifas() {
           <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:whitespace-nowrap tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
             Tarifas preferenciales de +10 paqueterías, sin volumen mínimo ni contratos.
           </p>
-
-          {/* Logos de paqueterías */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4 tablet:gap-6">
-            {CARRIER_LOGOS.map((src) => (
-              <span key={src} className="flex h-[42px] w-[42px] items-center justify-center overflow-hidden rounded-full">
-                <Image src={src} alt="" width={64} height={64} className="h-full w-full object-cover" style={{ filter: "drop-shadow(0 3px 6px rgba(0,0,0,0.4))" }} />
-              </span>
-            ))}
-            <span className="flex h-[42px] items-center rounded-full border border-white/20 px-3 font-inter text-[13px] font-semibold text-white/70">+5</span>
-          </div>
         </div>
 
         <div className="mx-auto grid max-w-[1040px] grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
@@ -64,7 +51,7 @@ export default function T1EnviosTarifas() {
                 <span className="font-inter text-[14px] font-light text-white/45" style={{ marginBottom: 6 }}>desde</span>
                 <span className="font-sora text-[38px] font-light text-white" style={{ letterSpacing: "-0.02em", lineHeight: 1 }}>${r.price}</span>
               </div>
-              <p className="font-inter text-[13px] font-light text-white/45">Con T1 Envíos · {r.carrier}</p>
+              <p className="font-inter text-[13px] font-light text-white/45">Con T1 Envíos</p>
             </div>
           ))}
         </div>
@@ -80,12 +67,15 @@ export default function T1EnviosTarifas() {
           </p>
         </div>
 
-        {/* CTA */}
-        <div className="mt-10 flex justify-center">
-          <a href={SIGNUP_URL} className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-8 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors duration-150 hover:bg-[#C0332A]">
-            Cotiza tu envío
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-          </a>
+        {/* Pruébalo — cotizador en vivo */}
+        <div className="mx-auto mt-14 max-w-[520px] text-center tablet:mt-16">
+          <h3 className="font-sora text-[22px] font-light text-white tablet:text-[28px]" style={{ letterSpacing: "-0.02em", marginBottom: 8 }}>
+            Ahora pruébalo tú
+          </h3>
+          <p className="mx-auto font-inter text-[15px] font-light text-white/55 tablet:text-[16px]" style={{ lineHeight: 1.55, marginBottom: 24, maxWidth: 420 }}>
+            Pon tu origen y destino y mira cuánto ahorras con T1 Envíos.
+          </p>
+          <T1EnviosCotizador />
         </div>
       </div>
     </section>

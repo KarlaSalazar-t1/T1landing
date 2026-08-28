@@ -7,29 +7,29 @@ import { CotizadorPanel, RastreoPanel } from "@/components/T1EnviosPanels";
 const ITEMS = [
   {
     id: "cotiza",
-    title: "Cotización",
-    description: "Compara tarifas y tiempos de +10 paqueterías y elige la opción ideal para cada envío.",
+    title: "Cotiza y crea envío",
+    description: "Compara +10 paqueterías, elige la mejor tarifa y genera tu guía al instante.",
     cta: "Cotiza ahora",
     ctaHref: "/productos/t1envios/multipaqueteria",
     panel: "cotiza" as const,
     image: "",
   },
   {
-    id: "crea",
-    title: "Guías al instante",
-    description: "Genera guías individuales o masivas y automatízalas con reglas de envío.",
-    cta: "Conoce más",
-    ctaHref: "/productos/t1envios/reglas",
-    image: "/img/reglas-link.png",
-  },
-  {
     id: "rastrea",
-    title: "Rastreo",
-    description: "Monitorea todos tus paquetes en un solo lugar y gestiona incidencias antes que tu cliente.",
+    title: "Rastrea",
+    description: "Sigue todos tus paquetes en tiempo real desde un solo panel, sin entrar a cada paquetería.",
     cta: "Conoce más",
     ctaHref: "/productos/t1envios/rastreo",
     panel: "rastreo" as const,
     image: "",
+  },
+  {
+    id: "seguimiento",
+    title: "Seguimiento",
+    description: "Nuestra torre de control detecta y resuelve cualquier incidencia antes que tu cliente.",
+    cta: "Conoce más",
+    ctaHref: "/productos/t1envios/control-calidad",
+    image: "/img/incidencias-reportadas.png",
   },
 ];
 
@@ -113,7 +113,7 @@ export default function T1EnviosPilares() {
           Cotiza, crea y rastrea
         </h2>
         <p className="mx-auto font-inter text-[16px] font-light text-white/85 tablet:whitespace-nowrap tablet:text-[18px]" style={{ textAlign: "center", marginBottom: 56 }}>
-          Todo el ciclo de tu envío, en un solo lugar.
+          Del cotizador a la torre de control: todo el ciclo de tu envío, en un solo lugar.
         </p>
 
         <div className="hidden grid-cols-1 gap-8 tablet:grid tablet:grid-cols-[minmax(0,0.95fr)_minmax(0,1fr)] tablet:items-center tablet:gap-8">

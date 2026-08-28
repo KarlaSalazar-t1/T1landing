@@ -7,7 +7,7 @@ import {
   T1EnviosAdministracion,
   T1EnviosFAQ,
 } from "@/components/T1EnviosSecciones";
-import { T1EnviosRecarga, T1EnviosIncidencias } from "@/components/T1EnviosExtra";
+import { T1EnviosIncidencias } from "@/components/T1EnviosExtra";
 import T1ProductMetrics from "@/components/T1ProductMetrics";
 import T1FinalCTA from "@/components/T1FinalCTA";
 import T1Footer from "@/components/T1Footer";
@@ -25,23 +25,21 @@ export default function EnviosLanding() {
         <T1EnviosTarifas />
         {/* Cotiza, crea y rastrea (pilares) */}
         <T1EnviosPilares />
-        {/* Métricas — prueba social temprana */}
+        {/* Métricas — prueba social temprana. Nota: 92% nivel de servicio es mockup, confirmar. */}
         <T1ProductMetrics
           metrics={[
             { end: 30, prefix: "+", suffix: "M", label: "envíos entregados" },
-            { end: 10, prefix: "+", label: "paqueterías conectadas" },
+            { end: 92, suffix: "%", label: "nivel de servicio" },
             { end: 50000, prefix: "+", label: "negocios usando T1" },
           ]}
         />
-        {/* 3 · Recarga — saldo prepago */}
-        <T1EnviosRecarga />
-        {/* 4 · Conecta tus canales de venta */}
+        {/* 3 · Conecta tus canales de venta */}
         <T1EnviosCanales />
-        {/* 5 · Administra tu operación */}
+        {/* 4 · Administra tu operación */}
         <T1EnviosAdministracion />
-        {/* 6 · Incidencias — resuélvelas antes que tu cliente */}
+        {/* 5 · Incidencias — resuélvelas antes que tu cliente */}
         <T1EnviosIncidencias />
-        {/* 7 · FAQ */}
+        {/* 6 · FAQ */}
         <T1EnviosFAQ />
       </div>
 

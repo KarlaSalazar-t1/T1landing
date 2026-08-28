@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import Image from "next/image";
 
-/* ══════════ Conecta tus canales — marketplaces con logos "volando" ══════════ */
+/* ══════════ Conecta tus canales — marketplaces (logos alineados, compacto) ══════════ */
 const CHANNELS = [
   { src: "/img/logos/brands/mercadolibre.webp", alt: "Mercado Libre" },
   { src: "/img/logos/brands/amazon.webp", alt: "Amazon" },
@@ -13,36 +13,19 @@ const CHANNELS = [
   { src: "/img/logos/brands/sears.webp", alt: "Sears" },
   { src: "/img/logos/brands/sanborns.webp", alt: "Sanborns" },
 ];
-const CHANNEL_FLOAT = [
-  { l: "10%", t: "18%", s: 66, r: -8 },
-  { l: "26%", t: "70%", s: 58, r: 7 },
-  { l: "84%", t: "20%", s: 68, r: 9 },
-  { l: "90%", t: "66%", s: 56, r: -6 },
-  { l: "16%", t: "44%", s: 50, r: 4 },
-  { l: "78%", t: "46%", s: 52, r: -5 },
-];
 export function T1EnviosCanales() {
   return (
-    <section className="relative overflow-hidden bg-black px-5 py-[90px] tablet:px-6 tablet:py-[130px]">
-      {CHANNEL_FLOAT.map((f, i) => {
-        const logo = CHANNELS[i % CHANNELS.length];
-        return (
-          <div key={i} aria-hidden className="pointer-events-none absolute hidden -translate-x-1/2 -translate-y-1/2 tablet:block" style={{ left: f.l, top: f.t }}>
-            <Image src={logo.src} alt="" width={130} height={90} className="object-contain opacity-90" style={{ width: f.s, height: f.s * 0.78, transform: `rotate(${f.r}deg)` }} />
-          </div>
-        );
-      })}
-
-      <div className="relative mx-auto max-w-[620px] text-center">
-        <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
+    <section className="bg-black px-5 py-[70px] tablet:px-6 tablet:py-[96px]">
+      <div className="mx-auto max-w-[820px] text-center">
+        <h2 className="font-sora text-[28px] font-light text-white tablet:text-[40px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
           Conecta tus canales de venta
         </h2>
-        <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 500 }}>
+        <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 40, maxWidth: 520 }}>
           Sincroniza tus pedidos de marketplaces y tiendas, y genera guías automáticamente.
         </p>
-        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-5 tablet:hidden">
-          {CHANNELS.slice(0, 6).map((l) => (
-            <Image key={l.alt} src={l.src} alt={l.alt} width={130} height={44} className="h-[34px] w-auto object-contain opacity-90" />
+        <div className="flex flex-wrap items-center justify-center gap-x-9 gap-y-7 tablet:gap-x-14">
+          {CHANNELS.map((l) => (
+            <Image key={l.alt} src={l.src} alt={l.alt} width={140} height={44} className="h-[28px] w-auto object-contain opacity-85 tablet:h-[32px]" />
           ))}
         </div>
       </div>
