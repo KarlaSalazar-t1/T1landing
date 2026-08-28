@@ -4,7 +4,7 @@ const MANROPE = "var(--font-manrope-var), 'Manrope', sans-serif";
 
 function PhoneShell({ children, flat = false }: { children: React.ReactNode; flat?: boolean }) {
   return (
-    <div className="mx-auto w-full" style={{ maxWidth: 340, fontFamily: MANROPE }}>
+    <div className="mx-auto w-full" style={{ maxWidth: 460, fontFamily: MANROPE }}>
       <div className="relative overflow-hidden bg-white" style={{ borderRadius: 14, border: flat ? "none" : "1px solid rgba(0,0,0,0.08)", boxShadow: flat ? "none" : "0 18px 44px rgba(0,0,0,0.35)" }}>
         <div className={flat ? "px-1 pt-1 pb-1" : "px-5 pt-6 pb-6"}>{children}</div>
       </div>

@@ -21,7 +21,7 @@ export function T1TiendaIncluido() {
           {[
             {
               title: "T1 Pagos",
-              logo: "/img/t1pagos-logo.svg",
+              logo: "/img/t1pagos-white.svg",
               desc: "Acepta tarjetas, SPEI, Kueski y meses sin intereses con una pasarela de pago pensada para convertir.",
               href: "/productos/t1pagos",
               type: "card" as const,
@@ -29,7 +29,7 @@ export function T1TiendaIncluido() {
             },
             {
               title: "T1 Envíos",
-              logo: "/img/t1envios-logo.svg",
+              logo: "/img/t1envios-white.svg",
               desc: "Genera guías con +10 paqueterías a precio competitivo y rastrea todos tus pedidos en un solo lugar.",
               href: "/productos/t1envios",
               type: "circle" as const,

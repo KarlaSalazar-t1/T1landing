@@ -33,7 +33,7 @@ const ITEMS = [
   },
 ];
 
-const DURATION = 5000;
+const DURATION = 7000;
 
 export default function T1EnviosPilares() {
   const [active, setActive] = useState(0);

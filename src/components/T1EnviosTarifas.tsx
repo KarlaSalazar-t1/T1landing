@@ -47,11 +47,10 @@ export default function T1EnviosTarifas() {
               </div>
 
               {/* Precio */}
-              <div className="flex items-end gap-1.5" style={{ marginBottom: 8 }}>
+              <div className="flex items-end gap-1.5">
                 <span className="font-inter text-[14px] font-light text-white/45" style={{ marginBottom: 6 }}>desde</span>
                 <span className="font-sora text-[38px] font-light text-white" style={{ letterSpacing: "-0.02em", lineHeight: 1 }}>${r.price}</span>
               </div>
-              <p className="font-inter text-[13px] font-light text-white/45">Con T1 Envíos</p>
             </div>
           ))}
         </div>

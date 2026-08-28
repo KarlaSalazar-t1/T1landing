@@ -95,7 +95,7 @@ export function T1EnviosIncidencias() {
 
           <div className="order-1 tablet:order-2">
             <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 16, maxWidth: 440 }}>
-              Resuelve incidencias antes que tu cliente
+              Adelántate a las incidencias
             </h2>
             <p className="font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 24, maxWidth: 440 }}>
               Detecta retrasos y problemas de entrega y gestiónalos desde un solo panel, sin perseguir a la paquetería.
