@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { SIGNUP_URL } from "@/lib/constants";
+import T1EnviosOrbitHalo from "@/components/T1EnviosOrbitHalo";
 
 const SOCIAL_PROOF = ["+30M de envíos", "+50,000 negocios", "+10 paqueterías"];
 const CARRIERS = ["/img/circles/dhl.svg", "/img/circles/fedex.svg", "/img/circles/ups.svg", "/img/circles/ampm.svg", "/img/circles/99.svg"];
@@ -26,42 +27,50 @@ export default function T1EnviosHero() {
         <div aria-hidden className="pointer-events-none absolute inset-0 z-0 hidden tablet:block" style={{ background: "radial-gradient(circle at 97% -2%, rgba(4,24,82,0.75) 0%, rgba(17,0,85,0) 27%)" }} />
         <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-[260px]" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(3,1,1,0.85) 55%, #000 100%)" }} />
 
-        {/* Contenido */}
-        <div className="relative z-10 flex w-full max-w-[520px] grow flex-col items-center justify-center tablet:max-w-[720px]">
-          <h1 className="text-center font-sora text-[34px] font-light leading-[1.12] text-white tablet:text-[54px] desktop:text-[54px]" style={{ letterSpacing: "-0.03em" }}>
-            Todos tus envíos,
-            <br />
-            un solo lugar
-          </h1>
+        {/* Contenido — dos columnas en desktop */}
+        <div className="relative z-10 grid w-full max-w-[var(--max-w)] grid-cols-1 items-center gap-8 tablet:grid-cols-2 tablet:gap-6">
+          {/* Izquierda — texto */}
+          <div className="flex flex-col items-center text-center tablet:items-start tablet:text-left">
+            <h1 className="font-sora text-[34px] font-light leading-[1.12] text-white tablet:text-[52px] desktop:text-[54px]" style={{ letterSpacing: "-0.03em" }}>
+              Todos tus envíos,
+              <br />
+              un solo lugar
+            </h1>
 
-          <p className="mt-5 max-w-[440px] text-center font-inter text-[16px] font-light leading-[1.55] text-white/80 tablet:max-w-[560px] tablet:text-[18px]">
-            Cotiza, envía y entrega con las mejores tarifas de +10 paqueterías, todo desde un solo lugar.
-          </p>
+            <p className="mt-5 max-w-[440px] font-inter text-[16px] font-light leading-[1.55] text-white/80 tablet:text-[18px]">
+              Cotiza, envía y entrega con las mejores tarifas de +10 paqueterías, todo desde un solo lugar.
+            </p>
 
-          {/* Logos de paqueterías */}
-          <div className="mt-9 flex flex-wrap items-center justify-center gap-5 tablet:mt-11 tablet:gap-7">
-            {CARRIERS.map((src) => (
-              <span key={src} className="flex h-[48px] w-[48px] shrink-0 items-center justify-center overflow-hidden rounded-full">
-                <Image src={src} alt="" width={72} height={72} className="h-full w-full object-cover" style={{ filter: "drop-shadow(0 4px 10px rgba(0,0,0,0.45))" }} />
-              </span>
-            ))}
-            <span className="flex h-[48px] items-center rounded-full border border-white/20 px-4 font-inter text-[14px] font-semibold text-white/70">+5</span>
+            {/* Logos de paqueterías — sólo móvil (en desktop se ven orbitando) */}
+            <div className="mt-9 flex flex-wrap items-center justify-center gap-5 tablet:hidden">
+              {CARRIERS.map((src) => (
+                <span key={src} className="flex h-[48px] w-[48px] shrink-0 items-center justify-center overflow-hidden rounded-full">
+                  <Image src={src} alt="" width={72} height={72} className="h-full w-full object-cover" style={{ filter: "drop-shadow(0 4px 10px rgba(0,0,0,0.45))" }} />
+                </span>
+              ))}
+              <span className="flex h-[48px] items-center rounded-full border border-white/20 px-4 font-inter text-[14px] font-semibold text-white/70">+5</span>
+            </div>
+
+            {/* CTA */}
+            <a href={SIGNUP_URL} className="mt-10 inline-flex h-[50px] items-center justify-center gap-2 rounded-[16px] bg-red-500 px-8 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-red-600 tablet:mt-11">
+              Comienza a enviar
+              {ArrowRight}
+            </a>
+
+            {/* Social proof */}
+            <div className="mt-12 mb-10 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 px-2 tablet:mb-0 tablet:justify-start">
+              {SOCIAL_PROOF.map((s, i) => (
+                <span key={s} className="flex items-center gap-2.5 font-inter text-[16px] font-medium text-white">
+                  {i > 0 && <span aria-hidden className="text-white/40">•</span>}
+                  {s}
+                </span>
+              ))}
+            </div>
           </div>
 
-          {/* CTA */}
-          <a href={SIGNUP_URL} className="mt-10 inline-flex h-[50px] items-center justify-center gap-2 rounded-[16px] bg-red-500 px-8 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-red-600">
-            Comienza a enviar
-            {ArrowRight}
-          </a>
-
-          {/* Social proof */}
-          <div className="mt-12 mb-10 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 px-2 text-center tablet:mb-14">
-            {SOCIAL_PROOF.map((s, i) => (
-              <span key={s} className="flex items-center gap-2.5 font-inter text-[16px] font-medium text-white">
-                {i > 0 && <span aria-hidden className="text-white/40">•</span>}
-                {s}
-              </span>
-            ))}
+          {/* Derecha — halo con logos orbitando (sólo desktop) */}
+          <div className="hidden justify-center tablet:flex">
+            <T1EnviosOrbitHalo />
           </div>
         </div>
       </section>

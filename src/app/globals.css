@@ -984,3 +984,12 @@ body {
   60%  { opacity: 1; transform: scale(1.12); }
   100% { opacity: 1; transform: scale(1); }
 }
+
+/* Órbita de logos en el hero (recreado del landing de envíos) */
+@keyframes halo-orbit {
+  from { transform: rotate(0deg) translateX(var(--halo-r, 190px)) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(var(--halo-r, 190px)) rotate(-360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .halo-orbit-item { animation: none !important; }
+}

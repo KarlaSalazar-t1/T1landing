@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { SIGNUP_URL } from "@/lib/constants";
+import T1PagosDashboard from "@/components/T1PagosDashboard";
 
 const SOCIAL_PROOF = ["+90% de aprobación", "+200M transacciones", "8 países"];
 const METHODS = ["/img/icons/visa-card.svg", "/img/icons/mc-card.svg", "/img/icons/amex-card.svg", "/img/icons/spei-card.svg", "/img/icons/kueski-card.svg"];
@@ -27,36 +28,44 @@ export default function T1PagosHero() {
         <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-[260px]" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(3,1,1,0.85) 55%, #000 100%)" }} />
 
         {/* Contenido */}
-        <div className="relative z-10 flex w-full max-w-[520px] grow flex-col items-center justify-center tablet:max-w-[720px]">
-          <h1 className="text-center font-sora text-[34px] font-light leading-[1.12] text-white tablet:text-[54px] desktop:text-[54px]" style={{ letterSpacing: "-0.03em" }}>
-            Cobra en línea
-          </h1>
+        <div className="relative z-10 grid w-full max-w-[var(--max-w)] grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-8">
+          {/* Izquierda — texto */}
+          <div className="flex flex-col items-center text-center tablet:items-start tablet:text-left">
+            <h1 className="font-sora text-[34px] font-light leading-[1.12] text-white tablet:text-[52px] desktop:text-[54px]" style={{ letterSpacing: "-0.03em" }}>
+              Cobra en línea
+            </h1>
 
-          <p className="mt-5 max-w-[440px] text-center font-inter text-[16px] font-light leading-[1.55] text-white/80 tablet:max-w-[560px] tablet:text-[18px]">
-            Acepta tarjetas, SPEI, Kueski y más, con protección antifraude y depósitos al día siguiente.
-          </p>
+            <p className="mt-5 max-w-[440px] font-inter text-[16px] font-light leading-[1.55] text-white/80 tablet:text-[18px]">
+              Acepta tarjetas, SPEI, Kueski y más, con protección antifraude y depósitos al día siguiente.
+            </p>
 
-          {/* Métodos de pago */}
-          <div className="mt-9 flex flex-wrap items-center justify-center gap-4 tablet:mt-11 tablet:gap-5">
-            {METHODS.map((src) => (
-              <Image key={src} src={src} alt="" width={80} height={52} className="h-[34px] w-auto shrink-0 object-contain tablet:h-[38px]" />
-            ))}
+            {/* Métodos de pago — sólo móvil (en desktop están en el panel) */}
+            <div className="mt-9 flex flex-wrap items-center justify-center gap-4 tablet:hidden">
+              {METHODS.map((src) => (
+                <Image key={src} src={src} alt="" width={80} height={52} className="h-[34px] w-auto shrink-0 object-contain" />
+              ))}
+            </div>
+
+            {/* CTA */}
+            <a href={SIGNUP_URL} className="mt-10 inline-flex h-[50px] items-center justify-center gap-2 rounded-[16px] bg-red-500 px-8 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-red-600 tablet:mt-11">
+              Comienza a cobrar
+              {ArrowRight}
+            </a>
+
+            {/* Social proof */}
+            <div className="mt-12 mb-10 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 px-2 tablet:mb-0 tablet:justify-start">
+              {SOCIAL_PROOF.map((s, i) => (
+                <span key={s} className="flex items-center gap-2.5 font-inter text-[16px] font-medium text-white">
+                  {i > 0 && <span aria-hidden className="text-white/40">•</span>}
+                  {s}
+                </span>
+              ))}
+            </div>
           </div>
 
-          {/* CTA */}
-          <a href={SIGNUP_URL} className="mt-10 inline-flex h-[50px] items-center justify-center gap-2 rounded-[16px] bg-red-500 px-8 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-red-600">
-            Comienza a cobrar
-            {ArrowRight}
-          </a>
-
-          {/* Social proof */}
-          <div className="mt-12 mb-10 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 px-2 text-center tablet:mb-14">
-            {SOCIAL_PROOF.map((s, i) => (
-              <span key={s} className="flex items-center gap-2.5 font-inter text-[16px] font-medium text-white">
-                {i > 0 && <span aria-hidden className="text-white/40">•</span>}
-                {s}
-              </span>
-            ))}
+          {/* Derecha — panel de transacciones (sólo desktop) */}
+          <div className="hidden justify-center tablet:flex">
+            <T1PagosDashboard />
           </div>
         </div>
       </section>
