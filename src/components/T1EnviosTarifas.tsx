@@ -70,7 +70,7 @@ export default function T1EnviosTarifas() {
         {/* Cotizador en vivo */}
         <div className="mx-auto mt-16 max-w-[520px] text-center tablet:mt-20">
           <h3 className="font-sora text-[26px] font-light text-white tablet:text-[38px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 12 }}>
-            Calcula cuánto ahorras
+            Cotiza tu envío en segundos
           </h3>
           <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 440 }}>
             Pon tu origen y destino y compara tarifas al instante.

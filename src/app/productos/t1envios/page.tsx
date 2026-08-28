@@ -35,10 +35,10 @@ export default function EnviosLanding() {
         />
         {/* 3 · Conecta tus canales de venta */}
         <T1EnviosCanales />
-        {/* 4 · Administra tu operación */}
-        <T1EnviosAdministracion />
-        {/* 5 · Incidencias — resuélvelas antes que tu cliente */}
+        {/* 4 · Incidencias — resuélvelas antes que tu cliente */}
         <T1EnviosIncidencias />
+        {/* 5 · Administra tu operación */}
+        <T1EnviosAdministracion />
         {/* 6 · FAQ */}
         <T1EnviosFAQ />
       </div>
