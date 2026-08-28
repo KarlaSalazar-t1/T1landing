@@ -8,6 +8,7 @@ import {
   T1EnviosFAQ,
 } from "@/components/T1EnviosSecciones";
 import { T1EnviosIncidencias } from "@/components/T1EnviosExtra";
+import { T1EnviosServicios, T1EnviosCotizadorSection } from "@/components/T1EnviosServicios";
 import T1ProductMetrics from "@/components/T1ProductMetrics";
 import T1FinalCTA from "@/components/T1FinalCTA";
 import T1Footer from "@/components/T1Footer";
@@ -21,11 +22,17 @@ export default function EnviosLanding() {
       <T1EnviosHero />
 
       <div className="relative z-[5] bg-black">
-        {/* Tarifas de ejemplo — Ahorra en cada envío */}
+        {/* 1 · Tarifas de ejemplo — Ahorra en cada envío */}
         <T1EnviosTarifas />
-        {/* Cotiza, crea y rastrea (pilares) */}
+        {/* 2 · Servicios — Cotiza / Envía / Seguimiento */}
+        <T1EnviosServicios />
+        {/* 3 · Cotizador en vivo */}
+        <T1EnviosCotizadorSection />
+        {/* 4 · Conecta tus canales de venta */}
+        <T1EnviosCanales />
+        {/* 5 · Tu operación de punta a punta (pilares) */}
         <T1EnviosPilares />
-        {/* Métricas — prueba social temprana. Nota: 92% nivel de servicio es mockup, confirmar. */}
+        {/* 6 · Métricas. Nota: 92% nivel de servicio es mockup, confirmar. */}
         <T1ProductMetrics
           metrics={[
             { end: 30, prefix: "+", suffix: "M", label: "envíos entregados" },
@@ -33,13 +40,11 @@ export default function EnviosLanding() {
             { end: 50000, prefix: "+", label: "negocios usando T1" },
           ]}
         />
-        {/* 3 · Conecta tus canales de venta */}
-        <T1EnviosCanales />
-        {/* 4 · Incidencias — resuélvelas antes que tu cliente */}
+        {/* 7 · Incidencias */}
         <T1EnviosIncidencias />
-        {/* 5 · Administra tu operación */}
+        {/* 8 · Administra tu operación */}
         <T1EnviosAdministracion />
-        {/* 6 · FAQ */}
+        {/* 9 · FAQ */}
         <T1EnviosFAQ />
       </div>
 

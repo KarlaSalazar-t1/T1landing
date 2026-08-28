@@ -1,4 +1,3 @@
-import T1EnviosCotizador from "@/components/T1EnviosCotizador";
 
 /* Sample shipping rates — reference prices for 1 kg, standard service.
    Replace the numbers with T1's real published rates. */
@@ -64,17 +63,6 @@ export default function T1EnviosTarifas() {
           <p className="font-inter text-[13px] font-light leading-relaxed text-white/45">
             Precios de referencia para 1 kg en envío estándar. Varían según destino, peso y paquetería.
           </p>
-        </div>
-
-        {/* Cotizador en vivo */}
-        <div className="mx-auto mt-16 max-w-[520px] text-center tablet:mt-20">
-          <h3 className="font-sora text-[26px] font-light text-white tablet:text-[38px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 12 }}>
-            Cotiza tu envío en segundos
-          </h3>
-          <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 440 }}>
-            Pon tu origen y destino y compara tarifas al instante.
-          </p>
-          <T1EnviosCotizador />
         </div>
       </div>
     </section>
