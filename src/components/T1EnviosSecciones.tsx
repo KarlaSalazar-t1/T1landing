@@ -15,7 +15,7 @@ const CHANNELS = [
 ];
 export function T1EnviosCanales() {
   return (
-    <section className="bg-black px-5 py-[70px] tablet:px-6 tablet:py-[96px]">
+    <section className="bg-[#0e0d0d] px-5 py-[70px] tablet:px-6 tablet:py-[96px]">
       <div className="mx-auto max-w-[820px] text-center">
         <h2 className="font-sora text-[28px] font-light text-white tablet:text-[40px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
           Conecta tus canales de venta
@@ -25,7 +25,7 @@ export function T1EnviosCanales() {
         </p>
         <div className="flex flex-wrap items-center justify-center gap-x-9 gap-y-7 tablet:gap-x-14">
           {CHANNELS.map((l) => (
-            <Image key={l.alt} src={l.src} alt={l.alt} width={140} height={44} className="h-[28px] w-auto object-contain opacity-85 tablet:h-[32px]" />
+            <Image key={l.alt} src={l.src} alt={l.alt} width={160} height={52} className="h-[34px] w-auto object-contain opacity-85 tablet:h-[40px]" />
           ))}
         </div>
       </div>

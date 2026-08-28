@@ -1,6 +1,52 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 
 const MANROPE = "var(--font-manrope-var), 'Manrope', sans-serif";
+
+/* ── Cotiza y crea — card que cicla entre paqueterías (estilo hero) ── */
+const COTIZA_QUOTES = [
+  { logo: "/img/circles/fedex.svg", carrier: "FedEx", dest: "CDMX → Guadalajara", eta: "2 días hábiles", price: "115" },
+  { logo: "/img/circles/dhl.svg", carrier: "DHL", dest: "CDMX → Monterrey", eta: "3 días hábiles", price: "128" },
+  { logo: "/img/circles/99.svg", carrier: "99 minutos", dest: "CDMX → CDMX", eta: "Mismo día", price: "89" },
+  { logo: "/img/circles/ups.svg", carrier: "UPS", dest: "CDMX → Cancún", eta: "2 días hábiles", price: "149" },
+];
+export function CotizaCard({ hideButton = false }: { hideButton?: boolean }) {
+  const [q, setQ] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setQ((v) => (v + 1) % COTIZA_QUOTES.length), 2600);
+    return () => clearInterval(t);
+  }, []);
+  const quote = COTIZA_QUOTES[q];
+  return (
+    <div className="w-full" style={{ fontFamily: MANROPE }}>
+      <p className="text-[13px] font-semibold text-black/55" style={{ marginBottom: 14 }}>Mejor tarifa para tu envío</p>
+      <div key={q} style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
+        <div className="flex items-center gap-3">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={quote.logo} alt={quote.carrier} width={44} height={44} className="h-[44px] w-[44px] shrink-0 rounded-full object-cover" />
+          <div className="min-w-0">
+            <p className="text-[16px] font-bold text-black leading-tight">{quote.carrier}</p>
+            <p className="truncate text-[13px] text-black/50" style={{ marginTop: 1 }}>{quote.dest}</p>
+          </div>
+        </div>
+        <div className="flex items-end justify-between" style={{ marginTop: 16 }}>
+          <div className="leading-tight">
+            <p className="text-[11px] text-black/45">Entrega estimada</p>
+            <p className="text-[15px] font-bold text-black" style={{ marginTop: 2 }}>{quote.eta}</p>
+          </div>
+          <div className="text-right leading-tight">
+            <p className="text-[11px] text-black/45">Precio</p>
+            <p className="text-[20px] font-bold text-black" style={{ marginTop: 2 }}>${quote.price}<span className="ml-0.5 text-[10px] font-semibold text-black/45">MXN</span></p>
+          </div>
+        </div>
+      </div>
+      {!hideButton && (
+        <div className="mt-4 flex h-[42px] items-center justify-center rounded-[12px] text-[14px] font-semibold text-white" style={{ background: "#DB3B2B" }}>Crear envío</div>
+      )}
+    </div>
+  );
+}
 
 function PhoneShell({ children, flat = false }: { children: React.ReactNode; flat?: boolean }) {
   return (
@@ -53,8 +99,50 @@ export function CotizadorPanel() {
   );
 }
 
-/* ── Rastreo — cronograma con auto-scroll (misma animación de multipaquetería) ── */
-export function RastreoPanel() {
+/* ── Torre de control — incidencias que se detectan y resuelven ── */
+const INCIDENTS = [
+  { title: "Retraso en tránsito", sub: "DHL · Guía #4821", carrier: "dhl" },
+  { title: "Dirección incompleta", sub: "FedEx · Guía #5127", carrier: "fedex" },
+  { title: "Intento de entrega fallido", sub: "UPS · Guía #3390", carrier: "ups" },
+];
+export function IncidentCards() {
+  const [step, setStep] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setStep((s) => (s + 1) % (INCIDENTS.length + 2)), 1500);
+    return () => clearInterval(t);
+  }, []);
+  return (
+    <div className="w-full" style={{ fontFamily: MANROPE }}>
+      <div className="mb-3 flex items-center gap-2">
+        <span aria-hidden className="h-[8px] w-[8px] rounded-full bg-[#DB3B2B]" style={{ boxShadow: "0 0 8px 1px rgba(219,59,43,0.7)" }} />
+        <p className="text-[14px] font-bold text-black">Torre de control</p>
+        <span className="ml-auto text-[11px] text-black/45">En tiempo real</span>
+      </div>
+      <div className="flex flex-col gap-2.5">
+        {INCIDENTS.map((it, i) => {
+          const resolved = i < step;
+          return (
+            <div key={i} className="flex items-center gap-2.5 rounded-[10px] border border-black/[0.07] bg-black/[0.02] px-3 py-2.5">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={`/img/carriers/${it.carrier}.svg`} alt="" width={26} height={26} className="h-[26px] w-[26px] shrink-0" />
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-[12.5px] font-bold text-black leading-tight">{it.title}</p>
+                <p className="truncate text-[11px] text-black/50" style={{ marginTop: 1 }}>{it.sub}</p>
+              </div>
+              <span className={`flex shrink-0 items-center gap-1 rounded-full px-2 py-1 text-[10.5px] font-semibold transition-colors duration-300 ${resolved ? "text-[#16A34A]" : "text-[#DB3B2B]"}`} style={{ background: resolved ? "rgba(34,197,94,0.12)" : "rgba(219,59,43,0.10)" }}>
+                <span className="h-[5px] w-[5px] rounded-full" style={{ background: resolved ? "#16A34A" : "#DB3B2B" }} />
+                {resolved ? "Resuelta" : "Detectada"}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ── Rastreo — cronograma con auto-scroll (misma animación de multipaquetería); modo bare para el pilar ── */
+export function RastreoPanel({ flat = false, height = 300, bare = false }: { flat?: boolean; height?: number; bare?: boolean }) {
   const EVENTS = [
     { chip: "Hoy", icon: "truck", title: "Envío entregado · Guía #5127-SH1 · CDMX", time: "12:02:59 p.m." },
     { icon: "box", title: "Paquete entregado · Recibió: Ana Martínez", time: "12:02:59 p.m." },
@@ -65,12 +153,12 @@ export function RastreoPanel() {
     { title: "Pedido pagado · $292.00 MXN", time: "Ayer · 01:38 p.m." },
   ];
   const mask = "linear-gradient(to bottom, transparent 0, #000 16px, #000 calc(100% - 22px), transparent 100%)";
-  return (
-    <PhoneShell>
+  const inner = (
+    <div className="w-full" style={{ fontFamily: MANROPE }}>
       <div className="flex items-center" style={{ marginBottom: 14 }}>
         <p className="text-[16px] font-semibold text-black">Rastreo de envíos</p>
       </div>
-      <div className="relative overflow-hidden" style={{ height: 300, maskImage: mask, WebkitMaskImage: mask }}>
+      <div className="relative overflow-hidden" style={{ height, maskImage: mask, WebkitMaskImage: mask }}>
         <div className="crono-track flex flex-col">
           {[...EVENTS, ...EVENTS].map((e, i) => (
             <div key={i} className="relative flex gap-3" style={{ paddingBottom: 20 }}>
@@ -93,6 +181,8 @@ export function RastreoPanel() {
           ))}
         </div>
       </div>
-    </PhoneShell>
+    </div>
   );
+  if (bare) return inner;
+  return <PhoneShell flat={flat}>{inner}</PhoneShell>;
 }

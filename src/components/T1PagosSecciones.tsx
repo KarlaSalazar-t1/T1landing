@@ -13,45 +13,25 @@ const METODOS = [
   { src: "/img/logos/brands/spei.webp", alt: "SPEI" },
   { src: "/img/logos/brands/kueski.webp", alt: "Kueski Pay" },
 ];
-const MET_FLOAT = [
-  { l: "10%", t: "18%", s: 64, r: -8 },
-  { l: "26%", t: "70%", s: 56, r: 7 },
-  { l: "84%", t: "20%", s: 66, r: 9 },
-  { l: "90%", t: "66%", s: 54, r: -6 },
-  { l: "16%", t: "44%", s: 48, r: 4 },
-  { l: "78%", t: "46%", s: 50, r: -5 },
-];
 export function T1PagosMetodos() {
   return (
     <section className="relative overflow-hidden bg-black px-5 py-[90px] tablet:px-6 tablet:py-[130px]">
-      {MET_FLOAT.map((f, i) => {
-        const logo = METODOS[i % METODOS.length];
-        return (
-          <div key={i} aria-hidden className="pointer-events-none absolute hidden -translate-x-1/2 -translate-y-1/2 tablet:block" style={{ left: f.l, top: f.t }}>
-            <Image src={logo.src} alt="" width={140} height={90} className="object-contain opacity-90" style={{ width: f.s, height: f.s * 0.72, transform: `rotate(${f.r}deg)` }} />
-          </div>
-        );
-      })}
-
-      <div className="relative mx-auto max-w-[620px] text-center">
+      <div className="relative mx-auto max-w-[560px] text-center">
         <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
-          Acepta todos los métodos de pago
+          Crea un link de pago y cobra al instante
         </h2>
-        <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 500 }}>
-          Tarjetas, SPEI, efectivo, meses sin intereses y Kueski. Que tus clientes paguen como prefieran.
+        <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 32, maxWidth: 480 }}>
+          Compártelo por WhatsApp, redes o donde vendas y ofrece todos los métodos de pago.
         </p>
-        <div className="mb-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-4 tablet:hidden">
+
+        {/* Logos de métodos — sin contenedor */}
+        <div className="mb-12 flex flex-wrap items-center justify-center gap-x-7 gap-y-4">
           {METODOS.map((l) => (
-            <span key={l.alt} className="flex h-11 items-center justify-center rounded-[12px] bg-[#1A1A1D] px-3">
-              <Image src={l.src} alt={l.alt} width={100} height={80} className="h-6 w-auto object-contain" />
-            </span>
+            <Image key={l.alt} src={l.src} alt={l.alt} width={100} height={80} className="h-6 w-auto object-contain opacity-90" />
           ))}
         </div>
 
-        {/* Crea tu link de pago (antes en el hero) */}
-        <p className="mb-6 font-inter text-[15px] font-medium text-white/85 tablet:text-[16px]">
-          Crea un link de pago y cobra por WhatsApp, redes o donde vendas.
-        </p>
+        {/* Creador de link de pago */}
         <T1PagosLinkCreator />
       </div>
     </section>

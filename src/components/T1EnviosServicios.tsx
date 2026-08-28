@@ -19,7 +19,7 @@ const CARDS = [
 /* 3 cards de servicio — Cotiza / Envía / Seguimiento (estilo del landing actual). */
 export function T1EnviosServicios() {
   return (
-    <section className="bg-black px-5 py-[90px] tablet:px-6 tablet:py-[128px]">
+    <section className="bg-black px-5 pt-[90px] pb-[48px] tablet:px-6 tablet:pt-[128px] tablet:pb-[64px]">
       <div className="mx-auto max-w-[var(--max-w)]">
         <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 48 }}>
           <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
@@ -33,7 +33,7 @@ export function T1EnviosServicios() {
         <div className="grid grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
           {CARDS.map((c) => (
             <div key={c.title} className="flex flex-col rounded-[20px] border border-white/[0.08] bg-[#1A1A1D] p-7 tablet:p-8">
-              <span className="mb-6 flex h-[48px] w-[48px] items-center justify-center rounded-[14px] border border-white/[0.08] bg-white/[0.05] text-white/85">{c.icon}</span>
+              <span className="mb-5 flex h-[40px] w-[40px] items-center justify-center text-white/85">{c.icon}</span>
               <h3 className="font-sora text-[22px] font-normal text-white" style={{ letterSpacing: "-0.02em", marginBottom: 10 }}>{c.title}</h3>
               <p className="font-inter text-[15px] font-light leading-relaxed text-white/60 tablet:text-[16px]" style={{ marginBottom: 24 }}>{c.desc}</p>
               <a href={c.href} className="mt-auto inline-flex items-center gap-1.5 font-inter text-[14px] font-semibold text-white no-underline transition-colors hover:text-white/70">
@@ -51,7 +51,7 @@ export function T1EnviosServicios() {
 /* Cotizador en vivo — su propia sección. */
 export function T1EnviosCotizadorSection() {
   return (
-    <section className="bg-[#0e0d0d] px-5 py-[90px] tablet:px-6 tablet:py-[128px]">
+    <section className="bg-black px-5 pt-[48px] pb-[90px] tablet:px-6 tablet:pt-[64px] tablet:pb-[128px]">
       <div className="mx-auto max-w-[520px] text-center">
         <h3 className="font-sora text-[26px] font-light text-white tablet:text-[38px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 12 }}>
           Cotiza tu envío en segundos

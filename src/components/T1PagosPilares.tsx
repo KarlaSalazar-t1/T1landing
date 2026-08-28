@@ -23,12 +23,12 @@ const ITEMS = [
     image: "/img/links-de-pago-v2.png",
   },
   {
-    id: "reclamaciones",
-    title: "Reclamaciones",
-    description: "Gestiona reclamaciones desde un panel, con opción de seguro incluido.",
+    id: "score",
+    title: "Antifraude con T1 Score",
+    description: "Analiza cada transacción en tiempo real para aprobar más ventas legítimas y frenar el fraude, con seguro contra reclamaciones.",
     cta: "Conoce más",
     ctaHref: "/productos/t1pagos/reclamaciones",
-    image: "/img/contracargos-db-v2.png",
+    image: "/img/t1score-v3.png",
   },
 ];
 
@@ -112,7 +112,7 @@ export default function T1PagosPilares() {
           Una plataforma para todos tus cobros
         </h2>
         <p className="mx-auto font-inter text-[16px] font-light text-white/85 tablet:whitespace-nowrap tablet:text-[18px]" style={{ textAlign: "center", marginBottom: 56 }}>
-          Cobra en tu pasarela, con un link o gestiona tus reclamaciones, todo en un lugar.
+          Cobra en tu pasarela, con un link y protege cada venta con antifraude, todo en un lugar.
         </p>
 
         <div className="hidden grid-cols-1 gap-8 tablet:grid tablet:grid-cols-[minmax(0,0.95fr)_minmax(0,1fr)] tablet:items-center tablet:gap-8">

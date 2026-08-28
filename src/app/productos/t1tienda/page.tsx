@@ -1,6 +1,7 @@
 import T1Navbar from "@/components/T1Navbar";
 import T1TiendaHero from "@/components/T1TiendaHero";
 import T1TiendaDondeVender from "@/components/T1TiendaDondeVender";
+import T1TiendaBento from "@/components/T1TiendaBento";
 import T1TiendaVideo from "@/components/T1TiendaVideo";
 import {
   T1TiendaIncluido,
@@ -26,7 +27,9 @@ export default function TiendaLanding() {
         <T1TiendaVideo />
         {/* 1 · Tu tienda con pagos y envíos integrados */}
         <T1TiendaIncluido />
-        {/* Métricas — prueba social temprana */}
+        {/* 2 · Dónde vender — tienda en línea / marketplaces / POS */}
+        <T1TiendaDondeVender />
+        {/* Métricas — prueba social */}
         <T1ProductMetrics
           metrics={[
             { end: 50000, prefix: "+", label: "negocios usando T1" },
@@ -34,14 +37,14 @@ export default function TiendaLanding() {
             { end: 200, prefix: "+", suffix: "M", label: "transacciones procesadas" },
           ]}
         />
-        {/* 2 · Dónde vender — tienda en línea / marketplaces / POS */}
-        <T1TiendaDondeVender />
         {/* 3 · Marketplaces — "olvídate de manejar cada canal" */}
         <T1TiendaMarketplaces />
-        {/* 4 · Administración — catálogo, inventario, reportes */}
-        <T1TiendaAdministracion />
-        {/* 5 · Pagos — cobra como quieras */}
+        {/* 3.5 · Bento — miles de tiendas creadas con T1 (parallax) */}
+        <T1TiendaBento />
+        {/* 4 · Pagos — cobra como quieras */}
         <T1TiendaPagos />
+        {/* 5 · Administración — catálogo, inventario, reportes */}
+        <T1TiendaAdministracion />
         {/* 6 · FAQ */}
         <T1TiendaFAQ />
       </div>

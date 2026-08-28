@@ -100,27 +100,48 @@ export function T1PagosPaises() {
   return (
     <section className="bg-[#0e0d0d] px-5 py-[90px] tablet:px-6 tablet:py-[128px]">
       <div className="mx-auto max-w-[var(--max-w)]">
-        <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 48 }}>
+        <div className="mx-auto max-w-[720px] text-center" style={{ marginBottom: 56 }}>
           <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
-            Cobra en 8 países de Latinoamérica
+            Escala tu operación, sin complicaciones
           </h2>
-          <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, maxWidth: 520 }}>
-            Una sola integración para expandir tu operación por la región.
+          <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, maxWidth: 560 }}>
+            Cobra a tus clientes en los mercados más importantes de Latinoamérica con una sola integración.
           </p>
         </div>
 
-        <div className="mx-auto grid max-w-[860px] grid-cols-2 gap-3 tablet:grid-cols-4 tablet:gap-4">
-          {COUNTRIES.map((c) => (
-            <div key={c.name} className="flex items-center gap-3 rounded-[14px] border border-white/[0.08] bg-[#1A1A1D] px-4 py-3.5">
-              <span className="text-[24px] leading-none">{c.flag}</span>
-              <span className="min-w-0 flex-1">
-                <span className="block truncate font-inter text-[15px] font-medium text-white">{c.name}</span>
-                <span className="flex items-center gap-1.5 font-inter text-[12px] font-light text-white/50">
-                  <span className="h-[6px] w-[6px] rounded-full bg-[#22C55E]" /> Activo
-                </span>
+        <div className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] tablet:gap-14">
+          {/* Mapa */}
+          <div className="relative mx-auto w-full max-w-[440px]">
+            <div aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 -z-0 h-[70%] w-[70%] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: "radial-gradient(circle, rgba(252,56,38,0.14) 0%, transparent 70%)" }} />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/img/mapa-latam.svg" alt="Mapa de presencia en Latinoamérica" className="relative z-[1] w-full" />
+          </div>
+
+          {/* Panel de países */}
+          <div className="rounded-[20px] border border-white/[0.08] bg-[#141215] p-6 tablet:p-8">
+            <div className="mb-6 flex items-center gap-3">
+              <span aria-hidden className="h-[10px] w-[10px] rounded-full bg-[#fc3826]" style={{ boxShadow: "0 0 12px 2px rgba(252,56,38,0.7)" }} />
+              <span className="font-sora text-[40px] font-normal text-[#fc3826] leading-none tablet:text-[46px]">8</span>
+              <span className="font-inter text-[15px] font-semibold uppercase tracking-[0.12em] text-[#fc3826]">
+                Países en LATAM
+                <span className="mt-1 block font-inter text-[15px] font-light normal-case tracking-normal text-white/70">Expansión continua</span>
               </span>
             </div>
-          ))}
+
+            <div className="grid grid-cols-1 gap-x-6 gap-y-1 tablet:grid-cols-2">
+              {COUNTRIES.map((c) => (
+                <div key={c.name} className="flex items-center justify-between gap-3 border-b border-white/[0.06] py-3.5">
+                  <span className="flex min-w-0 items-center gap-3">
+                    <span className="text-[22px] leading-none">{c.flag}</span>
+                    <span className="truncate font-inter text-[16px] font-medium text-white">{c.name}</span>
+                  </span>
+                  <span className="flex shrink-0 items-center gap-1.5 rounded-full border border-[#22C55E]/25 bg-[#22C55E]/10 px-2.5 py-1 font-inter text-[12px] font-medium text-[#22C55E]">
+                    <span className="h-[6px] w-[6px] rounded-full bg-[#22C55E]" /> Activo
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -132,12 +153,6 @@ export function T1PagosPCI() {
   return (
     <section className="bg-black px-5 py-[90px] tablet:px-6 tablet:py-[128px]">
       <div className="mx-auto max-w-[820px] text-center">
-        <span className="mx-auto mb-6 flex h-[56px] w-[56px] items-center justify-center rounded-[16px] border border-white/[0.10] bg-[#141216]">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-            <path d="M12 2.5l7 3v6c0 4.5-3 7.8-7 9.5-4-1.7-7-5-7-9.5v-6l7-3z" stroke="#DB3B2B" strokeWidth="1.6" strokeLinejoin="round" />
-            <path d="M8.5 12l2.3 2.3 4.7-4.6" stroke="#DB3B2B" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </span>
         <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
           Certificación PCI DSS
         </h2>

@@ -3,7 +3,6 @@ import T1PagosHero from "@/components/T1PagosHero";
 import T1PagosPilares from "@/components/T1PagosPilares";
 import {
   T1PagosMetodos,
-  T1PagosAprobacion,
   T1PagosAdministracion,
   T1PagosFAQ,
 } from "@/components/T1PagosSecciones";
@@ -25,17 +24,9 @@ export default function PagosLanding() {
         <T1PagosMetodos />
         {/* 2 · ¿Por qué elegir T1 Pagos? (panel claro) */}
         <T1PagosPorQue />
-        {/* 3 · Una plataforma, cero complicaciones (pilares) */}
+        {/* 3 · Una plataforma, cero complicaciones (pilares, incluye Score) */}
         <T1PagosPilares />
-        {/* 4 · Aprueba más, protege cada venta (antifraude) */}
-        <T1PagosAprobacion />
-        {/* 5 · Administra tus cobros */}
-        <T1PagosAdministracion />
-        {/* 6 · Precios / comisiones */}
-        <T1PagosPrecios />
-        {/* 7 · 8 países LATAM */}
-        <T1PagosPaises />
-        {/* 8 · Métricas — junto a países */}
+        {/* 4 · Métricas — justo debajo de los pilares */}
         <T1ProductMetrics
           metrics={[
             { end: 200, prefix: "+", suffix: "M", label: "transacciones procesadas" },
@@ -43,6 +34,12 @@ export default function PagosLanding() {
             { end: 8, label: "países en Latinoamérica" },
           ]}
         />
+        {/* 5 · Precios / comisiones */}
+        <T1PagosPrecios />
+        {/* 6 · Administra tus cobros (después de precios) */}
+        <T1PagosAdministracion />
+        {/* 7 · 8 países LATAM (mapa) */}
+        <T1PagosPaises />
         {/* 9 · Certificación PCI DSS */}
         <T1PagosPCI />
         {/* 10 · FAQ */}

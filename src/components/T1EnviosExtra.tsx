@@ -89,8 +89,8 @@ export function T1EnviosIncidencias() {
       <div className="mx-auto max-w-[var(--max-w)]">
         <div className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
           {/* Imagen */}
-          <div className="order-2 overflow-hidden rounded-[20px] border border-white/[0.08] tablet:order-1">
-            <Image src="/img/incidencias-reportadas.png" alt="Panel de incidencias T1 Envíos" width={1208} height={863} className="block h-auto w-full" sizes="(max-width: 768px) 92vw, 560px" />
+          <div className="order-2 overflow-hidden rounded-[20px] tablet:order-1">
+            <Image src="/img/incidencias-big.png" alt="Torre de control de incidencias T1 Envíos" width={1246} height={1246} className="block h-auto w-full" sizes="(max-width: 768px) 92vw, 560px" />
           </div>
 
           <div className="order-1 tablet:order-2">

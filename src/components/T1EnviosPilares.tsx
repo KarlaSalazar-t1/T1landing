@@ -1,8 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
-import { CotizadorPanel, RastreoPanel } from "@/components/T1EnviosPanels";
+import { CotizaCard, RastreoPanel, IncidentCards } from "@/components/T1EnviosPanels";
 
 const ITEMS = [
   {
@@ -29,7 +28,8 @@ const ITEMS = [
     description: "Nuestra torre de control detecta y resuelve cualquier incidencia antes que tu cliente.",
     cta: "Conoce más",
     ctaHref: "/productos/t1envios/control-calidad",
-    image: "/img/incidencias-reportadas.png",
+    panel: "incidentes" as const,
+    image: "",
   },
 ];
 
@@ -91,33 +91,57 @@ export default function T1EnviosPilares() {
     </a>
   );
 
-  const Card = ({ it }: { it: (typeof ITEMS)[number] }) => {
-    // Cotiza y Rastrea muestran un panel animado (mock móvil); Crea usa imagen.
-    if ("panel" in it && it.panel) {
+  // Contenido interno de cada pilar — mismo recuadro para los tres.
+  const PanelInner = ({ panel }: { panel: string }) => {
+    const shell = "overflow-hidden rounded-[16px] bg-white p-4";
+    const shadow = { boxShadow: "0 16px 40px rgba(0,0,0,0.35)" };
+    if (panel === "cotiza") {
       return (
-        <div className="flex w-full flex-col items-center gap-6">
-          {it.panel === "cotiza" ? <CotizadorPanel /> : <RastreoPanel />}
-          <Cta it={it} />
+        <div className="flex h-full w-full items-center justify-center">
+          <div className="w-full" style={{ maxWidth: 300 }}>
+            <div className={shell} style={shadow}><CotizaCard hideButton /></div>
+          </div>
         </div>
       );
     }
+    if (panel === "rastreo") {
+      return (
+        <div className="flex h-full w-full items-center justify-center">
+          <div className="w-full" style={{ maxWidth: 320 }}>
+            <div className={shell} style={shadow}><RastreoPanel bare height={188} /></div>
+          </div>
+        </div>
+      );
+    }
+    // incidentes (Seguimiento)
     return (
-      <div className="audience-card-wrap flex w-full justify-center tablet:justify-start">
-        <div className="audience-card flex w-full" style={{ maxWidth: 460 }}>
-          <span className="audience-beam" aria-hidden />
-          <div className="relative z-[1] w-full overflow-hidden rounded-[18.5px]" style={{ background: "#1b1714" }}>
-            <div className="relative w-full" style={{ aspectRatio: "741 / 565" }}>
-              <Image src={it.image} alt={it.title} fill className="object-cover" sizes="(max-width: 768px) 90vw, 460px" />
-              <div className="pointer-events-none absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 45%, rgba(0,0,0,0.75) 100%)" }} />
-              <div className="absolute bottom-0 left-0 right-0 p-5 tablet:p-7">
+      <div className="flex h-full w-full items-center justify-center">
+        <div className="w-full" style={{ maxWidth: 320 }}>
+          <div className={shell} style={shadow}><IncidentCards /></div>
+        </div>
+      </div>
+    );
+  };
+
+  const Card = ({ it }: { it: (typeof ITEMS)[number] }) => (
+    <div className="audience-card-wrap flex w-full justify-center tablet:justify-start">
+      <div className="audience-card flex w-full" style={{ maxWidth: 460 }}>
+        <span className="audience-beam" aria-hidden />
+        <div className="relative z-[1] w-full overflow-hidden rounded-[18.5px]" style={{ background: "#1b1714" }}>
+          <div className="relative w-full" style={{ aspectRatio: "741 / 565" }}>
+            <div className="absolute inset-0 flex flex-col p-5 tablet:p-6">
+              <div className="min-h-0 flex-1 overflow-hidden">
+                <PanelInner panel={(it as { panel: string }).panel} />
+              </div>
+              <div className="shrink-0 pt-4">
                 <Cta it={it} />
               </div>
             </div>
           </div>
         </div>
       </div>
-    );
-  };
+    </div>
+  );
 
   return (
     <section ref={sectionRef} className="relative overflow-hidden bg-black px-5 tablet:px-6" style={{ paddingTop: 100, paddingBottom: 100 }}>

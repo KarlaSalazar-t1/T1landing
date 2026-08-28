@@ -51,22 +51,22 @@ export default function T1PagosHero() {
               Comienza a cobrar
               {ArrowRight}
             </a>
-
-            {/* Social proof */}
-            <div className="mt-12 mb-10 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 px-2 tablet:mb-0 tablet:justify-start">
-              {SOCIAL_PROOF.map((s, i) => (
-                <span key={s} className="flex items-center gap-2.5 font-inter text-[16px] font-medium text-white">
-                  {i > 0 && <span aria-hidden className="text-white/40">•</span>}
-                  {s}
-                </span>
-              ))}
-            </div>
           </div>
 
           {/* Derecha — panel de transacciones (sólo desktop) */}
           <div className="hidden justify-center tablet:flex">
             <T1PagosDashboard />
           </div>
+        </div>
+
+        {/* Social proof — abajo, centrado (como en tienda) */}
+        <div className="relative z-10 mt-12 mb-10 flex w-full max-w-[var(--max-w)] flex-wrap items-center justify-center gap-x-2.5 gap-y-1 px-2 text-center tablet:mt-16 tablet:mb-4">
+          {SOCIAL_PROOF.map((s, i) => (
+            <span key={s} className="flex items-center gap-2.5 font-inter text-[16px] font-medium text-white">
+              {i > 0 && <span aria-hidden className="text-white/40">•</span>}
+              {s}
+            </span>
+          ))}
         </div>
       </section>
     </div>
