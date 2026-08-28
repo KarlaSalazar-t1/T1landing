@@ -14,7 +14,7 @@ export default function T1EnviosCotizador() {
   const ok = cpDesde.trim().length > 0 && cpHasta.trim().length > 0;
 
   return (
-    <div className="mx-auto w-full max-w-[440px]">
+    <div className="mx-auto w-full max-w-[440px] text-left">
       <div className="flex min-h-[172px] w-full flex-col justify-center rounded-[16px] bg-[#1D1D1D] px-4 py-2 transition-shadow focus-within:ring-1 focus-within:ring-white/25">
         <div className="flex gap-3.5">
           <div className="flex flex-col items-center self-stretch py-[22px]">

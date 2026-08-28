@@ -1,29 +1,14 @@
-"use client";
-
-import { useState } from "react";
-import { PAGOS_START_URL } from "@/lib/constants";
+import Image from "next/image";
+import { SIGNUP_URL } from "@/lib/constants";
 
 const SOCIAL_PROOF = ["+90% de aprobación", "+200M transacciones", "8 países"];
+const METHODS = ["/img/icons/visa-card.svg", "/img/icons/mc-card.svg", "/img/icons/amex-card.svg", "/img/icons/spei-card.svg", "/img/icons/kueski-card.svg"];
 
-const FIELD = "w-full rounded-[14px] bg-[#1D1D1D] px-4 py-3 font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A] focus:ring-1 focus:ring-white/20";
 const ArrowRight = (
   <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
 );
 
-/* "10" → "0.10", "109999" → "1,099.99" */
-function formatMonto(digits: string): string {
-  const cents = digits.replace(/\D/g, "");
-  if (cents === "") return "";
-  const val = (parseInt(cents, 10) / 100).toFixed(2);
-  const [int, dec] = val.split(".");
-  return int.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "." + dec;
-}
-
 export default function T1PagosHero() {
-  const [monto, setMonto] = useState("");
-  const [concepto, setConcepto] = useState("");
-  const ok = Number(monto) > 0;
-
   return (
     <div className="relative z-0">
       <section className="relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-5 pb-0 pt-24 tablet:min-h-screen tablet:px-6 tablet:pt-28 tablet:pb-0">
@@ -42,48 +27,30 @@ export default function T1PagosHero() {
         <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-[260px]" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(3,1,1,0.85) 55%, #000 100%)" }} />
 
         {/* Contenido */}
-        <div className="relative z-10 flex w-full max-w-[440px] grow flex-col items-center tablet:max-w-[640px]">
-          <h1 className="mt-8 text-center font-sora text-[32px] font-light leading-[1.14] text-white tablet:mt-14 tablet:text-[48px] desktop:text-[48px]" style={{ letterSpacing: "-0.03em" }}>
+        <div className="relative z-10 flex w-full max-w-[520px] grow flex-col items-center justify-center tablet:max-w-[720px]">
+          <h1 className="text-center font-sora text-[34px] font-light leading-[1.12] text-white tablet:text-[54px] desktop:text-[54px]" style={{ letterSpacing: "-0.03em" }}>
             Cobra en línea
           </h1>
 
-          <div className="flex w-full flex-1 flex-col items-center justify-center gap-6 py-6">
-            <p className="max-w-[400px] text-center font-inter text-[16px] font-light leading-[1.6] text-white tablet:max-w-none">
-              Crea un link de pago y cobra por WhatsApp, redes o donde vendas.
-            </p>
+          <p className="mt-5 max-w-[440px] text-center font-inter text-[16px] font-light leading-[1.55] text-white/80 tablet:max-w-[560px] tablet:text-[18px]">
+            Acepta tarjetas, SPEI, Kueski y más, con protección antifraude y depósitos al día siguiente.
+          </p>
 
-            <div className="mx-auto flex w-full flex-col gap-3.5 tablet:max-w-[440px]">
-              {/* Monto grande */}
-              <div className="flex items-baseline justify-center gap-1.5 py-1">
-                <span className="font-sora text-[28px] font-light text-white/45">$</span>
-                <input
-                  inputMode="numeric"
-                  value={monto === "" ? "" : formatMonto(monto)}
-                  onChange={(e) => setMonto(e.target.value.replace(/\D/g, "").slice(0, 9))}
-                  placeholder="0.00"
-                  aria-label="Monto a cobrar"
-                  className="w-[200px] bg-transparent text-center font-sora text-[44px] font-light leading-none text-white outline-none placeholder:text-white/25"
-                />
-              </div>
-              {/* Concepto */}
-              <div>
-                <p className="mb-1.5 px-1 font-inter text-[14px] font-medium text-white/85">¿Qué quieres cobrar?</p>
-                <input value={concepto} onChange={(e) => setConcepto(e.target.value)} placeholder="Ej. Sesión de fotos" aria-label="Concepto del cobro" className={FIELD} />
-              </div>
-              <a
-                href={PAGOS_START_URL}
-                onClick={(e) => { if (!ok) e.preventDefault(); }}
-                aria-disabled={!ok}
-                className={`flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors ${ok ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"}`}
-              >
-                Crea tu link de pago
-                {ArrowRight}
-              </a>
-            </div>
+          {/* Métodos de pago */}
+          <div className="mt-9 flex flex-wrap items-center justify-center gap-4 tablet:mt-11 tablet:gap-5">
+            {METHODS.map((src) => (
+              <Image key={src} src={src} alt="" width={80} height={52} className="h-[34px] w-auto shrink-0 object-contain tablet:h-[38px]" />
+            ))}
           </div>
 
+          {/* CTA */}
+          <a href={SIGNUP_URL} className="mt-10 inline-flex h-[50px] items-center justify-center gap-2 rounded-[16px] bg-red-500 px-8 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-red-600">
+            Comienza a cobrar
+            {ArrowRight}
+          </a>
+
           {/* Social proof */}
-          <div className="mb-10 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 px-2 text-center tablet:mb-14">
+          <div className="mt-12 mb-10 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 px-2 text-center tablet:mb-14">
             {SOCIAL_PROOF.map((s, i) => (
               <span key={s} className="flex items-center gap-2.5 font-inter text-[16px] font-medium text-white">
                 {i > 0 && <span aria-hidden className="text-white/40">•</span>}

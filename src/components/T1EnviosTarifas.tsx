@@ -67,13 +67,13 @@ export default function T1EnviosTarifas() {
           </p>
         </div>
 
-        {/* Pruébalo — cotizador en vivo */}
-        <div className="mx-auto mt-14 max-w-[520px] text-center tablet:mt-16">
-          <h3 className="font-sora text-[22px] font-light text-white tablet:text-[28px]" style={{ letterSpacing: "-0.02em", marginBottom: 8 }}>
-            Ahora pruébalo tú
+        {/* Cotizador en vivo */}
+        <div className="mx-auto mt-16 max-w-[520px] text-center tablet:mt-20">
+          <h3 className="font-sora text-[26px] font-light text-white tablet:text-[38px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 12 }}>
+            Calcula cuánto ahorras
           </h3>
-          <p className="mx-auto font-inter text-[15px] font-light text-white/55 tablet:text-[16px]" style={{ lineHeight: 1.55, marginBottom: 24, maxWidth: 420 }}>
-            Pon tu origen y destino y mira cuánto ahorras con T1 Envíos.
+          <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 440 }}>
+            Pon tu origen y destino y compara tarifas al instante.
           </p>
           <T1EnviosCotizador />
         </div>

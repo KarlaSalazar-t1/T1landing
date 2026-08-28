@@ -86,13 +86,13 @@ export default function T1TiendaHero() {
     <div className="relative z-0">
       <section className="relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-5 pb-0 pt-24 tablet:min-h-screen tablet:px-6 tablet:pt-28 tablet:pb-0">
         {/* Fondo */}
-        <div aria-hidden className="absolute inset-0 z-0" style={{ background: "linear-gradient(160deg, #78405c 0%, #4a2638 50%, #2c1826 100%)" }} />
+        <div aria-hidden className="absolute inset-0 z-0" style={{ background: "linear-gradient(160deg, #69364e 0%, #3f2030 51%, #261420 100%)" }} />
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 z-0"
           style={{
             background:
-              "radial-gradient(ellipse 90% 74% at 67% 32%, rgba(236,86,66,0.52) 0%, transparent 64%), radial-gradient(ellipse 62% 60% at 14% 22%, rgba(184,54,54,0.38) 0%, transparent 62%), radial-gradient(ellipse 52% 48% at 82% 84%, rgba(246,126,160,0.20) 0%, transparent 66%), radial-gradient(ellipse 62% 72% at -4% 88%, rgba(84,104,208,0.46) 0%, transparent 56%), radial-gradient(ellipse 44% 62% at 102% 10%, rgba(84,104,208,0.38) 0%, transparent 54%)",
+              "radial-gradient(ellipse 88% 72% at 67% 32%, rgba(234,82,63,0.46) 0%, transparent 63%), radial-gradient(ellipse 61% 59% at 14% 22%, rgba(177,50,50,0.33) 0%, transparent 61%), radial-gradient(ellipse 51% 47% at 82% 84%, rgba(245,120,155,0.17) 0%, transparent 65%), radial-gradient(ellipse 61% 71% at -4% 88%, rgba(78,98,199,0.41) 0%, transparent 55%), radial-gradient(ellipse 43% 61% at 102% 10%, rgba(78,98,199,0.34) 0%, transparent 53%)",
           }}
         />
         <div
@@ -123,6 +123,10 @@ export default function T1TiendaHero() {
           >
             Crea tu tienda en menos de 1 minuto
           </h1>
+
+          <p className="mt-4 max-w-[440px] text-center font-inter text-[16px] font-light leading-[1.55] text-white/70 tablet:mt-5 tablet:max-w-[600px] tablet:text-[18px]">
+            T1 te ayuda a vender, cobrar y enviar a todo México. Todo en uno.
+          </p>
 
           {/* Bloque central */}
           <div className="flex w-full flex-1 flex-col items-center justify-center gap-6 py-6">

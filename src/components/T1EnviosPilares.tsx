@@ -38,8 +38,21 @@ const DURATION = 5000;
 export default function T1EnviosPilares() {
   const [active, setActive] = useState(0);
   const [barFull, setBarFull] = useState(false);
+  const [started, setStarted] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // La rotación arranca sólo cuando la sección entra en viewport.
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    if (typeof IntersectionObserver === "undefined") { setStarted(true); return; }
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setStarted(true); obs.disconnect(); } }, { threshold: 0.35 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   useEffect(() => {
+    if (!started) return;
     setBarFull(false);
     const raf = requestAnimationFrame(() => setBarFull(true));
     const timer = setTimeout(() => setActive((a) => (a + 1) % ITEMS.length), DURATION);
@@ -47,7 +60,7 @@ export default function T1EnviosPilares() {
       cancelAnimationFrame(raf);
       clearTimeout(timer);
     };
-  }, [active]);
+  }, [active, started]);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const programmatic = useRef(false);
@@ -107,7 +120,7 @@ export default function T1EnviosPilares() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-black px-5 tablet:px-6" style={{ paddingTop: 100, paddingBottom: 100 }}>
+    <section ref={sectionRef} className="relative overflow-hidden bg-black px-5 tablet:px-6" style={{ paddingTop: 100, paddingBottom: 100 }}>
       <div className="relative mx-auto max-w-[var(--max-w)]">
         <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", textAlign: "center", marginBottom: 16 }}>
           Cotiza, crea y rastrea

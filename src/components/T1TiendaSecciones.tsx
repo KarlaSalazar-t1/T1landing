@@ -21,6 +21,7 @@ export function T1TiendaIncluido() {
           {[
             {
               title: "T1 Pagos",
+              logo: "/img/t1pagos-logo.svg",
               desc: "Acepta tarjetas, SPEI, Kueski y meses sin intereses con una pasarela de pago pensada para convertir.",
               href: "/productos/t1pagos",
               type: "card" as const,
@@ -28,6 +29,7 @@ export function T1TiendaIncluido() {
             },
             {
               title: "T1 Envíos",
+              logo: "/img/t1envios-logo.svg",
               desc: "Genera guías con +10 paqueterías a precio competitivo y rastrea todos tus pedidos en un solo lugar.",
               href: "/productos/t1envios",
               type: "circle" as const,
@@ -36,7 +38,7 @@ export function T1TiendaIncluido() {
             },
           ].map((it) => (
             <a key={it.title} href={it.href} className="group flex flex-col rounded-[18px] border border-white/[0.08] bg-[#1A1A1D] p-7 no-underline transition-colors hover:border-white/20">
-              <h3 className="font-sora text-[22px] font-normal text-white" style={{ letterSpacing: "-0.02em" }}>{it.title}</h3>
+              <Image src={it.logo} alt={it.title} width={160} height={36} className="h-[30px] w-auto object-contain" style={{ objectPosition: "left" }} />
               <p className="mt-2.5 font-inter text-[15px] font-light leading-relaxed text-white/60 tablet:text-[16px]">{it.desc}</p>
               <div className="mt-auto flex items-center gap-3 pt-6">
                 {it.type === "card"
@@ -74,14 +76,15 @@ const MP_LOGOS = [
   { src: "/img/logos/brands/sears.webp", alt: "Sears" },
   { src: "/img/logos/brands/sanborns.webp", alt: "Sanborns" },
 ];
-/* posiciones flotantes (desktop) */
+/* posiciones flotantes (desktop) — una por cada logo */
 const MP_FLOAT = [
-  { l: "10%", t: "18%", s: 62, r: -8 },
-  { l: "26%", t: "70%", s: 54, r: 7 },
-  { l: "84%", t: "20%", s: 64, r: 9 },
-  { l: "90%", t: "66%", s: 52, r: -6 },
-  { l: "16%", t: "44%", s: 46, r: 4 },
-  { l: "78%", t: "46%", s: 48, r: -5 },
+  { l: "9%", t: "20%", s: 60, r: -8 },
+  { l: "24%", t: "72%", s: 52, r: 7 },
+  { l: "85%", t: "20%", s: 62, r: 9 },
+  { l: "91%", t: "66%", s: 50, r: -6 },
+  { l: "15%", t: "46%", s: 46, r: 4 },
+  { l: "80%", t: "46%", s: 48, r: -5 },
+  { l: "50%", t: "6%", s: 46, r: 6 },
 ];
 export function T1TiendaMarketplaces() {
   return (
@@ -105,7 +108,7 @@ export function T1TiendaMarketplaces() {
         </p>
         {/* logos en fila — móvil */}
         <div className="mb-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-4 tablet:hidden">
-          {MP_LOGOS.slice(0, 6).map((l) => (
+          {MP_LOGOS.map((l) => (
             <Image key={l.alt} src={l.src} alt={l.alt} width={80} height={80} className="h-9 w-auto object-contain opacity-85" />
           ))}
         </div>

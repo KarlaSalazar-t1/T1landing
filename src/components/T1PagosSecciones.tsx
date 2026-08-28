@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
+import T1PagosLinkCreator from "@/components/T1PagosLinkCreator";
 
 /* ══════════ 1 · Acepta todos los métodos de pago ══════════ */
 const METODOS = [
@@ -39,17 +40,19 @@ export function T1PagosMetodos() {
         <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 500 }}>
           Tarjetas, SPEI, efectivo, meses sin intereses y Kueski. Que tus clientes paguen como prefieran.
         </p>
-        <div className="mb-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-4 tablet:hidden">
+        <div className="mb-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-4 tablet:hidden">
           {METODOS.map((l) => (
             <span key={l.alt} className="flex h-11 items-center justify-center rounded-[12px] bg-[#1A1A1D] px-3">
               <Image src={l.src} alt={l.alt} width={100} height={80} className="h-6 w-auto object-contain" />
             </span>
           ))}
         </div>
-        <a href="/productos/t1pagos/pagos-en-linea" className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-8 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]">
-          Conoce la pasarela
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-        </a>
+
+        {/* Crea tu link de pago (antes en el hero) */}
+        <p className="mb-6 font-inter text-[15px] font-medium text-white/85 tablet:text-[16px]">
+          Crea un link de pago y cobra por WhatsApp, redes o donde vendas.
+        </p>
+        <T1PagosLinkCreator />
       </div>
     </section>
   );
