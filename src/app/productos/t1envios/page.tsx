@@ -1,7 +1,7 @@
 import T1Navbar from "@/components/T1Navbar";
 import T1EnviosHero from "@/components/T1EnviosHero";
 import T1EnviosPilares from "@/components/T1EnviosPilares";
-import T1EnviosTarifas from "@/components/T1EnviosTarifas";
+import T1EnviosVideo from "@/components/T1EnviosVideo";
 import {
   T1EnviosCanales,
   T1EnviosAdministracion,
@@ -22,12 +22,12 @@ export default function EnviosLanding() {
       <T1EnviosHero />
 
       <div className="relative z-[5] bg-black">
-        {/* 1 · Tarifas de ejemplo — Ahorra en cada envío */}
-        <T1EnviosTarifas />
-        {/* 2 · Servicios — Cotiza / Envía / Seguimiento */}
+        {/* 1 · Servicios — Simplifica tus envíos (Cotiza / Envía / Seguimiento) */}
         <T1EnviosServicios />
-        {/* 3 · Cotizador en vivo */}
+        {/* 2 · Cotizador en vivo */}
         <T1EnviosCotizadorSection />
+        {/* 3 · Compara tarifas — video */}
+        <T1EnviosVideo />
         {/* 4 · Tu operación de punta a punta (pilares) */}
         <T1EnviosPilares />
         {/* 5 · Conecta tus canales de venta */}

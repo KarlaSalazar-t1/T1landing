@@ -22,8 +22,8 @@ const COLS_DESKTOP = [
   { offset: 72, shots: [shot(6, 22), shot(5, -16)] },
 ];
 const COLS_MOBILE = [
-  { offset: 0, shots: [shot(1, -14), shot(6, 12), shot(3, -10)] },
-  { offset: 34, shots: [shot(5, 14), shot(2, -12), shot(4, 10)] },
+  { offset: 0, shots: [shot(1, -14), shot(6, 12), shot(3, -10), shot(7, 12), shot(2, -12)] },
+  { offset: 34, shots: [shot(5, 14), shot(2, -12), shot(4, 10), shot(1, -12), shot(6, 12)] },
 ];
 
 type S = { src: string; w: number; h: number; k: number };

@@ -118,10 +118,12 @@ export default function T1TiendaHero() {
         <div className="relative z-10 flex w-full max-w-[440px] grow flex-col items-center tablet:max-w-[720px]">
           {/* Título */}
           <h1
-            className="mt-8 text-center font-sora text-[32px] font-light leading-[1.14] text-white tablet:mt-14 tablet:text-[44px] desktop:text-[44px]"
-            style={{ letterSpacing: "-0.03em" }}
+            className="mt-8 text-center font-sora font-light leading-[1.12] text-white tablet:mt-14"
+            style={{ letterSpacing: "-0.03em", fontSize: "clamp(25px, 7vw, 44px)" }}
           >
-            Crea tu tienda en menos de 60 segundos
+            Crea tu tienda en menos
+            <br />
+            de 60 segundos
           </h1>
 
           <p className="mt-4 max-w-[440px] text-center font-inter text-[16px] font-light leading-[1.55] text-white/70 tablet:mt-5 tablet:max-w-[600px] tablet:text-[18px]">
@@ -130,10 +132,6 @@ export default function T1TiendaHero() {
 
           {/* Bloque central */}
           <div className="flex w-full flex-1 flex-col items-center justify-center gap-6 py-6">
-            <p className="max-w-[360px] text-center font-inter text-[16px] font-light leading-[1.6] text-white tablet:max-w-none">
-              Describe tu negocio y la IA crea tu tienda lista para vender.
-            </p>
-
             {/* Caja de prompt */}
             <div className="relative w-full rounded-[14px] bg-[#1D1D1D]" style={{ minHeight: 160 }}>
               <textarea

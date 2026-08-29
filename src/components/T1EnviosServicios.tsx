@@ -25,7 +25,7 @@ export function T1EnviosServicios() {
           <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
             Simplifica tus envíos
           </h2>
-          <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, maxWidth: 540 }}>
+          <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:whitespace-nowrap tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
             Cotiza, envía y da seguimiento a todas tus paqueterías desde una sola plataforma.
           </p>
         </div>
@@ -48,11 +48,13 @@ export function T1EnviosServicios() {
   );
 }
 
-/* Cotizador en vivo — su propia sección. */
+/* Cotizador en vivo — su propia sección, con blobs rojos sutiles a los costados. */
 export function T1EnviosCotizadorSection() {
   return (
-    <section className="bg-black px-5 pt-[48px] pb-[90px] tablet:px-6 tablet:pt-[64px] tablet:pb-[128px]">
-      <div className="mx-auto max-w-[520px] text-center">
+    <section className="relative overflow-hidden bg-black px-5 pt-[48px] pb-[90px] tablet:px-6 tablet:pt-[64px] tablet:pb-[128px]">
+      <div aria-hidden className="pointer-events-none absolute -left-[8%] top-1/2 h-[420px] w-[420px] -translate-y-1/2 rounded-full" style={{ background: "radial-gradient(circle, rgba(219,59,43,0.16) 0%, transparent 70%)", filter: "blur(18px)" }} />
+      <div aria-hidden className="pointer-events-none absolute -right-[8%] top-1/2 h-[420px] w-[420px] -translate-y-1/2 rounded-full" style={{ background: "radial-gradient(circle, rgba(219,59,43,0.14) 0%, transparent 70%)", filter: "blur(18px)" }} />
+      <div className="relative z-[1] mx-auto max-w-[520px] text-center">
         <h3 className="font-sora text-[26px] font-light text-white tablet:text-[38px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 12 }}>
           Cotiza tu envío en segundos
         </h3>
