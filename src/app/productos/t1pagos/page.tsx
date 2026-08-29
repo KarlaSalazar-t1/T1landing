@@ -20,10 +20,10 @@ export default function PagosLanding() {
       <T1PagosHero />
 
       <div className="relative z-[5] bg-black">
-        {/* 1 · Acepta todos los métodos de pago */}
-        <T1PagosMetodos />
-        {/* 2 · ¿Por qué elegir T1 Pagos? (panel claro) */}
+        {/* 1 · ¿Por qué elegir T1 Pagos? (panel claro) */}
         <T1PagosPorQue />
+        {/* 2 · Crea un link de pago */}
+        <T1PagosMetodos />
         {/* 3 · Una plataforma, cero complicaciones (pilares, incluye Score) */}
         <T1PagosPilares />
         {/* 4 · Métricas — justo debajo de los pilares */}

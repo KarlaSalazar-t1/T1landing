@@ -115,7 +115,7 @@ function StatusBar() {
 }
 
 /* Marco de teléfono para las simulaciones */
-function PhoneFrame({ children }: { children: ReactNode }) {
+export function PhoneFrame({ children }: { children: ReactNode }) {
   return (
     <div className="relative mx-auto" style={{ width: 290 }}>
       <div className="relative flex flex-col overflow-hidden bg-white" style={{ height: 580, borderRadius: 42, border: "9px solid #14100f", boxShadow: "0 34px 80px rgba(0,0,0,0.55)" }}>
@@ -209,7 +209,7 @@ function LaNoriaCheckout() {
 }
 
 /* Flujo Tienda en línea: carrito → checkout con datos → TYP */
-function TiendaFlow() {
+export function TiendaFlow() {
   const [p, setP] = useState(0);
   useEffect(() => {
     const durs = [3000, 3000, 3400];
@@ -247,7 +247,7 @@ function TiendaFlow() {
 }
 
 /* Flujo Link de pago: WhatsApp (tap link) → checkout link → TYP → WhatsApp (respuesta) */
-function LinkFlow() {
+export function LinkFlow() {
   const [p, setP] = useState(0);
   useEffect(() => {
     const durs = [3000, 2800, 2800, 3200];

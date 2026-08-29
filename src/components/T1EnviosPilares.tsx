@@ -108,7 +108,7 @@ export default function T1EnviosPilares() {
       return (
         <div className="flex h-full w-full items-center justify-center">
           <div className="w-full" style={{ maxWidth: 320 }}>
-            <div className={shell} style={shadow}><RastreoPanel bare height={188} /></div>
+            <div className={shell} style={shadow}><RastreoPanel bare height={132} /></div>
           </div>
         </div>
       );

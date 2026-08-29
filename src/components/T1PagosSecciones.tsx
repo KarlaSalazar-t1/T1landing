@@ -21,18 +21,18 @@ export function T1PagosMetodos() {
           Crea un link de pago y cobra al instante
         </h2>
         <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 32, maxWidth: 480 }}>
-          Compártelo por WhatsApp, redes o donde vendas y ofrece todos los métodos de pago.
+          Compártelo por WhatsApp, redes o donde vendas.
         </p>
 
-        {/* Logos de métodos — sin contenedor */}
-        <div className="mb-12 flex flex-wrap items-center justify-center gap-x-7 gap-y-4">
+        {/* Creador de link de pago */}
+        <T1PagosLinkCreator />
+
+        {/* Logos de métodos — sin contenedor, debajo del botón */}
+        <div className="mt-12 flex flex-wrap items-center justify-center gap-x-7 gap-y-4">
           {METODOS.map((l) => (
             <Image key={l.alt} src={l.src} alt={l.alt} width={100} height={80} className="h-6 w-auto object-contain opacity-90" />
           ))}
         </div>
-
-        {/* Creador de link de pago */}
-        <T1PagosLinkCreator />
       </div>
     </section>
   );
@@ -78,7 +78,6 @@ const ADMIN_CARDS = [
   { title: "Panel de pagos", desc: "Visualiza y filtra todas tus transacciones, con reportes y conciliación automática.", img: "/img/pagos-panel.png", w: 1254, h: 1254, href: "/productos/t1pagos/pagos-en-linea" },
   { title: "Reclamaciones", desc: "Gestiona reclamaciones con evidencia y monitorea tu tasa de reclamaciones en un panel.", img: "/img/pagos-contracargos.png", w: 1536, h: 1024, href: "/productos/t1pagos/reclamaciones" },
   { title: "Dinero al día siguiente", desc: "Recibe tus depósitos al día hábil siguiente, con dispersión flexible.", img: "/img/pagos-dinero.png", w: 1536, h: 1024, href: "/productos/t1pagos/pagos-en-linea" },
-  { title: "Enrutamiento", desc: "Optimiza la aprobación enrutando cada transacción por el flujo con mayor aprobación.", img: "/img/reglas-link.png", w: 1190, h: 1322, href: "/productos/t1pagos/enrutamiento" },
 ];
 /* padding inferior reducido para acercar la sección de Precios */
 export function T1PagosAdministracion() {

@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
-import { OrigenCheckoutPanel } from "@/components/T1PagosCheckoutPanel";
+import { PhoneFrame, TiendaFlow, LinkFlow } from "@/components/T1PagosEnLinea";
+import { ScoreFlow } from "@/components/T1PagosScoreFlow";
 
 const ITEMS = [
   {
@@ -11,8 +11,7 @@ const ITEMS = [
     description: "Una pasarela optimizada para convertir, con todos los métodos de pago y meses sin intereses.",
     cta: "Conoce más",
     ctaHref: "/productos/t1pagos/pagos-en-linea",
-    panel: "checkout" as const,
-    image: "",
+    Flow: TiendaFlow,
   },
   {
     id: "links",
@@ -20,25 +19,39 @@ const ITEMS = [
     description: "Cobra sin tienda ni terminal: comparte un link por WhatsApp, redes o correo y te pagan con tarjeta.",
     cta: "Conoce más",
     ctaHref: "/productos/t1pagos/links-de-pago",
-    image: "/img/links-de-pago-v2.png",
+    Flow: LinkFlow,
   },
   {
     id: "score",
     title: "Antifraude con T1 Score",
-    description: "Analiza cada transacción en tiempo real para aprobar más ventas legítimas y frenar el fraude, con seguro contra reclamaciones.",
+    description: "El cliente paga y en segundos analizamos correo, teléfono, historial y más para decidir si aprobar el pago.",
     cta: "Conoce más",
     ctaHref: "/productos/t1pagos/reclamaciones",
-    image: "/img/t1score-v3.png",
+    Flow: ScoreFlow,
+    standalone: true,
   },
 ];
 
-const DURATION = 5000;
+const DURATION = 9000;
 
 export default function T1PagosPilares() {
   const [active, setActive] = useState(0);
   const [barFull, setBarFull] = useState(false);
+  const [started, setStarted] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // El loop y las animaciones arrancan sólo cuando la sección entra en viewport.
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    if (typeof IntersectionObserver === "undefined") { setStarted(true); return; }
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setStarted(true); obs.disconnect(); } }, { threshold: 0.3 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   useEffect(() => {
+    if (!started) return;
     setBarFull(false);
     const raf = requestAnimationFrame(() => setBarFull(true));
     const timer = setTimeout(() => setActive((a) => (a + 1) % ITEMS.length), DURATION);
@@ -46,7 +59,7 @@ export default function T1PagosPilares() {
       cancelAnimationFrame(raf);
       clearTimeout(timer);
     };
-  }, [active]);
+  }, [active, started]);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const programmatic = useRef(false);
@@ -77,36 +90,25 @@ export default function T1PagosPilares() {
     </a>
   );
 
+  // Cada pilar muestra su flujo animado; el de Score es un panel interno de T1
+  // (no un teléfono). Las animaciones sólo montan cuando la sección arrancó.
   const Card = ({ it }: { it: (typeof ITEMS)[number] }) => {
-    // "Pasarela en línea" muestra el panel de checkout Origen MX; el resto usa imagen.
-    if ("panel" in it && it.panel) {
-      return (
-        <div className="flex w-full flex-col items-center gap-6 py-2">
-          <OrigenCheckoutPanel />
-          <Cta it={it} />
-        </div>
-      );
-    }
+    const Flow = it.Flow;
+    const isStandalone = "standalone" in it && (it as { standalone?: boolean }).standalone;
     return (
-      <div className="audience-card-wrap flex w-full justify-center tablet:justify-start">
-        <div className="audience-card flex w-full" style={{ maxWidth: 460 }}>
-          <span className="audience-beam" aria-hidden />
-          <div className="relative z-[1] w-full overflow-hidden rounded-[18.5px]" style={{ background: "#1b1714" }}>
-            <div className="relative w-full" style={{ aspectRatio: "741 / 565" }}>
-              <Image src={it.image} alt={it.title} fill className="object-cover" sizes="(max-width: 768px) 90vw, 460px" />
-              <div className="pointer-events-none absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 45%, rgba(0,0,0,0.75) 100%)" }} />
-              <div className="absolute bottom-0 left-0 right-0 p-5 tablet:p-7">
-                <Cta it={it} />
-              </div>
-            </div>
-          </div>
-        </div>
+      <div className="flex w-full flex-col items-center gap-7 py-2">
+        {isStandalone ? (
+          started ? <Flow /> : <div className="mx-auto w-full max-w-[300px]" style={{ minHeight: 512 }} />
+        ) : (
+          <PhoneFrame>{started ? <Flow /> : null}</PhoneFrame>
+        )}
+        <Cta it={it} />
       </div>
     );
   };
 
   return (
-    <section className="relative overflow-hidden bg-black px-5 tablet:px-6" style={{ paddingTop: 100, paddingBottom: 100 }}>
+    <section ref={sectionRef} className="relative overflow-hidden bg-black px-5 tablet:px-6" style={{ paddingTop: 100, paddingBottom: 100 }}>
       <div className="relative mx-auto max-w-[var(--max-w)]">
         <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", textAlign: "center", marginBottom: 16 }}>
           Una plataforma para todos tus cobros

@@ -985,6 +985,11 @@ body {
   100% { opacity: 1; transform: scale(1); }
 }
 
+/* Anillo de T1 Score — se llena desde vacío hasta el valor final */
+@keyframes scoreRing {
+  from { stroke-dashoffset: 290; }
+}
+
 /* Órbita de logos en el hero (recreado del landing de envíos) */
 @keyframes halo-orbit {
   from { transform: rotate(0deg) translateX(var(--halo-r, 190px)) rotate(0deg); }

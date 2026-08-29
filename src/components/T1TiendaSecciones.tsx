@@ -186,8 +186,11 @@ export function T1TiendaPagos() {
   return (
     <section className="overflow-hidden bg-black px-5 py-[90px] tablet:px-6 tablet:py-[128px]">
       <div className="mx-auto max-w-[var(--max-w)]">
-        <div className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
-          <div>
+        <div className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.35fr)] tablet:gap-14">
+          <div className="order-2 flex justify-center tablet:order-1 tablet:justify-start">
+            <T1TiendaCobraCard />
+          </div>
+          <div className="order-1 tablet:order-2">
             <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 16 }}>
               Cobra como tus clientes prefieran
             </h2>
@@ -206,9 +209,6 @@ export function T1TiendaPagos() {
               Conoce la pasarela
               <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </a>
-          </div>
-          <div className="flex justify-center tablet:justify-end">
-            <T1TiendaCobraCard />
           </div>
         </div>
       </div>

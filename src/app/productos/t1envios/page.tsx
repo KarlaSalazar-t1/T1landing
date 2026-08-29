@@ -28,10 +28,10 @@ export default function EnviosLanding() {
         <T1EnviosServicios />
         {/* 3 · Cotizador en vivo */}
         <T1EnviosCotizadorSection />
-        {/* 4 · Conecta tus canales de venta */}
-        <T1EnviosCanales />
-        {/* 5 · Tu operación de punta a punta (pilares) */}
+        {/* 4 · Tu operación de punta a punta (pilares) */}
         <T1EnviosPilares />
+        {/* 5 · Conecta tus canales de venta */}
+        <T1EnviosCanales />
         {/* 6 · Métricas. Nota: 92% nivel de servicio es mockup, confirmar. */}
         <T1ProductMetrics
           metrics={[
