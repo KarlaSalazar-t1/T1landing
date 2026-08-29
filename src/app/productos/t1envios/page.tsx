@@ -30,9 +30,7 @@ export default function EnviosLanding() {
         <T1EnviosVideo />
         {/* 4 · Tu operación de punta a punta (pilares) */}
         <T1EnviosPilares />
-        {/* 5 · Conecta tus canales de venta */}
-        <T1EnviosCanales />
-        {/* 6 · Métricas. Nota: 92% nivel de servicio es mockup, confirmar. */}
+        {/* 5 · Métricas — arriba de canales. Nota: 92% nivel de servicio es mockup, confirmar. */}
         <T1ProductMetrics
           metrics={[
             { end: 30, prefix: "+", suffix: "M", label: "envíos entregados" },
@@ -40,6 +38,8 @@ export default function EnviosLanding() {
             { end: 50000, prefix: "+", label: "negocios usando T1" },
           ]}
         />
+        {/* 6 · Conecta tus canales de venta */}
+        <T1EnviosCanales />
         {/* 7 · Incidencias */}
         <T1EnviosIncidencias />
         {/* 8 · Administra tu operación */}

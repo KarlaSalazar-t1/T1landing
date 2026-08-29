@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { SIGNUP_URL } from "@/lib/constants";
+import T1EnviosOrbitHalo from "@/components/T1EnviosOrbitHalo";
 
 const SOCIAL_PROOF = ["+30M de envíos", "+50,000 negocios", "+10 paqueterías"];
 const CARRIERS = ["/img/circles/dhl.svg", "/img/circles/fedex.svg", "/img/circles/ups.svg", "/img/circles/ampm.svg", "/img/circles/99.svg"];
@@ -92,9 +93,9 @@ export default function T1EnviosHero() {
               </a>
             </div>
 
-            {/* Derecha — card de tarifas (sólo desktop) */}
+            {/* Derecha — halo con logos orbitando + card de tarifa (sólo desktop) */}
             <div className="hidden justify-center tablet:flex">
-              <RateCards />
+              <T1EnviosOrbitHalo />
             </div>
           </div>
 

@@ -106,10 +106,10 @@ export function T1TiendaMarketplaces() {
         <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 500 }}>
           Conecta los marketplaces donde ya vendes y gestiona catálogo, inventario y pedidos sin duplicar trabajo.
         </p>
-        {/* logos en fila — móvil */}
-        <div className="mb-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-4 tablet:hidden">
+        {/* logos — móvil, en 2 líneas (4 + 3) */}
+        <div className="mx-auto mb-8 grid max-w-[340px] grid-cols-4 items-center justify-items-center gap-x-4 gap-y-5 tablet:hidden">
           {MP_LOGOS.map((l) => (
-            <Image key={l.alt} src={l.src} alt={l.alt} width={80} height={80} className="h-9 w-auto object-contain opacity-85" />
+            <Image key={l.alt} src={l.src} alt={l.alt} width={80} height={80} className="h-8 w-auto object-contain opacity-85" />
           ))}
         </div>
         <a href="/productos/t1tienda/marketplaces" className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-8 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]">

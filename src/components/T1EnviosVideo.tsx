@@ -2,11 +2,11 @@ export default function T1EnviosVideo() {
   return (
     <section className="bg-black px-5 py-[80px] tablet:px-6 tablet:py-[120px]">
       <div className="mx-auto max-w-[var(--max-w)]">
-        <div className="mx-auto max-w-[760px] text-center" style={{ marginBottom: 44 }}>
-          <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
+        <div className="text-center" style={{ marginBottom: 44 }}>
+          <h2 className="mx-auto max-w-[760px] font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
             Compara tarifas, ventajas y tiempos de entrega
           </h2>
-          <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, maxWidth: 560 }}>
+          <p className="font-inter text-[16px] font-light text-white/60 tablet:whitespace-nowrap tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
             Elige la mejor opción de +10 paqueterías en un solo lugar y genera tu guía al instante.
           </p>
         </div>

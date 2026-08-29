@@ -52,8 +52,8 @@ export function T1EnviosServicios() {
 export function T1EnviosCotizadorSection() {
   return (
     <section className="relative overflow-hidden bg-black px-5 pt-[48px] pb-[90px] tablet:px-6 tablet:pt-[64px] tablet:pb-[128px]">
-      <div aria-hidden className="pointer-events-none absolute -left-[8%] top-1/2 h-[420px] w-[420px] -translate-y-1/2 rounded-full" style={{ background: "radial-gradient(circle, rgba(219,59,43,0.16) 0%, transparent 70%)", filter: "blur(18px)" }} />
-      <div aria-hidden className="pointer-events-none absolute -right-[8%] top-1/2 h-[420px] w-[420px] -translate-y-1/2 rounded-full" style={{ background: "radial-gradient(circle, rgba(219,59,43,0.14) 0%, transparent 70%)", filter: "blur(18px)" }} />
+      <div aria-hidden className="pointer-events-none absolute -left-[12%] top-[30%] h-[520px] w-[520px] -translate-y-1/2 rounded-full" style={{ background: "radial-gradient(circle, rgba(219,59,43,0.18) 0%, transparent 70%)", filter: "blur(22px)" }} />
+      <div aria-hidden className="pointer-events-none absolute -right-[6%] top-[74%] h-[340px] w-[340px] -translate-y-1/2 rounded-full" style={{ background: "radial-gradient(circle, rgba(219,59,43,0.12) 0%, transparent 72%)", filter: "blur(16px)" }} />
       <div className="relative z-[1] mx-auto max-w-[520px] text-center">
         <h3 className="font-sora text-[26px] font-light text-white tablet:text-[38px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 12 }}>
           Cotiza tu envío en segundos

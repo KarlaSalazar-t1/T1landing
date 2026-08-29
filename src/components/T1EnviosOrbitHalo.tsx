@@ -12,11 +12,10 @@ const LOGOS = [
   "/img/circles/ampm.svg",
   "/img/circles/99.svg",
 ];
-const QUOTES = [
-  { logo: "/img/circles/fedex.svg", carrier: "FedEx", dest: "CDMX → Guadalajara", eta: "2 días hábiles", price: "115" },
-  { logo: "/img/circles/dhl.svg", carrier: "DHL", dest: "CDMX → Monterrey", eta: "3 días hábiles", price: "128" },
-  { logo: "/img/circles/99.svg", carrier: "99 minutos", dest: "CDMX → CDMX", eta: "Mismo día", price: "89" },
-  { logo: "/img/circles/ups.svg", carrier: "UPS", dest: "CDMX → Cancún", eta: "2 días hábiles", price: "149" },
+const RATES = [
+  { from: "CDMX", to: "CDMX", price: "89" },
+  { from: "CDMX", to: "Guadalajara", price: "115" },
+  { from: "CDMX", to: "Monterrey", price: "119" },
 ];
 const DUR = 26; // segundos por vuelta
 
@@ -24,10 +23,10 @@ export default function T1EnviosOrbitHalo({ size = 420, radius = 192 }: { size?:
   const n = LOGOS.length;
   const [q, setQ] = useState(0);
   useEffect(() => {
-    const t = setInterval(() => setQ((v) => (v + 1) % QUOTES.length), 2600);
+    const t = setInterval(() => setQ((v) => (v + 1) % RATES.length), 2600);
     return () => clearInterval(t);
   }, []);
-  const quote = QUOTES[q];
+  const rate = RATES[q];
 
   return (
     <div className="relative mx-auto" style={{ width: size, height: size }}>
@@ -36,31 +35,21 @@ export default function T1EnviosOrbitHalo({ size = 420, radius = 192 }: { size?:
       {/* Aro */}
       <div aria-hidden className="absolute inset-0 rounded-full" style={{ border: "1.5px solid rgba(219,59,43,0.22)", boxShadow: "0 0 0 14px rgba(219,59,43,0.03), inset 0 0 40px rgba(219,59,43,0.05)" }} />
 
-      {/* Núcleo — mini-card de cotización que cicla */}
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" style={{ width: 200 }}>
-        <div className="rounded-[16px] bg-white p-3.5" style={{ boxShadow: "0 20px 50px rgba(0,0,0,0.35)", fontFamily: "var(--font-manrope-var), 'Manrope', sans-serif" }}>
+      {/* Núcleo — card de tarifa (estilo "Ahorra") que cicla */}
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" style={{ width: 236 }}>
+        <div className="rounded-[16px] border border-white/[0.12] bg-[#1A1A1D] px-5 py-[18px]" style={{ boxShadow: "0 24px 56px rgba(0,0,0,0.55)" }}>
           <div key={q} style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
-            <div className="flex items-center gap-2.5">
-              <span className="flex h-[32px] w-[32px] shrink-0 items-center justify-center overflow-hidden rounded-full">
-                <Image src={quote.logo} alt="" width={40} height={40} className="h-full w-full object-cover" />
-              </span>
-              <div className="min-w-0 leading-tight">
-                <p className="text-[13px] font-bold text-black">{quote.carrier}</p>
-                <p className="truncate text-[11px] text-black/50">{quote.dest}</p>
-              </div>
+            <p className="font-inter text-[11px] font-medium text-white/45" style={{ marginBottom: 12 }}>Tarifa preferencial</p>
+            <div className="flex items-center gap-2" style={{ marginBottom: 14 }}>
+              <span className="font-sora text-[16px] font-normal text-white" style={{ letterSpacing: "-0.01em" }}>{rate.from}</span>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" className="shrink-0 text-[#DB3B2B]"><path d="M4 12h15M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              <span className="truncate font-sora text-[16px] font-normal text-white" style={{ letterSpacing: "-0.01em" }}>{rate.to}</span>
             </div>
-            <div className="mt-3 flex items-end justify-between">
-              <div className="leading-tight">
-                <p className="text-[10px] text-black/45">Entrega</p>
-                <p className="text-[12.5px] font-bold text-black">{quote.eta}</p>
-              </div>
-              <div className="text-right leading-tight">
-                <p className="text-[10px] text-black/45">Precio</p>
-                <p className="text-[15px] font-bold text-black">${quote.price}<span className="ml-0.5 text-[9px] font-semibold text-black/45">MXN</span></p>
-              </div>
+            <div className="flex items-end gap-1.5">
+              <span className="font-inter text-[13px] font-light text-white/45" style={{ marginBottom: 5 }}>desde</span>
+              <span className="font-sora text-[30px] font-light text-white" style={{ letterSpacing: "-0.02em", lineHeight: 1 }}>${rate.price}</span>
             </div>
           </div>
-          <div className="mt-3 flex h-[34px] items-center justify-center rounded-[10px] bg-[#DB3B2B] text-[12.5px] font-semibold text-white">Crear envío</div>
         </div>
       </div>
 
