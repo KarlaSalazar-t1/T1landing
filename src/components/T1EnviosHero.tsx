@@ -28,7 +28,7 @@ function RateCards() {
   return (
     <div className="relative mx-auto w-full max-w-[300px]">
       <div aria-hidden className="pointer-events-none absolute -inset-8 -z-0" style={{ background: "radial-gradient(ellipse at center, rgba(219,59,43,0.18) 0%, transparent 70%)" }} />
-      <div className="relative z-[1] rounded-[18px] bg-white px-6 py-7 text-left" style={{ boxShadow: "0 24px 56px rgba(0,0,0,0.45)" }}>
+      <div className="relative z-[1] rounded-[18px] bg-white px-6 py-9 text-left" style={{ boxShadow: "0 24px 56px rgba(0,0,0,0.45)" }}>
         <div key={q} style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
           <p className="font-inter text-[12px] font-medium text-black/45" style={{ marginBottom: 16 }}>Tarifa preferencial</p>
           <div className="flex items-center gap-2" style={{ marginBottom: 20 }}>
@@ -88,8 +88,8 @@ export default function T1EnviosHero() {
               {/* Logos de paqueterías — sólo móvil; suben un poco sobre la card de cotización */}
               <div className="relative z-10 -mt-5 flex flex-wrap items-center justify-center gap-4 tablet:hidden">
                 {CARRIERS.map((src) => (
-                  <span key={src} className="flex h-[36px] w-[36px] shrink-0 items-center justify-center overflow-hidden rounded-full">
-                    <Image src={src} alt="" width={72} height={72} className="h-full w-full object-cover" style={{ filter: "drop-shadow(0 4px 10px rgba(0,0,0,0.45))" }} />
+                  <span key={src} className="flex h-[36px] w-[36px] shrink-0 items-center justify-center overflow-hidden rounded-full" style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.30)" }}>
+                    <Image src={src} alt="" width={72} height={72} className="h-full w-full object-cover" />
                   </span>
                 ))}
               </div>
