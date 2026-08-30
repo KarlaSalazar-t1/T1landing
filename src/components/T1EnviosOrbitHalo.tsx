@@ -37,17 +37,17 @@ export default function T1EnviosOrbitHalo({ size = 420, radius = 192 }: { size?:
 
       {/* Núcleo — card de tarifa (estilo "Ahorra") que cicla */}
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" style={{ width: 236 }}>
-        <div className="rounded-[16px] border border-white/[0.12] bg-[#1A1A1D] px-5 py-[18px]" style={{ boxShadow: "0 24px 56px rgba(0,0,0,0.55)" }}>
+        <div className="rounded-[16px] bg-white px-5 py-[18px]" style={{ boxShadow: "0 24px 56px rgba(0,0,0,0.45)" }}>
           <div key={q} style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
-            <p className="font-inter text-[11px] font-medium text-white/45" style={{ marginBottom: 12 }}>Tarifa preferencial</p>
+            <p className="font-inter text-[11px] font-medium text-black/45" style={{ marginBottom: 12 }}>Tarifa preferencial</p>
             <div className="flex items-center gap-2" style={{ marginBottom: 14 }}>
-              <span className="font-sora text-[16px] font-normal text-white" style={{ letterSpacing: "-0.01em" }}>{rate.from}</span>
+              <span className="font-sora text-[16px] font-normal text-black" style={{ letterSpacing: "-0.01em" }}>{rate.from}</span>
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" className="shrink-0 text-[#DB3B2B]"><path d="M4 12h15M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-              <span className="truncate font-sora text-[16px] font-normal text-white" style={{ letterSpacing: "-0.01em" }}>{rate.to}</span>
+              <span className="truncate font-sora text-[16px] font-normal text-black" style={{ letterSpacing: "-0.01em" }}>{rate.to}</span>
             </div>
             <div className="flex items-end gap-1.5">
-              <span className="font-inter text-[13px] font-light text-white/45" style={{ marginBottom: 5 }}>desde</span>
-              <span className="font-sora text-[30px] font-light text-white" style={{ letterSpacing: "-0.02em", lineHeight: 1 }}>${rate.price}</span>
+              <span className="font-inter text-[13px] font-light text-black/45" style={{ marginBottom: 5 }}>desde</span>
+              <span className="font-sora text-[30px] font-light text-black" style={{ letterSpacing: "-0.02em", lineHeight: 1 }}>${rate.price}</span>
             </div>
           </div>
         </div>

@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
 import T1EnviosOrbitHalo from "@/components/T1EnviosOrbitHalo";
 
@@ -14,25 +17,30 @@ const ArrowRight = (
   <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
 );
 
-/* Tarjetas de tarifa — mismo estilo que la sección "Ahorra". */
+/* Card de tarifa que cicla — una sola, blanca (como el centro del halo en desktop). */
 function RateCards() {
+  const [q, setQ] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setQ((v) => (v + 1) % RATES.length), 2600);
+    return () => clearInterval(t);
+  }, []);
+  const r = RATES[q];
   return (
-    <div className="relative mx-auto w-full max-w-[380px]">
+    <div className="relative mx-auto w-full max-w-[300px]">
       <div aria-hidden className="pointer-events-none absolute -inset-8 -z-0" style={{ background: "radial-gradient(ellipse at center, rgba(219,59,43,0.18) 0%, transparent 70%)" }} />
-      <div className="relative z-[1] flex flex-col gap-3.5">
-        {RATES.map((r) => (
-          <div key={r.to} className="flex items-center justify-between gap-4 rounded-[16px] border border-white/[0.10] bg-[#1A1A1D]/85 px-5 py-4" style={{ boxShadow: "0 18px 44px -26px rgba(0,0,0,0.85)", backdropFilter: "blur(6px)" }}>
-            <div className="flex min-w-0 items-center gap-2">
-              <span className="font-sora text-[16px] font-normal text-white tablet:text-[18px]">{r.from}</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 text-[#DB3B2B]"><path d="M4 12h15M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-              <span className="truncate font-sora text-[16px] font-normal text-white tablet:text-[18px]">{r.to}</span>
-            </div>
-            <div className="shrink-0 text-right leading-none">
-              <span className="block font-inter text-[11px] font-light text-white/45" style={{ marginBottom: 3 }}>desde</span>
-              <span className="font-sora text-[22px] font-light text-white" style={{ letterSpacing: "-0.02em" }}>${r.price}</span>
-            </div>
+      <div className="relative z-[1] rounded-[16px] bg-white px-5 py-[18px]" style={{ boxShadow: "0 24px 56px rgba(0,0,0,0.45)" }}>
+        <div key={q} style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
+          <p className="font-inter text-[11px] font-medium text-black/45" style={{ marginBottom: 12 }}>Tarifa preferencial</p>
+          <div className="flex items-center gap-2" style={{ marginBottom: 14 }}>
+            <span className="font-sora text-[17px] font-normal text-black">{r.from}</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 text-[#DB3B2B]"><path d="M4 12h15M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            <span className="truncate font-sora text-[17px] font-normal text-black">{r.to}</span>
           </div>
-        ))}
+          <div className="flex items-end gap-1.5">
+            <span className="font-inter text-[13px] font-light text-black/45" style={{ marginBottom: 5 }}>desde</span>
+            <span className="font-sora text-[30px] font-light text-black" style={{ letterSpacing: "-0.02em", lineHeight: 1 }}>${r.price}</span>
+          </div>
+        </div>
       </div>
     </div>
   );

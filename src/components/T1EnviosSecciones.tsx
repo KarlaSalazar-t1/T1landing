@@ -17,21 +17,39 @@ const CHANNELS = [
   { src: "/img/tiendanube.svg", alt: "Tiendanube" },
   { src: "/img/aliexpress.svg", alt: "AliExpress" },
 ];
+/* posiciones flotantes (dispersas) — una por cada canal */
+const CH_FLOAT = [
+  { l: "8%", t: "18%", s: 34, r: -8 },
+  { l: "25%", t: "11%", s: 30, r: 6 },
+  { l: "43%", t: "16%", s: 28, r: -5 },
+  { l: "59%", t: "11%", s: 30, r: 7 },
+  { l: "76%", t: "17%", s: 32, r: -6 },
+  { l: "92%", t: "23%", s: 30, r: 5 },
+  { l: "13%", t: "82%", s: 30, r: 6 },
+  { l: "32%", t: "88%", s: 28, r: -7 },
+  { l: "52%", t: "84%", s: 32, r: 5 },
+  { l: "71%", t: "88%", s: 28, r: -5 },
+  { l: "88%", t: "80%", s: 34, r: 7 },
+];
 export function T1EnviosCanales() {
   return (
-    <section className="bg-[#0e0d0d] px-5 py-[70px] tablet:px-6 tablet:py-[96px]">
-      <div className="mx-auto max-w-[820px] text-center">
+    <section className="relative overflow-hidden bg-[#0e0d0d] px-5 py-[80px] tablet:px-6 tablet:py-[110px]">
+      {/* logos dispersos (desktop y responsive) */}
+      {CH_FLOAT.map((f, i) => {
+        const l = CHANNELS[i % CHANNELS.length];
+        return (
+          <div key={i} aria-hidden className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 scale-[0.72] tablet:scale-100" style={{ left: f.l, top: f.t }}>
+            <Image src={l.src} alt="" width={160} height={52} className="w-auto object-contain opacity-80" style={{ height: f.s, transform: `rotate(${f.r}deg)` }} sizes="130px" />
+          </div>
+        );
+      })}
+      <div className="relative z-[1] mx-auto flex min-h-[300px] max-w-[620px] flex-col items-center justify-center text-center tablet:min-h-[280px]">
         <h2 className="font-sora text-[28px] font-light text-white tablet:text-[40px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
           Conecta tus canales de venta
         </h2>
-        <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 40, maxWidth: 520 }}>
+        <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.6, maxWidth: 520 }}>
           Sincroniza tus pedidos de marketplaces y tiendas, y genera guías automáticamente.
         </p>
-        <div className="flex flex-wrap items-center justify-center gap-x-9 gap-y-7 tablet:gap-x-14">
-          {CHANNELS.map((l) => (
-            <Image key={l.alt} src={l.src} alt={l.alt} width={160} height={52} className="h-[34px] w-auto object-contain opacity-85 tablet:h-[40px]" />
-          ))}
-        </div>
       </div>
     </section>
   );

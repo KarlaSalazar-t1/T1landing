@@ -41,8 +41,21 @@ const DURATION = 5000;
 export default function T1TiendaDondeVender() {
   const [active, setActive] = useState(0);
   const [barFull, setBarFull] = useState(false);
+  const [started, setStarted] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // El timer arranca sólo cuando la sección completa entra en viewport.
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    if (typeof IntersectionObserver === "undefined") { setStarted(true); return; }
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setStarted(true); obs.disconnect(); } }, { threshold: 0.55 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   useEffect(() => {
+    if (!started) return;
     setBarFull(false);
     const raf = requestAnimationFrame(() => setBarFull(true));
     const timer = setTimeout(() => setActive((a) => (a + 1) % ITEMS.length), DURATION);
@@ -50,7 +63,7 @@ export default function T1TiendaDondeVender() {
       cancelAnimationFrame(raf);
       clearTimeout(timer);
     };
-  }, [active]);
+  }, [active, started]);
 
   // Carrusel móvil
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -99,7 +112,7 @@ export default function T1TiendaDondeVender() {
   );
 
   return (
-    <section className="relative overflow-hidden bg-black px-5 tablet:px-6" style={{ paddingTop: 100, paddingBottom: 100 }}>
+    <section ref={sectionRef} className="relative overflow-hidden bg-black px-5 tablet:px-6" style={{ paddingTop: 100, paddingBottom: 100 }}>
       <div className="relative mx-auto max-w-[var(--max-w)]">
         <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", textAlign: "center", marginBottom: 16 }}>
           Vende donde estén tus clientes

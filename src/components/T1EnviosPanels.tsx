@@ -193,39 +193,32 @@ const COTIZA_OPTIONS = [
   { brand: "dhl", name: "DHL", sub: "Servicio express", eta: "3 días hábiles", etaSub: "Jue · 25 ene", price: "$128.00", highlight: false },
 ];
 export function CotizadorScreen() {
-  const FILTERS = ["Paquetería", "Tipo de servicio", "Ventajas"];
-  const Chevron = () => <svg width="11" height="11" viewBox="0 0 24 24" fill="none" className="shrink-0"><path d="M6 9l6 6 6-6" stroke="rgba(0,0,0,0.5)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>;
   return (
     <div className="flex h-full flex-col bg-white px-4 pt-5" style={{ fontFamily: MANROPE }}>
-      <p className="text-[14px] font-bold text-black" style={{ marginBottom: 12 }}>Cotizador</p>
-      <div className="flex flex-wrap gap-1.5">
-        {FILTERS.map((f) => (
-          <span key={f} className="flex items-center gap-1 rounded-full border px-2.5 py-1.5 text-[10.5px] font-medium text-black/75" style={{ borderColor: "rgba(0,0,0,0.14)" }}>{f}<Chevron /></span>
-        ))}
-      </div>
+      <p className="text-[14px] font-bold text-black" style={{ marginBottom: 6 }}>Cotizador</p>
+      <p className="text-[11.5px] text-black/50" style={{ marginBottom: 4 }}>Mejores tarifas para tu envío</p>
       {COTIZA_OPTIONS.map((o, i) => (
-        <div key={i} className="relative overflow-hidden" style={{ borderTop: "1px solid rgba(0,0,0,0.08)", paddingTop: 12, paddingBottom: 12, marginTop: i === 0 ? 12 : 0 }}>
+        <div key={i} className="relative overflow-hidden" style={{ borderTop: "1px solid rgba(0,0,0,0.08)", paddingTop: 14, paddingBottom: 14 }}>
           {o.highlight && <span aria-hidden className="cotiza-sweep pointer-events-none absolute inset-y-0 left-0 z-20 w-1/2" style={{ background: "linear-gradient(100deg, transparent 0%, rgba(219,59,43,0.14) 50%, transparent 100%)" }} />}
           <div className="flex items-center gap-2.5">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={`/img/carriers/${o.brand}.svg`} alt={o.name} width={36} height={36} className="h-[36px] w-[36px] shrink-0" />
+            <img src={`/img/carriers/${o.brand}.svg`} alt={o.name} width={34} height={34} className="h-[34px] w-[34px] shrink-0" />
             <div className="min-w-0">
               <p className="text-[14px] font-bold leading-tight text-black">{o.name}</p>
               <p className="text-[12px] text-black/55" style={{ marginTop: 1 }}>{o.sub}</p>
             </div>
           </div>
-          <div className="flex justify-between" style={{ marginTop: 12 }}>
+          <div className="flex justify-between" style={{ marginTop: 10 }}>
             <div>
               <span className="block text-[11px] text-black/45">Entrega estimada:</span>
-              <span className="block text-[14.5px] font-bold text-black" style={{ marginTop: 1 }}>{o.eta}</span>
-              <span className="block text-[10.5px] text-black/40" style={{ marginTop: 1 }}>{o.etaSub}</span>
+              <span className="block text-[14px] font-bold text-black" style={{ marginTop: 1 }}>{o.eta}</span>
             </div>
             <div className="text-right">
               <span className="block text-[11px] text-black/45">Precio:</span>
-              <span className={`block text-[14.5px] font-bold text-black ${o.highlight ? "price-pop" : ""}`} style={{ marginTop: 1 }}>{o.price}<span className="ml-1 text-[10px] font-medium text-black/45">MXN</span></span>
+              <span className={`block text-[14px] font-bold text-black ${o.highlight ? "price-pop" : ""}`} style={{ marginTop: 1 }}>{o.price}<span className="ml-1 text-[10px] font-medium text-black/45">MXN</span></span>
             </div>
           </div>
-          <button className="mt-3 w-full rounded-[10px] py-2.5 text-[13px] font-semibold text-white" style={{ background: "#C0453A" }}>Crear envío</button>
+          <div className="mt-2.5 flex h-[38px] w-full items-center justify-center rounded-[10px] text-[13px] font-semibold text-white" style={{ background: "#DB3B2B" }}>Crear envío</div>
         </div>
       ))}
     </div>
@@ -246,7 +239,6 @@ function IncidenceCard({ inc }: { inc: (typeof INCIDENCIAS)[number] }) {
         <span className="rounded-full px-2 py-1 text-[10px] font-semibold" style={{ background: "rgba(219,59,43,0.10)", color: "#DB3B2B" }}>Requiere acción</span>
       </div>
       <p className="text-[11px] text-black/50" style={{ marginTop: 8 }}>No. de guía <span className="text-black/75">77452320977452</span></p>
-      <p className="text-[11px] text-black/50" style={{ marginTop: 2 }}>Actualizado <span className="text-black/75">02/10/24 · 07:33 am</span></p>
       <div className="flex items-center gap-1.5" style={{ marginTop: 8 }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={`/img/carriers/${inc.carrier}.svg`} alt="" width={20} height={20} className="h-[18px] w-[26px] shrink-0 object-contain" />

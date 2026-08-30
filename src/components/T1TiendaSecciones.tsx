@@ -89,12 +89,12 @@ const MP_FLOAT = [
 export function T1TiendaMarketplaces() {
   return (
     <section className="relative overflow-hidden bg-black px-5 py-[90px] tablet:px-6 tablet:py-[130px]">
-      {/* logos flotantes — solo desktop */}
+      {/* logos flotantes — dispersos (desktop y responsive) */}
       {MP_FLOAT.map((f, i) => {
         const logo = MP_LOGOS[i % MP_LOGOS.length];
         return (
-          <div key={i} aria-hidden className="pointer-events-none absolute hidden -translate-x-1/2 -translate-y-1/2 tablet:block" style={{ left: f.l, top: f.t }}>
-            <Image src={logo.src} alt="" width={110} height={110} className="object-contain opacity-90" style={{ width: f.s, height: f.s, transform: `rotate(${f.r}deg)` }} />
+          <div key={i} aria-hidden className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 scale-[0.55] opacity-40 tablet:scale-100 tablet:opacity-90" style={{ left: f.l, top: f.t }}>
+            <Image src={logo.src} alt="" width={110} height={110} className="object-contain" style={{ width: f.s, height: f.s, transform: `rotate(${f.r}deg)` }} sizes="70px" />
           </div>
         );
       })}
@@ -106,12 +106,6 @@ export function T1TiendaMarketplaces() {
         <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 500 }}>
           Conecta los marketplaces donde ya vendes y gestiona catálogo, inventario y pedidos sin duplicar trabajo.
         </p>
-        {/* logos — móvil, en 2 líneas (4 + 3) */}
-        <div className="mx-auto mb-8 grid max-w-[340px] grid-cols-4 items-center justify-items-center gap-x-4 gap-y-5 tablet:hidden">
-          {MP_LOGOS.map((l) => (
-            <Image key={l.alt} src={l.src} alt={l.alt} width={80} height={80} className="h-8 w-auto object-contain opacity-85" />
-          ))}
-        </div>
         <a href="/productos/t1tienda/marketplaces" className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-8 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]">
           Conecta tus canales
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
