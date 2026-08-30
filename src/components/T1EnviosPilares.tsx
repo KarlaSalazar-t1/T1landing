@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { CotizaCard, RastreoPanel, IncidentCards } from "@/components/T1EnviosPanels";
+import { PhoneFrame } from "@/components/T1PagosEnLinea";
 
 const ITEMS = [
   {
@@ -24,8 +25,8 @@ const ITEMS = [
   },
   {
     id: "seguimiento",
-    title: "Seguimiento",
-    description: "Nuestra torre de control detecta y resuelve cualquier incidencia antes que tu cliente.",
+    title: "Torre de control",
+    description: "Detectamos y resolvemos cualquier incidencia antes que tu cliente, desde un solo panel.",
     cta: "Conoce más",
     ctaHref: "/productos/t1envios/control-calidad",
     panel: "incidentes" as const,
@@ -91,55 +92,42 @@ export default function T1EnviosPilares() {
     </a>
   );
 
-  // Contenido interno de cada pilar — mismo recuadro para los tres.
-  const PanelInner = ({ panel }: { panel: string }) => {
-    const shell = "overflow-hidden rounded-[16px] bg-white p-4";
-    const shadow = { boxShadow: "0 16px 40px rgba(0,0,0,0.35)" };
+  // Pantalla dentro del celular según el pilar.
+  const PhoneScreen = ({ panel }: { panel: string }) => {
     if (panel === "cotiza") {
       return (
-        <div className="flex h-full w-full items-center justify-center">
-          <div className="w-full" style={{ maxWidth: 300 }}>
-            <div className={shell} style={shadow}><CotizaCard hideButton /></div>
-          </div>
+        <div className="flex h-full flex-col justify-center px-5" style={{ background: "#fff" }}>
+          <CotizaCard hideButton />
         </div>
       );
     }
     if (panel === "rastreo") {
       return (
-        <div className="flex h-full w-full items-center justify-center">
-          <div className="w-full" style={{ maxWidth: 320 }}>
-            <div className={shell} style={shadow}><RastreoPanel bare height={132} /></div>
-          </div>
+        <div className="flex h-full flex-col px-5 pt-6" style={{ background: "#fff" }}>
+          <RastreoPanel bare height={330} />
         </div>
       );
     }
-    // incidentes (Seguimiento)
+    // incidentes (Torre de control)
     return (
-      <div className="flex h-full w-full items-center justify-center">
-        <div className="w-full" style={{ maxWidth: 320 }}>
-          <div className={shell} style={shadow}><IncidentCards /></div>
-        </div>
+      <div className="flex h-full flex-col justify-center px-5" style={{ background: "#fff" }}>
+        <IncidentCards />
       </div>
     );
   };
 
+  // Panel lateral tipo pagos: mock de celular + botón abajo. En móvil el mock
+  // va a menor escala para que la sección quepa completa en pantalla.
   const Card = ({ it }: { it: (typeof ITEMS)[number] }) => (
-    <div className="audience-card-wrap flex w-full justify-center tablet:justify-start">
-      <div className="audience-card flex w-full" style={{ maxWidth: 460 }}>
-        <span className="audience-beam" aria-hidden />
-        <div className="relative z-[1] w-full overflow-hidden rounded-[18.5px]" style={{ background: "#1b1714" }}>
-          <div className="relative w-full" style={{ aspectRatio: "741 / 565" }}>
-            <div className="absolute inset-0 flex flex-col p-5 tablet:p-6">
-              <div className="min-h-0 flex-1 overflow-hidden">
-                <PanelInner panel={(it as { panel: string }).panel} />
-              </div>
-              <div className="shrink-0 pt-4">
-                <Cta it={it} />
-              </div>
-            </div>
-          </div>
+    <div className="flex w-full flex-col items-center gap-6 py-2">
+      <div className="mx-auto h-[400px] w-full tablet:h-auto">
+        <div className="origin-top scale-[0.8] tablet:scale-100">
+          <PhoneFrame>
+            <PhoneScreen panel={(it as { panel: string }).panel} />
+          </PhoneFrame>
         </div>
       </div>
+      <Cta it={it} />
     </div>
   );
 

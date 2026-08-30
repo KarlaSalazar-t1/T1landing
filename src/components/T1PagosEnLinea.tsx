@@ -115,10 +115,10 @@ function StatusBar() {
 }
 
 /* Marco de teléfono para las simulaciones */
-export function PhoneFrame({ children }: { children: ReactNode }) {
+export function PhoneFrame({ children, height = 500 }: { children: ReactNode; height?: number }) {
   return (
     <div className="relative mx-auto" style={{ width: 290 }}>
-      <div className="relative flex flex-col overflow-hidden bg-white" style={{ height: 580, borderRadius: 42, border: "9px solid #14100f", boxShadow: "0 34px 80px rgba(0,0,0,0.55)" }}>
+      <div className="relative flex flex-col overflow-hidden bg-white" style={{ height, borderRadius: 42, border: "9px solid #14100f", boxShadow: "0 34px 80px rgba(0,0,0,0.55)" }}>
         <div className="absolute left-1/2 top-0 z-30 h-[22px] w-[118px] -translate-x-1/2 rounded-b-[14px] bg-[#14100f]" />
         <StatusBar />
         <div className="relative flex-1 overflow-hidden">{children}</div>
