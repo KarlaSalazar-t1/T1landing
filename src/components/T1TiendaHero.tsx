@@ -181,14 +181,14 @@ export default function T1TiendaHero() {
             </div>
           </div>
 
-          {/* Social proof */}
-          <div className="mb-10 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 px-2 text-center tablet:mb-14">
-            {SOCIAL_PROOF.map((s, i) => (
-              <span key={s} className="flex items-center gap-2.5 font-inter text-[16px] font-medium text-white">
-                {i > 0 && <span aria-hidden className="text-white/40">•</span>}
-                {s}
-              </span>
-            ))}
+          {/* Social proof — estilo hero principal: métrica grande arriba, dos abajo */}
+          <div className="mb-10 flex flex-col items-center gap-2.5 text-center tablet:mb-14 tablet:gap-4">
+            <span className="font-inter text-[19px] font-normal text-white tablet:text-[24px]">{SOCIAL_PROOF[0]}</span>
+            <div className="flex items-center gap-6 tablet:gap-12">
+              {SOCIAL_PROOF.slice(1).map((s) => (
+                <span key={s} className="font-inter text-[15px] font-normal text-white/75 tablet:text-[18px]">{s}</span>
+              ))}
+            </div>
           </div>
         </div>
       </section>

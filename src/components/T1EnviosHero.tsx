@@ -28,17 +28,17 @@ function RateCards() {
   return (
     <div className="relative mx-auto w-full max-w-[300px]">
       <div aria-hidden className="pointer-events-none absolute -inset-8 -z-0" style={{ background: "radial-gradient(ellipse at center, rgba(219,59,43,0.18) 0%, transparent 70%)" }} />
-      <div className="relative z-[1] rounded-[16px] bg-white px-5 py-[18px]" style={{ boxShadow: "0 24px 56px rgba(0,0,0,0.45)" }}>
+      <div className="relative z-[1] rounded-[18px] bg-white px-6 py-7" style={{ boxShadow: "0 24px 56px rgba(0,0,0,0.45)" }}>
         <div key={q} style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
-          <p className="font-inter text-[11px] font-medium text-black/45" style={{ marginBottom: 12 }}>Tarifa preferencial</p>
-          <div className="flex items-center gap-2" style={{ marginBottom: 14 }}>
-            <span className="font-sora text-[17px] font-normal text-black">{r.from}</span>
+          <p className="font-inter text-[12px] font-medium text-black/45" style={{ marginBottom: 16 }}>Tarifa preferencial</p>
+          <div className="flex items-center gap-2" style={{ marginBottom: 20 }}>
+            <span className="font-sora text-[18px] font-normal text-black">{r.from}</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 text-[#DB3B2B]"><path d="M4 12h15M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            <span className="truncate font-sora text-[17px] font-normal text-black">{r.to}</span>
+            <span className="truncate font-sora text-[18px] font-normal text-black">{r.to}</span>
           </div>
           <div className="flex items-end gap-1.5">
-            <span className="font-inter text-[13px] font-light text-black/45" style={{ marginBottom: 5 }}>desde</span>
-            <span className="font-sora text-[30px] font-light text-black" style={{ letterSpacing: "-0.02em", lineHeight: 1 }}>${r.price}</span>
+            <span className="font-inter text-[13px] font-light text-black/45" style={{ marginBottom: 6 }}>desde</span>
+            <span className="font-sora text-[34px] font-light text-black" style={{ letterSpacing: "-0.02em", lineHeight: 1 }}>${r.price}</span>
           </div>
         </div>
       </div>
@@ -86,9 +86,9 @@ export default function T1EnviosHero() {
               </div>
 
               {/* Logos de paqueterías — sólo móvil (en desktop se ven a la derecha) */}
-              <div className="mt-7 flex flex-wrap items-center justify-center gap-5 tablet:hidden">
+              <div className="mt-7 flex flex-wrap items-center justify-center gap-4 tablet:hidden">
                 {CARRIERS.map((src) => (
-                  <span key={src} className="flex h-[46px] w-[46px] shrink-0 items-center justify-center overflow-hidden rounded-full">
+                  <span key={src} className="flex h-[36px] w-[36px] shrink-0 items-center justify-center overflow-hidden rounded-full">
                     <Image src={src} alt="" width={72} height={72} className="h-full w-full object-cover" style={{ filter: "drop-shadow(0 4px 10px rgba(0,0,0,0.45))" }} />
                   </span>
                 ))}
@@ -107,14 +107,14 @@ export default function T1EnviosHero() {
             </div>
           </div>
 
-          {/* Social proof — abajo, centrado (como en tienda) */}
-          <div className="mt-12 mb-10 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 px-2 text-center tablet:mt-16 tablet:mb-0">
-            {SOCIAL_PROOF.map((s, i) => (
-              <span key={s} className="flex items-center gap-2.5 font-inter text-[16px] font-medium text-white">
-                {i > 0 && <span aria-hidden className="text-white/40">•</span>}
-                {s}
-              </span>
-            ))}
+          {/* Social proof — estilo hero principal: métrica grande arriba, dos abajo */}
+          <div className="mt-12 mb-10 flex flex-col items-center gap-2.5 px-2 text-center tablet:mt-16 tablet:mb-0 tablet:gap-4">
+            <span className="font-inter text-[19px] font-normal text-white tablet:text-[24px]">{SOCIAL_PROOF[0]}</span>
+            <div className="flex items-center gap-6 tablet:gap-12">
+              {SOCIAL_PROOF.slice(1).map((s) => (
+                <span key={s} className="font-inter text-[15px] font-normal text-white/75 tablet:text-[18px]">{s}</span>
+              ))}
+            </div>
           </div>
         </div>
       </section>

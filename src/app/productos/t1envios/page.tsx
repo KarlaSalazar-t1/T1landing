@@ -7,7 +7,7 @@ import {
   T1EnviosAdministracion,
   T1EnviosFAQ,
 } from "@/components/T1EnviosSecciones";
-import { T1EnviosIncidencias } from "@/components/T1EnviosExtra";
+import { T1EnviosAmplifica } from "@/components/T1EnviosExtra";
 import { T1EnviosServicios, T1EnviosCotizadorSection } from "@/components/T1EnviosServicios";
 import T1ProductMetrics from "@/components/T1ProductMetrics";
 import T1FinalCTA from "@/components/T1FinalCTA";
@@ -40,8 +40,8 @@ export default function EnviosLanding() {
             { end: 50000, prefix: "+", label: "negocios usando T1" },
           ]}
         />
-        {/* 7 · Incidencias */}
-        <T1EnviosIncidencias />
+        {/* 7 · Amplifica tu operación — ecosistema T1 (Pagos + Tienda) */}
+        <T1EnviosAmplifica />
         {/* 8 · Administra tu operación */}
         <T1EnviosAdministracion />
         {/* 9 · FAQ */}

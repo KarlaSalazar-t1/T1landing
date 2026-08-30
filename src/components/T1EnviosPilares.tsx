@@ -34,7 +34,7 @@ const ITEMS = [
   },
 ];
 
-const DURATION = 7000;
+const DURATION = 9500;
 
 export default function T1EnviosPilares() {
   const [active, setActive] = useState(0);
@@ -103,8 +103,8 @@ export default function T1EnviosPilares() {
   // va a menor escala para que la sección quepa completa en pantalla.
   const Card = ({ it }: { it: (typeof ITEMS)[number] }) => (
     <div className="flex w-full flex-col items-center gap-6 py-2">
-      <div className="mx-auto h-[400px] w-full tablet:h-auto">
-        <div className="origin-top scale-[0.8] tablet:scale-100">
+      <div className="mx-auto h-[355px] w-full tablet:h-auto">
+        <div className="origin-top scale-[0.71] tablet:scale-100">
           <PhoneFrame>
             <PhoneScreen panel={(it as { panel: string }).panel} />
           </PhoneFrame>

@@ -16,14 +16,14 @@ const shot = (n: number, k: number) => {
 
 // 4 columnas con offset vertical distinto => mosaico asimétrico, no alineado.
 const COLS_DESKTOP = [
-  { offset: 0, shots: [shot(1, -26), shot(6, 18), shot(3, -14)] },
-  { offset: 54, shots: [shot(5, 24), shot(2, -18)] },
-  { offset: 22, shots: [shot(7, -20), shot(4, 16), shot(1, -12)] },
-  { offset: 72, shots: [shot(6, 22), shot(5, -16)] },
+  { offset: 0, shots: [shot(1, -42), shot(6, 30), shot(3, -24)] },
+  { offset: 54, shots: [shot(5, 40), shot(2, -30)] },
+  { offset: 22, shots: [shot(7, -34), shot(4, 26), shot(1, -20)] },
+  { offset: 72, shots: [shot(6, 36), shot(5, -26)] },
 ];
 const COLS_MOBILE = [
-  { offset: 0, shots: [shot(1, -14), shot(6, 12), shot(3, -10), shot(7, 12), shot(2, -12)] },
-  { offset: 34, shots: [shot(5, 14), shot(2, -12), shot(4, 10), shot(1, -12), shot(6, 12)] },
+  { offset: 0, shots: [shot(1, -34), shot(6, 30), shot(3, -26), shot(7, 30), shot(2, -28)] },
+  { offset: 34, shots: [shot(5, 36), shot(2, -30), shot(4, 26), shot(1, -30), shot(6, 30)] },
 ];
 
 type S = { src: string; w: number; h: number; k: number };

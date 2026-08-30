@@ -118,3 +118,60 @@ export function T1EnviosIncidencias() {
     </section>
   );
 }
+
+/* ══════════ Amplifica tu operación — ecosistema T1 (Pagos + Tienda) ══════════ */
+const ECOSISTEMA = [
+  {
+    title: "T1 Pagos",
+    logo: "/img/t1pagos-white.svg",
+    desc: "Acepta tarjetas, SPEI, Kueski y meses sin intereses con una pasarela pensada para convertir.",
+    href: "/productos/t1pagos",
+    type: "card" as const,
+    icons: ["/img/icons/visa-card.svg", "/img/icons/mc-card.svg", "/img/icons/amex-card.svg", "/img/icons/spei-card.svg", "/img/icons/kueski-card.svg"],
+  },
+  {
+    title: "T1 Tienda",
+    logo: "/img/t1tienda-white.svg",
+    desc: "Crea tu tienda en línea con IA y vende en los principales marketplaces desde un solo panel.",
+    href: "/productos/t1tienda",
+    type: "brand" as const,
+    icons: ["/img/logos/brands/mercadolibre.webp", "/img/logos/brands/amazon.webp", "/img/logos/brands/tiktokshop.webp", "/img/logos/brands/shein.webp"],
+  },
+];
+export function T1EnviosAmplifica() {
+  return (
+    <section className="bg-[#0e0d0d] px-5 py-[80px] tablet:px-6 tablet:py-[110px]">
+      <div className="mx-auto max-w-[var(--max-w)]">
+        <div className="text-center">
+          <h2 className="font-sora text-[28px] font-light text-white tablet:whitespace-nowrap tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
+            Amplifica tu operación con todo T1
+          </h2>
+          <p className="mx-auto mt-4 max-w-[560px] font-inter text-[16px] font-light text-white/60 tablet:text-[18px]">
+            T1 Envíos se integra con T1 Pagos y T1 Tienda: cobra, vende y envía desde un mismo lugar.
+          </p>
+        </div>
+        <div className="mx-auto mt-10 grid max-w-[900px] grid-cols-1 gap-4 tablet:mt-14 tablet:grid-cols-2">
+          {ECOSISTEMA.map((it) => (
+            <a key={it.title} href={it.href} className="group flex flex-col rounded-[18px] border border-white/[0.08] bg-[#1A1A1D] p-7 no-underline transition-colors hover:border-white/20">
+              <Image src={it.logo} alt={it.title} width={160} height={36} className="h-[30px] w-auto object-contain" style={{ objectPosition: "left" }} />
+              <p className="mt-2.5 font-inter text-[15px] font-light leading-relaxed text-white/60 tablet:text-[16px]">{it.desc}</p>
+              <div className="mt-auto flex items-center gap-3 pt-6">
+                {it.type === "card"
+                  ? it.icons.map((src) => (
+                      <Image key={src} src={src} alt="" width={80} height={52} className="h-[30px] w-auto shrink-0 object-contain" />
+                    ))
+                  : it.icons.map((src) => (
+                      <Image key={src} src={src} alt="" width={90} height={40} className="h-[22px] w-auto shrink-0 object-contain opacity-90" />
+                    ))}
+              </div>
+              <span className="mt-6 inline-flex items-center gap-1.5 font-inter text-[14px] font-medium text-white/80 group-hover:text-white">
+                Conoce más
+                <svg width="15" height="15" viewBox="0 0 18 18" fill="none" className="transition-transform group-hover:translate-x-0.5"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

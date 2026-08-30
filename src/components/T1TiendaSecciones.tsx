@@ -89,17 +89,23 @@ const MP_FLOAT = [
 export function T1TiendaMarketplaces() {
   return (
     <section className="relative overflow-hidden bg-black px-5 py-[90px] tablet:px-6 tablet:py-[130px]">
-      {/* logos flotantes — dispersos (desktop y responsive) */}
+      {/* logos flotantes dispersos — solo desktop */}
       {MP_FLOAT.map((f, i) => {
         const logo = MP_LOGOS[i % MP_LOGOS.length];
         return (
-          <div key={i} aria-hidden className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 scale-[0.55] opacity-40 tablet:scale-100 tablet:opacity-90" style={{ left: f.l, top: f.t }}>
-            <Image src={logo.src} alt="" width={110} height={110} className="object-contain" style={{ width: f.s, height: f.s, transform: `rotate(${f.r}deg)` }} sizes="70px" />
+          <div key={i} aria-hidden className="pointer-events-none absolute hidden -translate-x-1/2 -translate-y-1/2 tablet:block" style={{ left: f.l, top: f.t }}>
+            <Image src={logo.src} alt="" width={110} height={110} className="object-contain opacity-90" style={{ width: f.s, height: f.s, transform: `rotate(${f.r}deg)` }} sizes="70px" />
           </div>
         );
       })}
 
       <div className="relative mx-auto max-w-[620px] text-center">
+        {/* móvil — logos arriba (dispersos, no atrás del texto) */}
+        <div className="mb-9 flex flex-wrap items-center justify-center gap-x-7 gap-y-4 tablet:hidden">
+          {MP_LOGOS.slice(0, 4).map((l, i) => (
+            <Image key={l.alt} src={l.src} alt={l.alt} width={80} height={80} className="h-9 w-auto object-contain opacity-85" style={{ transform: `rotate(${i % 2 ? 5 : -5}deg)` }} />
+          ))}
+        </div>
         <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
           Un solo panel para todos tus marketplaces
         </h2>
@@ -110,6 +116,12 @@ export function T1TiendaMarketplaces() {
           Conecta tus canales
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
         </a>
+        {/* móvil — logos abajo (dispersos, no atrás del texto) */}
+        <div className="mt-9 flex flex-wrap items-center justify-center gap-x-7 gap-y-4 tablet:hidden">
+          {MP_LOGOS.slice(4).map((l, i) => (
+            <Image key={l.alt} src={l.src} alt={l.alt} width={80} height={80} className="h-9 w-auto object-contain opacity-85" style={{ transform: `rotate(${i % 2 ? -6 : 6}deg)` }} />
+          ))}
+        </div>
       </div>
     </section>
   );
