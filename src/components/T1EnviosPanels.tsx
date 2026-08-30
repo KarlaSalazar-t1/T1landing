@@ -189,26 +189,27 @@ export function RastreoPanel({ flat = false, height = 300, bare = false }: { fla
 
 /* ── Cotizador — pantalla como "Cotiza con múltiples paqueterías" (multipaquetería) ── */
 const COTIZA_OPTIONS = [
-  { brand: "fedex", name: "FedEx", sub: "Mismo día / 24H", eta: "2 días hábiles", etaSub: "Mié · 24 ene", price: "$143.00", highlight: true },
-  { brand: "dhl", name: "DHL", sub: "Servicio express", eta: "3 días hábiles", etaSub: "Jue · 25 ene", price: "$128.00", highlight: false },
+  { brand: "fedex", name: "FedEx", sub: "Mismo día / 24H", eta: "2 días hábiles", price: "$143.00", highlight: true },
+  { brand: "dhl", name: "DHL", sub: "Servicio express", eta: "3 días hábiles", price: "$128.00", highlight: false },
+  { brand: "99min", name: "99 minutos", sub: "Mismo día", eta: "Hoy", price: "$99.00", highlight: false },
 ];
 export function CotizadorScreen() {
   return (
     <div className="flex h-full flex-col bg-white px-4 pt-5" style={{ fontFamily: MANROPE }}>
       <p className="text-[14px] font-bold text-black" style={{ marginBottom: 6 }}>Cotizador</p>
-      <p className="text-[11.5px] text-black/50" style={{ marginBottom: 4 }}>Mejores tarifas para tu envío</p>
+      <p className="text-[11.5px] text-black/50" style={{ marginBottom: 22 }}>Mejores tarifas para tu envío</p>
       {COTIZA_OPTIONS.map((o, i) => (
-        <div key={i} className="relative overflow-hidden" style={{ borderTop: "1px solid rgba(0,0,0,0.08)", paddingTop: 14, paddingBottom: 14 }}>
+        <div key={i} className="relative overflow-hidden" style={{ borderTop: "1px solid rgba(0,0,0,0.08)", paddingTop: 13, paddingBottom: 13 }}>
           {o.highlight && <span aria-hidden className="cotiza-sweep pointer-events-none absolute inset-y-0 left-0 z-20 w-1/2" style={{ background: "linear-gradient(100deg, transparent 0%, rgba(219,59,43,0.14) 50%, transparent 100%)" }} />}
           <div className="flex items-center gap-2.5">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={`/img/carriers/${o.brand}.svg`} alt={o.name} width={34} height={34} className="h-[34px] w-[34px] shrink-0" />
+            <img src={`/img/carriers/${o.brand}.svg`} alt={o.name} width={32} height={32} className="h-[32px] w-[32px] shrink-0" />
             <div className="min-w-0">
               <p className="text-[14px] font-bold leading-tight text-black">{o.name}</p>
               <p className="text-[12px] text-black/55" style={{ marginTop: 1 }}>{o.sub}</p>
             </div>
           </div>
-          <div className="flex justify-between" style={{ marginTop: 10 }}>
+          <div className="flex justify-between" style={{ marginTop: 9 }}>
             <div>
               <span className="block text-[11px] text-black/45">Entrega estimada:</span>
               <span className="block text-[14px] font-bold text-black" style={{ marginTop: 1 }}>{o.eta}</span>
@@ -218,7 +219,6 @@ export function CotizadorScreen() {
               <span className={`block text-[14px] font-bold text-black ${o.highlight ? "price-pop" : ""}`} style={{ marginTop: 1 }}>{o.price}<span className="ml-1 text-[10px] font-medium text-black/45">MXN</span></span>
             </div>
           </div>
-          <div className="mt-2.5 flex h-[38px] w-full items-center justify-center rounded-[10px] text-[13px] font-semibold text-white" style={{ background: "#DB3B2B" }}>Crear envío</div>
         </div>
       ))}
     </div>
@@ -227,7 +227,7 @@ export function CotizadorScreen() {
 
 /* ── Torre de control — tasa de incidencias + lista de incidencias (auto-scroll) ── */
 const INCIDENCIAS = [
-  { id: "INC-00103", carrier: "dhl", issue: "Dirección incorrecta o incompleta", eta: "10 días hábiles" },
+  { id: "INC-00103", carrier: "dhl", issue: "Dirección incorrecta", eta: "10 días hábiles" },
   { id: "INC-00147", carrier: "dhl", issue: "Acceso restringido", eta: "8 días hábiles" },
   { id: "INC-00189", carrier: "jtexpress", issue: "Paquete sin movimiento", eta: "12 días hábiles" },
 ];
@@ -248,9 +248,9 @@ function IncidenceCard({ inc }: { inc: (typeof INCIDENCIAS)[number] }) {
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.7" /><path d="M12 8v4l3 2" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
         Solución estimada <span className="text-black/75">{inc.eta}</span>
       </div>
-      <div className="flex items-center justify-between" style={{ marginTop: 12 }}>
+      <div className="flex items-center gap-1" style={{ marginTop: 12 }}>
         <span className="text-[12px] font-semibold text-black">Ver detalle</span>
-        <span className="flex items-center gap-1 rounded-[9px] px-3 py-1.5 text-[12px] font-semibold text-white" style={{ background: "#C0453A" }}>Acciones<svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
+        <svg width="13" height="13" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="#111" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
       </div>
     </div>
   );
@@ -258,14 +258,17 @@ function IncidenceCard({ inc }: { inc: (typeof INCIDENCIAS)[number] }) {
 export function TorreControlScreen() {
   const mask = "linear-gradient(to bottom, #000 0, #000 calc(100% - 26px), transparent 100%)";
   return (
-    <div className="flex h-full flex-col bg-white" style={{ fontFamily: MANROPE }}>
-      <div className="border-b border-black/[0.06] px-4 pt-4 pb-3">
+    <div className="flex h-full flex-col bg-white px-4 pt-4" style={{ fontFamily: MANROPE }}>
+      <p className="text-[14px] font-bold text-black" style={{ marginBottom: 12 }}>Torre de control</p>
+      {/* Card fija con la métrica */}
+      <div className="rounded-[12px] border border-black/[0.08] p-3.5">
         <p className="text-[12px] text-black/50">Tasa de incidencias</p>
-        <p className="text-[26px] font-bold text-black" style={{ lineHeight: 1.1 }}>1.02%</p>
-        <p className="text-[11px] text-black/40">148 / 3,452 envíos</p>
+        <p className="text-[26px] font-bold text-black" style={{ lineHeight: 1.1, marginTop: 2 }}>1.02%</p>
+        <p className="text-[11px] text-black/40" style={{ marginTop: 2 }}>148 / 3,452 envíos</p>
       </div>
-      <div className="relative flex-1 overflow-hidden" style={{ maskImage: mask, WebkitMaskImage: mask }}>
-        <div className="crono-track flex flex-col gap-3 px-4 py-3">
+      {/* Scroll con las incidencias */}
+      <div className="relative mt-3 flex-1 overflow-hidden" style={{ maskImage: mask, WebkitMaskImage: mask }}>
+        <div className="crono-track flex flex-col gap-3">
           {[...INCIDENCIAS, ...INCIDENCIAS].map((inc, i) => <IncidenceCard key={i} inc={inc} />)}
         </div>
       </div>
