@@ -85,8 +85,8 @@ export default function T1EnviosHero() {
                 <RateCards />
               </div>
 
-              {/* Logos de paqueterías — sólo móvil (en desktop se ven a la derecha) */}
-              <div className="mt-7 flex flex-wrap items-center justify-center gap-4 tablet:hidden">
+              {/* Logos de paqueterías — sólo móvil; suben un poco sobre la card de cotización */}
+              <div className="relative z-10 -mt-5 flex flex-wrap items-center justify-center gap-4 tablet:hidden">
                 {CARRIERS.map((src) => (
                   <span key={src} className="flex h-[36px] w-[36px] shrink-0 items-center justify-center overflow-hidden rounded-full">
                     <Image src={src} alt="" width={72} height={72} className="h-full w-full object-cover" style={{ filter: "drop-shadow(0 4px 10px rgba(0,0,0,0.45))" }} />
