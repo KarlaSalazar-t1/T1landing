@@ -218,7 +218,7 @@ export default function T1POS() {
               href={SIGNUP_URL}
               className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-8 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]"
             >
-              Empieza a cobrar
+              Comienza a cobrar
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M9 5l3 3-3 3" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </a>
           </div>
@@ -517,7 +517,7 @@ export default function T1POS() {
                 ))}
               </ul>
               <a href={SIGNUP_URL} className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
-                Empieza con T1
+                Comienza con T1
               </a>
             </div>
             {/* Orbit */}

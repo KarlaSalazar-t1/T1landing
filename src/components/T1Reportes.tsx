@@ -715,7 +715,7 @@ export default function T1Reportes() {
       <T1FinalCTA
         title="¿Listo para decidir con datos?"
         description="Crea tu cuenta gratis y empieza a ver tu negocio claro desde el primer día."
-        buttonLabel="Empieza ahora"
+        buttonLabel="Comienza ahora"
       />
     </div>
   );

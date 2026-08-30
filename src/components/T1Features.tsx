@@ -1137,8 +1137,8 @@ const SHOWCASE_CARDS = [
     bgCSS: "stack-bg-tienda",
     panelLeft: "/img/card-producto.webp",
     panelRight: "/img/lista-pedidos-t1.webp",
-    ctaLabel: "Conoce los reportes",
-    ctaHref: "/productos/t1tienda/reportes",
+    ctaLabel: "Comienza gratis",
+    ctaHref: "/login",
   },
   {
     id: "t1pagos",
@@ -1149,7 +1149,7 @@ const SHOWCASE_CARDS = [
     bgCSS: "stack-bg-pagos",
     panelLeft: "/img/pagos.webp",
     panelRight: null,
-    ctaLabel: "Empieza a cobrar",
+    ctaLabel: "Comienza a cobrar",
     ctaHref: "/productos/t1pagos/links-de-pago",
   },
   {
@@ -1174,7 +1174,7 @@ const SHOWCASE_CARDS = [
     panelLeft: "/img/envios.svg",
     panelRight: null,
     ctaLabel: "Cotiza tu envío",
-    ctaHref: "/productos/t1envios/multipaqueteria",
+    ctaHref: "/productos/t1envios#cotizador",
   },
 ];
 

@@ -144,7 +144,7 @@ export function T1EnviosAmplifica() {
       <div className="mx-auto max-w-[var(--max-w)]">
         <div className="text-center">
           <h2 className="font-sora text-[28px] font-light text-white tablet:whitespace-nowrap tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
-            Amplifica tu operación con todo T1
+            Haz crecer tu negocio con todo T1
           </h2>
           <p className="mx-auto mt-4 max-w-[560px] font-inter text-[16px] font-light text-white/60 tablet:text-[18px]">
             T1 Envíos se integra con T1 Pagos y T1 Tienda: cobra, vende y envía desde un mismo lugar.

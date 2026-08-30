@@ -11,8 +11,8 @@ const IconSeguimiento = (
 );
 
 const CARDS = [
-  { icon: IconCotiza, title: "Cotiza", desc: "Descubre y compara las mejores tarifas y tiempos de entrega entre las mejores paqueterías de todo México.", cta: "Cotiza ahora", href: "/productos/t1envios/multipaqueteria" },
-  { icon: IconEnvia, title: "Envía", desc: "Genera guías de envío a todo México, crea plantillas de tus paquetes y solicita recolección a tu almacén.", cta: "Realiza un envío", href: "/productos/t1envios/reglas" },
+  { icon: IconCotiza, title: "Cotiza", desc: "Descubre y compara las mejores tarifas y tiempos de entrega entre las mejores paqueterías de todo México.", cta: "Cotiza ahora", href: "#cotizador" },
+  { icon: IconEnvia, title: "Envía", desc: "Genera guías de envío a todo México, crea plantillas de tus paquetes y solicita recolección a tu almacén.", cta: "Realiza un envío", href: "/login" },
   { icon: IconSeguimiento, title: "Rastrea", desc: "Conoce la ubicación de tus paquetes en todo momento, da seguimiento a las incidencias y resuélvelas desde T1.", cta: "Rastrea un envío", href: "/productos/t1envios/rastreo" },
 ];
 
@@ -51,7 +51,7 @@ export function T1EnviosServicios() {
 /* Cotizador en vivo — su propia sección, con blobs rojos sutiles a los costados. */
 export function T1EnviosCotizadorSection() {
   return (
-    <section className="relative overflow-hidden bg-black px-5 pt-[48px] pb-[90px] tablet:px-6 tablet:pt-[64px] tablet:pb-[128px]">
+    <section id="cotizador" className="relative overflow-hidden bg-black px-5 pt-[48px] pb-[90px] tablet:px-6 tablet:pt-[64px] tablet:pb-[128px] scroll-mt-24">
       <div aria-hidden className="pointer-events-none absolute -left-[12%] top-[30%] h-[520px] w-[520px] -translate-y-1/2 rounded-full" style={{ background: "radial-gradient(circle, rgba(219,59,43,0.18) 0%, transparent 70%)", filter: "blur(22px)" }} />
       <div aria-hidden className="pointer-events-none absolute -right-[6%] top-[74%] h-[340px] w-[340px] -translate-y-1/2 rounded-full" style={{ background: "radial-gradient(circle, rgba(219,59,43,0.12) 0%, transparent 72%)", filter: "blur(16px)" }} />
       <div className="relative z-[1] mx-auto max-w-[520px] text-center">

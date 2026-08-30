@@ -664,7 +664,7 @@ export default function T1Productos() {
       <T1FinalCTA
         title="¿Listo para centralizar tu catálogo?"
         description="Crea tu cuenta gratis y sube tus productos una sola vez para venderlos en todos tus canales con inventario sincronizado."
-        buttonLabel="Empieza gratis"
+        buttonLabel="Comienza gratis"
       />
     </div>
   );

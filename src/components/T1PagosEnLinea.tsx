@@ -778,7 +778,7 @@ export default function T1PagosEnLinea() {
                 Tarjetas, meses sin intereses y antifraude, incluidos en cada cobro sin configurar nada.
               </p>
               <a href={SIGNUP_URL} className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
-                Empieza a cobrar
+                Comienza a cobrar
               </a>
             </div>
 
@@ -847,7 +847,7 @@ export default function T1PagosEnLinea() {
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[820px] text-center" style={{ marginBottom: 56 }}>
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[36px] lg:whitespace-nowrap lg:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
-              Empieza a cobrar en cuatro pasos
+              Comienza a cobrar en cuatro pasos
             </h2>
             <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
               De la integración al primer cobro, sin vueltas.

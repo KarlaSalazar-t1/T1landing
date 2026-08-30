@@ -40,10 +40,10 @@ export default function EnviosLanding() {
             { end: 50000, prefix: "+", label: "negocios usando T1" },
           ]}
         />
-        {/* 7 · Amplifica tu operación — ecosistema T1 (Pagos + Tienda) */}
-        <T1EnviosAmplifica />
-        {/* 8 · Administra tu operación */}
+        {/* 7 · Administra todo desde un panel */}
         <T1EnviosAdministracion />
+        {/* 8 · Haz crecer tu negocio con todo T1 (ecosistema Pagos + Tienda) */}
+        <T1EnviosAmplifica />
         {/* 9 · FAQ */}
         <T1EnviosFAQ />
       </div>
@@ -52,7 +52,7 @@ export default function EnviosLanding() {
       <T1FinalCTA
         title={<>¿Listo para optimizar tus envíos?</>}
         description="Cotiza, crea guías y rastrea con tarifas competitivas. Sin volumen mínimo."
-        buttonLabel="Empieza a enviar"
+        buttonLabel="Comienza a enviar"
       />
 
       <T1Footer />

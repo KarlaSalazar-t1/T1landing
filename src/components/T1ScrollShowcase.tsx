@@ -343,8 +343,8 @@ export function TodoEnUnoCard() {
 /* ── Words + cards ── */
 const WORDS = [
   { text: "Vende", ctaCopy: "Crea tu tienda con IA y vende en línea y en marketplaces, desde un solo lugar.", ctaLabel: "Crea tu tienda gratis" },
-  { text: "Cobra", ctaCopy: "Acepta tarjetas, SPEI y meses sin intereses, o cobra con un link de pago.", ctaLabel: "Empieza a cobrar gratis" },
-  { text: "Envía", ctaCopy: "Crea guías con +10 paqueterías a tarifas negociadas por volumen y rastrea todo en un lugar.", ctaLabel: "Empieza a enviar gratis" },
+  { text: "Cobra", ctaCopy: "Acepta tarjetas, SPEI y meses sin intereses, o cobra con un link de pago.", ctaLabel: "Comienza a cobrar gratis" },
+  { text: "Envía", ctaCopy: "Crea guías con +10 paqueterías a tarifas negociadas por volumen y rastrea todo en un lugar.", ctaLabel: "Comienza a enviar gratis" },
   { text: "Todo en uno", ctaCopy: "Vende, cobra y envía desde una sola plataforma potenciada con IA.", ctaLabel: "Crea tu cuenta gratis" },
 ];
 

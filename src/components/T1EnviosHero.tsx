@@ -28,7 +28,7 @@ function RateCards() {
   return (
     <div className="relative mx-auto w-full max-w-[300px]">
       <div aria-hidden className="pointer-events-none absolute -inset-8 -z-0" style={{ background: "radial-gradient(ellipse at center, rgba(219,59,43,0.18) 0%, transparent 70%)" }} />
-      <div className="relative z-[1] rounded-[18px] bg-white px-6 py-7" style={{ boxShadow: "0 24px 56px rgba(0,0,0,0.45)" }}>
+      <div className="relative z-[1] rounded-[18px] bg-white px-6 py-7 text-left" style={{ boxShadow: "0 24px 56px rgba(0,0,0,0.45)" }}>
         <div key={q} style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
           <p className="font-inter text-[12px] font-medium text-black/45" style={{ marginBottom: 16 }}>Tarifa preferencial</p>
           <div className="flex items-center gap-2" style={{ marginBottom: 20 }}>
