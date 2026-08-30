@@ -186,3 +186,146 @@ export function RastreoPanel({ flat = false, height = 300, bare = false }: { fla
   if (bare) return inner;
   return <PhoneShell flat={flat}>{inner}</PhoneShell>;
 }
+
+/* ── Cotizador — pantalla como "Cotiza con múltiples paqueterías" (multipaquetería) ── */
+const COTIZA_OPTIONS = [
+  { brand: "fedex", name: "FedEx", sub: "Mismo día / 24H", eta: "2 días hábiles", etaSub: "Mié · 24 ene", price: "$143.00", highlight: true },
+  { brand: "dhl", name: "DHL", sub: "Servicio express", eta: "3 días hábiles", etaSub: "Jue · 25 ene", price: "$128.00", highlight: false },
+];
+export function CotizadorScreen() {
+  const FILTERS = ["Paquetería", "Tipo de servicio", "Ventajas"];
+  const Chevron = () => <svg width="11" height="11" viewBox="0 0 24 24" fill="none" className="shrink-0"><path d="M6 9l6 6 6-6" stroke="rgba(0,0,0,0.5)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>;
+  return (
+    <div className="flex h-full flex-col bg-white px-4 pt-5" style={{ fontFamily: MANROPE }}>
+      <p className="text-[14px] font-bold text-black" style={{ marginBottom: 12 }}>Cotizador</p>
+      <div className="flex flex-wrap gap-1.5">
+        {FILTERS.map((f) => (
+          <span key={f} className="flex items-center gap-1 rounded-full border px-2.5 py-1.5 text-[10.5px] font-medium text-black/75" style={{ borderColor: "rgba(0,0,0,0.14)" }}>{f}<Chevron /></span>
+        ))}
+      </div>
+      {COTIZA_OPTIONS.map((o, i) => (
+        <div key={i} className="relative overflow-hidden" style={{ borderTop: "1px solid rgba(0,0,0,0.08)", paddingTop: 12, paddingBottom: 12, marginTop: i === 0 ? 12 : 0 }}>
+          {o.highlight && <span aria-hidden className="cotiza-sweep pointer-events-none absolute inset-y-0 left-0 z-20 w-1/2" style={{ background: "linear-gradient(100deg, transparent 0%, rgba(219,59,43,0.14) 50%, transparent 100%)" }} />}
+          <div className="flex items-center gap-2.5">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={`/img/carriers/${o.brand}.svg`} alt={o.name} width={36} height={36} className="h-[36px] w-[36px] shrink-0" />
+            <div className="min-w-0">
+              <p className="text-[14px] font-bold leading-tight text-black">{o.name}</p>
+              <p className="text-[12px] text-black/55" style={{ marginTop: 1 }}>{o.sub}</p>
+            </div>
+          </div>
+          <div className="flex justify-between" style={{ marginTop: 12 }}>
+            <div>
+              <span className="block text-[11px] text-black/45">Entrega estimada:</span>
+              <span className="block text-[14.5px] font-bold text-black" style={{ marginTop: 1 }}>{o.eta}</span>
+              <span className="block text-[10.5px] text-black/40" style={{ marginTop: 1 }}>{o.etaSub}</span>
+            </div>
+            <div className="text-right">
+              <span className="block text-[11px] text-black/45">Precio:</span>
+              <span className={`block text-[14.5px] font-bold text-black ${o.highlight ? "price-pop" : ""}`} style={{ marginTop: 1 }}>{o.price}<span className="ml-1 text-[10px] font-medium text-black/45">MXN</span></span>
+            </div>
+          </div>
+          <button className="mt-3 w-full rounded-[10px] py-2.5 text-[13px] font-semibold text-white" style={{ background: "#C0453A" }}>Crear envío</button>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ── Torre de control — tasa de incidencias + lista de incidencias (auto-scroll) ── */
+const INCIDENCIAS = [
+  { id: "INC-00103", carrier: "dhl", issue: "Dirección incorrecta o incompleta", eta: "10 días hábiles" },
+  { id: "INC-00147", carrier: "dhl", issue: "Acceso restringido", eta: "8 días hábiles" },
+  { id: "INC-00189", carrier: "jtexpress", issue: "Paquete sin movimiento", eta: "12 días hábiles" },
+];
+function IncidenceCard({ inc }: { inc: (typeof INCIDENCIAS)[number] }) {
+  return (
+    <div className="rounded-[12px] border border-black/[0.08] p-3.5">
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-[13px] font-bold text-black">{inc.id}</span>
+        <span className="rounded-full px-2 py-1 text-[10px] font-semibold" style={{ background: "rgba(219,59,43,0.10)", color: "#DB3B2B" }}>Requiere acción</span>
+      </div>
+      <p className="text-[11px] text-black/50" style={{ marginTop: 8 }}>No. de guía <span className="text-black/75">77452320977452</span></p>
+      <p className="text-[11px] text-black/50" style={{ marginTop: 2 }}>Actualizado <span className="text-black/75">02/10/24 · 07:33 am</span></p>
+      <div className="flex items-center gap-1.5" style={{ marginTop: 8 }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={`/img/carriers/${inc.carrier}.svg`} alt="" width={20} height={20} className="h-[18px] w-[26px] shrink-0 object-contain" />
+        <span className="text-[12px] font-medium text-black">{inc.issue}</span>
+      </div>
+      <div className="flex items-center gap-1.5 text-[11px] text-black/50" style={{ marginTop: 6 }}>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.7" /><path d="M12 8v4l3 2" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        Solución estimada <span className="text-black/75">{inc.eta}</span>
+      </div>
+      <div className="flex items-center justify-between" style={{ marginTop: 12 }}>
+        <span className="text-[12px] font-semibold text-black">Ver detalle</span>
+        <span className="flex items-center gap-1 rounded-[9px] px-3 py-1.5 text-[12px] font-semibold text-white" style={{ background: "#C0453A" }}>Acciones<svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
+      </div>
+    </div>
+  );
+}
+export function TorreControlScreen() {
+  const mask = "linear-gradient(to bottom, #000 0, #000 calc(100% - 26px), transparent 100%)";
+  return (
+    <div className="flex h-full flex-col bg-white" style={{ fontFamily: MANROPE }}>
+      <div className="border-b border-black/[0.06] px-4 pt-4 pb-3">
+        <p className="text-[12px] text-black/50">Tasa de incidencias</p>
+        <p className="text-[26px] font-bold text-black" style={{ lineHeight: 1.1 }}>1.02%</p>
+        <p className="text-[11px] text-black/40">148 / 3,452 envíos</p>
+      </div>
+      <div className="relative flex-1 overflow-hidden" style={{ maskImage: mask, WebkitMaskImage: mask }}>
+        <div className="crono-track flex flex-col gap-3 px-4 py-3">
+          {[...INCIDENCIAS, ...INCIDENCIAS].map((inc, i) => <IncidenceCard key={i} inc={inc} />)}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Detalle de guía — datos del envío + cronología (auto-scroll) ── */
+const CRONO = [
+  { chip: "Hoy", title: "Envío ha salido de una estación", place: "Ciudad de México, México" },
+  { title: "Procesado en México City Hub", place: "Ciudad de México, México" },
+  { chip: "Ayer", title: "Envío ha salido de una estación", place: "Querétaro, México" },
+  { title: "Envío procesado en Querétaro", place: "Querétaro, México" },
+  { title: "Envío recolectado", place: "Guadalajara, Jalisco" },
+  { title: "Información de envío recibida", place: "Sistema T1envíos" },
+];
+export function DetalleGuiaScreen() {
+  const mask = "linear-gradient(to bottom, #000 0, #000 calc(100% - 24px), transparent 100%)";
+  return (
+    <div className="flex h-full flex-col bg-white" style={{ fontFamily: MANROPE }}>
+      <div className="flex items-center gap-2 px-4 pt-4 pb-2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="#111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        <span className="text-[14px] font-bold text-black">Detalle de guía</span>
+      </div>
+      <div className="mx-4 rounded-[12px] border border-black/[0.08] p-3">
+        <div className="flex gap-2.5">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/img/carriers/fedex.svg" alt="FedEx" width={34} height={34} className="h-[34px] w-[34px] shrink-0" />
+          <div className="min-w-0">
+            <p className="text-[12.5px] font-bold text-black">FedEx : <span className="underline">77452320977452</span></p>
+            <p className="text-[11px] text-black/50" style={{ marginTop: 1 }}>Mismo día / 24H</p>
+            <p className="text-[11px] text-black/50" style={{ marginTop: 3 }}>No. de pedido: <span className="text-black/75">774523209</span></p>
+            <p className="text-[11px] text-black/50">1 pieza · 0.5 kg</p>
+          </div>
+        </div>
+      </div>
+      <p className="px-4 text-[13px] font-bold text-black" style={{ marginTop: 14, marginBottom: 2 }}>Cronología</p>
+      <div className="relative flex-1 overflow-hidden" style={{ maskImage: mask, WebkitMaskImage: mask }}>
+        <div className="crono-track flex flex-col px-4 pt-2">
+          {[...CRONO, ...CRONO].map((e, i) => (
+            <div key={i} className="relative flex gap-3" style={{ paddingBottom: 18 }}>
+              <span aria-hidden className="absolute" style={{ left: 4, top: 14, bottom: -4, borderLeft: "2px dotted rgba(0,0,0,0.16)" }} />
+              <span className="relative z-10 mt-1 h-[8px] w-[8px] shrink-0 rounded-full bg-[#1A1A1A]" />
+              <div className="min-w-0 flex-1">
+                {e.chip && <span className="mb-1 inline-block rounded-[6px] bg-black/[0.06] px-2 py-0.5 text-[10px] font-medium text-black/55">{e.chip}</span>}
+                <p className="text-[12px] text-black/85" style={{ lineHeight: 1.35 }}>{e.title}</p>
+                <p className="text-[10.5px] text-black/40" style={{ marginTop: 1 }}>{e.place}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}

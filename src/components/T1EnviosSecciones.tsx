@@ -12,6 +12,10 @@ const CHANNELS = [
   { src: "/img/logos/brands/walmart.webp", alt: "Walmart" },
   { src: "/img/logos/brands/sears.webp", alt: "Sears" },
   { src: "/img/logos/brands/sanborns.webp", alt: "Sanborns" },
+  { src: "/img/shopify.svg", alt: "Shopify" },
+  { src: "/img/woocommerce.svg", alt: "WooCommerce" },
+  { src: "/img/tiendanube.svg", alt: "Tiendanube" },
+  { src: "/img/aliexpress.svg", alt: "AliExpress" },
 ];
 export function T1EnviosCanales() {
   return (

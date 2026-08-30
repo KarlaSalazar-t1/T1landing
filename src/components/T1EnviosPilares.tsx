@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { CotizaCard, RastreoPanel, IncidentCards } from "@/components/T1EnviosPanels";
+import { CotizadorScreen, DetalleGuiaScreen, TorreControlScreen } from "@/components/T1EnviosPanels";
 import { PhoneFrame } from "@/components/T1PagosEnLinea";
 
 const ITEMS = [
@@ -94,26 +94,9 @@ export default function T1EnviosPilares() {
 
   // Pantalla dentro del celular según el pilar.
   const PhoneScreen = ({ panel }: { panel: string }) => {
-    if (panel === "cotiza") {
-      return (
-        <div className="flex h-full flex-col justify-center px-5" style={{ background: "#fff" }}>
-          <CotizaCard hideButton />
-        </div>
-      );
-    }
-    if (panel === "rastreo") {
-      return (
-        <div className="flex h-full flex-col px-5 pt-6" style={{ background: "#fff" }}>
-          <RastreoPanel bare height={330} />
-        </div>
-      );
-    }
-    // incidentes (Torre de control)
-    return (
-      <div className="flex h-full flex-col justify-center px-5" style={{ background: "#fff" }}>
-        <IncidentCards />
-      </div>
-    );
+    if (panel === "cotiza") return <CotizadorScreen />;
+    if (panel === "rastreo") return <DetalleGuiaScreen />;
+    return <TorreControlScreen />; // incidentes (Torre de control)
   };
 
   // Panel lateral tipo pagos: mock de celular + botón abajo. En móvil el mock
