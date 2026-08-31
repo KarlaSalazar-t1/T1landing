@@ -16,6 +16,15 @@ const FIELD =
 
 export type USAVariant = "coming-soon" | "waitlist" | "not-available";
 
+/* Subset for the picker — IP preselect + full country DB are backend (Mission
+   Control / geo). US default because this surface lives under /usa. */
+const COUNTRIES = [
+  "United States", "Argentina", "Bolivia", "Brazil", "Canada", "Chile",
+  "Colombia", "Costa Rica", "Dominican Republic", "Ecuador", "El Salvador",
+  "Guatemala", "Honduras", "México", "Nicaragua", "Panamá", "Paraguay",
+  "Perú", "Spain", "Uruguay", "Venezuela", "Other",
+];
+
 export default function T1USAState({
   variant,
   headline,
@@ -34,8 +43,13 @@ export default function T1USAState({
   features?: string[];
 }) {
   const [email, setEmail] = useState("");
+  const [country, setCountry] = useState("United States");
+  const [sells, setSells] = useState<"" | "products" | "services" | "both">("");
+  const [phone, setPhone] = useState("");
+  const [consent, setConsent] = useState(false);
   const [done, setDone] = useState(false);
-  const valid = /.+@.+\..+/.test(email.trim());
+  const emailOk = /.+@.+\..+/.test(email.trim());
+  const valid = emailOk && consent; // email + consent required; country has a default
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     if (valid) setDone(true);
@@ -111,28 +125,66 @@ export default function T1USAState({
                     <path d="M3 8L6.5 11.5L13 4.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
-                <p className="font-sora text-[18px] font-normal text-white">You&apos;re all set</p>
-                <p className="mt-1.5 font-inter text-[14px] font-light text-white/65">You&apos;re on the waitlist. We&apos;ll be in touch.</p>
+                <p className="font-sora text-[18px] font-normal text-white">You&apos;re on the list</p>
+                <p className="mt-1.5 font-inter text-[14px] font-light text-white/65">We&apos;ll let you know when T1 arrives in {country}.</p>
               </div>
             ) : (
-              <form onSubmit={submit} className="mt-9 flex w-full flex-col gap-3 tablet:flex-row" style={{ maxWidth: 520 }}>
+              <form onSubmit={submit} className="mt-9 flex w-full flex-col gap-3 text-left" style={{ maxWidth: 460 }}>
+                <p className="text-center font-inter text-[14px] font-light text-white/60">
+                  We don&apos;t operate in {country}{" "}yet — join the list and we&apos;ll let you know when we arrive.
+                </p>
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
+                  placeholder="Email"
                   aria-label="Email"
                   className={FIELD}
                 />
-                {/* Inactive state matches the main hero submit (dark muted red + dimmed text). */}
+                {/* País — preselect por IP es backend; default US + editable */}
+                <select aria-label="Country" value={country} onChange={(e) => setCountry(e.target.value)} className={FIELD}>
+                  {COUNTRIES.map((c) => <option key={c} value={c} className="bg-[#1D1D1D]">{c}</option>)}
+                </select>
+                {/* ¿Qué vendes? — opcional */}
+                <div className="flex gap-2">
+                  {([["products", "Products"], ["services", "Services"], ["both", "Both"]] as const).map(([v, label]) => (
+                    <button
+                      key={v}
+                      type="button"
+                      onClick={() => setSells((s) => (s === v ? "" : v))}
+                      className="h-[46px] flex-1 rounded-[12px] border font-inter text-[14px] font-medium transition-colors"
+                      style={{ borderColor: sells === v ? "#DB3B2B" : "rgba(255,255,255,0.12)", background: sells === v ? "rgba(219,59,43,0.12)" : "transparent", color: sells === v ? "#fff" : "rgba(255,255,255,0.6)" }}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+                {/* Celular con lada — opcional, sin OTP */}
+                <input
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="Phone (optional) — e.g. +52 55 1234 5678"
+                  aria-label="Phone"
+                  className={FIELD}
+                />
+                {/* Consentimiento — obligatorio */}
+                <label className="mt-1 flex cursor-pointer items-start gap-2.5 font-inter text-[13px] font-light text-white/60">
+                  <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 h-[16px] w-[16px] shrink-0 accent-[#DB3B2B]" />
+                  <span>I agree to the <a href="/privacidad" className="text-white/85 underline">privacy notice</a> and to be contacted by email or WhatsApp when T1 reaches my country.</span>
+                </label>
                 <button
                   type="submit"
                   disabled={!valid}
-                  className="h-[54px] w-full shrink-0 rounded-[14px] bg-[#DB3B2B] px-7 font-inter text-[15px] font-semibold text-white transition-colors duration-150 hover:bg-[#C0332A] disabled:bg-[#60160F] disabled:text-white/45 disabled:hover:bg-[#60160F] tablet:w-auto"
+                  className="mt-1 h-[54px] w-full shrink-0 rounded-[14px] bg-[#DB3B2B] px-7 font-inter text-[15px] font-semibold text-white transition-colors duration-150 hover:bg-[#C0332A] disabled:bg-[#60160F] disabled:text-white/45 disabled:hover:bg-[#60160F]"
                 >
                   Join the waitlist
                 </button>
+                {/* ¿Ya tienes cuenta? — "Crear cuenta" vive dentro del login (WL-02) */}
+                <p className="mt-1 text-center font-inter text-[13px] font-light text-white/55">
+                  Already have an account? <a href="/login" className="font-medium text-white/90 underline">Log in</a>
+                </p>
               </form>
             )
           ) : variant === "not-available" ? (
