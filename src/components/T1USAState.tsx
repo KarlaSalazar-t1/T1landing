@@ -118,7 +118,7 @@ export default function T1USAState({
 
           <div className="relative z-10 mx-auto grid max-w-[var(--max-w)] grid-cols-1 gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1fr)] lg:gap-16">
             {/* Left — pitch */}
-            <div className="lg:sticky lg:top-[96px] lg:self-start">
+            <div>
               <h1 className="font-sora text-[30px] font-light text-white tablet:text-[46px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, maxWidth: 460 }}>
                 {headline}
               </h1>
