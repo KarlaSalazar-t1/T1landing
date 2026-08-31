@@ -26,6 +26,27 @@ const COUNTRIES = [
   "Perú", "Spain", "Uruguay", "Venezuela", "Other",
 ];
 
+/* Header mínimo para la waiting list: solo logo + Log in (sin nav ni
+   "Comienza gratis", que abriría un alta de cuenta — WL-02). */
+function MinimalHeader() {
+  return (
+    <header className="absolute inset-x-0 top-0 z-30 flex items-center justify-between px-5 py-5 tablet:px-10">
+      <a href="/" aria-label="T1" className="flex shrink-0 items-center">
+        <svg width="40" height="39" viewBox="0 0 45 44" fill="none">
+          <g clipPath="url(#t1clipmin)">
+            <path d="M27.6733 19.1041H31.4027C31.5444 19.1041 31.6388 19.1041 31.7332 19.1985C31.7332 19.1985 31.7332 19.1985 31.7332 19.2457V37.7039C31.7332 38.5064 32.4885 39.0729 33.291 38.8369C35.0377 38.1288 37.3037 37.2318 38.956 36.4765C39.2392 36.3349 39.6169 36.1932 39.6169 35.6268V19.2457C39.6169 19.2457 39.6169 19.1985 39.6169 19.1513C39.6169 19.1041 39.6169 19.1041 39.6169 19.1041V7.86867C39.6169 7.20776 39.0976 6.68848 38.4367 6.68848H35.6514C35.1321 6.68848 34.7073 7.01893 34.5184 7.491C33.3855 10.6539 31.2139 13.0143 27.9566 13.5808C24.6992 14.1473 27.6733 13.628 27.4845 13.628C26.8708 13.7224 26.4459 14.1945 26.4459 14.8082V17.8767C26.4459 18.5376 26.9652 19.0569 27.6261 19.0569L27.6733 19.1041Z" fill="#D93A26" />
+            <path d="M32.5831 5.41411C32.4415 5.27248 32.2055 5.13086 31.9694 5.13086H4.63622C3.78648 5.13086 3.07837 5.74456 3.07837 6.54709V10.7014C3.07837 11.6927 3.2672 12.1648 4.4946 12.1648H13.6057C13.8417 12.1648 14.0305 12.3536 14.0305 12.5897V16.083V35.5326C14.0305 35.9574 14.3138 36.2879 14.7387 36.4767C15.5412 36.8072 18.3264 38.1762 19.2706 38.6955C20.2147 39.2148 21.867 38.3178 21.867 36.996V13.2506C21.867 13.2034 21.867 13.0617 21.867 13.0617C21.8198 12.7313 21.867 12.4008 22.1975 12.2592C22.2919 12.2592 22.3391 12.2592 22.4335 12.2592H25.4076C31.9222 11.6455 32.5831 6.5943 32.6303 6.02781C32.6303 6.02781 32.6303 5.9806 32.6303 5.93339V5.79177C32.6303 5.65014 32.6303 5.55573 32.4887 5.46131L32.5831 5.41411Z" fill="#D93A26" />
+          </g>
+          <defs><clipPath id="t1clipmin"><rect width="44.1244" height="43.0982" fill="white" /></clipPath></defs>
+        </svg>
+      </a>
+      <a href="/login" className="font-inter text-[14px] font-medium text-white/80 no-underline transition-colors hover:text-white">
+        Log in
+      </a>
+    </header>
+  );
+}
+
 /* Región / cambiar país — reutilizado en ambos layouts. */
 function RegionLinks() {
   return (
@@ -91,8 +112,8 @@ export default function T1USAState({
   if (variant === "waitlist") {
     return (
       <main className="relative min-h-screen bg-black">
-        <T1Navbar />
-        <section className="relative px-5 pb-24 pt-[120px] tablet:px-10" style={{ background: HERO_BG }}>
+        <MinimalHeader />
+        <section className="relative px-5 pb-24 pt-[110px] tablet:px-10" style={{ background: HERO_BG }}>
           <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 z-0" style={{ height: "26%", background: "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.5) 70%, #000 100%)" }} />
 
           <div className="relative z-10 mx-auto grid max-w-[var(--max-w)] grid-cols-1 gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1fr)] lg:gap-16">
