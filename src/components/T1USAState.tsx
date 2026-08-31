@@ -151,15 +151,22 @@ export default function T1USAState({
                     <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@company.com" aria-label="Email" className={FIELD} />
                   </label>
 
-                  <label className="block">
-                    <span className={LABEL}>Country</span>
-                    <div className="relative">
-                      <select aria-label="Country" value={country} onChange={(e) => setCountry(e.target.value)} className={`${FIELD} appearance-none pr-10`}>
-                        {COUNTRIES.map((c) => <option key={c} value={c} className="bg-[#1D1D1D]">{c}</option>)}
-                      </select>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-white/45"><path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                    </div>
-                  </label>
+                  {/* País y celular en la misma línea */}
+                  <div className="grid grid-cols-1 gap-4 tablet:grid-cols-2">
+                    <label className="block">
+                      <span className={LABEL}>Country</span>
+                      <div className="relative">
+                        <select aria-label="Country" value={country} onChange={(e) => setCountry(e.target.value)} className={`${FIELD} appearance-none pr-10`}>
+                          {COUNTRIES.map((c) => <option key={c} value={c} className="bg-[#1D1D1D]">{c}</option>)}
+                        </select>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-white/45"><path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                      </div>
+                    </label>
+                    <label className="block">
+                      <span className={LABEL}>Phone<span className="text-white/35"> (optional)</span></span>
+                      <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+52 55 1234 5678" aria-label="Phone" className={FIELD} />
+                    </label>
+                  </div>
 
                   {/* Chips con contexto */}
                   <div>
@@ -178,11 +185,6 @@ export default function T1USAState({
                       ))}
                     </div>
                   </div>
-
-                  <label className="block">
-                    <span className={LABEL}>Phone<span className="text-white/35"> (optional)</span></span>
-                    <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+52 55 1234 5678" aria-label="Phone" className={FIELD} />
-                  </label>
 
                   <label className="mt-1 flex cursor-pointer items-start gap-2.5 font-inter text-[13px] font-light text-white/60">
                     <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 h-[16px] w-[16px] shrink-0 accent-[#DB3B2B]" />

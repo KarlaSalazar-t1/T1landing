@@ -49,8 +49,8 @@ export default function T1ContactoVentas() {
   return (
     <main className="relative min-h-screen bg-black">
       {/* Cerrar / volver al inicio */}
-      <a href="/" aria-label="Cerrar" className="fixed right-5 top-5 z-30 flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-black/40 text-white/70 backdrop-blur transition-colors hover:border-white/35 hover:text-white">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>
+      <a href="/" aria-label="Cerrar" className="fixed right-5 top-5 z-30 flex h-11 w-11 items-center justify-center rounded-full border border-white/25 bg-black/70 text-white backdrop-blur transition-colors hover:border-white/50 hover:bg-black/90">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" /></svg>
       </a>
 
       <section className="relative px-5 pb-20 pt-20 tablet:px-10 tablet:pt-24" style={{ background: HERO_BG }}>
