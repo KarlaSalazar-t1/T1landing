@@ -3,15 +3,15 @@ import { SIGNUP_URL } from "@/lib/constants";
 /* ══════════ ¿Por qué elegir T1 Pagos? ══════════ */
 const REASONS = [
   {
-    title: "Aprobación más alta",
+    title: "Mejora la aprobación",
     desc: "Cierra más ventas con una tasa de aprobación de +90%, por encima del promedio del mercado.",
     icon: (
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 15l4.5-4.5 3 3L20 6" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /><path d="M15 6h5v5" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
     ),
   },
   {
-    title: "Antifraude personalizado",
-    desc: "Protege cada transacción con un antifraude adaptado a tu negocio con T1 Score.",
+    title: "Protege tus transacciones",
+    desc: "T1 Score analiza señales de riesgo para ayudarte a reducir fraude y contracargos.",
     icon: (
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 2.5l7 3v6c0 4.5-3 7.8-7 9.5-4-1.7-7-5-7-9.5v-6l7-3z" stroke="#FFFFFF" strokeWidth="1.6" strokeLinejoin="round" /><path d="M8.5 12l2.3 2.3 4.7-4.6" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
     ),

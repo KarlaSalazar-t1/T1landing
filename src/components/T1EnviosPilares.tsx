@@ -1,17 +1,26 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { CotizadorScreen, DetalleGuiaScreen, TorreControlScreen } from "@/components/T1EnviosPanels";
+import { CotizadorScreen, GuiaScreen, DetalleGuiaScreen, TorreControlScreen } from "@/components/T1EnviosPanels";
 import { PhoneFrame } from "@/components/T1PagosEnLinea";
 
 const ITEMS = [
   {
     id: "cotiza",
-    title: "Cotiza y crea envío",
-    description: "Compara +10 paqueterías, elige la mejor tarifa y genera tu guía al instante.",
+    title: "Cotiza",
+    description: "Compara +10 paqueterías y elige la mejor tarifa y tiempo de entrega para cada envío.",
     cta: "Cotiza ahora",
     ctaHref: "#cotizador",
     panel: "cotiza" as const,
+    image: "",
+  },
+  {
+    id: "guia",
+    title: "Genera guía",
+    description: "Crea tu guía al instante con plantillas de paquete y solicita la recolección a domicilio.",
+    cta: "Comienza ahora",
+    ctaHref: "/login",
+    panel: "guia" as const,
     image: "",
   },
   {
@@ -24,9 +33,9 @@ const ITEMS = [
     image: "",
   },
   {
-    id: "seguimiento",
-    title: "Torre de control",
-    description: "Detectamos y resolvemos cualquier incidencia antes que tu cliente, desde un solo panel.",
+    id: "incidencias",
+    title: "Gestiona incidencias",
+    description: "Detecta y resuelve cualquier incidencia antes que tu cliente, desde la torre de control.",
     cta: "Comienza ahora",
     ctaHref: "/login",
     panel: "incidentes" as const,
@@ -38,7 +47,6 @@ const DURATION = 9500;
 
 export default function T1EnviosPilares() {
   const [active, setActive] = useState(0);
-  const [barFull, setBarFull] = useState(false);
   const [started, setStarted] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -52,15 +60,12 @@ export default function T1EnviosPilares() {
     return () => obs.disconnect();
   }, []);
 
+  // Al cambiar de pilar (auto o manual) reinicia el timer; la barra se reinicia
+  // sola porque su animación va keyed por `active`.
   useEffect(() => {
     if (!started) return;
-    setBarFull(false);
-    const raf = requestAnimationFrame(() => setBarFull(true));
     const timer = setTimeout(() => setActive((a) => (a + 1) % ITEMS.length), DURATION);
-    return () => {
-      cancelAnimationFrame(raf);
-      clearTimeout(timer);
-    };
+    return () => clearTimeout(timer);
   }, [active, started]);
 
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -95,6 +100,7 @@ export default function T1EnviosPilares() {
   // Pantalla dentro del celular según el pilar.
   const PhoneScreen = ({ panel }: { panel: string }) => {
     if (panel === "cotiza") return <CotizadorScreen />;
+    if (panel === "guia") return <GuiaScreen />;
     if (panel === "rastreo") return <DetalleGuiaScreen />;
     return <TorreControlScreen />; // incidentes (Torre de control)
   };
@@ -118,10 +124,10 @@ export default function T1EnviosPilares() {
     <section ref={sectionRef} className="relative overflow-hidden bg-black px-5 tablet:px-6" style={{ paddingTop: 100, paddingBottom: 100 }}>
       <div className="relative mx-auto max-w-[var(--max-w)]">
         <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", textAlign: "center", marginBottom: 16 }}>
-          Tu operación de envíos, de punta a punta
+          Todo el ciclo de tu envío
         </h2>
         <p className="mx-auto font-inter text-[16px] font-light text-white/85 tablet:whitespace-nowrap tablet:text-[18px]" style={{ textAlign: "center", marginBottom: 56 }}>
-          Del cotizador a la torre de control: todo el ciclo de tu envío, en un solo lugar.
+          Cotiza, genera tu guía, rastrea y gestiona incidencias desde un solo lugar.
         </p>
 
         <div className="hidden grid-cols-1 gap-8 tablet:grid tablet:grid-cols-[minmax(0,0.95fr)_minmax(0,1fr)] tablet:items-center tablet:gap-8">
@@ -140,7 +146,7 @@ export default function T1EnviosPilares() {
                     <>
                       <p className="font-inter text-[16px] font-normal leading-relaxed text-white/60" style={{ marginTop: 12 }}>{it.description}</p>
                       <div className="mt-4 h-[3px] w-full overflow-hidden rounded-full" style={{ background: "rgba(255,255,255,0.10)" }}>
-                        <div style={{ height: "100%", width: barFull ? "100%" : "0%", background: "#DB3B2B", transition: barFull ? `width ${DURATION}ms linear` : "none" }} />
+                        <div key={active} style={{ height: "100%", width: "100%", background: "#DB3B2B", transformOrigin: "left center", animation: started ? `pilarProgress ${DURATION}ms linear forwards` : "none", transform: "scaleX(0)" }} />
                       </div>
                     </>
                   )}
@@ -166,7 +172,7 @@ export default function T1EnviosPilares() {
           <div className="mt-5 flex gap-2 px-1">
             {ITEMS.map((_, i) => (
               <button key={i} type="button" onClick={() => setActive(i)} aria-label={`Ir a ${ITEMS[i].title}`} className="h-[4px] flex-1 overflow-hidden rounded-full" style={{ background: "rgba(255,255,255,0.12)" }}>
-                <div style={{ height: "100%", width: i < active ? "100%" : i === active ? (barFull ? "100%" : "0%") : "0%", background: "#DB3B2B", transition: i === active && barFull ? `width ${DURATION}ms linear` : "none" }} />
+                <div key={`${i}-${active}`} style={{ height: "100%", width: "100%", background: "#DB3B2B", transformOrigin: "left center", transform: i < active ? "scaleX(1)" : "scaleX(0)", animation: i === active && started ? `pilarProgress ${DURATION}ms linear forwards` : "none" }} />
               </button>
             ))}
           </div>

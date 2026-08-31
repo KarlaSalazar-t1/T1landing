@@ -106,7 +106,7 @@ const TIENDA_CHIPS: { label: string; example: string }[] = [
   { label: "Hogar", example: "Vendo artículos de decoración para el hogar" },
 ];
 
-const SOCIAL_PROOF = ["+50,000 negocios", "+30M de envíos", "+200M transacciones"];
+const SOCIAL_PROOF = ["+50,000 negocios", "+40M de envíos", "+200M transacciones"];
 
 /* H1 rotativo (versión A): rota el sustantivo, marco fijo "Todos tus ___ en un solo lugar." */
 const HERO_WORDS = ["productos", "pedidos", "pagos", "envíos", "ventas"];

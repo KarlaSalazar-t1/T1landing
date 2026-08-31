@@ -87,7 +87,17 @@ function ArrowBtn({ direction, onClick }: { direction: "left" | "right"; onClick
   );
 }
 
-export default function T1EnterpriseCarousel({ bVariant = false }: { bVariant?: boolean }) {
+export default function T1EnterpriseCarousel({
+  bVariant = false,
+  only,
+  title = "Marcas que crecen con T1",
+  subtitle = "De emprendedores a grandes empresas.",
+}: {
+  bVariant?: boolean;
+  only?: string[];
+  title?: string;
+  subtitle?: string;
+}) {
   const [videoOpen, setVideoOpen] = useState(false);
   const [activeVideo, setActiveVideo] = useState<(typeof CASES)[number] | null>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -112,13 +122,13 @@ export default function T1EnterpriseCarousel({ bVariant = false }: { bVariant?: 
               className="font-sora text-[28px] font-light text-white tablet:text-[36px] lg:text-[44px]"
               style={{ letterSpacing: "-0.03em", lineHeight: "1.2em" }}
             >
-              Marcas que crecen con T1
+              {title}
             </h2>
             <p
               className="font-inter text-[14px] font-light text-white/55 tablet:text-[16px] lg:text-[16px]"
               style={{ lineHeight: 1.55, maxWidth: 620 }}
             >
-              De emprendedores a grandes empresas.
+              {subtitle}
             </p>
           </div>
           <div className="hidden items-center gap-2 tablet:flex">
@@ -143,7 +153,9 @@ export default function T1EnterpriseCarousel({ bVariant = false }: { bVariant?: 
           paddingRight: 24,
         }}
       >
-        {(bVariant
+        {(only && only.length
+          ? (only.map((id) => CASES.find((c) => c.id === id)).filter(Boolean) as CaseStudy[])
+          : bVariant
           ? [...CASES.filter((c) => !c.hidden && c.hasVideo), ...CASES.filter((c) => !c.hidden && !c.hasVideo)]
           : CASES.filter((c) => !c.hidden)
         ).map((c) => {

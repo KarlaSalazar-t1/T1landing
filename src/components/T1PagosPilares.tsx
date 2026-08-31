@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { PhoneFrame, TiendaFlow, LinkFlow } from "@/components/T1PagosEnLinea";
-import { ScoreFlow } from "@/components/T1PagosScoreFlow";
+import { ApiFlow } from "@/components/T1PagosApiFlow";
 
 const ITEMS = [
   {
@@ -22,13 +22,12 @@ const ITEMS = [
     Flow: LinkFlow,
   },
   {
-    id: "score",
-    title: "Antifraude con T1 Score",
-    description: "El cliente paga y en segundos analizamos correo, teléfono, historial y más para decidir si aprobar el pago.",
+    id: "api",
+    title: "API e integraciones",
+    description: "Conecta T1 Pagos a tu plataforma, app o flujo propio.",
     cta: "Conoce más",
-    ctaHref: "/productos/t1pagos/reclamaciones",
-    Flow: ScoreFlow,
-    standalone: true,
+    ctaHref: "/login",
+    Flow: ApiFlow,
   },
 ];
 
@@ -114,7 +113,7 @@ export default function T1PagosPilares() {
           Una plataforma para todos tus cobros
         </h2>
         <p className="mx-auto font-inter text-[16px] font-light text-white/85 tablet:whitespace-nowrap tablet:text-[18px]" style={{ textAlign: "center", marginBottom: 56 }}>
-          Cobra en tu pasarela, con un link y protege cada venta con antifraude, todo en un lugar.
+          Cobra en tu pasarela, con un link o desde tu propia integración, todo en un lugar.
         </p>
 
         <div className="hidden grid-cols-1 gap-8 tablet:grid tablet:grid-cols-[minmax(0,0.95fr)_minmax(0,1fr)] tablet:items-center tablet:gap-8">

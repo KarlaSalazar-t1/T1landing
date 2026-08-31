@@ -906,6 +906,8 @@ body {
 .bar-grow { transform-origin: left center; animation: barGrowX 3.4s ease-out infinite; }
 @media (prefers-reduced-motion: reduce) { .bar-grow { animation: none; transform: scaleX(1); } }
 
+@keyframes pilarProgress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
 @keyframes speedDash {
   0% { transform: translateX(8px); opacity: 0; }
   35% { opacity: 0.9; }

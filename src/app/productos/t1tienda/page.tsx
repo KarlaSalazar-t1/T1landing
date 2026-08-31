@@ -11,6 +11,7 @@ import {
   T1TiendaFAQ,
 } from "@/components/T1TiendaSecciones";
 import T1ProductMetrics from "@/components/T1ProductMetrics";
+import T1EnterpriseCarousel from "@/components/T1EnterpriseCarousel";
 import T1FinalCTA from "@/components/T1FinalCTA";
 import T1Footer from "@/components/T1Footer";
 
@@ -45,6 +46,13 @@ export default function TiendaLanding() {
         <T1TiendaPagos />
         {/* 5 · Administración — catálogo, inventario, reportes */}
         <T1TiendaAdministracion />
+        {/* 5.5 · Casos de éxito (comercio / omnicanal) */}
+        <T1EnterpriseCarousel
+          bVariant
+          only={["pirma", "sears", "makora"]}
+          title="Marcas que venden con T1"
+          subtitle="Historias reales de negocios que centralizaron su venta con T1."
+        />
         {/* 6 · FAQ */}
         <T1TiendaFAQ />
       </div>

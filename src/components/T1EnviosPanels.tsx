@@ -324,3 +324,67 @@ export function DetalleGuiaScreen() {
     </div>
   );
 }
+
+/* ── Genera guía — confirmación de envío creado (estilo pantalla de éxito) ── */
+const Pin = (
+  <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z" stroke="#DB3B2B" strokeWidth="1.8" /><circle cx="12" cy="10" r="2.3" stroke="#DB3B2B" strokeWidth="1.8" /></svg>
+);
+export function GuiaScreen() {
+  return (
+    <div className="flex h-full flex-col bg-white px-3.5 pt-4 pb-3" style={{ fontFamily: MANROPE }}>
+      <div className="mx-auto flex h-[34px] w-[34px] items-center justify-center rounded-full bg-[#16A34A]" style={{ marginBottom: 10, animation: "checkPop 0.45s cubic-bezier(0.34,1.56,0.64,1) both" }}>
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
+      </div>
+      <p className="text-center text-[15px] font-extrabold leading-[1.2] text-[#1c1c1c]" style={{ marginBottom: 12, animation: "fadeSlideIn 0.45s ease-out 0.06s both" }}>
+        ¡Tu envío se creó<br />con éxito!
+      </p>
+
+      {/* Tarjeta de guía */}
+      <div className="rounded-[12px] border border-black/[0.10]" style={{ animation: "fadeSlideIn 0.5s ease-out 0.14s both" }}>
+        <div className="flex items-center gap-2.5 px-3 pt-3 pb-2.5">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/img/carriers/dhl.svg" alt="DHL" width={34} height={34} className="h-[34px] w-[34px] shrink-0 rounded-[7px]" />
+          <div className="min-w-0 flex-1">
+            <p className="text-[10px] font-medium text-black/45 leading-none">DHL</p>
+            <p className="truncate text-[12px] font-bold text-black" style={{ marginTop: 3 }}>3456 7889 0976</p>
+          </div>
+          <div className="shrink-0 text-right">
+            <p className="text-[9px] text-black/45 leading-none">Llega el</p>
+            <p className="text-[11px] font-bold text-black" style={{ marginTop: 3 }}>26 de ene</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-3 border-t border-black/[0.08] px-3 py-2.5">
+          <div className="min-w-0">
+            <p className="flex items-center gap-1 text-[10px] font-medium text-black/45">{Pin}Origen</p>
+            <p className="truncate text-[11.5px] font-semibold text-black" style={{ marginTop: 3 }}>Sucursal Polanco</p>
+            <p className="text-[10px] leading-snug text-black/45" style={{ marginTop: 1 }}>Lago Zurich 25, CDMX</p>
+          </div>
+          <div className="min-w-0">
+            <p className="flex items-center gap-1 text-[10px] font-medium text-black/45">{Pin}Destino</p>
+            <p className="truncate text-[11.5px] font-semibold text-black" style={{ marginTop: 3 }}>Ma. Fernanda Baz</p>
+            <p className="text-[10px] leading-snug text-black/45" style={{ marginTop: 1 }}>Sócrates 25, CDMX</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Botones */}
+      <div className="mt-3 flex flex-col gap-2" style={{ animation: "fadeSlideIn 0.5s ease-out 0.22s both" }}>
+        <div className="flex h-[40px] items-center justify-center rounded-[10px] text-[13px] font-semibold text-white" style={{ background: "#DB3B2B" }}>Descargar guía</div>
+        <div className="flex h-[40px] items-center justify-center rounded-[10px] border border-black/15 text-[13px] font-semibold text-black">Ver detalle de envío</div>
+      </div>
+
+      {/* Cómo preparar tu envío */}
+      <div className="mt-4" style={{ animation: "fadeSlideIn 0.5s ease-out 0.3s both" }}>
+        <p className="text-[12.5px] font-bold text-[#1c1c1c]">¿Cómo preparar tu envío?</p>
+        <ul className="mt-2.5 flex flex-col gap-2">
+          {["Descarga e imprime tu guía.", "Empaqueta con un embalaje adecuado.", "Llévalo a sucursal o pide recolección."].map((s) => (
+            <li key={s} className="flex items-start gap-2 text-[11.5px] leading-snug text-black/60">
+              <span className="mt-[5px] h-[4px] w-[4px] shrink-0 rounded-full bg-black/40" />
+              {s}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}

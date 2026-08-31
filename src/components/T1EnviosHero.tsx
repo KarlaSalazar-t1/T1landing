@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
 import T1EnviosOrbitHalo from "@/components/T1EnviosOrbitHalo";
 
-const SOCIAL_PROOF = ["+30M de envíos", "+50,000 negocios", "+10 paqueterías"];
+const SOCIAL_PROOF = ["+40M de envíos", "+50,000 negocios", "+10 paqueterías"];
 const CARRIERS = ["/img/circles/dhl.svg", "/img/circles/fedex.svg", "/img/circles/ups.svg", "/img/circles/ampm.svg", "/img/circles/99.svg"];
 const RATES = [
   { from: "CDMX", to: "CDMX", price: "89" },
@@ -28,7 +28,7 @@ function RateCards() {
   return (
     <div className="relative mx-auto w-full max-w-[300px]">
       <div aria-hidden className="pointer-events-none absolute -inset-8 -z-0" style={{ background: "radial-gradient(ellipse at center, rgba(219,59,43,0.18) 0%, transparent 70%)" }} />
-      <div className="relative z-[1] rounded-[18px] bg-white px-6 py-9 text-left" style={{ boxShadow: "0 24px 56px rgba(0,0,0,0.45)" }}>
+      <div className="relative z-[1] rounded-[18px] bg-white px-6 py-6 text-left" style={{ boxShadow: "0 24px 56px rgba(0,0,0,0.45)" }}>
         <div key={q} style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
           <p className="font-inter text-[12px] font-medium text-black/45" style={{ marginBottom: 16 }}>Tarifa preferencial</p>
           <div className="flex items-center gap-2" style={{ marginBottom: 20 }}>
@@ -71,13 +71,13 @@ export default function T1EnviosHero() {
             {/* Izquierda — texto */}
             <div className="flex flex-col items-center text-center tablet:items-start tablet:text-left">
               <h1 className="font-sora text-[34px] font-light leading-[1.12] text-white tablet:text-[52px] desktop:text-[54px]" style={{ letterSpacing: "-0.03em" }}>
-                Todos tus envíos,
+                Cotiza, envía y rastrea
                 <br />
-                un solo lugar
+                desde un solo lugar
               </h1>
 
-              <p className="mt-5 max-w-[440px] font-inter text-[16px] font-light leading-[1.55] text-white/80 tablet:text-[18px]">
-                Cotiza, envía y entrega con la mejor experiencia del mercado.
+              <p className="mt-5 max-w-[460px] font-inter text-[16px] font-light leading-[1.55] text-white/80 tablet:text-[18px]">
+                Compara paqueterías, genera guía y da seguimiento con la mejor experiencia.
               </p>
 
               {/* Móvil: card de tarifas arriba de los logos */}
@@ -85,8 +85,8 @@ export default function T1EnviosHero() {
                 <RateCards />
               </div>
 
-              {/* Logos de paqueterías — sólo móvil; suben un poco sobre la card de cotización */}
-              <div className="relative z-10 -mt-5 flex flex-wrap items-center justify-center gap-4 tablet:hidden">
+              {/* Logos de paqueterías — sólo móvil; debajo de la card, sin encimarse */}
+              <div className="relative z-10 mt-6 flex flex-wrap items-center justify-center gap-4 tablet:hidden">
                 {CARRIERS.map((src) => (
                   <span key={src} className="flex h-[36px] w-[36px] shrink-0 items-center justify-center overflow-hidden rounded-full" style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.30)" }}>
                     <Image src={src} alt="" width={72} height={72} className="h-full w-full object-cover" />

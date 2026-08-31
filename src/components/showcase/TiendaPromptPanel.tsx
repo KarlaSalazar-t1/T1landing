@@ -135,7 +135,7 @@ function LandingPrompt({ typed, isActive, compact = false }: { typed: string; is
       <div className="flex items-center justify-center gap-3 border-t border-white/10 py-2.5 font-inter text-[9px] text-white/55">
         <span>+50,000 negocios</span>
         <span className="text-white/20">•</span>
-        <span>+30M envíos</span>
+        <span>+40M envíos</span>
         <span className="text-white/20">•</span>
         <span>+200M transacciones</span>
       </div>

@@ -11,8 +11,8 @@ const IconSeguimiento = (
 );
 
 const CARDS = [
-  { icon: IconCotiza, title: "Cotiza", desc: "Descubre y compara las mejores tarifas y tiempos de entrega entre las mejores paqueterías de todo México.", cta: "Cotiza ahora", href: "#cotizador" },
-  { icon: IconEnvia, title: "Envía", desc: "Genera guías de envío a todo México, crea plantillas de tus paquetes y solicita recolección a tu almacén.", cta: "Realiza un envío", href: "/login" },
+  { icon: IconCotiza, title: "Cotiza", desc: "Compara tarifas, tiempos de entrega y servicios entre las mejores paqueterías de México.", cta: "Cotiza ahora", href: "#cotizador" },
+  { icon: IconEnvia, title: "Envía", desc: "Crea guías de envío, usa plantillas y solicita recolección de tus paquetes.", cta: "Realiza un envío", href: "/login" },
   { icon: IconSeguimiento, title: "Rastrea", desc: "Conoce la ubicación de tus paquetes en todo momento, da seguimiento a las incidencias y resuélvelas desde T1.", cta: "Rastrea un envío", href: "/productos/t1envios/rastreo" },
 ];
 

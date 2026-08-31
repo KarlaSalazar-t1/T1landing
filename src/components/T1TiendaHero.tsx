@@ -19,7 +19,7 @@ const CHIPS: { label: string; example: string }[] = [
   { label: "Hogar", example: "Vendo artículos de decoración para el hogar" },
 ];
 
-const SOCIAL_PROOF = ["+50,000 negocios", "+30M de envíos", "+200M transacciones"];
+const SOCIAL_PROOF = ["+50,000 negocios", "+40M de envíos", "+200M transacciones"];
 
 const ArrowUp = (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none">

@@ -5,7 +5,7 @@
    Diferencias vs T1Hero (A):
    1. Marquee de logos a todo el ancho, alineado con el header.
    2. Arriba del marquee regresan los datos: "+50,000 negocios" centrado arriba,
-      y abajo "+30M de envíos" y "+200M transacciones" en una misma línea.
+      y abajo "+40M de envíos" y "+200M transacciones" en una misma línea.
    3. Ese bloque (datos + marquee) baja: NO aparece en el first fold.
    4. En envíos y pagos, debajo del botón, un espacio + logos de paqueterías y
       métodos de pago respectivamente.
@@ -626,7 +626,7 @@ export default function T1HeroB() {
             <div className="mb-12 flex flex-col items-center gap-3 tablet:mb-16 tablet:gap-5">
               <span className="font-inter text-[19px] font-normal text-white tablet:text-[24px]">+50,000 negocios</span>
               <div className="flex items-center gap-6 tablet:gap-14">
-                <span className="font-inter text-[15px] font-normal text-white/75 tablet:text-[18px]">+30M de envíos</span>
+                <span className="font-inter text-[15px] font-normal text-white/75 tablet:text-[18px]">+40M de envíos</span>
                 <span className="font-inter text-[15px] font-normal text-white/75 tablet:text-[18px]">+200M transacciones</span>
               </div>
             </div>

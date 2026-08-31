@@ -19,17 +19,17 @@ const CHANNELS = [
 ];
 /* posiciones flotantes (dispersas) — una por cada canal */
 const CH_FLOAT = [
-  { l: "8%", t: "18%", s: 46, r: -8 },
-  { l: "25%", t: "11%", s: 42, r: 6 },
-  { l: "43%", t: "16%", s: 40, r: -5 },
-  { l: "59%", t: "11%", s: 42, r: 7 },
-  { l: "76%", t: "17%", s: 44, r: -6 },
-  { l: "92%", t: "23%", s: 42, r: 5 },
-  { l: "13%", t: "82%", s: 42, r: 6 },
-  { l: "32%", t: "88%", s: 40, r: -7 },
-  { l: "52%", t: "84%", s: 44, r: 5 },
-  { l: "71%", t: "88%", s: 40, r: -5 },
-  { l: "88%", t: "80%", s: 46, r: 7 },
+  { l: "7%", t: "13%", s: 46, r: -8 },
+  { l: "24%", t: "7%", s: 42, r: 6 },
+  { l: "43%", t: "10%", s: 40, r: -5 },
+  { l: "60%", t: "7%", s: 42, r: 7 },
+  { l: "77%", t: "11%", s: 44, r: -6 },
+  { l: "93%", t: "16%", s: 42, r: 5 },
+  { l: "12%", t: "87%", s: 42, r: 6 },
+  { l: "32%", t: "93%", s: 40, r: -7 },
+  { l: "52%", t: "89%", s: 44, r: 5 },
+  { l: "71%", t: "93%", s: 40, r: -5 },
+  { l: "89%", t: "85%", s: 46, r: 7 },
 ];
 export function T1EnviosCanales() {
   return (
@@ -38,18 +38,24 @@ export function T1EnviosCanales() {
       {CH_FLOAT.map((f, i) => {
         const l = CHANNELS[i % CHANNELS.length];
         return (
-          <div key={i} aria-hidden className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 scale-[0.72] tablet:scale-100" style={{ left: f.l, top: f.t }}>
+          <div key={i} aria-hidden className="pointer-events-none absolute hidden -translate-x-1/2 -translate-y-1/2 tablet:block tablet:scale-100" style={{ left: f.l, top: f.t }}>
             <Image src={l.src} alt="" width={160} height={52} className="w-auto object-contain opacity-80" style={{ height: f.s, transform: `rotate(${f.r}deg)` }} sizes="130px" />
           </div>
         );
       })}
-      <div className="relative z-[1] mx-auto flex min-h-[300px] max-w-[620px] flex-col items-center justify-center text-center tablet:min-h-[280px]">
+      <div className="relative z-[1] mx-auto flex min-h-[300px] max-w-[620px] flex-col items-center justify-center text-center tablet:min-h-[380px]">
         <h2 className="font-sora text-[28px] font-light text-white tablet:text-[40px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
-          Conecta tus canales de venta
+          Conecta tus canales y genera guías más rápido
         </h2>
-        <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.6, maxWidth: 520 }}>
-          Sincroniza tus pedidos de marketplaces y tiendas, y genera guías automáticamente.
+        <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.6, maxWidth: 560 }}>
+          Sincroniza pedidos, direcciones y estados de envío desde T1 Tienda, marketplaces y tiendas externas como Shopify, Mercado Libre, Amazon, SHEIN y más.
         </p>
+        {/* Móvil: fila de logos (los flotantes se ocultan en móvil para no encimar el texto) */}
+        <div className="mt-10 flex max-w-[320px] flex-wrap items-center justify-center gap-x-6 gap-y-4 tablet:hidden">
+          {CHANNELS.slice(0, 6).map((l) => (
+            <Image key={l.alt} src={l.src} alt={l.alt} width={120} height={40} className="w-auto object-contain opacity-85" style={{ height: 30 }} sizes="120px" />
+          ))}
+        </div>
         <a href="/login" className="mt-8 inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]">
           Conecta tus canales
           <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -81,7 +87,7 @@ export function T1EnviosAdministracion() {
         <div className="grid grid-cols-1 gap-10 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.35fr)] tablet:items-center tablet:gap-14">
           <div>
             <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 16, maxWidth: 420 }}>
-              Administra todo desde un solo panel
+              Controla tu operación desde un panel
             </h2>
             <p className="font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 400 }}>
               Reportes, reglas, recolecciones y control de calidad, todo en un mismo lugar.
@@ -94,8 +100,13 @@ export function T1EnviosAdministracion() {
           <div className="flex flex-col gap-5">
             <div ref={ref} className="-mr-5 flex gap-5 overflow-x-auto pb-2 pr-5 tablet:mr-0 tablet:pr-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {ADMIN_CARDS.map((s) => (
-                <a key={s.title} href={s.href} data-card className="flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-white/[0.08] bg-[#1A1A1D] p-6 no-underline transition-colors hover:border-white/20">
-                  <h3 className="font-sora text-[19px] font-normal text-white" style={{ marginBottom: 8 }}>{s.title}</h3>
+                <a key={s.title} href={s.href} data-card className="group flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-white/[0.08] bg-[#1A1A1D] p-6 no-underline transition-colors hover:border-white/20">
+                  <div className="flex items-center justify-between gap-2" style={{ marginBottom: 8 }}>
+                    <h3 className="font-sora text-[19px] font-normal text-white">{s.title}</h3>
+                    <span className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full border border-white/15 text-white/55 transition-all duration-200 group-hover:translate-x-0.5 group-hover:border-white/40 group-hover:text-white">
+                      <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                    </span>
+                  </div>
                   <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.55, marginBottom: 20, minHeight: 63 }}>{s.desc}</p>
                   <div className="mt-auto flex h-[210px] items-center justify-center overflow-hidden rounded-[14px]">
                     <Image src={s.img} alt={s.title} width={s.w} height={s.h} className="h-full w-full object-contain" sizes="270px" />

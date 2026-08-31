@@ -32,7 +32,9 @@ export default function T1PagosHero() {
           {/* Izquierda — texto */}
           <div className="flex flex-col items-center text-center tablet:items-start tablet:text-left">
             <h1 className="font-sora text-[34px] font-light leading-[1.12] text-white tablet:text-[52px] desktop:text-[54px]" style={{ letterSpacing: "-0.03em" }}>
-              Cobra en línea
+              Cobra en línea de forma
+              <br />
+              simple, segura y rápida
             </h1>
 
             <p className="mt-5 max-w-[440px] font-inter text-[16px] font-light leading-[1.55] text-white/80 tablet:text-[18px]">
