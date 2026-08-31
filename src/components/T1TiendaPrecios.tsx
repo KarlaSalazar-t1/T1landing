@@ -82,8 +82,8 @@ export default function T1TiendaPrecios() {
         <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 z-0" style={{ height: 200, background: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.55) 55%, #000 100%)" }} />
 
         <div className="relative z-10 mx-auto max-w-[720px]">
-          <h1 className="font-sora text-[34px] font-light text-white tablet:text-[52px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.08 }}>
-            Elige el plan perfecto para tu negocio
+          <h1 className="font-sora text-[34px] font-light text-white tablet:whitespace-nowrap tablet:text-[52px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.08 }}>
+            El plan perfecto para tu negocio
           </h1>
           <p className="mx-auto font-inter text-[16px] font-light text-white/70 tablet:text-[18px]" style={{ lineHeight: 1.55, marginTop: 18, maxWidth: 560 }}>
             Desde emprendedores hasta grandes empresas, tienes un plan para vender, cobrar y enviar a tu escala.
