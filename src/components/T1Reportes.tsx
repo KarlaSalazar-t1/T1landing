@@ -370,7 +370,7 @@ export default function T1Reportes() {
   const rootRef = useRef<HTMLDivElement>(null);
   const stackRootRef = useRef<HTMLDivElement>(null);
   useFSStackCards(stackRootRef);
-  // Carrusel "Toda tu operación, en un solo panel" — flechas prev/next
+  // Carrusel "Toda tu operación, en el administrador" — flechas prev/next
   const opRef = useRef<HTMLDivElement>(null);
   const scrollOp = (dir: number) => {
     const el = opRef.current;
@@ -489,7 +489,7 @@ export default function T1Reportes() {
             Todo lo importante, listo para revisar
           </h2>
           <p className="font-inter text-[16px] font-light text-black/60 lg:whitespace-nowrap tablet:text-[19px]" style={{ lineHeight: 1.5 }}>
-            Ventas, pedidos, tráfico, conversión, ticket promedio y desempeño por canal desde un solo panel.
+            Ventas, pedidos, tráfico, conversión, ticket promedio y desempeño por canal desde el administrador.
           </p>
         </div>
       </section>
@@ -621,7 +621,7 @@ export default function T1Reportes() {
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 56 }}>
             <h2 className="font-sora text-[28px] font-light text-white tablet:whitespace-nowrap tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
-              Toda tu operación en un panel
+              Toda tu operación en el administrador
             </h2>
             <p className="font-inter text-[16px] font-light text-white/55 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
               Métricas, comparativas y exportables listos desde el primer día.
@@ -697,7 +697,7 @@ export default function T1Reportes() {
             {[
               { q: "¿Qué reportes vienen incluidos?", a: "Ventas, tráfico, conversión, ticket promedio, productos más vendidos, comparativa por canal, antifraude y más, todos preconfigurados." },
               { q: "¿Los reportes se actualizan solos?", a: "Sí. Cada venta se refleja en tus reportes en tiempo real, sin que actualices nada." },
-              { q: "¿Necesito conectar mis canales?", a: "Sí. Conectas tu tienda, sucursales y marketplaces una vez y T1 reúne todo en un panel." },
+              { q: "¿Necesito conectar mis canales?", a: "Sí. Conectas tu tienda, sucursales y marketplaces una vez y T1 reúne todo en el administrador." },
               { q: "¿Se exporta a Excel?", a: "Cualquier reporte se descarga como Excel (.xlsx) o CSV con un clic." },
             ].map((f, i) => (
               <details key={f.q} data-stagger className="group rounded-[14px] border border-white/[0.08] bg-white/[0.03] transition-all duration-200 open:border-[rgba(219,59,43,0.4)] open:bg-white/[0.05]" style={{ ["--i" as string]: i }}>

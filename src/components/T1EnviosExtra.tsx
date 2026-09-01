@@ -98,7 +98,7 @@ export function T1EnviosIncidencias() {
               Adelántate a las incidencias
             </h2>
             <p className="font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 24, maxWidth: 440 }}>
-              Detecta retrasos y problemas de entrega y gestiónalos desde un solo panel, sin perseguir a la paquetería.
+              Detecta retrasos y problemas de entrega y gestiónalos desde el administrador, sin perseguir a la paquetería.
             </p>
             <ul className="mb-8 flex flex-col gap-3">
               {[
@@ -132,7 +132,7 @@ const ECOSISTEMA = [
   {
     title: "T1 Tienda",
     logo: "/img/t1tienda-white.svg",
-    desc: "Crea tu tienda en línea con IA y vende en los principales marketplaces desde un solo panel.",
+    desc: "Crea tu tienda en línea con IA y vende en los principales marketplaces desde el administrador.",
     href: "/productos/t1tienda",
     type: "brand" as const,
     icons: ["/img/logos/brands/mercadolibre.webp", "/img/logos/brands/amazon.webp", "/img/logos/brands/tiktokshop.webp", "/img/logos/brands/shein.webp"],

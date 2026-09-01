@@ -83,22 +83,22 @@ const TAB_CARDS: TabCard[] = [
   {
     title: "GESTIÓN DE PEDIDOS",
     description:
-      "Panel unificado para gestionar pedidos de todos tus canales de venta. Visualiza, filtra y procesa pedidos en tiempo real.",
+      "Administrador unificado para gestionar pedidos de todos tus canales de venta. Visualiza, filtra y procesa pedidos en tiempo real.",
     cta: "Comenzar ahora",
     ctaHref: "/registro",
     subTabs: [
-      { label: "Panel de pedidos", description: "Visualiza, filtra y gestiona pedidos de todos tus canales en un solo panel.", image: null, floatingCards: null, panel: "order-list" },
+      { label: "Administrador de pedidos", description: "Visualiza, filtra y gestiona pedidos de todos tus canales en el administrador.", image: null, floatingCards: null, panel: "order-list" },
       { label: "Carrito abandonado", description: "Recupera ventas perdidas con seguimiento automático de carritos abandonados.", image: null, floatingCards: null, panel: "carrito" },
     ],
   },
   {
     title: "CONTROL DE CALIDAD",
     description:
-      "Ofrece el mejor servicio a tus clientes, crea y gestiona todas las incidencias de tus envíos desde nuestro panel. Monitorea tu porcentaje de incidencias y el desempeño por paquetería.",
+      "Ofrece el mejor servicio a tus clientes, crea y gestiona todas las incidencias de tus envíos desde nuestro administrador. Monitorea tu porcentaje de incidencias y el desempeño por paquetería.",
     cta: "Conocer más",
     ctaHref: "/registro",
     subTabs: [
-      { label: "Crea incidencias", description: "Crea y gestiona incidencias de tus envíos directamente desde el panel.", image: "/img/incidencias.png", floatingCards: "incidencia" },
+      { label: "Crea incidencias", description: "Crea y gestiona incidencias de tus envíos directamente desde el administrador.", image: "/img/incidencias.png", floatingCards: "incidencia" },
       { label: "Gestiona sobrepesos", description: "Detecta y gestiona sobrepesos para evitar cargos adicionales.", image: null, floatingCards: "sobrepesos", panel: "sobrepesos-cards" },
     ],
   },
@@ -1449,10 +1449,10 @@ export default function T1Solutions() {
                     </div>
                   </div>
                 ) : currentSub.panel === "disputas" ? (
-                  /* Panel de disputas — image + floating "Evidencia recibida" */
+                  /* Administrador de disputas — image + floating "Evidencia recibida" */
                   <div className="relative flex h-full items-center justify-center" style={{ padding: "15px" }}>
                     <div className="overflow-hidden rounded-[12px]" style={{ boxShadow: "0 4px 24px rgba(0,0,0,0.08)" }}>
-                      <Image src="/img/reclamaciones-desktop.svg" alt="Panel de disputas" width={500} height={380} className="object-contain" />
+                      <Image src="/img/reclamaciones-desktop.svg" alt="Administrador de disputas" width={500} height={380} className="object-contain" />
                     </div>
                     {/* Floating: Evidencia recibida */}
                     <div className="absolute flex items-center gap-2 rounded-[12px] bg-white" style={{ right: 30, top: 50, padding: "12px 18px", boxShadow: "0 6px 24px rgba(0,0,0,0.1)" }}>

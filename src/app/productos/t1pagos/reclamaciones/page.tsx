@@ -5,7 +5,7 @@ import T1Reclamaciones from "@/components/T1Reclamaciones";
 export const metadata = {
   title: "Reclamaciones · T1 Pagos",
   description:
-    "Gestiona disputas y chargebacks desde un solo panel. T1 centraliza contracargos de todos tus procesadores, te alerta a tiempo, adjuntas evidencia en un clic y controlas plazos para no perder disputas.",
+    "Gestiona disputas y chargebacks desde el administrador. T1 centraliza contracargos de todos tus procesadores, te alerta a tiempo, adjuntas evidencia en un clic y controlas plazos para no perder disputas.",
 };
 
 export default function ReclamacionesPage() {

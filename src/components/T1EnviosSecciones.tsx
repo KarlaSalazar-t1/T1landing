@@ -68,7 +68,7 @@ export function T1EnviosCanales() {
 /* ══════════ 3 · Administra tu operación (carrusel) ══════════ */
 const ADMIN_CARDS = [
   { title: "Reportes logísticos", desc: "Tiempos de entrega, costos y desempeño por paquetería en tiempo real.", img: "/img/envios-reportes.png", w: 1254, h: 1254, href: "/productos/t1envios/reportes" },
-  { title: "Control de calidad", desc: "Detecta y gestiona incidencias antes que tu cliente, desde un solo panel.", img: "/img/envios-calidad.png", w: 1254, h: 1254, href: "/productos/t1envios/control-calidad" },
+  { title: "Control de calidad", desc: "Detecta y gestiona incidencias antes que tu cliente, desde el administrador.", img: "/img/envios-calidad.png", w: 1254, h: 1254, href: "/productos/t1envios/control-calidad" },
   { title: "Reglas de envío", desc: "Asigna automáticamente la paquetería ideal según reglas que tú defines.", img: "/img/envios-reglas.png", w: 1254, h: 1254, href: "/productos/t1envios/reglas" },
   { title: "Recolecciones", desc: "Programa que pasen por tus paquetes a tu puerta, sin ir a la sucursal.", img: "/img/envios-recolecciones.png", w: 1254, h: 1254, href: "/productos/t1envios/recolecciones" },
 ];
@@ -87,7 +87,7 @@ export function T1EnviosAdministracion() {
         <div className="grid grid-cols-1 gap-10 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.35fr)] tablet:items-center tablet:gap-14">
           <div>
             <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 16, maxWidth: 420 }}>
-              Controla tu operación desde un panel
+              Mejora tus envíos en un solo lugar
             </h2>
             <p className="font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 400 }}>
               Reportes, reglas, recolecciones y control de calidad, todo en un mismo lugar.

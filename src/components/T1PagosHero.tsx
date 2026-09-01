@@ -38,7 +38,7 @@ export default function T1PagosHero() {
             </h1>
 
             <p className="mt-5 max-w-[440px] font-inter text-[16px] font-light leading-[1.55] text-white/80 tablet:text-[18px]">
-              Acepta tarjetas, SPEI, Kueski y más, con protección antifraude y depósitos al día siguiente.
+              Acepta tarjetas, SPEI, Kueski y más, con protección antifraude, depósitos al día siguiente y todos tus cobros en un solo administrador.
             </p>
 
             {/* Métodos de pago — sólo móvil (en desktop están en el panel) */}

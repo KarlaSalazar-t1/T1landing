@@ -107,7 +107,7 @@ export function T1TiendaMarketplaces() {
           ))}
         </div>
         <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
-          Un solo panel para todos tus marketplaces
+          Un solo administrador para todos tus marketplaces
         </h2>
         <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 500 }}>
           Conecta los marketplaces donde ya vendes y gestiona catálogo, inventario y pedidos sin duplicar trabajo.
@@ -231,7 +231,7 @@ export function T1TiendaPagos() {
 const FAQS = [
   { q: "¿Necesito saber de diseño o programación?", a: "No. La IA crea tu tienda completa y el editor visual te permite ajustar todo sin código." },
   { q: "¿Cuánto tarda en estar lista mi tienda?", a: "En menos de 1 minuto tienes una tienda base lista para vender; personalizarla toma solo unos minutos." },
-  { q: "¿Puedo vender en marketplaces desde T1?", a: "Sí. Conectas Mercado Libre, Amazon, TikTok Shop y más, y gestionas todo desde un solo panel." },
+  { q: "¿Puedo vender en marketplaces desde T1?", a: "Sí. Conectas Mercado Libre, Amazon, TikTok Shop y más, y gestionas todo desde el administrador." },
   { q: "¿Los pagos y envíos están incluidos?", a: "Sí. Tu tienda ya viene integrada con T1 Pagos (tarjetas, SPEI, MSI) y T1 Envíos (+10 paqueterías)." },
   { q: "¿Tiene costo crear mi tienda?", a: "Puedes empezar gratis y crear tu tienda sin tarjeta. Escalas a planes de pago cuando lo necesites." },
 ];

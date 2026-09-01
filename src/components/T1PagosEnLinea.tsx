@@ -532,7 +532,7 @@ function PaymentFlowHero() {
         {/* Dashboard — YOUR side (back layer) */}
         <div style={{ position: "absolute", left: 196, top: 20, width: 320, height: 344 }} className="overflow-hidden rounded-[16px] bg-white" >
           <div className="flex h-[44px] items-center justify-between border-b border-black/[0.06] px-4">
-            <span className="font-sora text-[13px] font-semibold text-black">Tu panel · T1 Pagos</span>
+            <span className="font-sora text-[13px] font-semibold text-black">Tu administrador · T1 Pagos</span>
             <span className="flex items-center gap-1 rounded-full bg-[rgba(34,197,94,0.12)] px-2 py-0.5 font-inter text-[9px] font-bold text-[#16A34A]"><span className="h-[5px] w-[5px] rounded-full bg-[#16A34A]" />En vivo</span>
           </div>
           <div className="px-4 pt-3">
@@ -712,7 +712,7 @@ export default function T1PagosEnLinea() {
                 .
               </h1>
               <p className="font-inter text-[16px] font-light text-white/65 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 16, maxWidth: 500 }}>
-                Cobra con tarjetas, SPEI, transferencias, efectivo y métodos locales desde un checkout seguro, conectado a tu panel de pagos.
+                Cobra con tarjetas, SPEI, transferencias, efectivo y métodos locales desde un checkout seguro, conectado a tu administrador de pagos.
               </p>
               <p className="whitespace-nowrap font-inter text-[15px] font-semibold text-white tablet:text-[16px]" style={{ marginBottom: 32 }}>
                 Un pago perdido es una venta perdida.
@@ -859,7 +859,7 @@ export default function T1PagosEnLinea() {
               { n: "01", title: "Integra en minutos", desc: "Plugin para tu plataforma o nuestra API y SDKs. Sin desarrollos largos." },
               { n: "02", title: "Tu cliente paga", desc: "Checkout optimizado con todos los métodos en una sola pantalla." },
               { n: "03", title: "Validamos y aprobamos", desc: "Antifraude y enrutamiento llevan cada pago a su mayor aprobación." },
-              { n: "04", title: "Recibes tu dinero", desc: "Liquidación T+1 a tu cuenta, con todo conciliado en tu panel." },
+              { n: "04", title: "Recibes tu dinero", desc: "Liquidación T+1 a tu cuenta, con todo conciliado en tu administrador." },
             ].map((s, i) => (
               <div key={s.n} data-stagger className="tienda-card relative rounded-[18px] border border-black/[0.06] bg-white p-7" style={{ ["--i" as string]: i }}>
                 <span className="font-sora text-[40px] font-light text-[#DB3B2B]" style={{ display: "block", marginTop: 28, marginBottom: 12, letterSpacing: "-0.04em", lineHeight: 1 }}>{s.n}</span>
@@ -882,7 +882,7 @@ export default function T1PagosEnLinea() {
                 Todo para operar tus cobros
               </h2>
               <p className="font-inter text-[16px] font-light text-white/55 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-                Links de pago, panel en tiempo real e integraciones, listos desde el primer día.
+                Links de pago, administrador en tiempo real e integraciones, listos desde el primer día.
               </p>
             </div>
             <div
@@ -893,8 +893,8 @@ export default function T1PagosEnLinea() {
             >
               {[
                 { title: "Links de pago", desc: "Cobra compartiendo un enlace por WhatsApp o redes, sin montar una tienda.", img: "/img/links-de-pago-v2.png" },
-                { title: "Dashboard en vivo", desc: "Aprobación, conversión y liquidaciones en tiempo real desde un panel claro.", img: "/img/dashboard-pagos.png" },
-                { title: "Módulo de contracargos", desc: "Gestiona disputas y contracargos desde el panel, con evidencia lista para ganar más casos.", img: "/img/contracargos-db-v2.png" },
+                { title: "Dashboard en vivo", desc: "Aprobación, conversión y liquidaciones en tiempo real desde el administrador.", img: "/img/dashboard-pagos.png" },
+                { title: "Módulo de contracargos", desc: "Gestiona disputas y contracargos desde el administrador, con evidencia lista para ganar más casos.", img: "/img/contracargos-db-v2.png" },
               ].map((f) => (
                 <div key={f.title} className="incluye-card flex w-[80vw] max-w-[320px] shrink-0 snap-start flex-col rounded-[18px] border border-white/[0.08] bg-white/[0.03] tablet:w-[300px] tablet:max-w-none" style={{ boxShadow: "0 26px 60px -28px rgba(0,0,0,0.8)" }}>
                   {/* Imagen que sobresale del borde superior */}

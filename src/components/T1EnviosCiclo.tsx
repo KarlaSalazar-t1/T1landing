@@ -177,42 +177,7 @@ function CrearPaso3Screen() {
   );
 }
 
-/* 5 · Resumen del envío */
-const PinR = <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z" stroke="#DB3B2B" strokeWidth="1.8" /><circle cx="12" cy="10" r="2.3" stroke="#DB3B2B" strokeWidth="1.8" /></svg>;
-function ResumenScreen() {
-  return (
-    <div className="flex h-full flex-col bg-white px-4 pt-5 pb-4" style={{ fontFamily: MANROPE }}>
-      <p className="text-[13px] font-bold text-black" style={{ marginBottom: 8 }}>Resumen del envío</p>
-      <div className="flex gap-2">
-        <div className="flex flex-col items-center pt-1">
-          {PinR}<span className="my-0.5 w-px flex-1" style={{ borderLeft: "1.5px dashed rgba(0,0,0,0.2)" }} />{PinR}
-        </div>
-        <div className="flex-1">
-          <p className="text-[12px] font-semibold text-black">Sucursal Polanco</p>
-          <p className="text-[10.5px] text-black/45" style={{ marginBottom: 8 }}>Lago Zurich 25, CDMX</p>
-          <p className="text-[12px] font-semibold text-black">Ma. Fernanda Baz</p>
-          <p className="text-[10.5px] text-black/45">Sócrates 25, CDMX</p>
-        </div>
-      </div>
-      <div className="my-3 h-px bg-black/[0.08]" />
-      <p className="text-[11.5px] font-bold text-black/45" style={{ marginBottom: 3 }}>Paquete</p>
-      <p className="text-[11.5px] text-black/70">Caja para botas · 30 × 25 × 40 cm · 1 kg</p>
-      <div className="my-3 h-px bg-black/[0.08]" />
-      <div className="flex items-center gap-2.5">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/img/carriers/fedex.svg" alt="FedEx" width={28} height={28} className="h-[28px] w-[28px] shrink-0" />
-        <div><p className="text-[12px] font-bold text-black">FedEx · Estándar</p><p className="text-[10.5px] text-black/45">Llega el 26 de ene</p></div>
-      </div>
-      <div className="mt-auto flex items-center justify-between pt-3">
-        <span className="text-[13px] font-bold text-black">Total</span>
-        <span className="font-sora text-[20px] font-bold text-black">$214.00<span className="ml-1 text-[10px] font-medium text-black/45">MXN</span></span>
-      </div>
-      <TapButton label="Crear envío" tap />
-    </div>
-  );
-}
-
-/* 7 · Rastrea — card de datos arriba + rastreo que se va llenando abajo */
+/* Rastrea — card de datos arriba + rastreo que se va llenando abajo */
 const RASTREO = [
   { t: "Guía generada", s: "Ayer · 14:02" },
   { t: "Recolectado", s: "Ayer · 17:30" },
@@ -367,18 +332,18 @@ function CambiarDireccionScreen() {
 
 /* ════════════════ Simulador de 4 pasos ════════════════ */
 const FRAMES = [
-  CotizaFormScreen, ResultadosScreen,                                            // 0-1 · Cotiza
-  CrearPaso1Screen, CrearPaso2Screen, CrearPaso3Screen, ResumenScreen, GuiaScreen, // 2-6 · Crea
-  RastreaScreen,                                                                 // 7 · Rastrea
-  NotifScreen, IncidenciasListScreen, CambiarDireccionScreen,                    // 8-10 · Incidencias
+  CotizaFormScreen, ResultadosScreen,                          // 0-1 · Cotiza
+  CrearPaso1Screen, CrearPaso2Screen, CrearPaso3Screen, GuiaScreen, // 2-5 · Crea (direcciones → paquete → paquetería → creado)
+  RastreaScreen,                                               // 6 · Rastrea
+  NotifScreen, IncidenciasListScreen, CambiarDireccionScreen,  // 7-9 · Incidencias
 ];
-const DURS = [4200, 4600, 3800, 3800, 4400, 4800, 4200, 6400, 4200, 4800, 5600];
-const FRAME_STEP = [0, 0, 1, 1, 1, 1, 1, 2, 3, 3, 3];
-const STEP_FIRST = [0, 2, 7, 8];
+const DURS = [3400, 3400, 2900, 2900, 3200, 3600, 6000, 3000, 3200, 4000];
+const FRAME_STEP = [0, 0, 1, 1, 1, 1, 2, 3, 3, 3];
+const STEP_FIRST = [0, 2, 6, 7];
 
 const STEPS = [
   { n: "1", title: "Cotiza", desc: "Compara tarifas y tiempos entre las mejores paqueterías." },
-  { n: "2", title: "Crea tu envío", desc: "Direcciones, paquete y paquetería en 3 pasos, con resumen." },
+  { n: "2", title: "Crea tu envío", desc: "Pones direcciones, info del paquete y eliges paquetería." },
   { n: "3", title: "Rastrea", desc: "Sigue cada estatus del paquete hasta la entrega." },
   { n: "4", title: "Gestiona incidencias", desc: "Detectamos y resolvemos desde la torre de control." },
 ];

@@ -19,7 +19,7 @@ const PRODUCTS = [
   },
   {
     name: "T1 Shipping",
-    desc: "Quote, create labels, and track across 10+ carriers from one panel.",
+    desc: "Quote, create labels, and track across 10+ carriers from one dashboard.",
     href: "/usa/t1envios",
     status: { label: "Not available yet", note: "", color: "#9CA3AF" },
   },

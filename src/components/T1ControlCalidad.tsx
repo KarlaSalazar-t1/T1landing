@@ -445,7 +445,7 @@ export default function T1ControlCalidad() {
                     { title: "Das seguimiento", desc: "Revisa actualizaciones hasta que la incidencia cambie de estado o se resuelva." },
                   ]
                 : [
-                    { title: "Seleccionas la guía", desc: "Elige el envío con problema desde tu panel." },
+                    { title: "Seleccionas la guía", desc: "Elige el envío con problema desde tu administrador." },
                     { title: "Indicas el tipo de incidencia", desc: "Daño, demora, paquete detenido, pérdida u otro motivo disponible." },
                     { title: "Cargas evidencia e información", desc: "Agrega documentos, fotos o datos requeridos por la paquetería." },
                     { title: "La paquetería responde", desc: "Consulta el avance del caso y los tiempos de respuesta desde T1." },

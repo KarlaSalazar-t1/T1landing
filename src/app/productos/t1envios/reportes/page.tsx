@@ -5,7 +5,7 @@ import T1ReportesLogisticos from "@/components/T1ReportesLogisticos";
 export const metadata = {
   title: "Reportes logísticos · T1 Envíos",
   description:
-    "Mide tu logística con datos: tiempos de entrega, costos por envío y desempeño de cada paquetería en un solo panel. Filtra, compara y exporta para decidir mejor.",
+    "Mide tu logística con datos: tiempos de entrega, costos por envío y desempeño de cada paquetería en el administrador. Filtra, compara y exporta para decidir mejor.",
 };
 
 export default function ReportesPage() {

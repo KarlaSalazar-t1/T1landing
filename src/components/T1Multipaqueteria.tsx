@@ -384,7 +384,7 @@ export default function T1Multipaqueteria() {
                 className="font-inter text-[16px] font-light text-white/65 tablet:text-[19px]"
                 style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 480 }}
               >
-                Cotiza y compara tarifas, tiempos de entrega y servicios para enviar tus pedidos desde un solo panel.
+                Cotiza y compara tarifas, tiempos de entrega y servicios para enviar tus pedidos desde el administrador.
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <a href={SIGNUP_URL} className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">

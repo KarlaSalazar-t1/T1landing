@@ -11,6 +11,8 @@ const LOGOS = [
   "/img/circles/ups.svg",
   "/img/circles/ampm.svg",
   "/img/circles/99.svg",
+  "/img/circles/jt.svg",
+  "/img/circles/paquetexpress.svg",
 ];
 const RATES = [
   { from: "CDMX", to: "CDMX", price: "89" },
@@ -32,8 +34,8 @@ export default function T1EnviosOrbitHalo({ size = 420, radius = 192 }: { size?:
     <div className="relative mx-auto" style={{ width: size, height: size }}>
       {/* Glow suave */}
       <div aria-hidden className="absolute rounded-full" style={{ inset: -30, background: "radial-gradient(ellipse at 50% 50%, rgba(229,144,134,0.16) 0%, transparent 65%)" }} />
-      {/* Aro */}
-      <div aria-hidden className="absolute inset-0 rounded-full" style={{ border: "1.5px solid rgba(219,59,43,0.22)", boxShadow: "0 0 0 14px rgba(219,59,43,0.03), inset 0 0 40px rgba(219,59,43,0.05)" }} />
+      {/* Aro — su radio coincide con la órbita para que los logos queden alineados sobre la línea */}
+      <div aria-hidden className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ width: radius * 2, height: radius * 2, border: "1.5px solid rgba(219,59,43,0.28)", boxShadow: "0 0 0 14px rgba(219,59,43,0.03), inset 0 0 40px rgba(219,59,43,0.05)" }} />
 
       {/* Núcleo — card de tarifa (estilo "Ahorra") que cicla */}
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" style={{ width: 236 }}>

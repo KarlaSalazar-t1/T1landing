@@ -26,7 +26,7 @@ const ITEMS = [
   {
     id: "rastrea",
     title: "Rastrea",
-    description: "Sigue todos tus paquetes en tiempo real desde un solo panel, sin entrar a cada paquetería.",
+    description: "Sigue todos tus paquetes en tiempo real desde el administrador, sin entrar a cada paquetería.",
     cta: "Comienza ahora",
     ctaHref: "/login",
     panel: "rastreo" as const,

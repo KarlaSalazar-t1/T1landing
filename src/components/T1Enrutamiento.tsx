@@ -457,9 +457,9 @@ export default function T1Enrutamiento() {
               { q: "¿Qué es el enrutamiento de pagos?", a: "Es la tecnología que decide, en milisegundos, por cuál procesador o adquirente enviar cada cobro para maximizar la probabilidad de que se apruebe." },
               { q: "¿Necesito contratar cada procesador por separado?", a: "No. Con un solo contrato con T1 te conectas a múltiples procesadores y bancos, y nosotros enrutamos cada pago al de mayor aprobación." },
               { q: "¿Cómo funcionan los reintentos?", a: "Si un procesador declina una transacción que debería aprobarse, T1 la reintenta automáticamente con otro procesador, sin fricción para tu cliente." },
-              { q: "¿Puedo definir mis propias reglas?", a: "Sí. Configuras el enrutamiento por marca, banco, monto, país o meses sin intereses desde el panel, sin tocar tu integración." },
+              { q: "¿Puedo definir mis propias reglas?", a: "Sí. Configuras el enrutamiento por marca, banco, monto, país o meses sin intereses desde el administrador, sin tocar tu integración." },
               { q: "¿Afecta la velocidad del cobro?", a: "No. Todo el análisis y la decisión de ruta ocurren en milisegundos, así que el cliente no percibe ninguna demora." },
-              { q: "¿Cómo me integro?", a: "El enrutamiento viene incluido con T1 Pagos. Si ya cobras con nuestra pasarela o API, se activa desde el panel sin desarrollo adicional." },
+              { q: "¿Cómo me integro?", a: "El enrutamiento viene incluido con T1 Pagos. Si ya cobras con nuestra pasarela o API, se activa desde el administrador sin desarrollo adicional." },
             ].map((f, i) => (
               <details key={f.q} data-stagger className="group rounded-[14px] border border-white/[0.08] bg-white/[0.03] transition-all duration-200 open:border-[rgba(219,59,43,0.4)] open:bg-white/[0.05]" style={{ ["--i" as string]: i }}>
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-sora text-[16px] font-normal text-white transition-colors duration-150 hover:text-[#FF6F5E]">

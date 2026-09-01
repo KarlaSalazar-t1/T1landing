@@ -22,7 +22,13 @@ export default function PagosLanding() {
       <T1PagosHero />
 
       <div className="relative z-[5] bg-black">
-        {/* 1 · Métricas — justo debajo del hero */}
+        {/* 1 · ¿Por qué elegir T1 Pagos? (panel claro) */}
+        <T1PagosPorQue />
+        {/* 2 · Una plataforma para todos tus cobros (pilares) — antes de link de pago */}
+        <T1PagosPilares />
+        {/* 3 · Crea un link de pago */}
+        <T1PagosMetodos />
+        {/* 4 · Métricas — justo arriba de precios */}
         <T1ProductMetrics
           metrics={[
             { end: 200, prefix: "+", suffix: "M", label: "transacciones procesadas" },
@@ -30,16 +36,10 @@ export default function PagosLanding() {
             { end: 8, label: "países en Latinoamérica" },
           ]}
         />
-        {/* 2 · ¿Por qué elegir T1 Pagos? (panel claro) */}
-        <T1PagosPorQue />
-        {/* 3 · Una plataforma para todos tus cobros (pilares) — antes de link de pago */}
-        <T1PagosPilares />
-        {/* 4 · Crea un link de pago */}
-        <T1PagosMetodos />
-        {/* 5 · Antifraude con T1 Score (panel simulado) */}
-        <T1PagosScore />
-        {/* 6 · Precios / comisiones */}
+        {/* 5 · Precios / comisiones */}
         <T1PagosPrecios />
+        {/* 6 · Antifraude con T1 Score (después de precios) */}
+        <T1PagosScore />
         {/* 6 · Administra tus cobros (después de precios) */}
         <T1PagosAdministracion />
         {/* 7 · 8 países LATAM (mapa) */}

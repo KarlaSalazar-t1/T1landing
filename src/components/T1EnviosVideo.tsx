@@ -4,7 +4,7 @@ export default function T1EnviosVideo() {
       <div className="mx-auto max-w-[var(--max-w)]">
         <div className="text-center" style={{ marginBottom: 44 }}>
           <h2 className="mx-auto max-w-[760px] font-sora text-[28px] font-light text-white tablet:whitespace-nowrap tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
-            Conoce el panel de T1 Envíos
+            Conoce el administrador de T1 Envíos
           </h2>
           <p className="mx-auto max-w-[720px] font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
             Mira cómo puedes cotizar, programar recolecciones, revisar rastreos y consultar tus envíos desde una sola plataforma.

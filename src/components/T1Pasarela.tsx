@@ -621,7 +621,7 @@ export default function T1Pasarela() {
               { n: "01", title: "Tu cliente elige cómo pagar", desc: "Tarjeta, transferencia, OXXO, wallet o pago express." },
               { n: "02", title: "T1 evalúa el riesgo", desc: "Se revisan señales de la transacción para proteger tu venta." },
               { n: "03", title: "El pago se procesa", desc: "T1 enruta el cobro cuando aplica para mejorar la aprobación." },
-              { n: "04", title: "Recibes confirmación", desc: "El pedido se confirma y queda listo para seguimiento en tu panel." },
+              { n: "04", title: "Recibes confirmación", desc: "El pedido se confirma y queda listo para seguimiento en tu administrador." },
             ].map((s, i) => (
               <div
                 key={s.n}
@@ -657,11 +657,11 @@ export default function T1Pasarela() {
           <div ref={masControlRef} data-modal-animate className="-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pt-14 pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden tablet:mx-auto tablet:grid tablet:max-w-[1040px] tablet:grid-cols-3 tablet:gap-5 tablet:overflow-visible tablet:px-0 tablet:pt-0">
             {[
               {
-                title: "Reclamaciones", desc: "Gestiona reclamaciones desde el panel, con evidencia automática para ganar más casos.",
+                title: "Reclamaciones", desc: "Gestiona reclamaciones desde el administrador, con evidencia automática para ganar más casos.",
                 img: "/img/disputas-v2.png", w: 1177, h: 864,
               },
               {
-                title: "Reportes en vivo", desc: "Aprobación, conversión y devoluciones en un panel claro y en tiempo real.",
+                title: "Reportes en vivo", desc: "Aprobación, conversión y devoluciones en el administrador y en tiempo real.",
                 img: "/img/reportes-en-vivo-v2.png", w: 1349, h: 864,
               },
               {

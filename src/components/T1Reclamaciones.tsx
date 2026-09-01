@@ -43,7 +43,7 @@ const STEPS = [
   { n: "01", title: "Recibe la notificación", desc: "T1 muestra la disputa cuando llega desde el procesador conectado." },
   { n: "02", title: "Revisa el motivo y el plazo", desc: "Consulta monto, transacción, motivo de reclamación y fecha límite de respuesta." },
   { n: "03", title: "Adjunta evidencia", desc: "Sube comprobantes de entrega, facturas, capturas de tracking o documentos solicitados." },
-  { n: "04", title: "Da seguimiento a la resolución", desc: "Consulta cambios de estado y la respuesta del banco o procesador desde el panel." },
+  { n: "04", title: "Da seguimiento a la resolución", desc: "Consulta cambios de estado y la respuesta del banco o procesador desde el administrador." },
 ];
 
 /* Panel simulado (responsive) — radio 12, sombra sutil */
@@ -126,7 +126,7 @@ export default function T1Reclamaciones() {
                 <span className="relative inline-block">reclamaciones<span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.35)", borderRadius: 5, zIndex: -1 }} /></span>
               </h1>
               <p className="font-inter text-[16px] font-light text-white/70 tablet:text-[19px]" style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 480 }}>
-                Recibe alertas, responde con evidencia, controla plazos y da seguimiento a cada reclamación desde un solo panel.
+                Recibe alertas, responde con evidencia, controla plazos y da seguimiento a cada reclamación desde el administrador.
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <a href={SIGNUP_URL} className="inline-flex items-center rounded-full bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">Gestionar reclamaciones</a>
@@ -160,7 +160,7 @@ export default function T1Reclamaciones() {
           <div data-modal-animate className="grid grid-cols-1 gap-5 tablet:grid-cols-3 tablet:gap-6">
             {[
               { title: "Sin investigar qué sigue", desc: "T1 te muestra el motivo de la reclamación, el plazo y la acción que debes tomar.", icon: (<svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#111827" strokeWidth="1.7" /><path d="M20 20l-3.5-3.5" stroke="#111827" strokeWidth="1.7" strokeLinecap="round" /></svg>) },
-              { title: "Sin correos separados", desc: "Responde desde el panel, adjunta evidencia y mantén todo vinculado al caso.", icon: (<svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="#111827" strokeWidth="1.7" /><path d="M4 7l8 6 8-6" stroke="#111827" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+              { title: "Sin correos separados", desc: "Responde desde el administrador, adjunta evidencia y mantén todo vinculado al caso.", icon: (<svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="#111827" strokeWidth="1.7" /><path d="M4 7l8 6 8-6" stroke="#111827" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
               { title: "Sin perder visibilidad", desc: "Consulta el estado, historial y resolución de cada reclamación en línea.", icon: (<svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" stroke="#111827" strokeWidth="1.7" strokeLinejoin="round" /><circle cx="12" cy="12" r="3" stroke="#111827" strokeWidth="1.7" /></svg>) },
             ].map((c, i) => (
               <div key={c.title} data-stagger className="tienda-card flex flex-col rounded-[18px] border border-black/[0.06] bg-white p-7" style={{ ["--i" as string]: i, boxShadow: "0 4px 20px rgba(0,0,0,0.05)" }}>
@@ -221,7 +221,7 @@ export default function T1Reclamaciones() {
           <div className="grid grid-cols-1 gap-12 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] tablet:items-center tablet:gap-16">
             <div data-modal-animate>
               <h2 className="font-sora text-[28px] font-light text-black tablet:text-[38px] lg:text-[46px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 18 }}>Reclamaciones en un solo lugar.</h2>
-              <p className="font-inter text-[15px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>Reunimos las reclamaciones de los cobros que procesas con T1 Pagos para que las respondas a tiempo desde un solo panel.</p>
+              <p className="font-inter text-[15px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>Reunimos las reclamaciones de los cobros que procesas con T1 Pagos para que las respondas a tiempo desde el administrador.</p>
               <ul className="flex flex-col gap-2.5">
                 {["Reclamaciones de tus cobros con T1 Pagos", "Desde tu checkout, link de pago o Paga con T1", "Control de plazos con alertas automáticas"].map((it) => (
                   <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
@@ -404,7 +404,7 @@ export default function T1Reclamaciones() {
               <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[46px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 18 }}>Responde con evidencia completa.</h2>
               <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>Responde fácilmente, sin correos o llamadas. Adjunta comprobantes, facturas y capturas de guías directamente desde T1. Todo queda vinculado a la disputa.</p>
               <ul className="flex flex-col gap-2.5">
-                {["Sube evidencia sin salir del panel", "Historial completo de cada caso", "Notificación inmediata de resolución"].map((it) => (
+                {["Sube evidencia sin salir del administrador", "Historial completo de cada caso", "Notificación inmediata de resolución"].map((it) => (
                   <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>{it}
                   </li>
@@ -424,7 +424,7 @@ export default function T1Reclamaciones() {
           <div className="flex flex-col gap-3">
             {[
               { q: "¿Qué es un chargeback?", a: "Un contracargo ocurre cuando un tarjetahabiente solicita a su banco la devolución de un cobro. El comercio tiene un plazo limitado para presentar evidencia y defender la transacción." },
-              { q: "¿Cómo me ayuda T1 a responder?", a: "T1 reúne las reclamaciones de los cobros que procesas con T1 Pagos, te alerta apenas llegan, te permite adjuntar evidencia directo desde el panel y controla los plazos para que nunca pierdas uno." },
+              { q: "¿Cómo me ayuda T1 a responder?", a: "T1 reúne las reclamaciones de los cobros que procesas con T1 Pagos, te alerta apenas llegan, te permite adjuntar evidencia directo desde el administrador y controla los plazos para que nunca pierdas uno." },
               { q: "¿Qué pasa si no respondo a tiempo?", a: "Si vence el plazo sin respuesta, el banco falla automáticamente a favor del comprador y pierdes el monto. T1 te avisa con anticipación para evitarlo." },
               { q: "¿Puedo ver por qué me están disputando?", a: "Sí. Cada disputa incluye el motivo reportado por el banco: producto no recibido, cargo no reconocido, duplicado, etc. También ves estadísticas de los motivos más frecuentes." },
               { q: "¿Tiene costo adicional?", a: "No. La gestión de reclamaciones viene incluida en T1 Pagos sin cargo extra." },

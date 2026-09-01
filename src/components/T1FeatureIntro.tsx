@@ -61,7 +61,7 @@ const CARDS: Card[] = [
   {
     id: "envia",
     label: "Envía",
-    desc: "Crea guías con +10 paqueterías a tarifas negociadas por volumen y rastréalas todas en un solo panel.",
+    desc: "Crea guías con +10 paqueterías a tarifas negociadas por volumen y rastréalas todas en el administrador.",
     glow: "#E0402F",
     iconStyle: "circle",
     icons: [

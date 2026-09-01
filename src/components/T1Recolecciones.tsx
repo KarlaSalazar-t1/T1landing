@@ -341,7 +341,7 @@ export default function T1Recolecciones() {
               { q: "¿Puedo programar recolecciones recurrentes?", a: "Sí. Eliges los días y la ventana de horario, y T1 agenda el pickup cada semana en automático. Puedes pausarlo o ajustarlo cuando quieras." },
               { q: "¿Recogen varias paqueterías en una sola visita?", a: "Sí. T1 consolida tus envíos del día de +25 paqueterías para que entregues todo en una sola recolección." },
               { q: "¿Tiene costo la recolección?", a: "Depende de la paquetería y tu plan. Al agendar verás si el pickup está incluido o su costo antes de confirmar." },
-              { q: "¿Cómo sé que pasaron por mis paquetes?", a: "Recibes un comprobante de lo recolectado y el seguimiento en vivo de cada guía continúa desde tu panel de T1." },
+              { q: "¿Cómo sé que pasaron por mis paquetes?", a: "Recibes un comprobante de lo recolectado y el seguimiento en vivo de cada guía continúa desde el administrador de T1." },
             ].map((f) => (
               <details
                 key={f.q}

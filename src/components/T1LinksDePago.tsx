@@ -905,7 +905,7 @@ export default function T1LinksDePago() {
             {[
               { title: "Links reutilizables", desc: "Un mismo link para muchos clientes o de un solo uso, con vencimiento y límite de pagos.", img: "/img/links-reutilizables.png" },
               { title: "Dinero al día siguiente", desc: "Liquidación T+1: el pago de hoy llega a tu cuenta mañana.", img: "/img/dinero-dia-siguiente.png" },
-              { title: "Dashboard de cobros", desc: "Mira pagados, pendientes y liquidaciones en un panel claro.", img: "/img/dashboard-pagos.png" },
+              { title: "Dashboard de cobros", desc: "Mira pagados, pendientes y liquidaciones en el administrador.", img: "/img/dashboard-pagos.png" },
             ].map((f) => (
               <div key={f.title} className="incluye-card flex w-[80vw] max-w-[320px] shrink-0 snap-start flex-col rounded-[18px] border border-white/[0.08] bg-white/[0.03] tablet:w-[300px] tablet:max-w-none" style={{ boxShadow: "0 26px 60px -28px rgba(0,0,0,0.8)" }}>
                 {/* Imagen que sobresale del borde superior */}

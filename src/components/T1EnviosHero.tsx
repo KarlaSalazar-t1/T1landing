@@ -6,7 +6,7 @@ import { SIGNUP_URL } from "@/lib/constants";
 import T1EnviosOrbitHalo from "@/components/T1EnviosOrbitHalo";
 
 const SOCIAL_PROOF = ["+40M de envíos", "+50,000 negocios", "+10 paqueterías"];
-const CARRIERS = ["/img/circles/dhl.svg", "/img/circles/fedex.svg", "/img/circles/ups.svg", "/img/circles/ampm.svg", "/img/circles/99.svg"];
+const CARRIERS = ["/img/circles/dhl.svg", "/img/circles/fedex.svg", "/img/circles/ups.svg", "/img/circles/ampm.svg", "/img/circles/99.svg", "/img/circles/jt.svg", "/img/circles/paquetexpress.svg"];
 const RATES = [
   { from: "CDMX", to: "CDMX", price: "89" },
   { from: "CDMX", to: "Guadalajara", price: "115" },

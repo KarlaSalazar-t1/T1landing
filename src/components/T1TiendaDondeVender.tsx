@@ -19,7 +19,7 @@ const ITEMS = [
   {
     id: "market",
     title: "Marketplaces",
-    description: "Publica y vende en Mercado Libre, Amazon, TikTok Shop y más desde un solo panel.",
+    description: "Publica y vende en Mercado Libre, Amazon, TikTok Shop y más desde el administrador.",
     cta: "Conoce más",
     ctaHref: "/productos/t1tienda/marketplaces",
     image: "/img/tienda-marketplace.png",

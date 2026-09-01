@@ -5,7 +5,7 @@ import T1Multipaqueteria from "@/components/T1Multipaqueteria";
 export const metadata = {
   title: "Multipaquetería · T1 Envíos",
   description:
-    "Conecta +25 paqueterías en un click. Cotiza, genera guías y rastrea envíos desde un solo panel con T1 Envíos.",
+    "Conecta +25 paqueterías en un click. Cotiza, genera guías y rastrea envíos desde el administrador con T1 Envíos.",
 };
 
 export default function MultipaqueteriaPage() {

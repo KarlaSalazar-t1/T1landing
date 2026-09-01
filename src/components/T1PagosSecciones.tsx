@@ -75,8 +75,8 @@ export function T1PagosAprobacion() {
 
 /* ══════════ 3 · Administra tus cobros (carrusel) ══════════ */
 const ADMIN_CARDS = [
-  { title: "Panel de pagos", desc: "Visualiza y filtra todas tus transacciones, con reportes y conciliación automática.", img: "/img/pagos-panel.png", w: 1254, h: 1254, href: "/productos/t1pagos/pagos-en-linea" },
-  { title: "Reclamaciones", desc: "Gestiona reclamaciones con evidencia y monitorea tu tasa de reclamaciones en un panel.", img: "/img/pagos-contracargos.png", w: 1536, h: 1024, href: "/productos/t1pagos/reclamaciones" },
+  { title: "Administrador de pagos", desc: "Visualiza y filtra todas tus transacciones, con reportes y conciliación automática.", img: "/img/pagos-panel.png", w: 1254, h: 1254, href: "/productos/t1pagos/pagos-en-linea" },
+  { title: "Reclamaciones", desc: "Gestiona reclamaciones con evidencia y monitorea tu tasa de reclamaciones en el administrador.", img: "/img/pagos-contracargos.png", w: 1536, h: 1024, href: "/productos/t1pagos/reclamaciones" },
   { title: "Dinero al día siguiente", desc: "Recibe tus depósitos al día hábil siguiente, con dispersión flexible.", img: "/img/pagos-dinero.png", w: 1536, h: 1024, href: "/productos/t1pagos/pagos-en-linea" },
 ];
 /* padding inferior reducido para acercar la sección de Precios */
@@ -98,7 +98,7 @@ export function T1PagosAdministracion() {
               Administra todos tus cobros
             </h2>
             <p className="font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 400 }}>
-              Transacciones, reclamaciones, dispersión y enrutamiento, todo desde un solo panel.
+              Transacciones, reclamaciones, dispersión y enrutamiento, todo desde el administrador.
             </p>
             <a href="/productos/t1pagos/pagos-en-linea" className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]">
               Conoce más

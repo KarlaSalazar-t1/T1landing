@@ -3,7 +3,7 @@ import T1USAState from "@/components/T1USAState";
 export const metadata = {
   title: "T1 Shipping · Join the U.S. waitlist",
   description:
-    "T1 Shipping is coming to the United States. Join the waitlist to quote, create labels, and track across 10+ carriers from one panel.",
+    "T1 Shipping is coming to the United States. Join the waitlist to quote, create labels, and track across 10+ carriers from one dashboard.",
 };
 
 export default function USAShippingPage() {

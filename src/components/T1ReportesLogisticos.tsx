@@ -501,7 +501,7 @@ export default function T1ReportesLogisticos() {
                 </span>.
               </h1>
               <p className="font-inter text-[16px] font-light text-white/70 tablet:text-[19px]" style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 480 }}>
-                Revisa costos, tiempos de entrega, estados e incidencias por paquetería, zona o periodo desde un solo panel.
+                Revisa costos, tiempos de entrega, estados e incidencias por paquetería, zona o periodo desde el administrador.
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <a href={SIGNUP_URL} className="inline-flex items-center rounded-full bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
@@ -641,7 +641,7 @@ export default function T1ReportesLogisticos() {
             {/* Left — título + CTA */}
             <div>
               <h2 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 16, maxWidth: 420 }}>
-                Todo lo que puedes medir en un panel
+                Todo lo que puedes medir en el administrador
               </h2>
               <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 400 }}>
                 Del estado de cada envío al costo por paquetería, con datos listos para exportar.
@@ -716,7 +716,7 @@ export default function T1ReportesLogisticos() {
 
       <T1FinalCTA
         title="Convierte tus envíos en decisiones"
-        description="Mide tiempos, costos y paqueterías en un solo panel y mejora tu logística con datos reales."
+        description="Mide tiempos, costos y paqueterías en el administrador y mejora tu logística con datos reales."
         buttonLabel="Ver mis reportes"
       />
     </div>
