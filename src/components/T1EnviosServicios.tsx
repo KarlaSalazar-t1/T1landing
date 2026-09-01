@@ -26,7 +26,7 @@ export function T1EnviosServicios() {
             Simplifica tus envíos
           </h2>
           <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:whitespace-nowrap tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-            Cotiza, envía y da seguimiento a todas tus paqueterías desde una sola plataforma.
+            Compara opciones, crea tu guía y acompaña cada paquete hasta la entrega.
           </p>
         </div>
 

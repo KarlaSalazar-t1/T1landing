@@ -129,11 +129,11 @@ export function T1TiendaMarketplaces() {
 
 /* ══════════ 3 · Administración — carrusel (catálogo, inventario, reportes) ══════════ */
 const ADMIN_CARDS = [
-  { title: "Catálogo con IA", desc: "Sube una foto y la IA crea título, descripción y atributos al instante.", img: "/img/admin-catalogo.png", w: 1248, h: 1024 },
-  { title: "Inventario", desc: "Precios, variantes y existencias sincronizadas en todos tus canales.", img: "/img/tienda-inventario.png", w: 1254, h: 1254 },
-  { title: "Reportes", desc: "Ventas, tráfico y rendimiento en tiempo real para decidir con datos.", img: "/img/tienda-reportes.png", w: 1254, h: 1254 },
-  { title: "Clientes", desc: "Historial de compras y segmentación de clientes para vender más.", img: "/img/tienda-clientes.png", w: 1254, h: 1254 },
-  { title: "Sucursales", desc: "Inventario y ventas por ubicación en cada sucursal o almacén.", img: "/img/tienda-sucursales.png", w: 1536, h: 1024 },
+  { title: "Catálogo con IA", desc: "Sube una foto y la IA crea título, descripción y atributos al instante.", img: "/img/admin-catalogo.png", w: 1248, h: 1024, href: "/productos/t1tienda/tienda-con-ia" },
+  { title: "Inventario", desc: "Precios, variantes y existencias sincronizadas en todos tus canales.", img: "/img/tienda-inventario.png", w: 1254, h: 1254, href: "/productos/t1tienda/productos" },
+  { title: "Reportes", desc: "Ventas, tráfico y rendimiento en tiempo real para decidir con datos.", img: "/img/tienda-reportes.png", w: 1254, h: 1254, href: "/productos/t1tienda/reportes" },
+  { title: "Clientes", desc: "Historial de compras y segmentación de clientes para vender más.", img: "/img/tienda-clientes.png", w: 1254, h: 1254, href: "/productos/t1tienda/reportes" },
+  { title: "Sucursales", desc: "Inventario y ventas por ubicación en cada sucursal o almacén.", img: "/img/tienda-sucursales.png", w: 1536, h: 1024, href: "/productos/t1tienda/punto-de-venta" },
 ];
 export function T1TiendaAdministracion() {
   const ref = useRef<HTMLDivElement>(null);
@@ -163,13 +163,18 @@ export function T1TiendaAdministracion() {
           <div className="flex flex-col gap-5">
             <div ref={ref} className="-mr-5 flex gap-5 overflow-x-auto pb-2 pr-5 tablet:mr-0 tablet:pr-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {ADMIN_CARDS.map((s) => (
-                <div key={s.title} data-card className="flex w-[240px] shrink-0 snap-start flex-col rounded-[20px] border border-white/[0.08] bg-[#1A1A1D] p-5">
-                  <h3 className="font-sora text-[19px] font-normal text-white" style={{ marginBottom: 8 }}>{s.title}</h3>
+                <a key={s.title} href={s.href} data-card className="group flex w-[240px] shrink-0 snap-start flex-col rounded-[20px] border border-white/[0.08] bg-[#1A1A1D] p-5 no-underline transition-colors hover:border-white/20">
+                  <div className="flex items-center justify-between gap-2" style={{ marginBottom: 8 }}>
+                    <h3 className="font-sora text-[19px] font-normal text-white">{s.title}</h3>
+                    <span className="flex h-[24px] w-[24px] shrink-0 items-center justify-center rounded-full border border-white/15 text-white/55 transition-all duration-200 group-hover:translate-x-0.5 group-hover:border-white/40 group-hover:text-white">
+                      <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                    </span>
+                  </div>
                   <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.5, marginBottom: 18, minHeight: 42 }}>{s.desc}</p>
                   <div className="mt-auto flex h-[188px] items-center justify-center overflow-hidden rounded-[14px]">
                     <Image src={s.img} alt={s.title} width={s.w} height={s.h} className="h-full w-full object-contain" sizes="240px" />
                   </div>
-                </div>
+                </a>
               ))}
             </div>
             <div className="flex items-center gap-3">

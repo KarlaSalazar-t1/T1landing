@@ -71,13 +71,13 @@ export default function T1EnviosHero() {
             {/* Izquierda — texto */}
             <div className="flex flex-col items-center text-center tablet:items-start tablet:text-left">
               <h1 className="font-sora text-[34px] font-light leading-[1.12] text-white tablet:text-[52px] desktop:text-[54px]" style={{ letterSpacing: "-0.03em" }}>
-                Cotiza, envía y rastrea
+                Todos tus envíos,
                 <br />
-                desde un solo lugar
+                un solo lugar
               </h1>
 
-              <p className="mt-5 max-w-[460px] font-inter text-[16px] font-light leading-[1.55] text-white/80 tablet:text-[18px]">
-                Compara paqueterías, genera guía y da seguimiento con la mejor experiencia.
+              <p className="mt-5 max-w-[480px] font-inter text-[16px] font-light leading-[1.55] text-white/80 tablet:text-[18px]">
+                Cotiza tarifas, genera guías y da seguimiento a tus paquetes desde T1.
               </p>
 
               {/* Móvil: card de tarifas arriba de los logos */}

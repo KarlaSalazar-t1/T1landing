@@ -1,6 +1,6 @@
 import T1Navbar from "@/components/T1Navbar";
 import T1EnviosHero from "@/components/T1EnviosHero";
-import T1EnviosPilares from "@/components/T1EnviosPilares";
+import T1EnviosCiclo from "@/components/T1EnviosCiclo";
 import T1EnviosVideo from "@/components/T1EnviosVideo";
 import {
   T1EnviosCanales,
@@ -31,8 +31,8 @@ export default function EnviosLanding() {
         <T1EnviosVideo />
         {/* 4 · Conecta tus canales de venta (después de Compara) */}
         <T1EnviosCanales />
-        {/* 5 · Tu operación de punta a punta (pilares) */}
-        <T1EnviosPilares />
+        {/* 5 · Todo el ciclo de tu envío (demo de 4 pasos) */}
+        <T1EnviosCiclo />
         {/* 6 · Métricas. Nota: 92% nivel de servicio es mockup, confirmar. */}
         <T1ProductMetrics
           metrics={[
@@ -43,16 +43,16 @@ export default function EnviosLanding() {
         />
         {/* 7 · Administra todo desde un panel */}
         <T1EnviosAdministracion />
-        {/* 8 · Haz crecer tu negocio con todo T1 (ecosistema Pagos + Tienda) */}
-        <T1EnviosAmplifica />
-        {/* 8.5 · Casos de éxito (envíos / logística) */}
+        {/* 8 · Casos de éxito (envíos / logística) — antes de "Haz crecer tu negocio" */}
         <T1EnterpriseCarousel
           bVariant
           only={["pirma", "sears", "makora"]}
           title="Marcas que envían con T1"
           subtitle="Historias reales de negocios que optimizaron su logística con T1 Envíos."
         />
-        {/* 9 · FAQ */}
+        {/* 9 · Haz crecer tu negocio con todo T1 (ecosistema Pagos + Tienda) */}
+        <T1EnviosAmplifica />
+        {/* 10 · FAQ */}
         <T1EnviosFAQ />
       </div>
 

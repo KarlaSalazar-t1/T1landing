@@ -331,59 +331,46 @@ const Pin = (
 );
 export function GuiaScreen() {
   return (
-    <div className="flex h-full flex-col bg-white px-3.5 pt-4 pb-3" style={{ fontFamily: MANROPE }}>
-      <div className="mx-auto flex h-[34px] w-[34px] items-center justify-center rounded-full bg-[#16A34A]" style={{ marginBottom: 10, animation: "checkPop 0.45s cubic-bezier(0.34,1.56,0.64,1) both" }}>
-        <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
+    <div className="flex h-full flex-col justify-center bg-white px-4 py-6" style={{ fontFamily: MANROPE }}>
+      <div className="mx-auto flex h-[46px] w-[46px] items-center justify-center rounded-full bg-[#16A34A]" style={{ marginBottom: 16, animation: "checkPop 0.45s cubic-bezier(0.34,1.56,0.64,1) both" }}>
+        <svg width="24" height="24" viewBox="0 0 16 16" fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
       </div>
-      <p className="text-center text-[15px] font-extrabold leading-[1.2] text-[#1c1c1c]" style={{ marginBottom: 12, animation: "fadeSlideIn 0.45s ease-out 0.06s both" }}>
+      <p className="text-center text-[17px] font-extrabold leading-[1.25] text-[#1c1c1c]" style={{ marginBottom: 22, animation: "fadeSlideIn 0.45s ease-out 0.06s both" }}>
         ¡Tu envío se creó<br />con éxito!
       </p>
 
       {/* Tarjeta de guía */}
-      <div className="rounded-[12px] border border-black/[0.10]" style={{ animation: "fadeSlideIn 0.5s ease-out 0.14s both" }}>
-        <div className="flex items-center gap-2.5 px-3 pt-3 pb-2.5">
+      <div className="rounded-[14px] border border-black/[0.10]" style={{ animation: "fadeSlideIn 0.5s ease-out 0.14s both" }}>
+        <div className="flex items-center gap-3 px-4 pt-4 pb-3.5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/img/carriers/dhl.svg" alt="DHL" width={34} height={34} className="h-[34px] w-[34px] shrink-0 rounded-[7px]" />
+          <img src="/img/carriers/dhl.svg" alt="DHL" width={38} height={38} className="h-[38px] w-[38px] shrink-0 rounded-[8px]" />
           <div className="min-w-0 flex-1">
-            <p className="text-[10px] font-medium text-black/45 leading-none">DHL</p>
-            <p className="truncate text-[12px] font-bold text-black" style={{ marginTop: 3 }}>3456 7889 0976</p>
+            <p className="text-[11px] font-medium text-black/45 leading-none">DHL</p>
+            <p className="truncate text-[13px] font-bold text-black" style={{ marginTop: 4 }}>3456 7889 0976</p>
           </div>
           <div className="shrink-0 text-right">
-            <p className="text-[9px] text-black/45 leading-none">Llega el</p>
-            <p className="text-[11px] font-bold text-black" style={{ marginTop: 3 }}>26 de ene</p>
+            <p className="text-[10px] text-black/45 leading-none">Llega el</p>
+            <p className="text-[12px] font-bold text-black" style={{ marginTop: 4 }}>26 de ene</p>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-3 border-t border-black/[0.08] px-3 py-2.5">
+        <div className="grid grid-cols-2 gap-3 border-t border-black/[0.08] px-4 py-3.5">
           <div className="min-w-0">
-            <p className="flex items-center gap-1 text-[10px] font-medium text-black/45">{Pin}Origen</p>
-            <p className="truncate text-[11.5px] font-semibold text-black" style={{ marginTop: 3 }}>Sucursal Polanco</p>
-            <p className="text-[10px] leading-snug text-black/45" style={{ marginTop: 1 }}>Lago Zurich 25, CDMX</p>
+            <p className="flex items-center gap-1 text-[10.5px] font-medium text-black/45">{Pin}Origen</p>
+            <p className="truncate text-[12px] font-semibold text-black" style={{ marginTop: 5 }}>Sucursal Polanco</p>
+            <p className="text-[10.5px] leading-snug text-black/45" style={{ marginTop: 2 }}>Lago Zurich 25, CDMX</p>
           </div>
           <div className="min-w-0">
-            <p className="flex items-center gap-1 text-[10px] font-medium text-black/45">{Pin}Destino</p>
-            <p className="truncate text-[11.5px] font-semibold text-black" style={{ marginTop: 3 }}>Ma. Fernanda Baz</p>
-            <p className="text-[10px] leading-snug text-black/45" style={{ marginTop: 1 }}>Sócrates 25, CDMX</p>
+            <p className="flex items-center gap-1 text-[10.5px] font-medium text-black/45">{Pin}Destino</p>
+            <p className="truncate text-[12px] font-semibold text-black" style={{ marginTop: 5 }}>Ma. Fernanda Baz</p>
+            <p className="text-[10.5px] leading-snug text-black/45" style={{ marginTop: 2 }}>Sócrates 25, CDMX</p>
           </div>
         </div>
       </div>
 
       {/* Botones */}
-      <div className="mt-3 flex flex-col gap-2" style={{ animation: "fadeSlideIn 0.5s ease-out 0.22s both" }}>
-        <div className="flex h-[40px] items-center justify-center rounded-[10px] text-[13px] font-semibold text-white" style={{ background: "#DB3B2B" }}>Descargar guía</div>
-        <div className="flex h-[40px] items-center justify-center rounded-[10px] border border-black/15 text-[13px] font-semibold text-black">Ver detalle de envío</div>
-      </div>
-
-      {/* Cómo preparar tu envío */}
-      <div className="mt-4" style={{ animation: "fadeSlideIn 0.5s ease-out 0.3s both" }}>
-        <p className="text-[12.5px] font-bold text-[#1c1c1c]">¿Cómo preparar tu envío?</p>
-        <ul className="mt-2.5 flex flex-col gap-2">
-          {["Descarga e imprime tu guía.", "Empaqueta con un embalaje adecuado.", "Llévalo a sucursal o pide recolección."].map((s) => (
-            <li key={s} className="flex items-start gap-2 text-[11.5px] leading-snug text-black/60">
-              <span className="mt-[5px] h-[4px] w-[4px] shrink-0 rounded-full bg-black/40" />
-              {s}
-            </li>
-          ))}
-        </ul>
+      <div className="mt-5 flex flex-col gap-2.5" style={{ animation: "fadeSlideIn 0.5s ease-out 0.22s both" }}>
+        <div className="flex h-[44px] items-center justify-center rounded-[11px] text-[14px] font-semibold text-white" style={{ background: "#DB3B2B" }}>Descargar guía</div>
+        <div className="flex h-[44px] items-center justify-center rounded-[11px] border border-black/15 text-[14px] font-semibold text-black">Ver detalle de envío</div>
       </div>
     </div>
   );
