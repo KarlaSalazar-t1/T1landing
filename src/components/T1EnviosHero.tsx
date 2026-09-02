@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
-import T1EnviosOrbitHalo from "@/components/T1EnviosOrbitHalo";
+import T1EnviosHeroScene from "@/components/T1EnviosHeroScene";
 
 const SOCIAL_PROOF = ["+40M de envíos", "+50,000 negocios", "+10 paqueterías"];
 const CARRIERS = ["/img/circles/dhl.svg", "/img/circles/fedex.svg", "/img/circles/ups.svg", "/img/circles/ampm.svg", "/img/circles/99.svg", "/img/circles/jt.svg", "/img/circles/paquetexpress.svg"];
@@ -101,9 +101,9 @@ export default function T1EnviosHero() {
               </a>
             </div>
 
-            {/* Derecha — halo con logos orbitando + card de tarifa (sólo desktop) */}
+            {/* Derecha — panel del Cotizador con logos orbitando (sólo desktop) */}
             <div className="hidden justify-center tablet:flex">
-              <T1EnviosOrbitHalo />
+              <T1EnviosHeroScene />
             </div>
           </div>
 

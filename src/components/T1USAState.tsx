@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import T1Navbar from "@/components/T1Navbar";
 import T1Footer from "@/components/T1Footer";
 
@@ -24,6 +24,32 @@ const COUNTRIES = [
   "Colombia", "Costa Rica", "Dominican Republic", "Ecuador", "El Salvador",
   "Guatemala", "Honduras", "México", "Nicaragua", "Panamá", "Paraguay",
   "Perú", "Spain", "Uruguay", "Venezuela", "Other",
+];
+
+/* Lada + bandera por país (ISO-2). El default se preselecciona con el país que
+   detectamos por IP; el usuario puede cambiarlo en el dropdown. */
+const DIAL: { iso: string; flag: string; dial: string; name: string }[] = [
+  { iso: "US", flag: "🇺🇸", dial: "+1", name: "United States" },
+  { iso: "MX", flag: "🇲🇽", dial: "+52", name: "México" },
+  { iso: "AR", flag: "🇦🇷", dial: "+54", name: "Argentina" },
+  { iso: "BO", flag: "🇧🇴", dial: "+591", name: "Bolivia" },
+  { iso: "BR", flag: "🇧🇷", dial: "+55", name: "Brazil" },
+  { iso: "CA", flag: "🇨🇦", dial: "+1", name: "Canada" },
+  { iso: "CL", flag: "🇨🇱", dial: "+56", name: "Chile" },
+  { iso: "CO", flag: "🇨🇴", dial: "+57", name: "Colombia" },
+  { iso: "CR", flag: "🇨🇷", dial: "+506", name: "Costa Rica" },
+  { iso: "DO", flag: "🇩🇴", dial: "+1", name: "Dominican Republic" },
+  { iso: "EC", flag: "🇪🇨", dial: "+593", name: "Ecuador" },
+  { iso: "SV", flag: "🇸🇻", dial: "+503", name: "El Salvador" },
+  { iso: "GT", flag: "🇬🇹", dial: "+502", name: "Guatemala" },
+  { iso: "HN", flag: "🇭🇳", dial: "+504", name: "Honduras" },
+  { iso: "NI", flag: "🇳🇮", dial: "+505", name: "Nicaragua" },
+  { iso: "PA", flag: "🇵🇦", dial: "+507", name: "Panamá" },
+  { iso: "PY", flag: "🇵🇾", dial: "+595", name: "Paraguay" },
+  { iso: "PE", flag: "🇵🇪", dial: "+51", name: "Perú" },
+  { iso: "ES", flag: "🇪🇸", dial: "+34", name: "Spain" },
+  { iso: "UY", flag: "🇺🇾", dial: "+598", name: "Uruguay" },
+  { iso: "VE", flag: "🇻🇪", dial: "+58", name: "Venezuela" },
 ];
 
 /* Header mínimo para la waiting list: solo logo + Log in (sin nav ni
@@ -51,10 +77,6 @@ function MinimalHeader() {
 function RegionLinks() {
   return (
     <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-2">
-      <a href="/usa" className="inline-flex items-center gap-1.5 font-inter text-[13px] font-medium text-white/55 no-underline transition-colors hover:text-white/90">
-        <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
-        T1 in the U.S.
-      </a>
       <a href="/" className="font-inter text-[13px] font-medium text-white/45 no-underline transition-colors hover:text-white/80">
         Switch to México
       </a>
@@ -68,10 +90,10 @@ function Features({ features }: { features?: string[] }) {
     <ul className="mt-8 flex flex-col gap-3" style={{ maxWidth: 420 }}>
       {features.map((f) => (
         <li key={f} className="flex items-center gap-3">
-          <span className="flex h-[24px] w-[24px] shrink-0 items-center justify-center rounded-full bg-[rgba(219,59,43,0.14)]">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+          <span className="flex h-[20px] w-[20px] shrink-0 items-center justify-center rounded-full bg-[rgba(219,59,43,0.14)] tablet:h-[24px] tablet:w-[24px]">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" className="tablet:h-[14px] tablet:w-[14px]"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
           </span>
-          <span className="font-sora text-[15px] font-normal text-white tablet:text-[16px]">{f}</span>
+          <span className="font-sora text-[13px] font-normal text-white tablet:text-[16px]">{f}</span>
         </li>
       ))}
     </ul>
@@ -97,10 +119,34 @@ export default function T1USAState({
 }) {
   const [email, setEmail] = useState("");
   const [country, setCountry] = useState("United States");
+  const [iso, setIso] = useState("US"); // lada del teléfono; se ajusta por IP
   const [sells, setSells] = useState<"" | "products" | "services" | "both">("");
   const [phone, setPhone] = useState("");
   const [consent, setConsent] = useState(false);
   const [done, setDone] = useState(false);
+
+  /* Preselección por IP: detectamos el país del visitante y elegimos su lada y
+     país por defecto. El usuario siempre puede cambiarlo. */
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      try {
+        const r = await fetch("https://ipapi.co/json/");
+        if (!r.ok) return;
+        const d = await r.json();
+        const code = String(d?.country_code || "").toUpperCase();
+        if (!alive || !code) return;
+        const match = DIAL.find((x) => x.iso === code);
+        if (match) {
+          setIso(match.iso);
+          if (COUNTRIES.includes(match.name)) setCountry(match.name);
+        }
+      } catch {
+        /* sin red / bloqueado: se queda el default */
+      }
+    })();
+    return () => { alive = false; };
+  }, []);
   const emailOk = /.+@.+\..+/.test(email.trim());
   const valid = emailOk && consent; // email + consent required; country has a default
   const submit = (e: React.FormEvent) => {
@@ -130,7 +176,7 @@ export default function T1USAState({
             </div>
 
             {/* Right — form card */}
-            <div className="rounded-[24px] border border-white/[0.08] bg-[#121013] p-6 tablet:p-8" style={{ boxShadow: "0 30px 80px -30px rgba(0,0,0,0.7)" }}>
+            <div className="rounded-[24px] bg-[#121013] p-6 tablet:p-8" style={{ boxShadow: "0 30px 80px -30px rgba(0,0,0,0.7)" }}>
               {done ? (
                 <div className="flex min-h-[420px] flex-col items-center justify-center text-center">
                   <div className="mb-4 flex h-[52px] w-[52px] items-center justify-center rounded-full bg-[#16A34A]">
@@ -164,7 +210,16 @@ export default function T1USAState({
                     </label>
                     <label className="block">
                       <span className={LABEL}>Phone<span className="text-white/35"> (optional)</span></span>
-                      <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+52 55 1234 5678" aria-label="Phone" className={FIELD} />
+                      <div className="flex h-[50px] items-center rounded-[12px] bg-[#1D1D1D] transition-shadow focus-within:ring-1 focus-within:ring-white/25">
+                        <div className="relative shrink-0">
+                          <select aria-label="Country code" value={iso} onChange={(e) => setIso(e.target.value)} className="h-[50px] appearance-none rounded-l-[12px] bg-transparent pl-4 pr-7 font-inter text-[15px] text-white outline-none">
+                            {DIAL.map((d) => <option key={d.iso} value={d.iso} className="bg-[#1D1D1D]">{d.flag} {d.dial}</option>)}
+                          </select>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-white/45"><path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                        </div>
+                        <span aria-hidden className="h-[22px] w-px shrink-0 bg-white/12" />
+                        <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="55 1234 5678" aria-label="Phone" className="h-[50px] min-w-0 flex-1 rounded-r-[12px] bg-transparent px-3 font-inter text-[15px] text-white outline-none placeholder:text-[#8A8A8A]" />
+                      </div>
                     </label>
                   </div>
 
