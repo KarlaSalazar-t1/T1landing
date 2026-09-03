@@ -38,8 +38,137 @@ function CardSwiper() {
   );
 }
 
-/* Stack: baraja de cards apiladas (Vende / Cobra / Envía) que se van cambiando. */
-const STACK_DECK = [VendeCard, CobraCard, EnviaCard];
+/* ── Cards del stack (E): versiones en inglés y genéricas (sin logos por país) ── */
+const CARD_FONT = "var(--font-manrope-var), sans-serif";
+function useCycle(len: number, ms: number) {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setI((v) => (v + 1) % len), ms);
+    return () => clearInterval(t);
+  }, [len, ms]);
+  return i;
+}
+function SRow({ label, value, green = false }: { label: string; value: string; green?: boolean }) {
+  return (
+    <div className="flex items-center justify-between">
+      <span className="text-white/45">{label}</span>
+      <span className={green ? "font-medium text-[#4ADE80]" : "font-medium text-white/75"}>{value}</span>
+    </div>
+  );
+}
+
+/* Sales — product card cycling the sales channel (generic labels) */
+const SALE_CHANNELS = ["Online store", "Marketplaces"];
+function SalesCard() {
+  const i = useCycle(SALE_CHANNELS.length, 2000);
+  const ch = SALE_CHANNELS[i];
+  return (
+    <div className="w-[320px] overflow-hidden rounded-[18px] border border-white/[0.14] bg-white/[0.06] backdrop-blur-sm" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.14)", fontFamily: CARD_FONT }}>
+      <div className="relative flex items-center justify-center" style={{ height: 200 }}>
+        <Image src="/img/tennis-big.png" alt="" width={230} height={150} className="object-contain" />
+        <span className="absolute left-3 top-3 rounded-full bg-white px-2.5 py-1 text-[11px] font-bold text-black">-14%</span>
+        <div key={i} className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1" style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.25)", animation: "fadeSlideIn 0.4s ease-out" }}>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 9l1-4h14l1 4M4 9v10a1 1 0 001 1h14a1 1 0 001-1V9M4 9h16" stroke="#111" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
+          <span className="text-[11px] font-semibold text-black">{ch}</span>
+        </div>
+      </div>
+      <div className="p-5">
+        <p className="text-[12px] font-medium text-white/45">All your sales channels</p>
+        <p className="mt-0.5 text-[16px] font-semibold text-white">Sneakers Court Premium</p>
+        <div className="mt-2 flex items-baseline gap-2"><span className="text-[20px] font-bold text-white">$1,890</span><span className="text-[13px] text-white/40 line-through">$2,190</span></div>
+        <div className="mt-3 flex items-center justify-between rounded-[10px] border border-white/10 bg-white/[0.05] px-3 py-2">
+          <span className="text-[11px] text-white/55">Sales today · {ch}</span>
+          <span key={i} className="text-[13px] font-bold text-white" style={{ animation: "fadeSlideIn 0.4s ease-out" }}>{i === 0 ? "$6,510" : "$8,240"}</span>
+        </div>
+        <div className="mt-3 w-full rounded-[12px] bg-black py-3 text-center text-[13px] font-semibold text-white">Add to cart</div>
+      </div>
+    </div>
+  );
+}
+
+/* Checkout — cycling payment method (Visa / Mastercard / Amex only) */
+const PAY_EN = [{ name: "Visa", src: "/img/icons/visa.svg" }, { name: "Mastercard", src: "/img/icons/mastercard.svg" }, { name: "Amex", src: "/img/icons/amex.svg" }];
+function CheckoutCard() {
+  const i = useCycle(PAY_EN.length, 1500);
+  const m = PAY_EN[i];
+  return (
+    <div className="w-[320px] rounded-[18px] border border-white/[0.14] bg-white/[0.06] p-6 backdrop-blur-sm" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.14)", fontFamily: CARD_FONT }}>
+      <p className="text-[14px] font-bold text-white">Order summary</p>
+      <div className="mt-5 flex items-center gap-3 border-b border-white/10 pb-5">
+        <div className="flex h-[46px] w-[46px] items-center justify-center overflow-hidden rounded-[10px] bg-white/[0.08]"><Image src="/img/tennis-big.png" alt="" width={40} height={28} className="object-contain" /></div>
+        <div className="flex-1"><p className="text-[13px] font-medium text-white">Sneakers Court</p><p className="text-[12px] text-white/45">Size 27 · x1</p></div>
+        <span className="text-[13px] font-semibold text-white">$1,890</span>
+      </div>
+      <div className="mt-4 flex flex-col gap-2 text-[12px]">
+        <SRow label="Subtotal" value="$1,890.00" />
+        <SRow label="Shipping" value="Free" green />
+        <SRow label="Tax" value="$302.40" />
+      </div>
+      <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-4"><span className="text-[14px] font-bold text-white">Total</span><span className="text-[18px] font-bold text-white">$2,192.40</span></div>
+      <div className="mt-4 flex items-center justify-between rounded-[10px] border border-white/12 px-3 py-3">
+        <span className="text-[12px] text-white/50">Payment method</span>
+        <span key={i} className="flex items-center gap-2" style={{ animation: "fadeSlideIn 0.35s ease-out" }}>
+          <span className="flex h-[22px] items-center justify-center rounded-[5px] bg-white px-1.5"><Image src={m.src} alt={m.name} width={34} height={22} className="h-[14px] w-auto object-contain" /></span>
+          <span className="text-[12px] font-semibold text-white">{m.name}</span>
+        </span>
+      </div>
+      <div className="mt-4 w-full rounded-[12px] bg-black py-3.5 text-center text-[13px] font-semibold text-white">Pay now</div>
+    </div>
+  );
+}
+
+/* Shipping — label + tracking, generic carrier name (no logos) */
+const CARRIERS_GEN = ["Carrier 1", "Carrier 2", "Carrier 3", "Carrier 4"];
+const TRACK_EN = [{ label: "Label created", sub: "Today · 9:14 am" }, { label: "Picked up", sub: "Today · 2:30 pm" }, { label: "In transit", sub: "Out for delivery" }, { label: "Delivered", sub: "Est.: tomorrow" }];
+function ShippingCard() {
+  const i = useCycle(CARRIERS_GEN.length, 1900);
+  const step = useCycle(TRACK_EN.length, 1300);
+  const c = CARRIERS_GEN[i];
+  return (
+    <div className="w-[320px] rounded-[18px] border border-white/[0.14] bg-white/[0.06] p-5 backdrop-blur-sm" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.14)", fontFamily: CARD_FONT }}>
+      <div className="flex items-center justify-between">
+        <span key={i} className="flex items-center gap-2" style={{ animation: "fadeSlideIn 0.35s ease-out" }}>
+          <span className="flex h-[26px] w-[26px] items-center justify-center rounded-full bg-white/[0.1]"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M3 6.5h11v9.5H3zM14 10h3.5L21 13v3h-7" stroke="#fff" strokeWidth="1.7" strokeLinejoin="round" /><circle cx="7.5" cy="18" r="1.5" stroke="#fff" strokeWidth="1.7" /><circle cx="17" cy="18" r="1.5" stroke="#fff" strokeWidth="1.7" /></svg></span>
+          <span className="text-[13px] font-semibold text-white">{c}</span>
+        </span>
+        <span className="rounded-full bg-[rgba(74,222,128,0.16)] px-2.5 py-1 text-[11px] font-bold text-[#4ADE80]">In transit</span>
+      </div>
+      <p className="mt-4 text-[11px] text-white/45">Shipping label</p>
+      <p className="text-[16px] font-bold tracking-wide text-white">4657 8912 34</p>
+      <div className="mt-3 flex items-center gap-3">
+        <div className="flex-1"><p className="text-[11px] text-white/40">Origin</p><p className="text-[13px] font-semibold text-white">CDMX · 06600</p></div>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 12h16M14 6l6 6-6 6" stroke="#E2604C" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        <div className="flex-1 text-right"><p className="text-[11px] text-white/40">Destination</p><p className="text-[13px] font-semibold text-white">GDL · 44100</p></div>
+      </div>
+      <div className="mt-5 rounded-[12px] border border-white/10 bg-white/[0.05] p-4">
+        <p className="mb-4 text-[12px] font-semibold text-white">Track your shipment in real time</p>
+        <div className="flex flex-col">
+          {TRACK_EN.map((t, si) => {
+            const done = si <= step;
+            const last = si === TRACK_EN.length - 1;
+            return (
+              <div key={t.label} className="flex gap-3">
+                <div className="flex flex-col items-center">
+                  <div className="flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full" style={{ background: done ? "#E2604C" : "rgba(255,255,255,0.15)", transition: "background 0.4s ease" }}>
+                    {done && <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5L6.5 11.5L12.5 5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>}
+                  </div>
+                  {!last && <div className="w-[2px] flex-1" style={{ minHeight: 20, background: si < step ? "#E2604C" : "rgba(255,255,255,0.12)", transition: "background 0.4s ease" }} />}
+                </div>
+                <div style={{ paddingBottom: last ? 0 : 12 }}>
+                  <p className="text-[13px] font-semibold leading-none" style={{ color: done ? "#fff" : "rgba(255,255,255,0.4)" }}>{t.label}</p>
+                  <p className="mt-1 text-[11px] text-white/45">{t.sub}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* Stack: baraja de cards (Sales / Checkout / Shipping) que se van cambiando. */
+const STACK_DECK = [SalesCard, CheckoutCard, ShippingCard];
 function CardStack() {
   const [a, setA] = useState(0);
   useEffect(() => {
