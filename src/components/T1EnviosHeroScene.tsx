@@ -7,13 +7,13 @@ import Image from "next/image";
    del landing de T1 Envíos (miguelperez-oss/T1-Landing-envios). */
 
 const LOGOS = [
-  "/img/circles/dhl.svg",
-  "/img/circles/fedex.svg",
   "/img/circles/ups.svg",
+  "/img/circles/fedex.svg",
+  "/img/circles/dhl.svg",
   "/img/circles/ampm.svg",
   "/img/circles/99.svg",
   "/img/circles/jt.svg",
-  "/img/circles/paquetexpress.svg",
+  "/img/circles/estafeta.svg",
 ];
 const DUR = 30; // segundos por vuelta
 
