@@ -89,9 +89,9 @@ const T1Logo = (
 );
 
 /* ── Cards de features (abajo) ── */
-const IconStore = <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 9l1-4h14l1 4M4 9v10a1 1 0 001 1h14a1 1 0 001-1V9M4 9h16M9 20v-6h6v6" stroke="#fff" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>;
-const IconAI = <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3l1.8 4.7L18.5 9.5 13.8 11.3 12 16l-1.8-4.7L5.5 9.5l4.7-1.8L12 3zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8L19 15z" stroke="#fff" strokeWidth="1.5" strokeLinejoin="round" /></svg>;
-const IconTag = <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 12l9-9 9 9-9 9-9-9z" stroke="#fff" strokeWidth="1.7" strokeLinejoin="round" /><circle cx="12" cy="12" r="2.4" stroke="#fff" strokeWidth="1.7" /></svg>;
+const IconStore = <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 9l1-4h14l1 4M4 9v10a1 1 0 001 1h14a1 1 0 001-1V9M4 9h16M9 20v-6h6v6" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>;
+const IconAI = <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3l1.8 4.7L18.5 9.5 13.8 11.3 12 16l-1.8-4.7L5.5 9.5l4.7-1.8L12 3zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8L19 15z" stroke="#fff" strokeWidth="1.4" strokeLinejoin="round" /></svg>;
+const IconTag = <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 12l9-9 9 9-9 9-9-9z" stroke="#fff" strokeWidth="1.6" strokeLinejoin="round" /><circle cx="12" cy="12" r="2.4" stroke="#fff" strokeWidth="1.6" /></svg>;
 const FEATURES = [
   { icon: IconStore, title: "One platform", desc: "Your store, payments, and shipping, all working together in one place." },
   { icon: IconAI, title: "AI-native", desc: "Launch and run your whole business with AI built into every step." },
@@ -153,7 +153,7 @@ export default function T1WaitlistD({
                   <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email address" aria-label="Email" className="min-w-0 flex-1 bg-transparent px-3.5 font-inter text-[15px] text-white outline-none placeholder:text-[#8A8A8A]" />
                   <button type="submit" disabled={!ok} className="h-[46px] shrink-0 rounded-[12px] bg-[#DB3B2B] px-5 font-inter text-[14px] font-semibold text-white transition-colors duration-150 hover:bg-[#C0332A] disabled:bg-[#60160F] disabled:text-white/45">Join waitlist</button>
                 </form>
-                <div className="mt-5 flex flex-col items-start gap-3 tablet:flex-row tablet:items-center tablet:gap-5">
+                <div className="mt-5 flex flex-col items-start gap-1.5 tablet:flex-row tablet:items-center tablet:gap-5">
                   <div className="flex items-center gap-3">
                     <div className="flex -space-x-2.5">
                       {[1, 2, 3, 4].map((i) => (
@@ -162,15 +162,17 @@ export default function T1WaitlistD({
                     </div>
                     <span className="whitespace-nowrap font-inter text-[13px] font-light text-white/55">{social}</span>
                   </div>
-                  <span className="whitespace-nowrap font-inter text-[13px] font-light text-white/45">{reassurance}</span>
+                  <span className="whitespace-nowrap font-inter text-[12px] font-light text-white/40 tablet:text-[13px] tablet:text-white/45">{reassurance}</span>
                 </div>
               </>
             )}
           </div>
 
-          {/* Derecha — animación de cards (solo desktop) */}
-          <div className="hidden lg:block">
-            {anim === "stack" ? <CardStack /> : <CardSwiper />}
+          {/* Derecha — animación de cards (también en móvil) */}
+          <div className="mt-4 flex justify-center lg:mt-0 lg:block">
+            <div className="origin-top scale-[0.86] tablet:scale-95 lg:scale-100">
+              {anim === "stack" ? <CardStack /> : <CardSwiper />}
+            </div>
           </div>
         </div>
       </section>
@@ -181,7 +183,7 @@ export default function T1WaitlistD({
         <div className="mx-auto mt-10 grid max-w-[900px] grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
           {FEATURES.map((f) => (
             <div key={f.title} className="rounded-[18px] border border-white/[0.08] bg-white/[0.03] p-6 text-left">
-              <span className="mb-4 flex h-[38px] w-[38px] items-center justify-center rounded-[10px] bg-[rgba(219,59,43,0.12)]">{f.icon}</span>
+              <span className="mb-4 inline-flex text-white">{f.icon}</span>
               <h3 className="font-sora text-[17px] font-normal text-white">{f.title}</h3>
               <p className="mt-1.5 font-inter text-[14px] font-light leading-snug text-white/55" style={{ minHeight: 40 }}>{f.desc}</p>
             </div>
