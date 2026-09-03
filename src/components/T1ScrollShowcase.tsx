@@ -47,7 +47,7 @@ function useCycle(len: number, ms: number) {
 }
 
 /* ── Vende — ficha de producto + canales de venta que ciclan ── */
-function VendeCard() {
+export function VendeCard() {
   const i = useCycle(CHANNELS.length, 1800);
   const c = CHANNELS[i];
   return (
@@ -80,13 +80,13 @@ function VendeCard() {
 }
 
 /* ── Cobra — checkout con método de pago que cicla ── */
-function CobraCard() {
+export function CobraCard() {
   const i = useCycle(PAY_METHODS.length, 1500);
   const m = PAY_METHODS[i];
   return (
-    <div className="w-[320px] rounded-[18px] border border-white/[0.14] bg-white/[0.06] p-5 backdrop-blur-sm" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.14)", fontFamily: FONT }}>
+    <div className="w-[320px] rounded-[18px] border border-white/[0.14] bg-white/[0.06] p-6 backdrop-blur-sm" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.14)", fontFamily: FONT }}>
       <p className="text-[14px] font-bold text-white">Resumen de tu compra</p>
-      <div className="mt-4 flex items-center gap-3 border-b border-white/10 pb-4">
+      <div className="mt-5 flex items-center gap-3 border-b border-white/10 pb-5">
         <div className="flex h-[46px] w-[46px] items-center justify-center overflow-hidden rounded-[10px] bg-white/[0.08]">
           <Image src="/img/tennis-big.png" alt="" width={40} height={28} className="object-contain" />
         </div>
@@ -96,24 +96,24 @@ function CobraCard() {
         </div>
         <span className="text-[13px] font-semibold text-white">$1,890</span>
       </div>
-      <div className="mt-3 flex flex-col gap-1.5 text-[12px]">
+      <div className="mt-4 flex flex-col gap-2 text-[12px]">
         <Row label="Subtotal" value="$1,890.00" />
         <Row label="Envío" value="Gratis" green />
         <Row label="IVA" value="$302.40" />
       </div>
-      <div className="mt-3 flex items-center justify-between border-t border-white/10 pt-3">
+      <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-4">
         <span className="text-[14px] font-bold text-white">Total</span>
         <span className="text-[18px] font-bold text-white">$2,192.40</span>
       </div>
       {/* Método de pago (cicla) */}
-      <div className="mt-3 flex items-center justify-between rounded-[10px] border border-white/12 px-3 py-2.5">
+      <div className="mt-4 flex items-center justify-between rounded-[10px] border border-white/12 px-3 py-3">
         <span className="text-[12px] text-white/50">Método de pago</span>
         <span key={i} className="flex items-center gap-2" style={{ animation: "fadeSlideIn 0.35s ease-out" }}>
           <span className="flex h-[22px] items-center justify-center rounded-[5px] bg-white px-1.5"><Image src={m.src} alt={m.name} width={34} height={22} className="h-[14px] w-auto object-contain" /></span>
           <span className="text-[12px] font-semibold text-white">{m.name}</span>
         </span>
       </div>
-      <div className="mt-3 w-full rounded-[12px] bg-black py-3 text-center text-[13px] font-semibold text-white">Pagar ahora</div>
+      <div className="mt-4 w-full rounded-[12px] bg-black py-3.5 text-center text-[13px] font-semibold text-white">Pagar ahora</div>
     </div>
   );
 }
@@ -125,7 +125,7 @@ const TRACK = [
   { label: "En camino", sub: "En reparto" },
   { label: "Entregado", sub: "Estimado: mañana" },
 ];
-function EnviaCard() {
+export function EnviaCard() {
   const i = useCycle(CARRIERS.length, 1900);
   const step = useCycle(TRACK.length, 1300);
   const c = CARRIERS[i];
