@@ -38,8 +38,7 @@ function CardSwiper() {
   );
 }
 
-/* Stack: baraja de cards apiladas que se van cambiando (estilo testimonios).
-   Sin la card "Todo en uno" (círculo): solo Vende / Cobra / Envía. */
+/* Stack: baraja de cards apiladas (Vende / Cobra / Envía) que se van cambiando. */
 const STACK_DECK = [VendeCard, CobraCard, EnviaCard];
 function CardStack() {
   const [a, setA] = useState(0);
@@ -78,8 +77,14 @@ function CardStack() {
    Vende/Cobra/Envía animadas subiendo) + abajo título y cards de features.
    Inspirada en waitlists tipo aircart, con estilos oscuros del landing. */
 
+/* Mismo fondo del hero del landing principal (T1HeroB) — más vívido. */
 const HERO_BG =
-  "radial-gradient(ellipse 86% 70% at 67% 32%, rgba(226,64,47,0.26) 0%, transparent 60%), radial-gradient(ellipse 60% 58% at 14% 22%, rgba(150,34,34,0.18) 0%, transparent 58%), radial-gradient(ellipse 50% 46% at 82% 84%, rgba(244,114,150,0.08) 0%, transparent 62%), radial-gradient(ellipse 60% 70% at -4% 88%, rgba(58,74,158,0.30) 0%, transparent 52%), radial-gradient(ellipse 42% 60% at 102% 10%, rgba(58,74,158,0.24) 0%, transparent 50%), linear-gradient(160deg, #2e1622 0%, #180b13 50%, #0d070b 100%)";
+  "radial-gradient(ellipse 86% 70% at 67% 32%, rgba(226,64,47,0.40) 0%, transparent 60%)," +
+  "radial-gradient(ellipse 60% 58% at 14% 22%, rgba(150,34,34,0.26) 0%, transparent 58%)," +
+  "radial-gradient(ellipse 50% 46% at 82% 84%, rgba(244,114,150,0.12) 0%, transparent 62%)," +
+  "radial-gradient(ellipse 60% 70% at -4% 88%, rgba(58,74,158,0.55) 0%, transparent 52%)," +
+  "radial-gradient(ellipse 42% 60% at 102% 10%, rgba(58,74,158,0.45) 0%, transparent 50%)," +
+  "linear-gradient(160deg, #3e1f30 0%, #1c0d15 48%, #160a11 100%)";
 
 const T1Logo = (
   <svg width="36" height="35" viewBox="0 0 45 44" fill="none" aria-label="T1">
@@ -90,12 +95,12 @@ const T1Logo = (
 
 /* ── Cards de features (abajo) ── */
 const IconStore = <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 9l1-4h14l1 4M4 9v10a1 1 0 001 1h14a1 1 0 001-1V9M4 9h16M9 20v-6h6v6" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>;
-const IconAI = <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3l1.8 4.7L18.5 9.5 13.8 11.3 12 16l-1.8-4.7L5.5 9.5l4.7-1.8L12 3zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8L19 15z" stroke="#fff" strokeWidth="1.4" strokeLinejoin="round" /></svg>;
-const IconTag = <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 12l9-9 9 9-9 9-9-9z" stroke="#fff" strokeWidth="1.6" strokeLinejoin="round" /><circle cx="12" cy="12" r="2.4" stroke="#fff" strokeWidth="1.6" /></svg>;
+const IconCard = <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="5.5" width="18" height="13" rx="2.2" stroke="#fff" strokeWidth="1.6" /><path d="M3 9.5h18M6.5 14.5h4" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" /></svg>;
+const IconTruck = <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 6.5h11v9.5H3zM14 10h3.5L21 13v3h-7" stroke="#fff" strokeWidth="1.6" strokeLinejoin="round" /><circle cx="7.5" cy="18" r="1.6" stroke="#fff" strokeWidth="1.6" /><circle cx="17" cy="18" r="1.6" stroke="#fff" strokeWidth="1.6" /></svg>;
 const FEATURES = [
-  { icon: IconStore, title: "One platform", desc: "Your store, payments, and shipping, all working together in one place." },
-  { icon: IconAI, title: "AI-native", desc: "Launch and run your whole business with AI built into every step." },
-  { icon: IconTag, title: "No monthly fee", desc: "Start selling with zero cost upfront and no monthly fee." },
+  { icon: IconStore, title: "Online store", desc: "Build your store with AI and sell online, on marketplaces, and on social." },
+  { icon: IconCard, title: "Payments", desc: "Accept cards, transfers, and installments, with built-in fraud protection." },
+  { icon: IconTruck, title: "Shipping", desc: "Quote, create labels with top carriers, and track every order in one place." },
 ];
 
 export default function T1WaitlistD({
