@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { HowItWorks, Faq, FinalCta } from "@/components/T1WaitlistSections";
+import { ValueStrip, EverythingYouNeed, BusinessStages, Faq, FinalCta } from "@/components/T1WaitlistSections";
 
 /* Waitlist — versión B: página centrada de una columna (pill + heading +
    email inline + prueba social + cards de features), estilos oscuros del
@@ -17,16 +17,6 @@ const T1Logo = (
     <path d="M32.5831 5.41411C32.4415 5.27248 32.2055 5.13086 31.9694 5.13086H4.63622C3.78648 5.13086 3.07837 5.74456 3.07837 6.54709V10.7014C3.07837 11.6927 3.2672 12.1648 4.4946 12.1648H13.6057C13.8417 12.1648 14.0305 12.3536 14.0305 12.5897V35.5326C14.0305 35.9574 14.3138 36.2879 14.7387 36.4767C15.5412 36.8072 18.3264 38.1762 19.2706 38.6955C20.2147 39.2148 21.867 38.3178 21.867 36.996V13.0617C21.8198 12.7313 21.867 12.4008 22.1975 12.2592C22.2919 12.2592 22.3391 12.2592 22.4335 12.2592H25.4076C31.9222 11.6455 32.5831 6.5943 32.6303 6.02781V5.79177C32.6303 5.65014 32.6303 5.55573 32.4887 5.46131L32.5831 5.41411Z" fill="#DB3B2B" />
   </svg>
 );
-
-const IconStore = <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 9l1-4h14l1 4M4 9v10a1 1 0 001 1h14a1 1 0 001-1V9M4 9h16M9 20v-6h6v6" stroke="#fff" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>;
-const IconAI = <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3l1.8 4.7L18.5 9.5 13.8 11.3 12 16l-1.8-4.7L5.5 9.5l4.7-1.8L12 3zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8L19 15z" stroke="#fff" strokeWidth="1.5" strokeLinejoin="round" /></svg>;
-const IconTag = <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 12l9-9 9 9-9 9-9-9z" stroke="#fff" strokeWidth="1.7" strokeLinejoin="round" /><circle cx="12" cy="12" r="2.4" stroke="#fff" strokeWidth="1.7" /></svg>;
-
-const FEATURES = [
-  { icon: IconStore, title: "One platform", desc: "Your store, payments, and shipping, all working together in one place." },
-  { icon: IconAI, title: "AI-native", desc: "Launch and run your whole business with AI built into every step." },
-  { icon: IconTag, title: "No monthly fee", desc: "Start selling with zero cost upfront and no monthly fee." },
-];
 
 export default function T1WaitlistB({
   pill = "Early access · Coming soon",
@@ -110,20 +100,12 @@ export default function T1WaitlistB({
           </>
         )}
 
-        {/* Cards de features */}
-        <div className="mx-auto mt-16 grid max-w-[900px] grid-cols-1 gap-4 tablet:mt-20 tablet:grid-cols-3 tablet:gap-5">
-          {FEATURES.map((f) => (
-            <div key={f.title} className="rounded-[18px] border border-white/[0.08] bg-white/[0.03] p-6 text-left">
-              <span className="mb-4 flex h-[38px] w-[38px] items-center justify-center rounded-[10px] bg-[rgba(219,59,43,0.12)]">{f.icon}</span>
-              <h3 className="font-sora text-[17px] font-normal text-white">{f.title}</h3>
-              <p className="mt-1.5 font-inter text-[14px] font-light leading-snug text-white/55" style={{ minHeight: 40 }}>{f.desc}</p>
-            </div>
-          ))}
-        </div>
       </section>
 
       {/* ── Secciones inferiores ── */}
-      <HowItWorks />
+      <ValueStrip />
+      <EverythingYouNeed />
+      <BusinessStages />
       <Faq />
       <FinalCta />
     </main>

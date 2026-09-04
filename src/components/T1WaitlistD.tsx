@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { VendeCard, CobraCard, EnviaCard, TodoEnUnoCard } from "@/components/T1ScrollShowcase";
-import { HowItWorks, Faq, FinalCta } from "@/components/T1WaitlistSections";
+import { ValueStrip, EverythingYouNeed, BusinessStages, Faq, FinalCta } from "@/components/T1WaitlistSections";
 
 /* Deck de cards del landing (Vende / Cobra / Envía / Todo en uno). */
 const DECK = [VendeCard, CobraCard, EnviaCard, TodoEnUnoCard];
@@ -223,23 +223,12 @@ const T1Logo = (
   </svg>
 );
 
-/* ── Cards de features (abajo) ── */
-const IconStore = <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 9l1-4h14l1 4M4 9v10a1 1 0 001 1h14a1 1 0 001-1V9M4 9h16M9 20v-6h6v6" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>;
-const IconCard = <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="5.5" width="18" height="13" rx="2.2" stroke="#fff" strokeWidth="1.6" /><path d="M3 9.5h18M6.5 14.5h4" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" /></svg>;
-const IconTruck = <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 6.5h11v9.5H3zM14 10h3.5L21 13v3h-7" stroke="#fff" strokeWidth="1.6" strokeLinejoin="round" /><circle cx="7.5" cy="18" r="1.6" stroke="#fff" strokeWidth="1.6" /><circle cx="17" cy="18" r="1.6" stroke="#fff" strokeWidth="1.6" /></svg>;
-const FEATURES = [
-  { icon: IconStore, title: "Online store", desc: "Build your store with AI and sell online, on marketplaces, and on social." },
-  { icon: IconCard, title: "Payments", desc: "Accept cards, transfers, and installments, with built-in fraud protection." },
-  { icon: IconTruck, title: "Shipping", desc: "Quote, create labels with top carriers, and track every order in one place." },
-];
-
 export default function T1WaitlistD({
   pill = "Early access · Coming soon",
   headline = "Built to power the future of ecommerce",
   subtitle = "T1 is the all-in-one, AI-native platform to sell, get paid, and ship. Join the waitlist to get early access.",
   social = "1,500+ merchants on the list",
   reassurance = "No credit card required",
-  featuresTitle = "Everything you need to grow",
   anim = "swipe",
 }: {
   pill?: string;
@@ -247,7 +236,6 @@ export default function T1WaitlistD({
   subtitle?: string;
   social?: string;
   reassurance?: string;
-  featuresTitle?: string;
   anim?: "swipe" | "stack";
 }) {
   const [email, setEmail] = useState("");
@@ -312,22 +300,10 @@ export default function T1WaitlistD({
         </div>
       </section>
 
-      {/* ── Título + cards de features ── */}
-      <section className="relative z-10 mx-auto max-w-[var(--max-w)] px-5 pb-4 pt-[10vh] tablet:px-10">
-        <h2 className="text-center font-sora text-[26px] font-light text-white tablet:text-[36px]" style={{ letterSpacing: "-0.02em" }}>{featuresTitle}</h2>
-        <div className="mx-auto mt-10 grid max-w-[900px] grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
-          {FEATURES.map((f) => (
-            <div key={f.title} className="rounded-[18px] border border-white/[0.08] bg-white/[0.03] p-6 text-left">
-              <span className="mb-4 inline-flex text-white">{f.icon}</span>
-              <h3 className="font-sora text-[17px] font-normal text-white">{f.title}</h3>
-              <p className="mt-1.5 font-inter text-[14px] font-light leading-snug text-white/55" style={{ minHeight: 40 }}>{f.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* ── Secciones inferiores ── */}
-      <HowItWorks />
+      <ValueStrip />
+      <EverythingYouNeed />
+      <BusinessStages />
       <Faq />
       <FinalCta />
     </main>
