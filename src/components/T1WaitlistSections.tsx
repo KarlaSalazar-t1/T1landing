@@ -41,7 +41,7 @@ export function BusinessStages({
   subtitle?: string;
 }) {
   return (
-    <section className="relative z-10 mx-auto max-w-[var(--max-w)] px-5 py-20 tablet:px-10">
+    <section className="relative z-10 mx-auto max-w-[var(--max-w)] px-5 pb-6 pt-20 tablet:px-10 tablet:py-20">
       <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.95fr)] lg:gap-16">
         {/* Izquierda — título + etapas */}
         <div>
@@ -166,7 +166,7 @@ const FAQS = [
 export function Faq({ title = "Frequently asked questions" }: { title?: string }) {
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section className="relative z-10 mx-auto max-w-[var(--max-w)] px-5 py-20 tablet:px-10">
+    <section className="relative z-10 mx-auto max-w-[var(--max-w)] px-5 pb-20 pt-6 tablet:px-10 tablet:py-20">
       <h2 className="text-center font-sora text-[26px] font-light text-white tablet:text-[36px]" style={{ letterSpacing: "-0.02em" }}>
         {title}
       </h2>

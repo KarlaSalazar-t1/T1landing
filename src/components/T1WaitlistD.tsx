@@ -276,7 +276,7 @@ export default function T1WaitlistD({
                   <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email address" aria-label="Email" className="min-w-0 flex-1 bg-transparent px-3.5 font-inter text-[15px] text-white outline-none placeholder:text-[#8A8A8A]" />
                   <button type="submit" disabled={!ok} className="h-[46px] shrink-0 rounded-[12px] bg-[#DB3B2B] px-5 font-inter text-[14px] font-semibold text-white transition-colors duration-150 hover:bg-[#C0332A] disabled:bg-[#60160F] disabled:text-white/45">Join waitlist</button>
                 </form>
-                <div className="mt-5 flex flex-col items-start gap-1.5 tablet:flex-row tablet:items-center tablet:gap-5">
+                <div className="mt-5 flex flex-col items-center gap-1.5 tablet:flex-row tablet:items-center tablet:gap-5">
                   <div className="flex items-center gap-3">
                     <div className="flex -space-x-2.5">
                       {[1, 2, 3, 4].map((i) => (

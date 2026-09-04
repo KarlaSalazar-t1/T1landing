@@ -45,7 +45,7 @@ export default function T1WaitlistB({
         </div>
       </header>
 
-      <section className="relative z-10 mx-auto max-w-[var(--max-w)] px-5 pb-4 pt-[6vh] text-center tablet:px-10 tablet:pt-[9vh]">
+      <section className="relative z-10 mx-auto max-w-[var(--max-w)] px-5 pb-10 pt-[6vh] text-center tablet:px-10 tablet:pb-4 tablet:pt-[9vh]">
         {/* Pill */}
         <span className="inline-flex items-center rounded-full border border-white/12 bg-white/[0.05] px-4 py-1.5 font-inter text-[12.5px] font-medium text-white/70">
           {pill}
