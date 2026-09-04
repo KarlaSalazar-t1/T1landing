@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { VendeCard, CobraCard, EnviaCard, TodoEnUnoCard } from "@/components/T1ScrollShowcase";
+import { HowItWorks, Faq, FinalCta } from "@/components/T1WaitlistSections";
 
 /* Deck de cards del landing (Vende / Cobra / Envía / Todo en uno). */
 const DECK = [VendeCard, CobraCard, EnviaCard, TodoEnUnoCard];
@@ -254,7 +255,7 @@ export default function T1WaitlistD({
   const ok = /.+@.+\..+/.test(email.trim());
 
   return (
-    <main className="relative min-h-screen overflow-hidden" style={{ background: HERO_BG }}>
+    <main id="top" className="relative min-h-screen overflow-hidden" style={{ background: HERO_BG }}>
       <header className="relative z-20 mx-auto flex max-w-[var(--max-w)] items-center justify-between px-5 py-5 tablet:px-10">
         <a href="/" aria-label="T1" className="inline-flex">{T1Logo}</a>
         <div className="flex items-center gap-6">
@@ -279,7 +280,7 @@ export default function T1WaitlistD({
             {done ? (
               <div className="mt-8 flex items-center gap-3">
                 <span className="flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-full bg-[#16A34A]"><svg width="22" height="22" viewBox="0 0 16 16" fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
-                <p className="font-sora text-[18px] font-light text-white">You&apos;re on the list — we&apos;ll be in touch.</p>
+                <p className="font-sora text-[18px] font-light text-white">You&apos;re on the list. We&apos;ll be in touch.</p>
               </div>
             ) : (
               <>
@@ -312,7 +313,7 @@ export default function T1WaitlistD({
       </section>
 
       {/* ── Título + cards de features ── */}
-      <section className="relative z-10 mx-auto max-w-[var(--max-w)] px-5 pb-24 pt-[10vh] tablet:px-10">
+      <section className="relative z-10 mx-auto max-w-[var(--max-w)] px-5 pb-4 pt-[10vh] tablet:px-10">
         <h2 className="text-center font-sora text-[26px] font-light text-white tablet:text-[36px]" style={{ letterSpacing: "-0.02em" }}>{featuresTitle}</h2>
         <div className="mx-auto mt-10 grid max-w-[900px] grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
           {FEATURES.map((f) => (
@@ -324,6 +325,11 @@ export default function T1WaitlistD({
           ))}
         </div>
       </section>
+
+      {/* ── Secciones inferiores ── */}
+      <HowItWorks />
+      <Faq />
+      <FinalCta />
     </main>
   );
 }

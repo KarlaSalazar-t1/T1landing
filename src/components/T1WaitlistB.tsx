@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { HowItWorks, Faq, FinalCta } from "@/components/T1WaitlistSections";
 
 /* Waitlist — versión B: página centrada de una columna (pill + heading +
    email inline + prueba social + cards de features), estilos oscuros del
@@ -45,7 +46,7 @@ export default function T1WaitlistB({
   const ok = /.+@.+\..+/.test(email.trim());
 
   return (
-    <main className="relative min-h-screen overflow-hidden" style={{ background: HERO_BG }}>
+    <main id="top" className="relative min-h-screen overflow-hidden" style={{ background: HERO_BG }}>
       <header className="relative z-20 mx-auto flex max-w-[var(--max-w)] items-center justify-between px-5 py-5 tablet:px-10">
         <a href="/" aria-label="T1" className="inline-flex">{T1Logo}</a>
         <div className="flex items-center gap-6">
@@ -54,7 +55,7 @@ export default function T1WaitlistB({
         </div>
       </header>
 
-      <section className="relative z-10 mx-auto max-w-[var(--max-w)] px-5 pb-24 pt-[6vh] text-center tablet:px-10 tablet:pt-[9vh]">
+      <section className="relative z-10 mx-auto max-w-[var(--max-w)] px-5 pb-4 pt-[6vh] text-center tablet:px-10 tablet:pt-[9vh]">
         {/* Pill */}
         <span className="inline-flex items-center rounded-full border border-white/12 bg-white/[0.05] px-4 py-1.5 font-inter text-[12.5px] font-medium text-white/70">
           {pill}
@@ -120,6 +121,11 @@ export default function T1WaitlistB({
           ))}
         </div>
       </section>
+
+      {/* ── Secciones inferiores ── */}
+      <HowItWorks />
+      <Faq />
+      <FinalCta />
     </main>
   );
 }
