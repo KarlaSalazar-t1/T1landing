@@ -201,7 +201,7 @@ export function Faq({ title = "Frequently asked questions" }: { title?: string }
 
 export function FinalCta({
   title = "Be first to sell with T1",
-  subtitle = "Get early access before everyone else. It only takes a few seconds, no credit card required.",
+  subtitle = "Get early access before everyone else. It only takes a few seconds.",
   cta = "Join the waitlist",
 }: {
   title?: string;

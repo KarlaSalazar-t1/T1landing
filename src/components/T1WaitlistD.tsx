@@ -224,18 +224,16 @@ const T1Logo = (
 );
 
 export default function T1WaitlistD({
-  pill = "Early access · Coming soon",
+  pill = "Coming soon",
   headline = "Built to power the future of ecommerce",
-  subtitle = "T1 is the all-in-one, AI-native platform to sell, get paid, and ship. Join the waitlist to get early access.",
+  subtitle = "Sell, get paid, and ship from one AI-native platform. Join the waitlist for early access.",
   social = "1,500+ merchants on the list",
-  reassurance = "No credit card required",
   anim = "swipe",
 }: {
   pill?: string;
   headline?: string;
   subtitle?: string;
   social?: string;
-  reassurance?: string;
   anim?: "swipe" | "stack";
 }) {
   const [email, setEmail] = useState("");
@@ -253,12 +251,12 @@ export default function T1WaitlistD({
       </header>
 
       {/* ── Hero 2 columnas ── */}
-      <section className="relative z-10 mx-auto max-w-[var(--max-w)] px-5 pt-[4vh] tablet:px-10 tablet:pt-[6vh]">
-        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.82fr)] lg:gap-14">
+      <section className="relative z-10 mx-auto max-w-[var(--max-w)] px-5 pt-[6vh] tablet:px-10 tablet:pt-[6vh]">
+        <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.82fr)] lg:gap-14">
           {/* Izquierda */}
           <div>
             <span className="font-inter text-[12.5px] font-semibold uppercase tracking-[0.16em] text-white/45">{pill}</span>
-            <h1 className="mt-4 max-w-[560px] font-sora text-[38px] font-light text-white tablet:text-[54px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.05 }}>
+            <h1 className="mt-4 max-w-[540px] font-sora text-[33px] font-light text-white tablet:text-[52px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.06 }}>
               {headline}
             </h1>
             <p className="mt-5 max-w-[480px] font-inter text-[16px] font-light text-white/65 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
@@ -285,7 +283,6 @@ export default function T1WaitlistD({
                     </div>
                     <span className="whitespace-nowrap font-inter text-[13px] font-light text-white/55">{social}</span>
                   </div>
-                  <span className="whitespace-nowrap font-inter text-[12px] font-light text-white/40 tablet:text-[13px] tablet:text-white/45">{reassurance}</span>
                 </div>
               </>
             )}

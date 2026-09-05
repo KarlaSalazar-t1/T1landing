@@ -19,17 +19,15 @@ const T1Logo = (
 );
 
 export default function T1WaitlistB({
-  pill = "Early access · Coming soon",
+  pill = "Coming soon",
   headline = "The all-in-one commerce platform",
   subtitle = "T1 is the all-in-one, AI-native platform to sell online, get paid, and ship. Get on the list and we'll tell you the moment we launch in your country.",
   social = "1,500+ merchants on the list",
-  reassurance = "No credit card required",
 }: {
   pill?: string;
   headline?: string;
   subtitle?: string;
   social?: string;
-  reassurance?: string;
 }) {
   const [email, setEmail] = useState("");
   const [done, setDone] = useState(false);
@@ -95,7 +93,6 @@ export default function T1WaitlistB({
                 </div>
                 <span className="whitespace-nowrap font-inter text-[13px] font-light text-white/55">{social}</span>
               </div>
-              <span className="whitespace-nowrap font-inter text-[13px] font-light text-white/45">{reassurance}</span>
             </div>
           </>
         )}
