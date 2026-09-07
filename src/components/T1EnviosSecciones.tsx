@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
+import { ENVIOS_SIGNUP_URL } from "@/lib/constants";
 
 /* ══════════ Conecta tus canales — marketplaces (logos alineados, compacto) ══════════ */
 const CHANNELS = [
@@ -56,8 +57,8 @@ export function T1EnviosCanales() {
             <Image key={l.alt} src={l.src} alt={l.alt} width={120} height={40} className="w-auto object-contain opacity-85" style={{ height: 30 }} sizes="120px" />
           ))}
         </div>
-        <a href="/login" className="mt-8 inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]">
-          Conecta tus canales
+        <a href={ENVIOS_SIGNUP_URL} data-cta-text="Comienza a enviar" data-cta-destination={ENVIOS_SIGNUP_URL} data-cta-section="canales" className="mt-8 inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]">
+          Comienza a enviar
           <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
         </a>
       </div>
@@ -92,22 +93,26 @@ export function T1EnviosAdministracion() {
             <p className="font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 400 }}>
               Reportes, reglas, recolecciones y control de calidad, todo en un mismo lugar.
             </p>
-            <a href="/login" className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]">
-              Comienza ahora
+            <a href={ENVIOS_SIGNUP_URL} data-cta-text="Comienza a enviar" data-cta-destination={ENVIOS_SIGNUP_URL} data-cta-section="administracion" className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]">
+              Comienza a enviar
               <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </a>
           </div>
           <div className="flex flex-col gap-5">
             <div ref={ref} className="-mr-5 flex gap-5 overflow-x-auto pb-2 pr-5 tablet:mr-0 tablet:pr-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {ADMIN_CARDS.map((s) => (
-                <a key={s.title} href={s.href} data-card className="group flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-white/[0.08] bg-[#1A1A1D] p-6 no-underline transition-colors hover:border-white/20">
+                <a key={s.title} href={s.href} data-card data-cta-text="Conoce más" data-cta-destination={s.href} data-cta-section="administracion_card" className="group flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-white/[0.08] bg-[#1A1A1D] p-6 no-underline transition-colors hover:border-white/20">
                   <div className="flex items-center justify-between gap-2" style={{ marginBottom: 8 }}>
                     <h3 className="font-sora text-[19px] font-normal text-white">{s.title}</h3>
                     <span className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full border border-white/15 text-white/55 transition-all duration-200 group-hover:translate-x-0.5 group-hover:border-white/40 group-hover:text-white">
                       <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
                     </span>
                   </div>
-                  <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.55, marginBottom: 20, minHeight: 63 }}>{s.desc}</p>
+                  <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.55, marginBottom: 12, minHeight: 63 }}>{s.desc}</p>
+                  <span className="mb-5 inline-flex items-center gap-1.5 font-inter text-[13px] font-semibold text-white">
+                    Conoce más
+                    <svg width="13" height="13" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  </span>
                   <div className="mt-auto flex h-[210px] items-center justify-center overflow-hidden rounded-[14px]">
                     <Image src={s.img} alt={s.title} width={s.w} height={s.h} className="h-full w-full object-contain" sizes="270px" />
                   </div>
@@ -131,6 +136,7 @@ export function T1EnviosAdministracion() {
 
 /* ══════════ 4 · FAQ ══════════ */
 const FAQS = [
+  { q: "¿Qué es T1 Envíos y cómo funciona?", a: "T1 Envíos es una plataforma para cotizar, comparar y administrar toda tu operación logística desde un solo lugar, con paqueterías líderes y tarifas competitivas. En minutos creas tu cuenta y administras guías, recolecciones, seguimientos, incidencias y reportes." },
   { q: "¿Necesito una tienda para usar T1 Envíos?", a: "No. Puedes cotizar y crear guías aunque vendas por redes sociales, marketplaces o tu propia tienda." },
   { q: "¿Con qué paqueterías puedo enviar?", a: "Con +10 paqueterías: DHL, FedEx, UPS, Estafeta, 99 minutos, Paquete Express, J&T, AMPM y más." },
   { q: "¿Hay volumen mínimo de envíos?", a: "No. Accedes a tarifas preferenciales desde tu primer envío, sin mínimos ni contratos." },

@@ -8,6 +8,29 @@ export const BLOG_URL = "/blog";
 // para NO alterar el flujo de creación de tienda actual.
 export const PAGOS_START_URL = "/pagos/empezar";
 export const ENVIOS_QUOTE_URL = "/envios/cotizar";
+// CTA de "alta iniciada" de Envíos (métrica que decide el A/B = llegar a
+// workspace.t1.com/onboarding). TODO(pending user): confirmar que este destino
+// desemboque en workspace.t1.com/onboarding; por ahora reutiliza SIGNUP_URL.
+export const ENVIOS_SIGNUP_URL = SIGNUP_URL;
+
+// ── Cifras de la landing de Envíos (fuente única — CAMBIO 4) ──
+// Los valores "correctos" salen de la landing actual. Los marcados PENDIENTE
+// deben confirmarse antes de publicar.
+export const ENVIOS_STATS = {
+  enviosEntregados: "+40M", // envíos entregados (confirmado)
+  negocios: "+25,000", // negocios (corregido: la nueva decía +50,000)
+  negociosNum: 25000, // para el contador de "Nuestros números"
+  paqueterias: "+10", // PENDIENTE confirmar (la FAQ actual lista 5)
+  nivelServicioPct: 92, // PENDIENTE confirmar (hoy es mock)
+};
+
+// Rutas de ejemplo del cotizador del hero (CAMBIO 1c: solo rutas largas,
+// excluir intraurbanas como CDMX→CDMX). Precios PENDIENTE de validar (CAMBIO 9).
+export const ENVIOS_RATE_EXAMPLES = [
+  { from: "CDMX", to: "Monterrey", price: 119, market: 189 },
+  { from: "CDMX", to: "Guadalajara", price: 115, market: 179 },
+  { from: "CDMX", to: "Tijuana", price: 149, market: 235 },
+];
 
 // ── Navigation ──
 export const NAV_LINKS = [

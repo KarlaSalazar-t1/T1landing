@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { GuiaScreen } from "@/components/T1EnviosPanels";
+import { ENVIOS_SIGNUP_URL } from "@/lib/constants";
 
 const MANROPE = "var(--font-manrope-var), 'Manrope', sans-serif";
 
@@ -393,8 +394,7 @@ export default function T1EnviosCiclo() {
               ))}
             </div>
             <div key={activeStep} className="text-center" style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
-              <p className="font-inter text-[11.5px] font-semibold uppercase tracking-[0.08em] text-[#DB3B2B]">Paso {activeStep + 1} de 4</p>
-              <h3 className="font-sora text-[20px] font-normal text-white" style={{ marginTop: 4 }}>{STEPS[activeStep].title}</h3>
+              <h3 className="font-sora text-[20px] font-normal text-white">{STEPS[activeStep].title}</h3>
               <p className="mx-auto max-w-[320px] font-inter text-[13px] font-light text-white/55" style={{ marginTop: 4, lineHeight: 1.5 }}>{STEPS[activeStep].desc}</p>
             </div>
           </div>
@@ -434,7 +434,7 @@ export default function T1EnviosCiclo() {
         </div>
 
         <div className="mt-14 flex justify-center">
-          <a href="/login" className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]">
+          <a href={ENVIOS_SIGNUP_URL} data-cta-text="Comienza a enviar" data-cta-destination={ENVIOS_SIGNUP_URL} data-cta-section="ciclo" className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]">
             Comienza a enviar
             <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
           </a>

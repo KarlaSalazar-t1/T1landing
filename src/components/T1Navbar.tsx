@@ -120,7 +120,7 @@ function HamburgerIcon({ open }: { open: boolean }) {
 }
 
 /* ── Main Component ── */
-export default function T1Navbar({ bVariant = false }: { bVariant?: boolean }) {
+export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis", ctaHref = SIGNUP_URL }: { bVariant?: boolean; ctaLabel?: string; ctaHref?: string }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [recursosOpen, setRecursosOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -231,11 +231,13 @@ export default function T1Navbar({ bVariant = false }: { bVariant?: boolean }) {
               Iniciar sesión
             </a>
             <a
-              href={SIGNUP_URL}
-              className="hidden h-[45px] items-center justify-center rounded-[18px] bg-[#DB3B2B] font-inter text-[16px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A] hover:shadow-[0_4px_12px_rgba(219,54,43,0.3)] tablet:inline-flex"
-              style={{ width: 156 }}
+              href={ctaHref}
+              data-cta-text={ctaLabel}
+              data-cta-destination={ctaHref}
+              data-cta-section="header"
+              className="hidden h-[45px] items-center justify-center whitespace-nowrap rounded-[18px] bg-[#DB3B2B] px-6 font-inter text-[16px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A] hover:shadow-[0_4px_12px_rgba(219,54,43,0.3)] tablet:inline-flex"
             >
-              Comienza gratis
+              {ctaLabel}
             </a>
 
             {/* Hamburger button - mobile only */}
@@ -301,10 +303,13 @@ export default function T1Navbar({ bVariant = false }: { bVariant?: boolean }) {
                 Iniciar sesión
               </a>
               <a
-                href={SIGNUP_URL}
+                href={ctaHref}
+                data-cta-text={ctaLabel}
+                data-cta-destination={ctaHref}
+                data-cta-section="header_mobile"
                 className="mt-6 flex h-[50px] items-center justify-center rounded-[18px] bg-[#DB3B2B] font-inter text-[16px] font-semibold text-white no-underline"
               >
-                Comienza gratis
+                {ctaLabel}
               </a>
             </div>
           </div>

@@ -1,47 +1,26 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { SIGNUP_URL } from "@/lib/constants";
-import T1EnviosHeroScene from "@/components/T1EnviosHeroScene";
+import { ENVIOS_SIGNUP_URL, ENVIOS_STATS } from "@/lib/constants";
+import T1EnviosCotizadorPanel from "@/components/T1EnviosCotizadorPanel";
 
-const SOCIAL_PROOF = ["+40M de envíos", "+50,000 negocios", "+10 paqueterías"];
+const SOCIAL_PROOF = [ENVIOS_STATS.enviosEntregados + " de envíos", ENVIOS_STATS.negocios + " negocios", ENVIOS_STATS.paqueterias + " paqueterías"];
 const CARRIERS = ["/img/circles/ups.svg", "/img/circles/fedex.svg", "/img/circles/dhl.svg", "/img/circles/ampm.svg", "/img/circles/99.svg", "/img/circles/jt.svg", "/img/circles/estafeta.svg"];
-const RATES = [
-  { from: "CDMX", to: "CDMX", price: "89" },
-  { from: "CDMX", to: "Guadalajara", price: "115" },
-  { from: "CDMX", to: "Monterrey", price: "119" },
-];
 
 const ArrowRight = (
   <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
 );
 
-/* Card de tarifa que cicla — una sola, blanca (como el centro del halo en desktop). */
-function RateCards() {
-  const [q, setQ] = useState(0);
-  useEffect(() => {
-    const t = setInterval(() => setQ((v) => (v + 1) % RATES.length), 2600);
-    return () => clearInterval(t);
-  }, []);
-  const r = RATES[q];
+/* Fila de logos de paquetería (reemplaza la órbita que se recortaba).
+   Móvil: una fila con scroll horizontal. Desktop: fila centrada con wrap. */
+function CarrierLogos() {
   return (
-    <div className="relative mx-auto w-full max-w-[300px]">
-      <div aria-hidden className="pointer-events-none absolute -inset-8 -z-0" style={{ background: "radial-gradient(ellipse at center, rgba(219,59,43,0.18) 0%, transparent 70%)" }} />
-      <div className="relative z-[1] rounded-[18px] bg-white px-6 py-6 text-left" style={{ boxShadow: "0 24px 56px rgba(0,0,0,0.45)" }}>
-        <div key={q} style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
-          <p className="font-inter text-[12px] font-medium text-black/45" style={{ marginBottom: 16 }}>Tarifa preferencial</p>
-          <div className="flex items-center gap-2" style={{ marginBottom: 20 }}>
-            <span className="font-sora text-[18px] font-normal text-black">{r.from}</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 text-[#DB3B2B]"><path d="M4 12h15M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            <span className="truncate font-sora text-[18px] font-normal text-black">{r.to}</span>
-          </div>
-          <div className="flex items-end gap-1.5">
-            <span className="font-inter text-[13px] font-light text-black/45" style={{ marginBottom: 6 }}>desde</span>
-            <span className="font-sora text-[34px] font-light text-black" style={{ letterSpacing: "-0.02em", lineHeight: 1 }}>${r.price}</span>
-          </div>
-        </div>
-      </div>
+    <div className="flex w-full items-center gap-3 overflow-x-auto pb-1 tablet:flex-wrap tablet:justify-center tablet:overflow-visible" style={{ scrollbarWidth: "none" }}>
+      {CARRIERS.map((src) => (
+        <span key={src} className="flex h-[38px] w-[38px] shrink-0 items-center justify-center overflow-hidden rounded-full" style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.30)" }}>
+          <Image src={src} alt="" width={72} height={72} className="h-full w-full object-cover" />
+        </span>
+      ))}
     </div>
   );
 }
@@ -49,7 +28,7 @@ function RateCards() {
 export default function T1EnviosHero() {
   return (
     <div className="relative z-0">
-      <section className="relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-5 pb-0 pt-24 tablet:min-h-screen tablet:px-6 tablet:pt-28 tablet:pb-0">
+      <section id="cotizador" className="relative flex min-h-[92svh] scroll-mt-20 flex-col items-center justify-center overflow-hidden px-5 pb-0 pt-24 tablet:min-h-screen tablet:px-6 tablet:pt-28 tablet:pb-0">
         {/* Fondo */}
         <div aria-hidden className="absolute inset-0 z-0" style={{ background: "linear-gradient(160deg, #2e1622 0%, #180b13 50%, #0d070b 100%)" }} />
         <div
@@ -66,8 +45,7 @@ export default function T1EnviosHero() {
 
         {/* Contenido */}
         <div className="relative z-10 flex w-full max-w-[var(--max-w)] grow flex-col justify-center">
-          {/* Dos columnas en desktop */}
-          <div className="grid grid-cols-1 items-center gap-8 tablet:grid-cols-2 tablet:gap-6">
+          <div className="grid grid-cols-1 items-center gap-8 tablet:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] tablet:gap-10">
             {/* Izquierda — texto */}
             <div className="flex flex-col items-center text-center tablet:items-start tablet:text-left">
               <h1 className="font-sora text-[34px] font-light leading-[1.12] text-white tablet:text-[52px] desktop:text-[54px]" style={{ letterSpacing: "-0.03em" }}>
@@ -76,38 +54,37 @@ export default function T1EnviosHero() {
                 un solo lugar
               </h1>
 
-              <p className="mt-5 max-w-[480px] font-inter text-[16px] font-light leading-[1.55] text-white/80 tablet:text-[18px]">
-                Cotiza tarifas, genera guías y da seguimiento a tus paquetes desde T1.
+              <p className="mt-4 max-w-[520px] font-inter text-[15px] font-light leading-[1.5] text-white/80 tablet:text-[18px]">
+                Las mejores tarifas, sin volumen mínimo ni contratos.
               </p>
 
-              {/* Móvil: card de tarifas arriba de los logos */}
-              <div className="mt-9 w-full tablet:hidden">
-                <RateCards />
-              </div>
-
-              {/* Logos de paqueterías — sólo móvil; debajo de la card, sin encimarse */}
-              <div className="relative z-10 mt-6 flex flex-wrap items-center justify-center gap-4 tablet:hidden">
-                {CARRIERS.map((src) => (
-                  <span key={src} className="flex h-[36px] w-[36px] shrink-0 items-center justify-center overflow-hidden rounded-full" style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.30)" }}>
-                    <Image src={src} alt="" width={72} height={72} className="h-full w-full object-cover" />
-                  </span>
-                ))}
+              {/* Móvil: cotizador funcional + logos */}
+              <div className="mt-7 w-full tablet:hidden">
+                <T1EnviosCotizadorPanel />
+                <div className="mt-6">
+                  <CarrierLogos />
+                </div>
               </div>
 
               {/* CTA */}
-              <a href={SIGNUP_URL} className="mt-10 inline-flex h-[50px] items-center justify-center gap-2 rounded-[16px] bg-red-500 px-8 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-red-600 tablet:mt-11">
+              <a href={ENVIOS_SIGNUP_URL} data-cta-location="hero" data-cta-text="Comienza a enviar" data-cta-destination={ENVIOS_SIGNUP_URL} className="mt-8 inline-flex h-[52px] items-center justify-center gap-2 rounded-[16px] bg-red-500 px-8 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-red-600 tablet:mt-9">
                 Comienza a enviar
                 {ArrowRight}
               </a>
             </div>
 
-            {/* Derecha — panel del Cotizador con logos orbitando (sólo desktop) */}
-            <div className="hidden justify-center tablet:flex">
-              <T1EnviosHeroScene />
+            {/* Derecha — cotizador (más grande) + logos en fila (sólo desktop) */}
+            <div className="hidden flex-col items-center gap-7 tablet:flex">
+              <div className="w-full max-w-[468px]">
+                <T1EnviosCotizadorPanel />
+              </div>
+              <div className="w-full max-w-[468px]">
+                <CarrierLogos />
+              </div>
             </div>
           </div>
 
-          {/* Social proof — estilo hero principal: métrica grande arriba, dos abajo */}
+          {/* Social proof — métrica grande arriba, dos abajo */}
           <div className="mt-12 mb-10 flex flex-col items-center gap-2.5 px-2 text-center tablet:mt-16 tablet:mb-0 tablet:gap-4">
             <span className="font-inter text-[19px] font-normal text-white tablet:text-[24px]">{SOCIAL_PROOF[0]}</span>
             <div className="flex items-center gap-6 tablet:gap-12">
