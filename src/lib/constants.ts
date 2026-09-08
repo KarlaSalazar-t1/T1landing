@@ -25,11 +25,12 @@ export const ENVIOS_STATS = {
 };
 
 // Rutas de ejemplo del cotizador del hero (CAMBIO 1c: solo rutas largas,
-// excluir intraurbanas como CDMX→CDMX). Precios PENDIENTE de validar (CAMBIO 9).
+// excluir intraurbanas como CDMX→CDMX). `price` = cotización de una guía de 1 kg
+// a esa ciudad. PENDIENTE validar los precios reales (CAMBIO 9).
 export const ENVIOS_RATE_EXAMPLES = [
-  { from: "CDMX", to: "Monterrey", price: 119, market: 189 },
-  { from: "CDMX", to: "Guadalajara", price: 115, market: 179 },
-  { from: "CDMX", to: "Tijuana", price: 149, market: 235 },
+  { from: "CDMX", to: "Monterrey", price: 119 },
+  { from: "CDMX", to: "Guadalajara", price: 115 },
+  { from: "CDMX", to: "Tijuana", price: 149 },
 ];
 
 // ── Navigation ──

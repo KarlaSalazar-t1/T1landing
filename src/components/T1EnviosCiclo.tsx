@@ -352,7 +352,22 @@ const STEPS = [
 export default function T1EnviosCiclo() {
   const [frame, setFrame] = useState(0);
   const [started, setStarted] = useState(false);
+  const [manual, setManual] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const touchX = useRef<number | null>(null);
+
+  const activeStepNow = FRAME_STEP[frame];
+  const goToStep = (i: number) => {
+    setManual(true);
+    setFrame(STEP_FIRST[Math.min(STEPS.length - 1, Math.max(0, i))]);
+  };
+  const onTouchStart = (e: React.TouchEvent) => { touchX.current = e.touches[0].clientX; };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchX.current == null) return;
+    const dx = e.changedTouches[0].clientX - touchX.current;
+    touchX.current = null;
+    if (Math.abs(dx) > 40) goToStep(activeStepNow + (dx < 0 ? 1 : -1));
+  };
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -364,10 +379,10 @@ export default function T1EnviosCiclo() {
   }, []);
 
   useEffect(() => {
-    if (!started) return;
+    if (!started || manual) return;
     const id = setTimeout(() => setFrame((f) => (f + 1) % FRAMES.length), DURS[frame]);
     return () => clearTimeout(id);
-  }, [frame, started]);
+  }, [frame, started, manual]);
 
   const Screen = FRAMES[frame];
   const activeStep = FRAME_STEP[frame];
@@ -387,10 +402,10 @@ export default function T1EnviosCiclo() {
 
         <div className="grid grid-cols-1 items-center gap-8 tablet:grid-cols-2 tablet:gap-12 lg:gap-16">
           {/* Indicador de paso — sólo móvil (arriba del panel) */}
-          <div className="tablet:hidden">
+          <div className="tablet:hidden" style={{ touchAction: "pan-y" }} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
             <div className="mb-4 flex items-center justify-center gap-1.5">
               {STEPS.map((_, i) => (
-                <span key={i} className="h-[6px] rounded-full transition-all duration-300" style={{ width: activeStep === i ? 24 : 7, background: activeStep === i ? "#DB3B2B" : "rgba(255,255,255,0.22)" }} />
+                <button key={i} type="button" aria-label={`Paso ${i + 1}`} onClick={() => goToStep(i)} className="h-[10px] rounded-full transition-all duration-300" style={{ width: activeStep === i ? 24 : 10, background: activeStep === i ? "#DB3B2B" : "rgba(255,255,255,0.22)" }} />
               ))}
             </div>
             <div key={activeStep} className="text-center" style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
@@ -399,8 +414,8 @@ export default function T1EnviosCiclo() {
             </div>
           </div>
 
-          {/* Panel simulado (sin barra de título) */}
-          <div className="mx-auto w-full" style={{ maxWidth: 330 }}>
+          {/* Panel simulado (sin barra de título) — swipe entre pasos en móvil */}
+          <div className="mx-auto w-full" style={{ maxWidth: 330, touchAction: "pan-y" }} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
             <div className="overflow-hidden rounded-[20px] bg-white" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.4)" }}>
               <div style={{ height: 476, overflow: "hidden" }}>
                 <div key={frame} className="h-full" style={{ animation: "heroWordIn 0.4s ease-out both" }}>

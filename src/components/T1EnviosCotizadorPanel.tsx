@@ -23,7 +23,6 @@ function RateExample() {
     return () => clearInterval(t);
   }, []);
   const r = ENVIOS_RATE_EXAMPLES[i];
-  const ahorro = r.market - r.price;
   return (
     <div key={i} className="mb-2.5 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-center" style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
       <span className="flex items-center gap-1.5 font-inter text-[11.5px] font-medium text-white/70">
@@ -31,9 +30,9 @@ function RateExample() {
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" className="text-[#E2604C]"><path d="M4 12h15M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
         {r.to}
       </span>
-      <span className="font-inter text-[11px] text-white/35 line-through">${r.market}</span>
+      <span className="font-inter text-[11px] text-white/45">desde</span>
       <span className="font-inter text-[12.5px] font-bold text-white">${r.price}</span>
-      <span className="rounded-full bg-[rgba(74,222,128,0.14)] px-2 py-0.5 font-inter text-[10.5px] font-semibold text-[#4ADE80]">Ahorras ${ahorro}</span>
+      <span className="font-inter text-[10.5px] text-white/40">guía de 1 kg</span>
     </div>
   );
 }
@@ -61,6 +60,7 @@ function Field({ name, label, unit, placeholder, maxLength, required, pattern, c
 
 export default function T1EnviosCotizadorPanel() {
   const started = useRef(false);
+  const [valid, setValid] = useState(false);
   const onFirstFocus = () => {
     if (started.current) return;
     started.current = true;
@@ -84,6 +84,7 @@ export default function T1EnviosCotizadorPanel() {
         method="get"
         onSubmit={onSubmit}
         onFocusCapture={onFirstFocus}
+        onInput={(e) => setValid(e.currentTarget.checkValidity())}
         className="w-full overflow-hidden rounded-[18px] border border-white/[0.1] bg-[#17141a] p-4 text-left tablet:p-6"
         style={{ boxShadow: "0 30px 70px rgba(0,0,0,0.45)" }}
       >
@@ -100,13 +101,13 @@ export default function T1EnviosCotizadorPanel() {
         </div>
         {/* Largo / Alto / Ancho / Peso — 1 fila (opcionales; se arrastran si se llenan) */}
         <div className="mt-4 grid grid-cols-4 gap-x-3 tablet:mt-5 tablet:gap-x-4">
-          <Field name="largo" label="Largo" unit="cm" placeholder="0" maxLength={3} pattern="\d*" />
-          <Field name="alto" label="Alto" unit="cm" placeholder="0" maxLength={3} pattern="\d*" />
-          <Field name="ancho" label="Ancho" unit="cm" placeholder="0" maxLength={3} pattern="\d*" />
-          <Field name="peso" label="Peso" unit="kg" placeholder="0" maxLength={4} pattern="\d*" />
+          <Field name="largo" label="Largo" unit="cm" placeholder="0" maxLength={3} required pattern="\d+" />
+          <Field name="alto" label="Alto" unit="cm" placeholder="0" maxLength={3} required pattern="\d+" />
+          <Field name="ancho" label="Ancho" unit="cm" placeholder="0" maxLength={3} required pattern="\d+" />
+          <Field name="peso" label="Peso" unit="kg" placeholder="0" maxLength={4} required pattern="\d+" />
         </div>
 
-        <button type="submit" className="mt-5 flex h-[48px] w-full items-center justify-center gap-1.5 rounded-[12px] bg-red-500 font-inter text-[14px] font-semibold text-white transition-colors hover:bg-red-600 tablet:mt-6 tablet:h-[52px] tablet:text-[15px]">
+        <button type="submit" disabled={!valid} className={`mt-5 flex h-[48px] w-full items-center justify-center gap-1.5 rounded-[12px] font-inter text-[14px] font-semibold transition-colors tablet:mt-6 tablet:h-[52px] tablet:text-[15px] ${valid ? "bg-red-500 text-white hover:bg-red-600" : "cursor-not-allowed bg-[#60160F] text-white/45"}`}>
           Cotizar
           {ArrowRight}
         </button>

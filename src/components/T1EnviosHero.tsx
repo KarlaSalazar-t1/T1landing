@@ -15,10 +15,10 @@ const ArrowRight = (
    Móvil: una fila con scroll horizontal. Desktop: fila centrada con wrap. */
 function CarrierLogos() {
   return (
-    <div className="flex w-full items-center gap-3 overflow-x-auto pb-1 tablet:flex-wrap tablet:justify-center tablet:overflow-visible" style={{ scrollbarWidth: "none" }}>
+    <div className="flex w-full flex-wrap items-center justify-center gap-2.5 tablet:gap-3">
       {CARRIERS.map((src) => (
-        <span key={src} className="flex h-[38px] w-[38px] shrink-0 items-center justify-center overflow-hidden rounded-full" style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.30)" }}>
-          <Image src={src} alt="" width={72} height={72} className="h-full w-full object-cover" />
+        <span key={src} className="flex h-[36px] w-[36px] shrink-0 items-center justify-center overflow-hidden rounded-full tablet:h-[40px] tablet:w-[40px]" style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.30)" }}>
+          <Image src={src} alt="" width={80} height={80} className="h-full w-full object-cover" />
         </span>
       ))}
     </div>
@@ -66,8 +66,8 @@ export default function T1EnviosHero() {
                 </div>
               </div>
 
-              {/* CTA */}
-              <a href={ENVIOS_SIGNUP_URL} data-cta-location="hero" data-cta-text="Comienza a enviar" data-cta-destination={ENVIOS_SIGNUP_URL} className="mt-8 inline-flex h-[52px] items-center justify-center gap-2 rounded-[16px] bg-red-500 px-8 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-red-600 tablet:mt-9">
+              {/* CTA secundario (Cotizar es la acción primaria roja del panel) */}
+              <a href={ENVIOS_SIGNUP_URL} data-cta-location="hero" data-cta-text="Comienza a enviar" data-cta-destination={ENVIOS_SIGNUP_URL} className="mt-8 inline-flex h-[52px] items-center justify-center gap-2 rounded-[16px] border border-white/25 bg-transparent px-8 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:border-white/40 hover:bg-white/[0.06] tablet:mt-9">
                 Comienza a enviar
                 {ArrowRight}
               </a>
