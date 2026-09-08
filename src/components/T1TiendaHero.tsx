@@ -2,24 +2,81 @@
 
 import { useEffect, useRef, useState } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
+import { track } from "@/lib/analytics";
 
+/* Frases del prompt animado (rotación con efecto de escritura). */
 const PLACEHOLDERS = [
-  "Vendo ropa y accesorios de moda",
-  "Vendo gadgets y accesorios de electrónica",
-  "Vendo maquillaje y productos de belleza",
-  "Vendo ropa y equipo deportivo",
+  "quiero vender ropa casual con un estilo minimalista y colores neutros",
+  "quiero vender bolsas y accesorios de piel hechos a mano",
+  "quiero vender café de especialidad tostado artesanalmente",
+  "quiero vender joyería de plata con diseños elegantes y delicados",
+  "quiero vender productos de skincare naturales para piel sensible",
+  "quiero vender audífonos y accesorios para gaming",
+  "quiero vender dulces y postres para eventos y regalos",
+  "quiero vender tenis y ropa deportiva de marcas originales",
 ];
 
-const CHIPS: { label: string; example: string }[] = [
-  { label: "Moda", example: "Vendo ropa y accesorios de moda" },
-  { label: "Electrónica", example: "Vendo gadgets y accesorios de electrónica" },
-  { label: "Belleza", example: "Vendo maquillaje y productos de belleza" },
-  { label: "Deportes", example: "Vendo ropa y equipo deportivo" },
-  { label: "Joyería", example: "Hago joyería y bisutería artesanal" },
-  { label: "Hogar", example: "Vendo artículos de decoración para el hogar" },
+/* Set de chips por demanda real. Moda·Accesorios·Comida·Belleza·Electrónica·Joyería;
+   Hogar y Deportes solo en móvil (fila con scroll horizontal). Cada chip precarga
+   una frase al azar entre sus variantes (no reducir a una, contamina el análisis). */
+type Chip = { label: string; examples: string[]; mobileOnly?: boolean };
+const CHIPS: Chip[] = [
+  { label: "Moda", examples: [
+    "quiero vender ropa casual con un estilo minimalista y colores neutros",
+    "quiero vender moda colorida con diseños originales inspirados en tendencias actuales",
+    "quiero vender ropa de mujer elegante para oficina y eventos",
+    "quiero vender playeras y sudaderas con estampados propios de mi marca",
+    "quiero vender ropa vintage y prendas de segunda mano curadas",
+    "quiero vender ropa infantil cómoda y divertida para niños de todas las edades",
+  ] },
+  { label: "Accesorios", examples: [
+    "quiero vender bolsas y accesorios de piel hechos a mano",
+    "quiero vender gorras y sombreros con un estilo urbano y moderno",
+    "quiero vender lentes de sol con diseños premium y estuches personalizados",
+    "quiero vender mochilas y maletas resistentes para viaje y trabajo",
+    "quiero vender cinturones, carteras y accesorios de piel para caballero",
+    "quiero vender accesorios para el cabello con un estilo delicado y femenino",
+  ] },
+  { label: "Comida", examples: [
+    "quiero vender café de especialidad tostado artesanalmente",
+    "quiero vender dulces y postres para eventos y regalos",
+    "quiero vender snacks y botanas mexicanas con empaque llamativo",
+    "quiero vender productos gourmet y artesanales de mi región",
+    "quiero vender chocolates y repostería fina hechos por encargo",
+    "quiero vender mezcal y bebidas artesanales con presentación premium",
+  ] },
+  { label: "Belleza", examples: [
+    "quiero vender productos de skincare naturales para piel sensible",
+    "quiero vender maquillaje con una imagen fresca y juvenil",
+    "quiero vender perfumes y fragancias con presentación elegante",
+    "quiero vender productos para el cuidado del cabello rizado",
+    "quiero vender cosméticos veganos y libres de crueldad animal",
+    "quiero vender jabones y productos artesanales para el cuidado personal",
+  ] },
+  { label: "Electrónica", examples: [
+    "quiero vender audífonos y accesorios para gaming",
+    "quiero vender fundas y accesorios para celular con diseños originales",
+    "quiero vender gadgets y tecnología para casa inteligente",
+    "quiero vender accesorios de cómputo con un estilo minimalista",
+    "quiero vender bocinas y equipo de audio portátil",
+    "quiero vender smartwatches y wearables de varias marcas",
+  ] },
+  { label: "Joyería", examples: [
+    "quiero vender joyería de plata con diseños elegantes y delicados",
+    "quiero vender bisutería artesanal hecha a mano",
+    "quiero vender anillos y collares personalizados para regalo",
+    "quiero vender relojes de marca con presentación premium",
+    "quiero vender joyería minimalista de acero inoxidable",
+    "quiero vender aretes y pulseras con piedras naturales",
+  ] },
+  { label: "Hogar", examples: ["Vendo artículos de decoración para el hogar"], mobileOnly: true },
+  { label: "Deportes", examples: ["Vendo ropa y equipo deportivo"], mobileOnly: true },
 ];
 
 const SOCIAL_PROOF = ["+50,000 negocios", "+40M de envíos", "+200M transacciones"];
+
+/* Muestra la primera letra en mayúscula (las frases van en minúscula en la data). */
+const cap = (s: string) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s);
 
 const ArrowUp = (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -29,6 +86,8 @@ const ArrowUp = (
 
 export default function T1TiendaHero() {
   const [value, setValue] = useState("");
+  const [source, setSource] = useState<"chip" | "typed">("typed");
+  const [chipCategory, setChipCategory] = useState<string | null>(null);
   const [phIdx, setPhIdx] = useState(0);
   const [typed, setTyped] = useState("");
   const [deleting, setDeleting] = useState(false);
@@ -68,9 +127,12 @@ export default function T1TiendaHero() {
     return () => clearTimeout(t);
   }, [typed, deleting, phIdx, value]);
 
-  const insertChip = (chip: { label: string; example: string }) => {
+  const insertChip = (chip: Chip) => {
     const el = textareaRef.current;
-    setValue(chip.example);
+    const example = cap(chip.examples[Math.floor(Math.random() * chip.examples.length)]);
+    setValue(example);
+    setSource("chip");
+    setChipCategory(chip.label);
     requestAnimationFrame(() => {
       if (el) {
         el.focus();
@@ -121,13 +183,13 @@ export default function T1TiendaHero() {
             className="mt-8 text-center font-sora font-light leading-[1.12] text-white tablet:mt-14"
             style={{ letterSpacing: "-0.03em", fontSize: "clamp(25px, 7vw, 44px)" }}
           >
-            Crea tu tienda en menos
+            Crea tu tienda en
             <br />
-            de 60 segundos
+            60 segundos
           </h1>
 
-          <p className="mt-4 max-w-[440px] text-center font-inter text-[16px] font-light leading-[1.55] text-white/70 tablet:mt-5 tablet:max-w-[600px] tablet:text-[18px]">
-            T1 te ayuda a vender, cobrar y enviar a todo México. Todo en uno.
+          <p className="mt-4 max-w-[440px] text-center font-inter text-[16px] font-light leading-[1.55] text-white/70 tablet:mt-5 tablet:max-w-none tablet:whitespace-nowrap tablet:text-[17px]">
+            T1 te ayuda a vender, cobrar y enviar a todo México. Gratis, sin tarjeta de crédito.
           </p>
 
           {/* Bloque central */}
@@ -137,7 +199,7 @@ export default function T1TiendaHero() {
               <textarea
                 ref={textareaRef}
                 value={value}
-                onChange={(e) => setValue(e.target.value.slice(0, 500))}
+                onChange={(e) => { setValue(e.target.value.slice(0, 500)); setSource("typed"); setChipCategory(null); }}
                 rows={3}
                 aria-label="Describe tu negocio"
                 placeholder=""
@@ -145,14 +207,15 @@ export default function T1TiendaHero() {
               />
               {!value && (
                 <div aria-hidden className="pointer-events-none absolute inset-0 px-[18px] py-[15px] font-inter text-[16px] leading-[1.5] text-[#8A8A8A]">
-                  {typed}
+                  {cap(typed)}
                   <span className="ml-px inline-block w-[2px] align-[-2px] bg-[#8A8A8A]" style={{ height: "1.1em", animation: "blink 1s step-end infinite" }} />
                 </div>
               )}
               <a
                 href={SIGNUP_URL}
                 onClick={(e) => {
-                  if (!tiendaOk) e.preventDefault();
+                  if (!tiendaOk) { e.preventDefault(); return; }
+                  track("prompt_submitted", { prompt_source: source, chip_category: source === "chip" ? chipCategory : null, prompt_length: value.trim().length });
                 }}
                 aria-label="Crea tu tienda"
                 style={kbOpen ? { position: "fixed", right: 16, bottom: kbH + 10, zIndex: 60 } : undefined}
@@ -165,14 +228,14 @@ export default function T1TiendaHero() {
               </a>
             </div>
 
-            {/* Chips */}
-            <div className="flex min-h-[80px] flex-wrap items-start justify-center gap-2.5 tablet:min-h-[44px]">
+            {/* Chips — móvil: una sola fila con scroll horizontal (no envolver); desktop: wrap centrado */}
+            <div className="flex w-full min-h-[44px] flex-nowrap items-center justify-start gap-2.5 overflow-x-auto tablet:flex-wrap tablet:justify-center tablet:overflow-visible" style={{ scrollbarWidth: "none" }}>
               {CHIPS.map((chip) => (
                 <button
                   key={chip.label}
                   type="button"
                   onClick={() => insertChip(chip)}
-                  className="rounded-[11px] border border-white/10 px-2.5 py-1.5 font-inter text-[14px] font-medium text-white transition-colors hover:border-white/25"
+                  className={`shrink-0 rounded-[11px] border border-white/10 px-2.5 py-1.5 font-inter text-[14px] font-medium text-white transition-colors hover:border-white/25 ${chip.mobileOnly ? "tablet:hidden" : ""}`}
                   style={{ background: "rgba(52,52,52,0.6)" }}
                 >
                   {chip.label}

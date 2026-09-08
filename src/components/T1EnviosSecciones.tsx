@@ -68,10 +68,10 @@ export function T1EnviosCanales() {
 
 /* ══════════ 3 · Administra tu operación (carrusel) ══════════ */
 const ADMIN_CARDS = [
-  { title: "Reportes logísticos", desc: "Tiempos de entrega, costos y desempeño por paquetería en tiempo real.", img: "/img/envios-reportes.png", w: 1254, h: 1254, href: "/productos/t1envios/reportes" },
-  { title: "Control de calidad", desc: "Detecta y gestiona incidencias antes que tu cliente, desde el administrador.", img: "/img/envios-calidad.png", w: 1254, h: 1254, href: "/productos/t1envios/control-calidad" },
-  { title: "Reglas de envío", desc: "Asigna automáticamente la paquetería ideal según reglas que tú defines.", img: "/img/envios-reglas.png", w: 1254, h: 1254, href: "/productos/t1envios/reglas" },
-  { title: "Recolecciones", desc: "Programa que pasen por tus paquetes a tu puerta, sin ir a la sucursal.", img: "/img/envios-recolecciones.png", w: 1254, h: 1254, href: "/productos/t1envios/recolecciones" },
+  { title: "Reportes logísticos", desc: "Tiempos de entrega, costos y desempeño por paquetería en tiempo real.", img: "/img/nv-reportes.png", w: 1254, h: 1254, href: "/productos/t1envios/reportes" },
+  { title: "Control de calidad", desc: "Detecta y gestiona incidencias antes que tu cliente, desde el administrador.", img: "/img/nv-incidencias.png", w: 1254, h: 1254, href: "/productos/t1envios/control-calidad" },
+  { title: "Reglas de envío", desc: "Asigna automáticamente la paquetería ideal según reglas que tú defines.", img: "/img/nv-reglas.png", w: 1254, h: 1254, href: "/productos/t1envios/reglas" },
+  { title: "Recolecciones", desc: "Programa que pasen por tus paquetes a tu puerta, sin ir a la sucursal.", img: "/img/nv-recoleccion.png", w: 1252, h: 1024, href: "/productos/t1envios/recolecciones" },
 ];
 export function T1EnviosAdministracion() {
   const ref = useRef<HTMLDivElement>(null);

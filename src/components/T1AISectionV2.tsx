@@ -120,7 +120,7 @@ export default function T1AISectionV2() {
             className="mt-5 font-inter text-[16px] font-normal text-white/65 tablet:text-[19px]"
             style={{ letterSpacing: "-0.01em", lineHeight: 1.45, maxWidth: 600 }}
           >
-            En menos de un minuto tienes una tienda completa, con productos,
+            En 60 segundos tienes una tienda completa, con productos,
             diseño y pagos, lista para vender.
           </p>
 

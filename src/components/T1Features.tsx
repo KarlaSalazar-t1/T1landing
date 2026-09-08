@@ -544,7 +544,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                     className="font-sora text-[32px] font-normal text-white tablet:text-[44px]"
                     style={{ lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: 16 }}
                   >
-                    Crea tu tienda en menos de 1 minuto
+                    Crea tu tienda en 60 segundos
                   </h1>
                   <p
                     className="font-inter text-[16px] font-light text-white/80 tablet:text-[19px]"
@@ -562,7 +562,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                   <div className="flex flex-col gap-4 tablet:flex-row tablet:items-start tablet:justify-between tablet:gap-6" style={{ marginBottom: 28, paddingTop: 0 }}>
                     <div>
                       <h3 className="font-sora text-[22px] font-normal text-white tablet:text-[28px]" style={{ marginBottom: 8 }}>
-                        Crea tu tienda en menos de 1 minuto
+                        Crea tu tienda en 60 segundos
                       </h3>
                       <p className="font-inter text-[17px] font-normal text-white/80" style={{ lineHeight: 1.6 }}>
                         Cuéntanos qué vendes y nuestra IA arma tu tienda, lista para vender.
@@ -1074,7 +1074,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                     <div data-modal-animate className="flex flex-col gap-3">
                       {[
                         { q: "¿Necesito saber programar?", a: "No. La IA crea tu tienda y el editor visual te permite ajustar todo sin código." },
-                        { q: "¿Cuánto tarda en estar lista?", a: "Menos de 1 minuto para la primera versión. Puedes seguir personalizándola sin límite." },
+                        { q: "¿Cuánto tarda en estar lista?", a: "60 segundos para la primera versión. Puedes seguir personalizándola sin límite." },
                         { q: "¿Puedo usar mi propio dominio?", a: "Sí. Conecta tu dominio existente o usa uno de cortesía mientras decides." },
                         { q: "¿Cómo recibo el dinero de mis ventas?", a: "Con T1 Pagos. Recibes pagos con tarjeta, SPEI y transferencias, y tu dinero queda disponible para retiro al día siguiente hábil." },
                       ].map((f, i) => (
@@ -1101,7 +1101,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
 
                 <T1FinalCTA
                   title="¿Listo para crear tu tienda con T1?"
-                  description="Empieza gratis, sin tarjeta. Cuéntale a la IA qué vendes y deja que arme tu tienda en menos de 1 minuto."
+                  description="Empieza gratis, sin tarjeta. Cuéntale a la IA qué vendes y deja que arme tu tienda en 60 segundos."
                   buttonLabel="Crea tu tienda gratis"
                 />
               </>

@@ -230,7 +230,7 @@ export function T1TiendaPagos() {
 /* ══════════ 5 · FAQ ══════════ */
 const FAQS = [
   { q: "¿Necesito saber de diseño o programación?", a: "No. La IA crea tu tienda completa y el editor visual te permite ajustar todo sin código." },
-  { q: "¿Cuánto tarda en estar lista mi tienda?", a: "En menos de 1 minuto tienes una tienda base lista para vender; personalizarla toma solo unos minutos." },
+  { q: "¿Cuánto tarda en estar lista mi tienda?", a: "En 60 segundos tienes una tienda base lista para vender; personalizarla toma solo unos minutos." },
   { q: "¿Puedo vender en marketplaces desde T1?", a: "Sí. Conectas Mercado Libre, Amazon, TikTok Shop y más, y gestionas todo desde el administrador." },
   { q: "¿Los pagos y envíos están incluidos?", a: "Sí. Tu tienda ya viene integrada con T1 Pagos (tarjetas, SPEI, MSI) y T1 Envíos (+10 paqueterías)." },
   { q: "¿Tiene costo crear mi tienda?", a: "Puedes empezar gratis y crear tu tienda sin tarjeta. Escalas a planes de pago cuando lo necesites." },

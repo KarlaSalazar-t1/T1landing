@@ -18,10 +18,10 @@ export const ENVIOS_SIGNUP_URL = SIGNUP_URL;
 // deben confirmarse antes de publicar.
 export const ENVIOS_STATS = {
   enviosEntregados: "+40M", // envíos entregados (confirmado)
-  negocios: "+25,000", // negocios (corregido: la nueva decía +50,000)
-  negociosNum: 25000, // para el contador de "Nuestros números"
+  negocios: "+50,000", // negocios
+  negociosNum: 50000, // para el contador de "Nuestros números"
   paqueterias: "+10", // PENDIENTE confirmar (la FAQ actual lista 5)
-  nivelServicioPct: 92, // PENDIENTE confirmar (hoy es mock)
+  nivelServicioPct: 97, // nivel de servicio
 };
 
 // Rutas de ejemplo del cotizador del hero (CAMBIO 1c: solo rutas largas,

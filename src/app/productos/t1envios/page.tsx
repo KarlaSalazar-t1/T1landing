@@ -1,6 +1,6 @@
 import T1Navbar from "@/components/T1Navbar";
 import T1EnviosHero from "@/components/T1EnviosHero";
-import T1EnviosLogoWall from "@/components/T1EnviosLogoWall";
+// import T1EnviosLogoWall from "@/components/T1EnviosLogoWall"; // oculto por ahora
 import T1EnviosCiclo from "@/components/T1EnviosCiclo";
 import T1EnviosVideo from "@/components/T1EnviosVideo";
 import {
@@ -27,8 +27,8 @@ export default function EnviosLanding() {
       <T1EnviosHero />
 
       <div className="relative z-[5] bg-black">
-        {/* Muro de logos de clientes, inmediatamente debajo del hero */}
-        <T1EnviosLogoWall />
+        {/* Muro de logos de clientes — oculto por ahora */}
+        {/* <T1EnviosLogoWall /> */}
         {/* 1 · Servicios — Simplifica tus envíos (Cotiza / Envía / Seguimiento) */}
         <T1EnviosServicios />
         {/* 2 · Compara tarifas — video */}

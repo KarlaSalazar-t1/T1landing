@@ -27,7 +27,7 @@ type Plan = {
 const PLANS: Plan[] = [
   {
     name: "Gratuito", tagline: "Para vender en línea desde hoy, para siempre", monthly: 0, annual: 0,
-    ia: "50 créditos IA al mes (10 imágenes)",
+    ia: "50 créditos IA al mes",
     features: [
       "Tienda en línea con 30 pedidos al mes",
       "Productos ilimitados · 500 publicados",
@@ -41,7 +41,7 @@ const PLANS: Plan[] = [
   },
   {
     name: "Básico", tagline: "Para nuevos vendedores en línea", monthly: 399, annual: 332.5, featured: true,
-    ia: "500 créditos IA al mes (100 imágenes)",
+    ia: "500 créditos IA al mes",
     features: [
       "Todo lo del plan Gratuito, más:",
       "500 pedidos al mes · adicionales a $8 c/u",
@@ -56,7 +56,7 @@ const PLANS: Plan[] = [
   },
   {
     name: "Avanzado", tagline: "Para equipos en crecimiento", monthly: 1499, annual: 1249.17,
-    ia: "5,000 créditos IA al mes (1,000 imágenes)",
+    ia: "5,000 créditos IA al mes",
     features: [
       "Todo lo del plan Básico, más:",
       "5,000 pedidos al mes · adicionales a $5 c/u",
@@ -68,7 +68,7 @@ const PLANS: Plan[] = [
     cta: "Comienza gratis", href: SIGNUP_URL,
   },
   {
-    name: "Enterprise", tagline: "Personalizada a tu medida, escalable, con integraciones avanzadas", monthly: null, annual: null, custom: true,
+    name: "Enterprise", tagline: "A la medida de tu empresa", monthly: null, annual: null, custom: true,
     ia: "Créditos IA a tu medida",
     features: [
       "Todo lo del plan Avanzado, más:",
@@ -232,14 +232,14 @@ export default function T1TiendaPrecios() {
             return (
               <div
                 key={p.name}
-                className={`relative flex flex-col rounded-[22px] p-7 ${p.featured ? "border border-[rgba(219,59,43,0.45)] bg-[#181117]" : "border border-white/[0.10] bg-[#141215]"}`}
-                style={p.featured ? { boxShadow: "0 24px 60px -30px rgba(219,59,43,0.30)" } : undefined}
+                className={`relative flex flex-col rounded-[22px] border p-7 ${p.featured ? "border-white/[0.12] bg-[#181117]" : "border-white/[0.10] bg-[#141215]"}`}
+                style={p.featured ? { boxShadow: "0 8px 55px -6px rgba(219,59,43,0.42)" } : undefined}
               >
                 {p.featured && (
                   <span className="absolute right-6 top-7 rounded-full bg-[#DB3B2B] px-2.5 py-1 font-inter text-[10px] font-bold text-white">Recomendado</span>
                 )}
                 <p className="font-sora text-[20px] font-medium text-white">{p.name}</p>
-                <p className="mt-1 font-inter text-[13px] font-light text-white/55" style={{ minHeight: 36 }}>{p.tagline}</p>
+                <p className="mt-1 overflow-hidden font-inter text-[13px] font-light text-white/55" style={{ height: 38, lineHeight: 1.35 }}>{p.tagline}</p>
 
                 <div className="mt-5 flex items-end gap-1.5" style={{ minHeight: 56 }}>
                   {p.custom ? (
@@ -304,8 +304,8 @@ export default function T1TiendaPrecios() {
                   <th className="sticky left-0 z-[1] bg-[#0e0d0d] pb-4 pr-4" />
                   {PLANS.map((p) => (
                     <th key={p.name} className="px-3 pb-4 text-center">
-                      {p.featured && <span className="mx-auto mb-1.5 block w-fit rounded-full bg-[#DB3B2B] px-2.5 py-1 font-inter text-[10px] font-bold text-white">Recomendado</span>}
-                      <span className="font-sora text-[16px] font-medium text-white">{p.name}</span>
+                      <span className="block font-sora text-[16px] font-medium text-white">{p.name}</span>
+                      {p.featured && <span className="mx-auto mt-1.5 block w-fit rounded-full bg-[#DB3B2B] px-2.5 py-1 font-inter text-[10px] font-bold text-white">Recomendado</span>}
                     </th>
                   ))}
                 </tr>
@@ -314,7 +314,7 @@ export default function T1TiendaPrecios() {
                 {COMPARE.map((sec) => (
                   <Fragment key={sec.section}>
                     <tr>
-                      <td colSpan={PLANS.length + 1} className="sticky left-0 bg-[#0e0d0d] pb-2 pt-8 font-sora text-[13px] font-semibold uppercase tracking-[0.08em] text-[#E2604C]">
+                      <td colSpan={PLANS.length + 1} className="sticky left-0 bg-[#0e0d0d] pb-2 pt-8 font-sora text-[13px] font-semibold uppercase tracking-[0.08em] text-white">
                         {sec.section}
                       </td>
                     </tr>
@@ -322,7 +322,7 @@ export default function T1TiendaPrecios() {
                       <tr key={sec.section + row.label} className="border-t border-white/[0.07]">
                         <td className="sticky left-0 z-[1] bg-[#0e0d0d] py-3.5 pr-4 align-top font-inter text-[14px] font-light text-white/75">
                           {row.label}
-                          {row.note && <span className="mt-1 block max-w-[280px] font-inter text-[11px] font-light leading-snug text-white/35">{row.note}</span>}
+                          {row.note && <span className="mt-1 block max-w-[300px] font-inter text-[11.5px] font-light leading-snug text-white/55">{row.note}</span>}
                         </td>
                         {row.v.map((val, i) => (
                           <td key={i} className={`px-3 py-3.5 text-center align-top ${PLANS[i].featured ? "bg-white/[0.02]" : ""}`}>
