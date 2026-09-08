@@ -18,7 +18,7 @@ import T1Footer from "@/components/T1Footer";
 export default function TiendaLanding() {
   return (
     <main className="min-h-screen">
-      <T1Navbar />
+      <T1Navbar product="tienda" pageType="producto" />
 
       {/* Hero — el prompt: describe tu negocio y crea tu tienda con IA */}
       <T1TiendaHero />

@@ -10,6 +10,13 @@ import {
   SIGNUP_URL,
   LOGIN_URL,
 } from "@/lib/constants";
+import { track } from "@/lib/analytics";
+
+/* Lockup de marca del header: logo T1 + descriptor del producto (CAMBIO header).
+   El "T1" lo aporta el logo; el descriptor es solo "Envíos"/"Tienda"/"Pagos". */
+const PRODUCT_DESCRIPTORS = { envios: "Envíos", tienda: "Tienda", pagos: "Pagos" } as const;
+type ProductKey = keyof typeof PRODUCT_DESCRIPTORS;
+type PageType = "home" | "producto" | "sublanding";
 
 /* ── Inline SVGs ── */
 function T1Logo() {
@@ -120,7 +127,21 @@ function HamburgerIcon({ open }: { open: boolean }) {
 }
 
 /* ── Main Component ── */
-export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis", ctaHref = SIGNUP_URL }: { bVariant?: boolean; ctaLabel?: string; ctaHref?: string }) {
+export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis", ctaHref = SIGNUP_URL, product, pageType = "home" }: { bVariant?: boolean; ctaLabel?: string; ctaHref?: string; product?: ProductKey; pageType?: PageType }) {
+  const descriptor = product ? PRODUCT_DESCRIPTORS[product] : null;
+  const productHref = product ? `/productos/t1${product}` : "/";
+  const onLogoClick = (e: React.MouseEvent) => {
+    track("logo_click", {
+      page_type: pageType,
+      product: product ?? null,
+      scroll_position: typeof window !== "undefined" ? Math.round(window.scrollY) : 0,
+    });
+    // Sublanding: navega a la landing del producto (link normal).
+    if (pageType === "sublanding") return;
+    // Home / producto: scroll suave al inicio (sin recargar; no-op si ya está arriba).
+    e.preventDefault();
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+  };
   const [menuOpen, setMenuOpen] = useState(false);
   const [recursosOpen, setRecursosOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -188,8 +209,16 @@ export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis
         >
           {/* Left: Logo + nav links */}
           <div className="flex items-center gap-4 tablet:gap-10">
-            <a href="/" className="flex shrink-0 items-center">
+            <a href={productHref} onClick={onLogoClick} aria-label={descriptor ? `T1 ${descriptor}` : "T1"} className="flex min-h-[44px] shrink-0 items-center gap-3 [&>svg]:h-[34px] [&>svg]:w-auto">
               <T1Logo />
+              {descriptor && (
+                <>
+                  {/* línea divisoria: 1px, altura del símbolo, ~35% opacidad */}
+                  <span aria-hidden className="h-[30px] w-px shrink-0 bg-white/35" />
+                  {/* descriptor: subordinado (menor altura, regular, 90% opacidad); en móvil un poco mayor */}
+                  <span className="font-sora text-[23px] font-normal leading-none text-white/90 tablet:text-[20px]">{descriptor}</span>
+                </>
+              )}
             </a>
 
             {/* Desktop nav links - hidden on mobile */}
@@ -268,49 +297,56 @@ export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis
         >
           {/* ── Pane 1: Main menu ── */}
           <div className="h-full w-1/3 overflow-y-auto">
-            <div className="flex flex-col px-6 py-6">
-              <button
-                onClick={() => setMobileScreen("productos")}
-                className="flex cursor-pointer items-center justify-between border-b border-white/[0.08] bg-transparent py-4 font-inter text-[16px] font-medium text-white"
-              >
-                <span>Productos</span>
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                  <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-              <button
-                onClick={() => setMobileScreen("recursos")}
-                className="flex cursor-pointer items-center justify-between border-b border-white/[0.08] bg-transparent py-4 font-inter text-[16px] font-medium text-white"
-              >
-                <span>Recursos</span>
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                  <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-              {NAV_LINKS.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="border-b border-white/[0.08] py-4 font-inter text-[16px] font-medium text-white no-underline"
+            <div className="flex h-full flex-col px-6 py-6">
+              {/* Navegación (arriba) */}
+              <div className="flex flex-col">
+                <button
+                  onClick={() => setMobileScreen("productos")}
+                  className="flex cursor-pointer items-center justify-between border-b border-white/[0.08] bg-transparent py-4 font-inter text-[16px] font-medium text-white"
                 >
-                  {link.label}
+                  <span>Productos</span>
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                    <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+                <button
+                  onClick={() => setMobileScreen("recursos")}
+                  className="flex cursor-pointer items-center justify-between border-b border-white/[0.08] bg-transparent py-4 font-inter text-[16px] font-medium text-white"
+                >
+                  <span>Recursos</span>
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                    <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+                {NAV_LINKS.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    className="border-b border-white/[0.08] py-4 font-inter text-[16px] font-medium text-white no-underline"
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+
+              {/* CTA + login (abajo, adaptado a la pantalla) */}
+              <div className="mt-auto flex flex-col gap-4 border-t border-white/[0.08] pt-6">
+                <a
+                  href={LOGIN_URL}
+                  className="text-center font-inter text-[16px] font-medium text-white/70 no-underline"
+                >
+                  Iniciar sesión
                 </a>
-              ))}
-              <a
-                href={LOGIN_URL}
-                className="border-b border-white/[0.08] py-4 font-inter text-[16px] font-medium text-white/70 no-underline"
-              >
-                Iniciar sesión
-              </a>
-              <a
-                href={ctaHref}
-                data-cta-text={ctaLabel}
-                data-cta-destination={ctaHref}
-                data-cta-section="header_mobile"
-                className="mt-6 flex h-[50px] items-center justify-center rounded-[18px] bg-[#DB3B2B] font-inter text-[16px] font-semibold text-white no-underline"
-              >
-                {ctaLabel}
-              </a>
+                <a
+                  href={ctaHref}
+                  data-cta-text={ctaLabel}
+                  data-cta-destination={ctaHref}
+                  data-cta-section="header_mobile"
+                  className="flex h-[52px] items-center justify-center rounded-[18px] bg-[#DB3B2B] font-inter text-[16px] font-semibold text-white no-underline"
+                >
+                  {ctaLabel}
+                </a>
+              </div>
             </div>
           </div>
 

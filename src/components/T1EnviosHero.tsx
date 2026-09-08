@@ -66,8 +66,8 @@ export default function T1EnviosHero() {
                 </div>
               </div>
 
-              {/* CTA secundario (Cotizar es la acción primaria roja del panel) */}
-              <a href={ENVIOS_SIGNUP_URL} data-cta-location="hero" data-cta-text="Comienza a enviar" data-cta-destination={ENVIOS_SIGNUP_URL} className="mt-8 inline-flex h-[52px] items-center justify-center gap-2 rounded-[16px] border border-white/25 bg-transparent px-8 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:border-white/40 hover:bg-white/[0.06] tablet:mt-9">
+              {/* CTA */}
+              <a href={ENVIOS_SIGNUP_URL} data-cta-location="hero" data-cta-text="Comienza a enviar" data-cta-destination={ENVIOS_SIGNUP_URL} className="mt-8 inline-flex h-[52px] items-center justify-center gap-2 rounded-[16px] bg-red-500 px-8 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-red-600 tablet:mt-9">
                 Comienza a enviar
                 {ArrowRight}
               </a>

@@ -11,7 +11,7 @@ export const metadata = {
 export default function ReportesPage() {
   return (
     <main className="min-h-screen bg-white">
-      <T1Navbar />
+      <T1Navbar product="tienda" pageType="sublanding" />
       <T1Reportes />
       <T1Footer />
     </main>

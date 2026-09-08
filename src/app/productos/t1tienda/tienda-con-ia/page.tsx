@@ -15,7 +15,7 @@ export default function TiendaConIAPage() {
 
   return (
     <main className="min-h-screen bg-white">
-      <T1Navbar />
+      <T1Navbar product="tienda" pageType="sublanding" />
       {/* Tienda con IA — full-page (no modal chrome) */}
       <ProductModal cardId="t1tienda" onClose={handleClose} pageMode />
       <T1Footer />

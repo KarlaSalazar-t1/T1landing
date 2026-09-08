@@ -11,7 +11,7 @@ export const metadata = {
 export default function ControlCalidadPage() {
   return (
     <main className="min-h-screen bg-white">
-      <T1Navbar />
+      <T1Navbar product="envios" pageType="sublanding" />
       <T1ControlCalidad />
       <T1Footer />
     </main>

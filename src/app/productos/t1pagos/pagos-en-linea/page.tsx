@@ -11,7 +11,7 @@ export const metadata = {
 export default function PagosEnLineaPage() {
   return (
     <main className="min-h-screen bg-white">
-      <T1Navbar />
+      <T1Navbar product="pagos" pageType="sublanding" />
       <T1PagosEnLinea />
       <T1Footer />
     </main>

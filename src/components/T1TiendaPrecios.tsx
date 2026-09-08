@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import T1Navbar from "@/components/T1Navbar";
 import T1Footer from "@/components/T1Footer";
 import { SIGNUP_URL, SALES_URL } from "@/lib/constants";
@@ -21,47 +21,168 @@ type Plan = {
   custom?: boolean; featured?: boolean; ia: string; features: string[]; cta: string; href: string;
 };
 
+/* Planes — Fase México (Definición v2.2 / Tabla v5.1). El plan gratuito ya
+   transacciona y tiene tienda en línea. Créditos: 50/500/5,000 al mes
+   (5 créditos por imagen). "Pausa", nunca "bloqueo". */
 const PLANS: Plan[] = [
   {
-    name: "Gratuito", tagline: "Para empezar a vender hoy", monthly: 0, annual: 0, ia: "50 créditos IA al mes",
-    features: ["Tienda en línea con IA", "Acepta pagos y crea envíos", "1 sucursal", "Plantillas base de diseño", "Conecta tus redes sociales"],
+    name: "Gratuito", tagline: "Para vender en línea desde hoy, para siempre", monthly: 0, annual: 0,
+    ia: "50 créditos IA al mes (10 imágenes)",
+    features: [
+      "Tienda en línea con 30 pedidos al mes",
+      "Productos ilimitados · 500 publicados",
+      "500 clientes · 25 facturas al mes",
+      "POS Lite · 1 sucursal · 1 empleado",
+      "Chat AI ilimitado (10 análisis al día)",
+      "Vende en Sears, Sanborns y +10 canales",
+      "1 plantilla · subdominio T1",
+    ],
     cta: "Comienza gratis", href: SIGNUP_URL,
   },
   {
-    name: "Básico", tagline: "Para nuevos vendedores en línea", monthly: 399, annual: 332, featured: true, ia: "500 créditos IA al mes",
-    features: ["Todo lo del plan Gratuito", "Personaliza el diseño de tu tienda", "Hasta 3 sucursales", "5 plantillas de diseño", "Creación de cupones", "Dominio propio", "Protección contra bots"],
+    name: "Básico", tagline: "Para nuevos vendedores en línea", monthly: 399, annual: 332.5, featured: true,
+    ia: "500 créditos IA al mes (100 imágenes)",
+    features: [
+      "Todo lo del plan Gratuito, más:",
+      "500 pedidos al mes · adicionales a $8 c/u",
+      "Facturas ilimitadas + autofacturación",
+      "Productos publicados y clientes ilimitados",
+      "Hasta 3 sucursales · 9 empleados POS",
+      "Dominio propio + SSL · 5 plantillas",
+      "Cupones, descuentos y carrito abandonado",
+      "Chat AI: 100 análisis al día",
+    ],
     cta: "Comienza gratis", href: SIGNUP_URL,
   },
   {
-    name: "Avanzado", tagline: "Para negocios en crecimiento", monthly: 899, annual: 749, ia: "2,000 créditos IA al mes",
-    features: ["Todo lo del plan Básico", "Hasta 10 sucursales", "Todas las plantillas de diseño", "Reportes y analítica avanzada", "Carrito abandonado", "Soporte prioritario"],
+    name: "Avanzado", tagline: "Para equipos en crecimiento", monthly: 1499, annual: 1249.17,
+    ia: "5,000 créditos IA al mes (1,000 imágenes)",
+    features: [
+      "Todo lo del plan Básico, más:",
+      "5,000 pedidos al mes · adicionales a $5 c/u",
+      "Hasta 10 sucursales · 30 empleados POS",
+      "15 plantillas de diseño",
+      "Protección contra bots (Bot Manager)",
+      "Chat AI: 250 análisis al día · historial ilimitado",
+    ],
     cta: "Comienza gratis", href: SIGNUP_URL,
   },
   {
-    name: "Enterprise", tagline: "A la medida de tu empresa", monthly: null, annual: null, custom: true, ia: "Créditos IA a tu medida",
-    features: ["Todo lo del plan Avanzado", "Sucursales y usuarios ilimitados", "Integraciones avanzadas y API 10×", "Tarifas negociadas por volumen", "Asesoría y soporte dedicado"],
+    name: "Enterprise", tagline: "Personalizada a tu medida, escalable, con integraciones avanzadas", monthly: null, annual: null, custom: true,
+    ia: "Créditos IA a tu medida",
+    features: [
+      "Todo lo del plan Avanzado, más:",
+      "Sucursales y usuarios ilimitados",
+      "Integraciones avanzadas",
+      "Tarifas negociadas por volumen",
+      "Asesoría y soporte dedicado",
+    ],
     cta: "Agenda una llamada", href: SALES_URL,
   },
 ];
 
-/* Comparison table: value is true (✓), false (—), or a literal string. */
-const COMPARE: { label: string; v: (boolean | string)[] }[] = [
-  { label: "Créditos IA al mes", v: ["50", "500", "2,000", "A tu medida"] },
-  { label: "Sucursales", v: ["1", "3", "10", "Ilimitadas"] },
-  { label: "Plantillas de diseño", v: ["Base", "5", "Todas", "Todas"] },
-  { label: "Tienda en línea con IA", v: [true, true, true, true] },
-  { label: "Pagos y envíos integrados", v: [true, true, true, true] },
-  { label: "Conecta tus redes sociales", v: [true, true, true, true] },
-  { label: "Personaliza el diseño", v: [false, true, true, true] },
-  { label: "Creación de cupones", v: [false, true, true, true] },
-  { label: "Dominio propio", v: [false, true, true, true] },
-  { label: "Protección contra bots", v: [false, true, true, true] },
-  { label: "Reportes y analítica avanzada", v: [false, false, true, true] },
-  { label: "Carrito abandonado", v: [false, false, true, true] },
-  { label: "Integraciones avanzadas y API 10×", v: [false, false, false, true] },
-  { label: "Tarifas negociadas por volumen", v: [false, false, false, true] },
-  { label: "Soporte", v: ["Estándar", "Estándar", "Prioritario", "Dedicado"] },
+/* Tabla extendida — por sección (Definición v2.2 / Tabla v5.1).
+   Orden de columnas: Gratuito, Básico, Avanzado, Enterprise. */
+const COMPARE: { section: string; rows: { label: string; v: (boolean | string)[]; note?: string }[] }[] = [
+  {
+    section: "Precios",
+    rows: [
+      { label: "Precio mensual", v: ["Gratis", "$399", "$1,499", "A tu medida"] },
+      { label: "Precio anual (al mes)", v: ["Gratis", "$332.50", "$1,249.17", "A tu medida"] },
+      { label: "Créditos IA al mes", v: ["50", "500", "5,000", "A tu medida"], note: "Cada imagen generada usa 5 créditos. Se renuevan cada mes y no son acumulables." },
+    ],
+  },
+  {
+    section: "Pedidos",
+    rows: [
+      { label: "Pedidos de tienda en línea al mes", v: ["30", "500", "5,000", "A tu medida"], note: "Al llegar al límite, el checkout se pausa: tu tienda sigue visible y tus demás canales activos; se reanuda el día 1 o al cambiar de plan." },
+      { label: "Pedido adicional", v: [false, "$8", "$5", "A tu medida"] },
+      { label: "Pedidos por POS, marketplaces y links de pago", v: ["Ilimitados", "Ilimitados", "Ilimitados", "Ilimitados"] },
+    ],
+  },
+  {
+    section: "Comisiones",
+    rows: [
+      { label: "Con T1 Pagos", v: ["3.5% + $1", "3.5% + $1", "3.5% + $1", "3.5% + $1"] },
+      { label: "Métodos externos (PayPal, Oxxo Pay)", v: ["No disponible", "2% por orden", "2% por orden", "Negociable"] },
+    ],
+  },
+  {
+    section: "Tienda en línea",
+    rows: [
+      { label: "Tienda en línea con checkout", v: [true, true, true, true] },
+      { label: "Dominio", v: ["Subdominio T1", "Propio + SSL", "Propio + SSL", "Propio + SSL"] },
+      { label: "Plantillas de diseño", v: ["1", "5", "15", "Todas"] },
+      { label: "Reportes avanzados, SEO y redes", v: [false, true, true, true] },
+      { label: "Burbuja de WhatsApp, T&C y editor de diseño", v: [false, true, true, true] },
+    ],
+  },
+  {
+    section: "Gestión de productos",
+    rows: [
+      { label: "Productos en catálogo y marketplaces", v: ["Ilimitados", "Ilimitados", "Ilimitados", "Ilimitados"] },
+      { label: "Publicados en tu tienda y POS", v: ["500", "Ilimitados", "Ilimitados", "Ilimitados"], note: "La base y la publicación a Sears/Sanborns no tienen límite." },
+      { label: "Sucursales", v: ["1", "3", "10", "Ilimitadas"] },
+      { label: "Inventario, precios, carga masiva y reporte de ventas", v: [true, true, true, true] },
+    ],
+  },
+  {
+    section: "Gestión de clientes",
+    rows: [
+      { label: "Clientes", v: ["500", "Ilimitados", "Ilimitados", "Ilimitados"] },
+      { label: "Carrito abandonado, cupones y descuentos", v: [false, true, true, true] },
+    ],
+  },
+  {
+    section: "Facturación",
+    rows: [
+      { label: "Facturas al mes", v: ["25", "Ilimitadas", "Ilimitadas", "Ilimitadas"] },
+      { label: "Autofacturación por canal de venta", v: [false, true, true, true] },
+    ],
+  },
+  {
+    section: "Punto de venta",
+    rows: [
+      { label: "POS Lite", v: [true, true, true, true] },
+      { label: "Empleados POS", v: ["1", "9", "30", "Ilimitados"] },
+      { label: "Pedidos por POS", v: ["Ilimitados", "Ilimitados", "Ilimitados", "Ilimitados"] },
+    ],
+  },
+  {
+    section: "Chat AI",
+    rows: [
+      { label: "Conversación y soporte", v: ["Ilimitados", "Ilimitados", "Ilimitados", "Ilimitados"] },
+      { label: "Análisis de archivos al día", v: ["10", "100", "250", "A tu medida"] },
+      { label: "Archivos por mensaje", v: ["5", "10", "10", "10"] },
+      { label: "Historial", v: ["30 días", "12 meses", "Ilimitado", "Ilimitado"] },
+      { label: "Memoria del negocio", v: [true, true, true, true] },
+      { label: "Hablar con una persona", v: [true, true, true, true] },
+    ],
+  },
+  {
+    section: "Funcionalidad con IA",
+    rows: [
+      { label: "Creación de tienda y de página con IA", v: [true, true, true, true] },
+      { label: "Secciones, textos e imágenes con IA", v: [true, true, true, true], note: "Utiliza créditos IA." },
+      { label: "Mejora de descripciones y detección de categoría", v: [true, true, true, true] },
+    ],
+  },
+  {
+    section: "Canales, administración y seguridad",
+    rows: [
+      { label: "Vende en Sears y Sanborns", v: [true, true, true, true] },
+      { label: "Gestión en +10 canales (OMS) y links de pago", v: [true, true, true, true] },
+      { label: "Usuarios administradores ilimitados", v: [true, true, true, true] },
+      { label: "Protección contra bots (Bot Manager)", v: [false, false, true, true] },
+    ],
+  },
 ];
+
+function fmtPrice(n: number) {
+  return n % 1 === 0
+    ? n.toLocaleString("es-MX")
+    : n.toLocaleString("es-MX", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
 
 function Cell({ val }: { val: boolean | string }) {
   if (val === true) return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="mx-auto"><path d="M5 12L10 17L19 7" stroke="#22C55E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>;
@@ -74,11 +195,10 @@ export default function T1TiendaPrecios() {
 
   return (
     <main className="min-h-screen bg-black">
-      <T1Navbar />
+      <T1Navbar product="tienda" pageType="sublanding" />
 
       {/* Hero */}
       <section className="relative overflow-hidden px-5 pb-20 pt-[130px] text-center tablet:px-10 tablet:pt-[150px]" style={{ background: HERO_BG }}>
-        {/* Fade suave hacia el negro de la sección de planes */}
         <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 z-0" style={{ height: 200, background: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.55) 55%, #000 100%)" }} />
 
         <div className="relative z-10 mx-auto max-w-[900px]">
@@ -89,7 +209,7 @@ export default function T1TiendaPrecios() {
             Desde emprendedores hasta grandes empresas.
           </p>
 
-          {/* Toggle mensual/anual + chip verde */}
+          {/* Toggle mensual/anual */}
           <div className="mt-9 flex justify-center">
             <div className="inline-flex items-center gap-1 rounded-full border border-white/12 bg-white/[0.05] p-1">
               <button type="button" onClick={() => setAnnual(false)} className={`rounded-full px-5 py-2 font-inter text-[14px] font-semibold transition-colors ${!annual ? "bg-white text-black" : "text-white/70 hover:text-white"}`}>
@@ -124,9 +244,11 @@ export default function T1TiendaPrecios() {
                 <div className="mt-5 flex items-end gap-1.5" style={{ minHeight: 56 }}>
                   {p.custom ? (
                     <span className="font-sora text-[30px] font-light text-white" style={{ letterSpacing: "-0.02em", lineHeight: 1 }}>A tu medida</span>
+                  ) : price === 0 ? (
+                    <span className="font-sora text-[44px] font-light text-white" style={{ letterSpacing: "-0.02em", lineHeight: 1 }}>Gratis</span>
                   ) : (
                     <>
-                      <span className="font-sora text-[44px] font-light text-white" style={{ letterSpacing: "-0.02em", lineHeight: 1 }}>${price}</span>
+                      <span className="font-sora text-[44px] font-light text-white" style={{ letterSpacing: "-0.02em", lineHeight: 1 }}>${fmtPrice(price as number)}</span>
                       <span className="mb-1.5 font-inter text-[13px] font-light text-white/50">MXN / mes</span>
                     </>
                   )}
@@ -156,14 +278,16 @@ export default function T1TiendaPrecios() {
         {/* Comisiones de tarjeta */}
         <div className="mx-auto mt-8 flex max-w-[1120px] flex-col items-start gap-3 rounded-[18px] border border-white/[0.08] bg-white/[0.03] p-6 tablet:flex-row tablet:items-center tablet:justify-between tablet:p-7">
           <div>
-            <p className="font-sora text-[16px] font-medium text-white">Tarifa de tarjeta por transacción</p>
-            <p className="mt-1 font-inter text-[14px] font-light text-white/60">Aplica a todos los planes. Cobra con T1 Pagos o conecta tu propio proveedor.</p>
+            <p className="font-sora text-[16px] font-medium text-white">Comisión por transacción</p>
+            <p className="mt-1 font-inter text-[14px] font-light text-white/60">Cobra en todos los planes con T1 Pagos, incluido el Gratuito.</p>
           </div>
           <div className="flex flex-wrap gap-x-8 gap-y-2">
             <span className="font-inter text-[14px] text-white/85"><span className="font-sora text-[22px] font-light text-white">3.5% + $1</span> <span className="text-white/55">con T1 Pagos</span></span>
-            <span className="font-inter text-[14px] text-white/85"><span className="font-sora text-[22px] font-light text-white">2%</span> <span className="text-white/55">con proveedor externo</span></span>
+            <span className="font-inter text-[14px] text-white/85"><span className="font-sora text-[22px] font-light text-white">2%</span> <span className="text-white/55">métodos externos (desde Básico)</span></span>
           </div>
         </div>
+
+        <p className="mx-auto mt-4 max-w-[1120px] font-inter text-[12px] font-light text-white/40">*MXN, IVA no incluido.</p>
       </section>
 
       {/* Comparativa completa */}
@@ -187,22 +311,34 @@ export default function T1TiendaPrecios() {
                 </tr>
               </thead>
               <tbody>
-                {COMPARE.map((row) => (
-                  <tr key={row.label} className="border-t border-white/[0.07]">
-                    <td className="sticky left-0 z-[1] bg-[#0e0d0d] py-3.5 pr-4 font-inter text-[14px] font-light text-white/75">{row.label}</td>
-                    {row.v.map((val, i) => (
-                      <td key={i} className={`px-3 py-3.5 text-center ${PLANS[i].featured ? "bg-white/[0.02]" : ""}`}>
-                        <Cell val={val} />
+                {COMPARE.map((sec) => (
+                  <Fragment key={sec.section}>
+                    <tr>
+                      <td colSpan={PLANS.length + 1} className="sticky left-0 bg-[#0e0d0d] pb-2 pt-8 font-sora text-[13px] font-semibold uppercase tracking-[0.08em] text-[#E2604C]">
+                        {sec.section}
                       </td>
+                    </tr>
+                    {sec.rows.map((row) => (
+                      <tr key={sec.section + row.label} className="border-t border-white/[0.07]">
+                        <td className="sticky left-0 z-[1] bg-[#0e0d0d] py-3.5 pr-4 align-top font-inter text-[14px] font-light text-white/75">
+                          {row.label}
+                          {row.note && <span className="mt-1 block max-w-[280px] font-inter text-[11px] font-light leading-snug text-white/35">{row.note}</span>}
+                        </td>
+                        {row.v.map((val, i) => (
+                          <td key={i} className={`px-3 py-3.5 text-center align-top ${PLANS[i].featured ? "bg-white/[0.02]" : ""}`}>
+                            <Cell val={val} />
+                          </td>
+                        ))}
+                      </tr>
                     ))}
-                  </tr>
+                  </Fragment>
                 ))}
               </tbody>
             </table>
           </div>
 
           <p className="mt-8 font-inter text-[12px] font-light text-white/40">
-            Precios en MXN sin IVA. Los créditos de IA y los límites por plan pueden actualizarse; consulta las condiciones vigentes al contratar.
+            *MXN, IVA no incluido. Los créditos de IA y los límites por plan se renuevan cada mes; consulta las condiciones vigentes al contratar.
           </p>
         </div>
       </section>

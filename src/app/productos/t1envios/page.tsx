@@ -21,7 +21,7 @@ import { ENVIOS_STATS, ENVIOS_SIGNUP_URL } from "@/lib/constants";
 export default function EnviosLanding() {
   return (
     <main className="min-h-screen">
-      <T1Navbar ctaLabel="Comienza a enviar" ctaHref={ENVIOS_SIGNUP_URL} />
+      <T1Navbar ctaLabel="Comienza a enviar" ctaHref={ENVIOS_SIGNUP_URL} product="envios" pageType="producto" />
 
       {/* Hero — cotizador funcional */}
       <T1EnviosHero />
