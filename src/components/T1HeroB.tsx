@@ -15,6 +15,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { SIGNUP_URL, PAGOS_START_URL, ENVIOS_QUOTE_URL } from "@/lib/constants";
 import { HERO_CHIPS, HERO_PROMPT_PLACEHOLDERS, capFirst, type HeroChip } from "@/lib/heroPrompt";
+import HeroBackground from "@/components/HeroBackground";
 
 /* Analítica: track compartido (posthog + dataLayer, con props base y variant).
    page_context distingue home vs producto_tienda con el mismo namespace hero_*. */
@@ -312,38 +313,8 @@ export default function T1HeroB() {
   return (
     <div className="relative z-0">
       <section className="relative flex flex-col items-center overflow-hidden px-5 pb-0 pt-24 tablet:px-6 tablet:pt-28 tablet:pb-0">
-        {/* Fondo (versión B, v5) — valores afinados por diseño: glow rojo/coral,
-            azul más presente en las orillas (55%/45%) y base #3e1f30. */}
-        <div
-          aria-hidden
-          className="absolute inset-0 z-0"
-          style={{
-            background:
-              "radial-gradient(ellipse 86% 70% at 67% 32%, rgba(226,64,47,0.40) 0%, transparent 60%)," +
-              "radial-gradient(ellipse 60% 58% at 14% 22%, rgba(150,34,34,0.26) 0%, transparent 58%)," +
-              "radial-gradient(ellipse 50% 46% at 82% 84%, rgba(244,114,150,0.12) 0%, transparent 62%)," +
-              "radial-gradient(ellipse 60% 70% at -4% 88%, rgba(58,74,158,0.55) 0%, transparent 52%)," +
-              "radial-gradient(ellipse 42% 60% at 102% 10%, rgba(58,74,158,0.45) 0%, transparent 50%)," +
-              "linear-gradient(160deg, #3e1f30 0%, #1c0d15 48%, #160a11 100%)",
-          }}
-        />
-        {/* Grano sutil para dar textura como en las cards */}
-        <div aria-hidden className="noise-grain pointer-events-none absolute inset-0 z-0" style={{ opacity: 0.04 }} />
-        {/* Viñeta lateral suave — solo desktop: orillas un poco más oscuras (neutras) */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 z-0 hidden tablet:block"
-          style={{
-            background:
-              "linear-gradient(90deg, rgba(10,9,14,0.55) 0%, rgba(12,11,16,0.22) 14%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 70%, rgba(12,11,16,0.22) 86%, rgba(10,9,14,0.55) 100%)",
-          }}
-        />
-        {/* Degradado rojo→negro al fondo — suaviza el corte hacia la sección negra */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-[260px]"
-          style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(3,1,1,0.85) 55%, #000 100%)" }}
-        />
+        {/* Fondo (compartido entre los heroes) */}
+        <HeroBackground />
 
         {/* ══ FIRST FOLD ══ título + selector + contenido. En móvil un poco menos alto
             (85svh) para que asome un hint de los datos/marquee = "hay scroll". ══ */}

@@ -2,7 +2,6 @@ import T1Navbar from "@/components/T1Navbar";
 import T1PagosHero from "@/components/T1PagosHero";
 import T1PagosPilares from "@/components/T1PagosPilares";
 import {
-  T1PagosMetodos,
   T1PagosAdministracion,
   T1PagosFAQ,
 } from "@/components/T1PagosSecciones";
@@ -29,8 +28,7 @@ export default function PagosLanding() {
         <T1PagosPorQue />
         {/* 2 · Una plataforma para todos tus cobros (pilares) — antes de link de pago */}
         <T1PagosPilares />
-        {/* 3 · Crea un link de pago */}
-        <T1PagosMetodos />
+        {/* 3 · Crea un link de pago — ahora vive en el hero (widget funcional) */}
         {/* 4 · Métricas — justo arriba de precios */}
         <T1ProductMetrics
           metrics={[
