@@ -11,7 +11,10 @@ import { T1PagosScore } from "@/components/T1PagosScoreFlow";
 import T1EnterpriseCarousel from "@/components/T1EnterpriseCarousel";
 import T1ProductMetrics from "@/components/T1ProductMetrics";
 import T1FinalCTA from "@/components/T1FinalCTA";
+import T1StickyCTA from "@/components/T1StickyCTA";
+import T1EnviosAnalytics from "@/components/T1EnviosAnalytics";
 import T1Footer from "@/components/T1Footer";
+import { SIGNUP_URL } from "@/lib/constants";
 
 export default function PagosLanding() {
   return (
@@ -65,6 +68,10 @@ export default function PagosLanding() {
       />
 
       <T1Footer />
+
+      {/* CTA sticky solo-móvil + instrumentación */}
+      <T1StickyCTA label="Comienza a cobrar" href={SIGNUP_URL} section="sticky_mobile" />
+      <T1EnviosAnalytics />
     </main>
   );
 }

@@ -15,7 +15,7 @@ const METODOS = [
 ];
 export function T1PagosMetodos() {
   return (
-    <section className="relative overflow-hidden bg-black px-5 py-[90px] tablet:px-6 tablet:py-[130px]">
+    <section className="relative overflow-hidden bg-black px-5 py-[60px] tablet:px-6 tablet:py-[88px]">
       <div className="relative mx-auto max-w-[560px] text-center">
         <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
           Crea un link de pago y cobra al instante
@@ -41,7 +41,7 @@ export function T1PagosMetodos() {
 /* ══════════ 2 · Aprueba más, protege cada venta (antifraude) ══════════ */
 export function T1PagosAprobacion() {
   return (
-    <section className="overflow-hidden bg-[#0e0d0d] px-5 py-[90px] tablet:px-6 tablet:py-[128px]">
+    <section className="overflow-hidden bg-[#0e0d0d] px-5 py-[60px] tablet:px-6 tablet:py-[84px]">
       <div className="mx-auto max-w-[var(--max-w)]">
         <div className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
           <div>
@@ -75,9 +75,9 @@ export function T1PagosAprobacion() {
 
 /* ══════════ 3 · Administra tus cobros (carrusel) ══════════ */
 const ADMIN_CARDS = [
-  { title: "Administrador de pagos", desc: "Visualiza y filtra todas tus transacciones, con reportes y conciliación automática.", img: "/img/pagos-panel.png", w: 1254, h: 1254, href: "/productos/t1pagos/pagos-en-linea" },
-  { title: "Reclamaciones", desc: "Gestiona reclamaciones con evidencia y monitorea tu tasa de reclamaciones en el administrador.", img: "/img/pagos-contracargos.png", w: 1536, h: 1024, href: "/productos/t1pagos/reclamaciones" },
-  { title: "Dinero al día siguiente", desc: "Recibe tus depósitos al día hábil siguiente, con dispersión flexible.", img: "/img/pagos-dinero.png", w: 1536, h: 1024, href: "/productos/t1pagos/pagos-en-linea" },
+  { title: "Administrador de pagos", desc: "Visualiza y filtra todas tus transacciones, con reportes y conciliación automática.", img: "/img/nv-pagos.png", w: 1254, h: 1254, href: "/productos/t1pagos/pagos-en-linea" },
+  { title: "Reclamaciones", desc: "Gestiona reclamaciones con evidencia y monitorea tu tasa de reclamaciones en el administrador.", img: "/img/nv-reclamaciones.png", w: 1254, h: 1254, href: "/productos/t1pagos/reclamaciones" },
+  { title: "Dinero al día siguiente", desc: "Recibe tus depósitos al día hábil siguiente, con dispersión flexible.", img: "/img/nv-dinero-dia.png", w: 1374, h: 1145, href: "/productos/t1pagos/pagos-en-linea" },
 ];
 /* padding inferior reducido para acercar la sección de Precios */
 export function T1PagosAdministracion() {
@@ -169,7 +169,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
 }
 export function T1PagosFAQ() {
   return (
-    <section className="bg-black px-5 py-[80px] tablet:px-6 tablet:py-[110px]">
+    <section className="bg-black px-5 py-[56px] tablet:px-6 tablet:py-[78px]">
       <div className="mx-auto max-w-[760px]">
         <h2 className="mb-8 text-center font-sora text-[28px] font-light text-white tablet:mb-12 tablet:text-[40px]" style={{ letterSpacing: "-0.03em" }}>
           Preguntas frecuentes

@@ -129,18 +129,18 @@ function HamburgerIcon({ open }: { open: boolean }) {
 /* ── Main Component ── */
 export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis", ctaHref = SIGNUP_URL, product, pageType = "home" }: { bVariant?: boolean; ctaLabel?: string; ctaHref?: string; product?: ProductKey; pageType?: PageType }) {
   const descriptor = product ? PRODUCT_DESCRIPTORS[product] : null;
-  const productHref = product ? `/productos/t1${product}` : "/";
   const onLogoClick = (e: React.MouseEvent) => {
     track("logo_click", {
       page_type: pageType,
       product: product ?? null,
       scroll_position: typeof window !== "undefined" ? Math.round(window.scrollY) : 0,
     });
-    // Sublanding: navega a la landing del producto (link normal).
-    if (pageType === "sublanding") return;
-    // Home / producto: scroll suave al inicio (sin recargar; no-op si ya está arriba).
-    e.preventDefault();
-    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+    // Home: ya estás en el landing general → scroll suave al inicio (sin recargar).
+    // Producto / sublanding: el logo T1 lleva al landing general (href="/").
+    if (pageType === "home") {
+      e.preventDefault();
+      if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
   const [menuOpen, setMenuOpen] = useState(false);
   const [recursosOpen, setRecursosOpen] = useState(false);
@@ -209,7 +209,7 @@ export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis
         >
           {/* Left: Logo + nav links */}
           <div className="flex items-center gap-4 tablet:gap-10">
-            <a href={productHref} onClick={onLogoClick} aria-label={descriptor ? `T1 ${descriptor}` : "T1"} className="flex min-h-[44px] shrink-0 items-center gap-3 [&>svg]:h-[34px] [&>svg]:w-auto">
+            <a href="/" onClick={onLogoClick} aria-label={descriptor ? `T1 ${descriptor}` : "T1"} className="flex min-h-[44px] shrink-0 items-center gap-3 [&>svg]:h-[34px] [&>svg]:w-auto">
               <T1Logo />
               {descriptor && (
                 <>

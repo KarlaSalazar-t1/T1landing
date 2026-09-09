@@ -26,7 +26,7 @@ const ITEMS = [
     title: "API e integraciones",
     description: "Conecta T1 Pagos a tu plataforma, app o flujo propio.",
     cta: "Conoce más",
-    ctaHref: "/login",
+    ctaHref: "/registro",
     Flow: ApiFlow,
   },
 ];

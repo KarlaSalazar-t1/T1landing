@@ -17,9 +17,9 @@ const shot = (n: number, k: number) => {
 // 4 columnas con offset vertical distinto => mosaico asimétrico, no alineado.
 const COLS_DESKTOP = [
   { offset: 0, shots: [shot(1, -42), shot(6, 30), shot(3, -24)] },
-  { offset: 54, shots: [shot(5, 40), shot(2, -30)] },
+  { offset: 54, shots: [shot(5, 40), shot(2, -30), shot(4, 26)] },
   { offset: 22, shots: [shot(7, -34), shot(4, 26), shot(1, -20)] },
-  { offset: 72, shots: [shot(6, 36), shot(5, -26)] },
+  { offset: 72, shots: [shot(6, 36), shot(5, -26), shot(2, 28)] },
 ];
 const COLS_MOBILE = [
   { offset: 0, shots: [shot(1, -34), shot(6, 30), shot(3, -26), shot(7, 30), shot(2, -28)] },
@@ -78,8 +78,10 @@ export default function T1TiendaBento() {
   }, []);
 
   return (
-    <section ref={ref} className="relative overflow-hidden bg-black px-5 py-[80px] tablet:px-6 tablet:py-[110px]">
-      <div className="relative mx-auto max-w-[1120px]">
+    <section ref={ref} className="relative overflow-hidden bg-black px-5 py-[56px] tablet:px-6 tablet:py-[78px]">
+      {/* Altura fija: el mosaico se recorta (la última fila no se ve completa);
+          los degradados de arriba/abajo cubren el corte. */}
+      <div className="relative mx-auto max-h-[520px] max-w-[1120px] overflow-hidden tablet:max-h-[600px]">
         {/* Mosaico — desktop (4 columnas escalonadas) */}
         <div className="hidden justify-center gap-4 tablet:flex" aria-hidden>
           <Columns cols={COLS_DESKTOP} />

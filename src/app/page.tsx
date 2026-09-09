@@ -6,7 +6,6 @@ import T1HeroB from "@/components/T1HeroB";
 import T1Problema from "@/components/T1Problema";
 import T1FeatureIntro from "@/components/T1FeatureIntro";
 import T1Features from "@/components/T1Features";
-import T1Metrics from "@/components/T1Metrics";
 import T1Solutions from "@/components/T1Solutions";
 import T1EnterpriseCarousel from "@/components/T1EnterpriseCarousel";
 import T1AudienceRotator from "@/components/T1AudienceRotator";
@@ -31,7 +30,6 @@ export default function Home() {
 
       <div className="relative isolate z-10 rounded-t-[24px] bg-[#0e0d0d] tablet:rounded-t-[28px]">
         <T1Features />
-        <T1Metrics bVariant />
         <T1AudienceRotator bVariant />
       </div>
 

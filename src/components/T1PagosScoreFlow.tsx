@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 /* T1 Score — panel de proceso INTERNO (no es la pantalla del cliente).
    Comunica: el cliente paga y, en segundo plano, nosotros analizamos correo,
@@ -96,10 +97,9 @@ const SCORE_FEATURES = [
 ];
 export function T1PagosScore() {
   return (
-    <section className="relative overflow-hidden bg-[#0e0d0d] px-5 py-[90px] tablet:px-6 tablet:py-[128px]">
-      <div aria-hidden className="pointer-events-none absolute -left-[8%] top-1/2 h-[420px] w-[420px] -translate-y-1/2 rounded-full" style={{ background: "radial-gradient(circle, rgba(219,59,43,0.14) 0%, transparent 70%)", filter: "blur(20px)" }} />
-      <div className="relative z-[1] mx-auto max-w-[var(--max-w)]">
-        <div className="grid grid-cols-1 items-center gap-12 tablet:grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)] tablet:gap-16">
+    <section className="bg-[#0e0d0d] px-5 py-[56px] tablet:px-6 tablet:py-[84px]">
+      <div className="mx-auto max-w-[var(--max-w)]">
+        <div className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
           {/* Texto */}
           <div className="order-2 tablet:order-1">
             <span className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-3 py-1.5 font-inter text-[12px] font-semibold text-white/70">
@@ -110,27 +110,17 @@ export function T1PagosScore() {
               Antifraude que aprueba más y frena el fraude
             </h2>
             <p className="font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 460 }}>
-              El cliente paga y, en segundos, analizamos correo, teléfono, historial, dispositivo y más para decidir si aprobar el pago.
+              Analizamos cada transacción en tiempo real para aprobar más pagos legítimos y frenar el fraude.
             </p>
-            <ul className="flex flex-col gap-3" style={{ marginBottom: 32 }}>
-              {SCORE_FEATURES.map((f) => (
-                <li key={f} className="flex items-center gap-3 font-inter text-[15px] font-light text-white/75 tablet:text-[16px]">
-                  <span className="flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full" style={{ background: "rgba(34,197,94,0.14)" }}>
-                    <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="#22C55E" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                  </span>
-                  {f}
-                </li>
-              ))}
-            </ul>
             <a href="/productos/t1pagos/reclamaciones" className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]">
               Conoce más
               <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </a>
           </div>
 
-          {/* Panel simulado */}
-          <div className="order-1 flex justify-center tablet:order-2">
-            <ScoreFlow />
+          {/* Imagen estática (más simple que el panel animado) */}
+          <div className="order-1 overflow-hidden rounded-[20px] border border-white/[0.08] tablet:order-2">
+            <Image src="/img/t1score-v3.png" alt="Antifraude con T1 Score" width={1720} height={914} className="block h-auto w-full" sizes="(max-width: 768px) 92vw, 520px" />
           </div>
         </div>
       </div>

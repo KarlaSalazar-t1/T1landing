@@ -1,6 +1,6 @@
 export default function T1TiendaVideo() {
   return (
-    <section className="bg-black px-5 py-[80px] tablet:px-6 tablet:py-[120px]">
+    <section className="bg-black px-5 py-[56px] tablet:px-6 tablet:py-[120px]">
       <div className="mx-auto max-w-[var(--max-w)]">
         <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 44 }}>
           <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>

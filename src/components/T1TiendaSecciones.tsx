@@ -7,7 +7,7 @@ import T1TiendaCobraCard from "@/components/T1TiendaCobraCard";
 /* ══════════ 1 · Tu tienda con pagos y envíos integrados ══════════ */
 export function T1TiendaIncluido() {
   return (
-    <section className="bg-[#0e0d0d] px-5 py-[80px] tablet:px-6 tablet:py-[110px]">
+    <section className="bg-[#0e0d0d] px-5 py-[56px] tablet:px-6 tablet:py-[78px]">
       <div className="mx-auto max-w-[var(--max-w)]">
         <div className="text-center">
           <h2 className="font-sora text-[28px] font-light text-white tablet:whitespace-nowrap tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
@@ -88,7 +88,7 @@ const MP_FLOAT = [
 ];
 export function T1TiendaMarketplaces() {
   return (
-    <section className="relative overflow-hidden bg-black px-5 py-[90px] tablet:px-6 tablet:py-[130px]">
+    <section className="relative overflow-hidden bg-black px-5 py-[60px] tablet:px-6 tablet:py-[88px]">
       {/* logos flotantes dispersos — solo desktop */}
       {MP_FLOAT.map((f, i) => {
         const logo = MP_LOGOS[i % MP_LOGOS.length];
@@ -129,11 +129,11 @@ export function T1TiendaMarketplaces() {
 
 /* ══════════ 3 · Administración — carrusel (catálogo, inventario, reportes) ══════════ */
 const ADMIN_CARDS = [
-  { title: "Catálogo con IA", desc: "Sube una foto y la IA crea título, descripción y atributos al instante.", img: "/img/admin-catalogo.png", w: 1248, h: 1024, href: "/productos/t1tienda/tienda-con-ia" },
-  { title: "Inventario", desc: "Precios, variantes y existencias sincronizadas en todos tus canales.", img: "/img/tienda-inventario.png", w: 1254, h: 1254, href: "/productos/t1tienda/productos" },
-  { title: "Reportes", desc: "Ventas, tráfico y rendimiento en tiempo real para decidir con datos.", img: "/img/tienda-reportes.png", w: 1254, h: 1254, href: "/productos/t1tienda/reportes" },
-  { title: "Clientes", desc: "Historial de compras y segmentación de clientes para vender más.", img: "/img/tienda-clientes.png", w: 1254, h: 1254, href: "/productos/t1tienda/reportes" },
-  { title: "Sucursales", desc: "Inventario y ventas por ubicación en cada sucursal o almacén.", img: "/img/tienda-sucursales.png", w: 1536, h: 1024, href: "/productos/t1tienda/punto-de-venta" },
+  { title: "Catálogo con IA", desc: "Sube una foto y la IA crea título, descripción y atributos al instante.", img: "/img/nv-producto-ia.png", w: 1254, h: 1254, href: "/productos/t1tienda/tienda-con-ia" },
+  { title: "Inventario", desc: "Precios, variantes y existencias sincronizadas en todos tus canales.", img: "/img/nv-inventario.png", w: 1254, h: 1254, href: "/productos/t1tienda/productos" },
+  { title: "Reportes", desc: "Ventas, tráfico y rendimiento en tiempo real para decidir con datos.", img: "/img/nv-reportes-tienda.png", w: 1254, h: 1254, href: "/productos/t1tienda/reportes" },
+  { title: "Clientes", desc: "Historial de compras y segmentación de clientes para vender más.", img: "/img/nv-clientes.png", w: 1254, h: 1254, href: "/productos/t1tienda/reportes" },
+  { title: "Sucursales", desc: "Inventario y ventas por ubicación en cada sucursal o almacén.", img: "/img/nv-sucursales.png", w: 1254, h: 1254, href: "/productos/t1tienda/punto-de-venta" },
 ];
 export function T1TiendaAdministracion() {
   const ref = useRef<HTMLDivElement>(null);
@@ -145,7 +145,7 @@ export function T1TiendaAdministracion() {
     el.scrollBy({ left: dir * step, behavior: "smooth" });
   };
   return (
-    <section className="overflow-hidden bg-[#0e0d0d] px-5 py-[90px] tablet:px-6 tablet:py-[128px]">
+    <section className="overflow-hidden bg-[#0e0d0d] px-5 py-[60px] tablet:px-6 tablet:py-[84px]">
       <div className="mx-auto max-w-[var(--max-w)]">
         <div className="grid grid-cols-1 gap-10 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.35fr)] tablet:items-center tablet:gap-14">
           <div>
@@ -195,7 +195,7 @@ export function T1TiendaAdministracion() {
 /* ══════════ 4 · Pagos — cobra como quieras ══════════ */
 export function T1TiendaPagos() {
   return (
-    <section className="overflow-hidden bg-black px-5 py-[90px] tablet:px-6 tablet:py-[128px]">
+    <section className="overflow-hidden bg-black px-5 py-[60px] tablet:px-6 tablet:py-[84px]">
       <div className="mx-auto max-w-[var(--max-w)]">
         <div className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.35fr)] tablet:gap-14">
           <div className="order-2 flex justify-center tablet:order-1 tablet:justify-start">
@@ -255,7 +255,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
 }
 export function T1TiendaFAQ() {
   return (
-    <section className="bg-black px-5 py-[80px] tablet:px-6 tablet:py-[110px]">
+    <section className="bg-black px-5 py-[56px] tablet:px-6 tablet:py-[78px]">
       <div className="mx-auto max-w-[760px]">
         <h2 className="mb-8 text-center font-sora text-[28px] font-light text-white tablet:mb-12 tablet:text-[40px]" style={{ letterSpacing: "-0.03em" }}>
           Preguntas frecuentes

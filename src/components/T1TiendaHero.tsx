@@ -3,80 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
 import { track } from "@/lib/analytics";
+import { HERO_CHIPS, HERO_PROMPT_PLACEHOLDERS, capFirst, type HeroChip } from "@/lib/heroPrompt";
 
-/* Frases del prompt animado (rotación con efecto de escritura). */
-const PLACEHOLDERS = [
-  "quiero vender ropa casual con un estilo minimalista y colores neutros",
-  "quiero vender bolsas y accesorios de piel hechos a mano",
-  "quiero vender café de especialidad tostado artesanalmente",
-  "quiero vender joyería de plata con diseños elegantes y delicados",
-  "quiero vender productos de skincare naturales para piel sensible",
-  "quiero vender audífonos y accesorios para gaming",
-  "quiero vender dulces y postres para eventos y regalos",
-  "quiero vender tenis y ropa deportiva de marcas originales",
-];
-
-/* Set de chips por demanda real. Moda·Accesorios·Comida·Belleza·Electrónica·Joyería;
-   Hogar y Deportes solo en móvil (fila con scroll horizontal). Cada chip precarga
-   una frase al azar entre sus variantes (no reducir a una, contamina el análisis). */
-type Chip = { label: string; examples: string[]; mobileOnly?: boolean };
-const CHIPS: Chip[] = [
-  { label: "Moda", examples: [
-    "quiero vender ropa casual con un estilo minimalista y colores neutros",
-    "quiero vender moda colorida con diseños originales inspirados en tendencias actuales",
-    "quiero vender ropa de mujer elegante para oficina y eventos",
-    "quiero vender playeras y sudaderas con estampados propios de mi marca",
-    "quiero vender ropa vintage y prendas de segunda mano curadas",
-    "quiero vender ropa infantil cómoda y divertida para niños de todas las edades",
-  ] },
-  { label: "Accesorios", examples: [
-    "quiero vender bolsas y accesorios de piel hechos a mano",
-    "quiero vender gorras y sombreros con un estilo urbano y moderno",
-    "quiero vender lentes de sol con diseños premium y estuches personalizados",
-    "quiero vender mochilas y maletas resistentes para viaje y trabajo",
-    "quiero vender cinturones, carteras y accesorios de piel para caballero",
-    "quiero vender accesorios para el cabello con un estilo delicado y femenino",
-  ] },
-  { label: "Comida", examples: [
-    "quiero vender café de especialidad tostado artesanalmente",
-    "quiero vender dulces y postres para eventos y regalos",
-    "quiero vender snacks y botanas mexicanas con empaque llamativo",
-    "quiero vender productos gourmet y artesanales de mi región",
-    "quiero vender chocolates y repostería fina hechos por encargo",
-    "quiero vender mezcal y bebidas artesanales con presentación premium",
-  ] },
-  { label: "Belleza", examples: [
-    "quiero vender productos de skincare naturales para piel sensible",
-    "quiero vender maquillaje con una imagen fresca y juvenil",
-    "quiero vender perfumes y fragancias con presentación elegante",
-    "quiero vender productos para el cuidado del cabello rizado",
-    "quiero vender cosméticos veganos y libres de crueldad animal",
-    "quiero vender jabones y productos artesanales para el cuidado personal",
-  ] },
-  { label: "Electrónica", examples: [
-    "quiero vender audífonos y accesorios para gaming",
-    "quiero vender fundas y accesorios para celular con diseños originales",
-    "quiero vender gadgets y tecnología para casa inteligente",
-    "quiero vender accesorios de cómputo con un estilo minimalista",
-    "quiero vender bocinas y equipo de audio portátil",
-    "quiero vender smartwatches y wearables de varias marcas",
-  ] },
-  { label: "Joyería", examples: [
-    "quiero vender joyería de plata con diseños elegantes y delicados",
-    "quiero vender bisutería artesanal hecha a mano",
-    "quiero vender anillos y collares personalizados para regalo",
-    "quiero vender relojes de marca con presentación premium",
-    "quiero vender joyería minimalista de acero inoxidable",
-    "quiero vender aretes y pulseras con piedras naturales",
-  ] },
-  { label: "Hogar", examples: ["Vendo artículos de decoración para el hogar"], mobileOnly: true },
-  { label: "Deportes", examples: ["Vendo ropa y equipo deportivo"], mobileOnly: true },
-];
+/* Set unificado de chips y frases (compartido con la home vía @/lib/heroPrompt). */
+const PLACEHOLDERS = HERO_PROMPT_PLACEHOLDERS;
+const CHIPS = HERO_CHIPS;
+const cap = capFirst;
 
 const SOCIAL_PROOF = ["+50,000 negocios", "+40M de envíos", "+200M transacciones"];
-
-/* Muestra la primera letra en mayúscula (las frases van en minúscula en la data). */
-const cap = (s: string) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s);
 
 const ArrowUp = (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -127,7 +61,7 @@ export default function T1TiendaHero() {
     return () => clearTimeout(t);
   }, [typed, deleting, phIdx, value]);
 
-  const insertChip = (chip: Chip) => {
+  const insertChip = (chip: HeroChip) => {
     const el = textareaRef.current;
     const example = cap(chip.examples[Math.floor(Math.random() * chip.examples.length)]);
     setValue(example);
@@ -215,7 +149,7 @@ export default function T1TiendaHero() {
                 href={SIGNUP_URL}
                 onClick={(e) => {
                   if (!tiendaOk) { e.preventDefault(); return; }
-                  track("prompt_submitted", { prompt_source: source, chip_category: source === "chip" ? chipCategory : null, prompt_length: value.trim().length });
+                  track("hero_prompt_submit", { page_context: "producto_tienda", prompt_source: source, chip_category: source === "chip" ? chipCategory : null, length: value.trim().length });
                 }}
                 aria-label="Crea tu tienda"
                 style={kbOpen ? { position: "fixed", right: 16, bottom: kbH + 10, zIndex: 60 } : undefined}
@@ -235,7 +169,7 @@ export default function T1TiendaHero() {
                   key={chip.label}
                   type="button"
                   onClick={() => insertChip(chip)}
-                  className={`shrink-0 rounded-[11px] border border-white/10 px-2.5 py-1.5 font-inter text-[14px] font-medium text-white transition-colors hover:border-white/25 ${chip.mobileOnly ? "tablet:hidden" : ""}`}
+                  className="shrink-0 rounded-[11px] border border-white/10 px-2.5 py-1.5 font-inter text-[14px] font-medium text-white transition-colors hover:border-white/25"
                   style={{ background: "rgba(52,52,52,0.6)" }}
                 >
                   {chip.label}

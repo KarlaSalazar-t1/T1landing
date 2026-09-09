@@ -26,7 +26,7 @@ const REASONS = [
 ];
 export function T1PagosPorQue() {
   return (
-    <section className="bg-[#0e0d0d] px-5 py-[90px] tablet:px-6 tablet:py-[128px]">
+    <section className="bg-[#0e0d0d] px-5 py-[60px] tablet:px-6 tablet:py-[84px]">
       <div className="mx-auto max-w-[var(--max-w)]">
         <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 48 }}>
           <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
@@ -98,7 +98,7 @@ const COUNTRIES = [
 ];
 export function T1PagosPaises() {
   return (
-    <section className="bg-[#0e0d0d] px-5 py-[90px] tablet:px-6 tablet:py-[128px]">
+    <section className="bg-[#0e0d0d] px-5 py-[60px] tablet:px-6 tablet:py-[84px]">
       <div className="mx-auto max-w-[var(--max-w)]">
         <div className="mx-auto max-w-[720px] text-center" style={{ marginBottom: 56 }}>
           <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
@@ -151,25 +151,16 @@ export function T1PagosPaises() {
 /* ══════════ Certificación PCI DSS ══════════ */
 export function T1PagosPCI() {
   return (
-    <section className="bg-black px-5 py-[90px] tablet:px-6 tablet:py-[128px]">
-      <div className="mx-auto max-w-[820px] text-center">
-        <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
-          Certificación PCI DSS
-        </h2>
-        <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 40, maxWidth: 600 }}>
-          Cada transacción se procesa bajo el estándar internacional de seguridad avalado por Visa, Mastercard y American Express para proteger los datos de tarjeta.
-        </p>
-        <div className="mx-auto grid max-w-[720px] grid-cols-1 gap-4 tablet:grid-cols-3">
-          {[
-            { t: "Datos cifrados", d: "Bóveda virtual con cifrado de extremo a extremo." },
-            { t: "Antifraude con T1 Score", d: "Análisis de cada transacción en tiempo real." },
-            { t: "Cumplimiento PCI", d: "Los más altos estándares de la industria." },
-          ].map((f) => (
-            <div key={f.t} className="rounded-[16px] border border-white/[0.08] bg-[#141215] p-6 text-left">
-              <p className="font-sora text-[16px] font-normal text-white" style={{ marginBottom: 6 }}>{f.t}</p>
-              <p className="font-inter text-[13px] font-light text-white/55" style={{ lineHeight: 1.55 }}>{f.d}</p>
-            </div>
-          ))}
+    <section className="bg-black px-5 py-[56px] tablet:px-6 tablet:py-[72px]">
+      <div className="mx-auto flex max-w-[760px] flex-col items-center gap-4 rounded-[20px] border border-white/[0.08] bg-[#141215] px-6 py-8 text-center tablet:flex-row tablet:gap-6 tablet:px-9 tablet:text-left">
+        <span className="flex h-[48px] w-[48px] shrink-0 items-center justify-center rounded-[14px] bg-[rgba(219,59,43,0.12)]">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" stroke="#E2604C" strokeWidth="1.7" strokeLinejoin="round" /><path d="M9 12l2 2 4-4" stroke="#E2604C" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        </span>
+        <div>
+          <p className="font-sora text-[20px] font-normal text-white tablet:text-[24px]">Certificación PCI DSS</p>
+          <p className="mt-1.5 font-inter text-[14px] font-light text-white/60 tablet:text-[15px]" style={{ lineHeight: 1.6 }}>
+            Procesamos cada pago con cifrado de extremo a extremo, bajo el estándar internacional avalado por Visa, Mastercard y American Express.
+          </p>
         </div>
       </div>
     </section>

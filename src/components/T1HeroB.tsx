@@ -14,13 +14,13 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { SIGNUP_URL, PAGOS_START_URL, ENVIOS_QUOTE_URL } from "@/lib/constants";
+import { HERO_CHIPS, HERO_PROMPT_PLACEHOLDERS, capFirst, type HeroChip } from "@/lib/heroPrompt";
 
-/* ── Analítica: dataLayer como fallback (el proyecto no tiene tracking) ── */
+/* Analítica: track compartido (posthog + dataLayer, con props base y variant).
+   page_context distingue home vs producto_tienda con el mismo namespace hero_*. */
+import { track as baseTrack } from "@/lib/analytics";
 function track(event: string, data: Record<string, unknown>) {
-  if (typeof window === "undefined") return;
-  const w = window as unknown as { dataLayer?: Record<string, unknown>[] };
-  w.dataLayer = w.dataLayer || [];
-  w.dataLayer.push({ event, ...data });
+  baseTrack(event, { page_context: "home", ...data });
 }
 
 /* ── Tabs (segmented control) ── */
@@ -166,23 +166,9 @@ function StoreLogos() {
   );
 }
 
-/* Placeholders rotativos + chips para el modo tienda */
-const TIENDA_PLACEHOLDERS = [
-  "Vendo ropa y accesorios de moda",
-  "Vendo gadgets y accesorios de electrónica",
-  "Vendo maquillaje y productos de belleza",
-  "Vendo ropa y equipo deportivo",
-];
-const TIENDA_CHIPS: { label: string; example: string }[] = [
-  { label: "Moda", example: "Vendo ropa y accesorios de moda" },
-  { label: "Electrónica", example: "Vendo gadgets y accesorios de electrónica" },
-  { label: "Belleza", example: "Vendo maquillaje y productos de belleza" },
-  { label: "Deportes", example: "Vendo ropa y equipo deportivo" },
-  { label: "Joyería", example: "Hago joyería y bisutería artesanal" },
-  { label: "Dulces", example: "Vendo dulces y postres artesanales" },
-  { label: "Refacciones", example: "Vendo refacciones y autopartes" },
-  { label: "Hogar", example: "Vendo artículos de decoración para el hogar" },
-];
+/* Placeholders rotativos + chips (set unificado, compartido con T1 Tienda). */
+const TIENDA_PLACEHOLDERS = HERO_PROMPT_PLACEHOLDERS;
+const TIENDA_CHIPS = HERO_CHIPS;
 
 /* H1 rotativo (versión B): marco fijo "Un solo lugar para" + acción que rota. */
 const HERO_PHRASES = ["crear tu tienda", "cobrar tus ventas", "enviar tus pedidos", "crecer sin límites"];
@@ -210,6 +196,8 @@ export default function T1HeroB() {
 
   // Modo tienda
   const [value, setValue] = useState("");
+  const [promptSource, setPromptSource] = useState<"chip" | "typed">("typed");
+  const [chipCategory, setChipCategory] = useState<string | null>(null);
   const [phIdx, setPhIdx] = useState(0);
   const [typed, setTyped] = useState("");
   const [deleting, setDeleting] = useState(false);
@@ -299,10 +287,13 @@ export default function T1HeroB() {
     }
   };
 
-  const insertChip = (chip: { label: string; example: string }) => {
+  const insertChip = (chip: HeroChip) => {
     track("hero_chip_click", { mode: tab.id, chip: chip.label });
     const el = textareaRef.current;
-    setValue(chip.example);
+    const example = capFirst(chip.examples[Math.floor(Math.random() * chip.examples.length)]);
+    setValue(example);
+    setPromptSource("chip");
+    setChipCategory(chip.label);
     requestAnimationFrame(() => {
       if (el) {
         el.focus();
@@ -459,7 +450,7 @@ export default function T1HeroB() {
                     <textarea
                       ref={textareaRef}
                       value={value}
-                      onChange={(e) => setValue(e.target.value.slice(0, 500))}
+                      onChange={(e) => { setValue(e.target.value.slice(0, 500)); setPromptSource("typed"); setChipCategory(null); }}
                       rows={3}
                       aria-label="Describe tu negocio"
                       placeholder=""
@@ -468,7 +459,7 @@ export default function T1HeroB() {
                     {/* Placeholder animado con cursor (solo cuando el input está vacío) */}
                     {!value && (
                       <div aria-hidden className="pointer-events-none absolute inset-0 px-[18px] py-[15px] font-inter text-[16px] leading-[1.5] text-[#8A8A8A]">
-                        {placeholder}
+                        {capFirst(placeholder)}
                         <span className="ml-px inline-block w-[2px] align-[-2px] bg-[#8A8A8A]" style={{ height: "1.1em", animation: "blink 1s step-end infinite" }} />
                       </div>
                     )}
@@ -476,7 +467,7 @@ export default function T1HeroB() {
                       href={tab.href}
                       onClick={(e) => {
                         if (!tiendaOk) e.preventDefault();
-                        else submit({ length: value.trim().length });
+                        else submit({ length: value.trim().length, prompt_source: promptSource, chip_category: promptSource === "chip" ? chipCategory : null });
                       }}
                       aria-label="Comienza gratis"
                       style={kbOpen ? { position: "fixed", right: 16, bottom: kbH + 10, zIndex: 60 } : undefined}
@@ -488,14 +479,14 @@ export default function T1HeroB() {
                       {ArrowRight}
                     </a>
                   </div>
-                  {/* chips — envuelven en móvil, una sola línea en desktop */}
-                  <div className="flex min-h-[80px] flex-wrap items-start justify-center gap-2.5 tablet:min-h-0 tablet:flex-nowrap tablet:gap-2">
+                  {/* chips — móvil: una sola fila con scroll horizontal (no envolver); desktop: wrap centrado */}
+                  <div className="flex w-full flex-nowrap items-center justify-start gap-2.5 overflow-x-auto tablet:flex-wrap tablet:justify-center tablet:gap-2 tablet:overflow-visible" style={{ scrollbarWidth: "none" }}>
                     {TIENDA_CHIPS.map((chip) => (
                       <button
                         key={chip.label}
                         type="button"
                         onClick={() => insertChip(chip)}
-                        className="rounded-[11px] border border-white/10 px-2.5 py-1.5 font-inter text-[14px] font-medium text-white transition-colors hover:border-white/25 tablet:whitespace-nowrap tablet:px-2.5 tablet:py-1.5 tablet:text-[13px]"
+                        className="shrink-0 whitespace-nowrap rounded-[11px] border border-white/10 px-2.5 py-1.5 font-inter text-[14px] font-medium text-white transition-colors hover:border-white/25 tablet:text-[13px]"
                         style={{ background: "rgba(52,52,52,0.6)" }}
                       >
                         {chip.label}

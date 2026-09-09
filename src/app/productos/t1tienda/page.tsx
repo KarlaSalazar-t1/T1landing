@@ -5,7 +5,6 @@ import T1TiendaBento from "@/components/T1TiendaBento";
 import T1TiendaVideo from "@/components/T1TiendaVideo";
 import {
   T1TiendaIncluido,
-  T1TiendaMarketplaces,
   T1TiendaAdministracion,
   T1TiendaPagos,
   T1TiendaFAQ,
@@ -29,8 +28,8 @@ export default function TiendaLanding() {
         <T1TiendaIncluido />
         {/* 2 · Dónde vender — tienda en línea / marketplaces / POS */}
         <T1TiendaDondeVender />
-        {/* 3 · Marketplaces — "olvídate de manejar cada canal" */}
-        <T1TiendaMarketplaces />
+        {/* 3 · Marketplaces — "Un solo administrador…" (oculto por ahora) */}
+        {/* <T1TiendaMarketplaces /> */}
         {/* 3.5 · Bento — miles de tiendas creadas con T1 (parallax) */}
         <T1TiendaBento />
         {/* 4 · Pagos — cobra como quieras */}

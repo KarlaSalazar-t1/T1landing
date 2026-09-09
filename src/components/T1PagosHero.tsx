@@ -31,14 +31,14 @@ export default function T1PagosHero() {
         <div className="relative z-10 grid w-full max-w-[var(--max-w)] grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-8">
           {/* Izquierda — texto */}
           <div className="flex flex-col items-center text-center tablet:items-start tablet:text-left">
-            <h1 className="font-sora text-[34px] font-light leading-[1.12] text-white tablet:text-[52px] desktop:text-[54px]" style={{ letterSpacing: "-0.03em" }}>
-              Cobra en línea de forma
+            <h1 className="font-sora text-[33px] font-light leading-[1.1] text-white tablet:text-[52px] desktop:text-[54px]" style={{ letterSpacing: "-0.03em" }}>
+              Cobra en línea,
               <br />
-              simple, segura y rápida
+              simple y seguro
             </h1>
 
-            <p className="mt-5 max-w-[440px] font-inter text-[16px] font-light leading-[1.55] text-white/80 tablet:text-[18px]">
-              Acepta tarjetas, SPEI, Kueski y más, con protección antifraude, depósitos al día siguiente y todos tus cobros en un solo administrador.
+            <p className="mt-4 max-w-[460px] font-inter text-[15px] font-light leading-[1.5] text-white/80 tablet:text-[18px]">
+              Tarjetas, SPEI y meses sin intereses, con antifraude y depósitos al día siguiente.
             </p>
 
             {/* Métodos de pago — sólo móvil (en desktop están en el panel) */}
@@ -49,7 +49,7 @@ export default function T1PagosHero() {
             </div>
 
             {/* CTA */}
-            <a href={SIGNUP_URL} className="mt-10 inline-flex h-[50px] items-center justify-center gap-2 rounded-[16px] bg-red-500 px-8 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-red-600 tablet:mt-11">
+            <a href={SIGNUP_URL} data-cta-location="hero" data-cta-text="Comienza a cobrar" data-cta-destination={SIGNUP_URL} className="mt-10 inline-flex h-[50px] items-center justify-center gap-2 rounded-[16px] bg-red-500 px-8 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-red-600 tablet:mt-11">
               Comienza a cobrar
               {ArrowRight}
             </a>
