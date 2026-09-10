@@ -251,8 +251,17 @@ export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis
             ))}
           </div>
 
-          {/* Right: Login + CTA (desktop) + Hamburger (mobile) */}
+          {/* Right: Rastreo (envíos) + Login + CTA (desktop) + Hamburger (mobile) */}
           <div className="flex shrink-0 items-center gap-4 tablet:gap-6">
+            {/* Rastreo — acción de cliente que regresa, agrupada con Iniciar sesión (solo Envíos) */}
+            {product === "envios" && (
+              <a
+                href="/productos/t1envios/rastreo"
+                className={`hidden whitespace-nowrap font-inter text-[16px] font-medium no-underline transition-colors duration-150 tablet:block ${textClass}`}
+              >
+                Rastrea tu envío
+              </a>
+            )}
             <a
               href={LOGIN_URL}
               className={`hidden whitespace-nowrap font-inter text-[16px] font-medium no-underline transition-colors duration-150 tablet:block ${textClass}`}
@@ -318,6 +327,14 @@ export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis
                     <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </button>
+                {product === "envios" && (
+                  <a
+                    href="/productos/t1envios/rastreo"
+                    className="border-b border-white/[0.08] py-4 font-inter text-[16px] font-medium text-white no-underline"
+                  >
+                    Rastrea tu envío
+                  </a>
+                )}
                 {NAV_LINKS.map((link) => (
                   <a
                     key={link.label}

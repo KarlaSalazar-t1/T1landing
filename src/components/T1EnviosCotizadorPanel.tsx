@@ -40,8 +40,8 @@ function RateExample() {
 function Field({ name, label, unit, placeholder, maxLength, required, pattern, className = "" }: { name: string; label: string; unit?: string; placeholder: string; maxLength?: number; required?: boolean; pattern?: string; className?: string }) {
   return (
     <label className={`block ${className}`}>
-      <span className="mb-1 block truncate font-inter text-[10.5px] font-medium text-white/50">{label}</span>
-      <div className="flex items-baseline gap-1 border-b border-white/15 pb-1 transition-colors focus-within:border-[#DB3B2B]">
+      <span className="mb-1 block truncate font-inter text-[10.5px] font-medium text-white/65">{label}</span>
+      <div className="flex items-baseline gap-1 border-b border-white/25 pb-1 transition-colors focus-within:border-[#E2604C]">
         <input
           name={name}
           required={required}
@@ -85,8 +85,8 @@ export default function T1EnviosCotizadorPanel() {
         onSubmit={onSubmit}
         onFocusCapture={onFirstFocus}
         onInput={(e) => setValid(e.currentTarget.checkValidity())}
-        className="w-full overflow-hidden rounded-[18px] border border-white/[0.1] bg-[#17141a] p-4 text-left tablet:p-6"
-        style={{ boxShadow: "0 30px 70px rgba(0,0,0,0.45)" }}
+        className="w-full overflow-hidden rounded-[18px] border border-white/[0.16] bg-white/[0.08] p-4 text-left backdrop-blur-md tablet:p-6"
+        style={{ boxShadow: "0 20px 50px rgba(0,0,0,0.30)" }}
       >
         <div className="mb-4 tablet:mb-5">
           <p className="font-sora text-[16px] font-semibold text-white tablet:text-[19px]">Cotiza ahora</p>

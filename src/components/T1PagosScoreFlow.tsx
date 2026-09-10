@@ -101,7 +101,7 @@ export function T1PagosScore() {
       <div className="mx-auto max-w-[var(--max-w)]">
         <div className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
           {/* Texto */}
-          <div className="order-2 tablet:order-1">
+          <div className="order-2">
             <span className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-3 py-1.5 font-inter text-[12px] font-semibold text-white/70">
               T1 Score
             </span>
@@ -117,9 +117,9 @@ export function T1PagosScore() {
             </a>
           </div>
 
-          {/* Imagen estática (más simple que el panel animado) */}
-          <div className="order-1 mx-auto w-full max-w-[380px] overflow-hidden rounded-[20px] tablet:order-2 tablet:mx-0 tablet:ml-auto">
-            <Image src="/img/nv-analisis-score.png" alt="Análisis de riesgo con T1 Score" width={1254} height={1254} className="block h-auto w-full" sizes="(max-width: 768px) 92vw, 380px" />
+          {/* Imagen estática — a la izquierda, alineada con el mapa de Escala (max-w-440) */}
+          <div className="order-1 mx-auto w-full max-w-[440px] overflow-hidden rounded-[20px]">
+            <Image src="/img/nv-analisis-score.png" alt="Análisis de riesgo con T1 Score" width={1254} height={1254} className="block h-auto w-full" sizes="(max-width: 768px) 92vw, 440px" />
           </div>
         </div>
       </div>

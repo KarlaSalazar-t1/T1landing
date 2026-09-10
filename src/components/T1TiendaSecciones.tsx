@@ -17,7 +17,16 @@ export function T1TiendaIncluido() {
             No necesitas integrar nada extra. Vende, cobra y envía desde el día uno, todo en un solo lugar.
           </p>
         </div>
-        <div className="mx-auto mt-10 grid max-w-[900px] grid-cols-1 gap-4 tablet:mt-14 tablet:grid-cols-2">
+        {/* Caja Tienda (padre) que engloba Pagos + Envíos (hijos) */}
+        <div className="mx-auto mt-10 max-w-[920px] rounded-[24px] border border-white/[0.12] bg-[#161518] p-4 tablet:mt-14 tablet:p-6">
+          {/* Encabezado del padre: la Tienda */}
+          <div className="flex flex-col items-center gap-2.5 px-2 pb-5 pt-2 text-center tablet:flex-row tablet:items-center tablet:justify-between tablet:gap-6 tablet:px-3 tablet:pb-6 tablet:text-left">
+            <Image src="/img/t1tienda-white.svg" alt="T1 Tienda" width={150} height={42} className="h-[30px] w-auto shrink-0 object-contain" />
+            <p className="max-w-[520px] font-inter text-[14px] font-light leading-relaxed text-white/60 tablet:text-[15px]">
+              Tu tienda en línea con IA — y con pagos y envíos ya integrados, listos desde el día uno.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 gap-4 tablet:grid-cols-2">
           {[
             {
               title: "T1 Pagos",
@@ -37,7 +46,7 @@ export function T1TiendaIncluido() {
               plus: "+5",
             },
           ].map((it) => (
-            <a key={it.title} href={it.href} className="group flex flex-col rounded-[18px] border border-white/[0.08] bg-[#1A1A1D] p-7 no-underline transition-colors hover:border-white/20">
+            <a key={it.title} href={it.href} className="group flex flex-col rounded-[16px] border border-white/[0.07] bg-[#0f0f11] p-6 no-underline transition-colors hover:border-white/20">
               <Image src={it.logo} alt={it.title} width={160} height={36} className="h-[30px] w-auto object-contain" style={{ objectPosition: "left" }} />
               <p className="mt-2.5 font-inter text-[15px] font-light leading-relaxed text-white/60 tablet:text-[16px]">{it.desc}</p>
               <div className="mt-auto flex items-center gap-3 pt-6">
@@ -60,6 +69,7 @@ export function T1TiendaIncluido() {
               </span>
             </a>
           ))}
+          </div>
         </div>
       </div>
     </section>

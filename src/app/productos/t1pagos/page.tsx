@@ -41,10 +41,10 @@ export default function PagosLanding() {
         <T1PagosPrecios />
         {/* 6 · Antifraude con T1 Score (después de precios) */}
         <T1PagosScore />
-        {/* 6 · Administra tus cobros (después de precios) */}
-        <T1PagosAdministracion />
-        {/* 7 · 8 países LATAM (mapa) + Certificación PCI DSS */}
+        {/* 7 · Escala: 8 países LATAM (mapa) + Certificación PCI DSS */}
         <T1PagosPaises />
+        {/* 8 · Administra tus cobros */}
+        <T1PagosAdministracion />
         {/* 9.5 · Casos de éxito (pagos / antifraude) */}
         <T1EnterpriseCarousel
           bVariant

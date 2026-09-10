@@ -50,7 +50,7 @@ export default function TiendaLanding() {
       {/* CTA final */}
       <T1FinalCTA
         title={<>¿Listo para crear tu tienda?</>}
-        description="Describe tu negocio y ten tu tienda lista para vender en 60 segundos. Sin código."
+        description="Describe tu negocio y ten tu tienda lista para vender en segundos. Sin código."
         buttonLabel="Comienza gratis"
       />
 

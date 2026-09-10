@@ -145,28 +145,6 @@ function CarrierLogos() {
   );
 }
 
-/* ── Crea tu tienda: en vez de logos de marca (el prompt es de tienda en línea),
-   3 iconos que representan los pilares vender / cobrar / enviar (todo en uno). ── */
-const STORE_PILLARS = [
-  { src: "/img/icon-tienda.svg", label: "Vender" },
-  { src: "/img/icon-pagos.svg", label: "Cobrar" },
-  { src: "/img/icon-envios.svg", label: "Enviar" },
-];
-function StoreLogos() {
-  return (
-    <div className="mt-6 flex flex-col items-center gap-3">
-      <span className="font-inter text-[12px] font-normal text-white/45">Tu tienda, lista para vender, cobrar y enviar</span>
-      <div className="flex items-center justify-center gap-2.5">
-        {STORE_PILLARS.map((p) => (
-          <div key={p.label} className="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-full border border-white/12 bg-white/[0.06]">
-            <Image src={p.src} alt={p.label} width={18} height={18} className="h-[15px] w-auto object-contain [filter:brightness(0)_invert(1)]" />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 /* Placeholders rotativos + chips (set unificado, compartido con T1 Tienda). */
 const TIENDA_PLACEHOLDERS = HERO_PROMPT_PLACEHOLDERS;
 const TIENDA_CHIPS = HERO_CHIPS;
@@ -318,10 +296,10 @@ export default function T1HeroB() {
 
         {/* ══ FIRST FOLD ══ título + selector + contenido. En móvil un poco menos alto
             (85svh) para que asome un hint de los datos/marquee = "hay scroll". ══ */}
-        <div className="relative z-10 flex min-h-[calc(85svh-96px)] w-full max-w-[440px] flex-col items-center tablet:min-h-[680px] tablet:max-w-[640px]">
+        <div className="relative z-10 flex min-h-[calc(85svh-96px)] w-full max-w-[440px] flex-col items-center tablet:min-h-[680px] tablet:max-w-[720px]">
           {/* 1 · H1 (arriba) — rotativo: "Un solo lugar para [acción]." */}
           <h1
-            className="text-center font-sora text-[32px] font-light leading-[1.14] text-white tablet:text-[48px]"
+            className="text-center font-sora text-[30px] font-light leading-[1.12] text-white tablet:text-[44px]"
             style={{ letterSpacing: "-0.03em" }}
           >
             <span className="block">Un solo lugar para</span>
@@ -450,8 +428,8 @@ export default function T1HeroB() {
                       {ArrowRight}
                     </a>
                   </div>
-                  {/* chips — móvil: una sola fila con scroll horizontal (no envolver); desktop: wrap centrado */}
-                  <div className="flex w-full flex-nowrap items-center justify-start gap-2.5 overflow-x-auto tablet:flex-wrap tablet:justify-center tablet:gap-2 tablet:overflow-visible" style={{ scrollbarWidth: "none" }}>
+                  {/* chips — una sola línea (scroll horizontal si no caben) */}
+                  <div className="flex w-full flex-nowrap items-center justify-start gap-2.5 overflow-x-auto tablet:justify-center tablet:gap-2" style={{ scrollbarWidth: "none" }}>
                     {TIENDA_CHIPS.map((chip) => (
                       <button
                         key={chip.label}
@@ -464,8 +442,6 @@ export default function T1HeroB() {
                       </button>
                     ))}
                   </div>
-                  {/* Cierre — caption + logos de canales, para que se vea parejo con envío/pago */}
-                  <StoreLogos />
                 </>
               )}
 
@@ -578,21 +554,20 @@ export default function T1HeroB() {
               )}
             </div>
           </div>
+
+          {/* Números — dentro del first fold, debajo del input */}
+          <div className="mt-8 flex flex-col items-center gap-2.5 pb-2 tablet:mt-10 tablet:gap-4">
+            <span className="font-inter text-[19px] font-normal text-white tablet:text-[24px]">+50,000 negocios</span>
+            <div className="flex items-center gap-6 tablet:gap-12">
+              <span className="font-inter text-[15px] font-normal text-white/75 tablet:text-[18px]">+40M de envíos</span>
+              <span className="font-inter text-[15px] font-normal text-white/75 tablet:text-[18px]">+200M transacciones</span>
+            </div>
+          </div>
         </div>
 
-        {/* ══ BAJO EL FOLD ══ datos + marquee a todo el ancho (alineado al header) ══ */}
+        {/* ══ BAJO EL FOLD ══ marquee de marcas a todo el ancho (alineado al header) ══ */}
         <div className="relative z-10 w-full pb-8 pt-11 tablet:pt-[60px]">
           <div className="mx-auto w-full max-w-[var(--max-w)] px-5 tablet:px-6">
-            {/* Datos: negocios centrado arriba; envíos + transacciones en una línea abajo.
-                Más aire entre líneas y contra el marquee (desktop y móvil). */}
-            <div className="mb-12 flex flex-col items-center gap-3 tablet:mb-16 tablet:gap-5">
-              <span className="font-inter text-[19px] font-normal text-white tablet:text-[24px]">+50,000 negocios</span>
-              <div className="flex items-center gap-6 tablet:gap-14">
-                <span className="font-inter text-[15px] font-normal text-white/75 tablet:text-[18px]">+40M de envíos</span>
-                <span className="font-inter text-[15px] font-normal text-white/75 tablet:text-[18px]">+200M transacciones</span>
-              </div>
-            </div>
-            {/* Marquee a todo el ancho (alineado con el header) — sin título */}
             <LogoMarquee />
           </div>
         </div>

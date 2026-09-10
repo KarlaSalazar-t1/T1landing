@@ -1,48 +1,40 @@
 /* Fondo compartido de los heroes (home T1, envíos, tienda, pagos).
-   Es un punto intermedio entre el de T1 general (muy oscuro) y el de Tienda
-   (muy claro): se parte del de Tienda y se oscurece un poco. Un solo lugar
-   para que los 4 heroes se vean iguales. */
+   Paleta cálida y coherente (coral/rojo): sin azul/índigo ni rosa, y un punto
+   más clara que antes para que los widgets (cotizador, link de pago) se lean
+   bien encima. Un solo lugar para que los 4 heroes se vean iguales. */
 export default function HeroBackground({ fadeHeight = 260 }: { fadeHeight?: number }) {
   return (
     <>
-      {/* Base — degradado intermedio (Tienda oscurecida un poco) */}
+      {/* Base — degradado cálido (plum → vino), un poco más claro */}
       <div
         aria-hidden
         className="absolute inset-0 z-0"
-        style={{ background: "linear-gradient(160deg, #5d3046 0%, #351b28 51%, #22111c 100%)" }}
+        style={{ background: "linear-gradient(160deg, #6b3a4d 0%, #3e2331 52%, #281620 100%)" }}
       />
-      {/* Glows de color — coral/rojo al centro, azul en las orillas */}
+      {/* Glows — solo tonos cálidos (coral/rojo), coral al centro-arriba */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 z-0"
         style={{
           background:
-            "radial-gradient(ellipse 86% 70% at 67% 32%, rgba(230,72,54,0.42) 0%, transparent 61%)," +
-            "radial-gradient(ellipse 60% 58% at 14% 22%, rgba(163,42,44,0.29) 0%, transparent 59%)," +
-            "radial-gradient(ellipse 50% 46% at 82% 84%, rgba(244,116,152,0.14) 0%, transparent 63%)," +
-            "radial-gradient(ellipse 60% 70% at -4% 88%, rgba(68,86,178,0.47) 0%, transparent 53%)," +
-            "radial-gradient(ellipse 42% 60% at 102% 10%, rgba(68,86,178,0.39) 0%, transparent 51%)",
+            "radial-gradient(ellipse 92% 78% at 62% 26%, rgba(232,88,62,0.42) 0%, transparent 62%)," +
+            "radial-gradient(ellipse 66% 60% at 14% 24%, rgba(198,58,52,0.26) 0%, transparent 60%)," +
+            "radial-gradient(ellipse 58% 54% at 86% 82%, rgba(226,96,74,0.16) 0%, transparent 64%)",
         }}
       />
       {/* Grano sutil (misma textura que las cards) */}
       <div aria-hidden className="noise-grain pointer-events-none absolute inset-0 z-0" style={{ opacity: 0.04 }} />
-      {/* Viñeta lateral — solo desktop: orillas un poco más oscuras */}
+      {/* Viñeta lateral — solo desktop: orillas un poco más oscuras (neutra cálida) */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 z-0 hidden tablet:block"
         style={{
           background:
-            "linear-gradient(90deg, rgba(10,9,14,0.6) 0%, rgba(12,11,16,0.24) 13%, rgba(0,0,0,0) 28%, rgba(0,0,0,0) 72%, rgba(12,11,16,0.24) 87%, rgba(10,9,14,0.6) 100%)",
+            "linear-gradient(90deg, rgba(20,10,14,0.5) 0%, rgba(20,10,14,0.18) 14%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 70%, rgba(20,10,14,0.18) 86%, rgba(20,10,14,0.5) 100%)",
         }}
       />
-      {/* Acento azul — esquina superior derecha, solo desktop */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 z-0 hidden tablet:block"
-        style={{ background: "radial-gradient(circle at 97% -2%, rgba(4,24,82,0.7) 0%, rgba(17,0,85,0) 27%)" }}
-      />
       {/* Degradado al negro al fondo — corte suave hacia la sección negra.
-          El negro se concentra en la parte baja para que el rojizo del hero
+          El negro se concentra en la parte baja para que el cálido del hero
           siga visible detrás de los campos/chips y no se los coma el negro. */}
       <div
         aria-hidden

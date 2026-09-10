@@ -25,8 +25,8 @@ function MethodLogos() {
 function LinkPanel() {
   return (
     <div
-      className="w-full max-w-[420px] rounded-[22px] border border-white/[0.10] bg-[#100d10] p-6 tablet:p-7"
-      style={{ boxShadow: "0 30px 70px rgba(0,0,0,0.5)" }}
+      className="w-full max-w-[420px] rounded-[22px] border border-white/[0.16] bg-white/[0.08] p-6 backdrop-blur-md tablet:p-7"
+      style={{ boxShadow: "0 20px 50px rgba(0,0,0,0.30)" }}
     >
       <p className="mb-5 text-center font-inter text-[12px] font-medium uppercase tracking-[0.1em] text-white/40">Cobra en segundos</p>
       <T1PagosLinkCreator />
@@ -39,13 +39,13 @@ export default function T1PagosHero() {
     <div className="relative z-0">
       <section className="relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-5 pb-0 pt-24 tablet:min-h-screen tablet:px-6 tablet:pt-28 tablet:pb-0">
         {/* Fondo (compartido entre los heroes) */}
-        <HeroBackground fadeHeight={640} />
+        <HeroBackground fadeHeight={300} />
 
         {/* Contenido */}
         <div className="relative z-10 grid w-full max-w-[var(--max-w)] grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-8">
           {/* Izquierda — texto */}
           <div className="flex flex-col items-center text-center tablet:items-start tablet:text-left">
-            <h1 className="font-sora text-[33px] font-light leading-[1.1] text-white tablet:text-[52px] desktop:text-[54px]" style={{ letterSpacing: "-0.03em" }}>
+            <h1 className="font-sora text-[30px] font-light leading-[1.12] text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em" }}>
               Cobra en línea,
               <br />
               simple y seguro

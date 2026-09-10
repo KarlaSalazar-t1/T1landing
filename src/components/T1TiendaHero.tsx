@@ -83,23 +83,25 @@ export default function T1TiendaHero() {
     <div className="relative z-0">
       <section className="relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-5 pb-0 pt-24 tablet:min-h-screen tablet:px-6 tablet:pt-28 tablet:pb-0">
         {/* Fondo (compartido entre los heroes) */}
-        <HeroBackground fadeHeight={640} />
+        <HeroBackground fadeHeight={300} />
 
         {/* Contenido */}
         <div className="relative z-10 flex w-full max-w-[440px] grow flex-col items-center tablet:max-w-[720px]">
           {/* Título */}
           <h1
-            className="mt-8 text-center font-sora font-light leading-[1.12] text-white tablet:mt-14"
-            style={{ letterSpacing: "-0.03em", fontSize: "clamp(25px, 7vw, 44px)" }}
+            className="mt-8 text-center font-sora text-[30px] font-light leading-[1.12] text-white tablet:mt-14 tablet:whitespace-nowrap tablet:text-[44px]"
+            style={{ letterSpacing: "-0.03em" }}
           >
-            Crea tu tienda en
-            <br />
-            60 segundos
+            Crea tu tienda en segundos
           </h1>
 
           <p className="mt-4 max-w-[440px] text-center font-inter text-[16px] font-light leading-[1.55] text-white/70 tablet:mt-5 tablet:max-w-none tablet:whitespace-nowrap tablet:text-[17px]">
-            T1 te ayuda a vender, cobrar y enviar a todo México. Gratis, sin tarjeta de crédito.
+            T1 te ayuda a vender, cobrar y enviar a todo México.
           </p>
+          <span className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.06] px-3.5 py-1.5 font-inter text-[13px] font-medium text-white tablet:mt-4 tablet:text-[14px]">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M5 12l4 4L19 7" stroke="#4ADE80" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            Gratis · Sin tarjeta de crédito
+          </span>
 
           {/* Bloque central */}
           <div className="flex w-full flex-1 flex-col items-center justify-center gap-6 py-6">
@@ -138,13 +140,13 @@ export default function T1TiendaHero() {
             </div>
 
             {/* Chips — móvil: una sola fila con scroll horizontal (no envolver); desktop: wrap centrado */}
-            <div className="flex w-full min-h-[44px] flex-nowrap items-center justify-start gap-2.5 overflow-x-auto tablet:flex-wrap tablet:justify-center tablet:overflow-visible" style={{ scrollbarWidth: "none" }}>
+            <div className="flex w-full min-h-[44px] flex-nowrap items-center justify-start gap-2.5 overflow-x-auto tablet:justify-center tablet:gap-2" style={{ scrollbarWidth: "none" }}>
               {CHIPS.map((chip) => (
                 <button
                   key={chip.label}
                   type="button"
                   onClick={() => insertChip(chip)}
-                  className="shrink-0 rounded-[11px] border border-white/10 px-2.5 py-1.5 font-inter text-[14px] font-medium text-white transition-colors hover:border-white/25"
+                  className="shrink-0 whitespace-nowrap rounded-[11px] border border-white/10 px-2.5 py-1.5 font-inter text-[14px] font-medium text-white transition-colors hover:border-white/25 tablet:text-[13px]"
                   style={{ background: "rgba(52,52,52,0.6)" }}
                 >
                   {chip.label}

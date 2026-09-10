@@ -31,51 +31,36 @@ export default function T1EnviosHero() {
     <div className="relative z-0">
       <section id="cotizador" className="relative flex min-h-[92svh] scroll-mt-20 flex-col items-center justify-center overflow-hidden px-5 pb-0 pt-24 tablet:min-h-screen tablet:px-6 tablet:pt-28 tablet:pb-0">
         {/* Fondo (compartido entre los heroes) */}
-        <HeroBackground fadeHeight={640} />
+        <HeroBackground fadeHeight={300} />
 
-        {/* Contenido */}
-        <div className="relative z-10 flex w-full max-w-[var(--max-w)] grow flex-col justify-center">
-          <div className="grid grid-cols-1 items-center gap-8 tablet:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] tablet:gap-10">
-            {/* Izquierda — texto */}
-            <div className="flex flex-col items-center text-center tablet:items-start tablet:text-left">
-              <h1 className="font-sora text-[34px] font-light leading-[1.12] text-white tablet:text-[52px] desktop:text-[54px]" style={{ letterSpacing: "-0.03em" }}>
-                Todos tus envíos,
-                <br />
-                un solo lugar
-              </h1>
+        {/* Contenido — columna apilada centrada (título → cotizador → logos → CTA) */}
+        <div className="relative z-10 flex w-full max-w-[640px] grow flex-col items-center justify-center text-center">
+          <h1 className="mt-6 font-sora text-[30px] font-light leading-[1.12] text-white tablet:mt-10 tablet:whitespace-nowrap tablet:text-[44px]" style={{ letterSpacing: "-0.03em" }}>
+            Todos tus envíos, un solo lugar
+          </h1>
 
-              <p className="mt-4 max-w-[520px] font-inter text-[15px] font-light leading-[1.5] text-white/80 tablet:text-[18px]">
-                Las mejores tarifas, sin volumen mínimo ni contratos.
-              </p>
+          <p className="mt-4 max-w-[520px] font-inter text-[15px] font-light leading-[1.5] text-white/80 tablet:text-[18px]">
+            Las mejores tarifas, sin volumen mínimo ni contratos.
+          </p>
 
-              {/* Móvil: cotizador funcional + logos */}
-              <div className="mt-7 w-full tablet:hidden">
-                <T1EnviosCotizadorPanel />
-                <div className="mt-6">
-                  <CarrierLogos />
-                </div>
-              </div>
-
-              {/* CTA */}
-              <a href={ENVIOS_SIGNUP_URL} data-cta-location="hero" data-cta-text="Comienza a enviar" data-cta-destination={ENVIOS_SIGNUP_URL} className="mt-8 inline-flex h-[52px] items-center justify-center gap-2 rounded-[16px] bg-red-500 px-8 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-red-600 tablet:mt-9">
-                Comienza a enviar
-                {ArrowRight}
-              </a>
-            </div>
-
-            {/* Derecha — cotizador (más grande) + logos en fila (sólo desktop) */}
-            <div className="hidden flex-col items-center gap-7 tablet:flex">
-              <div className="w-full max-w-[468px]">
-                <T1EnviosCotizadorPanel />
-              </div>
-              <div className="w-full max-w-[468px]">
-                <CarrierLogos />
-              </div>
-            </div>
+          {/* Cotizador funcional — ancho, centrado */}
+          <div className="mt-8 w-full max-w-[600px] tablet:mt-9">
+            <T1EnviosCotizadorPanel />
           </div>
 
+          {/* Logos de paqueterías */}
+          <div className="mt-6 w-full max-w-[560px]">
+            <CarrierLogos />
+          </div>
+
+          {/* CTA de alta (métrica del A/B) */}
+          <a href={ENVIOS_SIGNUP_URL} data-cta-location="hero" data-cta-text="Comienza a enviar" data-cta-destination={ENVIOS_SIGNUP_URL} className="mt-8 inline-flex h-[52px] items-center justify-center gap-2 rounded-[16px] bg-red-500 px-8 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-red-600">
+            Comienza a enviar
+            {ArrowRight}
+          </a>
+
           {/* Social proof — métrica grande arriba, dos abajo */}
-          <div className="mt-12 mb-10 flex flex-col items-center gap-2.5 px-2 text-center tablet:mt-16 tablet:mb-0 tablet:gap-4">
+          <div className="mt-10 mb-10 flex flex-col items-center gap-2.5 px-2 tablet:mt-12 tablet:mb-0 tablet:gap-4">
             <span className="font-inter text-[19px] font-normal text-white tablet:text-[24px]">{SOCIAL_PROOF[0]}</span>
             <div className="flex items-center gap-6 tablet:gap-12">
               {SOCIAL_PROOF.slice(1).map((s) => (
