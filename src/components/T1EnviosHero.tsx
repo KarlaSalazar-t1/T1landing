@@ -31,7 +31,7 @@ export default function T1EnviosHero() {
     <div className="relative z-0">
       <section id="cotizador" className="relative flex min-h-[92svh] scroll-mt-20 flex-col items-center justify-center overflow-hidden px-5 pb-0 pt-24 tablet:min-h-screen tablet:px-6 tablet:pt-28 tablet:pb-0">
         {/* Fondo (compartido entre los heroes) */}
-        <HeroBackground />
+        <HeroBackground fadeHeight={640} />
 
         {/* Contenido */}
         <div className="relative z-10 flex w-full max-w-[var(--max-w)] grow flex-col justify-center">

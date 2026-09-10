@@ -2,7 +2,7 @@
    Es un punto intermedio entre el de T1 general (muy oscuro) y el de Tienda
    (muy claro): se parte del de Tienda y se oscurece un poco. Un solo lugar
    para que los 4 heroes se vean iguales. */
-export default function HeroBackground() {
+export default function HeroBackground({ fadeHeight = 260 }: { fadeHeight?: number }) {
   return (
     <>
       {/* Base — degradado intermedio (Tienda oscurecida un poco) */}
@@ -41,11 +41,13 @@ export default function HeroBackground() {
         className="pointer-events-none absolute inset-0 z-0 hidden tablet:block"
         style={{ background: "radial-gradient(circle at 97% -2%, rgba(4,24,82,0.7) 0%, rgba(17,0,85,0) 27%)" }}
       />
-      {/* Degradado al negro al fondo — corte suave hacia la sección negra */}
+      {/* Degradado al negro al fondo — corte suave hacia la sección negra.
+          El negro se concentra en la parte baja para que el rojizo del hero
+          siga visible detrás de los campos/chips y no se los coma el negro. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-[260px]"
-        style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(3,1,1,0.85) 55%, #000 100%)" }}
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-0"
+        style={{ height: fadeHeight, background: "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 44%, rgba(3,1,1,0.5) 74%, #000 100%)" }}
       />
     </>
   );

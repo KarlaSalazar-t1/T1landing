@@ -5,7 +5,7 @@ import {
   T1PagosAdministracion,
   T1PagosFAQ,
 } from "@/components/T1PagosSecciones";
-import { T1PagosPorQue, T1PagosPrecios, T1PagosPaises, T1PagosPCI } from "@/components/T1PagosExtra";
+import { T1PagosPorQue, T1PagosPrecios, T1PagosPaises } from "@/components/T1PagosExtra";
 import { T1PagosScore } from "@/components/T1PagosScoreFlow";
 import T1EnterpriseCarousel from "@/components/T1EnterpriseCarousel";
 import T1ProductMetrics from "@/components/T1ProductMetrics";
@@ -43,10 +43,8 @@ export default function PagosLanding() {
         <T1PagosScore />
         {/* 6 · Administra tus cobros (después de precios) */}
         <T1PagosAdministracion />
-        {/* 7 · 8 países LATAM (mapa) */}
+        {/* 7 · 8 países LATAM (mapa) + Certificación PCI DSS */}
         <T1PagosPaises />
-        {/* 9 · Certificación PCI DSS */}
-        <T1PagosPCI />
         {/* 9.5 · Casos de éxito (pagos / antifraude) */}
         <T1EnterpriseCarousel
           bVariant

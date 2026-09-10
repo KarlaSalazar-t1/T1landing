@@ -93,14 +93,15 @@ export const MEGA_MENU_COLUMNS = [
       { title: "Reclamaciones", desc: "Gestiona reclamaciones y contracargos", href: "/productos/t1pagos/reclamaciones" },
     ],
   },
-  {
-    title: "T1 Score",
-    href: "/productos/t1score",
-    items: [
-      { title: "Prevención de fraude", desc: "Bloquea fraude en tiempo real", href: "/productos/t1score/prevencion-fraude" },
-      { title: "Análisis de riesgo", desc: "Evalúa cada operación al instante", href: "/productos/t1score/analisis-riesgo" },
-    ],
-  },
+  // T1 Score — oculto del menú por ahora
+  // {
+  //   title: "T1 Score",
+  //   href: "/productos/t1score",
+  //   items: [
+  //     { title: "Prevención de fraude", desc: "Bloquea fraude en tiempo real", href: "/productos/t1score/prevencion-fraude" },
+  //     { title: "Análisis de riesgo", desc: "Evalúa cada operación al instante", href: "/productos/t1score/analisis-riesgo" },
+  //   ],
+  // },
 ];
 
 export const MEGA_MENU_SIDEBAR = {

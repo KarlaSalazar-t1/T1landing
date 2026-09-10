@@ -30,22 +30,6 @@ export const HERO_CHIPS: HeroChip[] = [
     "quiero vender ropa vintage y prendas de segunda mano curadas",
     "quiero vender ropa infantil cómoda y divertida para niños",
   ] },
-  { label: "Artesanías", examples: [
-    "quiero vender velas aromáticas y decoración hecha a mano",
-    "quiero vender regalos personalizados para bodas y eventos",
-    "quiero vender piezas de cerámica y barro hechas por artesanos mexicanos",
-    "quiero vender bordados y textiles artesanales de mi comunidad",
-    "quiero vender cajas de regalo curadas con productos locales",
-    "quiero vender arte y láminas ilustradas de creadores independientes",
-  ] },
-  { label: "Dulces y snacks", examples: [
-    "quiero vender dulces y postres para eventos y regalos",
-    "quiero vender snacks y botanas mexicanas con empaque llamativo",
-    "quiero vender chocolates y repostería fina hechos por encargo",
-    "quiero vender mesas de dulces y bocadillos para fiestas",
-    "quiero vender galletas decoradas y postres personalizados",
-    "quiero vender café de especialidad y productos gourmet artesanales",
-  ] },
   { label: "Belleza", examples: [
     "quiero vender productos de skincare naturales para piel sensible",
     "quiero vender maquillaje con una imagen fresca y juvenil",
@@ -61,6 +45,14 @@ export const HERO_CHIPS: HeroChip[] = [
     "quiero vender accesorios de cómputo con un estilo minimalista",
     "quiero vender bocinas y equipo de audio portátil",
     "quiero vender smartwatches y wearables de varias marcas",
+  ] },
+  { label: "Dulces y snacks", examples: [
+    "quiero vender dulces y postres para eventos y regalos",
+    "quiero vender snacks y botanas mexicanas con empaque llamativo",
+    "quiero vender chocolates y repostería fina hechos por encargo",
+    "quiero vender mesas de dulces y bocadillos para fiestas",
+    "quiero vender galletas decoradas y postres personalizados",
+    "quiero vender café de especialidad y productos gourmet artesanales",
   ] },
   { label: "Joyería", examples: [
     "quiero vender joyería de plata con diseños elegantes y delicados",
@@ -85,6 +77,14 @@ export const HERO_CHIPS: HeroChip[] = [
     "quiero vender plantas y macetas con diseños modernos",
     "quiero vender vajillas y utensilios de cocina de diseño",
     "quiero vender lámparas y piezas decorativas para interiores",
+  ] },
+  { label: "Artesanías", examples: [
+    "quiero vender velas aromáticas y decoración hecha a mano",
+    "quiero vender regalos personalizados para bodas y eventos",
+    "quiero vender piezas de cerámica y barro hechas por artesanos mexicanos",
+    "quiero vender bordados y textiles artesanales de mi comunidad",
+    "quiero vender cajas de regalo curadas con productos locales",
+    "quiero vender arte y láminas ilustradas de creadores independientes",
   ] },
 ];
 

@@ -103,10 +103,9 @@ export function T1PagosScore() {
           {/* Texto */}
           <div className="order-2 tablet:order-1">
             <span className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-3 py-1.5 font-inter text-[12px] font-semibold text-white/70">
-              <span className="flex h-[18px] w-[18px] items-center justify-center rounded-[5px] bg-[#DB3B2B] font-sora text-[9px] font-extrabold text-white">T1</span>
               T1 Score
             </span>
-            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginTop: 20, marginBottom: 16, maxWidth: 460 }}>
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginTop: 20, marginBottom: 16, maxWidth: 540 }}>
               Antifraude que aprueba más y frena el fraude
             </h2>
             <p className="font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 460 }}>
@@ -119,8 +118,8 @@ export function T1PagosScore() {
           </div>
 
           {/* Imagen estática (más simple que el panel animado) */}
-          <div className="order-1 overflow-hidden rounded-[20px] border border-white/[0.08] tablet:order-2">
-            <Image src="/img/t1score-v3.png" alt="Antifraude con T1 Score" width={1720} height={914} className="block h-auto w-full" sizes="(max-width: 768px) 92vw, 520px" />
+          <div className="order-1 mx-auto w-full max-w-[380px] overflow-hidden rounded-[20px] tablet:order-2 tablet:mx-0 tablet:ml-auto">
+            <Image src="/img/nv-analisis-score.png" alt="Análisis de riesgo con T1 Score" width={1254} height={1254} className="block h-auto w-full" sizes="(max-width: 768px) 92vw, 380px" />
           </div>
         </div>
       </div>
