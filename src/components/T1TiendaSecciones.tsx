@@ -17,25 +17,19 @@ export function T1TiendaIncluido() {
             No necesitas integrar nada extra. Vende, cobra y envía desde el día uno, todo en un solo lugar.
           </p>
         </div>
-        {/* Tienda = padre (box arriba); Pagos + Envíos = hijos (cards abajo) */}
-        <div className="mx-auto mt-10 max-w-[920px] tablet:mt-14">
-          {/* Box padre: la Tienda */}
-          <div className="flex flex-col items-center gap-3 rounded-[18px] border border-white/[0.10] bg-[#1A1A1D] px-6 py-6 text-center tablet:flex-row tablet:justify-between tablet:gap-8 tablet:px-8 tablet:text-left">
-            <Image src="/img/t1tienda-white.svg" alt="T1 Tienda" width={150} height={42} className="h-[32px] w-auto shrink-0 object-contain" />
-            <p className="max-w-[580px] font-inter text-[14px] font-light leading-relaxed text-white/65 tablet:text-[15px]">
+        {/* UNA sola card dividida: Tienda + explicación arriba · Pagos | Envíos abajo */}
+        <div className="mx-auto mt-10 max-w-[920px] overflow-hidden rounded-[22px] border border-white/[0.10] bg-[#1A1A1D] tablet:mt-12">
+          {/* Fila superior: la Tienda (padre) + mini explicación (agrupadas, con divisor) */}
+          <div className="flex flex-col items-center gap-3 border-b border-white/[0.08] px-6 py-6 text-center tablet:flex-row tablet:items-center tablet:gap-5 tablet:px-8 tablet:text-left">
+            <Image src="/img/t1tienda-white.svg" alt="T1 Tienda" width={150} height={42} className="h-[30px] w-auto shrink-0 object-contain" />
+            <span aria-hidden className="hidden h-9 w-px shrink-0 bg-white/[0.12] tablet:block" />
+            <p className="font-inter text-[14px] font-light leading-relaxed text-white/65 tablet:text-[15px]">
               Tu tienda con IA para vender en tu sitio y en <span className="text-white/90">marketplaces</span>, con <span className="text-white/90">pagos y envíos ya integrados</span>.
             </p>
           </div>
 
-          {/* Conector: Tienda incluye ↓ */}
-          <div className="flex items-center justify-center gap-3 py-5">
-            <span className="h-px w-8 bg-white/15" />
-            <span className="font-inter text-[11px] font-semibold uppercase tracking-[0.14em] text-white/40">Incluye</span>
-            <span className="h-px w-8 bg-white/15" />
-          </div>
-
-          {/* Cards hijos */}
-          <div className="grid grid-cols-1 gap-4 tablet:grid-cols-2">
+          {/* Fila inferior: Pagos | Envíos, divididos por línea (sin cards internas) */}
+          <div className="grid grid-cols-1 divide-y divide-white/[0.08] tablet:grid-cols-2 tablet:divide-x tablet:divide-y-0">
           {[
             {
               title: "T1 Pagos",
@@ -55,24 +49,24 @@ export function T1TiendaIncluido() {
               plus: "+5",
             },
           ].map((it) => (
-            <a key={it.title} href={it.href} className="group flex flex-col rounded-[18px] border border-white/[0.08] bg-[#1A1A1D] p-6 no-underline transition-colors hover:border-white/20 tablet:p-7">
-              <Image src={it.logo} alt={it.title} width={160} height={36} className="h-[30px] w-auto object-contain" style={{ objectPosition: "left" }} />
+            <a key={it.title} href={it.href} className="group flex flex-col p-6 no-underline transition-colors hover:bg-white/[0.02] tablet:p-8">
+              <Image src={it.logo} alt={it.title} width={160} height={36} className="h-[28px] w-auto object-contain" style={{ objectPosition: "left" }} />
               <p className="mt-2.5 font-inter text-[15px] font-light leading-relaxed text-white/60 tablet:text-[16px]">{it.desc}</p>
               <div className="mt-auto flex items-center gap-3 pt-6">
                 {it.type === "card"
                   ? it.icons.map((src) => (
-                      <Image key={src} src={src} alt="" width={80} height={52} className="h-[30px] w-auto shrink-0 object-contain" />
+                      <Image key={src} src={src} alt="" width={80} height={52} className="h-[28px] w-auto shrink-0 object-contain" />
                     ))
                   : it.icons.map((src) => (
-                      <span key={src} className="flex h-[32px] w-[32px] shrink-0 items-center justify-center overflow-hidden rounded-full">
+                      <span key={src} className="flex h-[30px] w-[30px] shrink-0 items-center justify-center overflow-hidden rounded-full">
                         <Image src={src} alt="" width={64} height={64} className="h-full w-full object-cover" style={{ filter: "drop-shadow(0 3px 6px rgba(0,0,0,0.4))" }} />
                       </span>
                     ))}
                 {it.plus && (
-                  <span className="flex h-[32px] shrink-0 items-center rounded-full border border-white/20 px-2.5 font-inter text-[12px] font-semibold text-white/70">{it.plus}</span>
+                  <span className="flex h-[30px] shrink-0 items-center rounded-full border border-white/20 px-2.5 font-inter text-[12px] font-semibold text-white/70">{it.plus}</span>
                 )}
               </div>
-              <span className="mt-6 inline-flex items-center gap-1.5 font-inter text-[14px] font-medium text-white/80 group-hover:text-white">
+              <span className="mt-5 inline-flex items-center gap-1.5 font-inter text-[14px] font-medium text-white/80 group-hover:text-white">
                 Conoce más
                 <svg width="15" height="15" viewBox="0 0 18 18" fill="none" className="transition-transform group-hover:translate-x-0.5"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
               </span>

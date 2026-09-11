@@ -8,6 +8,8 @@ export const BLOG_URL = "/blog";
 // para NO alterar el flujo de creación de tienda actual.
 export const PAGOS_START_URL = "/pagos/empezar";
 export const ENVIOS_QUOTE_URL = "/envios/cotizar";
+// Rastreo de guías (TODO: apuntar al endpoint real de resultados de rastreo).
+export const ENVIOS_TRACK_URL = "/envios/rastreo";
 // CTA de "alta iniciada" de Envíos (métrica que decide el A/B = llegar a
 // workspace.t1.com/onboarding). TODO(pending user): confirmar que este destino
 // desemboque en workspace.t1.com/onboarding; por ahora reutiliza SIGNUP_URL.

@@ -5,6 +5,9 @@ import { ENVIOS_SIGNUP_URL, ENVIOS_STATS } from "@/lib/constants";
 import T1EnviosCotizadorPanel from "@/components/T1EnviosCotizadorPanel";
 import HeroBackground from "@/components/HeroBackground";
 
+/* VERSIÓN V2 (A/B): igual que el hero de envíos pero con el cotizador SIN caja —
+   los inputs van directo sobre el degradado (modo `bare`). */
+
 const SOCIAL_PROOF = [ENVIOS_STATS.enviosEntregados + " de envíos", ENVIOS_STATS.negocios + " negocios", ENVIOS_STATS.paqueterias + " paqueterías"];
 const CARRIERS = ["/img/circles/ups.svg", "/img/circles/fedex.svg", "/img/circles/dhl.svg", "/img/circles/ampm.svg", "/img/circles/99.svg", "/img/circles/jt.svg", "/img/circles/estafeta.svg"];
 
@@ -12,8 +15,6 @@ const ArrowRight = (
   <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
 );
 
-/* Fila de logos de paquetería (reemplaza la órbita que se recortaba).
-   Móvil: una fila con scroll horizontal. Desktop: fila centrada con wrap. */
 function CarrierLogos() {
   return (
     <div className="flex w-full flex-wrap items-center justify-center gap-2.5 tablet:gap-3">
@@ -26,14 +27,12 @@ function CarrierLogos() {
   );
 }
 
-export default function T1EnviosHero() {
+export default function T1EnviosHeroV2() {
   return (
     <div className="relative z-0">
       <section id="cotizador" className="relative flex min-h-[92svh] scroll-mt-20 flex-col items-center justify-center overflow-hidden px-5 pb-0 pt-24 tablet:min-h-screen tablet:px-6 tablet:pt-28 tablet:pb-0">
-        {/* Fondo (compartido entre los heroes) */}
         <HeroBackground />
 
-        {/* Contenido — columna apilada centrada (título → cotizador → logos → CTA) */}
         <div className="relative z-10 flex w-full max-w-[960px] grow flex-col items-center justify-center text-center">
           <h1 className="mt-6 font-sora text-[30px] font-light leading-[1.12] text-white tablet:mt-10 tablet:whitespace-nowrap tablet:text-[44px]" style={{ letterSpacing: "-0.03em" }}>
             Todos tus envíos, un solo lugar
@@ -43,23 +42,20 @@ export default function T1EnviosHero() {
             Las mejores tarifas, sin volumen mínimo ni contratos.
           </p>
 
-          {/* Cotizador funcional — barra horizontal ancha */}
+          {/* Cotizador SIN caja — barra horizontal, inputs sobre el degradado */}
           <div className="mt-8 w-full max-w-[900px] tablet:mt-9">
-            <T1EnviosCotizadorPanel />
+            <T1EnviosCotizadorPanel bare />
           </div>
 
-          {/* CTA de alta (métrica del A/B) — secundario respecto al cotizador */}
           <a href={ENVIOS_SIGNUP_URL} data-cta-location="hero" data-cta-text="Comienza a enviar" data-cta-destination={ENVIOS_SIGNUP_URL} className="mt-6 inline-flex items-center gap-1.5 font-inter text-[15px] font-medium text-white/75 no-underline transition-colors hover:text-white tablet:mt-7">
             Comienza a enviar
             {ArrowRight}
           </a>
 
-          {/* Logos de paqueterías */}
           <div className="mt-8 w-full max-w-[560px] tablet:mt-10">
             <CarrierLogos />
           </div>
 
-          {/* Social proof — métrica grande arriba, dos abajo */}
           <div className="mt-12 mb-10 flex flex-col items-center gap-2.5 px-2 tablet:mt-16 tablet:mb-0 tablet:gap-4">
             <span className="font-inter text-[19px] font-normal text-white tablet:text-[24px]">{SOCIAL_PROOF[0]}</span>
             <div className="flex items-center gap-6 tablet:gap-12">

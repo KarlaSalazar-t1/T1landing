@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState, useEffect, useCallback } from "react";
 import {
   NAV_LINKS,
@@ -16,8 +15,6 @@ import { track } from "@/lib/analytics";
 /* Lockup de marca del header: logo T1 + descriptor del producto (CAMBIO header).
    El "T1" lo aporta el logo; el descriptor es solo "Envíos"/"Tienda"/"Pagos". */
 const PRODUCT_DESCRIPTORS = { envios: "Envíos", tienda: "Tienda", pagos: "Pagos" } as const;
-/* Lockup completo por producto (símbolo T1 + nombre en una pieza), estilo Stripe/Adobe. */
-const PRODUCT_WORDMARK = { envios: "/img/t1envios-white.svg", tienda: "/img/t1tienda-white.svg", pagos: "/img/t1pagos-white.svg" } as const;
 type ProductKey = keyof typeof PRODUCT_DESCRIPTORS;
 type PageType = "home" | "producto" | "sublanding";
 
@@ -132,21 +129,17 @@ function HamburgerIcon({ open }: { open: boolean }) {
 /* ── Main Component ── */
 export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis", ctaHref = SIGNUP_URL, product, pageType = "home" }: { bVariant?: boolean; ctaLabel?: string; ctaHref?: string; product?: ProductKey; pageType?: PageType }) {
   const descriptor = product ? PRODUCT_DESCRIPTORS[product] : null;
-  // El lockup lleva a SU propio landing (T1envíos → /productos/t1envios), no a T1 general.
-  const logoHref = product ? `/productos/t1${product}` : "/";
-  const onLogoClick = (e: React.MouseEvent) => {
-    track("logo_click", {
-      page_type: pageType,
-      product: product ?? null,
-      scroll_position: typeof window !== "undefined" ? Math.round(window.scrollY) : 0,
-    });
-    // Si ya estás en el destino (home, o el landing del producto) → scroll al inicio.
-    // En sublanding, el href navega al landing del producto.
-    if (pageType === "home" || pageType === "producto") {
-      e.preventDefault();
-      if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+  const productHref = product ? `/productos/t1${product}` : "/";
+  const trackLogo = (target: "general" | "producto") =>
+    track("logo_click", { page_type: pageType, product: product ?? null, target, scroll_position: typeof window !== "undefined" ? Math.round(window.scrollY) : 0 });
+  const scrollTop = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
   };
+  // Símbolo T1 → T1 general (marca madre). Si ya estás en home, solo scroll al inicio.
+  const onSymbolClick = (e: React.MouseEvent) => { trackLogo("general"); if (pageType === "home") scrollTop(e); };
+  // Nombre del producto → su landing. Si ya estás en el landing, solo scroll al inicio.
+  const onNameClick = (e: React.MouseEvent) => { trackLogo("producto"); if (pageType === "producto") scrollTop(e); };
   const [menuOpen, setMenuOpen] = useState(false);
   const [recursosOpen, setRecursosOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -214,17 +207,20 @@ export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis
         >
           {/* Left: Logo + nav links */}
           <div className="flex items-center gap-4 tablet:gap-10">
-            <a href={logoHref} onClick={onLogoClick} aria-label={descriptor ? `T1 ${descriptor}` : "T1"} className="flex min-h-[44px] shrink-0 items-center">
-              {product ? (
-                /* Lockup completo del producto (T1 + nombre en una pieza) */
-                <Image src={PRODUCT_WORDMARK[product]} alt={`T1 ${descriptor}`} width={137} height={42} priority className="h-[27px] w-auto tablet:h-[29px]" />
-              ) : (
-                /* Home: solo el símbolo T1 */
-                <span className="[&>svg]:h-[34px] [&>svg]:w-auto">
-                  <T1Logo />
-                </span>
+            {/* Lockup jerárquico (breadcrumb ecosistema › producto): T1 → general · Producto → su landing */}
+            <div className="flex min-h-[44px] shrink-0 items-center gap-2">
+              <a href="/" onClick={onSymbolClick} aria-label="Ir a T1" className="flex items-center [&>svg]:h-[30px] [&>svg]:w-auto">
+                <T1Logo />
+              </a>
+              {descriptor && (
+                <>
+                  <span aria-hidden className="font-sora text-[19px] font-light leading-none text-white/35 tablet:text-[18px]">›</span>
+                  <a href={productHref} onClick={onNameClick} aria-label={`T1 ${descriptor}`} className="font-sora text-[19px] font-normal leading-none text-white/90 no-underline tablet:text-[18px]">
+                    {descriptor}
+                  </a>
+                </>
               )}
-            </a>
+            </div>
 
             {/* Desktop nav links - hidden on mobile */}
             <button
@@ -261,7 +257,7 @@ export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis
             {/* Rastreo — acción de cliente que regresa, agrupada con Iniciar sesión (solo Envíos) */}
             {product === "envios" && (
               <a
-                href="/productos/t1envios/rastreo"
+                href="/rastreo"
                 className={`hidden whitespace-nowrap font-inter text-[16px] font-medium no-underline transition-colors duration-150 tablet:block ${textClass}`}
               >
                 Rastreo
@@ -314,16 +310,6 @@ export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis
             <div className="flex h-full flex-col px-6 py-6">
               {/* Navegación (arriba) */}
               <div className="flex flex-col">
-                {/* Acceso a la marca madre T1 (solo en páginas de producto) */}
-                {product && (
-                  <a
-                    href="/"
-                    className="flex items-center gap-2.5 border-b border-white/[0.08] py-4 no-underline"
-                  >
-                    <span className="[&>svg]:h-[24px] [&>svg]:w-auto"><T1Logo /></span>
-                    <span className="font-inter text-[16px] font-medium text-white">Conoce T1</span>
-                  </a>
-                )}
                 <button
                   onClick={() => setMobileScreen("productos")}
                   className="flex cursor-pointer items-center justify-between border-b border-white/[0.08] bg-transparent py-4 font-inter text-[16px] font-medium text-white"
@@ -344,7 +330,7 @@ export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis
                 </button>
                 {product === "envios" && (
                   <a
-                    href="/productos/t1envios/rastreo"
+                    href="/rastreo"
                     className="border-b border-white/[0.08] py-4 font-inter text-[16px] font-medium text-white no-underline"
                   >
                     Rastrea tu envío
@@ -510,12 +496,11 @@ export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis
         {/* Bottom bar */}
         <div className="border-t border-white/[0.08]">
           <div className="mx-auto flex max-w-[var(--max-w)] gap-0 px-6">
-            {/* Marca madre T1 (patrón Atlassian: producto en el header, T1 general abajo del menú) */}
-            <a href="/" onClick={close} className="group/t1 flex flex-1 items-center gap-2.5 px-5 no-underline transition-colors duration-150 first:pl-0 hover:bg-white/[0.04]" style={{ paddingTop: 20, paddingBottom: 20 }}>
-              <span className="[&>svg]:h-[20px] [&>svg]:w-auto"><T1Logo /></span>
-              <span className="font-inter text-[13px] font-medium text-white/70 transition-colors duration-150 group-hover/t1:text-white">Conoce T1</span>
-              <span className="text-[16px] text-white/30 transition-transform duration-150 group-hover/t1:translate-x-[2px]">›</span>
-            </a>
+            <div className="flex flex-1 items-center px-5 first:pl-0" style={{ paddingTop: 20, paddingBottom: 20 }}>
+              <span className="font-inter text-[12px] font-medium text-white/40">
+                ¿Cómo quieres empezar?
+              </span>
+            </div>
             {MEGA_MENU_BOTTOM.map((opt) => (
               <a
                 key={opt.title}

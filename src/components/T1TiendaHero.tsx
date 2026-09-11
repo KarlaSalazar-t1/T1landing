@@ -13,9 +13,9 @@ const cap = capFirst;
 
 const SOCIAL_PROOF = ["+50,000 negocios", "+40M de envíos", "+200M transacciones"];
 
-const ArrowUp = (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-    <path d="M12 19V5M12 5l-6 6M12 5l6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+const ArrowRight = (
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+    <path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
@@ -83,7 +83,7 @@ export default function T1TiendaHero() {
     <div className="relative z-0">
       <section className="relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-5 pb-0 pt-24 tablet:min-h-screen tablet:px-6 tablet:pt-28 tablet:pb-0">
         {/* Fondo (compartido entre los heroes) */}
-        <HeroBackground fadeHeight={300} />
+        <HeroBackground />
 
         {/* Contenido */}
         <div className="relative z-10 flex w-full max-w-[440px] grow flex-col items-center tablet:max-w-[720px]">
@@ -96,7 +96,7 @@ export default function T1TiendaHero() {
           </h1>
 
           <p className="mt-4 max-w-[440px] text-center font-inter text-[16px] font-light leading-[1.55] text-white/70 tablet:mt-5 tablet:max-w-none tablet:whitespace-nowrap tablet:text-[17px]">
-            T1 te ayuda a vender, cobrar y enviar a todo México.
+            Vende, cobra y envía a todo México con T1.
           </p>
           <span className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.06] px-3.5 py-1.5 font-inter text-[13px] font-medium text-white tablet:mt-4 tablet:text-[14px]">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M5 12l4 4L19 7" stroke="#4ADE80" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -130,12 +130,12 @@ export default function T1TiendaHero() {
                 }}
                 aria-label="Crea tu tienda"
                 style={kbOpen ? { position: "fixed", right: 16, bottom: kbH + 10, zIndex: 60 } : undefined}
-                className={`absolute bottom-3 right-3 flex h-[38px] items-center gap-1.5 rounded-full px-4 font-inter text-[13px] font-semibold transition-colors ${
+                className={`absolute bottom-3 right-3 flex h-[40px] items-center gap-1.5 rounded-full pl-4 pr-3 font-inter text-[14px] font-semibold transition-colors ${
                   tiendaOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
                 }`}
               >
                 Crea tu tienda
-                {ArrowUp}
+                {ArrowRight}
               </a>
             </div>
 

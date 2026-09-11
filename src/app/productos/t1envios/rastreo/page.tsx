@@ -5,10 +5,10 @@ import T1RastreoGuias from "@/components/T1RastreoGuias";
 export const metadata = {
   title: "Rastreo de guías · T1 Envíos",
   description:
-    "Rastrea todas tus guías en un solo lugar, sin importar la paquetería. Estatus unificado en tiempo real, notificaciones automáticas a tu cliente y detección de demoras.",
+    "Rastrea y da seguimiento a todos tus envíos en un solo lugar, con todas las paqueterías, desde el administrador de T1 Envíos.",
 };
 
-export default function RastreoGuiasPage() {
+export default function RastreoPage() {
   return (
     <main className="min-h-screen bg-white">
       <T1Navbar product="envios" pageType="sublanding" />

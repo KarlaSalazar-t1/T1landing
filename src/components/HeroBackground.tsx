@@ -17,7 +17,7 @@ export default function HeroBackground({ fadeHeight = 260 }: { fadeHeight?: numb
         className="pointer-events-none absolute inset-0 z-0"
         style={{
           background:
-            "radial-gradient(ellipse 92% 78% at 62% 26%, rgba(242,84,50,0.55) 0%, transparent 62%)," +
+            "radial-gradient(ellipse 92% 82% at 54% 44%, rgba(242,84,50,0.55) 0%, transparent 64%)," +
             "radial-gradient(ellipse 66% 60% at 14% 24%, rgba(214,48,44,0.36) 0%, transparent 60%)," +
             "radial-gradient(ellipse 58% 54% at 86% 82%, rgba(238,96,66,0.24) 0%, transparent 64%)",
         }}
@@ -39,7 +39,7 @@ export default function HeroBackground({ fadeHeight = 260 }: { fadeHeight?: numb
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 bottom-0 z-0"
-        style={{ height: fadeHeight, background: "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 44%, rgba(3,1,1,0.5) 74%, #000 100%)" }}
+        style={{ height: fadeHeight, background: "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 44%, rgba(3,1,1,0.14) 62%, rgba(3,1,1,0.42) 80%, rgba(3,1,1,0.72) 91%, #000 100%)" }}
       />
     </>
   );

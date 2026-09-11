@@ -80,7 +80,7 @@ export default function T1TiendaMosaico() {
   return (
     <section ref={ref} className="relative overflow-hidden bg-black px-5 py-[56px] tablet:px-6 tablet:py-[78px]">
       {/* Altura fija: el mosaico se recorta; los degradados de arriba/abajo cubren el corte. */}
-      <div className="relative mx-auto max-h-[680px] max-w-[1120px] overflow-hidden tablet:max-h-[820px]">
+      <div className="relative mx-auto max-h-[760px] max-w-[1120px] overflow-hidden tablet:max-h-[940px]">
         {/* Mosaico — desktop (4 columnas escalonadas) */}
         <div className="hidden justify-center gap-4 tablet:flex" aria-hidden>
           <Columns cols={COLS_DESKTOP} />

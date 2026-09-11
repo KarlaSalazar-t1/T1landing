@@ -80,8 +80,6 @@ export function T1PagosPrecios() {
                 <span className="font-sora text-[40px] font-light text-white" style={{ letterSpacing: "-0.02em", lineHeight: 1 }}>{p.rate}</span>
                 <span className="mb-1.5 font-inter text-[13px] font-light text-white/55">{p.note}</span>
               </div>
-              <div className="my-4 h-px w-full bg-white/[0.09]" />
-              <p className="font-inter text-[13.5px] font-light text-white/65" style={{ lineHeight: 1.55 }}>{p.desc}</p>
             </div>
           ))}
         </div>

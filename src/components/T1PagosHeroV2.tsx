@@ -3,6 +3,9 @@ import { SIGNUP_URL } from "@/lib/constants";
 import HeroBackground from "@/components/HeroBackground";
 import T1PagosLinkCreator from "@/components/T1PagosLinkCreator";
 
+/* VERSIÓN V2 (A/B): igual que el hero de pagos pero SIN el card — el creador de
+   link va directo sobre el degradado. */
+
 const SOCIAL_PROOF = ["+90% de aprobación", "+200M transacciones", "8 países"];
 const METHODS = ["/img/icons/visa-card.svg", "/img/icons/mc-card.svg", "/img/icons/amex-card.svg", "/img/icons/spei-card.svg", "/img/icons/kueski-card.svg"];
 
@@ -20,56 +23,36 @@ function MethodLogos() {
   );
 }
 
-/* Creador de link (barra horizontal) — dentro de card #1D1D1D */
-function LinkPanel() {
-  return (
-    <div className="w-full rounded-[16px] bg-[#1D1D1D] p-4 tablet:p-5" style={{ boxShadow: "0 20px 50px rgba(0,0,0,0.30)" }}>
-      <T1PagosLinkCreator />
-    </div>
-  );
-}
-
-export default function T1PagosHero() {
+export default function T1PagosHeroV2() {
   return (
     <div className="relative z-0">
       <section className="relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-5 pb-0 pt-24 tablet:min-h-screen tablet:px-6 tablet:pt-28 tablet:pb-0">
-        {/* Fondo (compartido entre los heroes) */}
         <HeroBackground />
 
-        {/* Contenido — columna apilada centrada */}
         <div className="relative z-10 flex w-full max-w-[900px] grow flex-col items-center justify-center text-center">
           <h1 className="mt-6 font-sora text-[30px] font-light leading-[1.12] text-white tablet:mt-10 tablet:whitespace-nowrap tablet:text-[44px]" style={{ letterSpacing: "-0.03em" }}>
             Cobra en línea, simple y seguro
           </h1>
 
-          <p className="mt-4 max-w-[520px] font-inter text-[15px] font-light leading-[1.5] text-white/80 tablet:text-[18px]">
+          <p className="mt-4 max-w-[460px] font-inter text-[15px] font-light leading-[1.5] text-white/80 tablet:text-[18px]">
             Tarjetas, SPEI y meses sin intereses, con antifraude y depósitos al día siguiente.
           </p>
 
-          {/* Eyebrow — deja claro qué hace el widget */}
-          <span className="mt-8 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.05] px-3.5 py-1.5 font-inter text-[12.5px] font-medium text-white/85 tablet:mt-9">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" stroke="#E2604C" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" stroke="#E2604C" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            Crea un link de pago en segundos
-          </span>
-
-          {/* Creador de link (barra horizontal) */}
-          <div className="mt-3 w-full max-w-[720px]">
-            <LinkPanel />
+          {/* Creador de link SIN card — barra horizontal, inputs oscuros sobre el degradado */}
+          <div className="mt-9 w-full max-w-[720px] tablet:mt-10">
+            <T1PagosLinkCreator bare />
           </div>
 
-          {/* CTA de alta — secundario respecto al widget */}
           <a href={SIGNUP_URL} data-cta-location="hero" data-cta-text="Comienza a cobrar" data-cta-destination={SIGNUP_URL} className="mt-6 inline-flex items-center gap-1.5 font-inter text-[15px] font-medium text-white/75 no-underline transition-colors hover:text-white tablet:mt-7">
             Comienza a cobrar
             {ArrowRight}
           </a>
 
-          {/* Métodos de pago */}
           <div className="mt-8">
             <MethodLogos />
           </div>
 
-          {/* Social proof — métrica grande arriba, dos abajo */}
-          <div className="mt-12 mb-10 flex flex-col items-center gap-2.5 px-2 tablet:mt-14 tablet:mb-0 tablet:gap-4">
+          <div className="mt-10 mb-10 flex flex-col items-center gap-2.5 px-2 tablet:mt-12 tablet:mb-0 tablet:gap-4">
             <span className="font-inter text-[19px] font-normal text-white tablet:text-[24px]">{SOCIAL_PROOF[0]}</span>
             <div className="flex items-center gap-6 tablet:gap-12">
               {SOCIAL_PROOF.slice(1).map((s) => (
