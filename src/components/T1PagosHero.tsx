@@ -21,12 +21,12 @@ function MethodLogos() {
   );
 }
 
-/* Panel del creador de link de pago (funcional) — card sólida elevada */
+/* Panel del creador de link de pago (funcional) — caja única #1D1D1D */
 function LinkPanel() {
   return (
     <div
-      className="w-full rounded-[20px] border border-white/[0.10] p-6 tablet:p-7"
-      style={{ background: "linear-gradient(180deg, #2a2331 0%, #201a27 100%)", boxShadow: "0 20px 50px rgba(0,0,0,0.30)" }}
+      className="w-full rounded-[16px] bg-[#1D1D1D] p-6 tablet:p-7"
+      style={{ boxShadow: "0 20px 50px rgba(0,0,0,0.30)" }}
     >
       <T1PagosLinkCreator />
     </div>
@@ -55,14 +55,14 @@ export default function T1PagosHero() {
             <LinkPanel />
           </div>
 
-          {/* Métodos de pago */}
+          {/* Métodos de pago — debajo del card (mismo patrón que envíos) */}
           <div className="mt-6">
             <MethodLogos />
           </div>
 
-          {/* CTA */}
-          <a href={SIGNUP_URL} data-cta-location="hero" data-cta-text="Comienza a cobrar" data-cta-destination={SIGNUP_URL} className="mt-8 inline-flex h-[50px] items-center justify-center gap-2 rounded-[16px] bg-red-500 px-8 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-red-600">
-            Comienza a cobrar
+          {/* CTA de alta — secundario respecto al widget */}
+          <a href={SIGNUP_URL} data-cta-location="hero" data-cta-text="Comienza a cobrar" data-cta-destination={SIGNUP_URL} className="mt-7 inline-flex items-center gap-1.5 font-inter text-[15px] font-medium text-white/75 no-underline transition-colors hover:text-white">
+            o crea tu cuenta gratis
             {ArrowRight}
           </a>
 

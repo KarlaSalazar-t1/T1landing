@@ -17,15 +17,24 @@ export function T1TiendaIncluido() {
             No necesitas integrar nada extra. Vende, cobra y envía desde el día uno, todo en un solo lugar.
           </p>
         </div>
-        {/* Caja Tienda (padre) que engloba Pagos + Envíos (hijos) */}
-        <div className="mx-auto mt-10 max-w-[920px] rounded-[24px] border border-white/[0.12] bg-[#161518] p-4 tablet:mt-14 tablet:p-6">
-          {/* Encabezado del padre: la Tienda */}
-          <div className="flex flex-col items-center gap-2.5 px-2 pb-5 pt-2 text-center tablet:flex-row tablet:items-center tablet:justify-between tablet:gap-6 tablet:px-3 tablet:pb-6 tablet:text-left">
-            <Image src="/img/t1tienda-white.svg" alt="T1 Tienda" width={150} height={42} className="h-[30px] w-auto shrink-0 object-contain" />
-            <p className="max-w-[520px] font-inter text-[14px] font-light leading-relaxed text-white/60 tablet:text-[15px]">
-              Tu tienda en línea con IA — y con pagos y envíos ya integrados, listos desde el día uno.
+        {/* Tienda = padre (box arriba); Pagos + Envíos = hijos (cards abajo) */}
+        <div className="mx-auto mt-10 max-w-[920px] tablet:mt-14">
+          {/* Box padre: la Tienda */}
+          <div className="flex flex-col items-center gap-3 rounded-[18px] border border-white/[0.10] bg-[#1A1A1D] px-6 py-6 text-center tablet:flex-row tablet:justify-between tablet:gap-8 tablet:px-8 tablet:text-left">
+            <Image src="/img/t1tienda-white.svg" alt="T1 Tienda" width={150} height={42} className="h-[32px] w-auto shrink-0 object-contain" />
+            <p className="max-w-[580px] font-inter text-[14px] font-light leading-relaxed text-white/65 tablet:text-[15px]">
+              Tu tienda con IA para vender en tu sitio y en <span className="text-white/90">marketplaces</span>, con <span className="text-white/90">pagos y envíos ya integrados</span>.
             </p>
           </div>
+
+          {/* Conector: Tienda incluye ↓ */}
+          <div className="flex items-center justify-center gap-3 py-5">
+            <span className="h-px w-8 bg-white/15" />
+            <span className="font-inter text-[11px] font-semibold uppercase tracking-[0.14em] text-white/40">Incluye</span>
+            <span className="h-px w-8 bg-white/15" />
+          </div>
+
+          {/* Cards hijos */}
           <div className="grid grid-cols-1 gap-4 tablet:grid-cols-2">
           {[
             {
@@ -46,7 +55,7 @@ export function T1TiendaIncluido() {
               plus: "+5",
             },
           ].map((it) => (
-            <a key={it.title} href={it.href} className="group flex flex-col rounded-[16px] border border-white/[0.07] bg-[#0f0f11] p-6 no-underline transition-colors hover:border-white/20">
+            <a key={it.title} href={it.href} className="group flex flex-col rounded-[18px] border border-white/[0.08] bg-[#1A1A1D] p-6 no-underline transition-colors hover:border-white/20 tablet:p-7">
               <Image src={it.logo} alt={it.title} width={160} height={36} className="h-[30px] w-auto object-contain" style={{ objectPosition: "left" }} />
               <p className="mt-2.5 font-inter text-[15px] font-light leading-relaxed text-white/60 tablet:text-[16px]">{it.desc}</p>
               <div className="mt-auto flex items-center gap-3 pt-6">

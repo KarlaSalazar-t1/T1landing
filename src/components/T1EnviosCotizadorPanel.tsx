@@ -38,8 +38,8 @@ function RateExample() {
 function Field({ name, label, unit, placeholder, maxLength, required, pattern, className = "" }: { name: string; label: string; unit?: string; placeholder: string; maxLength?: number; required?: boolean; pattern?: string; className?: string }) {
   return (
     <label className={`block ${className}`}>
-      <span className="mb-1.5 block truncate font-inter text-[11px] font-medium text-white/60">{label}</span>
-      <div className="flex items-center gap-1 rounded-[10px] border border-white/[0.10] bg-black/25 px-3 py-2.5 transition-colors focus-within:border-[#E2604C]">
+      <span className="mb-1 block truncate font-inter text-[11.5px] font-medium text-white/75">{label}</span>
+      <div className="flex items-baseline gap-1 border-b border-white/25 pb-1 transition-colors focus-within:border-[#E2604C]">
         <input
           name={name}
           required={required}
@@ -48,9 +48,9 @@ function Field({ name, label, unit, placeholder, maxLength, required, pattern, c
           maxLength={maxLength}
           placeholder={placeholder}
           aria-label={label}
-          className="min-w-0 flex-1 bg-transparent font-inter text-[15px] text-white outline-none placeholder:text-white/30"
+          className="min-w-0 flex-1 bg-transparent font-inter text-[15px] text-white outline-none placeholder:text-white/45"
         />
-        {unit && <span className="shrink-0 font-inter text-[11px] text-white/40">{unit}</span>}
+        {unit && <span className="shrink-0 font-inter text-[11px] text-white/45">{unit}</span>}
       </div>
     </label>
   );
@@ -83,8 +83,8 @@ export default function T1EnviosCotizadorPanel() {
         onSubmit={onSubmit}
         onFocusCapture={onFirstFocus}
         onInput={(e) => setValid(e.currentTarget.checkValidity())}
-        className="w-full overflow-hidden rounded-[20px] border border-white/[0.10] p-4 text-left tablet:p-6"
-        style={{ background: "linear-gradient(180deg, #2a2331 0%, #201a27 100%)", boxShadow: "0 20px 50px rgba(0,0,0,0.30)" }}
+        className="w-full overflow-hidden rounded-[16px] bg-[#1D1D1D] p-4 text-left tablet:p-6"
+        style={{ boxShadow: "0 20px 50px rgba(0,0,0,0.30)" }}
       >
         {/* CP origen / destino — 2 columnas */}
         <div className="grid grid-cols-2 gap-x-3.5 gap-y-3.5 tablet:gap-x-4">

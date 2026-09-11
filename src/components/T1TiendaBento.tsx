@@ -27,8 +27,8 @@ export default function T1TiendaBento() {
   // Duplicado para que el marquee haga loop sin costura.
   const row = [...STORES, ...STORES];
   return (
-    <section className="relative overflow-hidden bg-black px-5 py-[60px] tablet:px-6 tablet:py-[88px]">
-      <div className="mx-auto max-w-[760px] text-center">
+    <section className="relative overflow-hidden bg-black py-[60px] tablet:py-[88px]">
+      <div className="mx-auto max-w-[760px] px-5 text-center tablet:px-6">
         <h2 className="font-sora text-[26px] font-light leading-[1.12] text-white tablet:whitespace-nowrap tablet:text-[34px]" style={{ letterSpacing: "-0.03em" }}>
           Miles de negocios ya crecen con T1
         </h2>

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { PAGOS_START_URL } from "@/lib/constants";
 
-const FIELD = "w-full rounded-[10px] border border-white/[0.10] bg-black/25 px-4 py-3 font-inter text-[16px] text-white outline-none transition-colors placeholder:text-white/30 focus:border-[#E2604C]";
+const FIELD = "w-full border-b border-white/25 bg-transparent px-1 py-2.5 font-inter text-[16px] text-white outline-none transition-colors placeholder:text-white/45 focus:border-[#E2604C]";
 const ArrowRight = (
   <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
 );
@@ -34,7 +34,7 @@ export default function T1PagosLinkCreator() {
           onChange={(e) => setMonto(e.target.value.replace(/\D/g, "").slice(0, 9))}
           placeholder="0.00"
           aria-label="Monto a cobrar"
-          className="w-[200px] bg-transparent text-center font-sora text-[44px] font-light leading-none text-white outline-none placeholder:text-white/25"
+          className="w-[200px] bg-transparent text-center font-sora text-[44px] font-light leading-none text-white outline-none placeholder:text-white/40"
         />
       </div>
       {/* Concepto */}

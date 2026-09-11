@@ -5,21 +5,21 @@
 export default function HeroBackground({ fadeHeight = 260 }: { fadeHeight?: number }) {
   return (
     <>
-      {/* Base — degradado cálido (plum → vino), un poco más claro */}
+      {/* Base — degradado cálido más saturado (rojo-vino, no pastel) */}
       <div
         aria-hidden
         className="absolute inset-0 z-0"
-        style={{ background: "linear-gradient(160deg, #6b3a4d 0%, #3e2331 52%, #281620 100%)" }}
+        style={{ background: "linear-gradient(160deg, #7a2f45 0%, #4a1e2d 52%, #2a111d 100%)" }}
       />
-      {/* Glows — solo tonos cálidos (coral/rojo), coral al centro-arriba */}
+      {/* Glows — tonos cálidos (coral/rojo) más vibrantes, coral al centro-arriba */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 z-0"
         style={{
           background:
-            "radial-gradient(ellipse 92% 78% at 62% 26%, rgba(232,88,62,0.42) 0%, transparent 62%)," +
-            "radial-gradient(ellipse 66% 60% at 14% 24%, rgba(198,58,52,0.26) 0%, transparent 60%)," +
-            "radial-gradient(ellipse 58% 54% at 86% 82%, rgba(226,96,74,0.16) 0%, transparent 64%)",
+            "radial-gradient(ellipse 92% 78% at 62% 26%, rgba(242,84,50,0.55) 0%, transparent 62%)," +
+            "radial-gradient(ellipse 66% 60% at 14% 24%, rgba(214,48,44,0.36) 0%, transparent 60%)," +
+            "radial-gradient(ellipse 58% 54% at 86% 82%, rgba(238,96,66,0.24) 0%, transparent 64%)",
         }}
       />
       {/* Grano sutil (misma textura que las cards) */}

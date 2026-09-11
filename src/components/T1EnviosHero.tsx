@@ -49,18 +49,18 @@ export default function T1EnviosHero() {
           </div>
 
           {/* Logos de paqueterías */}
-          <div className="mt-6 w-full max-w-[560px]">
+          <div className="mt-8 w-full max-w-[560px] tablet:mt-10">
             <CarrierLogos />
           </div>
 
-          {/* CTA de alta (métrica del A/B) */}
-          <a href={ENVIOS_SIGNUP_URL} data-cta-location="hero" data-cta-text="Comienza a enviar" data-cta-destination={ENVIOS_SIGNUP_URL} className="mt-8 inline-flex h-[52px] items-center justify-center gap-2 rounded-[16px] bg-red-500 px-8 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-red-600">
-            Comienza a enviar
+          {/* CTA de alta (métrica del A/B) — secundario respecto al cotizador */}
+          <a href={ENVIOS_SIGNUP_URL} data-cta-location="hero" data-cta-text="Comienza a enviar" data-cta-destination={ENVIOS_SIGNUP_URL} className="mt-8 inline-flex items-center gap-1.5 font-inter text-[15px] font-medium text-white/75 no-underline transition-colors hover:text-white tablet:mt-9">
+            o comienza a enviar sin cotizar
             {ArrowRight}
           </a>
 
           {/* Social proof — métrica grande arriba, dos abajo */}
-          <div className="mt-10 mb-10 flex flex-col items-center gap-2.5 px-2 tablet:mt-12 tablet:mb-0 tablet:gap-4">
+          <div className="mt-12 mb-10 flex flex-col items-center gap-2.5 px-2 tablet:mt-16 tablet:mb-0 tablet:gap-4">
             <span className="font-inter text-[19px] font-normal text-white tablet:text-[24px]">{SOCIAL_PROOF[0]}</span>
             <div className="flex items-center gap-6 tablet:gap-12">
               {SOCIAL_PROOF.slice(1).map((s) => (
