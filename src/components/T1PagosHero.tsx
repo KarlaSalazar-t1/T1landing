@@ -21,14 +21,13 @@ function MethodLogos() {
   );
 }
 
-/* Panel del creador de link de pago (funcional) — el gancho interactivo del hero */
+/* Panel del creador de link de pago (funcional) — card sólida elevada */
 function LinkPanel() {
   return (
     <div
-      className="w-full max-w-[420px] rounded-[22px] border border-white/[0.16] bg-white/[0.08] p-6 backdrop-blur-md tablet:p-7"
-      style={{ boxShadow: "0 20px 50px rgba(0,0,0,0.30)" }}
+      className="w-full rounded-[20px] border border-white/[0.10] p-6 tablet:p-7"
+      style={{ background: "linear-gradient(180deg, #2a2331 0%, #201a27 100%)", boxShadow: "0 20px 50px rgba(0,0,0,0.30)" }}
     >
-      <p className="mb-5 text-center font-inter text-[12px] font-medium uppercase tracking-[0.1em] text-white/40">Cobra en segundos</p>
       <T1PagosLinkCreator />
     </div>
   );
@@ -41,49 +40,40 @@ export default function T1PagosHero() {
         {/* Fondo (compartido entre los heroes) */}
         <HeroBackground fadeHeight={300} />
 
-        {/* Contenido */}
-        <div className="relative z-10 grid w-full max-w-[var(--max-w)] grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-8">
-          {/* Izquierda — texto */}
-          <div className="flex flex-col items-center text-center tablet:items-start tablet:text-left">
-            <h1 className="font-sora text-[30px] font-light leading-[1.12] text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em" }}>
-              Cobra en línea,
-              <br />
-              simple y seguro
-            </h1>
+        {/* Contenido — columna apilada centrada (título → widget → métodos → CTA) */}
+        <div className="relative z-10 flex w-full max-w-[640px] grow flex-col items-center justify-center text-center">
+          <h1 className="mt-6 font-sora text-[30px] font-light leading-[1.12] text-white tablet:mt-10 tablet:whitespace-nowrap tablet:text-[44px]" style={{ letterSpacing: "-0.03em" }}>
+            Cobra en línea, simple y seguro
+          </h1>
 
-            <p className="mt-4 max-w-[460px] font-inter text-[15px] font-light leading-[1.5] text-white/80 tablet:text-[18px]">
-              Tarjetas, SPEI y meses sin intereses, con antifraude y depósitos al día siguiente.
-            </p>
+          <p className="mt-4 max-w-[460px] font-inter text-[15px] font-light leading-[1.5] text-white/80 tablet:text-[18px]">
+            Tarjetas, SPEI y meses sin intereses, con antifraude y depósitos al día siguiente.
+          </p>
 
-            {/* Móvil: creador de link funcional + métodos (en desktop van a la derecha) */}
-            <div className="mt-8 w-full tablet:hidden">
-              <LinkPanel />
-              <div className="mt-6">
-                <MethodLogos />
-              </div>
-            </div>
-
-            {/* CTA */}
-            <a href={SIGNUP_URL} data-cta-location="hero" data-cta-text="Comienza a cobrar" data-cta-destination={SIGNUP_URL} className="mt-8 inline-flex h-[50px] items-center justify-center gap-2 rounded-[16px] bg-red-500 px-8 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-red-600 tablet:mt-10">
-              Comienza a cobrar
-              {ArrowRight}
-            </a>
+          {/* Creador de link funcional — centrado */}
+          <div className="mt-8 w-full max-w-[440px] tablet:mt-9">
+            <LinkPanel />
           </div>
 
-          {/* Derecha — creador de link (sólo desktop) + métodos debajo */}
-          <div className="hidden flex-col items-center gap-6 tablet:flex">
-            <LinkPanel />
+          {/* Métodos de pago */}
+          <div className="mt-6">
             <MethodLogos />
           </div>
-        </div>
 
-        {/* Social proof — métrica grande arriba, dos abajo */}
-        <div className="relative z-10 mt-12 mb-10 flex w-full max-w-[var(--max-w)] flex-col items-center gap-2.5 px-2 text-center tablet:mt-16 tablet:mb-4 tablet:gap-4">
-          <span className="font-inter text-[19px] font-normal text-white tablet:text-[24px]">{SOCIAL_PROOF[0]}</span>
-          <div className="flex items-center gap-6 tablet:gap-12">
-            {SOCIAL_PROOF.slice(1).map((s) => (
-              <span key={s} className="font-inter text-[15px] font-normal text-white/75 tablet:text-[18px]">{s}</span>
-            ))}
+          {/* CTA */}
+          <a href={SIGNUP_URL} data-cta-location="hero" data-cta-text="Comienza a cobrar" data-cta-destination={SIGNUP_URL} className="mt-8 inline-flex h-[50px] items-center justify-center gap-2 rounded-[16px] bg-red-500 px-8 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-red-600">
+            Comienza a cobrar
+            {ArrowRight}
+          </a>
+
+          {/* Social proof — métrica grande arriba, dos abajo */}
+          <div className="mt-10 mb-10 flex flex-col items-center gap-2.5 px-2 tablet:mt-12 tablet:mb-0 tablet:gap-4">
+            <span className="font-inter text-[19px] font-normal text-white tablet:text-[24px]">{SOCIAL_PROOF[0]}</span>
+            <div className="flex items-center gap-6 tablet:gap-12">
+              {SOCIAL_PROOF.slice(1).map((s) => (
+                <span key={s} className="font-inter text-[15px] font-normal text-white/75 tablet:text-[18px]">{s}</span>
+              ))}
+            </div>
           </div>
         </div>
       </section>

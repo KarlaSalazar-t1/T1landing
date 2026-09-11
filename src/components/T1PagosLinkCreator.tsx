@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { PAGOS_START_URL } from "@/lib/constants";
 
-const FIELD = "w-full rounded-[14px] bg-[#1D1D1D] px-4 py-3 font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A] focus:ring-1 focus:ring-white/20";
+const FIELD = "w-full rounded-[10px] border border-white/[0.10] bg-black/25 px-4 py-3 font-inter text-[16px] text-white outline-none transition-colors placeholder:text-white/30 focus:border-[#E2604C]";
 const ArrowRight = (
   <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
 );
