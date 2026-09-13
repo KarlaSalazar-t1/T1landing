@@ -18,6 +18,16 @@ const PRODUCT_DESCRIPTORS = { envios: "Envíos", tienda: "Tienda", pagos: "Pagos
 type ProductKey = keyof typeof PRODUCT_DESCRIPTORS;
 type PageType = "home" | "producto" | "sublanding";
 
+/* Switcher de productos que cuelga del nombre del servicio en el lockup
+   (CEO: al dar click en el nombre se despliegan los demás productos, tipo
+   Adobe pero más sutil). */
+const PRODUCT_SWITCHER: { key: ProductKey; name: string; desc: string; href: string }[] = [
+  { key: "tienda", name: "T1 Tienda", desc: "Crea y vende en línea", href: "/productos/t1tienda" },
+  { key: "envios", name: "T1 Envíos", desc: "Envía al mejor precio", href: "/productos/t1envios" },
+  { key: "pagos", name: "T1 Pagos", desc: "Cobra en línea", href: "/productos/t1pagos" },
+];
+
+
 /* ── Inline SVGs ── */
 function T1Logo() {
   return (
@@ -138,15 +148,14 @@ export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis
   };
   // Símbolo T1 → T1 general (marca madre). Si ya estás en home, solo scroll al inicio.
   const onSymbolClick = (e: React.MouseEvent) => { trackLogo("general"); if (pageType === "home") scrollTop(e); };
-  // Nombre del producto → su landing. Si ya estás en el landing, solo scroll al inicio.
-  const onNameClick = (e: React.MouseEvent) => { trackLogo("producto"); if (pageType === "producto") scrollTop(e); };
   const [menuOpen, setMenuOpen] = useState(false);
   const [recursosOpen, setRecursosOpen] = useState(false);
+  const [switcherOpen, setSwitcherOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileScreen, setMobileScreen] = useState<"main" | "productos" | "recursos">("main");
   const [scrolled, setScrolled] = useState(false);
 
-  const close = useCallback(() => { setMenuOpen(false); setRecursosOpen(false); setMobileOpen(false); setMobileScreen("main"); }, []);
+  const close = useCallback(() => { setMenuOpen(false); setRecursosOpen(false); setSwitcherOpen(false); setMobileOpen(false); setMobileScreen("main"); }, []);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -207,18 +216,72 @@ export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis
         >
           {/* Left: Logo + nav links */}
           <div className="flex items-center gap-4 tablet:gap-10">
-            {/* Lockup jerárquico (breadcrumb ecosistema › producto): T1 → general · Producto → su landing */}
-            <div className="flex min-h-[44px] shrink-0 items-center gap-2">
-              <a href="/" onClick={onSymbolClick} aria-label="Ir a T1" className="flex items-center [&>svg]:h-[30px] [&>svg]:w-auto">
-                <T1Logo />
-              </a>
-              {descriptor && (
+            {/* Lockup: en producto = logo del producto + flechita (switcher); en home = T1 */}
+            <div className="relative flex min-h-[44px] shrink-0 items-center">
+              {descriptor ? (
                 <>
-                  <span aria-hidden className="font-sora text-[19px] font-light leading-none text-white/35 tablet:text-[18px]">›</span>
-                  <a href={productHref} onClick={onNameClick} aria-label={`T1 ${descriptor}`} className="font-sora text-[19px] font-normal leading-none text-white/90 no-underline tablet:text-[18px]">
-                    {descriptor}
-                  </a>
+                  {/* Logo del producto = trigger del switcher */}
+                  <button
+                    type="button"
+                    onClick={() => { setMenuOpen(false); setRecursosOpen(false); setSwitcherOpen((v) => !v); }}
+                    aria-haspopup="menu"
+                    aria-expanded={switcherOpen}
+                    aria-label={`T1 ${descriptor} — cambiar de producto`}
+                    className="group flex items-center gap-1.5 border-none bg-transparent"
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={`/img/t1${product}-white.svg`} alt={`T1 ${descriptor}`} className="h-[26px] w-auto tablet:h-[27px]" />
+                    <ChevronDown className={`mt-0.5 text-white/45 transition-all duration-200 group-hover:text-white/80 ${switcherOpen ? "rotate-180" : ""}`} />
+                  </button>
+
+                  {/* Panel del switcher */}
+                  <div
+                    role="menu"
+                    className={`absolute left-0 top-[calc(100%+8px)] z-[70] w-[252px] origin-top-left overflow-hidden rounded-[14px] border border-white/[0.10] bg-[#1A1A1D] p-1.5 shadow-[0_20px_44px_rgba(0,0,0,0.55)] transition-all duration-150 ${
+                      switcherOpen ? "visible scale-100 opacity-100" : "invisible scale-95 opacity-0"
+                    }`}
+                  >
+                    {/* Marca madre primero: T1 (ecosistema) */}
+                    <a
+                      href="/"
+                      role="menuitem"
+                      onClick={() => { track("product_switch", { from: product ?? null, to: "general" }); close(); }}
+                      className="block rounded-[10px] px-3 py-2.5 no-underline transition-colors hover:bg-white/[0.05]"
+                    >
+                      <span className="block font-inter text-[14px] font-semibold text-white">Conoce T1</span>
+                      <span className="block font-inter text-[12px] font-light text-white/45">Todo el comercio en un solo ecosistema</span>
+                    </a>
+
+                    {/* Productos (submarcas de T1) */}
+                    <div className="mb-0.5 mt-1.5 border-t border-white/[0.08] px-3 pb-1 pt-2.5">
+                      <span className="font-inter text-[10.5px] font-semibold uppercase tracking-[0.09em] text-white/35">Productos</span>
+                    </div>
+                    {PRODUCT_SWITCHER.map((p) => {
+                      const current = p.key === product;
+                      return (
+                        <a
+                          key={p.key}
+                          href={p.href}
+                          role="menuitem"
+                          onClick={(e) => { track("product_switch", { from: product ?? null, to: p.key }); if (current) { scrollTop(e); } close(); }}
+                          className={`flex items-center justify-between gap-3 rounded-[10px] px-3 py-2.5 no-underline transition-colors ${current ? "bg-white/[0.07]" : "hover:bg-white/[0.05]"}`}
+                        >
+                          <span className="min-w-0 flex-1">
+                            <span className={`block font-inter text-[14px] font-medium ${current ? "text-white" : "text-white/90"}`}>{p.name}</span>
+                            <span className="block font-inter text-[12px] font-light text-white/45">{p.desc}</span>
+                          </span>
+                          {current && (
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" className="shrink-0 text-[#FF6F5E]"><path d="M5 12l4 4L19 7" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                          )}
+                        </a>
+                      );
+                    })}
+                  </div>
                 </>
+              ) : (
+                <a href="/" onClick={onSymbolClick} aria-label="Ir a T1" className="flex items-center [&>svg]:h-[30px] [&>svg]:w-auto">
+                  <T1Logo />
+                </a>
               )}
             </div>
 
@@ -445,6 +508,9 @@ export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis
       {(menuOpen || recursosOpen) && (
         <div className="fixed inset-0 z-[50] hidden tablet:block" onClick={close} />
       )}
+
+      {/* Overlay click-away del switcher de productos (móvil + desktop) */}
+      {switcherOpen && <div className="fixed inset-0 z-[60]" onClick={close} />}
 
       {/* Mega Menu - desktop only */}
       <div

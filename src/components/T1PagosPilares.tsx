@@ -144,23 +144,35 @@ export default function T1PagosPilares() {
         </div>
 
         <div className="tablet:hidden">
+          {/* Panel simulado (carrusel) */}
           <div ref={scrollRef} onScroll={onCarouselScroll} className="flex snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {ITEMS.map((it) => (
-              <div key={it.id} className="w-full shrink-0 snap-center">
-                <Card it={it} />
-                <div className="mt-4 px-1 text-center">
-                  <h3 className="font-sora text-[22px] font-normal text-white" style={{ letterSpacing: "-0.02em" }}>{it.title}</h3>
-                  <p className="mx-auto mt-2 max-w-[360px] font-inter text-[15px] font-light leading-relaxed text-white/60">{it.description}</p>
+            {ITEMS.map((it) => {
+              const Flow = it.Flow;
+              const isStandalone = "standalone" in it && (it as { standalone?: boolean }).standalone;
+              return (
+                <div key={it.id} className="flex w-full shrink-0 snap-center justify-center py-2">
+                  {isStandalone
+                    ? (started ? <Flow /> : <div className="mx-auto w-full max-w-[300px]" style={{ minHeight: 512 }} />)
+                    : <PhoneFrame>{started ? <Flow /> : null}</PhoneFrame>}
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
+
+          {/* Stepper */}
           <div className="mt-5 flex gap-2 px-1">
             {ITEMS.map((_, i) => (
               <button key={i} type="button" onClick={() => setActive(i)} aria-label={`Ir a ${ITEMS[i].title}`} className="h-[4px] flex-1 overflow-hidden rounded-full" style={{ background: "rgba(255,255,255,0.12)" }}>
                 <div style={{ height: "100%", width: i < active ? "100%" : i === active ? (barFull ? "100%" : "0%") : "0%", background: "#DB3B2B", transition: i === active && barFull ? `width ${DURATION}ms linear` : "none" }} />
               </button>
             ))}
+          </div>
+
+          {/* Título + descripción + botón del pilar activo */}
+          <div className="mt-6 text-center">
+            <h3 className="font-sora text-[22px] font-normal text-white" style={{ letterSpacing: "-0.02em" }}>{ITEMS[active].title}</h3>
+            <p className="mx-auto mt-2 max-w-[360px] font-inter text-[15px] font-light leading-relaxed text-white/60">{ITEMS[active].description}</p>
+            <div className="mt-5 flex justify-center"><Cta it={ITEMS[active]} /></div>
           </div>
         </div>
       </div>

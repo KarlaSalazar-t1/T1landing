@@ -1,7 +1,6 @@
 import T1Navbar from "@/components/T1Navbar";
 import T1TiendaHero from "@/components/T1TiendaHero";
 import T1TiendaDondeVender from "@/components/T1TiendaDondeVender";
-import T1TiendaBento from "@/components/T1TiendaBento";
 import T1TiendaMosaico from "@/components/T1TiendaMosaico";
 import T1TiendaVideo from "@/components/T1TiendaVideo";
 import {
@@ -31,9 +30,9 @@ export default function TiendaLanding() {
         <T1TiendaDondeVender />
         {/* 3 · Marketplaces — "Un solo administrador…" (oculto por ahora) */}
         {/* <T1TiendaMarketplaces /> */}
-        {/* 3.5 · Carrusel de tiendas — "Miles de negocios ya crecen con T1" */}
-        <T1TiendaBento />
-        {/* 3.6 · Mosaico bento (parallax) — misma sección, versión grid (más alta) */}
+        {/* 3.5 · Carrusel de tiendas — oculto (se prefiere el grid) */}
+        {/* <T1TiendaBento /> */}
+        {/* 3.6 · Mosaico bento (parallax) — grid de tiendas */}
         <T1TiendaMosaico />
         {/* 4 · Pagos — cobra como quieras */}
         <T1TiendaPagos />

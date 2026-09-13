@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
 import { useCountUp } from "@/hooks/useCountUp";
+import HeroBackground from "@/components/HeroBackground";
 import T1FinalCTA from "@/components/T1FinalCTA";
 
 function CountStat({ end, prefix = "", suffix = "", label, decimals = 0 }: { end: number; prefix?: string; suffix?: string; label: string; decimals?: number }) {
@@ -361,11 +362,9 @@ export default function T1Multipaqueteria() {
   return (
     <div ref={rootRef} className="w-full">
       {/* ── Hero — text left, carriers connected visual right ── */}
-      <section
-        className="relative flex items-center px-5 pt-28 pb-16 tablet:px-10 tablet:pt-20 tablet:pb-10 tablet:h-[660px]"
-        style={{ background: "linear-gradient(135deg, #261515 0%, #1A0A0A 40%, #261515 100%)" }}
-      >
-        <div className="mx-auto w-full max-w-[var(--max-w)]">
+      <section className="relative flex items-center overflow-hidden px-5 pt-28 pb-16 tablet:px-10 tablet:pt-20 tablet:pb-10 tablet:h-[660px]">
+        <HeroBackground fade={false} />
+        <div className="relative z-10 mx-auto w-full max-w-[var(--max-w)]">
           <div className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] tablet:gap-12">
             <div>
               <h1

@@ -26,9 +26,9 @@ function track(event: string, data: Record<string, unknown>) {
 
 /* ── Tabs (segmented control) ── */
 const TABS = [
-  { id: "tienda", label: "Crea tu tienda", mLabel: "Crea tu tienda", href: SIGNUP_URL },
-  { id: "envio", label: "Cotizar envío", mLabel: "Cotizar envío", href: ENVIOS_QUOTE_URL },
-  { id: "link", label: "Crea link de pago", mLabel: "Link de pago", href: PAGOS_START_URL },
+  { id: "tienda", label: "Crea tu tienda", mLabel: "Tienda", href: SIGNUP_URL },
+  { id: "envio", label: "Cotizar envío", mLabel: "Envíos", href: ENVIOS_QUOTE_URL },
+  { id: "link", label: "Crea link de pago", mLabel: "Pagos", href: PAGOS_START_URL },
 ];
 
 /* Íconos por tab (tienda / link / envío) */

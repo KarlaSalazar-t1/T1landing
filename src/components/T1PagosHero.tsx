@@ -1,84 +1,77 @@
-import Image from "next/image";
 import { SIGNUP_URL } from "@/lib/constants";
 import HeroBackground from "@/components/HeroBackground";
 import T1PagosLinkCreator from "@/components/T1PagosLinkCreator";
+import T1PagosDashboard from "@/components/T1PagosDashboard";
 
-const SOCIAL_PROOF = ["+90% de aprobación", "+200M transacciones", "8 países"];
-const METHODS = ["/img/icons/visa-card.svg", "/img/icons/mc-card.svg", "/img/icons/amex-card.svg", "/img/icons/spei-card.svg", "/img/icons/kueski-card.svg"];
+/* Social proof — mismo estilo y contenido que el hero de home/tienda:
+   métrica grande arriba + dos abajo. */
+const SOCIAL_PROOF = ["+50,000 negocios", "+40M de envíos", "+200M transacciones"];
+
+function SocialProof() {
+  return (
+    <div className="flex flex-col items-center gap-2.5 text-center tablet:gap-3.5">
+      <span className="font-inter text-[19px] font-normal text-white tablet:text-[24px]">{SOCIAL_PROOF[0]}</span>
+      <div className="flex items-center gap-6 tablet:gap-12">
+        {SOCIAL_PROOF.slice(1).map((s) => (
+          <span key={s} className="font-inter text-[15px] font-normal text-white/75 tablet:text-[18px]">{s}</span>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 const ArrowRight = (
   <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
 );
 
-function MethodLogos() {
-  return (
-    <div className="flex flex-wrap items-center justify-center gap-4">
-      {METHODS.map((src) => (
-        <Image key={src} src={src} alt="" width={80} height={52} className="h-[32px] w-auto shrink-0 object-contain" />
-      ))}
-    </div>
-  );
-}
-
-/* Creador de link (barra horizontal) — dentro de card #1D1D1D */
-function LinkPanel() {
-  return (
-    <div className="w-full rounded-[16px] bg-[#1D1D1D] p-4 tablet:p-5" style={{ boxShadow: "0 20px 50px rgba(0,0,0,0.30)" }}>
-      <T1PagosLinkCreator />
-    </div>
-  );
-}
-
 export default function T1PagosHero() {
   return (
-    <div className="relative z-0">
-      <section className="relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-5 pb-0 pt-24 tablet:min-h-screen tablet:px-6 tablet:pt-28 tablet:pb-0">
-        {/* Fondo (compartido entre los heroes) */}
-        <HeroBackground />
+    <>
+      {/* HERO normal — texto + CTA (izq) · dashboard (der) */}
+      <div className="relative z-0">
+        <section className="relative flex min-h-[78svh] flex-col justify-center overflow-hidden px-5 pb-28 pt-24 tablet:min-h-[84svh] tablet:px-6 tablet:pb-32 tablet:pt-28">
+          <HeroBackground />
+          <div className="relative z-10 mx-auto flex w-full max-w-[var(--max-w)] flex-col">
+            <div className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-12">
+              {/* Izquierda */}
+              <div className="flex flex-col items-center text-center tablet:items-start tablet:text-left">
+                <h1 className="font-sora text-[34px] font-light leading-[1.1] text-white tablet:text-[52px] desktop:text-[54px]" style={{ letterSpacing: "-0.03em" }}>
+                  Cobra en línea,
+                  <br />
+                  simple y seguro
+                </h1>
+                <p className="mt-4 max-w-[460px] font-inter text-[15px] font-light leading-[1.5] text-white/80 tablet:text-[18px]">
+                  Acepta pagos con la mejor tasa de aprobación, antifraude incluido y depósitos al día siguiente.
+                </p>
+                <a href={SIGNUP_URL} data-cta-location="hero" data-cta-text="Comienza a cobrar" data-cta-destination={SIGNUP_URL} className="mt-8 inline-flex h-[52px] items-center justify-center gap-2 rounded-[16px] bg-red-500 px-8 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-red-600">
+                  Comienza a cobrar
+                  {ArrowRight}
+                </a>
+              </div>
 
-        {/* Contenido — columna apilada centrada */}
-        <div className="relative z-10 flex w-full max-w-[900px] grow flex-col items-center justify-center text-center">
-          <h1 className="mt-6 font-sora text-[30px] font-light leading-[1.12] text-white tablet:mt-10 tablet:whitespace-nowrap tablet:text-[44px]" style={{ letterSpacing: "-0.03em" }}>
-            Cobra en línea, simple y seguro
-          </h1>
+              {/* Derecha — dashboard inclinado/flotando (foto de producto, no panel vivo) */}
+              <div className="flex justify-center [perspective:1600px] tablet:justify-end">
+                <div className="w-full max-w-[420px] tablet:[transform:rotateY(-8deg)_rotateX(3deg)]" style={{ transformStyle: "preserve-3d" }}>
+                  <T1PagosDashboard />
+                </div>
+              </div>
+            </div>
 
-          <p className="mt-4 max-w-[520px] font-inter text-[15px] font-light leading-[1.5] text-white/80 tablet:text-[18px]">
-            Tarjetas, SPEI y meses sin intereses, con antifraude y depósitos al día siguiente.
-          </p>
-
-          {/* Eyebrow — deja claro qué hace el widget */}
-          <span className="mt-8 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.05] px-3.5 py-1.5 font-inter text-[12.5px] font-medium text-white/85 tablet:mt-9">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            Crea un link de pago en segundos
-          </span>
-
-          {/* Creador de link (barra horizontal) */}
-          <div className="mt-3 w-full max-w-[720px]">
-            <LinkPanel />
-          </div>
-
-          {/* CTA de alta — secundario respecto al widget */}
-          <a href={SIGNUP_URL} data-cta-location="hero" data-cta-text="Comienza a cobrar" data-cta-destination={SIGNUP_URL} className="mt-6 inline-flex items-center gap-1.5 font-inter text-[15px] font-medium text-white/75 no-underline transition-colors hover:text-white tablet:mt-7">
-            Comienza a cobrar
-            {ArrowRight}
-          </a>
-
-          {/* Métodos de pago */}
-          <div className="mt-8">
-            <MethodLogos />
-          </div>
-
-          {/* Social proof — métrica grande arriba, dos abajo */}
-          <div className="mt-12 mb-10 flex flex-col items-center gap-2.5 px-2 tablet:mt-14 tablet:mb-0 tablet:gap-4">
-            <span className="font-inter text-[19px] font-normal text-white tablet:text-[24px]">{SOCIAL_PROOF[0]}</span>
-            <div className="flex items-center gap-6 tablet:gap-12">
-              {SOCIAL_PROOF.slice(1).map((s) => (
-                <span key={s} className="font-inter text-[15px] font-normal text-white/75 tablet:text-[18px]">{s}</span>
-              ))}
+            {/* Métricas — centradas al fondo del hero (como en home/tienda) */}
+            <div className="mt-10 tablet:mt-12">
+              <SocialProof />
             </div>
           </div>
+        </section>
+      </div>
+
+      {/* BANDA accionable — link de pago (justo debajo del hero) */}
+      <section className="relative z-[5] bg-black px-5 pb-10 pt-2 tablet:px-6 tablet:pb-14">
+        <div className="mx-auto -mt-14 w-full max-w-[760px] rounded-[20px] border border-white/[0.08] bg-[#161418] p-5 tablet:-mt-16 tablet:p-6" style={{ boxShadow: "0 30px 70px rgba(0,0,0,0.5)" }}>
+          <p className="mb-4 text-center font-sora text-[17px] font-normal text-white/90 tablet:mb-5 tablet:text-[20px]" style={{ letterSpacing: "-0.01em" }}>Crea tu link de pago en segundos</p>
+          <T1PagosLinkCreator bare />
         </div>
       </section>
-    </div>
+    </>
   );
 }

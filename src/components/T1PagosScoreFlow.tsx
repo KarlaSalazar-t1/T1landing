@@ -100,13 +100,10 @@ export function T1PagosScore() {
     <section className="bg-[#0e0d0d] px-5 py-[56px] tablet:px-6 tablet:py-[84px]">
       <div className="mx-auto max-w-[var(--max-w)]">
         <div className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
-          {/* Texto */}
-          <div className="order-2">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-3 py-1.5 font-inter text-[12px] font-semibold text-white/70">
-              T1 Score
-            </span>
-            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginTop: 20, marginBottom: 16, maxWidth: 540 }}>
-              Antifraude que aprueba más y frena el fraude
+          {/* Texto — móvil: primero (título, descripción, botón) */}
+          <div className="order-1 tablet:order-2">
+            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 16, maxWidth: 540 }}>
+              Aprueba más, frena el fraude con T1 Score
             </h2>
             <p className="font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 460 }}>
               Analizamos cada transacción en tiempo real para aprobar más pagos legítimos y frenar el fraude.
@@ -117,8 +114,8 @@ export function T1PagosScore() {
             </a>
           </div>
 
-          {/* Imagen estática — a la izquierda, alineada con el mapa de Escala (max-w-440) */}
-          <div className="order-1 mx-auto w-full max-w-[440px] overflow-hidden rounded-[20px]">
+          {/* Imagen estática — móvil: después del texto; desktop: izquierda (alineada con el mapa de Escala) */}
+          <div className="order-2 mx-auto w-full max-w-[440px] overflow-hidden rounded-[20px] tablet:order-1">
             <Image src="/img/nv-analisis-score.png" alt="Análisis de riesgo con T1 Score" width={1254} height={1254} className="block h-auto w-full" sizes="(max-width: 768px) 92vw, 440px" />
           </div>
         </div>

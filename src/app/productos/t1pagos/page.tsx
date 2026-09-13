@@ -24,12 +24,18 @@ export default function PagosLanding() {
       <T1PagosHero />
 
       <div className="relative z-[5] bg-black">
-        {/* 1 · ¿Por qué elegir T1 Pagos? (panel claro) */}
+        {/* Narrativa en una sola dirección: por qué → qué → capacidades → prueba → precio → cierre */}
+        {/* 1 · ¿Por qué elegir T1 Pagos? (beneficios) */}
         <T1PagosPorQue />
-        {/* 2 · Una plataforma para todos tus cobros (pilares) — antes de link de pago */}
+        {/* 2 · Una plataforma para todos tus cobros (canales: pasarela / links / API) */}
         <T1PagosPilares />
-        {/* 3 · Crea un link de pago — ahora vive en el hero (widget funcional) */}
-        {/* 4 · Métricas — justo arriba de precios */}
+        {/* 3 · Antifraude con T1 Score (capacidad estrella) */}
+        <T1PagosScore />
+        {/* 4 · Administra tus cobros (cómo lo manejas) */}
+        <T1PagosAdministracion />
+        {/* 5 · Escala: 8 países LATAM (mapa) + Certificación PCI DSS (hasta dónde llega) */}
+        <T1PagosPaises />
+        {/* 6 · Métricas — prueba, ya con todo el valor mostrado */}
         <T1ProductMetrics
           metrics={[
             { end: 200, prefix: "+", suffix: "M", label: "transacciones procesadas" },
@@ -37,15 +43,9 @@ export default function PagosLanding() {
             { end: 8, label: "países en Latinoamérica" },
           ]}
         />
-        {/* 5 · Precios / comisiones */}
+        {/* 7 · Precios / comisiones — al final, antes del cierre */}
         <T1PagosPrecios />
-        {/* 6 · Antifraude con T1 Score (después de precios) */}
-        <T1PagosScore />
-        {/* 7 · Escala: 8 países LATAM (mapa) + Certificación PCI DSS */}
-        <T1PagosPaises />
-        {/* 8 · Administra tus cobros */}
-        <T1PagosAdministracion />
-        {/* 9.5 · Casos de éxito (pagos / antifraude) */}
+        {/* 8 · Casos de éxito (pagos / antifraude) */}
         <T1EnterpriseCarousel
           bVariant
           only={["casadetono", "telcel", "pase", "circulo"]}

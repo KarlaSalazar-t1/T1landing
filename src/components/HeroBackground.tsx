@@ -2,7 +2,7 @@
    Paleta cálida y coherente (coral/rojo): sin azul/índigo ni rosa, y un punto
    más clara que antes para que los widgets (cotizador, link de pago) se lean
    bien encima. Un solo lugar para que los 4 heroes se vean iguales. */
-export default function HeroBackground({ fadeHeight = 260 }: { fadeHeight?: number }) {
+export default function HeroBackground({ fadeHeight = 260, fade = true }: { fadeHeight?: number; fade?: boolean }) {
   return (
     <>
       {/* Base — degradado cálido más saturado (rojo-vino, no pastel) */}
@@ -35,12 +35,15 @@ export default function HeroBackground({ fadeHeight = 260 }: { fadeHeight?: numb
       />
       {/* Degradado al negro al fondo — corte suave hacia la sección negra.
           El negro se concentra en la parte baja para que el cálido del hero
-          siga visible detrás de los campos/chips y no se los coma el negro. */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-0"
-        style={{ height: fadeHeight, background: "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 44%, rgba(3,1,1,0.14) 62%, rgba(3,1,1,0.42) 80%, rgba(3,1,1,0.72) 91%, #000 100%)" }}
-      />
+          siga visible detrás de los campos/chips y no se los coma el negro.
+          `fade=false` para heroes seguidos de una sección clara (sublandings). */}
+      {fade && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-0"
+          style={{ height: fadeHeight, background: "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 44%, rgba(3,1,1,0.14) 62%, rgba(3,1,1,0.42) 80%, rgba(3,1,1,0.72) 91%, #000 100%)" }}
+        />
+      )}
     </>
   );
 }

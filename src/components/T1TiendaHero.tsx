@@ -98,10 +98,9 @@ export default function T1TiendaHero() {
           <p className="mt-4 max-w-[440px] text-center font-inter text-[16px] font-light leading-[1.55] text-white/70 tablet:mt-5 tablet:max-w-none tablet:whitespace-nowrap tablet:text-[17px]">
             Vende, cobra y envía a todo México con T1.
           </p>
-          <span className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.06] px-3.5 py-1.5 font-inter text-[13px] font-medium text-white tablet:mt-4 tablet:text-[14px]">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M5 12l4 4L19 7" stroke="#4ADE80" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            Gratis · Sin tarjeta de crédito
-          </span>
+          <p className="mt-3 font-inter text-[14px] font-medium leading-none text-white/75 tablet:mt-4 tablet:text-[15px]">
+            Empieza gratis. Sin tarjeta de crédito.
+          </p>
 
           {/* Bloque central */}
           <div className="flex w-full flex-1 flex-col items-center justify-center gap-6 py-6">

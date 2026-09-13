@@ -6,6 +6,7 @@ import { SIGNUP_URL, SALES_URL } from "@/lib/constants";
 import { useCountUp } from "@/hooks/useCountUp";
 import { useFSStackCards } from "@/hooks/useFSStackCards";
 import T1FinalCTA from "@/components/T1FinalCTA";
+import HeroBackground from "@/components/HeroBackground";
 import { PosHeroScreen, PosCheckoutScreen, PosCheckoutMobileScreen, NegocioFlowScreen } from "@/components/showcase/PosMockups";
 import { TodoEnUnoCard } from "@/components/T1ScrollShowcase";
 
@@ -114,10 +115,10 @@ export default function T1POS() {
       {/* ── Hero — text left, POS terminal mock right ── */}
       <section
         className="relative overflow-hidden px-5 pt-28 pb-16 tablet:px-10 tablet:pt-36 tablet:pb-24"
-        style={{ background: "radial-gradient(ellipse 86% 70% at 67% 32%, rgba(226,64,47,0.26) 0%, transparent 60%), radial-gradient(ellipse 60% 58% at 14% 22%, rgba(150,34,34,0.18) 0%, transparent 58%), radial-gradient(ellipse 50% 46% at 82% 84%, rgba(244,114,150,0.08) 0%, transparent 62%), radial-gradient(ellipse 60% 70% at -4% 88%, rgba(58,74,158,0.30) 0%, transparent 52%), radial-gradient(ellipse 42% 60% at 102% 10%, rgba(58,74,158,0.24) 0%, transparent 50%), linear-gradient(160deg, #2e1622 0%, #180b13 50%, #0d070b 100%)" }}
       >
+        <HeroBackground fade={false} />
         <div aria-hidden className="pointer-events-none absolute -top-32 -right-32 h-[480px] w-[480px] rounded-full" style={{ background: "radial-gradient(circle at center, rgba(219,59,43,0.15) 0%, transparent 65%)", filter: "blur(40px)" }} />
-        <div className="relative mx-auto max-w-[var(--max-w)]">
+        <div className="relative z-10 mx-auto max-w-[var(--max-w)]">
           <div className="grid grid-cols-1 items-center gap-10 tablet:min-h-[420px] tablet:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] tablet:items-end tablet:gap-12">
             {/* Left */}
             <div className="tablet:self-center">
