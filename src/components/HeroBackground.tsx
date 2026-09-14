@@ -41,7 +41,7 @@ export default function HeroBackground({ fadeHeight = 260, fade = true }: { fade
         <div
           aria-hidden
           className="pointer-events-none absolute inset-x-0 bottom-0 z-0"
-          style={{ height: fadeHeight, background: "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 44%, rgba(3,1,1,0.14) 62%, rgba(3,1,1,0.42) 80%, rgba(3,1,1,0.72) 91%, #000 100%)" }}
+          style={{ height: fadeHeight, background: "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 34%, rgba(6,3,3,0.08) 50%, rgba(5,2,2,0.22) 64%, rgba(4,2,2,0.42) 77%, rgba(3,1,1,0.64) 87%, rgba(2,1,1,0.84) 95%, #000 100%)" }}
         />
       )}
     </>

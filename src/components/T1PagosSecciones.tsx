@@ -90,7 +90,7 @@ export function T1PagosAdministracion() {
     el.scrollBy({ left: dir * step, behavior: "smooth" });
   };
   return (
-    <section className="overflow-hidden bg-black px-5 pt-[90px] pb-[64px] tablet:px-6 tablet:pt-[128px] tablet:pb-[72px]">
+    <section className="overflow-hidden bg-[#0e0d0d] px-5 pt-[90px] pb-[64px] tablet:px-6 tablet:pt-[128px] tablet:pb-[72px]">
       <div className="mx-auto max-w-[var(--max-w)]">
         <div className="grid grid-cols-1 gap-10 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.35fr)] tablet:items-center tablet:gap-14">
           <div>

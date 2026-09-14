@@ -25,7 +25,7 @@ export default function T1PagosLinkCreator({ bare = false, vertical = false }: {
 
   // Envoltura de cada campo: underline (dentro de card) o caja oscura (bare/V2).
   const wrap = bare
-    ? "flex items-baseline gap-1 rounded-[10px] border border-white/[0.10] bg-[#1D1D1D] px-3 py-2.5 transition-colors focus-within:border-[#E2604C]"
+    ? "flex h-[52px] items-center gap-1 rounded-[10px] border border-white/[0.10] bg-[#1D1D1D] px-3 transition-colors focus-within:border-[#E2604C]"
     : "flex items-baseline gap-1 border-b border-white/25 pb-1 transition-colors focus-within:border-[#E2604C]";
   const labelCls = "mb-1 block font-inter text-[11.5px] font-medium text-white/75";
   // vertical: campos apilados (para columna angosta). horizontal (default): barra.

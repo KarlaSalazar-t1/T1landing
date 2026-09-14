@@ -26,7 +26,7 @@ const REASONS = [
 ];
 export function T1PagosPorQue() {
   return (
-    <section className="bg-[#0e0d0d] px-5 py-[60px] tablet:px-6 tablet:py-[84px]">
+    <section className="bg-black px-5 py-[60px] tablet:px-6 tablet:py-[84px]">
       <div className="mx-auto max-w-[var(--max-w)]">
         <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 48 }}>
           <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
@@ -103,7 +103,7 @@ const COUNTRIES = [
 ];
 export function T1PagosPaises() {
   return (
-    <section className="bg-[#0e0d0d] px-5 py-[52px] tablet:px-6 tablet:py-[76px]">
+    <section className="bg-black px-5 py-[52px] tablet:px-6 tablet:py-[76px]">
       <div className="mx-auto max-w-[var(--max-w)]">
         <div className="grid grid-cols-1 gap-8 tablet:grid-cols-2 tablet:gap-14">
           {/* Título + descripción — móvil: primero */}

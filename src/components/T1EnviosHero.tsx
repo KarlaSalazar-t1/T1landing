@@ -28,12 +28,14 @@ const ArrowRight = (
 
 export default function T1EnviosHero() {
   return (
-    <>
+    <div className="relative overflow-hidden">
+      {/* Fondo compartido: hero + banda comparten UN solo degradado que baja a negro,
+          así el cálido se ve detrás del panel y no corta de golpe. */}
+      <HeroBackground fadeHeight={340} />
+
       {/* HERO normal — texto + CTA (izq) · visual (der) */}
-      <div className="relative z-0">
-        <section className="relative flex min-h-[78svh] flex-col justify-center overflow-hidden px-5 pb-28 pt-24 tablet:min-h-[84svh] tablet:px-6 tablet:pb-32 tablet:pt-28">
-          <HeroBackground />
-          <div className="relative z-10 mx-auto flex w-full max-w-[var(--max-w)] flex-col">
+      <section className="relative z-10 flex min-h-[78svh] flex-col justify-center px-5 pb-8 pt-24 tablet:min-h-[84svh] tablet:px-6 tablet:pb-10 tablet:pt-28">
+          <div className="mx-auto flex w-full max-w-[var(--max-w)] flex-col">
             <div className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-12">
               {/* Izquierda */}
               <div className="flex flex-col items-center text-center tablet:items-start tablet:text-left">
@@ -63,15 +65,14 @@ export default function T1EnviosHero() {
             </div>
           </div>
         </section>
-      </div>
 
-      {/* BANDA accionable — cotizador (justo debajo del hero) */}
-      <section id="cotizador" className="relative z-[5] scroll-mt-20 bg-black px-5 pb-10 pt-2 tablet:px-6 tablet:pb-14">
-        <div className="mx-auto -mt-14 w-full max-w-[980px] rounded-[20px] border border-white/[0.08] bg-[#161418] p-5 tablet:-mt-16 tablet:p-6" style={{ boxShadow: "0 30px 70px rgba(0,0,0,0.5)" }}>
+      {/* BANDA accionable — cotizador (sobre el mismo fondo cálido, transparente) */}
+      <section id="cotizador" className="relative z-10 scroll-mt-20 px-5 pb-14 pt-2 tablet:px-6 tablet:pb-16">
+        <div className="mx-auto w-full max-w-[980px] rounded-[20px] border border-white/[0.08] bg-[#161418] p-5 tablet:p-6" style={{ boxShadow: "0 30px 70px rgba(0,0,0,0.5)" }}>
           <p className="mb-4 text-center font-sora text-[17px] font-normal text-white/90 tablet:mb-5 tablet:text-[20px]" style={{ letterSpacing: "-0.01em" }}>Cotiza tu envío en segundos</p>
           <T1EnviosCotizadorPanel bare />
         </div>
       </section>
-    </>
+    </div>
   );
 }

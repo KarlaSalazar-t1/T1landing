@@ -26,12 +26,13 @@ const ArrowRight = (
 
 export default function T1PagosHero() {
   return (
-    <>
+    <div className="relative overflow-hidden">
+      {/* Fondo compartido: hero + banda comparten UN solo degradado que baja a negro. */}
+      <HeroBackground fadeHeight={340} />
+
       {/* HERO normal — texto + CTA (izq) · dashboard (der) */}
-      <div className="relative z-0">
-        <section className="relative flex min-h-[78svh] flex-col justify-center overflow-hidden px-5 pb-28 pt-24 tablet:min-h-[84svh] tablet:px-6 tablet:pb-32 tablet:pt-28">
-          <HeroBackground />
-          <div className="relative z-10 mx-auto flex w-full max-w-[var(--max-w)] flex-col">
+      <section className="relative z-10 flex min-h-[78svh] flex-col justify-center px-5 pb-8 pt-24 tablet:min-h-[84svh] tablet:px-6 tablet:pb-10 tablet:pt-28">
+          <div className="mx-auto flex w-full max-w-[var(--max-w)] flex-col">
             <div className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-12">
               {/* Izquierda */}
               <div className="flex flex-col items-center text-center tablet:items-start tablet:text-left">
@@ -50,8 +51,8 @@ export default function T1PagosHero() {
               </div>
 
               {/* Derecha — dashboard inclinado/flotando (foto de producto, no panel vivo) */}
-              <div className="flex justify-center [perspective:1600px] tablet:justify-end">
-                <div className="w-full max-w-[420px] tablet:[transform:rotateY(-8deg)_rotateX(3deg)]" style={{ transformStyle: "preserve-3d" }}>
+              <div className="flex justify-center [perspective:1600px] tablet:justify-center tablet:pr-6">
+                <div className="w-full max-w-[400px] tablet:[transform:rotateY(-8deg)_rotateX(3deg)]" style={{ transformStyle: "preserve-3d" }}>
                   <T1PagosDashboard />
                 </div>
               </div>
@@ -63,15 +64,14 @@ export default function T1PagosHero() {
             </div>
           </div>
         </section>
-      </div>
 
-      {/* BANDA accionable — link de pago (justo debajo del hero) */}
-      <section className="relative z-[5] bg-black px-5 pb-10 pt-2 tablet:px-6 tablet:pb-14">
-        <div className="mx-auto -mt-14 w-full max-w-[760px] rounded-[20px] border border-white/[0.08] bg-[#161418] p-5 tablet:-mt-16 tablet:p-6" style={{ boxShadow: "0 30px 70px rgba(0,0,0,0.5)" }}>
+      {/* BANDA accionable — link de pago (sobre el mismo fondo cálido, transparente) */}
+      <section className="relative z-10 px-5 pb-14 pt-2 tablet:px-6 tablet:pb-16">
+        <div className="mx-auto w-full max-w-[760px] rounded-[20px] border border-white/[0.08] bg-[#161418] p-5 tablet:p-6" style={{ boxShadow: "0 30px 70px rgba(0,0,0,0.5)" }}>
           <p className="mb-4 text-center font-sora text-[17px] font-normal text-white/90 tablet:mb-5 tablet:text-[20px]" style={{ letterSpacing: "-0.01em" }}>Crea tu link de pago en segundos</p>
           <T1PagosLinkCreator bare />
         </div>
       </section>
-    </>
+    </div>
   );
 }
