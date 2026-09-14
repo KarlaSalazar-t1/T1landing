@@ -179,7 +179,6 @@ function LaNoriaCheckout() {
         <p className="text-center font-inter text-[10px] text-black/45" style={{ marginBottom: 6 }}>Pago exprés</p>
         <div className="flex gap-2" style={{ marginBottom: 14 }}>
           <div className="flex h-[38px] flex-1 items-center justify-center gap-1 rounded-[9px] bg-[#DB3B2B] font-inter text-[12px] font-semibold text-white">Paga con T1</div>
-          <div className="flex h-[38px] flex-1 items-center justify-center rounded-[9px] font-sora text-[13px] font-bold" style={{ background: "#FFC43A" }}><span style={{ color: "#253B80" }}>Pay</span><span style={{ color: "#179BD7" }}>Pal</span></div>
         </div>
         <p className="font-sora text-[12px] font-bold text-black" style={{ marginBottom: 8 }}>Información de contacto</p>
         <div className="flex items-center gap-2" style={{ marginBottom: 14 }}>

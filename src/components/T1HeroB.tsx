@@ -151,6 +151,7 @@ const TIENDA_CHIPS = HERO_CHIPS;
 
 /* H1 rotativo (versión B): marco fijo "Un solo lugar para" + acción que rota. */
 const HERO_PHRASES = ["crear tu tienda", "cobrar tus ventas", "enviar tus pedidos", "crecer sin límites"];
+const BUENFIN_PHRASES = ["crea tu tienda", "envía tus pedidos", "cobra tus ventas", "crece sin límites"];
 
 /* Formatea dígitos como monto: "10" → "0.10", "109999" → "1,099.99" */
 function formatMonto(digits: string): string {
@@ -169,7 +170,7 @@ const ArrowRight = (
 
 const FIELD = "w-full rounded-[14px] bg-[#1D1D1D] px-4 py-3 font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A] focus:ring-1 focus:ring-white/20";
 
-export default function T1HeroB() {
+export default function T1HeroB({ buenFin = false }: { buenFin?: boolean }) {
   const [tabIdx, setTabIdx] = useState(0);
   const tab = TABS[tabIdx];
 
@@ -194,6 +195,7 @@ export default function T1HeroB() {
   const cpDesdeRef = useRef<HTMLInputElement>(null);
 
   // H1 rotativo — cicla la acción cada 2.2s
+  const heroPhrases = buenFin ? BUENFIN_PHRASES : HERO_PHRASES;
   const [pIdx, setPIdx] = useState(0);
   useEffect(() => {
     const t = setInterval(() => setPIdx((i) => (i + 1) % HERO_PHRASES.length), 2200);
@@ -302,13 +304,13 @@ export default function T1HeroB() {
             className="text-center font-sora text-[30px] font-light leading-[1.12] text-white tablet:text-[44px]"
             style={{ letterSpacing: "-0.03em" }}
           >
-            <span className="block">Un solo lugar para</span>
+            <span className="block">{buenFin ? "Este Buen Fin con T1" : "Un solo lugar para"}</span>
             <span
               key={pIdx}
               className="block text-white"
               style={{ animation: "heroWordIn 0.4s ease-out" }}
             >
-              {HERO_PHRASES[pIdx]}
+              {heroPhrases[pIdx]}
             </span>
           </h1>
 
@@ -554,6 +556,13 @@ export default function T1HeroB() {
               )}
             </div>
           </div>
+
+          {/* Logo MIPYMES × Buen Fin (versión blanca, sin fondo) — antes de las métricas */}
+          {buenFin && (
+            <div className="mt-2 flex justify-center tablet:mt-3">
+              <Image src="/img/buen-fin-mipymes-w.png" alt="MIPYMES · El Buen Fin 2026 — 13 al 17 de noviembre" width={318} height={133} priority className="h-[80px] w-auto object-contain tablet:h-[90px]" />
+            </div>
+          )}
 
           {/* Números — dentro del first fold, debajo del input */}
           <div className="mt-8 flex flex-col items-center gap-2.5 pb-2 tablet:mt-10 tablet:gap-4">

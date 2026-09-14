@@ -1,0 +1,47 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Base cálida: linear-gradient(160deg, #7a2f45, #4a1e2d 52%, #2a111d) -->
+    <linearGradient id="base" x1="0.38" y1="0" x2="0.62" y2="1">
+      <stop offset="0" stop-color="#7a2f45"/>
+      <stop offset="0.52" stop-color="#4a1e2d"/>
+      <stop offset="1" stop-color="#2a111d"/>
+    </linearGradient>
+
+    <!-- Glow principal coral, centro-arriba (54% 44%, elipse 92%x82%) -->
+    <radialGradient id="g1" cx="0.5" cy="0.5" r="0.5"
+      gradientTransform="translate(0.54 0.44) scale(1.84 1.64) translate(-0.5 -0.5)">
+      <stop offset="0" stop-color="#F25432" stop-opacity="0.55"/>
+      <stop offset="0.64" stop-color="#F25432" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Glow rojo, esquina superior izquierda (14% 24%, elipse 66%x60%) -->
+    <radialGradient id="g2" cx="0.5" cy="0.5" r="0.5"
+      gradientTransform="translate(0.14 0.24) scale(1.32 1.20) translate(-0.5 -0.5)">
+      <stop offset="0" stop-color="#D6302C" stop-opacity="0.36"/>
+      <stop offset="0.60" stop-color="#D6302C" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Glow coral, esquina inferior derecha (86% 82%, elipse 58%x54%) -->
+    <radialGradient id="g3" cx="0.5" cy="0.5" r="0.5"
+      gradientTransform="translate(0.86 0.82) scale(1.16 1.08) translate(-0.5 -0.5)">
+      <stop offset="0" stop-color="#EE6042" stop-opacity="0.24"/>
+      <stop offset="0.64" stop-color="#EE6042" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Viñeta lateral (orillas un poco más oscuras) -->
+    <linearGradient id="vignette" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#140a0e" stop-opacity="0.5"/>
+      <stop offset="0.14" stop-color="#140a0e" stop-opacity="0.18"/>
+      <stop offset="0.30" stop-color="#140a0e" stop-opacity="0"/>
+      <stop offset="0.70" stop-color="#140a0e" stop-opacity="0"/>
+      <stop offset="0.86" stop-color="#140a0e" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#140a0e" stop-opacity="0.5"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#base)"/>
+  <rect width="1600" height="900" fill="url(#g1)"/>
+  <rect width="1600" height="900" fill="url(#g2)"/>
+  <rect width="1600" height="900" fill="url(#g3)"/>
+  <rect width="1600" height="900" fill="url(#vignette)"/>
+</svg>
