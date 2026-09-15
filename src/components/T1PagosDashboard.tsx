@@ -42,7 +42,7 @@ export default function T1PagosDashboard() {
 
       {/* Ventana — tarjeta limpia, sin cromo de navegador */}
       <div className="overflow-hidden rounded-[18px] bg-white" style={{ boxShadow: "0 30px 70px rgba(0,0,0,0.4)" }}>
-        <div className="px-5 pb-5 pt-5">
+        <div className="px-5 pb-5 pt-4 tablet:pt-5">
           {/* Chart — se oculta en móvil para simplificar el panel */}
           <div className="hidden tablet:block">
             <p className="text-[13px] font-bold text-black" style={{ marginBottom: 8 }}>Transacciones exitosas</p>
@@ -58,8 +58,8 @@ export default function T1PagosDashboard() {
             </div>
           </div>
 
-          {/* Transacciones */}
-          <p className="text-[13px] font-bold text-black" style={{ marginTop: 14, marginBottom: 8 }}>Transacciones</p>
+          {/* Transacciones — sin margen extra en móvil (arriba no hay gráfica) */}
+          <p className="mt-0 text-[13px] font-bold text-black tablet:mt-3.5" style={{ marginBottom: 8 }}>Transacciones</p>
           <div className="flex flex-col gap-2">
             {rows.map((r, k) => (
               <div key={`${r.name}-${idx}-${k}`} className={`items-center gap-3 rounded-[12px] border border-black/[0.05] bg-[#FAFAF9] px-3 py-2.5 ${k < 2 ? "flex" : "hidden tablet:flex"}`} style={k === 0 ? { animation: "fadeSlideIn 0.45s ease-out" } : undefined}>
@@ -78,12 +78,10 @@ export default function T1PagosDashboard() {
         </div>
       </div>
 
-      {/* Logos de métodos (circulares, sobresaliendo abajo) */}
-      <div className="relative z-10 -mt-5 flex items-center justify-center gap-3">
+      {/* Logos de métodos — planos (sin círculo), en una barra blanca sutil bajo la card */}
+      <div className="relative z-10 mx-auto -mt-4 flex w-fit items-center justify-center gap-4 rounded-full bg-white px-5 py-2.5" style={{ boxShadow: "0 12px 30px rgba(0,0,0,0.18)" }}>
         {METHODS.map((src) => (
-          <span key={src} className="flex h-[46px] w-[46px] items-center justify-center rounded-full border border-black/[0.06] bg-white" style={{ boxShadow: "0 8px 22px rgba(0,0,0,0.18)" }}>
-            <Image src={src} alt="" width={60} height={40} className="h-6 w-auto object-contain" />
-          </span>
+          <Image key={src} src={src} alt="" width={60} height={40} className="h-6 w-auto object-contain" />
         ))}
       </div>
     </div>

@@ -40,10 +40,10 @@ export default function T1EnviosStickyCTA() {
         <a
           href={ENVIOS_SIGNUP_URL}
           data-cta-location="sticky_mobile"
-          data-cta-text="Comienza a enviar"
+          data-cta-text="Comienza ahora"
           className="flex h-[52px] w-full items-center justify-center gap-2 rounded-[14px] bg-red-500 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-red-600 active:bg-red-600"
         >
-          Comienza a enviar
+          Comienza ahora
           <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
         </a>
       </div>

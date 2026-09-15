@@ -66,7 +66,7 @@ export default function PagosLanding() {
       <T1Footer />
 
       {/* CTA sticky solo-móvil + instrumentación */}
-      <T1StickyCTA label="Comienza a cobrar" href={SIGNUP_URL} section="sticky_mobile" />
+      <T1StickyCTA label="Comienza ahora" href={SIGNUP_URL} section="sticky_mobile" />
       <T1EnviosAnalytics />
     </main>
   );

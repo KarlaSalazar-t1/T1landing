@@ -201,7 +201,7 @@ export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis
       {/* Navbar */}
       <nav className={`fixed left-0 right-0 top-0 z-[100] transition-all duration-300 ${pill ? "px-3 pt-3 tablet:px-5 tablet:pt-4" : "px-0 pt-0"}`}>
         <div
-          className={`mx-auto flex max-w-[var(--max-w)] items-center justify-between transition-all duration-300 ${pill ? "rounded-[20px] px-4 py-2 tablet:px-6" : "px-5 py-3 tablet:px-6"}`}
+          className={`relative mx-auto flex max-w-[var(--max-w)] items-center justify-between transition-all duration-300 ${pill ? "rounded-[20px] px-4 py-2 tablet:px-6" : "px-5 py-3 tablet:px-6"}`}
           style={{
             // Arriba transparente; al scrollear pill flotante oscuro.
             background: (menuOpen || recursosOpen || mobileOpen)
@@ -216,28 +216,40 @@ export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis
         >
           {/* Left: Logo + nav links */}
           <div className="flex items-center gap-4 tablet:gap-10">
-            {/* Lockup: en producto = logo del producto + flechita (switcher); en home = T1 */}
-            <div className="relative flex min-h-[44px] shrink-0 items-center">
-              {descriptor ? (
+            {/* Lockup: símbolo T1 (marca madre) + descriptor del producto (switcher).
+                Móvil: T1 en la esquina y el descriptor centrado en la barra. */}
+            <div className="flex min-h-[44px] shrink-0 items-center gap-2 tablet:gap-2.5">
+              {/* Símbolo T1 rojo → marca madre (siempre en la esquina izquierda) */}
+              <a href="/" onClick={onSymbolClick} aria-label="Ir a T1" className="flex items-center [&>svg]:h-[30px] [&>svg]:w-auto">
+                <T1Logo />
+              </a>
+
+              {descriptor && (
                 <>
-                  {/* Logo del producto = trigger del switcher */}
-                  <button
-                    type="button"
-                    onClick={() => { setMenuOpen(false); setRecursosOpen(false); setSwitcherOpen((v) => !v); }}
-                    aria-haspopup="menu"
-                    aria-expanded={switcherOpen}
-                    aria-label={`T1 ${descriptor} — cambiar de producto`}
-                    className="group flex items-center gap-1.5 border-none bg-transparent"
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={`/img/t1${product}-white.svg`} alt={`T1 ${descriptor}`} className="h-[26px] w-auto tablet:h-[27px]" />
-                    <ChevronDown className={`mt-0.5 text-white/45 transition-all duration-200 group-hover:text-white/80 ${switcherOpen ? "rotate-180" : ""}`} />
-                  </button>
+                  {/* Separador ›  — solo desktop (en móvil el nombre va centrado) */}
+                  <span aria-hidden className="hidden select-none font-sora text-[24px] font-light leading-none text-white/30 tablet:block">›</span>
+
+                  {/* Descriptor + switcher.
+                      Móvil: centrado absoluto en la barra. Desktop: en línea tras el símbolo. */}
+                  <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 tablet:static tablet:translate-x-0 tablet:translate-y-0">
+                    <div className="relative">
+                      {/* Nombre del producto = trigger del switcher */}
+                      <button
+                        type="button"
+                        onClick={() => { setMenuOpen(false); setRecursosOpen(false); setSwitcherOpen((v) => !v); }}
+                        aria-haspopup="menu"
+                        aria-expanded={switcherOpen}
+                        aria-label={`T1 ${descriptor} — cambiar de producto`}
+                        className="group flex items-center gap-1.5 border-none bg-transparent font-sora text-[19px] font-normal leading-none text-white tablet:text-[20px]"
+                      >
+                        {descriptor}
+                        <ChevronDown className={`mt-0.5 text-white/45 transition-all duration-200 group-hover:text-white/80 ${switcherOpen ? "rotate-180" : ""}`} />
+                      </button>
 
                   {/* Panel del switcher */}
                   <div
                     role="menu"
-                    className={`absolute left-0 top-[calc(100%+8px)] z-[70] w-[252px] origin-top-left overflow-hidden rounded-[14px] border border-white/[0.10] bg-[#1A1A1D] p-1.5 shadow-[0_20px_44px_rgba(0,0,0,0.55)] transition-all duration-150 ${
+                    className={`absolute left-1/2 -translate-x-1/2 tablet:left-0 tablet:translate-x-0 top-[calc(100%+8px)] z-[70] w-[252px] origin-top tablet:origin-top-left overflow-hidden rounded-[14px] border border-white/[0.10] bg-[#1A1A1D] p-1.5 shadow-[0_20px_44px_rgba(0,0,0,0.55)] transition-all duration-150 ${
                       switcherOpen ? "visible scale-100 opacity-100" : "invisible scale-95 opacity-0"
                     }`}
                   >
@@ -277,11 +289,9 @@ export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis
                       );
                     })}
                   </div>
+                    </div>
+                  </div>
                 </>
-              ) : (
-                <a href="/" onClick={onSymbolClick} aria-label="Ir a T1" className="flex items-center [&>svg]:h-[30px] [&>svg]:w-auto">
-                  <T1Logo />
-                </a>
               )}
             </div>
 

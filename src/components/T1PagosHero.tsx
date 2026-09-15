@@ -33,7 +33,7 @@ export default function T1PagosHero() {
       {/* HERO normal — texto + CTA (izq) · dashboard (der) */}
       <section className="relative z-10 flex min-h-[78svh] flex-col justify-center px-5 pb-8 pt-24 tablet:min-h-[84svh] tablet:px-6 tablet:pb-10 tablet:pt-28">
           <div className="mx-auto flex w-full max-w-[var(--max-w)] flex-col">
-            <div className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-12">
+            <div className="grid grid-cols-1 items-center gap-8 tablet:grid-cols-2 tablet:gap-12">
               {/* Izquierda */}
               <div className="flex flex-col items-center text-center tablet:items-start tablet:text-left">
                 <h1 className="font-sora text-[34px] font-light leading-[1.1] text-white tablet:text-[52px] desktop:text-[54px]" style={{ letterSpacing: "-0.03em" }}>
@@ -44,8 +44,9 @@ export default function T1PagosHero() {
                 <p className="mt-4 max-w-[460px] font-inter text-[15px] font-light leading-[1.5] text-white/80 tablet:text-[18px]">
                   Acepta pagos con la mejor tasa de aprobación, antifraude incluido y depósitos al día siguiente.
                 </p>
-                <a href={SIGNUP_URL} data-cta-location="hero" data-cta-text="Comienza a cobrar" data-cta-destination={SIGNUP_URL} className="mt-8 inline-flex h-[52px] items-center justify-center gap-2 rounded-[16px] bg-red-500 px-8 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-red-600">
-                  Comienza a cobrar
+                {/* CTA desktop — junto al texto */}
+                <a href={SIGNUP_URL} data-cta-location="hero" data-cta-text="Comienza ahora" data-cta-destination={SIGNUP_URL} className="mt-8 hidden h-[52px] items-center justify-center gap-2 rounded-[16px] bg-red-500 px-8 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-red-600 tablet:inline-flex">
+                  Comienza ahora
                   {ArrowRight}
                 </a>
               </div>
@@ -56,6 +57,12 @@ export default function T1PagosHero() {
                   <T1PagosDashboard />
                 </div>
               </div>
+
+              {/* CTA móvil — debajo del dashboard */}
+              <a href={SIGNUP_URL} data-cta-location="hero" data-cta-text="Comienza ahora" data-cta-destination={SIGNUP_URL} className="mt-1 inline-flex h-[52px] items-center justify-center gap-2 justify-self-center rounded-[16px] bg-red-500 px-8 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-red-600 tablet:hidden">
+                Comienza ahora
+                {ArrowRight}
+              </a>
             </div>
 
             {/* Métricas — centradas al fondo del hero (como en home/tienda) */}
