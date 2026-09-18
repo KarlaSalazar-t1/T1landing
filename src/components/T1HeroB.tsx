@@ -170,7 +170,7 @@ const ArrowRight = (
 
 const FIELD = "w-full rounded-[14px] bg-[#1D1D1D] px-4 py-3 font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A] focus:ring-1 focus:ring-white/20";
 
-export default function T1HeroB({ buenFin = false }: { buenFin?: boolean }) {
+export default function T1HeroB({ buenFin = false, variantB = false }: { buenFin?: boolean; variantB?: boolean }) {
   const [tabIdx, setTabIdx] = useState(0);
   const tab = TABS[tabIdx];
 
@@ -292,31 +292,64 @@ export default function T1HeroB({ buenFin = false }: { buenFin?: boolean }) {
 
   return (
     <div className="relative z-0">
-      <section className="relative flex flex-col items-center overflow-hidden px-5 pb-0 pt-24 tablet:px-6 tablet:pt-28 tablet:pb-0">
+      <section className={`relative flex flex-col items-center overflow-hidden px-5 pb-0 tablet:px-6 tablet:pb-0 ${buenFin ? (variantB ? "pt-16 tablet:pt-28" : "pt-16 tablet:pt-20") : "pt-24 tablet:pt-28"}`}>
         {/* Fondo (compartido entre los heroes) */}
         <HeroBackground />
 
         {/* ══ FIRST FOLD ══ título + selector + contenido. En móvil un poco menos alto
             (85svh) para que asome un hint de los datos/marquee = "hay scroll". ══ */}
         <div className="relative z-10 flex min-h-[calc(85svh-96px)] w-full max-w-[440px] flex-col items-center tablet:min-h-[680px] tablet:max-w-[720px]">
-          {/* 1 · H1 (arriba) — rotativo: "Un solo lugar para [acción]." */}
-          <h1
-            className="text-center font-sora text-[30px] font-light leading-[1.12] text-white tablet:text-[44px]"
-            style={{ letterSpacing: "-0.03em" }}
-          >
-            <span className="block">{buenFin ? "Este Buen Fin con T1" : "Un solo lugar para"}</span>
-            <span
-              key={pIdx}
-              className="block text-white"
-              style={{ animation: "heroWordIn 0.4s ease-out" }}
-            >
-              {heroPhrases[pIdx]}
-            </span>
-          </h1>
+          {buenFin && variantB ? (
+            /* ══ Versión B — logo VERTICAL a la izquierda · título a la derecha (desktop);
+               en móvil se apila (logo arriba, título abajo). ══ */
+            <div className="mb-6 flex w-full flex-col items-center gap-5 tablet:mb-2 tablet:flex-row tablet:justify-center tablet:gap-9">
+              <Image
+                src="/img/buen-fin-vertical-w.png"
+                alt="MIPYMES · El Buen Fin 2026 — 13 al 17 de noviembre"
+                width={2135}
+                height={2135}
+                priority
+                className="h-[128px] w-auto shrink-0 object-contain tablet:h-[144px]"
+              />
+              <h1
+                className="text-center font-sora text-[30px] font-light leading-[1.12] text-white tablet:text-left tablet:text-[46px]"
+                style={{ letterSpacing: "-0.03em" }}
+              >
+                <span className="block">Este Buen Fin con T1</span>
+                <span key={pIdx} className="block text-white" style={{ animation: "heroWordIn 0.4s ease-out" }}>
+                  {heroPhrases[pIdx]}
+                </span>
+              </h1>
+            </div>
+          ) : (
+            <>
+              {/* Logo MIPYMES × Buen Fin (versión blanca, sin fondo) — arriba del título */}
+              {buenFin && (
+                <div className="mb-5 flex justify-center tablet:mb-6">
+                  <Image src="/img/buen-fin-mipymes-w.png" alt="MIPYMES · El Buen Fin 2026 — 13 al 17 de noviembre" width={318} height={133} priority className="h-[96px] w-auto object-contain tablet:h-[112px]" />
+                </div>
+              )}
+
+              {/* 1 · H1 (arriba) — rotativo: "Un solo lugar para [acción]." */}
+              <h1
+                className="text-center font-sora text-[30px] font-light leading-[1.12] text-white tablet:text-[44px]"
+                style={{ letterSpacing: "-0.03em" }}
+              >
+                <span className="block">{buenFin ? "Este Buen Fin con T1" : "Un solo lugar para"}</span>
+                <span
+                  key={pIdx}
+                  className="block text-white"
+                  style={{ animation: "heroWordIn 0.4s ease-out" }}
+                >
+                  {heroPhrases[pIdx]}
+                </span>
+              </h1>
+            </>
+          )}
 
           {/* Bloque central — anclado bajo el H1 (NO centrado) para que el selector
               quede fijo y no suba/baje al cambiar de tab (el contenido varía de alto). */}
-          <div className="flex w-full flex-col items-center gap-8 pt-10 tablet:pt-14">
+          <div className={`flex w-full flex-col items-center gap-8 pt-10 ${variantB ? "tablet:pt-6" : "tablet:pt-14"}`}>
 
             {/* 2 · Selector — móvil: tabs con subrayado · desktop: segmented pill */}
             {/* Móvil — tabs con subrayado */}
@@ -556,13 +589,6 @@ export default function T1HeroB({ buenFin = false }: { buenFin?: boolean }) {
               )}
             </div>
           </div>
-
-          {/* Logo MIPYMES × Buen Fin (versión blanca, sin fondo) — antes de las métricas */}
-          {buenFin && (
-            <div className="mt-2 flex justify-center tablet:mt-3">
-              <Image src="/img/buen-fin-mipymes-w.png" alt="MIPYMES · El Buen Fin 2026 — 13 al 17 de noviembre" width={318} height={133} priority className="h-[80px] w-auto object-contain tablet:h-[90px]" />
-            </div>
-          )}
 
           {/* Números — dentro del first fold, debajo del input */}
           <div className="mt-8 flex flex-col items-center gap-2.5 pb-2 tablet:mt-10 tablet:gap-4">

@@ -44,8 +44,8 @@ export default function T1EnviosHero() {
                   <br />
                   un solo lugar
                 </h1>
-                <p className="mt-4 max-w-[460px] font-inter text-[15px] font-light leading-[1.5] text-white/80 tablet:text-[18px]">
-                  Las mejores tarifas, sin volumen mínimo ni contratos. Cotiza, genera guías y rastrea desde un solo lugar.
+                <p className="mt-4 max-w-[420px] font-inter text-[15px] font-light leading-[1.5] text-white/80 tablet:text-[18px]">
+                  Cotiza, genera guías y rastrea desde un solo lugar. Sin volumen mínimo ni contratos.
                 </p>
                 {/* CTA desktop — junto al texto */}
                 <a href={ENVIOS_SIGNUP_URL} data-cta-location="hero" data-cta-text="Comienza ahora" data-cta-destination={ENVIOS_SIGNUP_URL} className="mt-8 hidden h-[52px] items-center justify-center gap-2 rounded-[16px] bg-red-500 px-8 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-red-600 tablet:inline-flex">
@@ -55,7 +55,7 @@ export default function T1EnviosHero() {
               </div>
 
               {/* Derecha — visual: caja + paqueterías orbitando + card de tarifa */}
-              <div className="flex justify-center tablet:justify-end">
+              <div className="-mt-8 flex justify-center tablet:mt-0 tablet:justify-end">
                 <T1EnviosHeroVisual />
               </div>
 

@@ -1000,3 +1000,19 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .halo-orbit-item { animation: none !important; }
 }
+
+/* Caja de Envíos: los productos caen dentro, rebotan y se acomodan (loop). */
+@keyframes box-drop {
+  0%   { transform: translateY(-330%) rotate(calc(var(--r, 0deg) - 12deg)); opacity: 0; }
+  6%   { opacity: 1; }
+  17%  { transform: translateY(0) rotate(var(--r, 0deg)); }
+  22%  { transform: translateY(-13%) rotate(var(--r, 0deg)); }
+  28%  { transform: translateY(0) rotate(var(--r, 0deg)); }
+  66%  { transform: translateY(0) rotate(var(--r, 0deg)); opacity: 1; }
+  79%  { transform: translateY(52%) rotate(var(--r, 0deg)); opacity: 0; }
+  100% { opacity: 0; }
+}
+.box-drop-item { animation: box-drop var(--box-dur, 8s) cubic-bezier(0.34, 1.1, 0.5, 1) infinite; will-change: transform, opacity; }
+@media (prefers-reduced-motion: reduce) {
+  .box-drop-item { animation: none !important; opacity: 1 !important; transform: translateY(0) rotate(var(--r, 0deg)) !important; }
+}

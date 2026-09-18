@@ -226,8 +226,8 @@ export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis
 
               {descriptor && (
                 <>
-                  {/* Separador ›  — solo desktop (en móvil el nombre va centrado) */}
-                  <span aria-hidden className="hidden select-none font-sora text-[24px] font-light leading-none text-white/30 tablet:block">›</span>
+                  {/* Separador — divisor vertical sutil, solo desktop (no una flecha, para no competir con el chevron del switcher) */}
+                  <span aria-hidden className="mx-0.5 hidden h-[22px] w-px bg-white/20 tablet:block" />
 
                   {/* Descriptor + switcher.
                       Móvil: centrado absoluto en la barra. Desktop: en línea tras el símbolo. */}
