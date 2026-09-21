@@ -14,19 +14,32 @@ const shot = (n: number, k: number) => {
   return { ...(desktop ? D(k) : M(k)), src: `/img/store-mock-${n}.png` };
 };
 
+/* Tiendas reales. Se recortan por CSS (object-cover) a la MISMA proporción que las
+   mock, así quedan a la misma altura. `pos` fija el encuadre (object-position):
+   - Capturas verticales de página (joyas/postres/ejercicio): "50% 0%" (top, logo+hero).
+   - Capturas desktop landscape (lochwild/loverboy/pirma): mostramos el top-izq para
+     conservar el logo sin recortar de más. */
+const cover = (src: string, k: number, w: number, h: number, pos: string) => ({ src, w, h, k, cover: true, pos });
+// Tiendas verticales (una sola imagen sirve para desktop y móvil).
+const webD = (name: string, k: number, pos = "50% 0%") => cover(`/img/store-${name}.png`, k, 1122, 1402, pos);
+const webM = (name: string, k: number, pos = "50% 0%") => cover(`/img/store-${name}.png`, k, 941, 1672, pos);
+// Lochwild/Loverboy/Pirma: captura desktop (landscape) con logo+hero; encuadre top-izq.
+const shotD = (name: string, k: number, pos = "0% 0%") => cover(`/img/store-${name}-desktop.png`, k, 1122, 1402, pos);
+const shotM = (name: string, k: number, pos = "0% 0%") => cover(`/img/store-${name}-desktop.png`, k, 941, 1672, pos);
+
 // 4 columnas con offset vertical distinto => mosaico asimétrico, no alineado.
 const COLS_DESKTOP = [
-  { offset: 0, shots: [shot(1, -42), shot(6, 30), shot(3, -24)] },
-  { offset: 54, shots: [shot(5, 40), shot(2, -30), shot(4, 26)] },
-  { offset: 22, shots: [shot(7, -34), shot(4, 26), shot(1, -20)] },
-  { offset: 72, shots: [shot(6, 36), shot(5, -26), shot(2, 28)] },
+  { offset: 0, shots: [webD("joyas", -42), shotD("lochwild", 30), webD("ejercicio", -24)] },
+  { offset: 54, shots: [webD("postres", 40), shot(4, -30), shot(5, 26)] },
+  { offset: 22, shots: [shotD("loverboy", -34, "50% 0%"), shot(7, 26), shot(1, -20)] },
+  { offset: 72, shots: [shotD("pirma", 36), shot(5, -26), shot(4, 28)] },
 ];
 const COLS_MOBILE = [
-  { offset: 0, shots: [shot(1, -34), shot(6, 30), shot(3, -26), shot(7, 30), shot(2, -28)] },
-  { offset: 34, shots: [shot(5, 36), shot(2, -30), shot(4, 26), shot(1, -30), shot(6, 30)] },
+  { offset: 0, shots: [webM("joyas", -34), shotM("lochwild", 30), webM("ejercicio", -26), shot(4, 30), shot(1, -28)] },
+  { offset: 34, shots: [webM("postres", 36), shotM("loverboy", -30, "50% 0%"), shotM("pirma", 26), shot(5, -30), shot(7, 30)] },
 ];
 
-type S = { src: string; w: number; h: number; k: number };
+type S = { src: string; w: number; h: number; k: number; cover?: boolean; pos?: string };
 
 function ShotCard({ s }: { s: S }) {
   return (
@@ -34,7 +47,14 @@ function ShotCard({ s }: { s: S }) {
       className="overflow-hidden rounded-[14px] border border-white/[0.08] bg-[#141215]"
       style={{ transform: `translate3d(0, calc(var(--p, 0) * ${s.k}px), 0)`, willChange: "transform" }}
     >
-      <Image src={s.src} alt="" width={s.w} height={s.h} className="h-auto w-full" sizes="(max-width: 768px) 45vw, 260px" />
+      {s.cover ? (
+        // Tienda real: caja con la proporción de las mock; recorta el top (logo).
+        <div className="relative w-full" style={{ aspectRatio: `${s.w} / ${s.h}` }}>
+          <Image src={s.src} alt="" fill className="object-cover" style={{ objectPosition: s.pos ?? "50% 0%" }} sizes="(max-width: 768px) 45vw, 260px" />
+        </div>
+      ) : (
+        <Image src={s.src} alt="" width={s.w} height={s.h} className="h-auto w-full" sizes="(max-width: 768px) 45vw, 260px" />
+      )}
     </div>
   );
 }

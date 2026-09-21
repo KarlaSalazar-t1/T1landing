@@ -24,10 +24,11 @@ const ITEMS = [
   {
     id: "api",
     title: "API e integraciones",
-    description: "Conecta T1 Pagos a tu plataforma, app o flujo propio.",
+    description: "Integra los cobros en tu plataforma con la API REST: tokeniza tarjetas, genera cargos y recibe webhooks.",
     cta: "Conoce más",
     ctaHref: "/registro",
     Flow: ApiFlow,
+    standalone: true, // ventana de editor (no teléfono)
   },
 ];
 
