@@ -104,8 +104,8 @@ export default function T1TiendaHero() {
 
           {/* Bloque central */}
           <div className="flex w-full flex-1 flex-col items-center justify-center gap-6 py-6">
-            {/* Caja de prompt */}
-            <div className="relative w-full rounded-[14px] bg-[#1D1D1D]" style={{ minHeight: 160 }}>
+            {/* Caja de prompt (mismo componente visual que la home) */}
+            <div className="relative w-full rounded-[14px] bg-[#1D1D1D] min-h-[160px] tablet:min-h-[180px]">
               <textarea
                 ref={textareaRef}
                 value={value}
@@ -113,7 +113,7 @@ export default function T1TiendaHero() {
                 rows={3}
                 aria-label="Describe tu negocio"
                 placeholder=""
-                className="h-[160px] w-full resize-none rounded-[14px] bg-transparent px-[18px] py-[15px] font-inter text-[16px] leading-[1.5] text-white outline-none"
+                className="h-[160px] tablet:h-[180px] w-full resize-none rounded-[14px] bg-transparent px-[18px] py-[15px] font-inter text-[16px] leading-[1.5] text-white outline-none"
               />
               {!value && (
                 <div aria-hidden className="pointer-events-none absolute inset-0 px-[18px] py-[15px] font-inter text-[16px] leading-[1.5] text-[#8A8A8A]">
@@ -139,7 +139,7 @@ export default function T1TiendaHero() {
             </div>
 
             {/* Chips — móvil: una sola fila con scroll horizontal (no envolver); desktop: wrap centrado */}
-            <div className="flex w-full min-h-[44px] flex-nowrap items-center justify-start gap-2.5 overflow-x-auto tablet:justify-center tablet:gap-2" style={{ scrollbarWidth: "none" }}>
+            <div className="flex w-full flex-nowrap items-center justify-start gap-2.5 overflow-x-auto tablet:justify-center tablet:gap-2" style={{ scrollbarWidth: "none" }}>
               {CHIPS.map((chip) => (
                 <button
                   key={chip.label}

@@ -23,20 +23,24 @@ const cover = (src: string, k: number, w: number, h: number, pos: string) => ({ 
 // Tiendas verticales (una sola imagen sirve para desktop y móvil).
 const webD = (name: string, k: number, pos = "50% 0%") => cover(`/img/store-${name}.png`, k, 1122, 1402, pos);
 const webM = (name: string, k: number, pos = "50% 0%") => cover(`/img/store-${name}.png`, k, 941, 1672, pos);
-// Lochwild/Loverboy/Pirma: captura desktop (landscape) con logo+hero; encuadre top-izq.
+// Loverboy: captura desktop (landscape) con logo+hero; encuadre centrado-arriba.
 const shotD = (name: string, k: number, pos = "0% 0%") => cover(`/img/store-${name}-desktop.png`, k, 1122, 1402, pos);
 const shotM = (name: string, k: number, pos = "0% 0%") => cover(`/img/store-${name}-desktop.png`, k, 941, 1672, pos);
+// Lochwild/Pirma: captura MÓVIL (no la desktop). En desktop usamos un ratio un poco
+// más alto (0.72) para que se vea header + hero, no solo el nav; en móvil, 0.56.
+const mobD = (name: string, k: number) => cover(`/img/store-${name}-mobile.png`, k, 760, 1000, "50% 0%");
+const mobM = (name: string, k: number) => cover(`/img/store-${name}-mobile.png`, k, 941, 1672, "50% 0%");
 
 // 4 columnas con offset vertical distinto => mosaico asimétrico, no alineado.
 const COLS_DESKTOP = [
-  { offset: 0, shots: [webD("joyas", -42), shotD("lochwild", 30), webD("ejercicio", -24)] },
-  { offset: 54, shots: [webD("postres", 40), shot(4, -30), shot(5, 26)] },
+  { offset: 0, shots: [webD("joyas", -42), mobD("lochwild", 30), webD("ejercicio", -24)] },
+  { offset: 54, shots: [webD("postres", 40), shot(5, -30), shot(4, 26)] },
   { offset: 22, shots: [shotD("loverboy", -34, "50% 0%"), shot(7, 26), shot(1, -20)] },
-  { offset: 72, shots: [shotD("pirma", 36), shot(5, -26), shot(4, 28)] },
+  { offset: 72, shots: [mobD("pirma", 36), shot(5, -26), shot(4, 28)] },
 ];
 const COLS_MOBILE = [
-  { offset: 0, shots: [webM("joyas", -34), shotM("lochwild", 30), webM("ejercicio", -26), shot(4, 30), shot(1, -28)] },
-  { offset: 34, shots: [webM("postres", 36), shotM("loverboy", -30, "50% 0%"), shotM("pirma", 26), shot(5, -30), shot(7, 30)] },
+  { offset: 0, shots: [webM("joyas", -34), mobM("lochwild", 30), webM("ejercicio", -26), shot(4, 30), shot(1, -28)] },
+  { offset: 34, shots: [webM("postres", 36), shotM("loverboy", -30, "50% 0%"), mobM("pirma", 26), shot(5, -30), shot(7, 30)] },
 ];
 
 type S = { src: string; w: number; h: number; k: number; cover?: boolean; pos?: string };
