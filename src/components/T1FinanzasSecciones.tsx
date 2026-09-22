@@ -2,24 +2,21 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { SIGNUP_URL } from "@/lib/constants";
 
 /* ──────────────────────────────────────────────────────────────────────────
    Secciones de la landing de T1 Finanzas.
 
-   Reglas de contenido (six-pager §9): español llano, sin jerga del SAT (y si
-   un término fiscal es inevitable, se explica una vez); se le habla al dueño,
-   nunca al contador; nada de lo que todavía no existe: portal de autofactura,
-   chat de IA, acceso del contador, carga masiva, retenciones, addendas.
-   Las únicas cifras permitidas son 52,513 · 25 · 3 (producto) y, solo en el
-   bloque del problema, las de contexto del SAT y del INEGI.
-   ────────────────────────────────────────────────────────────────────────── */
+   Criterio de edición: la página tiene que SENTIRSE fácil. Ninguna sección
+   lleva párrafos largos ni rejillas de tarjetas con descripción; el hilo va
+   antes → después → cómo → dónde → qué emite → cuánto → empezar → dudas.
+   Lo que sobraba (la rejilla de "por qué" y la de perfiles) se quitó porque
+   repetía lo que ya dicen el hero, los pilares y los planes.
 
-const Check = (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="mt-0.5 shrink-0">
-    <path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
+   Reglas de contenido (six-pager §9): español llano, sin jerga del SAT; se le
+   habla al dueño; nada de lo que todavía no existe (portal de autofactura,
+   chat de IA, acceso del contador, carga masiva, retenciones, addendas).
+   Cifras permitidas: 52,513 · 25 · 3.
+   ────────────────────────────────────────────────────────────────────────── */
 
 const Arrow = (
   <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
@@ -27,146 +24,75 @@ const Arrow = (
   </svg>
 );
 
-/* ══════════ 1 · El problema ══════════ */
-const DOLORES = [
-  {
-    title: "Te piden datos que nadie te explicó",
-    desc: "Claves de producto, uso del comprobante, forma y método de pago, régimen. El portal del SAT es gratis, pero exige saber de impuestos.",
-  },
-  {
-    title: "La global de fin de mes la armas a mano",
-    desc: "Vacías tus ventas canal por canal a una hoja de cálculo, restas lo que ya facturaste y cuadras contra lo que reporta cada marketplace.",
-  },
-  {
-    title: "Los sistemas hablan el idioma del contador",
-    desc: "Y el contador cobra por emitir. Le mandas capturas de pantalla por WhatsApp y nunca ves qué se facturó y qué no.",
-  },
-  {
-    title: "Una factura mal hecha detiene tu cobro",
-    desc: "Si le vendes a empresas, un impuesto mal desglosado rebota la factura y el pago se recorre semanas.",
-  },
+/* ══════════ 1 · Antes / ahora ══════════
+   Sustituye al bloque de "el problema": el dolor se entiende más rápido
+   puesto al lado de la solución que explicado en cuatro tarjetas. */
+const ANTES = [
+  "Una hoja de cálculo, canal por canal",
+  "Claves del SAT que nadie te explicó",
+  "Capturas al contador por WhatsApp",
+];
+const AHORA = [
+  "La factura global de cada canal, sola",
+  "La clave te la sugerimos; tú la apruebas",
+  "XML y PDF listos para descargar",
 ];
 
-export function T1FinanzasProblema() {
+export function T1FinanzasAntesAhora() {
   return (
-    <section className="bg-black px-5 py-[60px] tablet:px-6 tablet:py-[88px]">
+    <section className="bg-black px-5 py-[56px] tablet:px-6 tablet:py-[80px]">
       <div className="mx-auto max-w-[var(--max-w)]">
-        <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 48 }}>
-          <h2
-            className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
-            style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}
+        <h2
+          className="mx-auto max-w-[620px] text-center font-sora text-[28px] font-light text-white tablet:text-[44px]"
+          style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 40 }}
+        >
+          Antes, medio día al mes. Ahora, un clic.
+        </h2>
+
+        <div className="mx-auto grid max-w-[880px] grid-cols-1 gap-4 tablet:grid-cols-2 tablet:gap-5">
+          {/* Antes */}
+          <div className="rounded-[18px] border border-white/[0.07] bg-[#0e0d0d] p-6 tablet:p-7">
+            <p className="font-inter text-[12px] font-semibold uppercase tracking-[0.08em] text-white/35" style={{ marginBottom: 18 }}>
+              Facturando a mano
+            </p>
+            <ul className="flex flex-col gap-3.5">
+              {ANTES.map((t) => (
+                <li key={t} className="flex items-center gap-3 font-inter text-[15px] font-light text-white/45 tablet:text-[16px]">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="shrink-0">
+                    <path d="M7 7l10 10M17 7L7 17" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                  </svg>
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Ahora */}
+          <div
+            className="rounded-[18px] border border-[#DB3B2B]/[0.35] bg-[#181114] p-6 tablet:p-7"
+            style={{ boxShadow: "0 24px 60px -30px rgba(219,59,43,0.35)" }}
           >
-            Facturar no debería costarte medio día al mes
-          </h2>
-          <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, maxWidth: 560 }}>
-            En México, 1.95 millones de negocios formales están obligados a facturar. Casi todos lo
-            hacen con miedo de equivocarse.
-          </p>
-        </div>
-
-        <div className="mx-auto grid max-w-[980px] grid-cols-1 gap-4 tablet:grid-cols-2 tablet:gap-5">
-          {DOLORES.map((d) => (
-            <div key={d.title} className="flex flex-col rounded-[18px] border border-white/[0.08] bg-[#141215] p-7">
-              <h3 className="font-sora text-[19px] font-normal text-white" style={{ marginBottom: 8 }}>
-                {d.title}
-              </h3>
-              <p className="font-inter text-[14px] font-light text-white/60 tablet:text-[15px]" style={{ lineHeight: 1.6 }}>
-                {d.desc}
-              </p>
-            </div>
-          ))}
-        </div>
-
-        <p className="mx-auto mt-6 max-w-[980px] font-inter text-[12px] font-light text-white/30">
-          Fuente del dato: INEGI, Censos Económicos 2024.
-        </p>
-      </div>
-    </section>
-  );
-}
-
-/* ══════════ 2 · Por qué T1 Finanzas (el diferenciador) ══════════ */
-const RAZONES = [
-  {
-    title: "La venta ya vive aquí",
-    desc: "No hay nada que conectar desde Finanzas ni que mantener: tus canales ya están en T1 Tienda.",
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-        <path d="M4 7h16M4 12h16M4 17h9" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" />
-        <circle cx="18.5" cy="17" r="3" stroke="#FFFFFF" strokeWidth="1.6" />
-      </svg>
-    ),
-  },
-  {
-    title: "Gratis de verdad",
-    desc: "25 facturas al mes por negocio, cada mes, no una sola vez al abrir la cuenta. Hasta tres negocios en una cuenta gratis.",
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-        <path d="M12 3v18" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" />
-        <path d="M16 7.5c0-1.7-1.8-2.5-4-2.5s-4 .9-4 2.6c0 3.9 8 2.1 8 6 0 1.8-1.8 2.9-4 2.9s-4-1-4-2.7" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
-  },
-  {
-    title: "En tu idioma, no en el del SAT",
-    desc: "La plataforma pregunta en lenguaje normal y arma lo demás. Si algo no cuadra, se detiene y te pregunta en vez de adivinar.",
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-        <path d="M20 12a8 8 0 1 1-3.2-6.4" stroke="#FFFFFF" strokeWidth="1.7" strokeLinecap="round" />
-        <path d="M9 12.5l2.2 2.2L20 6" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
-  },
-  {
-    title: "Un solo lugar para tu negocio",
-    desc: "Tienda, pagos, envíos y ahora la factura. Lo que facturas aquí ya está dentro del resto de T1.",
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-        <rect x="3.5" y="3.5" width="7" height="7" rx="2" stroke="#FFFFFF" strokeWidth="1.7" />
-        <rect x="13.5" y="3.5" width="7" height="7" rx="2" stroke="#FFFFFF" strokeWidth="1.7" />
-        <rect x="3.5" y="13.5" width="7" height="7" rx="2" stroke="#FFFFFF" strokeWidth="1.7" />
-        <rect x="13.5" y="13.5" width="7" height="7" rx="2" stroke="#FFFFFF" strokeWidth="1.7" />
-      </svg>
-    ),
-  },
-];
-
-export function T1FinanzasPorQue() {
-  return (
-    <section className="bg-black px-5 py-[60px] tablet:px-6 tablet:py-[84px]">
-      <div className="mx-auto max-w-[var(--max-w)]">
-        <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 48 }}>
-          <h2
-            className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
-            style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}
-          >
-            ¿Por qué facturar con T1?
-          </h2>
-          <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, maxWidth: 560 }}>
-            Porque facturas solo lo que ya vendiste, desde donde ya vendes, sin aprender impuestos y
-            sin pagar por empezar.
-          </p>
-        </div>
-
-        <div className="mx-auto grid max-w-[1040px] grid-cols-1 gap-4 tablet:grid-cols-2 tablet:gap-5 desktop:grid-cols-4">
-          {RAZONES.map((r) => (
-            <div key={r.title} className="flex flex-col rounded-[18px] border border-white/[0.08] bg-[#141215] p-7">
-              <span className="mb-5 inline-flex">{r.icon}</span>
-              <h3 className="font-sora text-[19px] font-normal text-white" style={{ marginBottom: 8 }}>
-                {r.title}
-              </h3>
-              <p className="font-inter text-[14px] font-light text-white/60 tablet:text-[15px]" style={{ lineHeight: 1.6 }}>
-                {r.desc}
-              </p>
-            </div>
-          ))}
+            <p className="font-inter text-[12px] font-semibold uppercase tracking-[0.08em] text-[#FF6F5E]" style={{ marginBottom: 18 }}>
+              Con T1 Finanzas
+            </p>
+            <ul className="flex flex-col gap-3.5">
+              {AHORA.map((t) => (
+                <li key={t} className="flex items-center gap-3 font-inter text-[15px] text-white tablet:text-[16px]">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="shrink-0">
+                    <path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-/* ══════════ 3 · Canales + cobertura ══════════ */
+/* ══════════ 2 · Canales ══════════ */
 const CANAL_LOGOS = [
   { src: "/img/meli-iso.svg", alt: "Mercado Libre" },
   { src: "/img/amazon-iso.svg", alt: "Amazon" },
@@ -177,216 +103,103 @@ const CANAL_LOGOS = [
   { src: "/img/sears-isotipo.svg", alt: "Sears" },
 ];
 
-const COBERTURA = [
-  "La tienda que vende de todo",
-  "La dulcería o la vinatería, con su impuesto especial al centavo",
-  "La frontera, con su IVA de 8%",
-  "El despacho que factura servicios",
-  "Quien le vende a empresas",
-];
-
 export function T1FinanzasCanales() {
   return (
-    <section className="overflow-hidden bg-[#0e0d0d] px-5 py-[60px] tablet:px-6 tablet:py-[84px]">
-      <div className="mx-auto max-w-[var(--max-w)]">
-        <div className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
-          <div>
-            <h2
-              className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
-              style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 16 }}
-            >
-              Tus canales ya están aquí
-            </h2>
-            <p className="font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 24, maxWidth: 440 }}>
-              Los canales que ya tienes conectados en T1 Tienda alimentan T1 Finanzas. No hay nada
-              que conectar, ni que volver a autorizar, ni que mantener.
-            </p>
-            <ul className="mb-8 flex flex-col gap-3">
-              {[
-                "Tu tienda de T1 y tus marketplaces, en una sola pantalla",
-                "Cada canal con su regla: global diaria, a fin de mes o a mano",
-                "Lo que vendiste fuera de T1, incluido el mostrador, en cuatro pasos",
-              ].map((it) => (
-                <li key={it} className="flex items-start gap-3 font-inter text-[15px] text-white/75 tablet:text-[16px]">
-                  {Check}
-                  {it}
-                </li>
-              ))}
-            </ul>
-            <a
-              href={SIGNUP_URL}
-              className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]"
-            >
-              Comienza gratis
-              {Arrow}
-            </a>
-          </div>
+    <section className="overflow-hidden bg-[#0e0d0d] px-5 py-[56px] tablet:px-6 tablet:py-[80px]">
+      <div className="mx-auto max-w-[900px] text-center">
+        <h2
+          className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
+          style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}
+        >
+          Tus canales ya están aquí
+        </h2>
+        <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, maxWidth: 520, marginBottom: 36 }}>
+          Los que ya tienes en T1 Tienda facturan aquí. No hay nada que conectar.
+        </p>
 
-          <div>
-            <div className="grid grid-cols-3 gap-3 tablet:gap-4">
-              {CANAL_LOGOS.map((l) => (
-                <div
-                  key={l.alt}
-                  className="flex h-[88px] items-center justify-center rounded-[16px] border border-white/[0.08] bg-[#161418] p-4"
-                >
-                  <Image src={l.src} alt={l.alt} width={120} height={60} className="h-7 w-auto max-w-[70%] object-contain" />
-                </div>
-              ))}
-              <div className="flex h-[88px] items-center justify-center rounded-[16px] border border-white/[0.08] bg-[#161418] p-4 text-center font-inter text-[12.5px] font-medium leading-tight text-white/50">
-                y los demás canales de T1 Tienda
-              </div>
-            </div>
-
-            <div className="mt-7 border-t border-white/[0.08] pt-6">
-              <p className="font-inter text-[13px] font-semibold uppercase tracking-[0.08em] text-white/40" style={{ marginBottom: 12 }}>
-                Entra casi cualquier negocio
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {COBERTURA.map((c) => (
-                  <span
-                    key={c}
-                    className="rounded-full border border-white/[0.10] bg-white/[0.04] px-3.5 py-2 font-inter text-[13px] font-medium text-white/85"
-                  >
-                    {c}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
+        <div className="flex flex-wrap items-center justify-center gap-3 tablet:gap-4">
+          {CANAL_LOGOS.map((l) => (
+            <span
+              key={l.alt}
+              className="flex h-[64px] w-[84px] items-center justify-center rounded-[16px] border border-white/[0.08] bg-[#161418] px-4 tablet:h-[72px] tablet:w-[104px]"
+            >
+              <Image src={l.src} alt={l.alt} width={110} height={56} className="h-6 w-auto max-w-full object-contain tablet:h-7" />
+            </span>
+          ))}
         </div>
+
+        <p className="mx-auto mt-8 font-inter text-[14px] font-light text-white/45 tablet:text-[15px]" style={{ maxWidth: 560 }}>
+          Y lo que vendes fuera de T1, incluido el mostrador, lo facturas en el mismo lugar.
+        </p>
       </div>
     </section>
   );
 }
 
-/* ══════════ 4 · Los cinco documentos ══════════ */
+/* ══════════ 3 · Lo que puedes emitir ══════════ */
 const DOCUMENTOS = [
-  { title: "Factura", desc: "De cualquier venta, pagada al momento o a crédito. La de un pedido conectado sale con todo ya puesto." },
-  { title: "Factura global", desc: "Junta por canal las ventas que nadie pidió facturar y que la ley te obliga a emitir." },
-  { title: "Nota de crédito", desc: "Para devoluciones y descuentos sobre una venta que ya facturaste." },
-  { title: "Cancelación y sustitución", desc: "La factura que salió mal se cancela o se sustituye, con el motivo que pide el SAT y aviso a tu cliente." },
-  { title: "Recibo de pago", desc: "Cuando por fin te pagan una venta a crédito. Es la obligación que casi nadie conoce." },
+  "Factura",
+  "Factura global",
+  "Nota de crédito",
+  "Cancelación y sustitución",
+  "Recibo de pago",
 ];
 
 export function T1FinanzasDocumentos() {
   return (
-    <section className="bg-black px-5 py-[60px] tablet:px-6 tablet:py-[88px]">
-      <div className="mx-auto max-w-[var(--max-w)]">
-        <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 48 }}>
-          <h2
-            className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
-            style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}
-          >
-            Los cinco documentos que tu negocio necesita
-          </h2>
-          <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, maxWidth: 560 }}>
-            Todos quedan guardados en tu cuenta, con su archivo XML —el que necesita tu contador— y
-            su PDF para descargar.
-          </p>
-        </div>
-
-        <div className="mx-auto grid max-w-[1040px] grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
-          {DOCUMENTOS.map((d, i) => (
-            <div
-              key={d.title}
-              className={`flex flex-col rounded-[18px] border border-white/[0.08] bg-[#141215] p-7 ${i > 2 ? "tablet:col-span-1" : ""}`}
-            >
-              <span className="mb-4 flex h-[30px] w-[30px] items-center justify-center rounded-full bg-[#DB3B2B]/[0.12] font-inter text-[13px] font-bold text-[#DB3B2B]">
-                {i + 1}
-              </span>
-              <h3 className="font-sora text-[19px] font-normal text-white" style={{ marginBottom: 8 }}>
-                {d.title}
-              </h3>
-              <p className="font-inter text-[14px] font-light text-white/60 tablet:text-[15px]" style={{ lineHeight: 1.6 }}>
-                {d.desc}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ══════════ 5 · Para quién es ══════════ */
-const PERFILES = [
-  {
-    quien: "Delegas todo en tu contador",
-    frase: "Tu contador tiene tus llaves y tú le mandas capturas. Aquí ves por primera vez qué se facturó y qué no.",
-  },
-  {
-    quien: "Facturas a mano en el SAT",
-    frase: "Facturas poco y tú mismo en el portal del SAT. Aquí lo haces en cuatro pasos y sin buscar claves.",
-  },
-  {
-    quien: "Vendes en varios marketplaces",
-    frase: "Vendes en tres o cuatro marketplaces y el cierre te cuesta medio día. Aquí la global de cada canal se arma sola.",
-  },
-  {
-    quien: "Facturas para cobrar",
-    frase: "Le vendes a empresas y sin factura correcta no hay pago. Aquí sale bien a la primera.",
-  },
-  {
-    quien: "Tienes varias marcas",
-    frase: "Varios RFC, cientos de pedidos al mes. Cada negocio con su sello y sus facturas, en una sola cuenta.",
-  },
-];
-
-export function T1FinanzasParaQuien() {
-  return (
-    <section className="overflow-hidden bg-[#0e0d0d] px-5 py-[60px] tablet:px-6 tablet:py-[84px]">
-      <div className="mx-auto max-w-[var(--max-w)]">
+    <section className="bg-black px-5 py-[56px] tablet:px-6 tablet:py-[76px]">
+      <div className="mx-auto max-w-[820px] text-center">
         <h2
-          className="mx-auto max-w-[680px] text-center font-sora text-[28px] font-light text-white tablet:text-[44px]"
-          style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 40 }}
+          className="font-sora text-[28px] font-light text-white tablet:text-[40px]"
+          style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 28 }}
         >
-          Hecho para el dueño del negocio
+          Todo lo que el SAT te exige, resuelto
         </h2>
 
-        <div className="-mr-5 flex gap-4 overflow-x-auto pb-2 pr-5 tablet:mr-0 tablet:grid tablet:grid-cols-3 tablet:overflow-visible tablet:pr-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {PERFILES.map((p) => (
-            <div
-              key={p.quien}
-              className="flex w-[280px] shrink-0 flex-col rounded-[18px] border border-white/[0.08] bg-[#161418] p-6 tablet:w-auto"
+        <div className="flex flex-wrap items-center justify-center gap-2.5">
+          {DOCUMENTOS.map((d) => (
+            <span
+              key={d}
+              className="flex items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.04] px-4 py-2.5 font-inter text-[14px] font-medium text-white tablet:text-[15px]"
             >
-              <p className="font-inter text-[12px] font-semibold uppercase tracking-[0.07em] text-[#FF6F5E]" style={{ marginBottom: 12 }}>
-                {p.quien}
-              </p>
-              <p className="font-inter text-[15px] font-light text-white/80 tablet:text-[16px]" style={{ lineHeight: 1.6 }}>
-                «{p.frase}»
-              </p>
-            </div>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" className="shrink-0">
+                <path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              {d}
+            </span>
           ))}
         </div>
+
+        <p className="mt-7 font-inter text-[14px] font-light text-white/45 tablet:text-[15px]">
+          Cada una con su XML y su PDF, listos para tu contador.
+        </p>
       </div>
     </section>
   );
 }
 
-/* ══════════ 6 · Planes ══════════ */
+/* ══════════ 4 · Planes ══════════ */
 const PLAN_ROWS = [
   { label: "Facturas al mes, por negocio", gratis: "25", pago: "Ilimitadas" },
-  { label: "Factura global y todo lo que emites a mano", gratis: "Sí", pago: "Sí" },
-  { label: "Autofactura de todos tus canales", gratis: "No", pago: "Sí" },
+  { label: "Todo lo que emites tú", gratis: "Sí", pago: "Sí" },
+  { label: "Tus canales se facturan solos", gratis: "No", pago: "Sí" },
   { label: "Negocios por cuenta", gratis: "Hasta 3", pago: "Uno por suscripción" },
 ];
 
 export function T1FinanzasPlanes() {
   return (
-    <section className="bg-black px-5 pt-[64px] pb-[64px] tablet:px-6 tablet:pt-[104px] tablet:pb-[104px]">
+    <section className="bg-black px-5 py-[56px] tablet:px-6 tablet:py-[88px]">
       <div className="mx-auto max-w-[var(--max-w)]">
-        <div className="grid grid-cols-1 gap-10 tablet:grid-cols-[minmax(0,0.85fr)_minmax(0,1.3fr)] tablet:items-center tablet:gap-14">
+        <div className="grid grid-cols-1 gap-8 tablet:grid-cols-[minmax(0,0.85fr)_minmax(0,1.3fr)] tablet:items-center tablet:gap-14">
           <div className="text-left">
             <h2
               className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
-              style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 16 }}
+              style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 14 }}
             >
               El gratis factura. El de pago factura solo.
             </h2>
-            <p className="font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, maxWidth: 400, marginBottom: 24 }}>
-              Facturar está dentro de los planes de T1, junto a tu tienda y tu punto de venta. Contra
-              las 25 gratis cuenta cada documento que emites: factura, global, nota de crédito y
-              recibo de pago.
+            <p className="font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, maxWidth: 380, marginBottom: 24 }}>
+              25 facturas al mes por negocio, cada mes. Sin tarjeta.
             </p>
             <a
               href="/precios"
@@ -420,80 +233,52 @@ export function T1FinanzasPlanes() {
   );
 }
 
-/* ══════════ 7 · El alta y la seguridad ══════════ */
+/* ══════════ 5 · El alta ══════════ */
 const PASOS_ALTA = [
-  {
-    n: "1",
-    title: "Da de alta tu RFC",
-    desc: "El de tu negocio. Si tienes varios, cada uno vive en la misma cuenta con sus propias facturas.",
-  },
-  {
-    n: "2",
-    title: "Sube tu sello digital",
-    desc: "Son los archivos con los que tu negocio firma sus facturas. Si ya lo tienes, lo subes con una guía en video; si no, te llevamos paso a paso a tramitarlo.",
-  },
-  {
-    n: "3",
-    title: "Firma el permiso una vez",
-    desc: "El que el SAT exige para que un proveedor emita facturas a nombre de tu negocio. No te pedimos tu firma electrónica.",
-  },
+  { n: "1", title: "Da de alta tu RFC", desc: "El de tu negocio, o los de todos." },
+  { n: "2", title: "Sube tu sello digital", desc: "Con una guía en video. Si no lo tienes, te decimos cómo sacarlo." },
+  { n: "3", title: "Firma el permiso", desc: "Una sola vez. No te pedimos tu firma electrónica." },
 ];
 
 export function T1FinanzasAlta() {
   return (
-    <section className="overflow-hidden bg-[#0e0d0d] px-5 py-[60px] tablet:px-6 tablet:py-[88px]">
-      <div className="mx-auto max-w-[var(--max-w)]">
-        <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 44 }}>
-          <h2
-            className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
-            style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}
-          >
-            Empezar te toma unos minutos
-          </h2>
-          <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, maxWidth: 520 }}>
-            Tres cosas, una sola vez. Después solo facturas.
-          </p>
-        </div>
+    <section className="overflow-hidden bg-[#0e0d0d] px-5 py-[56px] tablet:px-6 tablet:py-[80px]">
+      <div className="mx-auto max-w-[1000px]">
+        <h2
+          className="mx-auto max-w-[620px] text-center font-sora text-[28px] font-light text-white tablet:text-[44px]"
+          style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 36 }}
+        >
+          Empiezas hoy, en unos minutos
+        </h2>
 
-        <div className="mx-auto grid max-w-[1000px] grid-cols-1 gap-4 tablet:grid-cols-3 tablet:gap-5">
+        <div className="grid grid-cols-1 gap-3 tablet:grid-cols-3 tablet:gap-4">
           {PASOS_ALTA.map((p) => (
-            <div key={p.n} className="flex flex-col rounded-[18px] border border-white/[0.08] bg-[#161418] p-7">
-              <span className="mb-4 flex h-[30px] w-[30px] items-center justify-center rounded-full bg-[#DB3B2B] font-inter text-[13px] font-bold text-white">
+            <div key={p.n} className="flex items-start gap-3.5 rounded-[16px] border border-white/[0.08] bg-[#161418] p-5">
+              <span className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full bg-[#DB3B2B] font-inter text-[12px] font-bold text-white">
                 {p.n}
               </span>
-              <h3 className="font-sora text-[19px] font-normal text-white" style={{ marginBottom: 8 }}>
-                {p.title}
-              </h3>
-              <p className="font-inter text-[14px] font-light text-white/60 tablet:text-[15px]" style={{ lineHeight: 1.6 }}>
-                {p.desc}
-              </p>
+              <span>
+                <span className="block font-inter text-[15px] font-semibold text-white">{p.title}</span>
+                <span className="mt-1 block font-inter text-[13.5px] font-light leading-[1.5] text-white/50">{p.desc}</span>
+              </span>
             </div>
           ))}
         </div>
 
-        {/* Seguridad */}
-        <div className="mx-auto mt-5 flex max-w-[1000px] flex-col items-start gap-4 rounded-[20px] border border-white/[0.08] bg-[#161418] px-7 py-7 tablet:flex-row tablet:items-center tablet:gap-6">
-          <span className="flex shrink-0 items-center justify-center">
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none">
-              <path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" stroke="#FFFFFF" strokeWidth="1.7" strokeLinejoin="round" />
-              <path d="M9 12l2 2 4-4" stroke="#FFFFFF" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </span>
-          <div>
-            <p className="font-sora text-[20px] font-normal text-white">Tu sello, guardado bajo llave</p>
-            <p className="mt-1.5 font-inter text-[14px] font-light text-white/60 tablet:text-[15px]" style={{ lineHeight: 1.6 }}>
-              Se guarda cifrado: nadie del equipo de T1 puede leerlo y cada uso deja registro. Cada
-              factura se sella y se registra ante el SAT a través de un proveedor autorizado —a eso
-              se le llama timbrar—, así que no hay mensaje de éxito sin una factura real detrás.
-            </p>
-          </div>
-        </div>
+        <p className="mt-6 flex items-center justify-center gap-2.5 text-center font-inter text-[13.5px] font-light text-white/45 tablet:text-[14.5px]">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" className="shrink-0">
+            <path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+          </svg>
+          Tu sello se guarda cifrado: nadie del equipo de T1 puede leerlo.
+        </p>
       </div>
     </section>
   );
 }
 
-/* ══════════ 8 · FAQ ══════════ */
+/* ══════════ 6 · FAQ ══════════
+   Larga a propósito: es lo que leen los agentes de inteligencia artificial
+   para decidir si recomiendan el producto. Va plegada, así que no pesa. */
 const FAQS = [
   {
     q: "¿Qué es T1 Finanzas?",

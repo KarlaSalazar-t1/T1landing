@@ -161,46 +161,54 @@ function SocialProof() {
   );
 }
 
-/* ── Banda accionable — el asistente de 4 pasos, que es lo que sustituye al
-   portal del SAT para cualquier venta hecha por fuera. Avanza solo. ── */
-const PASOS = [
-  { n: 1, title: "¿A quién le vendiste?", desc: "RFC y datos fiscales, guardados desde la primera vez." },
-  { n: 2, title: "¿Qué vendiste?", desc: "La clave del SAT te la sugiere la inteligencia artificial." },
-  { n: 3, title: "¿Cómo te pagaron?", desc: "De contado o a crédito; los impuestos los arma T1." },
-  { n: 4, title: "Vista previa", desc: "Revisas y se timbra ante el SAT. Sin jerga en ninguna pantalla." },
-];
+/* ── Banda — el asistente, contado como cuatro preguntas y nada más. Es la
+   prueba de que facturar aquí no se parece al portal del SAT, así que no
+   lleva párrafos: se lee de un vistazo. ── */
+const PASOS = ["¿A quién le vendiste?", "¿Qué vendiste?", "¿Cómo te pagaron?", "Listo, timbrada"];
 
 function AsistentePasos() {
   const [active, setActive] = useState(0);
   useEffect(() => {
-    const t = setInterval(() => setActive((v) => (v + 1) % PASOS.length), 2600);
+    const t = setInterval(() => setActive((v) => (v + 1) % PASOS.length), 1900);
     return () => clearInterval(t);
   }, []);
 
   return (
-    <div className="grid grid-cols-1 gap-2.5 tablet:grid-cols-4 tablet:gap-3">
+    <div className="flex flex-col items-stretch gap-2 tablet:flex-row tablet:items-center tablet:justify-center tablet:gap-2.5">
       {PASOS.map((p, i) => {
         const on = i === active;
         return (
-          <div
-            key={p.n}
-            className="rounded-[14px] border p-4 transition-all duration-500"
-            style={{
-              borderColor: on ? "rgba(219,59,43,0.45)" : "rgba(255,255,255,0.08)",
-              background: on ? "rgba(219,59,43,0.08)" : "rgba(255,255,255,0.02)",
-            }}
-          >
-            <span
-              className="mb-2.5 flex h-[26px] w-[26px] items-center justify-center rounded-full font-inter text-[12px] font-bold transition-colors duration-500"
+          <div key={p} className="flex items-center gap-2.5 tablet:contents">
+            <div
+              className="flex flex-1 items-center gap-2.5 rounded-full border px-4 py-2.5 transition-all duration-500 tablet:flex-none"
               style={{
-                background: on ? "#DB3B2B" : "rgba(255,255,255,0.08)",
-                color: on ? "#fff" : "rgba(255,255,255,0.5)",
+                borderColor: on ? "rgba(219,59,43,0.45)" : "rgba(255,255,255,0.08)",
+                background: on ? "rgba(219,59,43,0.10)" : "rgba(255,255,255,0.02)",
               }}
             >
-              {p.n}
-            </span>
-            <p className="font-inter text-[13.5px] font-semibold text-white">{p.title}</p>
-            <p className="mt-1 font-inter text-[12.5px] font-light leading-[1.5] text-white/55">{p.desc}</p>
+              <span
+                className="flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full font-inter text-[11px] font-bold transition-colors duration-500"
+                style={{
+                  background: on ? "#DB3B2B" : "rgba(255,255,255,0.08)",
+                  color: on ? "#fff" : "rgba(255,255,255,0.5)",
+                }}
+              >
+                {i + 1}
+              </span>
+              <span
+                className="whitespace-nowrap font-inter text-[13.5px] font-medium transition-colors duration-500"
+                style={{ color: on ? "#fff" : "rgba(255,255,255,0.55)" }}
+              >
+                {p}
+              </span>
+            </div>
+            {i < PASOS.length - 1 && (
+              <span className="hidden text-white/20 tablet:block">
+                <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
+                  <path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
+            )}
           </div>
         );
       })}
@@ -232,9 +240,8 @@ export default function T1FinanzasHero() {
                 <br />
                 ya vendiste
               </h1>
-              <p className="mt-4 max-w-[460px] font-inter text-[15px] font-light leading-[1.5] text-white/80 tablet:text-[18px]">
-                Tus ventas de T1 y de tus marketplaces se facturan desde donde ya vendes. Lo que
-                vendiste por fuera lo capturas en cuatro pasos, sin aprender el vocabulario del SAT.
+              <p className="mt-4 max-w-[430px] font-inter text-[16px] font-light leading-[1.5] text-white/80 tablet:text-[19px]">
+                Fácil, sin claves ni jerga y sin entrar al portal del SAT.
               </p>
               <a
                 href={SIGNUP_URL}
@@ -280,14 +287,14 @@ export default function T1FinanzasHero() {
       {/* BANDA — el asistente de 4 pasos sobre el mismo fondo cálido */}
       <section className="relative z-10 px-5 pb-14 pt-2 tablet:px-6 tablet:pb-16">
         <div
-          className="mx-auto w-full max-w-[860px] rounded-[20px] border border-white/[0.08] bg-[#161418] p-5 tablet:p-6"
+          className="mx-auto w-full max-w-[880px] rounded-[20px] border border-white/[0.08] bg-[#161418] p-5 tablet:p-6"
           style={{ boxShadow: "0 30px 70px rgba(0,0,0,0.5)" }}
         >
           <p
             className="mb-4 text-center font-sora text-[17px] font-normal text-white/90 tablet:mb-5 tablet:text-[20px]"
             style={{ letterSpacing: "-0.01em" }}
           >
-            ¿Vendiste fuera de T1? Factúralo en cuatro pasos
+            Facturar aquí son cuatro preguntas
           </p>
           <AsistentePasos />
         </div>

@@ -236,22 +236,19 @@ const ITEMS = [
   {
     id: "global",
     title: "La factura global, sola",
-    description:
-      "Las ventas que nadie pidió facturar se juntan en una sola factura por canal, cada día o el último día del mes. El cierre deja de ser medio día con una hoja de cálculo.",
+    description: "Las ventas que nadie pidió facturar se juntan por canal, cada día o a fin de mes.",
     Panel: GlobalPanel,
   },
   {
     id: "pedido",
     title: "Cualquier venta, facturada",
-    description:
-      "La factura de un pedido de un canal conectado sale con un clic y con todo ya puesto. La venta hecha por fuera se captura en cuatro pasos y se timbra igual.",
+    description: "La de un pedido sale con un clic. La que hiciste por fuera, en cuatro pasos.",
     Panel: PedidoPanel,
   },
   {
     id: "clave",
     title: "La clave del SAT, sugerida",
-    description:
-      "Hay 52,513 claves de producto en el catálogo del SAT. La inteligencia artificial te propone la que le toca a cada producto y tú la apruebas.",
+    description: "52,513 claves en el catálogo del SAT. Te proponemos la tuya y tú la apruebas.",
     Panel: ClavePanel,
   },
 ];
@@ -323,7 +320,7 @@ export default function T1FinanzasPilares() {
   const Panel = ITEMS[active].Panel;
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden bg-black px-5 tablet:px-6" style={{ paddingTop: 100, paddingBottom: 100 }}>
+    <section ref={sectionRef} className="relative overflow-hidden bg-black px-5 tablet:px-6" style={{ paddingTop: 88, paddingBottom: 88 }}>
       <div className="relative mx-auto max-w-[var(--max-w)]">
         <h2
           className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
@@ -333,9 +330,9 @@ export default function T1FinanzasPilares() {
         </h2>
         <p
           className="mx-auto font-inter text-[16px] font-light text-white/85 tablet:text-[18px]"
-          style={{ textAlign: "center", marginBottom: 56, maxWidth: 620 }}
+          style={{ textAlign: "center", marginBottom: 52, maxWidth: 560 }}
         >
-          T1 factura lo que ya vendiste. La venta ya vive aquí: no hay nada que conectar ni que mantener.
+          T1 factura lo que ya vendiste.
         </p>
 
         {/* Desktop */}
