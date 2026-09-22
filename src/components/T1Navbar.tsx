@@ -14,7 +14,9 @@ import { track } from "@/lib/analytics";
 
 /* Lockup de marca del header: logo T1 + descriptor del producto (CAMBIO header).
    El "T1" lo aporta el logo; el descriptor es solo "Envíos"/"Tienda"/"Pagos". */
-const PRODUCT_DESCRIPTORS = { envios: "Envíos", tienda: "Tienda", pagos: "Pagos" } as const;
+/* Finanzas vive aquí solo para el lockup de su propia landing: todavía NO va
+   en el mega menú ni en el switcher de productos (PRODUCT_SWITCHER). */
+const PRODUCT_DESCRIPTORS = { envios: "Envíos", tienda: "Tienda", pagos: "Pagos", finanzas: "Finanzas" } as const;
 type ProductKey = keyof typeof PRODUCT_DESCRIPTORS;
 type PageType = "home" | "producto" | "sublanding";
 

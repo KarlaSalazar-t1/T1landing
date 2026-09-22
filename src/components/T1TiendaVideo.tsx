@@ -17,7 +17,7 @@ export default function T1TiendaVideo() {
         >
           {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
           <video
-            src="/video/store-creation.mp4"
+            src="/video/store-creation-v2.mp4"
             autoPlay
             muted
             loop
