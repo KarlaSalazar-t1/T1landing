@@ -18,17 +18,19 @@ import { useEffect, useRef, useState } from "react";
 const FONT = "var(--font-inter), 'Inter', sans-serif";
 
 /* Ventana de producto — tarjeta blanca, mismo cromo que el panel del hero. */
+const ALTO_VENTANA = 450;
+
 function AppWindow({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div
-      className="mx-auto w-full select-none overflow-hidden rounded-[18px] bg-white"
+      className="mx-auto flex w-full select-none flex-col overflow-hidden rounded-[18px] bg-white"
       aria-hidden
-      style={{ maxWidth: 440, fontFamily: FONT, pointerEvents: "none", boxShadow: "0 30px 70px rgba(0,0,0,0.45)" }}
+      style={{ maxWidth: 440, height: ALTO_VENTANA, fontFamily: FONT, pointerEvents: "none", boxShadow: "0 30px 70px rgba(0,0,0,0.45)" }}
     >
-      <div className="flex items-center gap-2 border-b border-black/[0.06] px-5 py-3.5">
+      <div className="flex shrink-0 items-center gap-2 border-b border-black/[0.06] px-5 py-3.5">
         <span className="text-[13px] font-bold text-black">{title}</span>
       </div>
-      <div className="p-5">{children}</div>
+      <div className="flex flex-1 flex-col justify-center p-5">{children}</div>
     </div>
   );
 }
@@ -322,10 +324,15 @@ function ClavePanel() {
   );
 }
 
-/* ══════════ Sección ══════════ */
+/* ══════════ Sección ══════════
+   Las cuatro capacidades ya NO son cuatro tarjetas apiladas: son pestañas en
+   una sola fila arriba y un panel abajo. En móvil las pestañas se deslizan y
+   solo se ve el panel de la activa, así que la sección ocupa una pantalla y
+   no cuatro. */
 const ITEMS = [
   {
     id: "pedido",
+    label: "Un pedido, un clic",
     title: "Factura un pedido en un clic",
     description:
       "El pedido ya está aquí con sus productos y montos. Agregas los datos de tu cliente, revisas la factura y la emites.",
@@ -333,23 +340,26 @@ const ITEMS = [
   },
   {
     id: "global",
-    title: "La factura global de cada tienda y marketplace, sin Excel",
+    label: "Factura global",
+    title: "La factura global de cada tienda, sin Excel",
     description:
-      "Junta las ventas de quienes no pidieron factura, una por cada lugar donde vendes. En el plan Gratis la emites con un botón; en el plan Básico se emite sola cada día o a fin de mes.",
+      "Junta las ventas de quienes no pidieron factura, una por cada lugar donde vendes. En el plan Gratis la emites con un botón; en el plan Básico se emite sola.",
     Panel: GlobalPanel,
   },
   {
     id: "mostrador",
-    title: "Tus ventas de mostrador o WhatsApp, facturadas en cuatro pasos",
+    label: "Mostrador y WhatsApp",
+    title: "Tus ventas de mostrador, en cuatro pasos",
     description:
-      "Sirve también para lo que le vendes a una empresa, pagado al momento o a crédito. Respondes a quién le vendiste, qué vendiste y cómo te pagaron, y ves la factura antes de emitirla.",
+      "Respondes a quién le vendiste, qué vendiste y cómo te pagaron, y ves la factura antes de emitirla. Sirve igual para lo que le vendes a una empresa.",
     Panel: MostradorPanel,
   },
   {
     id: "clave",
+    label: "Clave de producto",
     title: "Te sugerimos la clave de producto del SAT",
     description:
-      "El SAT tiene 52,513 claves de producto y no tienes que buscar la tuya. Nuestro sistema inteligente te sugiere la que mejor le queda a lo que vendes; tú la apruebas y la puedes cambiar.",
+      "El SAT tiene 52,513 claves y no tienes que buscar la tuya. Te sugerimos la que mejor le queda a lo que vendes; tú la apruebas y la puedes cambiar.",
     Panel: ClavePanel,
   },
 ];
@@ -361,6 +371,7 @@ export default function T1FinanzasPilares() {
   const [barFull, setBarFull] = useState(false);
   const [started, setStarted] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const pillsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -393,153 +404,94 @@ export default function T1FinanzasPilares() {
     };
   }, [active, started]);
 
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const programmatic = useRef(false);
-  const settleTimer = useRef(0);
+  // En móvil la pestaña activa se acomoda sola dentro de la fila deslizable.
   useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const target = active * el.clientWidth;
-    if (Math.abs(el.scrollLeft - target) < 4) return;
-    programmatic.current = true;
-    el.scrollTo({ left: target, behavior: "smooth" });
+    const fila = pillsRef.current;
+    const pill = fila?.querySelector<HTMLElement>(`[data-pill="${active}"]`);
+    if (!fila || !pill) return;
+    const destino = pill.offsetLeft - (fila.clientWidth - pill.clientWidth) / 2;
+    fila.scrollTo({ left: Math.max(0, destino), behavior: "smooth" });
   }, [active]);
-  const onCarouselScroll = () => {
-    window.clearTimeout(settleTimer.current);
-    settleTimer.current = window.setTimeout(() => {
-      const el = scrollRef.current;
-      if (!el) return;
-      if (programmatic.current) {
-        programmatic.current = false;
-        return;
-      }
-      const i = Math.round(el.scrollLeft / el.clientWidth);
-      if (i !== active && i >= 0 && i < ITEMS.length) setActive(i);
-    }, 110);
-  };
 
-  const Panel = ITEMS[active].Panel;
+  const it = ITEMS[active];
+  const Panel = it.Panel;
 
   return (
     <section ref={sectionRef} className="relative overflow-hidden bg-black px-5 tablet:px-6" style={{ paddingTop: 88, paddingBottom: 88 }}>
       <div className="relative mx-auto max-w-[var(--max-w)]">
-        <h2
-          className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
-          style={{ letterSpacing: "-0.03em", textAlign: "center", marginBottom: 16 }}
-        >
-          Tus ventas en línea y en mostrador, facturadas desde un solo lugar
-        </h2>
-        <p
-          className="mx-auto font-inter text-[16px] font-light text-white/85 tablet:text-[18px]"
-          style={{ textAlign: "center", marginBottom: 52, maxWidth: 680 }}
-        >
-          Si vendes con T1 Tienda, los pedidos de tu tienda en línea, Mercado Libre y Amazon llegan
-          con los datos ya puestos. Lo que vendes en mostrador o por WhatsApp lo capturas en cuatro
-          pasos. En los dos casos te sugerimos la clave de producto del SAT.
-        </p>
-
-        {/* Desktop */}
-        <div className="hidden grid-cols-1 gap-8 tablet:grid tablet:grid-cols-[minmax(0,0.95fr)_minmax(0,1fr)] tablet:items-center tablet:gap-8">
-          <div className="flex flex-col gap-3.5">
-            {ITEMS.map((it, i) => {
-              const on = i === active;
-              return (
-                <button
-                  key={it.id}
-                  type="button"
-                  onClick={() => setActive(i)}
-                  className="w-full cursor-pointer rounded-[16px] border p-5 text-left transition-all duration-300"
-                  style={{
-                    borderColor: on ? "rgba(255,255,255,0.16)" : "rgba(255,255,255,0.07)",
-                    background: on ? "rgba(255,255,255,0.05)" : "transparent",
-                  }}
-                >
-                  <div className="flex items-center justify-between gap-3">
-                    <h3
-                      className="font-sora text-[22px] font-normal tablet:text-[24px]"
-                      style={{ letterSpacing: "-0.02em", color: on ? "#FFFFFF" : "rgba(255,255,255,0.45)", transition: "color 0.3s" }}
-                    >
-                      {it.title}
-                    </h3>
-                    <span
-                      className="flex h-[26px] w-[26px] items-center justify-center rounded-full"
-                      style={{ background: on ? "#DB3B2B" : "rgba(255,255,255,0.08)", transition: "background 0.3s" }}
-                    >
-                      <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
-                        <path d="M6 4L10 8L6 12" stroke={on ? "#fff" : "rgba(255,255,255,0.4)"} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
-                  </div>
-                  {on && (
-                    <>
-                      <p className="font-inter text-[16px] font-normal leading-relaxed text-white/60" style={{ marginTop: 12 }}>
-                        {it.description}
-                      </p>
-                      <div className="mt-4 h-[3px] w-full overflow-hidden rounded-full" style={{ background: "rgba(255,255,255,0.10)" }}>
-                        <div
-                          style={{
-                            height: "100%",
-                            width: barFull ? "100%" : "0%",
-                            background: "#DB3B2B",
-                            transition: barFull ? `width ${DURATION}ms linear` : "none",
-                          }}
-                        />
-                      </div>
-                    </>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-          <div className="flex justify-center py-2">{started ? <Panel /> : <div style={{ minHeight: 420 }} />}</div>
+        <div className="mx-auto max-w-[760px] text-center" style={{ marginBottom: 36 }}>
+          <h2
+            className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
+            style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}
+          >
+            Así facturas todo lo que vendes
+          </h2>
+          <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:whitespace-nowrap tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
+            Tus ventas en línea llegan listas. Las de mostrador, en cuatro pasos.
+          </p>
         </div>
 
-        {/* Móvil */}
-        <div className="tablet:hidden">
-          <div
-            ref={scrollRef}
-            onScroll={onCarouselScroll}
-            className="flex snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-          >
-            {ITEMS.map((it) => {
-              const P = it.Panel;
-              return (
-                <div key={it.id} className="flex w-full shrink-0 snap-center justify-center px-1 py-2">
-                  {started ? <P /> : <div style={{ minHeight: 420 }} />}
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="mt-5 flex gap-2 px-1">
-            {ITEMS.map((_, i) => (
+        {/* Pestañas — una sola fila; en móvil se deslizan */}
+        <div
+          ref={pillsRef}
+          className="-mx-5 mb-10 flex gap-2.5 overflow-x-auto px-5 pb-1 tablet:mx-0 tablet:justify-center tablet:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
+          {ITEMS.map((t, i) => {
+            const on = i === active;
+            return (
               <button
-                key={i}
+                key={t.id}
                 type="button"
+                data-pill={i}
                 onClick={() => setActive(i)}
-                aria-label={`Ir a ${ITEMS[i].title}`}
-                className="h-[4px] flex-1 overflow-hidden rounded-full"
-                style={{ background: "rgba(255,255,255,0.12)" }}
+                className="shrink-0 cursor-pointer rounded-full border px-5 py-2.5 font-inter text-[14px] font-medium transition-all duration-300 tablet:text-[15px]"
+                style={{
+                  borderColor: on ? "rgba(219,59,43,0.55)" : "rgba(255,255,255,0.10)",
+                  background: on ? "rgba(219,59,43,0.14)" : "rgba(255,255,255,0.02)",
+                  color: on ? "#fff" : "rgba(255,255,255,0.55)",
+                }}
               >
-                <div
-                  style={{
-                    height: "100%",
-                    width: i < active ? "100%" : i === active ? (barFull ? "100%" : "0%") : "0%",
-                    background: "#DB3B2B",
-                    transition: i === active && barFull ? `width ${DURATION}ms linear` : "none",
-                  }}
-                />
+                {t.label}
               </button>
-            ))}
+            );
+          })}
+        </div>
+
+        {/* Panel + texto de la pestaña activa */}
+        <div className="grid grid-cols-1 items-center gap-8 tablet:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] tablet:gap-14">
+          <div className="flex justify-center" style={{ height: ALTO_VENTANA }}>
+            {started ? <Panel /> : <div className="w-full" style={{ maxWidth: 440 }} />}
           </div>
 
-          <div className="mt-6 text-center">
-            <h3 className="font-sora text-[22px] font-normal text-white" style={{ letterSpacing: "-0.02em" }}>
-              {ITEMS[active].title}
+          {/* Caja de alto fijo: el título arranca siempre en el mismo punto y la
+              barra del temporizador se queda pegada abajo, cambie el texto que
+              cambie. */}
+          <div
+            key={it.id}
+            className="flex flex-col text-center tablet:text-left"
+            style={{ animation: "fadeSlideIn 0.4s ease-out", minHeight: 232 }}
+          >
+            {/* El título comparte el ancho de la descripción y de la barra del
+                temporizador, así los tres quedan alineados. */}
+            <h3
+              className="mx-auto font-sora text-[22px] font-normal text-white tablet:mx-0 tablet:text-[30px]"
+              style={{ letterSpacing: "-0.02em", lineHeight: 1.2, marginBottom: 12, maxWidth: 420 }}
+            >
+              {it.title}
             </h3>
-            <p className="mx-auto mt-2 max-w-[380px] font-inter text-[15px] font-light leading-relaxed text-white/60">
-              {ITEMS[active].description}
+            <p className="mx-auto font-inter text-[15px] font-light leading-relaxed text-white/60 tablet:mx-0 tablet:text-[17px]" style={{ maxWidth: 420 }}>
+              {it.description}
             </p>
+            <div className="mx-auto mt-auto h-[3px] w-full max-w-[420px] overflow-hidden rounded-full tablet:mx-0" style={{ background: "rgba(255,255,255,0.10)" }}>
+              <div
+                style={{
+                  height: "100%",
+                  width: barFull ? "100%" : "0%",
+                  background: "#DB3B2B",
+                  transition: barFull ? `width ${DURATION}ms linear` : "none",
+                }}
+              />
+            </div>
           </div>
         </div>
       </div>

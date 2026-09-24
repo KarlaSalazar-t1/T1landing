@@ -185,9 +185,8 @@ export default function T1FinanzasHero() {
                 fácil y automática
               </h1>
               <p className="mt-4 max-w-[480px] font-inter text-[15px] font-light leading-[1.55] text-white/80 tablet:text-[17px]">
-                Si vendes con T1 Tienda, tus pedidos llegan listos para facturar en un clic, y con el
-                plan Básico se facturan solos. Lo que vendes en mostrador o por WhatsApp lo facturas
-                en cuatro pasos.
+                Tus pedidos de T1 Tienda llegan listos para facturar, y con el plan Básico se
+                facturan solos. Lo que vendes en mostrador, en cuatro pasos.
               </p>
               <a
                 href={SIGNUP_URL}

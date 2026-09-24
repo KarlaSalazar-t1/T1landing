@@ -2,14 +2,14 @@ import T1Navbar from "@/components/T1Navbar";
 import T1FinanzasHero from "@/components/T1FinanzasHero";
 import T1FinanzasPilares from "@/components/T1FinanzasPilares";
 import {
-  T1FinanzasAntesAhora,
+  T1FinanzasProblema,
   T1FinanzasCanales,
   T1FinanzasPorNegocio,
   T1FinanzasDocumentos,
   T1FinanzasPlanes,
-  T1FinanzasAlta,
   T1FinanzasFAQ,
 } from "@/components/T1FinanzasSecciones";
+import T1FinanzasAlta from "@/components/T1FinanzasAlta";
 import T1FinalCTA from "@/components/T1FinalCTA";
 import T1StickyCTA from "@/components/T1StickyCTA";
 import T1EnviosAnalytics from "@/components/T1EnviosAnalytics";
@@ -37,8 +37,8 @@ export default function FinanzasLanding() {
             pedidos → para quién es → qué emite → cuánto cuesta → cómo
             empiezas → dudas. */}
         {/* 1 · El problema: deja de perder medio día al mes facturando */}
-        <T1FinanzasAntesAhora />
-        {/* 2 · Cómo funciona (pedido en un clic · factura global · clave sugerida) */}
+        <T1FinanzasProblema />
+        {/* 2 · Así facturas con T1 — pestañas: pedido · global · mostrador · clave */}
         <T1FinanzasPilares />
         {/* 3 · Los pedidos de T1 Tienda, que llegan solos */}
         <T1FinanzasCanales />
@@ -51,7 +51,7 @@ export default function FinanzasLanding() {
             propios y repetía los tres datos del hero. Regresa cuando la beta
             tenga facturas emitidas y negocios facturando aquí. */}
         <T1FinanzasPlanes />
-        {/* 7 · El alta, en tres pasos cortos */}
+        {/* 7 · El alta, con el simulador de los tres pasos */}
         <T1FinanzasAlta />
         {/* 8 · FAQ larga, a propósito: la leen los agentes de IA */}
         <T1FinanzasFAQ />
@@ -59,7 +59,7 @@ export default function FinanzasLanding() {
 
       <T1FinalCTA
         title={<>Empieza a facturar gratis desde hoy</>}
-        description="Con T1 vendes, cobras, envías y ahora facturas desde un solo lugar. Tienes 25 facturas gratis al mes por negocio y no te pedimos tarjeta."
+        description="Vendes, cobras, envías y ahora facturas desde un solo lugar. 25 facturas gratis al mes, sin tarjeta."
         buttonLabel="Crea tu cuenta gratis"
       />
 

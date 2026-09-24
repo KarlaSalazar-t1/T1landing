@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { SIGNUP_URL } from "@/lib/constants";
 
 /* ──────────────────────────────────────────────────────────────────────────
    Secciones de la landing de T1 Finanzas.
@@ -29,84 +30,61 @@ const Arrow = (
 );
 
 /* ══════════ 1 · El problema ══════════
-   Cada renglón de la derecha contesta al de la izquierda. El de los tickets
-   es para quien delega todo en su contador y lo presenta como alguien que
-   recibe todo en orden; el del error, para quien le vende a empresas. */
-const COMPARATIVA = [
-  {
-    hoy: "Pasas tus ventas a Excel para armar la factura global.",
-    t1: "Tu factura global sale con un botón, o sola con el plan Básico.",
-  },
-  {
-    hoy: "Buscas la clave de producto de cada cosa que vendes.",
-    t1: "Te sugerimos la clave de producto y tú la apruebas.",
-  },
-  {
-    hoy: "Juntas tickets y fotos para que tu contador arme tus facturas.",
-    t1: "Tus facturas quedan en orden y se las pasas completas a tu contador.",
-  },
-  {
-    hoy: "Una factura con un error y tu cliente no te paga.",
-    t1: "Si algo no cuadra, te avisamos antes de facturar.",
-  },
+   Ni tabla comparativa ni tarjetas: una banda editorial. Las cuatro tareas de
+   hoy van tachadas en rojo, en tipografía grande y una debajo de otra, y una
+   sola línea cierra con lo que cambia. */
+const TAREAS = [
+  "Pasar tus ventas a Excel",
+  "Buscar la clave de cada producto",
+  "Juntar tickets para tu contador",
+  "Cuadrar lo que ya facturaste",
 ];
 
-export function T1FinanzasAntesAhora() {
+export function T1FinanzasProblema() {
   return (
-    <section className="bg-black px-5 py-[56px] tablet:px-6 tablet:py-[80px]">
-      <div className="mx-auto max-w-[var(--max-w)]">
-        <div className="mx-auto max-w-[720px] text-center" style={{ marginBottom: 40 }}>
-          <h2
-            className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
-            style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}
-          >
-            Deja de perder medio día al mes facturando
-          </h2>
-          <p className="mx-auto font-inter text-[15px] font-light text-white/60 tablet:text-[17px]" style={{ lineHeight: 1.55, maxWidth: 620 }}>
-            Hoy pasas tus ventas a Excel, buscas la clave de producto de cada cosa que vendes o
-            juntas tickets para que tu contador arme tus facturas. Con T1 Finanzas los datos de tus
-            pedidos ya vienen puestos y tú revisas cada factura antes de emitirla.
-          </p>
-        </div>
+    <section className="relative overflow-hidden bg-black px-5 py-[88px] tablet:px-6 tablet:py-[130px]">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[460px] w-[820px] -translate-x-1/2 -translate-y-1/2 rounded-full"
+        style={{ background: "radial-gradient(ellipse at center, rgba(219,59,43,0.12) 0%, transparent 65%)", filter: "blur(55px)" }}
+      />
+      <div className="relative mx-auto flex max-w-[820px] flex-col items-center text-center">
+        <h2
+          className="font-sora text-[30px] font-light text-white tablet:text-[52px]"
+          style={{ letterSpacing: "-0.03em", lineHeight: 1.12, maxWidth: 680 }}
+        >
+          Hoy facturar te cuesta medio día al mes
+        </h2>
 
-        <div className="mx-auto grid max-w-[900px] grid-cols-1 gap-4 tablet:grid-cols-2 tablet:gap-5">
-          {/* Hoy */}
-          <div className="rounded-[18px] border border-white/[0.07] bg-[#0e0d0d] p-6 tablet:p-7">
-            <p className="font-inter text-[12px] font-semibold uppercase tracking-[0.08em] text-white/35" style={{ marginBottom: 18 }}>
-              Así facturas hoy
-            </p>
-            <ul className="flex flex-col gap-3.5">
-              {COMPARATIVA.map((c) => (
-                <li key={c.hoy} className="flex items-start gap-3 font-inter text-[15px] font-light text-white/45 tablet:text-[16px]">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="mt-[3px] shrink-0">
-                    <path d="M7 7l10 10M17 7L7 17" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-                  </svg>
-                  {c.hoy}
-                </li>
-              ))}
-            </ul>
-          </div>
+        <ul className="mt-10 flex w-full max-w-[560px] flex-col tablet:mt-14">
+          {TAREAS.map((t) => (
+            <li
+              key={t}
+              className="border-b border-white/[0.07] py-4 font-sora text-[19px] font-light text-white/35 last:border-b-0 tablet:py-5 tablet:text-[26px]"
+              style={{ textDecoration: "line-through", textDecorationColor: "rgba(219,59,43,0.85)", textDecorationThickness: 2 }}
+            >
+              {t}
+            </li>
+          ))}
+        </ul>
 
-          {/* Con T1 Finanzas */}
-          <div
-            className="rounded-[18px] border border-[#DB3B2B]/[0.35] bg-[#181114] p-6 tablet:p-7"
-            style={{ boxShadow: "0 24px 60px -30px rgba(219,59,43,0.35)" }}
-          >
-            <p className="font-inter text-[12px] font-semibold uppercase tracking-[0.08em] text-[#FF6F5E]" style={{ marginBottom: 18 }}>
-              Así facturas con T1 Finanzas
-            </p>
-            <ul className="flex flex-col gap-3.5">
-              {COMPARATIVA.map((c) => (
-                <li key={c.t1} className="flex items-start gap-3 font-inter text-[15px] text-white tablet:text-[16px]">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="mt-[3px] shrink-0">
-                    <path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                  {c.t1}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+        <p
+          className="mt-11 font-sora text-[22px] font-light text-white tablet:mt-14 tablet:text-[32px]"
+          style={{ letterSpacing: "-0.02em", lineHeight: 1.25, maxWidth: 620 }}
+        >
+          Con T1 Finanzas, nada de eso te toca a ti.
+        </p>
+
+        <a
+          href={SIGNUP_URL}
+          data-cta-text="Empieza a facturar gratis"
+          data-cta-destination={SIGNUP_URL}
+          data-cta-section="problema"
+          className="mt-9 inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]"
+        >
+          Empieza a facturar gratis
+          {Arrow}
+        </a>
       </div>
     </section>
   );
@@ -132,22 +110,22 @@ export function T1FinanzasCanales() {
           className="mx-auto font-sora text-[28px] font-light text-white tablet:text-[42px]"
           style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14, maxWidth: 820 }}
         >
-          Con T1 Tienda, tus pedidos de Mercado Libre, Amazon y tu tienda en línea llegan solos
+          Si vendes con T1 Tienda, tus pedidos llegan solos
         </h2>
-        <p className="mx-auto font-inter text-[15px] font-light text-white/60 tablet:text-[17px]" style={{ lineHeight: 1.55, maxWidth: 620, marginBottom: 36 }}>
-          Si ya vendes con T1 Tienda en Mercado Libre, Amazon, Walmart, TikTok Shop, Sears o en tu
-          tienda en línea, sus pedidos aparecen aquí listos para facturar. No tienes que conectar
-          nada otra vez.
+        <p className="mx-auto font-inter text-[15px] font-light text-white/60 tablet:whitespace-nowrap tablet:text-[17px]" style={{ lineHeight: 1.55, marginBottom: 36 }}>
+          Mercado Libre, Amazon, Walmart, TikTok Shop y tu tienda en línea, sin conectar nada.
         </p>
 
-        <div className="flex flex-wrap items-center justify-center gap-3 tablet:gap-4">
+        <div className="flex flex-wrap items-center justify-center gap-x-9 gap-y-6 tablet:gap-x-14">
           {CANAL_LOGOS.map((l) => (
-            <span
+            <Image
               key={l.alt}
-              className="flex h-[64px] w-[84px] items-center justify-center rounded-[16px] border border-white/[0.08] bg-[#161418] px-4 tablet:h-[72px] tablet:w-[104px]"
-            >
-              <Image src={l.src} alt={l.alt} width={110} height={56} className="h-6 w-auto max-w-full object-contain tablet:h-7" />
-            </span>
+              src={l.src}
+              alt={l.alt}
+              width={120}
+              height={60}
+              className="h-7 w-auto object-contain opacity-90 tablet:h-8"
+            />
           ))}
         </div>
 
@@ -161,73 +139,115 @@ export function T1FinanzasCanales() {
 }
 
 /* ══════════ 3 · Por tipo de negocio ══════════
-   Cada tarjeta va a llevar a su sublanding. Mientras no existan, lleva a la
-   pregunta frecuente del mismo tema, que se abre sola al llegar por su liga. */
+   Mismo patrón que "Mejora tus envíos en un solo lugar": título, subtítulo y
+   CTA a la izquierda; carrusel de tarjetas a la derecha. Cada tarjeta lleva
+   dos niveles nada más —quién eres y qué ganas—, sin la etiqueta roja ni la
+   tercera línea de apoyo.
+
+   Mientras no existan las sublandings, cada tarjeta lleva a la pregunta
+   frecuente de su tema, que se abre sola al llegar por la liga. */
 const NEGOCIOS = [
   {
-    quien: "Vendes en Mercado Libre, Amazon o TikTok Shop",
-    frase: "La factura global de cada marketplace, sin Excel.",
-    apoyo: "Todos en una sola pantalla. Con el plan Básico, la global de cada uno se emite sola.",
+    title: "Vendes en marketplaces",
+    desc: "La factura global de Mercado Libre, Amazon o TikTok Shop, sin Excel. Con el plan Básico, la de cada uno se emite sola.",
     href: "/productos/t1finanzas#faq-global-marketplaces",
   },
   {
-    quien: "Tienes tienda en línea",
-    frase: "Cada pedido, su factura en un clic.",
-    apoyo: "Los datos del pedido ya están puestos, y los de tu cliente se guardan la primera vez que le facturas.",
+    title: "Tienes tienda en línea",
+    desc: "Cada pedido, su factura en un clic, con los datos ya puestos. Los de tu cliente se guardan la primera vez que le facturas.",
     href: "/productos/t1finanzas#faq-ya-uso-t1-tienda",
   },
   {
-    quien: "Vendes en mostrador o das servicios al público",
-    frase: "Factura tus ventas sin pagar por un sistema para facturar.",
-    apoyo: "Tienes 25 facturas gratis cada mes, sin tarjeta.",
+    title: "Vendes en mostrador",
+    desc: "Factura tus ventas sin pagar por un sistema para facturar: 25 facturas gratis cada mes, sin tarjeta.",
     href: "/productos/t1finanzas#faq-venta-fuera-de-t1",
   },
   {
-    quien: "Le vendes a empresas",
-    frase: "Si algo no cuadra, te avisamos antes de facturar, para que te paguen a tiempo.",
-    apoyo: "Facturas a crédito, haces el recibo de cada pago que te hacen y resuelves devoluciones con una nota de crédito.",
+    title: "Le vendes a empresas",
+    desc: "Facturas a crédito, haces el recibo de cada pago que te hacen y resuelves devoluciones con una nota de crédito.",
     href: "/productos/t1finanzas#faq-recibos-de-pago",
   },
 ];
 
 export function T1FinanzasPorNegocio() {
-  return (
-    <section className="bg-black px-5 py-[56px] tablet:px-6 tablet:py-[80px]">
-      <div className="mx-auto max-w-[var(--max-w)]">
-        <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 40 }}>
-          <h2
-            className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
-            style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}
-          >
-            Sirve si vendes en línea, en mostrador o a empresas
-          </h2>
-          <p className="mx-auto font-inter text-[15px] font-light text-white/60 tablet:text-[17px]" style={{ lineHeight: 1.55, maxWidth: 520 }}>
-            Cada negocio factura distinto. Elige cómo vendes tú y ve lo que T1 Finanzas hace por ti.
-          </p>
-        </div>
+  const ref = useRef<HTMLDivElement>(null);
+  const scrollBy = (dir: 1 | -1) => {
+    const el = ref.current;
+    if (!el) return;
+    const first = el.querySelector<HTMLElement>("[data-card]");
+    const step = first ? first.offsetWidth + 20 : el.clientWidth * 0.8;
+    el.scrollBy({ left: dir * step, behavior: "smooth" });
+  };
 
-        <div className="-mr-5 flex gap-4 overflow-x-auto pb-2 pr-5 tablet:mr-0 tablet:grid tablet:grid-cols-2 tablet:overflow-visible tablet:pr-0 desktop:grid-cols-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {NEGOCIOS.map((n) => (
-            <a
-              key={n.quien}
-              href={n.href}
-              className="group flex w-[280px] shrink-0 flex-col rounded-[18px] border border-white/[0.08] bg-[#141215] p-6 no-underline transition-colors hover:border-white/20 tablet:w-auto"
+  return (
+    <section className="overflow-hidden bg-black px-5 py-[72px] tablet:px-6 tablet:py-[110px]">
+      <div className="mx-auto max-w-[var(--max-w)]">
+        <div className="grid grid-cols-1 gap-10 tablet:grid-cols-[minmax(0,0.8fr)_minmax(0,1.35fr)] tablet:items-center tablet:gap-14">
+          <div>
+            <h2
+              className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
+              style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 16, maxWidth: 420 }}
             >
-              <p className="font-inter text-[12px] font-semibold uppercase leading-[1.4] tracking-[0.06em] text-[#FF6F5E]" style={{ marginBottom: 14 }}>
-                {n.quien}
-              </p>
-              <p className="font-inter text-[16px] font-medium text-white" style={{ lineHeight: 1.45, marginBottom: 10 }}>
-                {n.frase}
-              </p>
-              <p className="font-inter text-[13.5px] font-light text-white/50" style={{ lineHeight: 1.55 }}>
-                {n.apoyo}
-              </p>
-              <span className="mt-5 inline-flex items-center gap-1.5 font-inter text-[13.5px] font-semibold text-white/70 transition-colors group-hover:text-white">
-                Ver cómo funciona
-                <span className="transition-transform duration-200 group-hover:translate-x-0.5">{Arrow}</span>
-              </span>
+              Sirve si vendes en línea, en mostrador o a empresas
+            </h2>
+            <p className="font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 380 }}>
+              Elige cómo vendes tú y ve lo que T1 Finanzas hace por ti.
+            </p>
+            <a
+              href={SIGNUP_URL}
+              data-cta-text="Empieza a facturar gratis"
+              data-cta-destination={SIGNUP_URL}
+              data-cta-section="por_negocio"
+              className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]"
+            >
+              Empieza a facturar gratis
+              {Arrow}
             </a>
-          ))}
+          </div>
+
+          <div className="flex flex-col gap-5">
+            <div
+              ref={ref}
+              className="-mr-5 flex gap-5 overflow-x-auto pb-2 pr-5 tablet:mr-0 tablet:pr-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            >
+              {NEGOCIOS.map((n) => (
+                <a
+                  key={n.title}
+                  href={n.href}
+                  data-card
+                  className="group flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-white/[0.08] bg-[#1A1A1D] p-6 no-underline transition-colors hover:border-white/20"
+                >
+                  <div className="flex items-center justify-between gap-2" style={{ marginBottom: 10 }}>
+                    <h3 className="font-sora text-[19px] font-normal text-white">{n.title}</h3>
+                    <span className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full border border-white/15 text-white/55 transition-all duration-200 group-hover:translate-x-0.5 group-hover:border-white/40 group-hover:text-white">
+                      <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                    </span>
+                  </div>
+                  <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.55 }}>
+                    {n.desc}
+                  </p>
+                </a>
+              ))}
+            </div>
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => scrollBy(-1)}
+                aria-label="Anterior"
+                className="flex h-[40px] w-[40px] items-center justify-center rounded-full border border-white/15 bg-white/[0.04] text-white/55 transition-colors hover:border-white/30 hover:text-white"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6L9 12L15 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollBy(1)}
+                aria-label="Siguiente"
+                className="flex h-[40px] w-[40px] items-center justify-center rounded-full border border-white/15 bg-white/[0.04] text-white/55 transition-colors hover:border-white/30 hover:text-white"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -252,11 +272,10 @@ export function T1FinanzasDocumentos() {
             className="font-sora text-[28px] font-light text-white tablet:text-[40px]"
             style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}
           >
-            Factura, cancela y corrige desde un mismo lugar
+            Factura, cancela y corrige en un solo lugar
           </h2>
-          <p className="mx-auto font-inter text-[15px] font-light text-white/60 tablet:text-[17px]" style={{ lineHeight: 1.55, maxWidth: 580 }}>
-            Cada factura se guarda en tu cuenta con su PDF y su XML, el archivo que te pide tu
-            contador, lista para mandársela.
+          <p className="mx-auto font-inter text-[15px] font-light text-white/60 tablet:whitespace-nowrap tablet:text-[17px]" style={{ lineHeight: 1.55 }}>
+            Cada una se guarda con su PDF y su XML, el archivo que te pide tu contador.
           </p>
         </div>
 
@@ -286,25 +305,24 @@ export function T1FinanzasDocumentos() {
    (hacía ver que pagar te quita negocios). */
 const PLAN_ROWS = [
   { label: "Facturas al mes, por negocio", gratis: "25", pago: "Sin límite" },
-  { label: "Factura global automática de tus tiendas y marketplaces", gratis: "No", pago: "Sí" },
+  { label: "Factura global automática", gratis: "No", pago: "Sí" },
 ];
 
 export function T1FinanzasPlanes() {
   return (
     <section className="bg-black px-5 py-[56px] tablet:px-6 tablet:py-[88px]">
       <div className="mx-auto max-w-[var(--max-w)]">
-        <div className="grid grid-cols-1 gap-8 tablet:grid-cols-[minmax(0,0.9fr)_minmax(0,1.25fr)] tablet:items-center tablet:gap-14">
+        <div className="grid grid-cols-1 gap-8 tablet:grid-cols-2 tablet:items-center tablet:gap-16">
           <div className="text-left">
             <h2
               className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
               style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 14 }}
             >
-              Empieza gratis con 25 facturas al mes
+              25 facturas gratis al mes, sin tarjeta
             </h2>
             <p className="font-inter text-[15px] font-light text-white/60 tablet:text-[17px]" style={{ lineHeight: 1.55, maxWidth: 420, marginBottom: 24 }}>
-              El plan Gratis incluye 25 facturas al mes por negocio, sin tarjeta, y hasta 3 negocios
-              en la misma cuenta. Con los planes Básico y Avanzado facturas sin límite y la factura
-              global de tus tiendas en línea y marketplaces se emite sola.
+              Y hasta 3 negocios en la misma cuenta. Con los planes Básico y Avanzado facturas
+              sin límite.
             </p>
             <a
               href="/precios"
@@ -315,9 +333,9 @@ export function T1FinanzasPlanes() {
             </a>
           </div>
 
-          <div>
+          <div className="w-full tablet:max-w-[500px]">
             <div className="overflow-hidden rounded-[20px] border border-white/[0.10] bg-[#141215]">
-              <div className="grid grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)_minmax(0,1fr)] border-b border-white/[0.08] px-5 py-4 tablet:px-6">
+              <div className="grid grid-cols-[minmax(0,1.85fr)_minmax(0,0.7fr)_minmax(0,1fr)] border-b border-white/[0.08] px-5 py-3.5">
                 <span className="font-inter text-[12px] font-semibold uppercase tracking-[0.06em] text-white/40">Incluye</span>
                 <span className="text-center font-inter text-[13px] font-semibold text-white">Gratis</span>
                 <span className="text-center font-inter text-[13px] font-semibold text-[#FF6F5E]">Básico y Avanzado</span>
@@ -325,73 +343,20 @@ export function T1FinanzasPlanes() {
               {PLAN_ROWS.map((r) => (
                 <div
                   key={r.label}
-                  className="grid grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)_minmax(0,1fr)] items-center border-b border-white/[0.06] px-5 py-4 last:border-b-0 tablet:px-6"
+                  className="grid grid-cols-[minmax(0,1.85fr)_minmax(0,0.7fr)_minmax(0,1fr)] items-center border-b border-white/[0.06] px-5 py-3.5 last:border-b-0"
                 >
-                  <span className="pr-3 font-inter text-[13.5px] font-light text-white/70 tablet:text-[15px]">{r.label}</span>
-                  <span className="text-center font-inter text-[13.5px] font-medium text-white/85 tablet:text-[15px]">{r.gratis}</span>
-                  <span className="text-center font-inter text-[13.5px] font-semibold text-white tablet:text-[15px]">{r.pago}</span>
+                  <span className="pr-3 font-inter text-[13.5px] font-light text-white/70 tablet:text-[14.5px]">{r.label}</span>
+                  <span className="text-center font-inter text-[13.5px] font-medium text-white/85 tablet:text-[14.5px]">{r.gratis}</span>
+                  <span className="text-center font-inter text-[13.5px] font-semibold text-white tablet:text-[14.5px]">{r.pago}</span>
                 </div>
               ))}
             </div>
 
-            <p className="mt-4 font-inter text-[13px] font-light leading-[1.55] text-white/40 tablet:text-[13.5px]">
-              En todos los planes haces tú lo que necesites: facturas, factura global, notas de
-              crédito, cancelaciones y recibos de pago. Dentro de las 25 cuentan todas las facturas,
-              facturas globales, notas de crédito y recibos de pago que haces.
+            <p className="mt-5 font-inter text-[14px] font-light leading-[1.55] text-white/55 tablet:text-[15px]">
+              Las 25 gratis cuentan cada documento que emites.
             </p>
           </div>
         </div>
-      </div>
-    </section>
-  );
-}
-
-/* ══════════ 5 · El alta ══════════ */
-const PASOS_ALTA = [
-  { n: "1", title: "Da de alta tu RFC", desc: "El de tu negocio. Si tienes más de uno, puedes agregar hasta 3 en la misma cuenta gratis." },
-  { n: "2", title: "Sube tu sello digital", desc: "Te acompañamos con una guía en video. Si todavía no lo tienes, te explicamos cómo sacarlo en el sitio del SAT." },
-  { n: "3", title: "Firma una vez el permiso del SAT", desc: "Es el permiso que el SAT pide para que un sistema emita facturas a tu nombre." },
-];
-
-export function T1FinanzasAlta() {
-  return (
-    <section className="overflow-hidden bg-[#0e0d0d] px-5 py-[56px] tablet:px-6 tablet:py-[80px]">
-      <div className="mx-auto max-w-[1000px]">
-        <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 36 }}>
-          <h2
-            className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
-            style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}
-          >
-            Empieza a facturar hoy en tres pasos
-          </h2>
-          <p className="mx-auto font-inter text-[15px] font-light text-white/60 tablet:text-[17px]" style={{ lineHeight: 1.55, maxWidth: 580 }}>
-            Solo necesitas tu RFC y tu sello digital, que son los archivos que el SAT te da para
-            firmar tus facturas. No te pedimos tu firma electrónica (e.firma).
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 gap-3 tablet:grid-cols-3 tablet:gap-4">
-          {PASOS_ALTA.map((p) => (
-            <div key={p.n} className="flex items-start gap-3.5 rounded-[16px] border border-white/[0.08] bg-[#161418] p-5">
-              <span className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full bg-[#DB3B2B] font-inter text-[12px] font-bold text-white">
-                {p.n}
-              </span>
-              <span>
-                <span className="block font-inter text-[15px] font-semibold text-white">{p.title}</span>
-                <span className="mt-1 block font-inter text-[13.5px] font-light leading-[1.5] text-white/50">{p.desc}</span>
-              </span>
-            </div>
-          ))}
-        </div>
-
-        {/* PENDIENTE (Jurídico): este texto tiene que decir lo mismo que los
-            términos y condiciones antes de publicar. */}
-        <p className="mt-6 flex items-center justify-center gap-2.5 text-center font-inter text-[13.5px] font-light text-white/45 tablet:text-[14.5px]">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" className="shrink-0">
-            <path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-          </svg>
-          Tu sello se guarda protegido y nadie de T1 puede verlo.
-        </p>
       </div>
     </section>
   );
