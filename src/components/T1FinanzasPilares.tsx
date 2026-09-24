@@ -175,7 +175,95 @@ function PedidoPanel() {
   );
 }
 
-/* ══════════ 3 · La clave del SAT sugerida por IA ══════════ */
+/* ══════════ 3 · Mostrador y WhatsApp, en cuatro preguntas ══════════
+   Este panel es la franja que antes vivía en el hero: las cuatro preguntas
+   del asistente, que es la prueba de que facturar aquí no se parece al
+   portal del SAT. */
+const PREGUNTAS = [
+  { q: "¿A quién le vendiste?", r: "Comercializadora Vega" },
+  { q: "¿Qué vendiste?", r: "Playera de algodón · 12 pz" },
+  { q: "¿Cómo te pagaron?", r: "Transferencia, hoy" },
+  { q: "Revisa y factura", r: "Total $5,082.00 con IVA" },
+];
+
+function MostradorPanel() {
+  const [paso, setPaso] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setPaso((v) => (v + 1) % (PREGUNTAS.length + 1)), 1700);
+    return () => clearInterval(t);
+  }, []);
+
+  return (
+    <AppWindow title="Nueva factura">
+      <div className="flex flex-col gap-2">
+        {PREGUNTAS.map((p, i) => {
+          const on = i === paso;
+          const listo = i < paso;
+          return (
+            <div
+              key={p.q}
+              className="flex items-center gap-3 rounded-[12px] border px-3.5 py-3 transition-all duration-500"
+              style={{
+                borderColor: on ? "rgba(219,59,43,0.35)" : "rgba(0,0,0,0.05)",
+                background: on ? "rgba(219,59,43,0.05)" : "#FAFAF9",
+              }}
+            >
+              <span
+                className="flex h-[24px] w-[24px] shrink-0 items-center justify-center rounded-full text-[11px] font-bold transition-colors duration-500"
+                style={{
+                  background: on ? "#DB3B2B" : listo ? "#16A34A" : "rgba(0,0,0,0.06)",
+                  color: on || listo ? "#fff" : "rgba(0,0,0,0.4)",
+                }}
+              >
+                {listo ? (
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                    <path d="M5 12l4.5 4.5L19 7" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                ) : (
+                  i + 1
+                )}
+              </span>
+              <span className="min-w-0 flex-1 leading-tight">
+                <span className="block text-[12.5px] font-semibold text-black">{p.q}</span>
+                <span
+                  className="block truncate text-[11px] transition-colors duration-500"
+                  style={{ color: on || listo ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.25)" }}
+                >
+                  {p.r}
+                </span>
+              </span>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="mt-4 min-h-[44px]">
+        {paso >= PREGUNTAS.length ? (
+          <div
+            className="flex items-center gap-3 rounded-[12px] border border-[#16A34A]/[0.25] bg-[#16A34A]/[0.07] px-3.5 py-3"
+            style={{ animation: "fadeSlideIn 0.4s ease-out" }}
+          >
+            <span className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full bg-[#16A34A]">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path d="M5 12l4.5 4.5L19 7" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
+            <span className="leading-tight">
+              <span className="block text-[12.5px] font-bold text-black">Factura emitida</span>
+              <span className="block text-[10.5px] text-black/45">XML y PDF listos para tu contador</span>
+            </span>
+          </div>
+        ) : (
+          <div className="flex h-[44px] items-center justify-center rounded-[12px] bg-[#DB3B2B] text-[13px] font-semibold text-white">
+            Emitir factura
+          </div>
+        )}
+      </div>
+    </AppWindow>
+  );
+}
+
+/* ══════════ 4 · La clave del SAT sugerida ══════════ */
 const PRODUCTOS = [
   { nombre: "Playera de algodón", clave: "53102503", desc: "Camisetas" },
   { nombre: "Consulta dental", clave: "85121600", desc: "Servicios de odontología" },
@@ -249,6 +337,13 @@ const ITEMS = [
     description:
       "Junta las ventas de quienes no pidieron factura, una por cada lugar donde vendes. En el plan Gratis la emites con un botón; en el plan Básico se emite sola cada día o a fin de mes.",
     Panel: GlobalPanel,
+  },
+  {
+    id: "mostrador",
+    title: "Tus ventas de mostrador o WhatsApp, facturadas en cuatro pasos",
+    description:
+      "Sirve también para lo que le vendes a una empresa, pagado al momento o a crédito. Respondes a quién le vendiste, qué vendiste y cómo te pagaron, y ves la factura antes de emitirla.",
+    Panel: MostradorPanel,
   },
   {
     id: "clave",

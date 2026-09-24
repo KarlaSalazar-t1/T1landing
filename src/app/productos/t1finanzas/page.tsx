@@ -4,12 +4,12 @@ import T1FinanzasPilares from "@/components/T1FinanzasPilares";
 import {
   T1FinanzasAntesAhora,
   T1FinanzasCanales,
+  T1FinanzasPorNegocio,
   T1FinanzasDocumentos,
   T1FinanzasPlanes,
   T1FinanzasAlta,
   T1FinanzasFAQ,
 } from "@/components/T1FinanzasSecciones";
-import T1ProductMetrics from "@/components/T1ProductMetrics";
 import T1FinalCTA from "@/components/T1FinalCTA";
 import T1StickyCTA from "@/components/T1StickyCTA";
 import T1EnviosAnalytics from "@/components/T1EnviosAnalytics";
@@ -33,26 +33,23 @@ export default function FinanzasLanding() {
       <T1FinanzasHero />
 
       <div className="relative z-[5] bg-black">
-        {/* El hilo: antes/ahora → cómo → dónde → qué emite → cuánto →
-            empezar → dudas. Sin rejillas de tarjetas con párrafo: la página
-            tiene que sentirse tan fácil como el producto. */}
+        {/* El hilo: qué te duele hoy → cómo funciona → de dónde salen tus
+            pedidos → para quién es → qué emite → cuánto cuesta → cómo
+            empiezas → dudas. */}
         {/* 1 · El problema: deja de perder medio día al mes facturando */}
         <T1FinanzasAntesAhora />
         {/* 2 · Cómo funciona (pedido en un clic · factura global · clave sugerida) */}
         <T1FinanzasPilares />
         {/* 3 · Los pedidos de T1 Tienda, que llegan solos */}
         <T1FinanzasCanales />
-        {/* 4 · Factura, cancela y corrige: los cinco documentos */}
+        {/* 4 · Por tipo de negocio — cada tarjeta llevará a su sublanding */}
+        <T1FinanzasPorNegocio />
+        {/* 5 · Factura, cancela y corrige: los cinco documentos */}
         <T1FinanzasDocumentos />
-        {/* 5 · Números — los tres aprobados el 21 de septiembre */}
-        <T1ProductMetrics
-          metrics={[
-            { end: 52513, label: "claves del SAT a tu alcance" },
-            { end: 25, label: "facturas gratis cada mes" },
-            { end: 3, label: "negocios en una cuenta" },
-          ]}
-        />
-        {/* 6 · Planes — el gratis factura, el de pago factura solo */}
+        {/* 6 · Planes — empieza gratis con 25 facturas al mes.
+            "Nuestros números" salió: Finanzas todavía no tiene números
+            propios y repetía los tres datos del hero. Regresa cuando la beta
+            tenga facturas emitidas y negocios facturando aquí. */}
         <T1FinanzasPlanes />
         {/* 7 · El alta, en tres pasos cortos */}
         <T1FinanzasAlta />

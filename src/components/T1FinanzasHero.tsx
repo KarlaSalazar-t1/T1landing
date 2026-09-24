@@ -160,61 +160,6 @@ function SocialProof() {
   );
 }
 
-/* ── Banda — el asistente, contado como cuatro preguntas y nada más. Es la
-   prueba de que facturar aquí no se parece al portal del SAT, así que no
-   lleva párrafos: se lee de un vistazo. ── */
-const PASOS = ["¿A quién le vendiste?", "¿Qué vendiste?", "¿Cómo te pagaron?", "Revisa y factura"];
-
-function AsistentePasos() {
-  const [active, setActive] = useState(0);
-  useEffect(() => {
-    const t = setInterval(() => setActive((v) => (v + 1) % PASOS.length), 1900);
-    return () => clearInterval(t);
-  }, []);
-
-  return (
-    <div className="flex flex-col items-stretch gap-2 tablet:flex-row tablet:items-center tablet:justify-center tablet:gap-2.5">
-      {PASOS.map((p, i) => {
-        const on = i === active;
-        return (
-          <div key={p} className="flex items-center gap-2.5 tablet:contents">
-            <div
-              className="flex flex-1 items-center gap-2.5 rounded-full border px-4 py-2.5 transition-all duration-500 tablet:flex-none"
-              style={{
-                borderColor: on ? "rgba(219,59,43,0.45)" : "rgba(255,255,255,0.08)",
-                background: on ? "rgba(219,59,43,0.10)" : "rgba(255,255,255,0.02)",
-              }}
-            >
-              <span
-                className="flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full font-inter text-[11px] font-bold transition-colors duration-500"
-                style={{
-                  background: on ? "#DB3B2B" : "rgba(255,255,255,0.08)",
-                  color: on ? "#fff" : "rgba(255,255,255,0.5)",
-                }}
-              >
-                {i + 1}
-              </span>
-              <span
-                className="whitespace-nowrap font-inter text-[13.5px] font-medium transition-colors duration-500"
-                style={{ color: on ? "#fff" : "rgba(255,255,255,0.55)" }}
-              >
-                {p}
-              </span>
-            </div>
-            {i < PASOS.length - 1 && (
-              <span className="hidden text-white/20 tablet:block">
-                <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
-                  <path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
-            )}
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
 const ArrowRight = (
   <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
     <path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
@@ -226,7 +171,7 @@ export default function T1FinanzasHero() {
     <div className="relative overflow-hidden">
       <HeroBackground fadeHeight={340} />
 
-      <section className="relative z-10 flex min-h-[78svh] flex-col justify-center px-5 pb-8 pt-24 tablet:min-h-[84svh] tablet:px-6 tablet:pb-10 tablet:pt-28">
+      <section className="relative z-10 flex min-h-[78svh] flex-col justify-center px-5 pb-16 pt-24 tablet:min-h-[84svh] tablet:px-6 tablet:pb-20 tablet:pt-28">
         <div className="mx-auto flex w-full max-w-[var(--max-w)] flex-col">
           <div className="grid grid-cols-1 items-center gap-8 tablet:grid-cols-2 tablet:gap-12">
             {/* Izquierda */}
@@ -285,21 +230,6 @@ export default function T1FinanzasHero() {
         </div>
       </section>
 
-      {/* BANDA — el asistente de 4 pasos sobre el mismo fondo cálido */}
-      <section className="relative z-10 px-5 pb-14 pt-2 tablet:px-6 tablet:pb-16">
-        <div
-          className="mx-auto w-full max-w-[880px] rounded-[20px] border border-white/[0.08] bg-[#161418] p-5 tablet:p-6"
-          style={{ boxShadow: "0 30px 70px rgba(0,0,0,0.5)" }}
-        >
-          <p
-            className="mb-4 text-center font-sora text-[17px] font-normal text-white/90 tablet:mb-5 tablet:text-[20px]"
-            style={{ letterSpacing: "-0.01em" }}
-          >
-            Facturar aquí son cuatro preguntas
-          </p>
-          <AsistentePasos />
-        </div>
-      </section>
     </div>
   );
 }

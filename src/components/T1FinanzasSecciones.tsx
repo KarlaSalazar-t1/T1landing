@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /* ──────────────────────────────────────────────────────────────────────────
    Secciones de la landing de T1 Finanzas.
@@ -160,37 +160,121 @@ export function T1FinanzasCanales() {
   );
 }
 
-/* ══════════ 3 · Lo que puedes emitir ══════════ */
-const DOCUMENTOS = ["Factura", "Factura global", "Nota de crédito", "Cancelar o corregir", "Recibo de pago"];
+/* ══════════ 3 · Por tipo de negocio ══════════
+   Cada tarjeta va a llevar a su sublanding. Mientras no existan, lleva a la
+   pregunta frecuente del mismo tema, que se abre sola al llegar por su liga. */
+const NEGOCIOS = [
+  {
+    quien: "Vendes en Mercado Libre, Amazon o TikTok Shop",
+    frase: "La factura global de cada marketplace, sin Excel.",
+    apoyo: "Todos en una sola pantalla. Con el plan Básico, la global de cada uno se emite sola.",
+    href: "/productos/t1finanzas#faq-global-marketplaces",
+  },
+  {
+    quien: "Tienes tienda en línea",
+    frase: "Cada pedido, su factura en un clic.",
+    apoyo: "Los datos del pedido ya están puestos, y los de tu cliente se guardan la primera vez que le facturas.",
+    href: "/productos/t1finanzas#faq-ya-uso-t1-tienda",
+  },
+  {
+    quien: "Vendes en mostrador o das servicios al público",
+    frase: "Factura tus ventas sin pagar por un sistema para facturar.",
+    apoyo: "Tienes 25 facturas gratis cada mes, sin tarjeta.",
+    href: "/productos/t1finanzas#faq-venta-fuera-de-t1",
+  },
+  {
+    quien: "Le vendes a empresas",
+    frase: "Si algo no cuadra, te avisamos antes de facturar, para que te paguen a tiempo.",
+    apoyo: "Facturas a crédito, haces el recibo de cada pago que te hacen y resuelves devoluciones con una nota de crédito.",
+    href: "/productos/t1finanzas#faq-recibos-de-pago",
+  },
+];
+
+export function T1FinanzasPorNegocio() {
+  return (
+    <section className="bg-black px-5 py-[56px] tablet:px-6 tablet:py-[80px]">
+      <div className="mx-auto max-w-[var(--max-w)]">
+        <div className="mx-auto max-w-[680px] text-center" style={{ marginBottom: 40 }}>
+          <h2
+            className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
+            style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}
+          >
+            Sirve si vendes en línea, en mostrador o a empresas
+          </h2>
+          <p className="mx-auto font-inter text-[15px] font-light text-white/60 tablet:text-[17px]" style={{ lineHeight: 1.55, maxWidth: 520 }}>
+            Cada negocio factura distinto. Elige cómo vendes tú y ve lo que T1 Finanzas hace por ti.
+          </p>
+        </div>
+
+        <div className="-mr-5 flex gap-4 overflow-x-auto pb-2 pr-5 tablet:mr-0 tablet:grid tablet:grid-cols-2 tablet:overflow-visible tablet:pr-0 desktop:grid-cols-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {NEGOCIOS.map((n) => (
+            <a
+              key={n.quien}
+              href={n.href}
+              className="group flex w-[280px] shrink-0 flex-col rounded-[18px] border border-white/[0.08] bg-[#141215] p-6 no-underline transition-colors hover:border-white/20 tablet:w-auto"
+            >
+              <p className="font-inter text-[12px] font-semibold uppercase leading-[1.4] tracking-[0.06em] text-[#FF6F5E]" style={{ marginBottom: 14 }}>
+                {n.quien}
+              </p>
+              <p className="font-inter text-[16px] font-medium text-white" style={{ lineHeight: 1.45, marginBottom: 10 }}>
+                {n.frase}
+              </p>
+              <p className="font-inter text-[13.5px] font-light text-white/50" style={{ lineHeight: 1.55 }}>
+                {n.apoyo}
+              </p>
+              <span className="mt-5 inline-flex items-center gap-1.5 font-inter text-[13.5px] font-semibold text-white/70 transition-colors group-hover:text-white">
+                Ver cómo funciona
+                <span className="transition-transform duration-200 group-hover:translate-x-0.5">{Arrow}</span>
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════ 4 · Lo que puedes emitir ══════════ */
+const DOCUMENTOS = [
+  { title: "Factura", desc: "Para la venta que un cliente te pide facturar, pagada al momento o a crédito." },
+  { title: "Factura global", desc: "Junta en una sola factura las ventas de quienes no pidieron la suya, como te lo pide el SAT." },
+  { title: "Nota de crédito", desc: "Para una devolución o un descuento sobre una venta que ya facturaste." },
+  { title: "Cancelar o corregir", desc: "Para la factura que salió mal: la cancelas o la cambias por una nueva." },
+  { title: "Recibo de pago", desc: "La factura de cada pago que te hacen en una venta a crédito. Es lo que tu contador llama complemento de pago." },
+];
 
 export function T1FinanzasDocumentos() {
   return (
-    <section className="bg-black px-5 py-[56px] tablet:px-6 tablet:py-[76px]">
-      <div className="mx-auto max-w-[820px] text-center">
-        <h2
-          className="font-sora text-[28px] font-light text-white tablet:text-[40px]"
-          style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}
-        >
-          Factura, cancela y corrige desde un mismo lugar
-        </h2>
-        <p className="mx-auto font-inter text-[15px] font-light text-white/60 tablet:text-[17px]" style={{ lineHeight: 1.55, maxWidth: 580, marginBottom: 30 }}>
-          Cada factura se guarda en tu cuenta con su PDF y su XML, el archivo que te pide tu
-          contador, lista para mandársela.
-        </p>
+    <section className="overflow-hidden bg-[#0e0d0d] px-5 py-[56px] tablet:px-6 tablet:py-[80px]">
+      <div className="mx-auto max-w-[820px]">
+        <div className="text-center" style={{ marginBottom: 32 }}>
+          <h2
+            className="font-sora text-[28px] font-light text-white tablet:text-[40px]"
+            style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}
+          >
+            Factura, cancela y corrige desde un mismo lugar
+          </h2>
+          <p className="mx-auto font-inter text-[15px] font-light text-white/60 tablet:text-[17px]" style={{ lineHeight: 1.55, maxWidth: 580 }}>
+            Cada factura se guarda en tu cuenta con su PDF y su XML, el archivo que te pide tu
+            contador, lista para mandársela.
+          </p>
+        </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-2.5">
+        <ul className="mx-auto flex max-w-[720px] flex-col">
           {DOCUMENTOS.map((d) => (
-            <span
-              key={d}
-              className="flex items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.04] px-4 py-2.5 font-inter text-[14px] font-medium text-white tablet:text-[15px]"
+            <li
+              key={d.title}
+              className="flex items-start gap-3.5 border-b border-white/[0.07] py-4 last:border-b-0 tablet:items-center tablet:gap-4"
             >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" className="shrink-0">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" className="mt-[3px] shrink-0 tablet:mt-0">
                 <path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-              {d}
-            </span>
+              <p className="font-inter text-[14.5px] font-light leading-[1.55] text-white/55 tablet:text-[15.5px]">
+                <span className="font-medium text-white">{d.title}.</span> {d.desc}
+              </p>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );
@@ -317,10 +401,13 @@ export function T1FinanzasAlta() {
    Ordenadas por tema (empezar · precio · facturar · tiendas y factura global ·
    seguridad y validez · lo que no hace). Cada respuesta se lee sola, sin leer
    las demás, porque es lo que consultan los asistentes de IA. */
-const FAQS = [
+type Faq = { q: string; a: string; grupo?: string; id?: string };
+
+const FAQS: Faq[] = [
   /* ── Empezar ── */
   {
     q: "¿Qué es T1 Finanzas?",
+    grupo: "Empezar",
     a: "Es la facturación de T1. Con ella emites las facturas de las ventas de tu negocio: las de tu tienda en T1, las de tus marketplaces conectados, las de tu mostrador y las que haces por WhatsApp o en persona. Emite facturas, factura global, notas de crédito, cancelaciones y recibos de pago. Está hecha para quien lleva el negocio, y le pasas a tu contador tus archivos listos.",
   },
   {
@@ -333,6 +420,7 @@ const FAQS = [
   },
   {
     q: "Ya uso T1 Tienda. ¿Tengo que instalar algo?",
+    id: "ya-uso-t1-tienda",
     a: "No. Los pedidos de las tiendas y marketplaces que ya vendes con T1 Tienda aparecen en T1 Finanzas. Solo hay que dar de alta el RFC y subir el sello digital.",
   },
   {
@@ -347,6 +435,7 @@ const FAQS = [
   /* ── Precio ── */
   {
     q: "¿Cuánto cuesta?",
+    grupo: "Precio",
     a: "Empezar es gratis: 25 facturas al mes por negocio, cada mes, y hasta tres negocios en una cuenta. Cuentan todas las facturas, facturas globales, notas de crédito y recibos de pago que haces. Los planes Básico y Avanzado incluyen facturas sin límite y la factura global automática de tus tiendas y marketplaces. Los precios están en la sección de planes.",
   },
   {
@@ -365,6 +454,7 @@ const FAQS = [
   /* ── Facturar ── */
   {
     q: "¿Necesito saber de impuestos para facturar?",
+    grupo: "Facturar",
     a: "No para hacer tus facturas. Te preguntamos en palabras simples a quién le vendiste, qué vendiste y cómo te pagaron, te sugerimos los datos que pide el SAT y tú revisas la factura antes de emitirla. Tus impuestos y tus declaraciones los sigue viendo tu contador.",
   },
   {
@@ -373,6 +463,7 @@ const FAQS = [
   },
   {
     q: "¿Puedo facturar una venta que hice fuera de T1?",
+    id: "venta-fuera-de-t1",
     a: "Sí. Tus ventas de mostrador, WhatsApp o en persona las capturas en cuatro pasos y quedan registradas ante el SAT igual que las demás.",
   },
   {
@@ -381,6 +472,7 @@ const FAQS = [
   },
   {
     q: "¿Emite recibos de pago para ventas a crédito?",
+    id: "recibos-de-pago",
     a: "Sí. Cuando te pagan una venta que facturaste a crédito, registras el pago y emites su recibo de pago, ligado a la factura original. Es lo que tu contador llama complemento de pago.",
   },
   {
@@ -399,10 +491,12 @@ const FAQS = [
   /* ── Tus tiendas y la factura global ── */
   {
     q: "¿Qué es la factura global y por qué tengo que emitirla?",
+    grupo: "Tus tiendas y la factura global",
     a: "Es una sola factura que junta las ventas de un periodo que nadie pidió facturar, por ejemplo las de tu mostrador o las de tu tienda en línea. El SAT te pide emitirla. En T1 se arma una por cada lugar donde vendes: tu tienda en línea, cada marketplace y tu mostrador. En el plan Gratis la emites tú con un botón; en el plan Básico se emite sola cada día o a fin de mes, como tú elijas.",
   },
   {
     q: "¿Se factura sola la global de mis ventas en Mercado Libre, Amazon o TikTok Shop?",
+    id: "global-marketplaces",
     a: "Sí, con los planes Básico y Avanzado. Eliges si sale cada día o a fin de mes, o si la emites tú con un botón, y lo puedes cambiar cuando quieras. La factura que un cliente te pide la emites tú en un clic.",
   },
   {
@@ -417,6 +511,7 @@ const FAQS = [
   /* ── Seguridad y validez ── */
   {
     q: "¿Mis facturas son válidas ante el SAT?",
+    grupo: "Seguridad y validez",
     a: "Sí. Cada factura se registra ante el SAT a través de un proveedor autorizado. A eso se le llama timbrar. Solo te decimos que tu factura está lista cuando ya tiene su timbre, el sello que la hace válida ante el SAT.",
   },
   {
@@ -427,6 +522,7 @@ const FAQS = [
   /* ── Lo que no hace ── */
   {
     q: "¿Puede entrar mi contador?",
+    grupo: "Lo que no hace",
     a: "Por ahora tu contador no entra a la plataforma. Tú descargas los XML y los PDF del mes y se los mandas, y él los usa como siempre.",
   },
   {
@@ -447,10 +543,26 @@ const FAQS = [
   },
 ];
 
-function FAQItem({ q, a }: { q: string; a: string }) {
+/* Una pregunta se abre sola cuando se llega a ella por su liga (las tarjetas
+   de "por tipo de negocio" apuntan aquí mientras no existan las sublandings). */
+function FAQItem({ q, a, id }: Faq) {
   const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!id) return;
+    const abrirSiEsLaMia = () => {
+      if (window.location.hash !== `#faq-${id}`) return;
+      setOpen(true);
+      ref.current?.scrollIntoView({ block: "center", behavior: "smooth" });
+    };
+    abrirSiEsLaMia();
+    window.addEventListener("hashchange", abrirSiEsLaMia);
+    return () => window.removeEventListener("hashchange", abrirSiEsLaMia);
+  }, [id]);
+
   return (
-    <button type="button" onClick={() => setOpen((o) => !o)} className="w-full border-b border-white/10 py-5 text-left">
+    <button ref={ref} id={id ? `faq-${id}` : undefined} type="button" onClick={() => setOpen((o) => !o)} className="w-full scroll-mt-28 border-b border-white/10 py-5 text-left">
       <div className="flex items-center justify-between gap-4">
         <span className="font-inter text-[16px] font-medium text-white tablet:text-[18px]">{q}</span>
         <span className={`shrink-0 text-white/50 transition-transform duration-200 ${open ? "rotate-45" : ""}`}>
@@ -478,9 +590,19 @@ export function T1FinanzasFAQ() {
         >
           Preguntas frecuentes
         </h2>
-        <div className="border-t border-white/10">
+        <div>
           {FAQS.map((f) => (
-            <FAQItem key={f.q} q={f.q} a={f.a} />
+            <div key={f.q}>
+              {f.grupo && (
+                <p
+                  className="font-inter text-[12px] font-semibold uppercase tracking-[0.09em] text-[#FF6F5E]"
+                  style={{ marginTop: 34, marginBottom: 6 }}
+                >
+                  {f.grupo}
+                </p>
+              )}
+              <FAQItem q={f.q} a={f.a} id={f.id} />
+            </div>
           ))}
         </div>
       </div>
