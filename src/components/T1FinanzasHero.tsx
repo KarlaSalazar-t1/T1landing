@@ -8,10 +8,9 @@ import HeroBackground from "@/components/HeroBackground";
 /* ──────────────────────────────────────────────────────────────────────────
    Hero de T1 Finanzas.
 
-   La promesa del producto es "factura lo que ya vendiste", así que el visual
-   NO es un formulario: es la lista de facturas que se emiten solas desde las
-   ventas que ya viven en T1 (tienda + marketplaces), con la factura global
-   de cada canal entre ellas. Mismo lenguaje que el dashboard de Pagos:
+   El visual no es un formulario: es la lista de facturas que salen de las
+   ventas que ya viven en T1 (tienda y marketplaces), con la factura global
+   de cada uno entre ellas. Mismo lenguaje que el dashboard de Pagos:
    tarjeta blanca sobre el fondo cálido compartido.
 
    Números permitidos (six-pager §8 + decisión del 21 de septiembre):
@@ -32,10 +31,10 @@ type Row = {
 
 const ROWS: Row[] = [
   { tipo: "individual", cliente: "Comercializadora Vega", canal: "T1 Tienda", total: 4820.5, detalle: "Pedido #10482" },
-  { tipo: "global", cliente: "Factura global", canal: "Mercado Libre", logo: "/img/meli-iso.svg", total: 18340.0, detalle: "63 ventas del día sin RFC" },
+  { tipo: "global", cliente: "Factura global", canal: "Mercado Libre", logo: "/img/meli-iso.svg", total: 18340.0, detalle: "63 ventas sin factura pedida" },
   { tipo: "individual", cliente: "Distribuidora del Norte", canal: "Amazon", logo: "/img/amazon-iso.svg", total: 9650.0, detalle: "Pedido #A-7731" },
-  { tipo: "global", cliente: "Factura global", canal: "TikTok Shop", logo: "/img/tiktokshop.svg", total: 7215.8, detalle: "41 ventas del día sin RFC" },
-  { tipo: "individual", cliente: "Venta de mostrador", canal: "Capturada a mano", total: 1290.0, detalle: "Asistente en 4 pasos" },
+  { tipo: "global", cliente: "Factura global", canal: "TikTok Shop", logo: "/img/tiktokshop.svg", total: 7215.8, detalle: "41 ventas sin factura pedida" },
+  { tipo: "individual", cliente: "Venta de mostrador", canal: "Capturada", total: 1290.0, detalle: "En cuatro pasos" },
 ];
 
 const fmt = (n: number) =>
@@ -113,7 +112,7 @@ function FacturasPanel() {
                 </span>
                 <span className="text-right leading-tight">
                   <span className="block text-[13px] font-bold text-black">${fmt(r.total)}</span>
-                  <span className="block text-[11px] font-semibold text-[#16A34A]">Timbrada</span>
+                  <span className="block text-[11px] font-semibold text-[#16A34A]">Emitida</span>
                 </span>
               </div>
             ))}
@@ -164,7 +163,7 @@ function SocialProof() {
 /* ── Banda — el asistente, contado como cuatro preguntas y nada más. Es la
    prueba de que facturar aquí no se parece al portal del SAT, así que no
    lleva párrafos: se lee de un vistazo. ── */
-const PASOS = ["¿A quién le vendiste?", "¿Qué vendiste?", "¿Cómo te pagaron?", "Listo, timbrada"];
+const PASOS = ["¿A quién le vendiste?", "¿Qué vendiste?", "¿Cómo te pagaron?", "Revisa y factura"];
 
 function AsistentePasos() {
   const [active, setActive] = useState(0);
@@ -236,21 +235,23 @@ export default function T1FinanzasHero() {
                 className="font-sora text-[34px] font-light leading-[1.1] text-white tablet:text-[52px] desktop:text-[54px]"
                 style={{ letterSpacing: "-0.03em" }}
               >
-                Factura lo que
+                Tu facturación,
                 <br />
-                ya vendiste
+                fácil y automática
               </h1>
-              <p className="mt-4 max-w-[430px] font-inter text-[16px] font-light leading-[1.5] text-white/80 tablet:text-[19px]">
-                Fácil, sin claves ni jerga y sin entrar al portal del SAT.
+              <p className="mt-4 max-w-[480px] font-inter text-[15px] font-light leading-[1.55] text-white/80 tablet:text-[17px]">
+                Si vendes con T1 Tienda, tus pedidos llegan listos para facturar en un clic, y con el
+                plan Básico se facturan solos. Lo que vendes en mostrador o por WhatsApp lo facturas
+                en cuatro pasos.
               </p>
               <a
                 href={SIGNUP_URL}
                 data-cta-location="hero"
-                data-cta-text="Comienza gratis"
+                data-cta-text="Empieza a facturar gratis"
                 data-cta-destination={SIGNUP_URL}
                 className="mt-8 hidden h-[52px] items-center justify-center gap-2 rounded-[16px] bg-red-500 px-8 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-red-600 tablet:inline-flex"
               >
-                Comienza gratis
+                Empieza a facturar gratis
                 {ArrowRight}
               </a>
             </div>
@@ -269,11 +270,11 @@ export default function T1FinanzasHero() {
             <a
               href={SIGNUP_URL}
               data-cta-location="hero"
-              data-cta-text="Comienza gratis"
+              data-cta-text="Empieza a facturar gratis"
               data-cta-destination={SIGNUP_URL}
               className="mt-1 inline-flex h-[52px] items-center justify-center gap-2 justify-self-center rounded-[16px] bg-red-500 px-8 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-red-600 tablet:hidden"
             >
-              Comienza gratis
+              Empieza a facturar gratis
               {ArrowRight}
             </a>
           </div>

@@ -4,12 +4,15 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 /* ──────────────────────────────────────────────────────────────────────────
-   Las tres capacidades que sostienen la promesa: la global por canal (lo que
-   hoy se arma a mano en una hoja de cálculo), la factura de un pedido con un
-   clic y la clave del SAT sugerida por inteligencia artificial.
+   Cómo funciona, en tres pestañas: la factura de un pedido en un clic, la
+   factura global de cada tienda y marketplace (lo que hoy se arma a mano en
+   Excel) y la clave de producto que te sugerimos.
 
    Mismo patrón de T1PagosPilares: lista a la izquierda + panel animado a la
    derecha en desktop, carrusel con stepper en móvil.
+
+   Nunca se dice "inteligencia artificial": es "nuestro sistema inteligente"
+   o "te sugerimos".
    ────────────────────────────────────────────────────────────────────────── */
 
 const FONT = "var(--font-inter), 'Inter', sans-serif";
@@ -47,7 +50,7 @@ function GlobalPanel() {
   }, []);
 
   return (
-    <AppWindow title="Canales">
+    <AppWindow title="Tus tiendas y marketplaces">
       <div className="flex flex-col gap-2">
         {CANALES.map((c, i) => {
           const on = i === hit;
@@ -87,7 +90,7 @@ function GlobalPanel() {
         })}
       </div>
       <div className="mt-4 flex items-center justify-between border-t border-black/[0.06] pt-3">
-        <span className="text-[11px] font-medium text-black/45">Ventas sin RFC del día</span>
+        <span className="text-[11px] font-medium text-black/45">Ventas sin factura pedida, hoy</span>
         <span className="text-[12.5px] font-bold text-black">104 · 1 factura global</span>
       </div>
     </AppWindow>
@@ -129,7 +132,7 @@ function PedidoPanel() {
         </div>
       </div>
 
-      {/* Botón → timbrado → factura emitida */}
+      {/* Botón → emisión → factura lista */}
       <div className="mt-4 min-h-[46px]">
         {estado !== "done" ? (
           <div
@@ -142,7 +145,7 @@ function PedidoPanel() {
                   className="h-[14px] w-[14px] rounded-full border-2 border-white/30 border-t-white"
                   style={{ animation: "spin 0.8s linear infinite" }}
                 />
-                Timbrando ante el SAT…
+                Emitiendo tu factura…
               </>
             ) : (
               "Facturar este pedido"
@@ -159,14 +162,14 @@ function PedidoPanel() {
               </svg>
             </span>
             <span className="leading-tight">
-              <span className="block text-[12.5px] font-bold text-black">Factura timbrada</span>
-              <span className="block text-[10.5px] text-black/45">UUID ····4f2a · XML y PDF listos</span>
+              <span className="block text-[12.5px] font-bold text-black">Factura emitida</span>
+              <span className="block text-[10.5px] text-black/45">XML y PDF listos para tu contador</span>
             </span>
           </div>
         )}
       </div>
       <p className="mt-3 text-center text-[10.5px] text-black/35">
-        Esta venta sale de la factura global. Nunca se factura dos veces.
+        Esta venta sale de tu factura global. Nunca se factura dos veces.
       </p>
     </AppWindow>
   );
@@ -194,7 +197,7 @@ function ClavePanel() {
   const p = PRODUCTOS[i];
 
   return (
-    <AppWindow title="Clave del SAT">
+    <AppWindow title="Clave de producto del SAT">
       <p className="text-[11px] font-semibold uppercase tracking-[0.06em] text-black/40">Tu producto</p>
       <div className="mt-2 rounded-[12px] border border-black/[0.08] bg-white px-3.5 py-3 text-[13px] font-medium text-black">
         {p.nombre}
@@ -222,7 +225,7 @@ function ClavePanel() {
               </span>
             </div>
             <p className="mt-3 text-[10.5px] text-black/35">
-              De 52,513 claves del catálogo. Nunca se asigna sola: tú la apruebas y la puedes cambiar.
+              De las 52,513 claves del catálogo del SAT. Tú la apruebas y la puedes cambiar.
             </p>
           </div>
         )}
@@ -234,21 +237,24 @@ function ClavePanel() {
 /* ══════════ Sección ══════════ */
 const ITEMS = [
   {
-    id: "global",
-    title: "La factura global, sola",
-    description: "Las ventas que nadie pidió facturar se juntan por canal, cada día o a fin de mes.",
-    Panel: GlobalPanel,
-  },
-  {
     id: "pedido",
-    title: "Cualquier venta, facturada",
-    description: "La de un pedido sale con un clic. La que hiciste por fuera, en cuatro pasos.",
+    title: "Factura un pedido en un clic",
+    description:
+      "El pedido ya está aquí con sus productos y montos. Agregas los datos de tu cliente, revisas la factura y la emites.",
     Panel: PedidoPanel,
   },
   {
+    id: "global",
+    title: "La factura global de cada tienda y marketplace, sin Excel",
+    description:
+      "Junta las ventas de quienes no pidieron factura, una por cada lugar donde vendes. En el plan Gratis la emites con un botón; en el plan Básico se emite sola cada día o a fin de mes.",
+    Panel: GlobalPanel,
+  },
+  {
     id: "clave",
-    title: "La clave del SAT, sugerida",
-    description: "52,513 claves en el catálogo del SAT. Te proponemos la tuya y tú la apruebas.",
+    title: "Te sugerimos la clave de producto del SAT",
+    description:
+      "El SAT tiene 52,513 claves de producto y no tienes que buscar la tuya. Nuestro sistema inteligente te sugiere la que mejor le queda a lo que vendes; tú la apruebas y la puedes cambiar.",
     Panel: ClavePanel,
   },
 ];
@@ -326,13 +332,15 @@ export default function T1FinanzasPilares() {
           className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
           style={{ letterSpacing: "-0.03em", textAlign: "center", marginBottom: 16 }}
         >
-          Los demás facturan lo que les conectes
+          Tus ventas en línea y en mostrador, facturadas desde un solo lugar
         </h2>
         <p
           className="mx-auto font-inter text-[16px] font-light text-white/85 tablet:text-[18px]"
-          style={{ textAlign: "center", marginBottom: 52, maxWidth: 560 }}
+          style={{ textAlign: "center", marginBottom: 52, maxWidth: 680 }}
         >
-          T1 factura lo que ya vendiste.
+          Si vendes con T1 Tienda, los pedidos de tu tienda en línea, Mercado Libre y Amazon llegan
+          con los datos ya puestos. Lo que vendes en mostrador o por WhatsApp lo capturas en cuatro
+          pasos. En los dos casos te sugerimos la clave de producto del SAT.
         </p>
 
         {/* Desktop */}

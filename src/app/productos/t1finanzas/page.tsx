@@ -17,9 +17,9 @@ import T1Footer from "@/components/T1Footer";
 import { SIGNUP_URL } from "@/lib/constants";
 
 export const metadata = {
-  title: "T1 Finanzas · Factura lo que ya vendiste",
+  title: "T1 Finanzas · Tu facturación, fácil y automática",
   description:
-    "La facturación de T1. Factura las ventas de tu tienda y de tus marketplaces sin entrar al portal del SAT: la global de cada canal se arma sola y lo que vendiste por fuera lo capturas en cuatro pasos. 25 facturas gratis al mes por negocio.",
+    "La facturación de T1. Si vendes con T1 Tienda, tus pedidos de Mercado Libre, Amazon y tu tienda en línea llegan listos para facturar en un clic. Lo que vendes en mostrador o por WhatsApp lo facturas en cuatro pasos. 25 facturas gratis al mes por negocio.",
 };
 
 export default function FinanzasLanding() {
@@ -36,13 +36,13 @@ export default function FinanzasLanding() {
         {/* El hilo: antes/ahora → cómo → dónde → qué emite → cuánto →
             empezar → dudas. Sin rejillas de tarjetas con párrafo: la página
             tiene que sentirse tan fácil como el producto. */}
-        {/* 1 · Antes, medio día. Ahora, un clic. */}
+        {/* 1 · El problema: deja de perder medio día al mes facturando */}
         <T1FinanzasAntesAhora />
-        {/* 2 · Las tres capacidades, animadas (global · pedido · clave del SAT) */}
+        {/* 2 · Cómo funciona (pedido en un clic · factura global · clave sugerida) */}
         <T1FinanzasPilares />
-        {/* 3 · Los canales que ya están en T1 Tienda */}
+        {/* 3 · Los pedidos de T1 Tienda, que llegan solos */}
         <T1FinanzasCanales />
-        {/* 4 · Los cinco documentos, en una sola línea de chips */}
+        {/* 4 · Factura, cancela y corrige: los cinco documentos */}
         <T1FinanzasDocumentos />
         {/* 5 · Números — los tres aprobados el 21 de septiembre */}
         <T1ProductMetrics
@@ -61,14 +61,14 @@ export default function FinanzasLanding() {
       </div>
 
       <T1FinalCTA
-        title={<>Tu primera factura, hoy</>}
-        description="Crea tu cuenta gratis y factura sin entrar al portal del SAT."
-        buttonLabel="Comienza gratis"
+        title={<>Empieza a facturar gratis desde hoy</>}
+        description="Con T1 vendes, cobras, envías y ahora facturas desde un solo lugar. Tienes 25 facturas gratis al mes por negocio y no te pedimos tarjeta."
+        buttonLabel="Crea tu cuenta gratis"
       />
 
       <T1Footer />
 
-      <T1StickyCTA label="Comienza gratis" href={SIGNUP_URL} section="sticky_mobile" />
+      <T1StickyCTA label="Empieza a facturar gratis" href={SIGNUP_URL} section="sticky_mobile" />
       <T1EnviosAnalytics />
     </main>
   );
