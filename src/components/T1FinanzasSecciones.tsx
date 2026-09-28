@@ -38,7 +38,7 @@ const TAREAS = [
   "Pasar tus ventas a Excel",
   "Buscar la clave de cada producto",
   "Juntar tickets para tu contador",
-  "Cuadrar lo que ya facturaste",
+  "Revisar qué ya facturaste y qué no",
 ];
 
 export function T1FinanzasProblema() {
@@ -77,7 +77,7 @@ export function T1FinanzasProblema() {
           className="font-sora text-[30px] font-light text-white tablet:text-[52px]"
           style={{ letterSpacing: "-0.03em", lineHeight: 1.12, maxWidth: 680 }}
         >
-          Hoy facturar te cuesta medio día al mes
+          Facturar a mano te quita medio día al mes
         </h2>
 
         <ul ref={listaRef} className="mt-10 flex w-full max-w-[560px] flex-col tablet:mt-14">
@@ -106,17 +106,17 @@ export function T1FinanzasProblema() {
           className="mt-11 font-sora text-[22px] font-light text-white tablet:mt-14 tablet:text-[32px]"
           style={{ letterSpacing: "-0.02em", lineHeight: 1.25, maxWidth: 620 }}
         >
-          Con T1 Finanzas, nada de eso te toca a ti.
+          Con T1 Finanzas, tus ventas llegan listas y tu contador recibe todo en orden.
         </p>
 
         <a
           href={SIGNUP_URL}
-          data-cta-text="Empieza a facturar gratis"
+          data-cta-text="Comienza gratis"
           data-cta-destination={SIGNUP_URL}
           data-cta-section="problema"
           className="mt-9 inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]"
         >
-          Empieza a facturar gratis
+          Comienza gratis
           {Arrow}
         </a>
       </div>
@@ -192,10 +192,10 @@ export function T1FinanzasCanales() {
           className="mx-auto font-sora text-[28px] font-light text-white tablet:text-[42px]"
           style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}
         >
-          Si vendes con T1 Tienda, tus pedidos llegan solos
+          Tus pedidos llegan solos desde donde ya vendes
         </h2>
         <p className="mx-auto font-inter text-[15px] font-light text-white/60 tablet:text-[17px]" style={{ lineHeight: 1.6, maxWidth: 520 }}>
-          Mercado Libre, Amazon, Walmart, TikTok Shop y tu tienda en línea, sin conectar nada.
+          Si ya vendes con T1 Tienda, no tienes que conectar nada.
         </p>
       </div>
     </section>
@@ -218,17 +218,17 @@ const NEGOCIOS = [
   },
   {
     title: "Tienda en línea",
-    desc: "Cada pedido, su factura en un clic, con los datos ya puestos. Los de tu cliente se guardan la primera vez que le facturas.",
+    desc: "Facturas cada pedido en un clic, y los datos de tu cliente se guardan desde su primera factura.",
     href: "/productos/t1finanzas#faq-ya-uso-t1-tienda",
   },
   {
     title: "Mostrador",
-    desc: "Factura tus ventas sin pagar por un sistema para facturar: 25 facturas gratis cada mes, sin tarjeta.",
+    desc: "Facturas tus ventas sin pagar otro sistema.",
     href: "/productos/t1finanzas#faq-venta-fuera-de-t1",
   },
   {
     title: "Ventas a empresas",
-    desc: "Facturas a crédito, haces el recibo de cada pago que te hacen y resuelves devoluciones con una nota de crédito.",
+    desc: "Facturas a crédito y registras cada pago con su recibo.",
     href: "/productos/t1finanzas#faq-recibos-de-pago",
   },
 ];
@@ -252,19 +252,19 @@ export function T1FinanzasPorNegocio() {
               className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
               style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 16, maxWidth: 420 }}
             >
-              No importa dónde vendas, aquí facturas todo
+              Funciona vendas donde vendas
             </h2>
             <p className="font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 380 }}>
-              Elige cómo vendes tú y ve lo que T1 Finanzas hace por ti.
+              Elige cómo vendes y descubre lo que T1 Finanzas hace por ti.
             </p>
             <a
               href={SIGNUP_URL}
-              data-cta-text="Empieza a facturar gratis"
+              data-cta-text="Comienza gratis"
               data-cta-destination={SIGNUP_URL}
               data-cta-section="por_negocio"
               className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]"
             >
-              Empieza a facturar gratis
+              Comienza gratis
               {Arrow}
             </a>
           </div>
@@ -324,30 +324,8 @@ export function T1FinanzasPorNegocio() {
    acomodan solas. */
 const DOCUMENTOS = [
   {
-    title: "Factura",
-    desc: "Para la venta que un cliente te pide facturar, pagada al momento o a crédito.",
-    icon: (
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-        <path d="M6 3.5h8l4 4v13H6v-17z" stroke="#FFFFFF" strokeWidth="1.6" strokeLinejoin="round" />
-        <path d="M13.6 3.5V8h4.4" stroke="#FFFFFF" strokeWidth="1.5" strokeLinejoin="round" />
-        <path d="M9 12.5h6M9 16h4" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" />
-      </svg>
-    ),
-  },
-  {
-    title: "Factura global",
-    desc: "Junta en una sola factura las ventas de quienes no pidieron la suya, como te lo pide el SAT.",
-    icon: (
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-        <path d="M8 6.5h8l3 3v11H8v-14z" stroke="#FFFFFF" strokeWidth="1.6" strokeLinejoin="round" />
-        <path d="M5 17V3.5h8" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M11 13.5h5" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" />
-      </svg>
-    ),
-  },
-  {
     title: "Nota de crédito",
-    desc: "Para una devolución o un descuento sobre una venta que ya facturaste.",
+    desc: "La usas para una devolución o un descuento sobre una venta ya facturada.",
     icon: (
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
         <path d="M6 3.5h8l4 4v13H6v-17z" stroke="#FFFFFF" strokeWidth="1.6" strokeLinejoin="round" />
@@ -358,7 +336,7 @@ const DOCUMENTOS = [
   },
   {
     title: "Cancelar o corregir",
-    desc: "Para la factura que salió mal: la cancelas o la cambias por una nueva.",
+    desc: "Si una factura salió mal, la cancelas o la cambias por una nueva.",
     icon: (
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
         <path d="M20 12a8 8 0 1 1-2.6-5.9" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" />
@@ -369,7 +347,7 @@ const DOCUMENTOS = [
   },
   {
     title: "Recibo de pago",
-    desc: "La factura de cada pago que te hacen en una venta a crédito. Es lo que tu contador llama complemento de pago.",
+    desc: "Lo emites por cada pago de una venta a crédito. Tu contador lo conoce como complemento de pago.",
     icon: (
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
         <path d="M5 3.5h14v17l-2.3-1.6-2.3 1.6-2.4-1.6L9.6 20.5 7.3 18.9 5 20.5v-17z" stroke="#FFFFFF" strokeWidth="1.6" strokeLinejoin="round" />
@@ -388,10 +366,10 @@ export function T1FinanzasDocumentos() {
             className="font-sora text-[28px] font-light text-white tablet:whitespace-nowrap tablet:text-[42px]"
             style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}
           >
-            Factura, cancela y corrige en un solo lugar
+            Cancela, corrige y haz notas de crédito
           </h2>
           <p className="mx-auto font-inter text-[15px] font-light text-white/60 tablet:whitespace-nowrap tablet:text-[17px]" style={{ lineHeight: 1.55 }}>
-            Cada una se guarda con su PDF y su XML, el archivo que te pide tu contador.
+            Cada factura se guarda con su PDF y su XML, el archivo que te pide tu contador.
           </p>
         </div>
 
@@ -436,11 +414,11 @@ export function T1FinanzasPlanes() {
               className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
               style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 14 }}
             >
-              25 facturas gratis al mes, sin tarjeta
+              Comienza gratis y factura sin límite cuando crezcas
             </h2>
             <p className="font-inter text-[15px] font-light text-white/60 tablet:text-[17px]" style={{ lineHeight: 1.55, maxWidth: 360, marginBottom: 24 }}>
-              Y hasta 3 negocios en la misma cuenta. Con los planes Básico y Avanzado facturas
-              sin límite.
+              El plan Gratuito incluye 25 facturas al mes. Con los planes Básico y Avanzado,
+              desde $399 al mes, facturas sin límite.
             </p>
             <a
               href="/precios"
@@ -455,7 +433,7 @@ export function T1FinanzasPlanes() {
             <div className="overflow-hidden rounded-[20px] border border-white/[0.10] bg-[#141215]">
               <div className="grid grid-cols-[minmax(0,1.85fr)_minmax(0,0.7fr)_minmax(0,1fr)] border-b border-white/[0.08] px-5 py-3.5">
                 <span className="font-inter text-[12px] font-semibold uppercase tracking-[0.06em] text-white/40">Incluye</span>
-                <span className="text-center font-inter text-[13px] font-semibold text-white">Gratis</span>
+                <span className="text-center font-inter text-[13px] font-semibold text-white">Gratuito</span>
                 <span className="text-center font-inter text-[13px] font-semibold text-[#FF6F5E]">Básico y Avanzado</span>
               </div>
               {PLAN_ROWS.map((r) => (
@@ -471,7 +449,7 @@ export function T1FinanzasPlanes() {
             </div>
 
             <p className="mt-5 font-inter text-[14px] font-light leading-[1.55] text-white/55 tablet:text-[15px]">
-              Las 25 gratis cuentan cada documento que emites.
+              Cada factura, nota de crédito o recibo de pago cuenta dentro de las 25.
             </p>
           </div>
         </div>
@@ -495,7 +473,7 @@ const FAQS: Faq[] = [
   },
   {
     q: "¿Qué necesito para empezar a facturar?",
-    a: "El RFC de tu negocio y su sello digital, que son los archivos que el SAT te da para firmar tus facturas. Si ya lo tienes, lo subes en unos minutos con una guía en video; si no, te damos la guía paso a paso para tramitarlo. También firmas una vez el permiso que el SAT pide para que un sistema emita facturas a tu nombre. No te pedimos tu firma electrónica (e.firma).",
+    a: "El RFC de tu negocio y su sello digital. El sello son dos archivos que te da el SAT para firmar tus facturas: si ya los tienes, los subes en unos minutos con una guía en video; si no, te damos la guía paso a paso para tramitarlos. También firmas una vez el permiso que el SAT pide para que un sistema emita facturas a tu nombre. No te pedimos tu firma electrónica (e.firma).",
   },
   {
     q: "¿Qué es el sello digital y cómo lo saco?",
@@ -504,7 +482,7 @@ const FAQS: Faq[] = [
   {
     q: "Ya uso T1 Tienda. ¿Tengo que instalar algo?",
     id: "ya-uso-t1-tienda",
-    a: "No. Los pedidos de las tiendas y marketplaces que ya vendes con T1 Tienda aparecen en T1 Finanzas. Solo hay que dar de alta el RFC y subir el sello digital.",
+    a: "No. Los pedidos de las tiendas y marketplaces donde ya vendes con T1 Tienda aparecen en T1 Finanzas. Solo hay que dar de alta el RFC y subir el sello digital.",
   },
   {
     q: "¿Y si no uso T1 Tienda?",
@@ -519,7 +497,7 @@ const FAQS: Faq[] = [
   {
     q: "¿Cuánto cuesta?",
     grupo: "Precio",
-    a: "Empezar es gratis: 25 facturas al mes por negocio, cada mes, y hasta tres negocios en una cuenta. Cuentan todas las facturas, facturas globales, notas de crédito y recibos de pago que haces. Los planes Básico y Avanzado incluyen facturas sin límite y la factura global automática de tus tiendas y marketplaces. Los precios están en la sección de planes.",
+    a: "Empezar es gratis: tienes 25 facturas al mes por negocio y hasta 3 negocios en una cuenta. Cuentan todas las facturas, facturas globales, notas de crédito y recibos de pago que emites. Los planes Básico y Avanzado incluyen facturas sin límite y la factura global automática de tus tiendas y marketplaces. Los precios están en la sección de planes.",
   },
   {
     q: "¿Qué pasa cuando llego a las 25 facturas del mes?",
@@ -538,7 +516,7 @@ const FAQS: Faq[] = [
   {
     q: "¿Necesito saber de impuestos para facturar?",
     grupo: "Facturar",
-    a: "No para hacer tus facturas. Te preguntamos en palabras simples a quién le vendiste, qué vendiste y cómo te pagaron, te sugerimos los datos que pide el SAT y tú revisas la factura antes de emitirla. Tus impuestos y tus declaraciones los sigue viendo tu contador.",
+    a: "No. Para hacer tus facturas, te preguntamos en palabras simples a quién le vendiste, qué vendiste y cómo te pagaron, te sugerimos los datos que pide el SAT y tú revisas la factura antes de emitirla. Tus impuestos y tus declaraciones los sigue viendo tu contador.",
   },
   {
     q: "¿Cómo sé qué clave de producto del SAT le corresponde a lo que vendo?",
@@ -547,14 +525,14 @@ const FAQS: Faq[] = [
   {
     q: "¿Puedo facturar una venta que hice fuera de T1?",
     id: "venta-fuera-de-t1",
-    a: "Sí. Tus ventas de mostrador, WhatsApp o en persona las capturas en cuatro pasos y quedan registradas ante el SAT igual que las demás.",
+    a: "Sí. Tus ventas de mostrador, WhatsApp o en persona las capturas en cuatro pasos y su factura vale igual que las demás.",
   },
   {
     q: "¿Puedo cancelar o corregir una factura?",
     a: "Sí. Puedes cancelar una factura o cambiarla por una nueva, con el motivo que pide el SAT. Las devoluciones y los descuentos sobre una venta ya facturada se resuelven con una nota de crédito.",
   },
   {
-    q: "¿Emite recibos de pago para ventas a crédito?",
+    q: "¿Puedo hacer recibos de pago de ventas a crédito?",
     id: "recibos-de-pago",
     a: "Sí. Cuando te pagan una venta que facturaste a crédito, registras el pago y emites su recibo de pago, ligado a la factura original. Es lo que tu contador llama complemento de pago.",
   },
@@ -563,7 +541,7 @@ const FAQS: Faq[] = [
     a: "Sí, dentro del año fiscal en curso. Conviene revisarlo con tu contador antes de hacerlo.",
   },
   {
-    q: "¿Emite factura electrónica versión 4.0?",
+    q: "¿T1 Finanzas emite facturas en la versión 4.0?",
     a: "Sí. Todas las facturas se emiten en la versión 4.0 del CFDI (comprobante fiscal digital por internet), que es la que el SAT pide hoy.",
   },
   {
@@ -575,7 +553,7 @@ const FAQS: Faq[] = [
   {
     q: "¿Qué es la factura global y por qué tengo que emitirla?",
     grupo: "Tus tiendas y la factura global",
-    a: "Es una sola factura que junta las ventas de un periodo que nadie pidió facturar, por ejemplo las de tu mostrador o las de tu tienda en línea. El SAT te pide emitirla. En T1 se arma una por cada lugar donde vendes: tu tienda en línea, cada marketplace y tu mostrador. En el plan Gratis la emites tú con un botón; en el plan Básico se emite sola cada día o a fin de mes, como tú elijas.",
+    a: "Es una sola factura que junta las ventas de un periodo por las que nadie pidió factura, por ejemplo las de tu mostrador o las de tu tienda en línea. El SAT te pide emitirla. En T1 se arma una por cada lugar donde vendes: tu tienda en línea, cada marketplace y tu mostrador. La emites tú con un botón o, si tu plan lo incluye, se emite sola cada día o a fin de mes, como tú elijas.",
   },
   {
     q: "¿Se factura sola la global de mis ventas en Mercado Libre, Amazon o TikTok Shop?",
@@ -584,29 +562,29 @@ const FAQS: Faq[] = [
   },
   {
     q: "Un cliente me pidió factura de una venta. ¿Qué pasa con la global?",
-    a: "Si la global de ese periodo todavía no se emite, le haces su factura con sus datos y esa venta ya no entra en la global. Si la global ya se emitió, con un botón T1 saca esa venta de la global con una nota de crédito y hace la factura de tu cliente, sin cancelar nada. En ningún caso la venta se factura dos veces. En el segundo caso, la nota de crédito y la factura cuentan dentro de tus 25 facturas del plan Gratis.",
+    a: "Si la global de ese periodo todavía no se emite, le haces su factura con sus datos y esa venta ya no entra en la global. Si la global ya se emitió, con un botón T1 saca esa venta de la global con una nota de crédito y hace la factura de tu cliente, sin cancelar nada. En ningún caso la venta se factura dos veces. En el segundo caso, la nota de crédito y la factura nueva cuentan dentro de tus 25 facturas gratis del mes.",
   },
   {
-    q: "Ya vendo en Mercado Libre y Mercado Libre me factura. ¿Para qué quiero T1 Finanzas?",
-    a: "Porque en T1 facturas en un solo lugar lo que vendes en Mercado Libre, Amazon, tu tienda en línea y tu mostrador, no solo lo de Mercado Libre. Cada uno tiene su factura global, y desde el mismo lugar emites notas de crédito, cancelaciones y recibos de pago. Si vendes en Mercado Libre y en algún otro lado, aquí dejas de facturar en varias partes.",
+    q: "Ya facturo con la herramienta de Mercado Libre. ¿Para qué quiero T1 Finanzas?",
+    a: "Porque en T1 facturas en un solo lugar lo que vendes en Mercado Libre, Amazon, tu tienda en línea y tu mostrador, no solo lo de Mercado Libre. Cada tienda y marketplace tiene su propia factura global, y desde el mismo lugar emites notas de crédito, cancelaciones y recibos de pago. Si vendes en Mercado Libre y en algún otro lado, aquí dejas de facturar en varias partes.",
   },
 
   /* ── Seguridad y validez ── */
   {
     q: "¿Mis facturas son válidas ante el SAT?",
     grupo: "Seguridad y validez",
-    a: "Sí. Cada factura se registra ante el SAT a través de un proveedor autorizado. A eso se le llama timbrar. Solo te decimos que tu factura está lista cuando ya tiene su timbre, el sello que la hace válida ante el SAT.",
+    a: "Sí. Cada factura se registra ante el SAT a través de un proveedor autorizado. A eso se le llama timbrar. Solo te decimos que tu factura está lista cuando ya tiene su timbre, que es lo que la hace válida ante el SAT.",
   },
   {
     q: "¿Dónde se guardan mis facturas y mi sello digital?",
-    a: "Tus facturas quedan en la cuenta de tu negocio, con su XML, el archivo que te pide tu contador, y su PDF, para descargarlas cuando las necesites. Tu sello se guarda protegido y nadie de T1 puede verlo.",
+    a: "Tus facturas quedan guardadas en la cuenta de tu negocio con su PDF y su XML, el archivo que usa tu contador. Las descargas cuando las necesites.",
   },
 
   /* ── Lo que no hace ── */
   {
     q: "¿Puede entrar mi contador?",
     grupo: "Lo que no hace",
-    a: "Por ahora tu contador no entra a la plataforma. Tú descargas los XML y los PDF del mes y se los mandas, y él los usa como siempre.",
+    a: "Por ahora no. Descargas los XML y los PDF del mes, se los mandas y tu contador trabaja con ellos como siempre.",
   },
   {
     q: "¿T1 Finanzas hace mi contabilidad o mis declaraciones?",
@@ -621,8 +599,8 @@ const FAQS: Faq[] = [
     a: "Todavía no. Por ahora T1 Finanzas factura en pesos y a clientes en México.",
   },
   {
-    q: "¿Qué negocios no puede facturar T1 Finanzas?",
-    a: "Tabaco, combustibles, autos y motos nuevos, casas de apuestas, partidos políticos y donatarias, por sus reglas fiscales especiales. Tampoco emite nómina ni carta porte, que son otros productos. Te lo decimos desde el alta, no a la mitad del camino.",
+    q: "¿Qué negocios no pueden usar T1 Finanzas todavía?",
+    a: "Tabaco, combustibles, autos y motos nuevos, casas de apuestas, partidos políticos y asociaciones que reciben donativos deducibles, por sus reglas fiscales especiales. Tampoco emite nómina ni carta porte, que son otro tipo de factura. Te lo decimos desde el alta, no a la mitad del camino.",
   },
 ];
 

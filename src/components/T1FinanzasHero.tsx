@@ -34,7 +34,7 @@ const ROWS: Row[] = [
   { tipo: "global", cliente: "Factura global", canal: "Mercado Libre", logo: "/img/meli-iso.svg", total: 18340.0, detalle: "63 ventas sin factura pedida" },
   { tipo: "individual", cliente: "Distribuidora del Norte", canal: "Amazon", logo: "/img/amazon-iso.svg", total: 9650.0, detalle: "Pedido #A-7731" },
   { tipo: "global", cliente: "Factura global", canal: "TikTok Shop", logo: "/img/tiktokshop.svg", total: 7215.8, detalle: "41 ventas sin factura pedida" },
-  { tipo: "individual", cliente: "Venta de mostrador", canal: "Capturada", total: 1290.0, detalle: "En cuatro pasos" },
+  { tipo: "individual", cliente: "Venta de mostrador", canal: "Efectivo", total: 1290.0, detalle: "Hoy" },
 ];
 
 const fmt = (n: number) =>
@@ -160,22 +160,22 @@ export default function T1FinanzasHero() {
                 className="font-sora text-[34px] font-light leading-[1.1] text-white tablet:text-[52px] desktop:text-[54px]"
                 style={{ letterSpacing: "-0.03em" }}
               >
-                Tu facturación,
+                Vende y factura
                 <br />
-                fácil y automática
+                en el mismo lugar
               </h1>
               <p className="mt-4 max-w-[480px] font-inter text-[15px] font-light leading-[1.55] text-white/80 tablet:text-[17px]">
-                Tus pedidos de T1 Tienda llegan listos para facturar, y con el plan Básico se
-                facturan solos. Lo que vendes en mostrador, en cuatro pasos.
+                Tus pedidos de Mercado Libre, Amazon, TikTok Shop y más llegan listos para
+                facturar en un clic.
               </p>
               <a
                 href={SIGNUP_URL}
                 data-cta-location="hero"
-                data-cta-text="Empieza a facturar gratis"
+                data-cta-text="Comienza gratis"
                 data-cta-destination={SIGNUP_URL}
                 className="mt-8 hidden h-[52px] items-center justify-center gap-2 rounded-[16px] bg-red-500 px-8 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-red-600 tablet:inline-flex"
               >
-                Empieza a facturar gratis
+                Comienza gratis
                 {ArrowRight}
               </a>
             </div>
@@ -194,11 +194,11 @@ export default function T1FinanzasHero() {
             <a
               href={SIGNUP_URL}
               data-cta-location="hero"
-              data-cta-text="Empieza a facturar gratis"
+              data-cta-text="Comienza gratis"
               data-cta-destination={SIGNUP_URL}
               className="mt-1 inline-flex h-[52px] items-center justify-center gap-2 justify-self-center rounded-[16px] bg-red-500 px-8 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-red-600 tablet:hidden"
             >
-              Empieza a facturar gratis
+              Comienza gratis
               {ArrowRight}
             </a>
           </div>

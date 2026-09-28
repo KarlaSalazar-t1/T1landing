@@ -91,7 +91,7 @@ function SelloScreen() {
 
       <div className="mt-3 flex flex-col gap-2">
         <Campo label="Certificado" value="00001000000512345678.cer" check />
-        <Campo label="Llave privada" value="Claveprivada_FIEL.key" check />
+        <Campo label="Llave privada" value="Clave_privada_CSD.key" check />
         <Campo label="Contraseña" value="••••••••••" check />
       </div>
 
@@ -172,9 +172,9 @@ const FRAME_STEP = [0, 1, 2, 2];
 const STEP_FIRST = [0, 1, 2];
 
 const STEPS = [
-  { n: "1", title: "Da de alta tu RFC", desc: "El de tu negocio. Puedes agregar hasta 3 en la misma cuenta gratis." },
-  { n: "2", title: "Sube tu sello digital", desc: "Con una guía en video. Si no lo tienes, te decimos cómo sacarlo." },
-  { n: "3", title: "Firma el permiso del SAT", desc: "El que pide para que un sistema emita facturas a tu nombre. Una sola vez." },
+  { n: "1", title: "Da de alta tu RFC", desc: "Usa el RFC de tu negocio." },
+  { n: "2", title: "Sube tu sello digital", desc: "Te guiamos con un video. Si no lo tienes, te decimos cómo sacarlo." },
+  { n: "3", title: "Firma el permiso del SAT", desc: "Lo firmas una sola vez." },
 ];
 
 export default function T1FinanzasAlta() {
@@ -243,7 +243,7 @@ export default function T1FinanzasAlta() {
             En tres pasos ya estás facturando
           </h2>
           <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:whitespace-nowrap tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-            Solo tu RFC y tu sello digital, los archivos que el SAT te da para firmar.
+            Solo necesitas tu RFC y tu sello digital.
           </p>
         </div>
 
@@ -317,28 +317,22 @@ export default function T1FinanzasAlta() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center gap-5">
+        {/* PENDIENTE (Jurídico): la línea "tu sello se guarda protegido" salió
+            de la página hasta que el texto coincida con los términos y
+            condiciones. */}
+        <div className="mt-12 flex justify-center">
           <a
             href={SIGNUP_URL}
-            data-cta-text="Empieza a facturar gratis"
+            data-cta-text="Comienza gratis"
             data-cta-destination={SIGNUP_URL}
             data-cta-section="alta"
             className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]"
           >
-            Empieza a facturar gratis
+            Comienza gratis
             <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
               <path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </a>
-
-          {/* PENDIENTE (Jurídico): este texto tiene que decir lo mismo que los
-              términos y condiciones antes de publicar. */}
-          <p className="flex items-center gap-2.5 text-center font-inter text-[13.5px] font-light text-white/45">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" className="shrink-0">
-              <path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-            </svg>
-            Tu sello se guarda protegido y nadie de T1 puede verlo.
-          </p>
         </div>
       </div>
     </section>

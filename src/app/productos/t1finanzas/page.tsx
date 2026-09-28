@@ -17,9 +17,9 @@ import T1Footer from "@/components/T1Footer";
 import { SIGNUP_URL } from "@/lib/constants";
 
 export const metadata = {
-  title: "T1 Finanzas · Tu facturación, fácil y automática",
+  title: "T1 Finanzas · Vende y factura en el mismo lugar",
   description:
-    "La facturación de T1. Si vendes con T1 Tienda, tus pedidos de Mercado Libre, Amazon y tu tienda en línea llegan listos para facturar en un clic. Lo que vendes en mostrador o por WhatsApp lo facturas en cuatro pasos. 25 facturas gratis al mes por negocio.",
+    "La facturación de T1. Tus pedidos de Mercado Libre, Amazon, TikTok Shop y más llegan listos para facturar en un clic, y lo que vendes en mostrador lo capturas en cuatro pasos. Comienza gratis con 25 facturas al mes por negocio.",
 };
 
 export default function FinanzasLanding() {
@@ -44,7 +44,7 @@ export default function FinanzasLanding() {
         <T1FinanzasCanales />
         {/* 4 · Por tipo de negocio — cada tarjeta llevará a su sublanding */}
         <T1FinanzasPorNegocio />
-        {/* 5 · Factura, cancela y corrige: los cinco documentos */}
+        {/* 5 · Lo que haces después de facturar: nota de crédito, cancelar, recibo */}
         <T1FinanzasDocumentos />
         {/* 6 · Planes — empieza gratis con 25 facturas al mes.
             "Nuestros números" salió: Finanzas todavía no tiene números
@@ -58,14 +58,14 @@ export default function FinanzasLanding() {
       </div>
 
       <T1FinalCTA
-        title={<>Empieza a facturar gratis desde hoy</>}
-        description="Vendes, cobras, envías y ahora facturas desde un solo lugar. 25 facturas gratis al mes, sin tarjeta."
-        buttonLabel="Crea tu cuenta gratis"
+        title={<>Factura gratis desde hoy</>}
+        description="Con T1 vendes, cobras, envías y ahora facturas desde un solo lugar."
+        buttonLabel="Comienza gratis"
       />
 
       <T1Footer />
 
-      <T1StickyCTA label="Empieza a facturar gratis" href={SIGNUP_URL} section="sticky_mobile" />
+      <T1StickyCTA label="Comienza gratis" href={SIGNUP_URL} section="sticky_mobile" />
       <T1EnviosAnalytics />
     </main>
   );

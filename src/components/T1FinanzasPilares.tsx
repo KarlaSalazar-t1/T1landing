@@ -20,6 +20,18 @@ const FONT = "var(--font-inter), 'Inter', sans-serif";
 /* Ventana de producto — tarjeta blanca, mismo cromo que el panel del hero. */
 const ALTO_VENTANA = 450;
 
+/* Disponibilidad por plan. Los planes se explican en su sección; aquí solo se
+   avisa que esa función es de pago. Va como frase completa y en gris: un chip
+   rojo en mayúsculas se leía como etiqueta sin sentido, y el rojo es el color
+   de lo que sí puedes hacer. */
+function DisponibleEn({ planes }: { planes: string }) {
+  return (
+    <span className="mt-4 inline-flex items-center rounded-full border border-white/[0.10] bg-white/[0.04] px-3.5 py-1.5 font-inter text-[12.5px] font-light text-white/50">
+      Disponible en los planes {planes}
+    </span>
+  );
+}
+
 function AppWindow({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div
@@ -332,10 +344,10 @@ function ClavePanel() {
 const ITEMS = [
   {
     id: "pedido",
-    label: "Un pedido, un clic",
+    label: "Pedidos en línea",
     title: "Factura un pedido en un clic",
     description:
-      "El pedido ya está aquí con sus productos y montos. Agregas los datos de tu cliente, revisas la factura y la emites.",
+      "Llega con sus productos y montos, y con los datos de tu cliente si ya te compró antes.",
     Panel: PedidoPanel,
   },
   {
@@ -343,7 +355,8 @@ const ITEMS = [
     label: "Factura global",
     title: "La factura global de cada tienda, sin Excel",
     description:
-      "Junta las ventas de quienes no pidieron factura, una por cada lugar donde vendes. En el plan Gratis la emites con un botón; en el plan Básico se emite sola.",
+      "La factura global junta las ventas de quienes no pidieron factura, una por cada lugar donde vendes. La emites con un botón o se emite sola.",
+    plan: "Básico y Avanzado",
     Panel: GlobalPanel,
   },
   {
@@ -351,7 +364,7 @@ const ITEMS = [
     label: "Mostrador y WhatsApp",
     title: "Tus ventas de mostrador, en cuatro pasos",
     description:
-      "Respondes a quién le vendiste, qué vendiste y cómo te pagaron, y ves la factura antes de emitirla. Sirve igual para lo que le vendes a una empresa.",
+      "A quién le vendiste, qué vendiste y cómo te pagaron. Revisas la factura y la emites.",
     Panel: MostradorPanel,
   },
   {
@@ -359,7 +372,7 @@ const ITEMS = [
     label: "Clave de producto",
     title: "Te sugerimos la clave de producto del SAT",
     description:
-      "El SAT tiene 52,513 claves y no tienes que buscar la tuya. Te sugerimos la que mejor le queda a lo que vendes; tú la apruebas y la puedes cambiar.",
+      "El SAT tiene 52,513 claves y no tienes que buscar la tuya. Tú apruebas la que te sugerimos, y la puedes cambiar antes de emitir la factura.",
     Panel: ClavePanel,
   },
 ];
@@ -424,7 +437,7 @@ export default function T1FinanzasPilares() {
             className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
             style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}
           >
-            Así facturas todo lo que vendes
+            Tus ventas en línea y de mostrador, en un solo lugar
           </h2>
         </div>
 
@@ -479,6 +492,9 @@ export default function T1FinanzasPilares() {
             <p className="mx-auto font-inter text-[15px] font-light leading-relaxed text-white/60 tablet:mx-0 tablet:text-[17px]" style={{ maxWidth: 420 }}>
               {it.description}
             </p>
+            {"plan" in it && (it as { plan?: string }).plan ? (
+              <DisponibleEn planes={(it as { plan?: string }).plan as string} />
+            ) : null}
             <div className="mx-auto mt-auto h-[3px] w-full max-w-[420px] overflow-hidden rounded-full tablet:mx-0" style={{ background: "rgba(255,255,255,0.10)" }}>
               <div
                 style={{
