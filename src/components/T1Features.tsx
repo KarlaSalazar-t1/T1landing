@@ -11,6 +11,7 @@ import { useIsDesktop } from "@/hooks/useIsDesktop";
 import { useCountUp } from "@/hooks/useCountUp";
 import { SIGNUP_URL } from "@/lib/constants";
 import HeroBackground from "@/components/HeroBackground";
+import TiendaPromptBox from "@/components/TiendaPromptBox";
 import T1FinalCTA from "@/components/T1FinalCTA";
 import StoreShowcase from "@/components/StoreShowcase";
 import TodoIncluidoDark from "@/components/TodoIncluidoDark";
@@ -555,8 +556,10 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                     vender, cobrar y enviar.
                   </p>
 
-                  {/* Prompt input — self-contained typing loop (see HeroPromptInput) */}
-                  <HeroPromptInput />
+                  {/* Prompt input — MISMO componente que el hero de la landing de Tienda */}
+                  <div className="w-full max-w-[560px]">
+                    <TiendaPromptBox pageContext="tienda_ia" />
+                  </div>
                 </div>
               ) : (
                 <>

@@ -140,26 +140,6 @@ function FacturasPanel() {
   );
 }
 
-/* Prueba social — Finanzas no tiene tracción todavía, así que la banda son
-   las tres cifras aprobadas del producto (52,513 · 25 · 3), no métricas de uso. */
-function SocialProof() {
-  return (
-    <div className="flex flex-col items-center gap-2.5 text-center tablet:gap-3.5">
-      <span className="font-inter text-[19px] font-normal text-white tablet:text-[24px]">
-        25 facturas gratis al mes, por negocio
-      </span>
-      <div className="flex items-center gap-6 tablet:gap-12">
-        <span className="font-inter text-[15px] font-normal text-white/75 tablet:text-[18px]">
-          52,513 claves del SAT
-        </span>
-        <span className="font-inter text-[15px] font-normal text-white/75 tablet:text-[18px]">
-          Hasta 3 negocios
-        </span>
-      </div>
-    </div>
-  );
-}
-
 const ArrowRight = (
   <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
     <path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
@@ -171,7 +151,7 @@ export default function T1FinanzasHero() {
     <div className="relative overflow-hidden">
       <HeroBackground fadeHeight={340} />
 
-      <section className="relative z-10 flex min-h-[78svh] flex-col justify-center px-5 pb-16 pt-24 tablet:min-h-[84svh] tablet:px-6 tablet:pb-20 tablet:pt-28">
+      <section className="relative z-10 flex min-h-[78svh] flex-col justify-center px-5 pb-20 pt-36 tablet:min-h-[84svh] tablet:px-6 tablet:pb-24 tablet:pt-44">
         <div className="mx-auto flex w-full max-w-[var(--max-w)] flex-col">
           <div className="grid grid-cols-1 items-center gap-8 tablet:grid-cols-2 tablet:gap-12">
             {/* Izquierda */}
@@ -221,10 +201,6 @@ export default function T1FinanzasHero() {
               Empieza a facturar gratis
               {ArrowRight}
             </a>
-          </div>
-
-          <div className="mt-10 tablet:mt-12">
-            <SocialProof />
           </div>
         </div>
       </section>

@@ -31,8 +31,9 @@ const Arrow = (
 
 /* ══════════ 1 · El problema ══════════
    Ni tabla comparativa ni tarjetas: una banda editorial. Las cuatro tareas de
-   hoy van tachadas en rojo, en tipografía grande y una debajo de otra, y una
-   sola línea cierra con lo que cambia. */
+   hoy se van tachando una por una cuando la sección entra en pantalla, y una
+   sola línea cierra con lo que cambia. El tachado es una línea propia (no
+   text-decoration) porque así se puede animar. */
 const TAREAS = [
   "Pasar tus ventas a Excel",
   "Buscar la clave de cada producto",
@@ -41,8 +42,31 @@ const TAREAS = [
 ];
 
 export function T1FinanzasProblema() {
+  const listaRef = useRef<HTMLUListElement>(null);
+  const [tachadas, setTachadas] = useState(false);
+
+  useEffect(() => {
+    const el = listaRef.current;
+    if (!el) return;
+    if (typeof IntersectionObserver === "undefined") {
+      setTachadas(true);
+      return;
+    }
+    const obs = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setTachadas(true);
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.45 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
   return (
-    <section className="relative overflow-hidden bg-black px-5 py-[88px] tablet:px-6 tablet:py-[130px]">
+    <section className="relative overflow-hidden bg-black px-5 pb-[88px] pt-[56px] tablet:px-6 tablet:pb-[130px] tablet:pt-[72px]">
       <div
         aria-hidden
         className="pointer-events-none absolute left-1/2 top-1/2 h-[460px] w-[820px] -translate-x-1/2 -translate-y-1/2 rounded-full"
@@ -56,14 +80,24 @@ export function T1FinanzasProblema() {
           Hoy facturar te cuesta medio día al mes
         </h2>
 
-        <ul className="mt-10 flex w-full max-w-[560px] flex-col tablet:mt-14">
-          {TAREAS.map((t) => (
+        <ul ref={listaRef} className="mt-10 flex w-full max-w-[560px] flex-col tablet:mt-14">
+          {TAREAS.map((t, i) => (
             <li
               key={t}
-              className="border-b border-white/[0.07] py-4 font-sora text-[19px] font-light text-white/35 last:border-b-0 tablet:py-5 tablet:text-[26px]"
-              style={{ textDecoration: "line-through", textDecorationColor: "rgba(219,59,43,0.85)", textDecorationThickness: 2 }}
+              className="border-b border-white/[0.07] py-4 last:border-b-0 tablet:py-5"
             >
-              {t}
+              <span className="relative inline-block font-sora text-[19px] font-light tablet:text-[26px]" style={{ color: tachadas ? "rgba(255,255,255,0.30)" : "rgba(255,255,255,0.62)", transition: `color 0.8s ease ${i * 380 + 200}ms` }}>
+                {t}
+                <span
+                  aria-hidden
+                  className="absolute left-0 top-1/2 h-[2px] w-full origin-left rounded-full"
+                  style={{
+                    background: "rgba(255,255,255,0.55)",
+                    transform: tachadas ? "scaleX(1)" : "scaleX(0)",
+                    transition: `transform 0.85s cubic-bezier(0.22,1,0.36,1) ${i * 380}ms`,
+                  }}
+                />
+              </span>
             </li>
           ))}
         </ul>
@@ -102,36 +136,66 @@ const CANAL_LOGOS = [
   { src: "/img/sears-isotipo.svg", alt: "Sears" },
 ];
 
+/* Los isotipos flotan alrededor del texto, como en "Actualizar cada canal a
+   mano" de la sublanding de marketplaces. Arriba y abajo en móvil, para que
+   nunca se encimen con el texto. */
+const DISPERSION_DESKTOP = [
+  { i: 0, l: "9%", t: "24%", s: 62, r: -8 },
+  { i: 1, l: "17%", t: "73%", s: 54, r: 7 },
+  { i: 2, l: "87%", t: "26%", s: 58, r: 8 },
+  { i: 3, l: "91%", t: "68%", s: 52, r: -7 },
+  { i: 4, l: "47%", t: "88%", s: 50, r: 4 },
+];
+const DISPERSION_MOVIL = [
+  { i: 0, l: "14%", t: "11%", s: 46, r: -8 },
+  { i: 4, l: "50%", t: "6%", s: 40, r: 5 },
+  { i: 2, l: "86%", t: "13%", s: 46, r: 8 },
+  { i: 1, l: "24%", t: "90%", s: 44, r: 7 },
+  { i: 3, l: "76%", t: "88%", s: 44, r: -6 },
+];
+
 export function T1FinanzasCanales() {
   return (
-    <section className="overflow-hidden bg-[#0e0d0d] px-5 py-[56px] tablet:px-6 tablet:py-[80px]">
-      <div className="mx-auto max-w-[900px] text-center">
+    <section className="relative flex min-h-[560px] items-center overflow-hidden bg-[#0e0d0d] px-5 py-[80px] tablet:min-h-[620px] tablet:px-10 tablet:py-[120px]">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+        style={{ width: 620, height: 620, borderRadius: "50%", background: "radial-gradient(circle, rgba(219,59,43,0.10) 0%, transparent 62%)" }}
+      />
+
+      {DISPERSION_DESKTOP.map(({ i, l, t, s: size, r }) => (
+        <Image
+          key={`d-${CANAL_LOGOS[i].alt}`}
+          src={CANAL_LOGOS[i].src}
+          alt={CANAL_LOGOS[i].alt}
+          width={size}
+          height={size}
+          className="pointer-events-none absolute hidden object-contain tablet:block"
+          style={{ left: l, top: t, width: size, height: size, transform: `translate(-50%, -50%) rotate(${r}deg)`, filter: "drop-shadow(0 14px 26px rgba(0,0,0,0.45))" }}
+        />
+      ))}
+
+      {DISPERSION_MOVIL.map(({ i, l, t, s: size, r }) => (
+        <Image
+          key={`m-${CANAL_LOGOS[i].alt}`}
+          src={CANAL_LOGOS[i].src}
+          alt={CANAL_LOGOS[i].alt}
+          width={size}
+          height={size}
+          className="pointer-events-none absolute object-contain tablet:hidden"
+          style={{ left: l, top: t, width: size, height: size, transform: `translate(-50%, -50%) rotate(${r}deg)`, filter: "drop-shadow(0 14px 26px rgba(0,0,0,0.45))" }}
+        />
+      ))}
+
+      <div className="relative mx-auto max-w-[620px] text-center">
         <h2
           className="mx-auto font-sora text-[28px] font-light text-white tablet:text-[42px]"
-          style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14, maxWidth: 820 }}
+          style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}
         >
           Si vendes con T1 Tienda, tus pedidos llegan solos
         </h2>
-        <p className="mx-auto font-inter text-[15px] font-light text-white/60 tablet:whitespace-nowrap tablet:text-[17px]" style={{ lineHeight: 1.55, marginBottom: 36 }}>
+        <p className="mx-auto font-inter text-[15px] font-light text-white/60 tablet:text-[17px]" style={{ lineHeight: 1.6, maxWidth: 520 }}>
           Mercado Libre, Amazon, Walmart, TikTok Shop y tu tienda en línea, sin conectar nada.
-        </p>
-
-        <div className="flex flex-wrap items-center justify-center gap-x-9 gap-y-6 tablet:gap-x-14">
-          {CANAL_LOGOS.map((l) => (
-            <Image
-              key={l.alt}
-              src={l.src}
-              alt={l.alt}
-              width={120}
-              height={60}
-              className="h-7 w-auto object-contain opacity-90 tablet:h-8"
-            />
-          ))}
-        </div>
-
-        <p className="mx-auto mt-8 font-inter text-[14px] font-light text-white/45 tablet:text-[15px]" style={{ maxWidth: 580 }}>
-          ¿También vendes en mostrador o por WhatsApp? Esas ventas las facturas aquí mismo, en cuatro
-          pasos.
         </p>
       </div>
     </section>
@@ -188,7 +252,7 @@ export function T1FinanzasPorNegocio() {
               className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
               style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 16, maxWidth: 420 }}
             >
-              Sirve si vendes en línea, en mostrador o a empresas
+              No importa dónde vendas, aquí facturas todo
             </h2>
             <p className="font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 380 }}>
               Elige cómo vendes tú y ve lo que T1 Finanzas hace por ti.
@@ -254,22 +318,74 @@ export function T1FinanzasPorNegocio() {
   );
 }
 
-/* ══════════ 4 · Lo que puedes emitir ══════════ */
+/* ══════════ 4 · Lo que puedes emitir ══════════
+   Mismo patrón que "Elegir cada paquetería a mano cuesta tiempo y dinero" de
+   Reglas de envío: título centrado y una fila de tarjetas con icono que se
+   acomodan solas. */
 const DOCUMENTOS = [
-  { title: "Factura", desc: "Para la venta que un cliente te pide facturar, pagada al momento o a crédito." },
-  { title: "Factura global", desc: "Junta en una sola factura las ventas de quienes no pidieron la suya, como te lo pide el SAT." },
-  { title: "Nota de crédito", desc: "Para una devolución o un descuento sobre una venta que ya facturaste." },
-  { title: "Cancelar o corregir", desc: "Para la factura que salió mal: la cancelas o la cambias por una nueva." },
-  { title: "Recibo de pago", desc: "La factura de cada pago que te hacen en una venta a crédito. Es lo que tu contador llama complemento de pago." },
+  {
+    title: "Factura",
+    desc: "Para la venta que un cliente te pide facturar, pagada al momento o a crédito.",
+    icon: (
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+        <path d="M6 3.5h8l4 4v13H6v-17z" stroke="#FFFFFF" strokeWidth="1.6" strokeLinejoin="round" />
+        <path d="M13.6 3.5V8h4.4" stroke="#FFFFFF" strokeWidth="1.5" strokeLinejoin="round" />
+        <path d="M9 12.5h6M9 16h4" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
+    title: "Factura global",
+    desc: "Junta en una sola factura las ventas de quienes no pidieron la suya, como te lo pide el SAT.",
+    icon: (
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+        <path d="M8 6.5h8l3 3v11H8v-14z" stroke="#FFFFFF" strokeWidth="1.6" strokeLinejoin="round" />
+        <path d="M5 17V3.5h8" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M11 13.5h5" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
+    title: "Nota de crédito",
+    desc: "Para una devolución o un descuento sobre una venta que ya facturaste.",
+    icon: (
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+        <path d="M6 3.5h8l4 4v13H6v-17z" stroke="#FFFFFF" strokeWidth="1.6" strokeLinejoin="round" />
+        <path d="M9 13.5h6" stroke="#FFFFFF" strokeWidth="1.7" strokeLinecap="round" />
+        <path d="M11.5 11l-2.5 2.5L11.5 16" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ),
+  },
+  {
+    title: "Cancelar o corregir",
+    desc: "Para la factura que salió mal: la cancelas o la cambias por una nueva.",
+    icon: (
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+        <path d="M20 12a8 8 0 1 1-2.6-5.9" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" />
+        <path d="M20 4v4.2h-4.2" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M10 10l4 4m0-4l-4 4" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
+    title: "Recibo de pago",
+    desc: "La factura de cada pago que te hacen en una venta a crédito. Es lo que tu contador llama complemento de pago.",
+    icon: (
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+        <path d="M5 3.5h14v17l-2.3-1.6-2.3 1.6-2.4-1.6L9.6 20.5 7.3 18.9 5 20.5v-17z" stroke="#FFFFFF" strokeWidth="1.6" strokeLinejoin="round" />
+        <path d="M9 9.5l2 2 4-4" stroke="#FFFFFF" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ),
+  },
 ];
 
 export function T1FinanzasDocumentos() {
   return (
-    <section className="overflow-hidden bg-[#0e0d0d] px-5 py-[56px] tablet:px-6 tablet:py-[80px]">
-      <div className="mx-auto max-w-[820px]">
-        <div className="text-center" style={{ marginBottom: 32 }}>
+    <section className="overflow-hidden bg-black px-5 py-[72px] tablet:px-6 tablet:py-[110px]">
+      <div className="mx-auto max-w-[var(--max-w)]">
+        <div className="mx-auto max-w-[940px] text-center" style={{ marginBottom: 48 }}>
           <h2
-            className="font-sora text-[28px] font-light text-white tablet:text-[40px]"
+            className="font-sora text-[28px] font-light text-white tablet:whitespace-nowrap tablet:text-[42px]"
             style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}
           >
             Factura, cancela y corrige en un solo lugar
@@ -279,21 +395,22 @@ export function T1FinanzasDocumentos() {
           </p>
         </div>
 
-        <ul className="mx-auto flex max-w-[720px] flex-col">
+        <div className="flex flex-wrap justify-center gap-5">
           {DOCUMENTOS.map((d) => (
-            <li
+            <div
               key={d.title}
-              className="flex items-start gap-3.5 border-b border-white/[0.07] py-4 last:border-b-0 tablet:items-center tablet:gap-4"
+              className="w-full max-w-[300px] rounded-[18px] border border-white/[0.08] bg-[#141215] p-8 transition-all duration-300 hover:-translate-y-1 hover:border-white/20"
             >
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" className="mt-[3px] shrink-0 tablet:mt-0">
-                <path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              <p className="font-inter text-[14.5px] font-light leading-[1.55] text-white/55 tablet:text-[15.5px]">
-                <span className="font-medium text-white">{d.title}.</span> {d.desc}
+              <div style={{ marginBottom: 24 }}>{d.icon}</div>
+              <h3 className="font-sora text-[18px] font-normal text-white" style={{ marginBottom: 8 }}>
+                {d.title}
+              </h3>
+              <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.6 }}>
+                {d.desc}
               </p>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
     </section>
   );
@@ -310,9 +427,10 @@ const PLAN_ROWS = [
 
 export function T1FinanzasPlanes() {
   return (
-    <section className="bg-black px-5 py-[56px] tablet:px-6 tablet:py-[88px]">
-      <div className="mx-auto max-w-[var(--max-w)]">
-        <div className="grid grid-cols-1 gap-8 tablet:grid-cols-2 tablet:items-center tablet:gap-16">
+    <section className="bg-[#0e0d0d] px-5 py-[56px] tablet:px-6 tablet:py-[88px]">
+      {/* El par texto + tabla va centrado en la sección, no pegado a la izquierda. */}
+      <div className="mx-auto max-w-[980px]">
+        <div className="grid grid-cols-1 gap-8 tablet:grid-cols-[minmax(0,0.85fr)_minmax(0,1fr)] tablet:items-center tablet:gap-14">
           <div className="text-left">
             <h2
               className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
@@ -320,7 +438,7 @@ export function T1FinanzasPlanes() {
             >
               25 facturas gratis al mes, sin tarjeta
             </h2>
-            <p className="font-inter text-[15px] font-light text-white/60 tablet:text-[17px]" style={{ lineHeight: 1.55, maxWidth: 420, marginBottom: 24 }}>
+            <p className="font-inter text-[15px] font-light text-white/60 tablet:text-[17px]" style={{ lineHeight: 1.55, maxWidth: 360, marginBottom: 24 }}>
               Y hasta 3 negocios en la misma cuenta. Con los planes Básico y Avanzado facturas
               sin límite.
             </p>

@@ -422,13 +422,10 @@ export default function T1FinanzasPilares() {
         <div className="mx-auto max-w-[760px] text-center" style={{ marginBottom: 36 }}>
           <h2
             className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
-            style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}
+            style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}
           >
             Así facturas todo lo que vendes
           </h2>
-          <p className="mx-auto font-inter text-[16px] font-light text-white/60 tablet:whitespace-nowrap tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-            Tus ventas en línea llegan listas. Las de mostrador, en cuatro pasos.
-          </p>
         </div>
 
         {/* Pestañas — una sola fila; en móvil se deslizan */}
