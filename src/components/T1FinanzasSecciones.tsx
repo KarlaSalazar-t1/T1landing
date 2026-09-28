@@ -52,14 +52,14 @@ export function T1FinanzasProblema() {
       setTachadas(true);
       return;
     }
+    // Se tacha al entrar y se rearma cuando la lista sale por completo de la
+    // pantalla, para que la animación vuelva a correr si subes y bajas.
     const obs = new IntersectionObserver(
       ([e]) => {
-        if (e.isIntersecting) {
-          setTachadas(true);
-          obs.disconnect();
-        }
+        if (e.intersectionRatio >= 0.45) setTachadas(true);
+        else if (e.intersectionRatio === 0) setTachadas(false);
       },
-      { threshold: 0.45 }
+      { threshold: [0, 0.45] }
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -212,22 +212,22 @@ export function T1FinanzasCanales() {
    frecuente de su tema, que se abre sola al llegar por la liga. */
 const NEGOCIOS = [
   {
-    title: "Vendes en marketplaces",
+    title: "Marketplaces",
     desc: "La factura global de Mercado Libre, Amazon o TikTok Shop, sin Excel. Con el plan Básico, la de cada uno se emite sola.",
     href: "/productos/t1finanzas#faq-global-marketplaces",
   },
   {
-    title: "Tienes tienda en línea",
+    title: "Tienda en línea",
     desc: "Cada pedido, su factura en un clic, con los datos ya puestos. Los de tu cliente se guardan la primera vez que le facturas.",
     href: "/productos/t1finanzas#faq-ya-uso-t1-tienda",
   },
   {
-    title: "Vendes en mostrador",
+    title: "Mostrador",
     desc: "Factura tus ventas sin pagar por un sistema para facturar: 25 facturas gratis cada mes, sin tarjeta.",
     href: "/productos/t1finanzas#faq-venta-fuera-de-t1",
   },
   {
-    title: "Le vendes a empresas",
+    title: "Ventas a empresas",
     desc: "Facturas a crédito, haces el recibo de cada pago que te hacen y resuelves devoluciones con una nota de crédito.",
     href: "/productos/t1finanzas#faq-recibos-de-pago",
   },
