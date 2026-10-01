@@ -36,9 +36,9 @@ const COLS = "68px minmax(0,1.1fr) minmax(0,1fr) 88px 78px";
 
 function PanelFacturacion() {
   return (
-    <VentanaApp className="max-w-[560px]">
-      <div className="px-5 pb-5 pt-4">
-        <div className="flex items-center justify-between gap-4">
+    <VentanaApp className="max-w-[560px]" cromo="escritorio">
+      <div className="px-4 pb-4 pt-3.5 tablet:px-5 tablet:pb-5 tablet:pt-4">
+        <div className="flex items-center justify-between gap-3">
           <p className="font-bold" style={{ fontSize: 15, color: UI.texto }}>
             Facturación
           </p>
@@ -46,8 +46,9 @@ function PanelFacturacion() {
         </div>
 
         <div className="mt-3.5 overflow-hidden rounded-[10px] border" style={{ borderColor: UI.borde }}>
+          {/* Escritorio: la tabla con sus cinco columnas. */}
           <div
-            className="grid items-center border-b px-3.5 py-2"
+            className="hidden items-center border-b px-3.5 py-2 tablet:grid"
             style={{ gridTemplateColumns: COLS, borderColor: UI.bordeSuave, background: "#FBFBFA" }}
           >
             {["Fecha", "Documento", "Receptor", "Total", "Estado"].map((h, i) => (
@@ -62,26 +63,47 @@ function PanelFacturacion() {
           </div>
 
           {FILAS.map((f) => (
-            <div
-              key={f.tipo + f.fecha}
-              className="grid items-center border-b px-3.5 py-3 last:border-b-0"
-              style={{ gridTemplateColumns: COLS, borderColor: UI.bordeSuave }}
-            >
-              <span style={{ fontSize: 10, color: UI.tenue }}>{f.fecha}</span>
-              <span className="min-w-0 pr-2 font-medium" style={{ fontSize: 11, color: UI.texto }}>
-                {f.tipo}
-              </span>
-              <span className="min-w-0 truncate pr-2" style={{ fontSize: 11, color: UI.suave }}>
-                {f.receptor}
-              </span>
-              <span className="text-right font-semibold" style={{ fontSize: 11, color: UI.texto }}>
-                {f.total}
-              </span>
-              <span>
-                <Chip size={9} tono={f.tono}>
-                  {f.estado}
-                </Chip>
-              </span>
+            <div key={f.tipo + f.fecha} className="border-b last:border-b-0" style={{ borderColor: UI.bordeSuave }}>
+              {/* Escritorio */}
+              <div className="hidden items-center px-3.5 py-3 tablet:grid" style={{ gridTemplateColumns: COLS }}>
+                <span style={{ fontSize: 10, color: UI.tenue }}>{f.fecha}</span>
+                <span className="min-w-0 pr-2 font-medium" style={{ fontSize: 11, color: UI.texto }}>
+                  {f.tipo}
+                </span>
+                <span className="min-w-0 truncate pr-2" style={{ fontSize: 11, color: UI.suave }}>
+                  {f.receptor}
+                </span>
+                <span className="text-right font-semibold" style={{ fontSize: 11, color: UI.texto }}>
+                  {f.total}
+                </span>
+                <span className="text-right">
+                  <Chip size={9} tono={f.tono}>
+                    {f.estado}
+                  </Chip>
+                </span>
+              </div>
+
+              {/* Móvil: dos renglones por factura, sin columnas que se corten. */}
+              <div className="flex items-center gap-3 px-3.5 py-2.5 tablet:hidden">
+                <span className="min-w-0 flex-1 leading-tight">
+                  <span className="block truncate font-medium" style={{ fontSize: 11.5, color: UI.texto }}>
+                    {f.tipo}
+                  </span>
+                  <span className="block truncate" style={{ fontSize: 10, color: UI.tenue }}>
+                    {f.receptor} · {f.fecha}
+                  </span>
+                </span>
+                <span className="shrink-0 text-right leading-tight">
+                  <span className="block font-semibold" style={{ fontSize: 11.5, color: UI.texto }}>
+                    {f.total}
+                  </span>
+                  <span className="mt-1 block">
+                    <Chip size={9} tono={f.tono}>
+                      {f.estado}
+                    </Chip>
+                  </span>
+                </span>
+              </div>
             </div>
           ))}
         </div>

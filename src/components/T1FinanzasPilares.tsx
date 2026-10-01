@@ -47,12 +47,12 @@ const PEDIDOS = [
 
 function PanelPedidos() {
   return (
-    <VentanaApp alto={ALTO_PANEL}>
+    <VentanaApp alto={ALTO_PANEL} cromo="escritorio">
       <div className="px-5 pb-5 pt-4">
-        <div className="flex items-start justify-between gap-4">
-          <div>
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
             <p className="font-bold" style={{ fontSize: 15, color: UI.texto }}>Pedidos</p>
-            <p className="mt-0.5" style={{ fontSize: 10.5, color: UI.suave, lineHeight: 1.45, maxWidth: 230 }}>
+            <p className="mt-0.5" style={{ fontSize: 10.5, color: UI.suave, lineHeight: 1.45, maxWidth: 200 }}>
               Las ventas de todos tus canales, en una sola lista.
             </p>
           </div>
@@ -86,7 +86,7 @@ const FRECUENCIAS = ["Diario", "Semanal", "Quincenal", "Mensual · recomendada",
 
 function PanelGlobal() {
   return (
-    <VentanaApp alto={ALTO_PANEL}>
+    <VentanaApp alto={ALTO_PANEL} cromo="escritorio">
       <div className="px-5 pb-5 pt-4">
         <p className="font-semibold uppercase" style={{ fontSize: 8.5, letterSpacing: "0.09em", color: UI.tenue }}>Facturación</p>
         <p className="mt-1 font-bold" style={{ fontSize: 15, color: UI.texto }}>Factura global</p>
@@ -240,7 +240,7 @@ function PanelAsistente() {
   const visible = Math.min(paso, 3);
 
   return (
-    <VentanaApp alto={ALTO_PANEL}>
+    <VentanaApp alto={ALTO_PANEL} cromo="escritorio">
       <div className="px-5 pb-5 pt-4">
         <div className="flex items-center gap-2">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke={UI.suave} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -297,7 +297,7 @@ function PanelClave() {
   const hayResultados = paso >= 1;
 
   return (
-    <VentanaApp alto={ALTO_PANEL}>
+    <VentanaApp alto={ALTO_PANEL} cromo="escritorio">
       <div className="px-5 pb-5 pt-4">
         <div className="flex items-center justify-between">
           <p className="font-bold" style={{ fontSize: 14.5, color: UI.texto }}>Encontrar la clave del SAT</p>
@@ -452,6 +452,19 @@ export default function T1FinanzasPilares() {
     fila.scrollTo({ left: Math.max(0, destino), behavior: "smooth" });
   }, [active]);
 
+  // Deslizar en el panel cambia de pestaña, como en el carrusel de Envíos.
+  const toqueX = useRef<number | null>(null);
+  const onTouchStart = (e: React.TouchEvent) => {
+    toqueX.current = e.touches[0].clientX;
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (toqueX.current == null) return;
+    const dx = e.changedTouches[0].clientX - toqueX.current;
+    toqueX.current = null;
+    if (Math.abs(dx) < 40) return;
+    setActive((a) => (dx < 0 ? (a + 1) % ITEMS.length : (a - 1 + ITEMS.length) % ITEMS.length));
+  };
+
   const it = ITEMS[active];
   const Panel = it.Panel;
 
@@ -495,7 +508,12 @@ export default function T1FinanzasPilares() {
 
         {/* Panel + texto de la pestaña activa */}
         <div className="grid grid-cols-1 items-center gap-8 tablet:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] tablet:gap-14">
-          <div className="flex justify-center" style={{ minHeight: ALTO_PANEL + 42 }}>
+          <div
+            className="flex justify-center"
+            style={{ minHeight: ALTO_PANEL + 42, touchAction: "pan-y" }}
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
+          >
             <div className="w-full max-w-[460px]">{started ? <Panel /> : null}</div>
           </div>
 
@@ -505,7 +523,9 @@ export default function T1FinanzasPilares() {
           <div
             key={it.id}
             className="flex flex-col text-center tablet:text-left"
-            style={{ animation: "fadeSlideIn 0.4s ease-out", minHeight: 232 }}
+            style={{ animation: "fadeSlideIn 0.4s ease-out", minHeight: 232, touchAction: "pan-y" }}
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
           >
             {/* El título comparte el ancho de la descripción y de la barra del
                 temporizador, así los tres quedan alineados. */}

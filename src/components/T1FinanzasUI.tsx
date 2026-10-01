@@ -51,11 +51,14 @@ export function VentanaApp({
   children,
   alto,
   className = "",
+  cromo = "siempre",
 }: {
   children: React.ReactNode;
   /** Alto fijo del lienzo. Sin él, la ventana crece con su contenido. */
   alto?: number;
   className?: string;
+  /** En móvil la barra de puntos roba altura y no aporta: se puede ocultar. */
+  cromo?: "siempre" | "escritorio";
 }) {
   return (
     <div
@@ -63,7 +66,10 @@ export function VentanaApp({
       aria-hidden
       style={{ fontFamily: FUENTE, pointerEvents: "none", boxShadow: "0 30px 70px rgba(0,0,0,0.42)" }}
     >
-      <div className="flex items-center gap-1.5 border-b px-3.5 py-2.5" style={{ borderColor: UI.bordeSuave, background: "#F7F6F5" }}>
+      <div
+        className={`${cromo === "escritorio" ? "hidden tablet:flex" : "flex"} items-center gap-1.5 border-b px-3.5 py-2.5`}
+        style={{ borderColor: UI.bordeSuave, background: "#F7F6F5" }}
+      >
         {["#E26153", "#E8C15C", "#6FBF73"].map((c) => (
           <span key={c} className="block h-[9px] w-[9px] rounded-full" style={{ background: c }} />
         ))}
@@ -79,7 +85,7 @@ export function VentanaApp({
 export function BotonApp({ children, ancho }: { children: React.ReactNode; ancho?: number | string }) {
   return (
     <span
-      className="inline-flex items-center justify-center rounded-[9px] px-3.5 py-[7px] font-semibold text-white"
+      className="inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-[9px] px-3.5 py-[7px] font-semibold text-white"
       style={{ background: UI.rojo, fontSize: 11.5, width: ancho }}
     >
       {children}
