@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { BotonApp, Campo, Chip, Chispa, Cursor, Radio, UI, usePasos, useEscritura, VentanaApp } from "@/components/T1FinanzasUI";
 
 /* ──────────────────────────────────────────────────────────────────────────
    Cómo funciona, en tres pestañas: la factura de un pedido en un clic, la
@@ -15,15 +16,14 @@ import { useEffect, useRef, useState } from "react";
    o "te sugerimos".
    ────────────────────────────────────────────────────────────────────────── */
 
-const FONT = "var(--font-inter), 'Inter', sans-serif";
+/* Los cuatro paneles son pantallas del producto hechas en código, con el
+   mismo alto para que nada brinque al cambiar de pestaña. */
+const ALTO_PANEL = 420;
 
-/* Ventana de producto — tarjeta blanca, mismo cromo que el panel del hero. */
-const ALTO_VENTANA = 450;
-
-/* Disponibilidad por plan. Los planes se explican en su sección; aquí solo se
-   avisa que esa función es de pago. Va como frase completa y en gris: un chip
-   rojo en mayúsculas se leía como etiqueta sin sentido, y el rojo es el color
-   de lo que sí puedes hacer. */
+/* Aviso de disponibilidad por plan. Los planes se explican en su sección; aquí
+   solo se avisa que esa función es de pago. Va como frase completa y en gris:
+   un chip rojo en mayúsculas se leía como etiqueta sin sentido, y el rojo es
+   el color de lo que sí puedes hacer. */
 function DisponibleEn({ planes }: { planes: string }) {
   return (
     <span className="mt-4 inline-flex items-center rounded-full border border-white/[0.10] bg-white/[0.04] px-3.5 py-1.5 font-inter text-[12.5px] font-light text-white/50">
@@ -32,315 +32,341 @@ function DisponibleEn({ planes }: { planes: string }) {
   );
 }
 
-function AppWindow({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div
-      className="mx-auto flex w-full select-none flex-col overflow-hidden rounded-[18px] bg-white"
-      aria-hidden
-      style={{ maxWidth: 440, height: ALTO_VENTANA, fontFamily: FONT, pointerEvents: "none", boxShadow: "0 30px 70px rgba(0,0,0,0.45)" }}
-    >
-      <div className="flex shrink-0 items-center gap-2 border-b border-black/[0.06] px-5 py-3.5">
-        <span className="text-[13px] font-bold text-black">{title}</span>
-      </div>
-      <div className="flex flex-1 flex-col justify-center p-5">{children}</div>
-    </div>
-  );
-}
-
-/* ══════════ 1 · La factura global, por canal ══════════ */
-const CANALES = [
-  { name: "T1 Tienda", logo: null, regla: "Diaria" },
-  { name: "Mercado Libre", logo: "/img/meli-iso.svg", regla: "Diaria" },
-  { name: "Amazon", logo: "/img/amazon-iso.svg", regla: "Fin de mes" },
-  { name: "TikTok Shop", logo: "/img/tiktokshop.svg", regla: "Diaria" },
-  { name: "Shopify", logo: "/img/shopify.svg", regla: "A mano" },
-];
-
-function GlobalPanel() {
-  const [hit, setHit] = useState(0);
-  useEffect(() => {
-    const t = setInterval(() => setHit((v) => (v + 1) % CANALES.length), 1800);
-    return () => clearInterval(t);
-  }, []);
-
-  return (
-    <AppWindow title="Tus tiendas y marketplaces">
-      <div className="flex flex-col gap-2">
-        {CANALES.map((c, i) => {
-          const on = i === hit;
-          const auto = c.regla !== "A mano";
-          return (
-            <div
-              key={c.name}
-              className="flex items-center gap-3 rounded-[12px] border px-3 py-2.5 transition-all duration-500"
-              style={{
-                borderColor: on ? "rgba(219,59,43,0.30)" : "rgba(0,0,0,0.05)",
-                background: on ? "rgba(219,59,43,0.05)" : "#FAFAF9",
-              }}
-            >
-              <span className="flex h-[28px] w-[28px] shrink-0 items-center justify-center overflow-hidden rounded-full border border-black/[0.06] bg-white">
-                {c.logo ? (
-                  <Image src={c.logo} alt="" width={28} height={28} className="h-[16px] w-[16px] object-contain" />
-                ) : (
-                  <span className="text-[9.5px] font-extrabold text-[#DB3B2B]">T1</span>
-                )}
-              </span>
-              <span className="min-w-0 flex-1 leading-tight">
-                <span className="block truncate text-[12.5px] font-semibold text-black">{c.name}</span>
-                <span className="block text-[10.5px] text-black/45">Factura global · {c.regla.toLowerCase()}</span>
-              </span>
-              <span
-                className="shrink-0 rounded-full px-2.5 py-1 text-[10px] font-bold"
-                style={
-                  auto
-                    ? { background: "rgba(22,163,74,0.12)", color: "#16A34A" }
-                    : { background: "rgba(0,0,0,0.05)", color: "rgba(0,0,0,0.45)" }
-                }
-              >
-                {auto ? "Automática" : "A mano"}
-              </span>
-            </div>
-          );
-        })}
-      </div>
-      <div className="mt-4 flex items-center justify-between border-t border-black/[0.06] pt-3">
-        <span className="text-[11px] font-medium text-black/45">Ventas sin factura pedida, hoy</span>
-        <span className="text-[12.5px] font-bold text-black">104 · 1 factura global</span>
-      </div>
-    </AppWindow>
-  );
-}
-
-/* ══════════ 2 · Facturar un pedido con un clic ══════════ */
-const FASES = ["idle", "loading", "done"] as const;
-
-function PedidoPanel() {
-  const [fase, setFase] = useState(0);
-  useEffect(() => {
-    const t = setInterval(() => setFase((v) => (v + 1) % FASES.length), 2200);
-    return () => clearInterval(t);
-  }, []);
-  const estado = FASES[fase];
-
-  return (
-    <AppWindow title="Pedido #10482">
-      <div className="rounded-[12px] border border-black/[0.05] bg-[#FAFAF9] p-3.5">
-        <div className="flex items-center justify-between">
-          <span className="text-[12px] font-semibold text-black">Comercializadora Vega</span>
-          <span className="text-[11px] text-black/45">RFC CVE240517J31</span>
-        </div>
-        <div className="mt-3 flex flex-col gap-2">
-          {[
-            { n: "Playera de algodón · 12 pz", p: "$3,588.00" },
-            { n: "Gorra bordada · 6 pz", p: "$1,494.00" },
-          ].map((l) => (
-            <div key={l.n} className="flex items-center justify-between text-[11.5px]">
-              <span className="truncate pr-3 text-black/60">{l.n}</span>
-              <span className="shrink-0 font-semibold text-black">{l.p}</span>
-            </div>
-          ))}
-        </div>
-        <div className="mt-3 flex items-center justify-between border-t border-black/[0.06] pt-2.5">
-          <span className="text-[11px] font-medium text-black/45">IVA 16% incluido</span>
-          <span className="text-[14px] font-extrabold text-black">$5,082.00</span>
-        </div>
-      </div>
-
-      {/* Botón → emisión → factura lista */}
-      <div className="mt-4 min-h-[46px]">
-        {estado !== "done" ? (
-          <div
-            className="flex h-[44px] items-center justify-center gap-2 rounded-[12px] text-[13px] font-semibold text-white transition-all duration-300"
-            style={{ background: estado === "loading" ? "#C0332A" : "#DB3B2B", transform: estado === "loading" ? "scale(0.985)" : "scale(1)" }}
-          >
-            {estado === "loading" ? (
-              <>
-                <span
-                  className="h-[14px] w-[14px] rounded-full border-2 border-white/30 border-t-white"
-                  style={{ animation: "spin 0.8s linear infinite" }}
-                />
-                Emitiendo tu factura…
-              </>
-            ) : (
-              "Facturar este pedido"
-            )}
-          </div>
-        ) : (
-          <div
-            className="flex items-center gap-3 rounded-[12px] border border-[#16A34A]/[0.25] bg-[#16A34A]/[0.07] px-3.5 py-3"
-            style={{ animation: "fadeSlideIn 0.4s ease-out" }}
-          >
-            <span className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full bg-[#16A34A]">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                <path d="M5 12l4.5 4.5L19 7" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </span>
-            <span className="leading-tight">
-              <span className="block text-[12.5px] font-bold text-black">Factura emitida</span>
-              <span className="block text-[10.5px] text-black/45">XML y PDF listos para tu contador</span>
-            </span>
-          </div>
-        )}
-      </div>
-      <p className="mt-3 text-center text-[10.5px] text-black/35">
-        Esta venta sale de tu factura global. Nunca se factura dos veces.
-      </p>
-    </AppWindow>
-  );
-}
-
-/* ══════════ 3 · Mostrador y WhatsApp, en cuatro preguntas ══════════
-   Este panel es la franja que antes vivía en el hero: las cuatro preguntas
-   del asistente, que es la prueba de que facturar aquí no se parece al
-   portal del SAT. */
-const PREGUNTAS = [
-  { q: "¿A quién le vendiste?", r: "Comercializadora Vega" },
-  { q: "¿Qué vendiste?", r: "Playera de algodón · 12 pz" },
-  { q: "¿Cómo te pagaron?", r: "Transferencia, hoy" },
-  { q: "Revisa y factura", r: "Total $5,082.00 con IVA" },
-];
-
-function MostradorPanel() {
-  const [paso, setPaso] = useState(0);
-  useEffect(() => {
-    const t = setInterval(() => setPaso((v) => (v + 1) % (PREGUNTAS.length + 1)), 1700);
-    return () => clearInterval(t);
-  }, []);
-
-  return (
-    <AppWindow title="Nueva factura">
-      <div className="flex flex-col gap-2">
-        {PREGUNTAS.map((p, i) => {
-          const on = i === paso;
-          const listo = i < paso;
-          return (
-            <div
-              key={p.q}
-              className="flex items-center gap-3 rounded-[12px] border px-3.5 py-3 transition-all duration-500"
-              style={{
-                borderColor: on ? "rgba(219,59,43,0.35)" : "rgba(0,0,0,0.05)",
-                background: on ? "rgba(219,59,43,0.05)" : "#FAFAF9",
-              }}
-            >
-              <span
-                className="flex h-[24px] w-[24px] shrink-0 items-center justify-center rounded-full text-[11px] font-bold transition-colors duration-500"
-                style={{
-                  background: on ? "#DB3B2B" : listo ? "#16A34A" : "rgba(0,0,0,0.06)",
-                  color: on || listo ? "#fff" : "rgba(0,0,0,0.4)",
-                }}
-              >
-                {listo ? (
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-                    <path d="M5 12l4.5 4.5L19 7" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                ) : (
-                  i + 1
-                )}
-              </span>
-              <span className="min-w-0 flex-1 leading-tight">
-                <span className="block text-[12.5px] font-semibold text-black">{p.q}</span>
-                <span
-                  className="block truncate text-[11px] transition-colors duration-500"
-                  style={{ color: on || listo ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.25)" }}
-                >
-                  {p.r}
-                </span>
-              </span>
-            </div>
-          );
-        })}
-      </div>
-
-      <div className="mt-4 min-h-[44px]">
-        {paso >= PREGUNTAS.length ? (
-          <div
-            className="flex items-center gap-3 rounded-[12px] border border-[#16A34A]/[0.25] bg-[#16A34A]/[0.07] px-3.5 py-3"
-            style={{ animation: "fadeSlideIn 0.4s ease-out" }}
-          >
-            <span className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full bg-[#16A34A]">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                <path d="M5 12l4.5 4.5L19 7" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </span>
-            <span className="leading-tight">
-              <span className="block text-[12.5px] font-bold text-black">Factura emitida</span>
-              <span className="block text-[10.5px] text-black/45">XML y PDF listos para tu contador</span>
-            </span>
-          </div>
-        ) : (
-          <div className="flex h-[44px] items-center justify-center rounded-[12px] bg-[#DB3B2B] text-[13px] font-semibold text-white">
-            Emitir factura
-          </div>
-        )}
-      </div>
-    </AppWindow>
-  );
-}
-
-/* ══════════ 4 · La clave del SAT sugerida ══════════ */
-const PRODUCTOS = [
-  { nombre: "Playera de algodón", clave: "53102503", desc: "Camisetas" },
-  { nombre: "Consulta dental", clave: "85121600", desc: "Servicios de odontología" },
-  { nombre: "Refresco 600 ml", clave: "50202301", desc: "Bebidas carbonatadas" },
-];
-
-function ClavePanel() {
-  const [i, setI] = useState(0);
-  const [shown, setShown] = useState(false);
-  useEffect(() => {
-    setShown(false);
-    const a = setTimeout(() => setShown(true), 700);
-    const b = setTimeout(() => setI((v) => (v + 1) % PRODUCTOS.length), 3400);
-    return () => {
-      clearTimeout(a);
-      clearTimeout(b);
-    };
-  }, [i]);
-  const p = PRODUCTOS[i];
-
-  return (
-    <AppWindow title="Clave de producto del SAT">
-      <p className="text-[11px] font-semibold uppercase tracking-[0.06em] text-black/40">Tu producto</p>
-      <div className="mt-2 rounded-[12px] border border-black/[0.08] bg-white px-3.5 py-3 text-[13px] font-medium text-black">
-        {p.nombre}
-        <span className="ml-0.5 inline-block h-[14px] w-[1.5px] translate-y-[2px] bg-[#DB3B2B]" style={{ animation: "blink 1s step-end infinite" }} />
-      </div>
-
-      <div className="mt-4 min-h-[104px]">
-        {shown && (
-          <div style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
-            <div className="flex items-center gap-2">
-              <span className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-[#DB3B2B]/[0.10]">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 3l2.1 5.4L19.5 10l-5.4 2.1L12 17.5 9.9 12.1 4.5 10l5.4-1.6L12 3z" fill="#DB3B2B" />
-                </svg>
-              </span>
-              <span className="text-[11px] font-semibold text-[#DB3B2B]">Sugerencia de T1</span>
-            </div>
-            <div className="mt-2 flex items-center gap-3 rounded-[12px] border border-black/[0.06] bg-[#FAFAF9] px-3.5 py-3">
-              <span className="flex flex-col leading-tight">
-                <span className="text-[14px] font-extrabold text-black">{p.clave}</span>
-                <span className="text-[11px] text-black/45">{p.desc}</span>
-              </span>
-              <span className="ml-auto shrink-0 rounded-[10px] bg-[#DB3B2B] px-3.5 py-2 text-[11.5px] font-semibold text-white">
-                Aceptar
-              </span>
-            </div>
-            <p className="mt-3 text-[10.5px] text-black/35">
-              De las 52,513 claves del catálogo del SAT. Tú la apruebas y la puedes cambiar.
-            </p>
-          </div>
-        )}
-      </div>
-    </AppWindow>
-  );
-}
-
 /* ══════════ Sección ══════════
    Las cuatro capacidades ya NO son cuatro tarjetas apiladas: son pestañas en
    una sola fila arriba y un panel abajo. En móvil las pestañas se deslizan y
    solo se ve el panel de la activa, así que la sección ocupa una pantalla y
    no cuatro. */
+/* ══════════ 1 · Pedidos de todos los canales ══════════ */
+const PEDIDOS = [
+  { folio: "ML—2138", canal: "Mercado Libre", logo: "/img/meli-iso.svg", cliente: "Comprador ML #2170", fecha: "05/09/2026", total: "$12,996.00", estado: "Sin facturar", tono: "neutro" as const },
+  { folio: "TN—5512", canal: "Tiendanube", logo: "/img/tiendanube.svg", cliente: "Comercializadora Delta", fecha: "04/09/2026", total: "$34,500.00", estado: "Sin facturar", tono: "neutro" as const },
+  { folio: "AMZ—7731", canal: "Amazon", logo: "/img/amazon-iso.svg", cliente: "Carlos Ramírez", fecha: "03/09/2026", total: "$8,990.00", estado: "Facturado", tono: "verde" as const },
+  { folio: "TT—0914", canal: "TikTok Shop", logo: "/img/tiktokshop.svg", cliente: "María González López", fecha: "02/09/2026", total: "$4,980.00", estado: "Facturado", tono: "verde" as const },
+];
+
+function PanelPedidos() {
+  return (
+    <VentanaApp alto={ALTO_PANEL}>
+      <div className="px-5 pb-5 pt-4">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="font-bold" style={{ fontSize: 15, color: UI.texto }}>Pedidos</p>
+            <p className="mt-0.5" style={{ fontSize: 10.5, color: UI.suave, lineHeight: 1.45, maxWidth: 230 }}>
+              Las ventas de todos tus canales, en una sola lista.
+            </p>
+          </div>
+          <BotonApp>Factura global</BotonApp>
+        </div>
+
+        <div className="mt-4 flex flex-col gap-2">
+          {PEDIDOS.map((p) => (
+            <div key={p.folio} className="flex items-center gap-3 rounded-[11px] border px-3 py-2.5" style={{ borderColor: UI.bordeSuave, background: UI.fondo }}>
+              <span className="flex h-[28px] w-[28px] shrink-0 items-center justify-center overflow-hidden rounded-full border bg-white" style={{ borderColor: UI.borde }}>
+                <Image src={p.logo} alt="" width={28} height={28} className="h-[15px] w-[15px] object-contain" />
+              </span>
+              <span className="min-w-0 flex-1 leading-tight">
+                <span className="block truncate font-semibold" style={{ fontSize: 11.5, color: UI.texto }}>{p.folio} · {p.canal}</span>
+                <span className="block truncate" style={{ fontSize: 10, color: UI.tenue }}>{p.cliente} · {p.fecha}</span>
+              </span>
+              <span className="text-right leading-tight">
+                <span className="block font-bold" style={{ fontSize: 11.5, color: UI.texto }}>{p.total}</span>
+                <span className="mt-1 block"><Chip size={9} tono={p.tono}>{p.estado}</Chip></span>
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </VentanaApp>
+  );
+}
+
+/* ══════════ 2 · El asistente de factura global ══════════ */
+const FRECUENCIAS = ["Diario", "Semanal", "Quincenal", "Mensual · recomendada", "Bimestral"];
+
+function PanelGlobal() {
+  return (
+    <VentanaApp alto={ALTO_PANEL}>
+      <div className="px-5 pb-5 pt-4">
+        <p className="font-semibold uppercase" style={{ fontSize: 8.5, letterSpacing: "0.09em", color: UI.tenue }}>Facturación</p>
+        <p className="mt-1 font-bold" style={{ fontSize: 15, color: UI.texto }}>Factura global</p>
+        <p className="mt-0.5" style={{ fontSize: 10.5, color: UI.suave }}>
+          Paso 1 de 3 · <span style={{ color: UI.texto, fontWeight: 600 }}>Periodo</span>
+        </p>
+
+        <div className="mt-3.5 rounded-[12px] border p-4" style={{ borderColor: UI.borde }}>
+          <p className="font-bold" style={{ fontSize: 12.5, color: UI.texto }}>¿Qué periodo cubre esta factura global?</p>
+          <p className="mt-1.5" style={{ fontSize: 10.5, color: UI.suave, lineHeight: 1.5 }}>
+            La factura global junta las ventas del periodo que todavía no le facturaste a un cliente con su RFC.
+          </p>
+
+          <p className="mt-3.5 font-semibold" style={{ fontSize: 11, color: UI.texto }}>¿Cada cuánto emites esta factura global?</p>
+          <div className="mt-2 flex flex-wrap gap-x-4 gap-y-2">
+            {FRECUENCIAS.map((f) => (
+              <span key={f} className="flex items-center gap-1.5">
+                <Radio on={f.startsWith("Mensual")} />
+                <span style={{ fontSize: 10.5, color: f.startsWith("Mensual") ? UI.texto : UI.suave }}>{f}</span>
+              </span>
+            ))}
+          </div>
+
+          <div className="mt-4 flex items-end gap-4">
+            <span className="flex-1">
+              <span className="block" style={{ fontSize: 10, color: UI.suave }}>Periodo que cubre</span>
+              <span className="mt-1 flex items-center justify-between rounded-[9px] border px-3 py-2" style={{ borderColor: UI.borde }}>
+                <span style={{ fontSize: 11, color: UI.texto }}>Septiembre</span>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke={UI.tenue} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              </span>
+            </span>
+            <span>
+              <span className="block" style={{ fontSize: 10, color: UI.suave }}>Año</span>
+              <span className="mt-1 block py-2" style={{ fontSize: 11, color: UI.texto }}>2026</span>
+            </span>
+          </div>
+
+          <div className="mt-4 flex justify-end">
+            <BotonApp>Continuar</BotonApp>
+          </div>
+        </div>
+      </div>
+    </VentanaApp>
+  );
+}
+
+/* ══════════ 3 · El asistente de nueva factura, paso por paso ══════════
+   La pestaña promete cuatro pasos, así que el panel los recorre: a quién le
+   vendiste, qué vendiste, cómo te pagaron y la revisión antes de emitir. */
+const PASOS_FACTURA = ["¿A quién le vendiste?", "¿Qué vendiste?", "¿Cómo te pagaron?", "Revisa y factura"];
+
+function PasoCliente({ activo }: { activo: boolean }) {
+  const { escrito, completo } = useEscritura("Talleres San Miguel", 70, activo);
+  return (
+    <div className="flex flex-col gap-2.5">
+      <Campo label="Cliente" valor={escrito} cursor={!completo} lleno={completo} />
+      <Campo label="RFC" valor={completo ? "TSM210714QK1" : ""} lleno={completo} />
+      <p className="mt-0.5 flex items-center gap-1.5" style={{ fontSize: 9.5, color: UI.tenue }}>
+        <Radio />
+        Si no te pidió factura, va al público en general.
+      </p>
+    </div>
+  );
+}
+
+function PasoConcepto({ activo }: { activo: boolean }) {
+  const { escrito, completo } = useEscritura("Playera de algodón", 70, activo);
+  return (
+    <div className="flex flex-col gap-2.5">
+      <Campo label="Qué vendiste" valor={escrito} cursor={!completo} lleno={completo} />
+      <div className="grid grid-cols-2 gap-2.5">
+        <Campo label="Cantidad" valor={completo ? "12" : ""} lleno={completo} />
+        <Campo label="Precio unitario" valor={completo ? "$299.00" : ""} lleno={completo} />
+      </div>
+      {completo && (
+        <p className="flex items-center gap-1.5" style={{ fontSize: 9.5, color: UI.suave, animation: "fadeSlideIn 0.4s ease-out" }}>
+          <Chispa size={11} />
+          Clave del SAT 53101602 · Camisas para hombre
+        </p>
+      )}
+    </div>
+  );
+}
+
+const PAGOS = [
+  { t: "Me pagan todo de una vez", d: "Ya te pagaron, o te pagan completo antes de que termine el mes.", on: true },
+  { t: "Me pagan después, en un solo pago", d: "El pago completo llega más adelante, quizá en otro mes." },
+  { t: "Me pagan en partes", d: "Acordaste dos o más pagos y cada uno lleva su recibo." },
+];
+
+function PasoPago() {
+  return (
+    <div className="flex flex-col gap-2">
+      {PAGOS.map((p) => (
+        <span
+          key={p.t}
+          className="flex items-start gap-2.5 rounded-[10px] border px-3 py-2.5"
+          style={{ borderColor: p.on ? "rgba(226,64,47,0.35)" : UI.bordeSuave, background: p.on ? "rgba(226,64,47,0.04)" : "#fff" }}
+        >
+          <Radio on={p.on} />
+          <span className="leading-tight">
+            <span className="block font-semibold" style={{ fontSize: 11, color: UI.texto }}>{p.t}</span>
+            <span className="mt-0.5 block" style={{ fontSize: 9.5, color: UI.tenue, lineHeight: 1.45 }}>{p.d}</span>
+          </span>
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function PasoRevision({ emitida }: { emitida: boolean }) {
+  return (
+    <div>
+      <div className="rounded-[10px] border p-3" style={{ borderColor: UI.bordeSuave, background: UI.fondo }}>
+        {[
+          ["Cliente", "Talleres San Miguel"],
+          ["Concepto", "Playera de algodón · 12"],
+          ["Pago", "Todo de una vez"],
+          ["Total con IVA", "$4,161.60"],
+        ].map(([k, v], i) => (
+          <span key={k} className="flex items-center justify-between py-[5px]" style={{ borderTop: i ? `1px solid ${UI.bordeSuave}` : undefined }}>
+            <span style={{ fontSize: 10, color: UI.suave }}>{k}</span>
+            <span className="font-semibold" style={{ fontSize: 10.5, color: UI.texto }}>{v}</span>
+          </span>
+        ))}
+      </div>
+      {emitida ? (
+        <div
+          className="mt-3 flex items-center gap-2.5 rounded-[10px] border px-3 py-2.5"
+          style={{ borderColor: "rgba(22,163,74,0.25)", background: "rgba(22,163,74,0.07)", animation: "fadeSlideIn 0.35s ease-out" }}
+        >
+          <span className="flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full" style={{ background: "#16A34A" }}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4.5 4.5L19 7" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+          </span>
+          <span className="leading-tight">
+            <span className="block font-bold" style={{ fontSize: 11, color: UI.texto }}>Factura emitida</span>
+            <span className="block" style={{ fontSize: 9.5, color: UI.tenue }}>XML y PDF listos para tu contador</span>
+          </span>
+        </div>
+      ) : (
+        <div className="mt-3 flex justify-end">
+          <BotonApp>Emitir factura</BotonApp>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function PanelAsistente() {
+  const paso = usePasos(5, 2200);
+  const visible = Math.min(paso, 3);
+
+  return (
+    <VentanaApp alto={ALTO_PANEL}>
+      <div className="px-5 pb-5 pt-4">
+        <div className="flex items-center gap-2">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke={UI.suave} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+          <p className="font-bold" style={{ fontSize: 14.5, color: UI.texto }}>Nueva factura</p>
+        </div>
+        <p className="mt-0.5" style={{ fontSize: 10.5, color: UI.suave }}>
+          Paso {visible + 1} de 4 · <span style={{ color: UI.texto, fontWeight: 600 }}>{PASOS_FACTURA[visible]}</span>
+        </p>
+
+        {/* Barra de avance del asistente */}
+        <div className="mt-2.5 flex gap-1.5">
+          {PASOS_FACTURA.map((p, i) => (
+            <span
+              key={p}
+              className="h-[3px] flex-1 rounded-full transition-colors duration-500"
+              style={{ background: i <= visible ? UI.rojo : "rgba(0,0,0,0.08)" }}
+            />
+          ))}
+        </div>
+
+        {/* Alto mínimo para que la tarjeta no cambie de tamaño entre pasos. */}
+        <div className="mt-3.5 rounded-[12px] border p-4" style={{ borderColor: UI.borde, minHeight: 272 }}>
+          <p className="font-bold" style={{ fontSize: 12.5, color: UI.texto, marginBottom: 12 }}>
+            {PASOS_FACTURA[visible]}
+          </p>
+          <div key={visible} style={{ animation: "fadeSlideIn 0.35s ease-out" }}>
+            {visible === 0 && <PasoCliente activo={paso === 0} />}
+            {visible === 1 && <PasoConcepto activo={paso === 1} />}
+            {visible === 2 && <PasoPago />}
+            {visible === 3 && <PasoRevision emitida={paso === 4} />}
+          </div>
+        </div>
+      </div>
+    </VentanaApp>
+  );
+}
+
+/* ══════════ 4 · El buscador de la clave del SAT ══════════
+   Se teclea lo que vendes y el sistema sugiere la clave: eso es lo que hay
+   que ver, no una lista ya resuelta. */
+const CLAVES = [
+  { c: "53101602", d: "Camisas para hombre", sugerida: true },
+  { c: "53101604", d: "Camisas o blusas para mujer" },
+  { c: "52121702", d: "Toallas playeras" },
+];
+
+function PanelClave() {
+  const paso = usePasos(3, 2600);
+  const { escrito, completo } = useEscritura("playera", 130, paso === 0);
+  // Una vez tecleado, el texto se queda: los resultados no pueden salir con
+  // el campo vacío.
+  const consulta = paso === 0 ? escrito : "playera";
+  const tecleando = paso === 0 && !completo;
+  const hayResultados = paso >= 1;
+
+  return (
+    <VentanaApp alto={ALTO_PANEL}>
+      <div className="px-5 pb-5 pt-4">
+        <div className="flex items-center justify-between">
+          <p className="font-bold" style={{ fontSize: 14.5, color: UI.texto }}>Encontrar la clave del SAT</p>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke={UI.tenue} strokeWidth="2" strokeLinecap="round" /></svg>
+        </div>
+        <p className="mt-2" style={{ fontSize: 10.5, color: UI.suave, lineHeight: 1.5 }}>
+          La clave de producto o servicio la pide el SAT. Búscala por nombre o, si ya la conoces, tecléala.
+        </p>
+
+        <p className="mt-3.5 font-semibold" style={{ fontSize: 11, color: UI.texto }}>
+          Descríbelo en pocas palabras
+        </p>
+        <div
+          className="mt-1.5 rounded-[9px] border px-3 py-2.5 transition-colors duration-300"
+          style={{ borderColor: tecleando ? "rgba(226,64,47,0.45)" : UI.borde, minHeight: 36 }}
+        >
+          <span style={{ fontSize: 11.5, color: consulta ? UI.texto : UI.tenue }}>{consulta || "Qué vendes"}</span>
+          {tecleando && <Cursor />}
+        </div>
+
+        <div className="mt-3" style={{ minHeight: 190 }}>
+          {hayResultados && (
+            <div style={{ animation: "fadeSlideIn 0.35s ease-out" }}>
+              <p className="flex items-start gap-1.5" style={{ fontSize: 10, color: UI.suave, lineHeight: 1.45 }}>
+                <Chispa size={11} />
+                Ordenadas por parecido con lo que escribiste. Revisa cuál corresponde a lo que vendes.
+              </p>
+
+              <div className="mt-2.5 flex flex-col gap-1.5">
+                {CLAVES.map((k, i) => {
+                  const elegida = k.sugerida && paso === 2;
+                  return (
+                    <span
+                      key={k.c}
+                      className="flex items-center justify-between rounded-[10px] border px-3 py-2 transition-colors duration-500"
+                      style={{
+                        borderColor: elegida ? "rgba(22,163,74,0.35)" : k.sugerida ? "rgba(37,99,235,0.28)" : UI.bordeSuave,
+                        background: elegida ? "rgba(22,163,74,0.06)" : k.sugerida ? "rgba(37,99,235,0.04)" : "#fff",
+                        animation: `fadeSlideIn 0.4s ease-out ${i * 90}ms both`,
+                      }}
+                    >
+                      <span className="leading-tight">
+                        <span className="block font-semibold" style={{ fontSize: 11.5, color: UI.texto }}>{k.c}</span>
+                        <span className="block" style={{ fontSize: 10, color: UI.tenue }}>{k.d}</span>
+                      </span>
+                      {k.sugerida &&
+                        (elegida ? (
+                          <Chip size={9.5} tono="verde">
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M5 12l4.5 4.5L19 7" stroke="#16A34A" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                            Aprobada
+                          </Chip>
+                        ) : (
+                          <Chip size={9.5} tono="azul">
+                            <Chispa size={10} />
+                            Sugerida
+                          </Chip>
+                        ))}
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </VentanaApp>
+  );
+}
+
 const ITEMS = [
   {
     id: "pedido",
@@ -348,7 +374,7 @@ const ITEMS = [
     title: "Factura un pedido en un clic",
     description:
       "Llega con sus productos y montos, y con los datos de tu cliente si ya te compró antes.",
-    Panel: PedidoPanel,
+    Panel: PanelPedidos,
   },
   {
     id: "global",
@@ -357,7 +383,7 @@ const ITEMS = [
     description:
       "La factura global junta las ventas de quienes no pidieron factura, una por cada lugar donde vendes. La emites con un botón o se emite sola.",
     plan: "Básico y Avanzado",
-    Panel: GlobalPanel,
+    Panel: PanelGlobal,
   },
   {
     id: "mostrador",
@@ -365,7 +391,7 @@ const ITEMS = [
     title: "Tus ventas de mostrador, en cuatro pasos",
     description:
       "A quién le vendiste, qué vendiste y cómo te pagaron. Revisas la factura y la emites.",
-    Panel: MostradorPanel,
+    Panel: PanelAsistente,
   },
   {
     id: "clave",
@@ -373,7 +399,7 @@ const ITEMS = [
     title: "Te sugerimos la clave de producto del SAT",
     description:
       "El SAT tiene 52,513 claves y no tienes que buscar la tuya. Tú apruebas la que te sugerimos, y la puedes cambiar antes de emitir la factura.",
-    Panel: ClavePanel,
+    Panel: PanelClave,
   },
 ];
 
@@ -469,8 +495,8 @@ export default function T1FinanzasPilares() {
 
         {/* Panel + texto de la pestaña activa */}
         <div className="grid grid-cols-1 items-center gap-8 tablet:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] tablet:gap-14">
-          <div className="flex justify-center" style={{ height: ALTO_VENTANA }}>
-            {started ? <Panel /> : <div className="w-full" style={{ maxWidth: 440 }} />}
+          <div className="flex justify-center" style={{ minHeight: ALTO_PANEL + 42 }}>
+            <div className="w-full max-w-[460px]">{started ? <Panel /> : null}</div>
           </div>
 
           {/* Caja de alto fijo: el título arranca siempre en el mismo punto y la

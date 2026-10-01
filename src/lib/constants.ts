@@ -40,7 +40,6 @@ export const ENVIOS_RATE_EXAMPLES = [
 // ── Navigation ──
 export const NAV_LINKS = [
   { label: "Precios", href: "/precios" },
-  { label: "Casos de éxito", href: CASES_URL },
 ];
 
 // ── Recursos mega menu ──
@@ -57,7 +56,7 @@ export const RECURSOS_MENU_COLUMNS = [
     title: "Comunidad",
     items: [
       { title: "Historias de éxito", desc: "Negocios que ya crecen con T1", href: CASES_URL },
-      { title: "Partners", desc: "Agencias y expertos que construyen con T1", href: "/partners" },
+      { title: "Partners", desc: "Agencias y expertos que construyen con T1", href: "https://www.t1.com/mx/partners" },
     ],
   },
   { title: "Contacto", items: [{ title: "Contacta a ventas", desc: "Para grandes empresas y marcas", href: SALES_URL }] },
@@ -164,8 +163,8 @@ export const FOOTER_COLUMNS = [
     title: "Comunidad",
     links: [
       { label: "Historias de éxito", href: CASES_URL },
-      { label: "Partners", href: "/partners" },
-      { label: "Vacantes", href: "/careers" },
+      { label: "Partners", href: "https://www.t1.com/mx/partners" },
+      { label: "Vacantes", href: "https://careers.t1.com/" },
     ],
   },
   {

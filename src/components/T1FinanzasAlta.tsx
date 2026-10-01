@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
+import { Cursor, usePasos, useEscritura } from "@/components/T1FinanzasUI";
 
 /* ──────────────────────────────────────────────────────────────────────────
    El alta, con el mismo patrón que "Todo el ciclo de tu envío" de Envíos:
@@ -28,12 +29,18 @@ function Pantalla({ title, children }: { title: string; children: React.ReactNod
   );
 }
 
-function Campo({ label, value, check }: { label: string; value: string; check?: boolean }) {
+function Campo({ label, value, check, cursor }: { label: string; value: string; check?: boolean; cursor?: boolean }) {
   return (
-    <div className="rounded-[12px] border border-black/[0.08] bg-white px-3.5 py-2.5">
+    <div
+      className="rounded-[12px] border bg-white px-3.5 py-2.5 transition-colors duration-300"
+      style={{ borderColor: cursor ? "rgba(219,59,43,0.45)" : "rgba(0,0,0,0.08)" }}
+    >
       <span className="block text-[10px] font-semibold uppercase tracking-[0.05em] text-black/35">{label}</span>
-      <span className="mt-0.5 flex items-center gap-2">
-        <span className="flex-1 truncate text-[13px] font-medium text-black">{value}</span>
+      <span className="mt-0.5 flex items-center gap-2" style={{ minHeight: 18 }}>
+        <span className="flex-1 truncate text-[13px] font-medium text-black">
+          {value || <span className="text-black/25">—</span>}
+          {cursor && <Cursor alto={13} />}
+        </span>
         {check && (
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="shrink-0">
             <path d="M5 12l4.5 4.5L19 7" stroke="#16A34A" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
@@ -55,44 +62,55 @@ function Boton({ children, ghost }: { children: React.ReactNode; ghost?: boolean
   );
 }
 
-/* ── 1 · RFC ── */
+/* ── 1 · RFC: los campos se van llenando ── */
 function RfcScreen() {
+  const paso = usePasos(4, 1100);
+  const rfc = useEscritura("CVE240517J31", 85, paso === 0);
   return (
     <Pantalla title="Tu negocio">
       <div className="flex flex-col gap-2.5">
-        <Campo label="RFC" value="CVE240517J31" check />
-        <Campo label="Nombre del negocio" value="Comercializadora Vega" />
-        <Campo label="Código postal" value="64000" />
+        <Campo label="RFC" value={rfc.escrito} cursor={!rfc.completo} check={rfc.completo} />
+        <Campo label="Nombre del negocio" value={paso >= 1 ? "Comercializadora Vega" : ""} check={paso >= 1} />
+        <Campo label="Código postal" value={paso >= 2 ? "64000" : ""} check={paso >= 2} />
       </div>
       <p className="mt-4 text-[11px] leading-[1.5] text-black/40">
         ¿Tienes más de un negocio? Puedes agregar hasta 3 en la misma cuenta gratis.
       </p>
-      <div className="mt-4">
+      <div className="mt-4" style={{ opacity: paso >= 3 ? 1 : 0.45, transition: "opacity 0.4s" }}>
         <Boton>Continuar</Boton>
       </div>
     </Pantalla>
   );
 }
 
-/* ── 2 · Sello digital ── */
+/* ── 2 · Sello: los archivos se sueltan y se van palomeando ── */
 function SelloScreen() {
+  const paso = usePasos(4, 1150);
   return (
     <Pantalla title="Tu sello digital">
-      <div className="rounded-[12px] border border-dashed border-black/[0.14] bg-[#FAFAF9] px-4 py-5 text-center">
+      <div
+        className="rounded-[12px] border border-dashed px-4 py-5 text-center transition-colors duration-300"
+        style={{
+          borderColor: paso === 0 ? "rgba(219,59,43,0.5)" : "rgba(0,0,0,0.14)",
+          background: paso === 0 ? "rgba(219,59,43,0.04)" : "#FAFAF9",
+        }}
+      >
         <span className="mx-auto mb-2.5 flex h-[34px] w-[34px] items-center justify-center rounded-full bg-[#DB3B2B]/[0.10]">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
             <path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             <path d="M4.5 19h15" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" />
           </svg>
         </span>
-        <span className="block text-[12.5px] font-semibold text-black">Arrastra tus archivos aquí</span>
+        <span className="block text-[12.5px] font-semibold text-black">
+          {paso === 0 ? "Suelta aquí tus archivos" : "Archivos cargados"}
+        </span>
         <span className="mt-0.5 block text-[11px] text-black/40">Los que el SAT te dio: .cer y .key</span>
       </div>
 
       <div className="mt-3 flex flex-col gap-2">
-        <Campo label="Certificado" value="00001000000512345678.cer" check />
-        <Campo label="Llave privada" value="Clave_privada_CSD.key" check />
-        <Campo label="Contraseña" value="••••••••••" check />
+        <Campo label="Certificado" value={paso >= 1 ? "00001000000512345678.cer" : ""} check={paso >= 1} />
+        <Campo label="Llave privada" value={paso >= 2 ? "Clave_privada_CSD.key" : ""} check={paso >= 2} />
+        <Campo label="Contraseña" value={paso >= 3 ? "••••••••••" : ""} check={paso >= 3} />
       </div>
 
       <p className="mt-3.5 flex items-center gap-1.5 text-[11px] font-semibold text-[#DB3B2B]">
@@ -106,8 +124,9 @@ function SelloScreen() {
   );
 }
 
-/* ── 3 · El permiso del SAT ── */
+/* ── 3 · Permiso: se marca la casilla y se firma ── */
 function PermisoScreen() {
+  const paso = usePasos(3, 1300);
   return (
     <Pantalla title="Permiso del SAT">
       <div className="rounded-[12px] border border-black/[0.07] bg-[#FAFAF9] p-4">
@@ -121,19 +140,30 @@ function PermisoScreen() {
         </div>
       </div>
 
-      <div className="mt-3.5 flex items-start gap-2.5 rounded-[12px] border border-black/[0.07] px-3.5 py-3">
-        <span className="mt-[1px] flex h-[17px] w-[17px] shrink-0 items-center justify-center rounded-[5px] bg-[#DB3B2B]">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
-            <path d="M5 12l4.5 4.5L19 7" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+      <div
+        className="mt-3.5 flex items-start gap-2.5 rounded-[12px] border px-3.5 py-3 transition-colors duration-300"
+        style={{ borderColor: paso >= 1 ? "rgba(219,59,43,0.35)" : "rgba(0,0,0,0.07)" }}
+      >
+        <span
+          className="mt-[1px] flex h-[17px] w-[17px] shrink-0 items-center justify-center rounded-[5px] border transition-colors duration-300"
+          style={{
+            background: paso >= 1 ? "#DB3B2B" : "#fff",
+            borderColor: paso >= 1 ? "#DB3B2B" : "rgba(0,0,0,0.2)",
+          }}
+        >
+          {paso >= 1 && (
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12l4.5 4.5L19 7" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          )}
         </span>
         <span className="text-[11.5px] leading-[1.45] text-black/60">
           Autorizo a T1 a emitir mis facturas. Se firma una sola vez.
         </span>
       </div>
 
-      <div className="mt-4">
-        <Boton>Firmar</Boton>
+      <div className="mt-4" style={{ opacity: paso >= 1 ? 1 : 0.45, transition: "opacity 0.4s", transform: paso >= 2 ? "scale(0.985)" : "scale(1)" }}>
+        <Boton>{paso >= 2 ? "Firmando…" : "Firmar"}</Boton>
       </div>
       <p className="mt-3 text-center text-[11px] text-black/35">No te pedimos tu firma electrónica.</p>
     </Pantalla>

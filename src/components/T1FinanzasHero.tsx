@@ -1,142 +1,92 @@
-"use client";
-
-import Image from "next/image";
-import { useEffect, useState } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
 import HeroBackground from "@/components/HeroBackground";
+import { BotonApp, Chip, VentanaApp } from "@/components/T1FinanzasUI";
+import { UI } from "@/components/T1FinanzasTokens";
 
 /* ──────────────────────────────────────────────────────────────────────────
    Hero de T1 Finanzas.
 
-   El visual no es un formulario: es la lista de facturas que salen de las
-   ventas que ya viven en T1 (tienda y marketplaces), con la factura global
-   de cada uno entre ellas. Mismo lenguaje que el dashboard de Pagos:
-   tarjeta blanca sobre el fondo cálido compartido.
-
-   Números permitidos (six-pager §8 + decisión del 21 de septiembre):
-   52,513 · 25 · 3. Nada de tracción: Finanzas es nuevo.
+   El panel es la pantalla de Facturación del producto, hecha en código: las
+   mismas columnas (fecha, documento, receptor, total, estado y cobro), los
+   mismos tipos de documento —factura de venta, global, devolución y recibo
+   de pago— y los mismos estados. Al estar en código se ve nítido en
+   cualquier pantalla y no se corta.
    ────────────────────────────────────────────────────────────────────────── */
 
-const FONT = "var(--font-inter), 'Inter', sans-serif";
-
-type Row = {
-  tipo: "individual" | "global";
-  cliente: string;
-  canal: string;
-  /** Isotipo del canal; sin él se pinta la insignia "T1" (venta propia o capturada). */
-  logo?: string;
-  total: number;
-  detalle: string;
+type Fila = {
+  fecha: string;
+  tipo: string;
+  receptor: string;
+  total: string;
+  estado: string;
+  tono: "verde" | "ambar";
 };
 
-const ROWS: Row[] = [
-  { tipo: "individual", cliente: "Comercializadora Vega", canal: "T1 Tienda", total: 4820.5, detalle: "Pedido #10482" },
-  { tipo: "global", cliente: "Factura global", canal: "Mercado Libre", logo: "/img/meli-iso.svg", total: 18340.0, detalle: "63 ventas sin factura pedida" },
-  { tipo: "individual", cliente: "Distribuidora del Norte", canal: "Amazon", logo: "/img/amazon-iso.svg", total: 9650.0, detalle: "Pedido #A-7731" },
-  { tipo: "global", cliente: "Factura global", canal: "TikTok Shop", logo: "/img/tiktokshop.svg", total: 7215.8, detalle: "41 ventas sin factura pedida" },
-  { tipo: "individual", cliente: "Venta de mostrador", canal: "Efectivo", total: 1290.0, detalle: "Hoy" },
+/* La tabla va simplificada a propósito: cuatro renglones, una línea por celda
+   y sin la columna de cobro. La pantalla real tiene más datos; aquí basta con
+   que se entienda qué es y qué documentos emite. */
+const FILAS: Fila[] = [
+  { fecha: "03/09/2026", tipo: "Factura de venta", receptor: "Acme", total: "$17,400.00", estado: "Pagada", tono: "verde" },
+  { fecha: "01/09/2026", tipo: "Factura global", receptor: "Público en general", total: "$58,000.00", estado: "Registrada", tono: "verde" },
+  { fecha: "28/08/2026", tipo: "Nota de crédito", receptor: "Acme", total: "$4,640.00", estado: "Registrada", tono: "verde" },
+  { fecha: "20/08/2026", tipo: "Recibo de pago", receptor: "Talleres San Miguel", total: "$3,480.00", estado: "Registrada", tono: "verde" },
 ];
 
-const fmt = (n: number) =>
-  n.toLocaleString("es-MX", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const COLS = "68px minmax(0,1.1fr) minmax(0,1fr) 88px 78px";
 
-function FacturasPanel() {
-  const [idx, setIdx] = useState(0);
-  const [emitidas, setEmitidas] = useState(9);
-
-  // Un solo intervalo mueve la lista y el contador de las 25 gratis, para no
-  // encadenar un efecto que reaccione al efecto anterior.
-  useEffect(() => {
-    const t = setInterval(() => {
-      setIdx((v) => (v + 1) % ROWS.length);
-      setEmitidas((e) => (e >= 24 ? 9 : e + 1));
-    }, 2800);
-    return () => clearInterval(t);
-  }, []);
-
-  const rows = [0, 1, 2].map((k) => ROWS[(idx + k) % ROWS.length]);
-
+function PanelFacturacion() {
   return (
-    <div
-      className="relative mx-auto w-full select-none"
-      aria-hidden
-      style={{ maxWidth: 420, fontFamily: FONT, pointerEvents: "none" }}
-    >
-      {/* Chip — el contador de las 25 gratis, que es el gancho del plan */}
-      <div
-        className="absolute -right-2 -top-5 z-20 hidden rounded-[16px] border border-black/[0.06] bg-white px-4 py-3 tablet:block"
-        style={{ boxShadow: "0 18px 44px rgba(0,0,0,0.22)" }}
-      >
-        <p className="text-[11px] font-semibold text-black/45">Facturas de este mes</p>
-        <p className="text-[20px] font-extrabold text-black" style={{ letterSpacing: "-0.02em" }}>
-          {emitidas}
-          <span className="ml-1 text-[12px] font-semibold text-black/35">de 25 gratis</span>
-        </p>
-      </div>
+    <VentanaApp className="max-w-[560px]">
+      <div className="px-5 pb-5 pt-4">
+        <div className="flex items-center justify-between gap-4">
+          <p className="font-bold" style={{ fontSize: 15, color: UI.texto }}>
+            Facturación
+          </p>
+          <BotonApp>Crear factura</BotonApp>
+        </div>
 
-      <div className="overflow-hidden rounded-[18px] bg-white" style={{ boxShadow: "0 30px 70px rgba(0,0,0,0.4)" }}>
-        <div className="px-5 pb-5 pt-4 tablet:pt-5">
-          <div className="flex items-center justify-between" style={{ marginBottom: 10 }}>
-            <p className="text-[13px] font-bold text-black">Facturas emitidas</p>
-            <span className="rounded-full bg-[#F2F1EF] px-2.5 py-1 text-[10px] font-semibold text-black/50">
-              Septiembre
-            </span>
-          </div>
-
-          <div className="flex flex-col gap-2">
-            {rows.map((r, k) => (
-              <div
-                key={`${r.cliente}-${idx}-${k}`}
-                className={`items-center gap-3 rounded-[12px] border border-black/[0.05] bg-[#FAFAF9] px-3 py-2.5 ${k < 2 ? "flex" : "hidden tablet:flex"}`}
-                style={k === 0 ? { animation: "fadeSlideIn 0.45s ease-out" } : undefined}
-              >
-                <span className="flex h-[30px] w-[30px] shrink-0 items-center justify-center overflow-hidden rounded-full border border-black/[0.06] bg-white">
-                  {r.logo ? (
-                    <Image src={r.logo} alt="" width={30} height={30} className="h-[17px] w-[17px] object-contain" />
-                  ) : (
-                    <span className="text-[10px] font-extrabold text-[#DB3B2B]">T1</span>
-                  )}
-                </span>
-                <span className="min-w-0 flex-1 leading-tight">
-                  <span className="flex items-center gap-1.5">
-                    <span className="truncate text-[13px] font-semibold text-black">{r.cliente}</span>
-                    {r.tipo === "global" && (
-                      <span className="shrink-0 rounded-full bg-[#DB3B2B]/[0.10] px-1.5 py-[2px] text-[9px] font-bold uppercase tracking-[0.04em] text-[#DB3B2B]">
-                        Global
-                      </span>
-                    )}
-                  </span>
-                  <span className="block truncate text-[11px] text-black/45">
-                    {r.canal} · {r.detalle}
-                  </span>
-                </span>
-                <span className="text-right leading-tight">
-                  <span className="block text-[13px] font-bold text-black">${fmt(r.total)}</span>
-                  <span className="block text-[11px] font-semibold text-[#16A34A]">Emitida</span>
-                </span>
-              </div>
-            ))}
-          </div>
-
-          {/* Pie — el XML y el PDF que pide el contador */}
-          <div className="mt-3 flex items-center gap-2 border-t border-black/[0.06] pt-3">
-            {["XML", "PDF"].map((f) => (
+        <div className="mt-3.5 overflow-hidden rounded-[10px] border" style={{ borderColor: UI.borde }}>
+          <div
+            className="grid items-center border-b px-3.5 py-2"
+            style={{ gridTemplateColumns: COLS, borderColor: UI.bordeSuave, background: "#FBFBFA" }}
+          >
+            {["Fecha", "Documento", "Receptor", "Total", "Estado"].map((h, i) => (
               <span
-                key={f}
-                className="flex items-center gap-1.5 rounded-full border border-black/[0.07] bg-white px-2.5 py-1.5 text-[10.5px] font-semibold text-black/55"
+                key={h}
+                className="font-semibold uppercase"
+                style={{ fontSize: 8.5, letterSpacing: "0.05em", color: UI.tenue, textAlign: i === 3 ? "right" : "left" }}
               >
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 4v11m0 0 4-4m-4 4-4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M5 19h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                </svg>
-                {f}
+                {h}
               </span>
             ))}
-            <span className="ml-auto text-[10.5px] font-medium text-black/35">Listas para tu contador</span>
           </div>
+
+          {FILAS.map((f) => (
+            <div
+              key={f.tipo + f.fecha}
+              className="grid items-center border-b px-3.5 py-3 last:border-b-0"
+              style={{ gridTemplateColumns: COLS, borderColor: UI.bordeSuave }}
+            >
+              <span style={{ fontSize: 10, color: UI.tenue }}>{f.fecha}</span>
+              <span className="min-w-0 pr-2 font-medium" style={{ fontSize: 11, color: UI.texto }}>
+                {f.tipo}
+              </span>
+              <span className="min-w-0 truncate pr-2" style={{ fontSize: 11, color: UI.suave }}>
+                {f.receptor}
+              </span>
+              <span className="text-right font-semibold" style={{ fontSize: 11, color: UI.texto }}>
+                {f.total}
+              </span>
+              <span>
+                <Chip size={9} tono={f.tono}>
+                  {f.estado}
+                </Chip>
+              </span>
+            </div>
+          ))}
         </div>
       </div>
-    </div>
+    </VentanaApp>
   );
 }
 
@@ -153,7 +103,7 @@ export default function T1FinanzasHero() {
 
       <section className="relative z-10 flex min-h-[78svh] flex-col justify-center px-5 pb-20 pt-36 tablet:min-h-[84svh] tablet:px-6 tablet:pb-24 tablet:pt-44">
         <div className="mx-auto flex w-full max-w-[var(--max-w)] flex-col">
-          <div className="grid grid-cols-1 items-center gap-8 tablet:grid-cols-2 tablet:gap-12">
+          <div className="grid grid-cols-1 items-center gap-8 tablet:grid-cols-[minmax(0,0.85fr)_minmax(0,1fr)] tablet:gap-12">
             {/* Izquierda */}
             <div className="flex flex-col items-center text-center tablet:items-start tablet:text-left">
               <h1
@@ -180,13 +130,13 @@ export default function T1FinanzasHero() {
               </a>
             </div>
 
-            {/* Derecha — facturas emitidas (foto de producto) */}
-            <div className="flex justify-center [perspective:1600px] tablet:justify-center tablet:pr-6">
+            {/* Derecha — la pantalla de Facturación */}
+            <div className="flex justify-center [perspective:1600px]">
               <div
-                className="w-full max-w-[400px] tablet:[transform:rotateY(-8deg)_rotateX(3deg)]"
+                className="w-full max-w-[600px] tablet:[transform:rotateY(-7deg)_rotateX(2deg)]"
                 style={{ transformStyle: "preserve-3d" }}
               >
-                <FacturasPanel />
+                <PanelFacturacion />
               </div>
             </div>
 
@@ -204,7 +154,6 @@ export default function T1FinanzasHero() {
           </div>
         </div>
       </section>
-
     </div>
   );
 }
