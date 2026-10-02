@@ -433,8 +433,8 @@ export function T1FinanzasPlanes() {
             <div className="overflow-hidden rounded-[20px] border border-white/[0.10] bg-[#141215]">
               <div className="grid grid-cols-[minmax(0,1.85fr)_minmax(0,0.7fr)_minmax(0,1fr)] border-b border-white/[0.08] px-5 py-3.5">
                 <span className="font-inter text-[12px] font-semibold uppercase tracking-[0.06em] text-white/40">Incluye</span>
-                <span className="text-center font-inter text-[13px] font-semibold text-white">Gratuito</span>
-                <span className="text-center font-inter text-[13px] font-semibold text-[#FF6F5E]">Básico y Avanzado</span>
+                <span className="text-center font-inter text-[13px] font-semibold text-white/65">Gratuito</span>
+                <span className="text-center font-inter text-[13px] font-semibold text-white">Básico y Avanzado</span>
               </div>
               {PLAN_ROWS.map((r) => (
                 <div
@@ -656,7 +656,7 @@ export function T1FinanzasFAQ() {
             <div key={f.q}>
               {f.grupo && (
                 <p
-                  className="font-inter text-[12px] font-semibold uppercase tracking-[0.09em] text-[#FF6F5E]"
+                  className="font-inter text-[12px] font-semibold uppercase tracking-[0.09em] text-white/40"
                   style={{ marginTop: 34, marginBottom: 6 }}
                 >
                   {f.grupo}

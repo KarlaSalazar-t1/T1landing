@@ -1,7 +1,8 @@
 import { SIGNUP_URL } from "@/lib/constants";
 import HeroBackground from "@/components/HeroBackground";
+import Image from "next/image";
 import { BotonApp, Chip, VentanaApp } from "@/components/T1FinanzasUI";
-import { UI } from "@/components/T1FinanzasTokens";
+import { FUENTE, UI } from "@/components/T1FinanzasTokens";
 
 /* ──────────────────────────────────────────────────────────────────────────
    Hero de T1 Finanzas.
@@ -112,6 +113,43 @@ function PanelFacturacion() {
   );
 }
 
+/* Aviso flotante: una venta que acaba de entrar y está lista para facturar.
+   Es lo que promete el título —vendes y facturas en el mismo lugar— contado
+   con la interfaz. Entra con un pequeño rebote y luego flota. */
+function AvisoVenta() {
+  return (
+    <div
+      className="flex items-center gap-3 rounded-[14px] border bg-white px-3.5 py-3"
+      style={{
+        fontFamily: FUENTE,
+        borderColor: UI.bordeSuave,
+        boxShadow: "0 22px 50px rgba(0,0,0,0.30)",
+        animation: "fadeSlideIn 0.6s cubic-bezier(0.16,1,0.3,1) 0.5s both, float 5s ease-in-out 1.3s infinite",
+      }}
+    >
+      <span className="relative flex h-[32px] w-[32px] shrink-0 items-center justify-center rounded-full border bg-white" style={{ borderColor: UI.borde }}>
+        <Image src="/img/meli-iso.svg" alt="" width={32} height={32} className="h-[17px] w-[17px] object-contain" />
+        <span className="absolute -right-[2px] -top-[2px] h-[9px] w-[9px] rounded-full border-2 border-white" style={{ background: UI.rojo }} />
+      </span>
+      <span className="min-w-0 flex-1 leading-tight">
+        <span className="block whitespace-nowrap font-bold" style={{ fontSize: 11.5, color: UI.texto }}>
+          Nueva venta por facturar
+        </span>
+        <span className="block whitespace-nowrap" style={{ fontSize: 10.5, color: UI.tenue }}>
+          Mercado Libre · $12,996.00
+        </span>
+      </span>
+      {/* En móvil el botón sobra: la tarjeta ya es angosta. */}
+      <span
+        className="ml-1 hidden shrink-0 rounded-[8px] px-2.5 py-1.5 font-semibold text-white tablet:inline-block"
+        style={{ background: UI.rojo, fontSize: 10.5 }}
+      >
+        Facturar
+      </span>
+    </div>
+  );
+}
+
 const ArrowRight = (
   <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
     <path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
@@ -153,12 +191,17 @@ export default function T1FinanzasHero() {
             </div>
 
             {/* Derecha — la pantalla de Facturación */}
-            <div className="flex justify-center [perspective:1600px]">
+            <div className="relative flex justify-center [perspective:1600px]">
               <div
-                className="w-full max-w-[600px] tablet:[transform:rotateY(-7deg)_rotateX(2deg)]"
+                className="w-full max-w-[560px] tablet:[transform:rotateY(-7deg)_rotateX(2deg)]"
                 style={{ transformStyle: "preserve-3d" }}
               >
                 <PanelFacturacion />
+              </div>
+
+              {/* El aviso cuelga de la esquina del panel, sin inclinarse. */}
+              <div className="pointer-events-none absolute -bottom-7 left-2 z-20 w-[244px] tablet:-bottom-8 tablet:-left-8 tablet:w-[302px]">
+                <AvisoVenta />
               </div>
             </div>
 

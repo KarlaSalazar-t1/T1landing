@@ -407,7 +407,6 @@ const DURATION = 9000;
 
 export default function T1FinanzasPilares() {
   const [active, setActive] = useState(0);
-  const [barFull, setBarFull] = useState(false);
   const [started, setStarted] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const pillsRef = useRef<HTMLDivElement>(null);
@@ -434,13 +433,8 @@ export default function T1FinanzasPilares() {
 
   useEffect(() => {
     if (!started) return;
-    setBarFull(false);
-    const raf = requestAnimationFrame(() => setBarFull(true));
     const timer = setTimeout(() => setActive((a) => (a + 1) % ITEMS.length), DURATION);
-    return () => {
-      cancelAnimationFrame(raf);
-      clearTimeout(timer);
-    };
+    return () => clearTimeout(timer);
   }, [active, started]);
 
   // En móvil la pestaña activa se acomoda sola dentro de la fila deslizable.
@@ -543,11 +537,14 @@ export default function T1FinanzasPilares() {
             ) : null}
             <div className="mx-auto mt-auto h-[3px] w-full max-w-[420px] overflow-hidden rounded-full tablet:mx-0" style={{ background: "rgba(255,255,255,0.10)" }}>
               <div
+                key={active}
                 style={{
                   height: "100%",
-                  width: barFull ? "100%" : "0%",
+                  width: "100%",
                   background: "#DB3B2B",
-                  transition: barFull ? `width ${DURATION}ms linear` : "none",
+                  transformOrigin: "left",
+                  animation: started ? `pilarProgress ${DURATION}ms linear forwards` : "none",
+                  transform: started ? undefined : "scaleX(0)",
                 }}
               />
             </div>
