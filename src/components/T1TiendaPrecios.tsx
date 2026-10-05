@@ -285,7 +285,7 @@ export default function T1TiendaPrecios() {
           {/* ── Móvil: selector de plan + comparativa etiqueta → valor ── */}
           <div className="tablet:hidden">
             {/* Selector de plan (sticky bajo el navbar) */}
-            <div className="sticky top-[56px] z-20 -mx-5 flex gap-2 overflow-x-auto border-b border-white/[0.06] bg-[#0e0d0d] px-5 py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="sticky top-[86px] z-20 -mx-5 flex gap-2 overflow-x-auto border-y border-white/[0.06] bg-[#0e0d0d] px-5 py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {PLANS.map((p, i) => (
                 <button
                   key={p.name}
