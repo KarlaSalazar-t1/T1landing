@@ -85,7 +85,7 @@ function RfcScreen() {
 
 /* ── 2 · Sello: los archivos se sueltan y se van palomeando ── */
 function SelloScreen() {
-  const paso = usePasos(4, 1150);
+  const paso = usePasos(5, 1000);
   return (
     <Pantalla title="Tu sello digital">
       <div
@@ -113,7 +113,28 @@ function SelloScreen() {
         <Campo label="Contraseña" value={paso >= 3 ? "••••••••••" : ""} check={paso >= 3} />
       </div>
 
-      <p className="mt-3.5 flex items-center gap-1.5 text-[11px] font-semibold text-[#DB3B2B]">
+      {/* El permiso del SAT ya no es un paso aparte: es una casilla que se
+          marca aquí mismo. */}
+      <div
+        className="mt-3 flex items-start gap-2.5 rounded-[12px] border px-3.5 py-2.5 transition-colors duration-300"
+        style={{ borderColor: paso >= 3 ? "rgba(219,59,43,0.35)" : "rgba(0,0,0,0.07)" }}
+      >
+        <span
+          className="mt-[1px] flex h-[16px] w-[16px] shrink-0 items-center justify-center rounded-[5px] border transition-colors duration-300"
+          style={{ background: paso >= 3 ? "#DB3B2B" : "#fff", borderColor: paso >= 3 ? "#DB3B2B" : "rgba(0,0,0,0.2)" }}
+        >
+          {paso >= 3 && (
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12l4.5 4.5L19 7" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          )}
+        </span>
+        <span className="text-[11px] leading-[1.45] text-black/55">
+          Autorizo a T1 a emitir mis facturas. Es el permiso que pide el SAT y se marca una sola vez.
+        </span>
+      </div>
+
+      <p className="mt-3 flex items-center gap-1.5 text-[11px] font-semibold text-[#DB3B2B]">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
           <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.8" />
           <path d="M10 8.5l6 3.5-6 3.5v-7z" fill="currentColor" />
@@ -124,48 +145,51 @@ function SelloScreen() {
   );
 }
 
-/* ── 3 · Permiso: se marca la casilla y se firma ── */
-function PermisoScreen() {
-  const paso = usePasos(3, 1300);
-  return (
-    <Pantalla title="Permiso del SAT">
-      <div className="rounded-[12px] border border-black/[0.07] bg-[#FAFAF9] p-4">
-        <p className="text-[12px] font-bold leading-[1.4] text-black">
-          Permiso para emitir facturas a nombre de tu negocio
-        </p>
-        <div className="mt-3 flex flex-col gap-2" aria-hidden>
-          {[100, 92, 97, 78, 88, 60].map((w, i) => (
-            <span key={i} className="block h-[6px] rounded-full bg-black/[0.07]" style={{ width: `${w}%` }} />
-          ))}
-        </div>
-      </div>
+/* ── 3 · La primera factura ── */
+const QUE_FACTURAR = [
+  { t: "Un pedido de tus canales", d: "Mercado Libre, Amazon, tu tienda en línea…" },
+  { t: "Una venta de mostrador", d: "La capturas en cuatro pasos." },
+  { t: "Tu factura global", d: "Junta las ventas sin factura del periodo." },
+];
 
-      <div
-        className="mt-3.5 flex items-start gap-2.5 rounded-[12px] border px-3.5 py-3 transition-colors duration-300"
-        style={{ borderColor: paso >= 1 ? "rgba(219,59,43,0.35)" : "rgba(0,0,0,0.07)" }}
-      >
-        <span
-          className="mt-[1px] flex h-[17px] w-[17px] shrink-0 items-center justify-center rounded-[5px] border transition-colors duration-300"
-          style={{
-            background: paso >= 1 ? "#DB3B2B" : "#fff",
-            borderColor: paso >= 1 ? "#DB3B2B" : "rgba(0,0,0,0.2)",
-          }}
-        >
-          {paso >= 1 && (
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
-              <path d="M5 12l4.5 4.5L19 7" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          )}
-        </span>
-        <span className="text-[11.5px] leading-[1.45] text-black/60">
-          Autorizo a T1 a emitir mis facturas. Se firma una sola vez.
-        </span>
+function PrimeraFacturaScreen() {
+  const paso = usePasos(3, 1400);
+  return (
+    <Pantalla title="Nueva factura">
+      <p className="text-[12.5px] font-bold text-black">¿Qué quieres facturar?</p>
+      <div className="mt-3 flex flex-col gap-2">
+        {QUE_FACTURAR.map((o, i) => {
+          const on = i === 0 && paso >= 1;
+          return (
+            <span
+              key={o.t}
+              className="flex items-start gap-2.5 rounded-[11px] border px-3 py-2.5 transition-colors duration-300"
+              style={{
+                borderColor: on ? "rgba(219,59,43,0.4)" : "rgba(0,0,0,0.07)",
+                background: on ? "rgba(219,59,43,0.04)" : "#fff",
+              }}
+            >
+              <span
+                className="relative mt-[1px] block h-[13px] w-[13px] shrink-0 rounded-full border-[1.5px] transition-colors duration-300"
+                style={{ borderColor: on ? "#DB3B2B" : "rgba(0,0,0,0.25)" }}
+              >
+                {on && (
+                  <span className="absolute left-1/2 top-1/2 block h-[7px] w-[7px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: "#DB3B2B" }} />
+                )}
+              </span>
+              <span className="leading-tight">
+                <span className="block text-[11.5px] font-semibold text-black">{o.t}</span>
+                <span className="mt-0.5 block text-[10px] leading-[1.45] text-black/40">{o.d}</span>
+              </span>
+            </span>
+          );
+        })}
       </div>
 
       <div className="mt-4" style={{ opacity: paso >= 1 ? 1 : 0.45, transition: "opacity 0.4s", transform: paso >= 2 ? "scale(0.985)" : "scale(1)" }}>
-        <Boton>{paso >= 2 ? "Firmando…" : "Firmar"}</Boton>
+        <Boton>{paso >= 2 ? "Creando tu factura…" : "Crear factura"}</Boton>
       </div>
-      <p className="mt-3 text-center text-[11px] text-black/35">No te pedimos tu firma electrónica.</p>
+      <p className="mt-3 text-center text-[11px] text-black/35">Tus 25 facturas gratis del mes ya están listas.</p>
     </Pantalla>
   );
 }
@@ -183,12 +207,16 @@ function ListoScreen() {
             <path d="M5 12l4.5 4.5L19 7" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </span>
-        <p className="text-[15px] font-bold text-black">Ya puedes facturar</p>
+        <p className="text-[15px] font-bold text-black">Tu primera factura está lista</p>
         <p className="mt-1.5 max-w-[220px] text-[12px] leading-[1.5] text-black/45">
-          Tienes 25 facturas gratis este mes, y otras 25 el mes que entra.
+          Te quedan 24 facturas gratis este mes, y otras 25 el mes que entra.
         </p>
-        <div className="mt-5 w-full max-w-[200px]">
-          <Boton ghost>Hacer mi primera factura</Boton>
+        <div className="mt-5 flex items-center gap-2">
+          {["XML", "PDF"].map((f) => (
+            <span key={f} className="rounded-full border border-black/[0.08] px-3 py-1.5 text-[10.5px] font-semibold text-black/55">
+              {f}
+            </span>
+          ))}
         </div>
       </div>
     </Pantalla>
@@ -196,27 +224,25 @@ function ListoScreen() {
 }
 
 /* ══════════ Sección ══════════ */
-const FRAMES = [RfcScreen, SelloScreen, PermisoScreen, ListoScreen];
+const FRAMES = [RfcScreen, SelloScreen, PrimeraFacturaScreen, ListoScreen];
 const DURS = [3600, 4200, 4000, 3600];
 const FRAME_STEP = [0, 1, 2, 2];
 const STEP_FIRST = [0, 1, 2];
 
 const STEPS = [
   { n: "1", title: "Da de alta tu RFC", desc: "Usa el RFC de tu negocio." },
-  { n: "2", title: "Sube tu sello digital", desc: "Te guiamos con un video. Si no lo tienes, te decimos cómo sacarlo." },
-  { n: "3", title: "Firma el permiso del SAT", desc: "Lo firmas una sola vez." },
+  { n: "2", title: "Sube tu sello digital", desc: "Te guiamos con un video, y marcas el permiso que pide el SAT." },
+  { n: "3", title: "Genera tu primera factura", desc: "Eliges qué facturar y la emites." },
 ];
 
 export default function T1FinanzasAlta() {
   const [frame, setFrame] = useState(0);
   const [started, setStarted] = useState(false);
-  const [manual, setManual] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const touchX = useRef<number | null>(null);
 
   const activeStep = FRAME_STEP[frame];
   const goToStep = (i: number) => {
-    setManual(true);
     setFrame(STEP_FIRST[Math.min(STEPS.length - 1, Math.max(0, i))]);
   };
   const onTouchStart = (e: React.TouchEvent) => {
@@ -250,10 +276,10 @@ export default function T1FinanzasAlta() {
   }, []);
 
   useEffect(() => {
-    if (!started || manual) return;
+    if (!started) return;
     const id = setTimeout(() => setFrame((f) => (f + 1) % FRAMES.length), DURS[frame]);
     return () => clearTimeout(id);
-  }, [frame, started, manual]);
+  }, [frame, started]);
 
   const Screen = FRAMES[frame];
 

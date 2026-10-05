@@ -134,24 +134,45 @@ const CANAL_LOGOS = [
   { src: "/img/walmart.svg", alt: "Walmart" },
   { src: "/img/tiktokshop.svg", alt: "TikTok Shop" },
   { src: "/img/sears-isotipo.svg", alt: "Sears" },
+  { src: "/img/sanborns-iso.svg", alt: "Sanborns" },
+  { src: "/img/shein-iso.svg", alt: "SHEIN" },
+  { src: "/img/aliexpress.svg", alt: "AliExpress" },
+  { src: "/img/shopify.svg", alt: "Shopify" },
+  { src: "/img/tiendanube.svg", alt: "Tiendanube" },
+  { src: "/img/woocommerce.svg", alt: "WooCommerce" },
+  { src: "/img/totalplay.svg", alt: "Total Play" },
 ];
 
 /* Los isotipos flotan alrededor del texto, como en "Actualizar cada canal a
-   mano" de la sublanding de marketplaces. Arriba y abajo en móvil, para que
-   nunca se encimen con el texto. */
+   mano" de la sublanding de marketplaces. En móvil se reparten arriba y
+   abajo, para que nunca se encimen con el texto. */
 const DISPERSION_DESKTOP = [
-  { i: 0, l: "9%", t: "24%", s: 62, r: -8 },
-  { i: 1, l: "17%", t: "73%", s: 54, r: 7 },
-  { i: 2, l: "87%", t: "26%", s: 58, r: 8 },
-  { i: 3, l: "91%", t: "68%", s: 52, r: -7 },
-  { i: 4, l: "47%", t: "88%", s: 50, r: 4 },
+  { i: 0, l: "8%", t: "22%", s: 54, r: -8 },
+  { i: 1, l: "16%", t: "62%", s: 48, r: 7 },
+  { i: 2, l: "90%", t: "24%", s: 52, r: 8 },
+  { i: 3, l: "84%", t: "64%", s: 46, r: -7 },
+  { i: 4, l: "28%", t: "11%", s: 44, r: 5 },
+  { i: 5, l: "72%", t: "10%", s: 42, r: -5 },
+  { i: 6, l: "6%", t: "44%", s: 44, r: 6 },
+  { i: 7, l: "94%", t: "44%", s: 46, r: -6 },
+  { i: 8, l: "30%", t: "88%", s: 46, r: 6 },
+  { i: 9, l: "70%", t: "89%", s: 44, r: -6 },
+  { i: 10, l: "49%", t: "92%", s: 40, r: 4 },
+  { i: 11, l: "50%", t: "8%", s: 40, r: -4 },
 ];
 const DISPERSION_MOVIL = [
-  { i: 0, l: "14%", t: "11%", s: 46, r: -8 },
-  { i: 4, l: "50%", t: "6%", s: 40, r: 5 },
-  { i: 2, l: "86%", t: "13%", s: 46, r: 8 },
-  { i: 1, l: "24%", t: "90%", s: 44, r: 7 },
-  { i: 3, l: "76%", t: "88%", s: 44, r: -6 },
+  { i: 0, l: "12%", t: "8%", s: 42, r: -8 },
+  { i: 4, l: "38%", t: "5%", s: 38, r: 5 },
+  { i: 3, l: "64%", t: "6%", s: 38, r: -5 },
+  { i: 2, l: "88%", t: "10%", s: 42, r: 8 },
+  { i: 6, l: "22%", t: "16%", s: 36, r: 4 },
+  { i: 5, l: "78%", t: "17%", s: 36, r: -6 },
+  { i: 1, l: "12%", t: "90%", s: 42, r: 7 },
+  { i: 8, l: "38%", t: "93%", s: 40, r: -6 },
+  { i: 9, l: "62%", t: "92%", s: 40, r: 7 },
+  { i: 7, l: "88%", t: "88%", s: 42, r: 6 },
+  { i: 10, l: "26%", t: "81%", s: 36, r: -6 },
+  { i: 11, l: "74%", t: "81%", s: 36, r: -4 },
 ];
 
 export function T1FinanzasCanales() {

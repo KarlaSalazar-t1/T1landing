@@ -21,21 +21,18 @@ type Plan = {
   custom?: boolean; featured?: boolean; ia: string; features: string[]; cta: string; href: string;
 };
 
-/* Planes — Fase México (Definición v2.2 / Tabla v5.1). El plan gratuito ya
-   transacciona y tiene tienda en línea. Créditos: 50/500/5,000 al mes
-   (5 créditos por imagen). "Pausa", nunca "bloqueo". */
+/* Planes — Fase México. El plan gratuito ya transacciona y tiene tienda en línea.
+   Créditos IA: 100/500/1,000 al mes (5 créditos por imagen). */
 const PLANS: Plan[] = [
   {
     name: "Gratuito", tagline: "Para vender en línea desde hoy, para siempre", monthly: 0, annual: 0,
-    ia: "50 créditos IA al mes",
+    ia: "100 créditos IA al mes",
     features: [
-      "Tienda en línea con 30 pedidos al mes",
-      "Productos ilimitados · 500 publicados",
-      "500 clientes · 25 facturas al mes",
-      "POS Lite · 1 sucursal · 1 empleado",
-      "Chat AI ilimitado (10 análisis al día)",
+      "Tienda en línea con checkout y pagos",
+      "Diseño con IA",
+      "Facturas CFDI",
+      "Punto de venta incluido",
       "Vende en Sears, Sanborns y +10 canales",
-      "1 plantilla · subdominio T1",
     ],
     cta: "Comienza gratis", href: SIGNUP_URL,
   },
@@ -50,20 +47,18 @@ const PLANS: Plan[] = [
       "Hasta 3 sucursales · 9 empleados POS",
       "Dominio propio + SSL · 5 plantillas",
       "Cupones, descuentos y carrito abandonado",
-      "Chat AI: 100 análisis al día",
     ],
     cta: "Comienza gratis", href: SIGNUP_URL,
   },
   {
     name: "Avanzado", tagline: "Para equipos en crecimiento", monthly: 1499, annual: 1249.17,
-    ia: "5,000 créditos IA al mes",
+    ia: "1,000 créditos IA al mes",
     features: [
       "Todo lo del plan Básico, más:",
       "5,000 pedidos al mes · adicionales a $5 c/u",
       "Hasta 10 sucursales · 30 empleados POS",
       "15 plantillas de diseño",
       "Protección contra bots (Bot Manager)",
-      "Chat AI: 250 análisis al día · historial ilimitado",
     ],
     cta: "Comienza gratis", href: SIGNUP_URL,
   },
@@ -89,13 +84,13 @@ const COMPARE: { section: string; rows: { label: string; v: (boolean | string)[]
     rows: [
       { label: "Precio mensual", v: ["Gratis", "$399", "$1,499", "A tu medida"] },
       { label: "Precio anual (al mes)", v: ["Gratis", "$332.50", "$1,249.17", "A tu medida"] },
-      { label: "Créditos IA al mes", v: ["50", "500", "5,000", "A tu medida"], note: "Cada imagen generada usa 5 créditos. Se renuevan cada mes y no son acumulables." },
+      { label: "Créditos IA al mes", v: ["100", "500", "1,000", "A tu medida"], note: "Cada imagen generada usa 5 créditos. Se renuevan cada mes y no son acumulables." },
     ],
   },
   {
     section: "Pedidos",
     rows: [
-      { label: "Pedidos de tienda en línea al mes", v: ["30", "500", "5,000", "A tu medida"], note: "Al llegar al límite, el checkout se pausa: tu tienda sigue visible y tus demás canales activos; se reanuda el día 1 o al cambiar de plan." },
+      { label: "Pedidos de tienda en línea al mes", v: ["30", "500", "5,000", "A tu medida"] },
       { label: "Pedido adicional", v: [false, "$8", "$5", "A tu medida"] },
       { label: "Pedidos por POS, marketplaces y links de pago", v: ["Ilimitados", "Ilimitados", "Ilimitados", "Ilimitados"] },
     ],
@@ -129,7 +124,7 @@ const COMPARE: { section: string; rows: { label: string; v: (boolean | string)[]
   {
     section: "Gestión de clientes",
     rows: [
-      { label: "Clientes", v: ["500", "Ilimitados", "Ilimitados", "Ilimitados"] },
+      { label: "Clientes", v: ["Ilimitados", "Ilimitados", "Ilimitados", "Ilimitados"] },
       { label: "Carrito abandonado, cupones y descuentos", v: [false, true, true, true] },
     ],
   },
@@ -143,20 +138,9 @@ const COMPARE: { section: string; rows: { label: string; v: (boolean | string)[]
   {
     section: "Punto de venta",
     rows: [
-      { label: "POS Lite", v: [true, true, true, true] },
+      { label: "Punto de venta", v: [true, true, true, true] },
       { label: "Empleados POS", v: ["1", "9", "30", "Ilimitados"] },
       { label: "Pedidos por POS", v: ["Ilimitados", "Ilimitados", "Ilimitados", "Ilimitados"] },
-    ],
-  },
-  {
-    section: "Chat AI",
-    rows: [
-      { label: "Conversación y soporte", v: ["Ilimitados", "Ilimitados", "Ilimitados", "Ilimitados"] },
-      { label: "Análisis de archivos al día", v: ["10", "100", "250", "A tu medida"] },
-      { label: "Archivos por mensaje", v: ["5", "10", "10", "10"] },
-      { label: "Historial", v: ["30 días", "12 meses", "Ilimitado", "Ilimitado"] },
-      { label: "Memoria del negocio", v: [true, true, true, true] },
-      { label: "Hablar con una persona", v: [true, true, true, true] },
     ],
   },
   {
@@ -192,6 +176,7 @@ function Cell({ val }: { val: boolean | string }) {
 
 export default function T1TiendaPrecios() {
   const [annual, setAnnual] = useState(false);
+  const [selPlan, setSelPlan] = useState(1); // comparativa móvil: plan mostrado (default Básico)
 
   return (
     <main className="min-h-screen bg-black">
@@ -297,7 +282,42 @@ export default function T1TiendaPrecios() {
             Compara todos los planes
           </h2>
 
-          <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {/* ── Móvil: selector de plan + comparativa etiqueta → valor ── */}
+          <div className="tablet:hidden">
+            {/* Selector de plan (sticky bajo el navbar) */}
+            <div className="sticky top-[56px] z-20 -mx-5 flex gap-2 overflow-x-auto border-b border-white/[0.06] bg-[#0e0d0d] px-5 py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {PLANS.map((p, i) => (
+                <button
+                  key={p.name}
+                  type="button"
+                  onClick={() => setSelPlan(i)}
+                  className={`shrink-0 rounded-full border px-4 py-2 font-inter text-[13px] font-semibold transition-colors ${i === selPlan ? "border-[#DB3B2B] bg-[#DB3B2B] text-white" : "border-white/15 bg-white/[0.04] text-white/70"}`}
+                >
+                  {p.name}
+                </button>
+              ))}
+            </div>
+
+            {COMPARE.map((sec) => (
+              <div key={sec.section} className="mt-7">
+                <p className="font-sora text-[13px] font-semibold uppercase tracking-[0.08em] text-white">{sec.section}</p>
+                <div className="mt-1.5">
+                  {sec.rows.map((row) => (
+                    <div key={row.label} className="flex items-start justify-between gap-4 border-t border-white/[0.07] py-3.5">
+                      <span className="min-w-0 flex-1 font-inter text-[14px] font-light text-white/75">
+                        {row.label}
+                        {row.note && <span className="mt-1 block font-inter text-[11.5px] font-light leading-snug text-white/50">{row.note}</span>}
+                      </span>
+                      <span className="flex shrink-0 justify-end pt-0.5 text-right"><Cell val={row.v[selPlan]} /></span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* ── Desktop: tabla completa ── */}
+          <div className="hidden overflow-x-auto tablet:block [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <table className="w-full min-w-[760px] border-collapse text-left">
               <thead>
                 <tr>
