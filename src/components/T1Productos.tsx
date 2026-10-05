@@ -361,7 +361,7 @@ export default function T1Productos() {
                 Un catálogo para{" "}
                 <span className="relative inline-block">
                   todos tus canales
-                  <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.30)", borderRadius: 5, zIndex: -1 }} />
+                  
                 </span>
               </h1>
               <p

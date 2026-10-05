@@ -307,15 +307,6 @@ export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis
                 className={`transition-transform duration-200 ${menuOpen ? "rotate-180" : ""}`}
               />
             </button>
-            <button
-              onClick={() => { setMenuOpen(false); setRecursosOpen(!recursosOpen); }}
-              className={`hidden cursor-pointer items-center gap-1 border-none bg-transparent font-inter text-[16px] font-medium transition-colors duration-150 tablet:flex ${recursosOpen ? textActive : textClass}`}
-            >
-              Recursos
-              <ChevronDown
-                className={`transition-transform duration-200 ${recursosOpen ? "rotate-180" : ""}`}
-              />
-            </button>
             {NAV_LINKS.map((link) => (
               <a
                 key={link.label}
@@ -390,15 +381,6 @@ export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis
                   className="flex cursor-pointer items-center justify-between border-b border-white/[0.08] bg-transparent py-4 font-inter text-[16px] font-medium text-white"
                 >
                   <span>Productos</span>
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                    <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
-                <button
-                  onClick={() => setMobileScreen("recursos")}
-                  className="flex cursor-pointer items-center justify-between border-b border-white/[0.08] bg-transparent py-4 font-inter text-[16px] font-medium text-white"
-                >
-                  <span>Recursos</span>
                   <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
                     <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>

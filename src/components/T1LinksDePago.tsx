@@ -677,7 +677,7 @@ export default function T1LinksDePago() {
                 Cobra a distancia con{" "}
                 <span className="relative inline-block">
                   un solo link
-                  <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.30)", borderRadius: 5, zIndex: -1 }} />
+                  
                 </span>
                 .
               </h1>

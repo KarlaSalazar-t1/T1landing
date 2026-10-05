@@ -151,24 +151,10 @@ export const FOOTER_COLUMNS = [
     ],
   },
   {
-    title: "Recursos",
-    links: [
-      { label: "Blog", href: BLOG_URL },
-      { label: "Centro de ayuda", href: "/ayuda" },
-      { label: "Documentación", href: "/documentacion" },
-      { label: "Estatus del servicio", href: "/estatus" },
-    ],
-  },
-  {
     title: "Comunidad",
     links: [
-      { label: "Historias de éxito", href: CASES_URL },
       { label: "Partners", href: "https://www.t1.com/mx/partners" },
       { label: "Vacantes", href: "https://careers.t1.com/" },
     ],
-  },
-  {
-    title: "T1",
-    links: [{ label: "Sobre T1", href: "/por-que-t1" }],
   },
 ];

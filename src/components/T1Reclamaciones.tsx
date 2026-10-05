@@ -125,7 +125,7 @@ export default function T1Reclamaciones() {
             <div>
               <h1 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[56px]" style={{ lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: 22 }}>
                 Ten visibilidad y gestiona{" "}
-                <span className="relative inline-block">reclamaciones<span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.35)", borderRadius: 5, zIndex: -1 }} /></span>
+                <span className="relative inline-block">reclamaciones</span>
               </h1>
               <p className="font-inter text-[16px] font-light text-white/70 tablet:text-[19px]" style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 480 }}>
                 Recibe alertas, responde con evidencia, controla plazos y da seguimiento a cada reclamación desde el administrador.

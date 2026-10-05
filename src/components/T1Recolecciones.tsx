@@ -175,7 +175,7 @@ export default function T1Recolecciones() {
                 Tus paquetes siempre{" "}
                 <span className="relative inline-block">
                   en camino
-                  <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.35)", borderRadius: 5, zIndex: -1 }} />
+                  
                 </span>.
               </h1>
               <p className="font-inter text-[16px] font-light text-white/70 tablet:text-[19px]" style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 470 }}>

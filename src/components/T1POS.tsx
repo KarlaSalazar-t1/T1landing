@@ -129,7 +129,7 @@ export default function T1POS() {
                 El punto de venta{" "}
                 <span className="relative inline-block">
                   todo en uno
-                  <span aria-hidden className="absolute left-0 right-0 bottom-1" style={{ height: 10, background: "rgba(219,59,43,0.30)", borderRadius: 5, zIndex: -1 }} />
+                  
                 </span>
               </h1>
               <p
@@ -407,7 +407,8 @@ export default function T1POS() {
       </section>
       )}
 
-      {/* ── Planes ── */}
+      {/* ── Planes ── (ocultos a pedido; cambiar a true para mostrarlos) */}
+      {false && (
       <section className="relative bg-white px-5 py-[100px] tablet:px-10 tablet:py-[128px]">
         <div className="mx-auto max-w-[var(--max-w)]">
           <div data-modal-animate className="mx-auto max-w-[700px] text-center" style={{ marginBottom: 48 }}>
@@ -489,6 +490,7 @@ export default function T1POS() {
           </p>
         </div>
       </section>
+      )}
 
       {/* ── Ecosistema T1 — órbita ── */}
       <section className="relative overflow-hidden px-5 py-16 tablet:px-10 tablet:py-20" style={{ background: "linear-gradient(135deg, #1A1212 0%, #0F0808 55%, #050303 100%)" }}>
