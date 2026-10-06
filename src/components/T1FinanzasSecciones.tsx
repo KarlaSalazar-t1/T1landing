@@ -80,17 +80,14 @@ export function T1FinanzasProblema() {
           Facturar a mano te quita medio día al mes
         </h2>
 
-        <ul ref={listaRef} className="mt-10 flex w-full max-w-[560px] flex-col tablet:mt-14">
+        <ul ref={listaRef} className="mt-10 flex w-full max-w-[560px] flex-col gap-4 tablet:mt-14 tablet:gap-6">
           {TAREAS.map((t, i) => (
-            <li
-              key={t}
-              className="border-b border-white/[0.07] py-4 last:border-b-0 tablet:py-5"
-            >
+            <li key={t}>
               <span className="relative inline-block font-sora text-[19px] font-light tablet:text-[26px]" style={{ color: tachadas ? "rgba(255,255,255,0.30)" : "rgba(255,255,255,0.62)", transition: `color 0.8s ease ${i * 380 + 200}ms` }}>
                 {t}
                 <span
                   aria-hidden
-                  className="absolute left-0 top-1/2 h-[2px] w-full origin-left rounded-full"
+                  className="absolute left-0 top-1/2 h-[1.5px] w-full origin-left rounded-full"
                   style={{
                     background: "rgba(255,255,255,0.55)",
                     transform: tachadas ? "scaleX(1)" : "scaleX(0)",

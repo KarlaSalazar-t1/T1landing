@@ -38,12 +38,17 @@ export default function AvisoPedido() {
         animation: "fadeSlideIn 0.6s cubic-bezier(0.16,1,0.3,1) 0.5s both, float 5s ease-in-out 1.3s infinite",
       }}
     >
-      <span
-        className="relative flex h-[32px] w-[32px] shrink-0 items-center justify-center rounded-full border bg-white"
-        style={{ borderColor: UI.borde }}
-      >
-        <Image key={p.canal} src={p.logo} alt="" width={32} height={32} className="h-[17px] w-[17px] object-contain" style={{ animation: "fadeSlideIn 0.35s ease-out" }} />
-        <span className="absolute -right-[2px] -top-[2px] h-[9px] w-[9px] rounded-full border-2 border-white" style={{ background: UI.rojo }} />
+      <span className="relative flex h-[26px] w-[26px] shrink-0 items-center justify-center">
+        <Image
+          key={p.canal}
+          src={p.logo}
+          alt=""
+          width={26}
+          height={26}
+          className="h-[22px] w-[22px] object-contain"
+          style={{ animation: "fadeSlideIn 0.35s ease-out" }}
+        />
+        <span className="absolute -right-[3px] -top-[3px] h-[8px] w-[8px] rounded-full border-2 border-white" style={{ background: UI.rojo }} />
       </span>
 
       <span className="min-w-0 flex-1 leading-tight">

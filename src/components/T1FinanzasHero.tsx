@@ -45,7 +45,7 @@ const COLS = "72px minmax(0,1fr) minmax(0,1.15fr) 92px 84px";
 
 function PanelInicio() {
   return (
-    <VentanaApp className="max-w-[640px]" cromo="escritorio">
+    <VentanaApp className="max-w-[640px]" cromo="nunca">
       {/* Saludo, con el degradado cálido de la pantalla real */}
       <div
         className="px-4 pb-4 pt-4 tablet:px-6 tablet:pb-5 tablet:pt-5"
@@ -54,10 +54,7 @@ function PanelInicio() {
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="font-bold" style={{ fontSize: 16, color: UI.texto }}>
-              Buenas tardes, Comercio
-            </p>
-            <p className="mt-1" style={{ fontSize: 11, color: UI.suave }}>
-              Te faltan <span style={{ color: UI.texto, fontWeight: 600 }}>$45,590.00</span> por facturar este mes.
+              Hola, Luis
             </p>
           </div>
           <div className="hidden shrink-0 items-center gap-2 tablet:flex">
@@ -74,10 +71,7 @@ function PanelInicio() {
         </div>
       </div>
 
-      <div className="px-4 pb-5 tablet:px-6">
-        <p className="font-bold" style={{ fontSize: 12, color: UI.texto, marginBottom: 8 }}>
-          Tu mes hasta hoy
-        </p>
+      <div className="px-4 pb-5 pt-1 tablet:px-6">
         <div className="grid grid-cols-3 gap-2 tablet:gap-3">
           {RESUMEN.map((r) => (
             <div key={r.k} className="rounded-[10px] border px-3 py-2.5" style={{ borderColor: UI.borde }}>

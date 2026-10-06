@@ -26,7 +26,8 @@ const ALTO_PANEL = 420;
    el color de lo que sí puedes hacer. */
 function DisponibleEn({ planes }: { planes: string }) {
   return (
-    <span className="mt-4 inline-flex items-center rounded-full border border-white/[0.10] bg-white/[0.04] px-3.5 py-1.5 font-inter text-[12.5px] font-light text-white/50">
+    <span className="mt-3 flex items-center justify-center gap-2 font-inter text-[12.5px] font-light text-white/45 tablet:justify-start">
+      <span className="h-[3px] w-[3px] shrink-0 rounded-full bg-white/30" />
       Disponible en los planes {planes}
     </span>
   );

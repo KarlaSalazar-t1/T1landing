@@ -57,8 +57,8 @@ export function VentanaApp({
   /** Alto fijo del lienzo. Sin él, la ventana crece con su contenido. */
   alto?: number;
   className?: string;
-  /** En móvil la barra de puntos roba altura y no aporta: se puede ocultar. */
-  cromo?: "siempre" | "escritorio";
+  /** La barra de puntos roba altura y no siempre aporta: se puede ocultar. */
+  cromo?: "siempre" | "escritorio" | "nunca";
 }) {
   return (
     <div
@@ -67,7 +67,7 @@ export function VentanaApp({
       style={{ fontFamily: FUENTE, pointerEvents: "none", boxShadow: "0 30px 70px rgba(0,0,0,0.42)" }}
     >
       <div
-        className={`${cromo === "escritorio" ? "hidden tablet:flex" : "flex"} items-center gap-1.5 border-b px-3.5 py-2.5`}
+        className={`${cromo === "nunca" ? "hidden" : cromo === "escritorio" ? "hidden tablet:flex" : "flex"} items-center gap-1.5 border-b px-3.5 py-2.5`}
         style={{ borderColor: UI.bordeSuave, background: "#F7F6F5" }}
       >
         {["#E26153", "#E8C15C", "#6FBF73"].map((c) => (
