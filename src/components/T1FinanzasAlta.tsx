@@ -102,7 +102,7 @@ function SelloScreen() {
           </svg>
         </span>
         <span className="block text-[12.5px] font-semibold text-black">
-          {paso === 0 ? "Suelta aquí tus archivos" : "Archivos cargados"}
+          {paso >= 3 ? "Archivos cargados" : "Sube tus archivos"}
         </span>
         <span className="mt-0.5 block text-[11px] text-black/40">Los que el SAT te dio: .cer y .key</span>
       </div>

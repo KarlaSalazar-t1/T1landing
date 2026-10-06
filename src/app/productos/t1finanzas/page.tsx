@@ -17,9 +17,9 @@ import T1Footer from "@/components/T1Footer";
 import { SIGNUP_URL } from "@/lib/constants";
 
 export const metadata = {
-  title: "T1 Finanzas · Vende y factura en el mismo lugar",
+  title: "T1 Finanzas · Factura tus ventas en un clic",
   description:
-    "La facturación de T1. Tus pedidos de Mercado Libre, Amazon, TikTok Shop y más llegan listos para facturar en un clic, y lo que vendes en mostrador lo capturas en cuatro pasos. Comienza gratis con 25 facturas al mes por negocio.",
+    "La facturación de T1. Tus pedidos de Mercado Libre, Amazon, TikTok Shop y más llegan listos para facturar, y cualquier otra venta la facturas en minutos. Comienza gratis con 25 facturas al mes por negocio.",
 };
 
 export default function FinanzasLanding() {
@@ -29,7 +29,7 @@ export default function FinanzasLanding() {
           solo lleva el lockup del producto. */}
       <T1Navbar product="finanzas" pageType="producto" />
 
-      {/* Hero — facturas emitidas + "facturar aquí son cuatro preguntas" */}
+      {/* Hero — la pantalla de Inicio del producto, con el aviso de pedido */}
       <T1FinanzasHero />
 
       <div className="relative z-[5] bg-black">
@@ -38,7 +38,7 @@ export default function FinanzasLanding() {
             empiezas → dudas. */}
         {/* 1 · El problema: deja de perder medio día al mes facturando */}
         <T1FinanzasProblema />
-        {/* 2 · Así facturas con T1 — pestañas: pedido · global · mostrador · clave */}
+        {/* 2 · Cómo facturas — pestañas: pedido · global · otras ventas · clave */}
         <T1FinanzasPilares />
         {/* 3 · Los pedidos de T1 Tienda, que llegan solos */}
         <T1FinanzasCanales />

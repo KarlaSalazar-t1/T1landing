@@ -106,7 +106,7 @@ export function T1FinanzasProblema() {
           className="mt-11 font-sora text-[22px] font-light text-white tablet:mt-14 tablet:text-[32px]"
           style={{ letterSpacing: "-0.02em", lineHeight: 1.25, maxWidth: 620 }}
         >
-          Con T1 Finanzas, tus ventas llegan listas y tu contador recibe todo en orden.
+          Con T1 Finanzas, tus ventas llegan listas y le pasas todo en orden a tu contador.
         </p>
 
         <a
@@ -126,8 +126,7 @@ export function T1FinanzasProblema() {
 
 /* ══════════ 2 · Los pedidos de T1 Tienda ══════════
    Los logos son SOLO los de las tiendas cuyos pedidos llegan a Finanzas el
-   día que se publica. Shopify y Tiendanube están por confirmar, así que por
-   ahora no se muestran. */
+   día que se publica. WooCommerce queda fuera hasta confirmarlo. */
 const CANAL_LOGOS = [
   { src: "/img/meli-iso.svg", alt: "Mercado Libre" },
   { src: "/img/amazon-iso.svg", alt: "Amazon" },
@@ -138,8 +137,7 @@ const CANAL_LOGOS = [
   { src: "/img/shein-iso.svg", alt: "SHEIN" },
   { src: "/img/aliexpress.svg", alt: "AliExpress" },
   { src: "/img/shopify.svg", alt: "Shopify" },
-  { src: "/img/tiendanube.svg", alt: "Tiendanube" },
-  { src: "/img/woocommerce.svg", alt: "WooCommerce" },
+  { src: "/img/tiendanube.svg", alt: "Tienda Nube" },
   { src: "/img/totalplay.svg", alt: "Total Play" },
 ];
 
@@ -158,7 +156,6 @@ const DISPERSION_DESKTOP = [
   { i: 8, l: "30%", t: "88%", s: 46, r: 6 },
   { i: 9, l: "70%", t: "89%", s: 44, r: -6 },
   { i: 10, l: "49%", t: "92%", s: 40, r: 4 },
-  { i: 11, l: "50%", t: "8%", s: 40, r: -4 },
 ];
 const DISPERSION_MOVIL = [
   { i: 0, l: "12%", t: "8%", s: 42, r: -8 },
@@ -171,8 +168,7 @@ const DISPERSION_MOVIL = [
   { i: 8, l: "38%", t: "93%", s: 40, r: -6 },
   { i: 9, l: "62%", t: "92%", s: 40, r: 7 },
   { i: 7, l: "88%", t: "88%", s: 42, r: 6 },
-  { i: 10, l: "26%", t: "81%", s: 36, r: -6 },
-  { i: 11, l: "74%", t: "81%", s: 36, r: -4 },
+  { i: 10, l: "74%", t: "81%", s: 36, r: -4 },
 ];
 
 export function T1FinanzasCanales() {
@@ -234,7 +230,7 @@ export function T1FinanzasCanales() {
 const NEGOCIOS = [
   {
     title: "Marketplaces",
-    desc: "La factura global de Mercado Libre, Amazon o TikTok Shop, sin Excel. Con el plan Básico, la de cada uno se emite sola.",
+    desc: "Tu factura global de cada marketplace, sin armarla a mano.",
     href: "/productos/t1finanzas#faq-global-marketplaces",
   },
   {
@@ -494,7 +490,7 @@ const FAQS: Faq[] = [
   },
   {
     q: "¿Qué necesito para empezar a facturar?",
-    a: "El RFC de tu negocio y su sello digital. El sello son dos archivos que te da el SAT para firmar tus facturas: si ya los tienes, los subes en unos minutos con una guía en video; si no, te damos la guía paso a paso para tramitarlos. También firmas una vez el permiso que el SAT pide para que un sistema emita facturas a tu nombre. No te pedimos tu firma electrónica (e.firma).",
+    a: "El RFC de tu negocio y su sello digital. El sello son dos archivos que te da el SAT para firmar tus facturas: si ya los tienes, los subes en unos minutos con una guía en video; si no, te damos la guía paso a paso para tramitarlos. También aceptas, con una casilla, el permiso que el SAT pide para que un sistema emita facturas a tu nombre. No te pedimos tu firma electrónica (e.firma).",
   },
   {
     q: "¿Qué es el sello digital y cómo lo saco?",
@@ -541,7 +537,7 @@ const FAQS: Faq[] = [
   },
   {
     q: "¿Cómo sé qué clave de producto del SAT le corresponde a lo que vendo?",
-    a: "No tienes que buscarla. El catálogo del SAT tiene 52,513 claves de producto, y nuestro sistema inteligente te sugiere la que mejor le queda a cada cosa que vendes. Tú la apruebas. Nunca la ponemos sin preguntarte, y siempre la puedes cambiar.",
+    a: "No tienes que buscarla. El catálogo del SAT tiene 52,513 claves de producto, y nuestro sistema inteligente te sugiere la que mejor le queda a cada cosa que vendes. Tú la apruebas. Nunca la ponemos sin preguntarte, y la puedes cambiar antes de emitir la factura.",
   },
   {
     q: "¿Puedo facturar una venta que hice fuera de T1?",

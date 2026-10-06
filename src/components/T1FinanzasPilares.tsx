@@ -39,10 +39,10 @@ function DisponibleEn({ planes }: { planes: string }) {
    no cuatro. */
 /* ══════════ 1 · Pedidos de todos los canales ══════════ */
 const PEDIDOS = [
-  { folio: "ML—2138", canal: "Mercado Libre", logo: "/img/meli-iso.svg", cliente: "Comprador ML #2170", fecha: "05/09/2026", total: "$12,996.00", estado: "Sin facturar", tono: "neutro" as const },
-  { folio: "TN—5512", canal: "Tiendanube", logo: "/img/tiendanube.svg", cliente: "Comercializadora Delta", fecha: "04/09/2026", total: "$34,500.00", estado: "Sin facturar", tono: "neutro" as const },
-  { folio: "AMZ—7731", canal: "Amazon", logo: "/img/amazon-iso.svg", cliente: "Carlos Ramírez", fecha: "03/09/2026", total: "$8,990.00", estado: "Facturado", tono: "verde" as const },
-  { folio: "TT—0914", canal: "TikTok Shop", logo: "/img/tiktokshop.svg", cliente: "María González López", fecha: "02/09/2026", total: "$4,980.00", estado: "Facturado", tono: "verde" as const },
+  { folio: "ML-2138", canal: "Mercado Libre", logo: "/img/meli-iso.svg", cliente: "Laura Medina", fecha: "05/09/2026", total: "$12,996.00", estado: "Sin facturar", tono: "neutro" as const },
+  { folio: "TN-5512", canal: "Tienda Nube", logo: "/img/tiendanube.svg", cliente: "Comercializadora Delta", fecha: "04/09/2026", total: "$34,500.00", estado: "Sin facturar", tono: "neutro" as const },
+  { folio: "AMZ-7731", canal: "Amazon", logo: "/img/amazon-iso.svg", cliente: "Carlos Ramírez", fecha: "03/09/2026", total: "$8,990.00", estado: "Facturado en global", tono: "verde" as const },
+  { folio: "TT-0914", canal: "TikTok Shop", logo: "/img/tiktokshop.svg", cliente: "María González López", fecha: "02/09/2026", total: "$4,980.00", estado: "Facturado particular", tono: "verde" as const },
 ];
 
 function PanelPedidos() {
@@ -387,10 +387,10 @@ const ITEMS = [
   },
   {
     id: "mostrador",
-    label: "Mostrador y WhatsApp",
-    title: "Tus ventas de mostrador, en cuatro pasos",
+    label: "Otras ventas",
+    title: "Cualquier otra venta, en cuatro pasos",
     description:
-      "A quién le vendiste, qué vendiste y cómo te pagaron. Revisas la factura y la emites.",
+      "Mostrador, WhatsApp o donde sea: a quién le vendiste, qué vendiste y cómo te pagaron. Revisas la factura y la emites.",
     Panel: PanelAsistente,
   },
   {
@@ -470,7 +470,7 @@ export default function T1FinanzasPilares() {
             className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
             style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}
           >
-            Tus ventas en línea y de mostrador, en un solo lugar
+            Tus pedidos en línea y cualquier otra venta, en un solo lugar
           </h2>
         </div>
 
