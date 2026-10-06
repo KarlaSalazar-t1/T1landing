@@ -2,7 +2,8 @@ import Image from "next/image";
 import { SIGNUP_URL } from "@/lib/constants";
 import HeroBackground from "@/components/HeroBackground";
 import { Chip, VentanaApp } from "@/components/T1FinanzasUI";
-import { FUENTE, UI } from "@/components/T1FinanzasTokens";
+import AvisoPedido from "@/components/T1FinanzasAvisoPedido";
+import { UI } from "@/components/T1FinanzasTokens";
 
 /* ──────────────────────────────────────────────────────────────────────────
    Hero de T1 Finanzas.
@@ -180,61 +181,6 @@ function PanelInicio() {
   );
 }
 
-/* Aviso flotante: un pedido que acaba de entrar y está listo para facturar.
-   Es la promesa del título contada con la interfaz. */
-function AvisoPedido() {
-  return (
-    <div
-      className="flex items-center gap-3 rounded-[14px] border bg-white px-3.5 py-3"
-      style={{
-        fontFamily: FUENTE,
-        borderColor: UI.bordeSuave,
-        boxShadow: "0 22px 50px rgba(0,0,0,0.30)",
-        animation: "fadeSlideIn 0.6s cubic-bezier(0.16,1,0.3,1) 0.5s both, float 5s ease-in-out 1.3s infinite",
-      }}
-    >
-      <span className="relative flex h-[32px] w-[32px] shrink-0 items-center justify-center rounded-full border bg-white" style={{ borderColor: UI.borde }}>
-        <Image src="/img/meli-iso.svg" alt="" width={32} height={32} className="h-[17px] w-[17px] object-contain" />
-        <span className="absolute -right-[2px] -top-[2px] h-[9px] w-[9px] rounded-full border-2 border-white" style={{ background: UI.rojo }} />
-      </span>
-      <span className="min-w-0 flex-1 leading-tight">
-        <span className="block whitespace-nowrap font-bold" style={{ fontSize: 11.5, color: UI.texto }}>
-          Nuevo pedido por facturar
-        </span>
-        <span className="block whitespace-nowrap" style={{ fontSize: 10.5, color: UI.tenue }}>
-          Mercado Libre · $12,996.00
-        </span>
-      </span>
-      {/* En móvil el botón sobra: la tarjeta ya es angosta. */}
-      <span
-        className="ml-1 hidden shrink-0 rounded-[8px] px-2.5 py-1.5 font-semibold text-white tablet:inline-block"
-        style={{ background: UI.rojo, fontSize: 10.5 }}
-      >
-        Facturar
-      </span>
-    </div>
-  );
-}
-
-/* Los canales de donde llegan los pedidos, debajo del botón. */
-const CANALES_HERO = [
-  { src: "/img/meli-iso.svg", alt: "Mercado Libre" },
-  { src: "/img/amazon-iso.svg", alt: "Amazon" },
-  { src: "/img/tiktokshop.svg", alt: "TikTok Shop" },
-  { src: "/img/shopify.svg", alt: "Shopify" },
-  { src: "/img/tiendanube.svg", alt: "Tienda Nube" },
-];
-
-function LogosCanales() {
-  return (
-    <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-3 tablet:justify-start tablet:gap-x-6">
-      {CANALES_HERO.map((c) => (
-        <Image key={c.alt} src={c.src} alt={c.alt} width={28} height={28} className="h-[22px] w-auto object-contain opacity-80" />
-      ))}
-    </div>
-  );
-}
-
 const ArrowRight = (
   <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
     <path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
@@ -273,9 +219,6 @@ export default function T1FinanzasHero() {
                 Comienza gratis
                 {ArrowRight}
               </a>
-              <div className="mt-7 hidden tablet:block">
-                <LogosCanales />
-              </div>
             </div>
 
             {/* Derecha — la pantalla de Inicio */}
@@ -293,8 +236,8 @@ export default function T1FinanzasHero() {
               </div>
             </div>
 
-            {/* CTA y logos en móvil */}
-            <div className="flex flex-col items-center gap-6 tablet:hidden">
+            {/* CTA en móvil */}
+            <div className="flex flex-col items-center tablet:hidden">
               <a
                 href={SIGNUP_URL}
                 data-cta-location="hero"
@@ -305,7 +248,6 @@ export default function T1FinanzasHero() {
                 Comienza gratis
                 {ArrowRight}
               </a>
-              <LogosCanales />
             </div>
           </div>
         </div>

@@ -106,7 +106,7 @@ export function T1FinanzasProblema() {
           className="mt-11 font-sora text-[22px] font-light text-white tablet:mt-14 tablet:text-[32px]"
           style={{ letterSpacing: "-0.02em", lineHeight: 1.25, maxWidth: 620 }}
         >
-          Con T1 Finanzas, tus ventas llegan listas y le pasas todo en orden a tu contador.
+          Con T1 Finanzas, tus ventas llegan listas y tu contador recibe todo en orden.
         </p>
 
         <a
