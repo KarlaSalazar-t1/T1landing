@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
+import { FUENTE, UI } from "@/components/T1FinanzasTokens";
+import { Chip } from "@/components/T1FinanzasUI";
 
 /* ──────────────────────────────────────────────────────────────────────────
    Secciones de la landing de T1 Finanzas.
@@ -111,6 +113,340 @@ export function T1FinanzasProblema() {
           data-cta-text="Comienza gratis"
           data-cta-destination={SIGNUP_URL}
           data-cta-section="problema"
+          className="mt-9 inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]"
+        >
+          Comienza gratis
+          {Arrow}
+        </a>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════ 1c · El problema, propuesta C: el revoltijo de hoy ══════════
+   No se dice el dolor, se enseña: el Excel que el dueño arma cada mes, con
+   su suma rota y su columna de "¿facturado?" a medias, y encima lo demás que
+   trae entre manos —el recado pegado y el mensaje del contador pidiendo los
+   tickets—. Todo sale de las entrevistas del six-pager; no hay ni un dato
+   inventado, y el único número es el medio día que ya está aprobado. */
+const MONO = "ui-monospace, SFMono-Regular, Menlo, monospace";
+
+const FILAS_EXCEL = [
+  { n: "2", canal: "Mercado Libre", pedido: "ML-2138", total: "12,996.00", fact: "?" },
+  { n: "3", canal: "Amazon", pedido: "AMZ-7731", total: "8,990.00", fact: "sí" },
+  { n: "4", canal: "Tienda Nube", pedido: "TN-5512", total: "34,500.00", fact: "" },
+  { n: "5", canal: "TikTok Shop", pedido: "TT-0914", total: "4,980.00", fact: "no" },
+  { n: "6", canal: "Mostrador", pedido: "—", total: "1,290.00", fact: "?" },
+];
+const REJILLA = "26px minmax(0,1.15fr) minmax(0,0.95fr) minmax(0,0.95fr) 74px";
+
+function Celda({
+  children,
+  tono = "normal",
+  alinea = "left",
+  seleccionada,
+}: {
+  children: React.ReactNode;
+  tono?: "normal" | "suave" | "encabezado" | "error" | "ok" | "falta";
+  alinea?: "left" | "right" | "center";
+  seleccionada?: boolean;
+}) {
+  const color =
+    tono === "error" || tono === "falta"
+      ? UI.rojo
+      : tono === "ok"
+        ? "#16A34A"
+        : tono === "suave"
+          ? UI.suave
+          : tono === "encabezado"
+            ? UI.tenue
+            : UI.texto;
+  return (
+    <span
+      className="truncate px-2 py-[7px]"
+      style={{
+        fontFamily: MONO,
+        fontSize: 10,
+        color,
+        textAlign: alinea,
+        fontWeight: tono === "error" ? 700 : 400,
+        background: tono === "encabezado" ? "#F3F3F1" : seleccionada ? "rgba(226,64,47,0.07)" : undefined,
+        borderRight: `1px solid ${UI.bordeSuave}`,
+        outline: seleccionada ? `1.5px solid ${UI.rojo}` : undefined,
+        outlineOffset: -1,
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
+function HojaDeCalculo() {
+  return (
+    <div
+      className="overflow-hidden rounded-[10px] bg-white text-left"
+      style={{ boxShadow: "0 40px 80px rgba(0,0,0,0.55)" }}
+    >
+      {/* Barra de fórmulas, con la suma rota */}
+      <div className="flex items-center gap-2 border-b px-3 py-2" style={{ borderColor: UI.bordeSuave, background: "#F3F3F1" }}>
+        <span style={{ fontFamily: MONO, fontSize: 10, color: UI.tenue }}>C7</span>
+        <span
+          className="flex-1 rounded-[4px] bg-white px-2 py-1"
+          style={{ fontFamily: MONO, fontSize: 10.5, color: UI.texto, border: `1px solid ${UI.bordeSuave}` }}
+        >
+          =SUMA(C2:C6)+Agosto!C14
+          <span className="ml-[1px] inline-block h-[10px] w-[1.5px] translate-y-[2px]" style={{ background: UI.rojo, animation: "blink 1s step-end infinite" }} />
+        </span>
+      </div>
+
+      <div className="grid" style={{ gridTemplateColumns: REJILLA, borderBottom: `1px solid ${UI.bordeSuave}` }}>
+        {["", "A", "B", "C", "D"].map((c) => (
+          <Celda key={c} tono="encabezado" alinea="center">
+            {c}
+          </Celda>
+        ))}
+      </div>
+
+      <div className="grid" style={{ gridTemplateColumns: REJILLA, borderBottom: `1px solid ${UI.bordeSuave}` }}>
+        <Celda tono="encabezado" alinea="center">1</Celda>
+        <Celda>Canal</Celda>
+        <Celda>Pedido</Celda>
+        <Celda>Total</Celda>
+        <Celda>¿Facturado?</Celda>
+      </div>
+
+      {FILAS_EXCEL.map((f) => (
+        <div key={f.pedido} className="grid" style={{ gridTemplateColumns: REJILLA, borderBottom: `1px solid ${UI.bordeSuave}` }}>
+          <Celda tono="encabezado" alinea="center">{f.n}</Celda>
+          <Celda>{f.canal}</Celda>
+          <Celda tono="suave">{f.pedido}</Celda>
+          <Celda alinea="right">{f.total}</Celda>
+          <Celda tono={f.fact === "sí" ? "ok" : "falta"} seleccionada={f.fact === ""}>
+            {f.fact}
+          </Celda>
+        </div>
+      ))}
+
+      {/* El renglón del total, con el error */}
+      <div className="grid" style={{ gridTemplateColumns: REJILLA, borderBottom: `1px solid ${UI.bordeSuave}` }}>
+        <Celda tono="encabezado" alinea="center">7</Celda>
+        <Celda tono="suave">TOTAL</Celda>
+        <Celda tono="suave">&nbsp;</Celda>
+        <Celda tono="error" alinea="right">#¡VALOR!</Celda>
+        <Celda tono="suave">&nbsp;</Celda>
+      </div>
+
+      {/* Las hojas: una por canal, más las que cada quien se inventa. Se
+          salen del borde a propósito, para que se vea que son demasiadas. */}
+      <div className="flex items-center gap-1 overflow-hidden px-2 py-1.5" style={{ background: "#F3F3F1" }}>
+        {["Septiembre", "Mercado Libre", "Amazon", "Mostrador", "Proveedores", "Sucursal Centro", "Agosto", "+"].map((h, i) => (
+          <span
+            key={h}
+            className="rounded-t-[4px] px-2 py-1"
+            style={{
+              fontFamily: MONO,
+              fontSize: 9.5,
+              whiteSpace: "nowrap",
+              color: i === 0 ? UI.texto : UI.tenue,
+              background: i === 0 ? "#fff" : "transparent",
+              fontWeight: i === 0 ? 700 : 400,
+            }}
+          >
+            {h}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MensajeContador() {
+  return (
+    <div
+      className="rounded-[14px] bg-white p-3"
+      style={{ width: 236, boxShadow: "0 24px 48px rgba(0,0,0,0.5)", fontFamily: FUENTE }}
+    >
+      <p className="mb-2 font-semibold" style={{ fontSize: 10, color: UI.tenue }}>
+        Contador
+      </p>
+      <p
+        className="rounded-[10px] rounded-tl-[3px] px-3 py-2"
+        style={{ fontSize: 11, lineHeight: 1.4, color: UI.texto, background: "#F1F0EE" }}
+      >
+        ¿Me mandas los tickets de septiembre? Me faltan los de mostrador.
+      </p>
+      <p
+        className="ml-auto mt-1.5 w-fit rounded-[10px] rounded-br-[3px] px-3 py-2"
+        style={{ fontSize: 11, color: "#0F3D2E", background: "#D9FDD3" }}
+      >
+        Voy, déjame los junto
+      </p>
+    </div>
+  );
+}
+
+export function T1FinanzasProblemaC() {
+  return (
+    <section className="relative overflow-hidden bg-black px-5 pb-[88px] pt-[56px] tablet:px-6 tablet:pb-[130px] tablet:pt-[72px]">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[460px] w-[820px] -translate-x-1/2 -translate-y-1/2 rounded-full"
+        style={{ background: "radial-gradient(ellipse at center, rgba(219,59,43,0.12) 0%, transparent 65%)", filter: "blur(55px)" }}
+      />
+      <div className="relative mx-auto flex max-w-[900px] flex-col items-center text-center">
+        <h2
+          className="font-sora text-[30px] font-light text-white tablet:text-[52px]"
+          style={{ letterSpacing: "-0.03em", lineHeight: 1.12, maxWidth: 680 }}
+        >
+          Facturar a mano te quita medio día al mes
+        </h2>
+        <p className="mt-4 font-inter text-[15px] font-light text-white/55 tablet:text-[17px]" style={{ maxWidth: 540 }}>
+          Esto es lo que armas tú, canal por canal, antes de pasárselo a tu contador.
+        </p>
+
+        {/* El revoltijo */}
+        <div className="relative mt-12 w-full max-w-[620px] tablet:mt-16" aria-hidden>
+          <div className="tablet:[transform:rotate(-1.5deg)]">
+            <HojaDeCalculo />
+          </div>
+
+          {/* El mensaje del contador — solo donde hay espacio */}
+          <div className="absolute -right-10 -top-12 hidden tablet:block" style={{ transform: "rotate(5deg)" }}>
+            <MensajeContador />
+          </div>
+
+        </div>
+
+        <p
+          className="mt-20 font-sora text-[22px] font-light text-white tablet:mt-24 tablet:text-[32px]"
+          style={{ letterSpacing: "-0.02em", lineHeight: 1.25, maxWidth: 620 }}
+        >
+          Con T1 Finanzas, tus ventas llegan listas.
+        </p>
+
+        <a
+          href={SIGNUP_URL}
+          data-cta-text="Comienza gratis"
+          data-cta-destination={SIGNUP_URL}
+          data-cta-section="problema_c"
+          className="mt-9 inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]"
+        >
+          Comienza gratis
+          {Arrow}
+        </a>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════ 1d · El problema, propuesta D: el antes y el después ══════════
+   El mismo revoltijo, ahora enfrentado con el producto. No es una tabla de
+   palomitas contra tachas: de un lado está el Excel roto y del otro la
+   pantalla real de Facturación, así que la comparación la hace el ojo. */
+const FACTURAS_LIMPIAS = [
+  { tipo: "Factura de venta", receptor: "Comercializadora Delta", total: "$34,500.00" },
+  { tipo: "Factura global", receptor: "Público en general", total: "$28,750.00" },
+  { tipo: "Factura de venta", receptor: "María González López", total: "$4,980.00" },
+  { tipo: "Recibo de pago", receptor: "Distribuidora Monterrey", total: "$12,200.00" },
+  { tipo: "Devolución o descuento", receptor: "Comercializadora Delta", total: "$4,640.00" },
+];
+
+function PanelFacturacionLimpio() {
+  return (
+    <div
+      className="overflow-hidden rounded-[10px] bg-white text-left"
+      style={{ fontFamily: FUENTE, boxShadow: "0 40px 80px rgba(0,0,0,0.55)" }}
+    >
+      <div className="flex items-center justify-between gap-3 border-b px-4 py-3" style={{ borderColor: UI.bordeSuave }}>
+        <span className="font-bold" style={{ fontSize: 13, color: UI.texto }}>
+          Facturación
+        </span>
+        <span className="rounded-[8px] px-2.5 py-1.5 font-semibold text-white" style={{ background: UI.rojo, fontSize: 10.5 }}>
+          Crear factura
+        </span>
+      </div>
+
+      {FACTURAS_LIMPIAS.map((f) => (
+        <div
+          key={f.tipo + f.receptor + f.total}
+          className="flex items-center gap-3 border-b px-4 py-[11px] last:border-b-0"
+          style={{ borderColor: UI.bordeSuave }}
+        >
+          <span className="min-w-0 flex-1 leading-tight">
+            <span className="block truncate font-medium" style={{ fontSize: 11, color: UI.texto }}>
+              {f.tipo}
+            </span>
+            <span className="block truncate" style={{ fontSize: 10, color: UI.tenue }}>
+              {f.receptor}
+            </span>
+          </span>
+          <span className="shrink-0 font-semibold" style={{ fontSize: 11, color: UI.texto }}>
+            {f.total}
+          </span>
+          <span className="shrink-0">
+            <Chip size={9} tono="verde">
+              Registrada
+            </Chip>
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function T1FinanzasProblemaD() {
+  return (
+    <section className="relative overflow-hidden bg-black px-5 pb-[88px] pt-[56px] tablet:px-6 tablet:pb-[130px] tablet:pt-[72px]">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[460px] w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full"
+        style={{ background: "radial-gradient(ellipse at center, rgba(219,59,43,0.12) 0%, transparent 65%)", filter: "blur(55px)" }}
+      />
+      <div className="relative mx-auto flex max-w-[var(--max-w)] flex-col items-center text-center">
+        <h2
+          className="font-sora text-[30px] font-light text-white tablet:text-[52px]"
+          style={{ letterSpacing: "-0.03em", lineHeight: 1.12, maxWidth: 680 }}
+        >
+          Facturar a mano te quita medio día al mes
+        </h2>
+        <p className="mt-4 font-inter text-[15px] font-light text-white/55 tablet:text-[17px]" style={{ maxWidth: 560 }}>
+          Lo que armas tú, canal por canal, antes de pasárselo a tu contador. Y lo que ves aquí.
+        </p>
+
+        <div className="mt-12 grid w-full grid-cols-1 items-start gap-10 tablet:mt-16 tablet:grid-cols-2 tablet:gap-12" aria-hidden>
+          {/* Hoy */}
+          <div className="flex flex-col items-center">
+            <p className="font-inter text-[12px] font-semibold uppercase tracking-[0.1em] text-white/35" style={{ marginBottom: 16 }}>
+              Hoy
+            </p>
+            <div className="w-full tablet:[transform:rotate(-1.5deg)]" style={{ filter: "saturate(0.75)" }}>
+              <HojaDeCalculo />
+            </div>
+          </div>
+
+          {/* Con T1 Finanzas */}
+          <div className="flex flex-col items-center">
+            <p className="font-inter text-[12px] font-semibold uppercase tracking-[0.1em] text-[#FF6F5E]" style={{ marginBottom: 16 }}>
+              Con T1 Finanzas
+            </p>
+            <div className="w-full tablet:[transform:rotate(1.5deg)]">
+              <PanelFacturacionLimpio />
+            </div>
+          </div>
+        </div>
+
+        <p
+          className="mt-14 font-sora text-[22px] font-light text-white tablet:mt-16 tablet:text-[32px]"
+          style={{ letterSpacing: "-0.02em", lineHeight: 1.25, maxWidth: 620 }}
+        >
+          Con T1 Finanzas, tus ventas llegan listas.
+        </p>
+
+        <a
+          href={SIGNUP_URL}
+          data-cta-text="Comienza gratis"
+          data-cta-destination={SIGNUP_URL}
+          data-cta-section="problema_d"
           className="mt-9 inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]"
         >
           Comienza gratis
