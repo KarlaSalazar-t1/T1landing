@@ -471,7 +471,7 @@ export default function T1FinanzasPilares() {
             className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
             style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}
           >
-            Tus pedidos en línea y cualquier otra venta, en un solo lugar
+            Todas tus ventas, en un solo lugar
           </h2>
         </div>
 

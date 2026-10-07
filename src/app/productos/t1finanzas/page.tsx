@@ -3,8 +3,6 @@ import T1FinanzasHero from "@/components/T1FinanzasHero";
 import T1FinanzasPilares from "@/components/T1FinanzasPilares";
 import {
   T1FinanzasProblema,
-  T1FinanzasProblemaC,
-  T1FinanzasProblemaD,
   T1FinanzasCanales,
   T1FinanzasPorNegocio,
   T1FinanzasDocumentos,
@@ -24,17 +22,6 @@ export const metadata = {
     "La facturación de T1. Tus pedidos de Mercado Libre, Amazon, TikTok Shop y más llegan listos para facturar, y cualquier otra venta la facturas en minutos. Comienza gratis con 25 facturas al mes por negocio.",
 };
 
-/* TEMPORAL: rotula cada propuesta de la primera sección mientras se elige. */
-function EtiquetaPropuesta({ letra, nombre }: { letra: string; nombre: string }) {
-  return (
-    <div className="bg-black px-5 pt-10 tablet:px-6">
-      <p className="mx-auto max-w-[var(--max-w)] font-inter text-[12px] font-semibold uppercase tracking-[0.12em] text-white/25">
-        Propuesta {letra} · {nombre}
-      </p>
-    </div>
-  );
-}
-
 export default function FinanzasLanding() {
   return (
     <main className="min-h-screen">
@@ -49,15 +36,8 @@ export default function FinanzasLanding() {
         {/* El hilo: qué te duele hoy → cómo funciona → de dónde salen tus
             pedidos → para quién es → qué emite → cuánto cuesta → cómo
             empiezas → dudas. */}
-        {/* 1 · El problema, en tres propuestas para comparar en vivo.
-            TEMPORAL: cuando Karla elija una, se quedan solo esa y su
-            componente; las otras dos se borran de T1FinanzasSecciones. */}
-        <EtiquetaPropuesta letra="A" nombre="tipografía (la actual)" />
+        {/* 1 · El problema: el Excel de hoy contra la pantalla de Facturación */}
         <T1FinanzasProblema />
-        <EtiquetaPropuesta letra="C" nombre="el revoltijo de hoy" />
-        <T1FinanzasProblemaC />
-        <EtiquetaPropuesta letra="D" nombre="el antes y el después" />
-        <T1FinanzasProblemaD />
         {/* 2 · Cómo facturas — pestañas: pedido · global · otras ventas · clave */}
         <T1FinanzasPilares />
         {/* 3 · Los pedidos de T1 Tienda, que llegan solos */}

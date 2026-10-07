@@ -31,99 +31,7 @@ const Arrow = (
   </svg>
 );
 
-/* ══════════ 1 · El problema ══════════
-   Ni tabla comparativa ni tarjetas: una banda editorial. Las cuatro tareas de
-   hoy se van tachando una por una cuando la sección entra en pantalla, y una
-   sola línea cierra con lo que cambia. El tachado es una línea propia (no
-   text-decoration) porque así se puede animar. */
-const TAREAS = [
-  "Pasar tus ventas a Excel",
-  "Buscar la clave de cada producto",
-  "Juntar tickets para tu contador",
-  "Revisar qué ya facturaste y qué no",
-];
-
-export function T1FinanzasProblema() {
-  const listaRef = useRef<HTMLUListElement>(null);
-  const [tachadas, setTachadas] = useState(false);
-
-  useEffect(() => {
-    const el = listaRef.current;
-    if (!el) return;
-    if (typeof IntersectionObserver === "undefined") {
-      setTachadas(true);
-      return;
-    }
-    // Se tacha al entrar y se rearma cuando la lista sale por completo de la
-    // pantalla, para que la animación vuelva a correr si subes y bajas.
-    const obs = new IntersectionObserver(
-      ([e]) => {
-        if (e.intersectionRatio >= 0.45) setTachadas(true);
-        else if (e.intersectionRatio === 0) setTachadas(false);
-      },
-      { threshold: [0, 0.45] }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-
-  return (
-    <section className="relative overflow-hidden bg-black px-5 pb-[88px] pt-[56px] tablet:px-6 tablet:pb-[130px] tablet:pt-[72px]">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[460px] w-[820px] -translate-x-1/2 -translate-y-1/2 rounded-full"
-        style={{ background: "radial-gradient(ellipse at center, rgba(219,59,43,0.12) 0%, transparent 65%)", filter: "blur(55px)" }}
-      />
-      <div className="relative mx-auto flex max-w-[820px] flex-col items-center text-center">
-        <h2
-          className="font-sora text-[30px] font-light text-white tablet:text-[52px]"
-          style={{ letterSpacing: "-0.03em", lineHeight: 1.12, maxWidth: 680 }}
-        >
-          Facturar a mano te quita medio día al mes
-        </h2>
-
-        <ul ref={listaRef} className="mt-10 flex w-full max-w-[560px] flex-col gap-4 tablet:mt-14 tablet:gap-6">
-          {TAREAS.map((t, i) => (
-            <li key={t}>
-              <span className="relative inline-block font-sora text-[19px] font-light tablet:text-[26px]" style={{ color: tachadas ? "rgba(255,255,255,0.30)" : "rgba(255,255,255,0.62)", transition: `color 0.8s ease ${i * 380 + 200}ms` }}>
-                {t}
-                <span
-                  aria-hidden
-                  className="absolute left-0 top-1/2 h-[1.5px] w-full origin-left rounded-full"
-                  style={{
-                    background: "rgba(255,255,255,0.55)",
-                    transform: tachadas ? "scaleX(1)" : "scaleX(0)",
-                    transition: `transform 0.85s cubic-bezier(0.22,1,0.36,1) ${i * 380}ms`,
-                  }}
-                />
-              </span>
-            </li>
-          ))}
-        </ul>
-
-        <p
-          className="mt-11 font-sora text-[22px] font-light text-white tablet:mt-14 tablet:text-[32px]"
-          style={{ letterSpacing: "-0.02em", lineHeight: 1.25, maxWidth: 620 }}
-        >
-          Con T1 Finanzas, tus ventas llegan listas y tu contador recibe todo en orden.
-        </p>
-
-        <a
-          href={SIGNUP_URL}
-          data-cta-text="Comienza gratis"
-          data-cta-destination={SIGNUP_URL}
-          data-cta-section="problema"
-          className="mt-9 inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]"
-        >
-          Comienza gratis
-          {Arrow}
-        </a>
-      </div>
-    </section>
-  );
-}
-
-/* ══════════ 1c · El problema, propuesta C: el revoltijo de hoy ══════════
+/* ══════════ 1 · El problema: el antes y el después ══════════
    No se dice el dolor, se enseña: el Excel que el dueño arma cada mes, con
    su suma rota y su columna de "¿facturado?" a medias, y encima lo demás que
    trae entre manos —el recado pegado y el mensaje del contador pidiendo los
@@ -285,64 +193,8 @@ function MensajeContador() {
   );
 }
 
-export function T1FinanzasProblemaC() {
-  return (
-    <section className="relative overflow-hidden bg-black px-5 pb-[88px] pt-[56px] tablet:px-6 tablet:pb-[130px] tablet:pt-[72px]">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[460px] w-[820px] -translate-x-1/2 -translate-y-1/2 rounded-full"
-        style={{ background: "radial-gradient(ellipse at center, rgba(219,59,43,0.12) 0%, transparent 65%)", filter: "blur(55px)" }}
-      />
-      <div className="relative mx-auto flex max-w-[900px] flex-col items-center text-center">
-        <h2
-          className="font-sora text-[30px] font-light text-white tablet:text-[52px]"
-          style={{ letterSpacing: "-0.03em", lineHeight: 1.12, maxWidth: 680 }}
-        >
-          Facturar a mano te quita medio día al mes
-        </h2>
-        <p className="mt-4 font-inter text-[15px] font-light text-white/55 tablet:text-[17px]" style={{ maxWidth: 540 }}>
-          Esto es lo que armas tú, canal por canal, antes de pasárselo a tu contador.
-        </p>
-
-        {/* El revoltijo */}
-        <div className="relative mt-12 w-full max-w-[620px] tablet:mt-16" aria-hidden>
-          <div className="tablet:[transform:rotate(-1.5deg)]">
-            <HojaDeCalculo />
-          </div>
-
-          {/* El mensaje del contador — solo donde hay espacio */}
-          <div className="absolute -right-10 -top-12 hidden tablet:block" style={{ transform: "rotate(5deg)" }}>
-            <MensajeContador />
-          </div>
-
-        </div>
-
-        <p
-          className="mt-20 font-sora text-[22px] font-light text-white tablet:mt-24 tablet:text-[32px]"
-          style={{ letterSpacing: "-0.02em", lineHeight: 1.25, maxWidth: 620 }}
-        >
-          Con T1 Finanzas, tus ventas llegan listas.
-        </p>
-
-        <a
-          href={SIGNUP_URL}
-          data-cta-text="Comienza gratis"
-          data-cta-destination={SIGNUP_URL}
-          data-cta-section="problema_c"
-          className="mt-9 inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]"
-        >
-          Comienza gratis
-          {Arrow}
-        </a>
-      </div>
-    </section>
-  );
-}
-
-/* ══════════ 1d · El problema, propuesta D: el antes y el después ══════════
-   El mismo revoltijo, ahora enfrentado con el producto. No es una tabla de
-   palomitas contra tachas: de un lado está el Excel roto y del otro la
-   pantalla real de Facturación, así que la comparación la hace el ojo. */
+/* La sección: el Excel roto enfrentado con la pantalla real de Facturación.
+   No es una tabla de palomitas contra tachas; la comparación la hace el ojo. */
 const FACTURAS_LIMPIAS = [
   { tipo: "Factura de venta", receptor: "Comercializadora Delta", total: "$34,500.00" },
   { tipo: "Factura global", receptor: "Público en general", total: "$28,750.00" },
@@ -394,7 +246,7 @@ function PanelFacturacionLimpio() {
   );
 }
 
-export function T1FinanzasProblemaD() {
+export function T1FinanzasProblema() {
   return (
     <section className="relative overflow-hidden bg-black px-5 pb-[88px] pt-[56px] tablet:px-6 tablet:pb-[130px] tablet:pt-[72px]">
       <div
@@ -410,7 +262,7 @@ export function T1FinanzasProblemaD() {
           Facturar a mano te quita medio día al mes
         </h2>
         <p className="mt-4 font-inter text-[15px] font-light text-white/55 tablet:text-[17px]" style={{ maxWidth: 560 }}>
-          Lo que armas tú, canal por canal, antes de pasárselo a tu contador. Y lo que ves aquí.
+          Hoy lo armas canal por canal. Con T1 Finanzas, ya está listo.
         </p>
 
         <div className="mt-12 grid w-full grid-cols-1 items-start gap-10 tablet:mt-16 tablet:grid-cols-2 tablet:gap-12" aria-hidden>
@@ -419,8 +271,14 @@ export function T1FinanzasProblemaD() {
             <p className="font-inter text-[12px] font-semibold uppercase tracking-[0.1em] text-white/35" style={{ marginBottom: 16 }}>
               Hoy
             </p>
-            <div className="w-full tablet:[transform:rotate(-1.5deg)]" style={{ filter: "saturate(0.75)" }}>
-              <HojaDeCalculo />
+            <div className="relative w-full">
+              <div className="tablet:[transform:rotate(-1.5deg)]" style={{ filter: "saturate(0.75)" }}>
+                <HojaDeCalculo />
+              </div>
+              {/* El mensaje del contador, encimado. En móvil no cabe. */}
+              <div className="absolute -bottom-12 -left-5 hidden tablet:block" style={{ transform: "rotate(-5deg)" }}>
+                <MensajeContador />
+              </div>
             </div>
           </div>
 
@@ -436,7 +294,7 @@ export function T1FinanzasProblemaD() {
         </div>
 
         <p
-          className="mt-14 font-sora text-[22px] font-light text-white tablet:mt-16 tablet:text-[32px]"
+          className="mt-16 font-sora text-[22px] font-light text-white tablet:mt-24 tablet:text-[32px]"
           style={{ letterSpacing: "-0.02em", lineHeight: 1.25, maxWidth: 620 }}
         >
           Con T1 Finanzas, tus ventas llegan listas.
@@ -446,7 +304,7 @@ export function T1FinanzasProblemaD() {
           href={SIGNUP_URL}
           data-cta-text="Comienza gratis"
           data-cta-destination={SIGNUP_URL}
-          data-cta-section="problema_d"
+          data-cta-section="problema"
           className="mt-9 inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]"
         >
           Comienza gratis
@@ -764,7 +622,7 @@ export function T1FinanzasPlanes() {
               className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
               style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 14 }}
             >
-              Comienza gratis y factura sin límite cuando crezcas
+              Comienza gratis, crece sin límite
             </h2>
             <p className="font-inter text-[15px] font-light text-white/60 tablet:text-[17px]" style={{ lineHeight: 1.55, maxWidth: 360, marginBottom: 24 }}>
               El plan Gratuito incluye 25 facturas al mes. Con los planes Básico y Avanzado,
