@@ -147,7 +147,7 @@ function HojaDeCalculo() {
       {/* Las hojas: una por canal, más las que cada quien se inventa. Se
           salen del borde a propósito, para que se vea que son demasiadas. */}
       <div className="flex items-center gap-1 overflow-hidden px-2 py-1.5" style={{ background: "#F3F3F1" }}>
-        {["Septiembre", "Mercado Libre", "Amazon", "Mostrador", "Proveedores", "Sucursal Centro", "Agosto", "+"].map((h, i) => (
+        {["Mercado Libre", "Amazon", "Mostrador", "Septiembre", "Proveedores", "Sucursal Centro", "Agosto", "+"].map((h) => (
           <span
             key={h}
             className="rounded-t-[4px] px-2 py-1"
@@ -155,9 +155,9 @@ function HojaDeCalculo() {
               fontFamily: MONO,
               fontSize: 9.5,
               whiteSpace: "nowrap",
-              color: i === 0 ? UI.texto : UI.tenue,
-              background: i === 0 ? "#fff" : "transparent",
-              fontWeight: i === 0 ? 700 : 400,
+              color: h === "Septiembre" ? UI.texto : UI.tenue,
+              background: h === "Septiembre" ? "#fff" : "transparent",
+              fontWeight: h === "Septiembre" ? 700 : 400,
             }}
           >
             {h}
@@ -168,27 +168,129 @@ function HojaDeCalculo() {
   );
 }
 
+/* El fondo de garabatos de WhatsApp, dibujado en código: un patrón chico que
+   se repite. Va en data URI para no sumar un archivo más al bundle. */
+const GARABATOS = `url("data:image/svg+xml,${encodeURIComponent(
+  "<svg xmlns='http://www.w3.org/2000/svg' width='88' height='88' viewBox='0 0 88 88'>" +
+    "<g fill='none' stroke='#CCC0AD' stroke-width='1.1' stroke-linecap='round' stroke-linejoin='round' opacity='0.75'>" +
+    "<circle cx='13' cy='15' r='5'/><path d='M29 9l4.5 4.5L29 18l-4.5-4.5z'/>" +
+    "<path d='M50 8h13v10H50z'/><path d='M53 11h7M53 14h5'/>" +
+    "<path d='M73 17l4-8 4 8'/>" +
+    "<path d='M7 40c4-5 9-5 13 0'/><path d='M9 46h9'/>" +
+    "<circle cx='57' cy='41' r='6.5'/><path d='M50.5 41h13'/><path d='M57 34.5v13'/>" +
+    "<path d='M78 35v11'/><path d='M74 40h8'/>" +
+    "<path d='M11 67l5.5-9 5.5 9z'/>" +
+    "<path d='M33 62c2.5-3 6.5-2.5 8 .5 1.5 3-1.5 7.5-4 9.5-2.5-2-7-6.5-4-10z'/>" +
+    "<circle cx='61' cy='69' r='4.5'/><path d='M74 63h9v9h-9z'/>" +
+    "</g></svg>",
+)}")`;
+
+/* El mensaje del contador, montado como una pantalla de WhatsApp: barra de
+   estado, cabecera con la foto, y las dos burbujas sobre el fondo de
+   garabatos. Todo dibujado aquí para que no se pixelee. */
 function MensajeContador() {
   return (
     <div
-      className="rounded-[14px] bg-white p-3"
+      aria-hidden
+      className="overflow-hidden rounded-[14px]"
       style={{ width: 236, boxShadow: "0 24px 48px rgba(0,0,0,0.5)", fontFamily: FUENTE }}
     >
-      <p className="mb-2 font-semibold" style={{ fontSize: 10, color: UI.tenue }}>
-        Contador
-      </p>
-      <p
-        className="rounded-[10px] rounded-tl-[3px] px-3 py-2"
-        style={{ fontSize: 11, lineHeight: 1.4, color: UI.texto, background: "#F1F0EE" }}
+      {/* Cabecera */}
+      <div style={{ background: "#20404F" }}>
+        {/* Barra de estado */}
+        <div className="flex items-center justify-between px-3 pb-0.5 pt-1.5" style={{ color: "#fff" }}>
+          <span className="font-semibold" style={{ fontSize: 8 }}>
+            9:30
+          </span>
+          <span className="flex items-center gap-[3px]">
+            <svg width="8" height="8" viewBox="0 0 10 10" fill="#fff">
+              <path d="M5 8.6 0.9 4.3a5.9 5.9 0 0 1 8.2 0L5 8.6Z" />
+            </svg>
+            <svg width="8" height="8" viewBox="0 0 10 10" fill="#fff">
+              <path d="M9.2 1v8H1.4L9.2 1Z" />
+            </svg>
+            <svg width="5" height="8" viewBox="0 0 6 10" fill="#fff">
+              <rect x="1.8" y="0" width="2.4" height="1.2" rx="0.4" />
+              <rect x="0" y="1" width="6" height="9" rx="1.4" />
+            </svg>
+          </span>
+        </div>
+
+        {/* Nombre del chat */}
+        <div className="flex items-center gap-2 px-2.5 pb-2 pt-1">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#fff" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M7 3 2.5 8 7 13" />
+            <path d="M2.8 8H14" />
+          </svg>
+
+          {/* La foto del contador, dibujada: círculo y silueta */}
+          <span className="relative block h-[22px] w-[22px] shrink-0 overflow-hidden rounded-full" style={{ background: "#8D7F6E" }}>
+            <svg viewBox="0 0 24 24" className="absolute inset-0 h-full w-full" fill="#E7DFD4">
+              <circle cx="12" cy="9" r="4.2" />
+              <path d="M12 14.4c4.2 0 7.4 2.6 7.4 6V24H4.6v-3.6c0-3.4 3.2-6 7.4-6Z" />
+            </svg>
+          </span>
+
+          <span className="font-bold text-white" style={{ fontSize: 11.5, letterSpacing: "-0.01em" }}>
+            Contador
+          </span>
+
+          <span className="ml-auto flex items-center gap-2 pr-0.5">
+            <svg width="13" height="13" viewBox="0 0 24 24">
+              <path
+                fill="#fff"
+                d="M3.5 6.2c0-.5.4-.9.9-.9h3.2c.5 0 .9.4.9.9 0 1.1.2 2.2.5 3.2.1.3 0 .7-.2.9l-2 2a15.6 15.6 0 0 0 5.9 5.9l2-2c.2-.2.6-.3.9-.2 1 .3 2.1.5 3.2.5.5 0 .9.4.9.9v3.2c0 .5-.4.9-.9.9-8.5 0-15.3-6.8-15.3-15.3Z"
+              />
+              <path fill="none" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" d="M19.5 2.6v5.2M16.9 5.2h5.2" />
+            </svg>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="#fff">
+              <circle cx="6" cy="2" r="1.25" />
+              <circle cx="6" cy="6" r="1.25" />
+              <circle cx="6" cy="10" r="1.25" />
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      {/* La conversación */}
+      <div
+        className="px-2.5 pb-4 pt-3"
+        style={{ background: `${GARABATOS}, #EFE7DE`, backgroundSize: "88px 88px, auto" }}
       >
-        ¿Me mandas los tickets de septiembre? Me faltan los de mostrador.
-      </p>
-      <p
-        className="ml-auto mt-1.5 w-fit rounded-[10px] rounded-br-[3px] px-3 py-2"
-        style={{ fontSize: 11, color: "#0F3D2E", background: "#D9FDD3" }}
-      >
-        Voy, déjame los junto
-      </p>
+        <div
+          className="w-fit rounded-[8px] rounded-tl-[2px] px-2 py-1.5 text-left"
+          style={{
+            maxWidth: "86%",
+            background: "#fff",
+            boxShadow: "0 1px 0.5px rgba(11,20,26,0.13)",
+          }}
+        >
+          <span style={{ fontSize: 10.5, lineHeight: 1.2, color: UI.texto }}>
+            ¿Me mandas los tickets de septiembre? Me faltan los de mostrador.
+          </span>
+          <span className="mt-0.5 block text-right" style={{ fontSize: 7.5, color: "#8696A0" }}>
+            11:04
+          </span>
+        </div>
+
+        <div
+          className="ml-auto mt-1.5 w-fit rounded-[8px] rounded-tr-[2px] px-2 py-1.5 text-left"
+          style={{
+            maxWidth: "86%",
+            background: "#D9FDD3",
+            boxShadow: "0 1px 0.5px rgba(11,20,26,0.13)",
+          }}
+        >
+          <span style={{ fontSize: 10.5, lineHeight: 1.35, color: "#111B21" }}>Voy, déjame los junto</span>
+          <span className="mt-0.5 flex items-center justify-end gap-[3px]" style={{ fontSize: 7.5, color: "#667781" }}>
+            11:06
+            <svg width="11" height="7" viewBox="0 0 16 11" fill="none" stroke="#53BDEB" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M1 6l3 3 5.5-7" />
+              <path d="M6.5 6l3 3L15 2" />
+            </svg>
+          </span>
+        </div>
+      </div>
     </div>
   );
 }
@@ -276,7 +378,7 @@ export function T1FinanzasProblema() {
                 <HojaDeCalculo />
               </div>
               {/* El mensaje del contador, encimado. En móvil no cabe. */}
-              <div className="absolute -bottom-12 -left-5 hidden tablet:block" style={{ transform: "rotate(-5deg)" }}>
+              <div className="absolute -bottom-20 -left-7 hidden tablet:block" style={{ transform: "rotate(-5deg)" }}>
                 <MensajeContador />
               </div>
             </div>
