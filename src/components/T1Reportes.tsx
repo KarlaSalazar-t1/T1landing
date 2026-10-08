@@ -92,12 +92,36 @@ function HeroDashboard() {
         </div>
         <span className="rounded-full bg-[rgba(34,197,94,0.12)] px-2.5 py-1 font-inter text-[11px] font-bold text-[#16A34A]" style={{ transition: "all 0.4s ease" }}>{HERO_PCT[i]}</span>
       </div>
-      <div className="flex h-[104px] items-end gap-1.5" style={{ marginBottom: 14 }}>
-        {bars.map((h, idx) => (
-          <div key={idx} className="flex-1 rounded-t-[3px]" style={{ height: `${h}%`, background: idx === bars.length - 1 ? "#DB3B2B" : "rgba(219,59,43,0.18)", transition: `height 0.7s ${EASE}` }} />
+      {/* Línea suave — semana actual vs anterior (mismo estilo que el reporte de ventas) */}
+      <svg key={i} viewBox="0 0 300 112" className="w-full" style={{ marginBottom: 12, animation: "fadeSlideIn 0.5s ease-out" }}>
+        <defs>
+          <linearGradient id="heroArea" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="rgba(229,72,77,0.22)" />
+            <stop offset="100%" stopColor="rgba(229,72,77,0)" />
+          </linearGradient>
+        </defs>
+        {[0, 1, 2, 3].map((k) => (
+          <line key={k} x1="0" x2="300" y1={8 + k * 30} y2={8 + k * 30} stroke="rgba(0,0,0,0.05)" strokeWidth="0.8" />
         ))}
-      </div>
-      <div className="flex flex-col gap-1.5" style={{ marginBottom: 14 }}>
+        {(() => {
+          const pts = (arr: number[]) => arr.map((v, k) => [Math.round((4 + (k / (arr.length - 1)) * 292) * 100) / 100, Math.round((98 - (v / 100) * 88) * 100) / 100] as [number, number]);
+          const cur = smoothPath(pts(bars));
+          const prev = smoothPath(pts(HERO_BARS[(i + 1) % HERO_BARS.length].map((v) => v * 0.82)));
+          const last = pts(bars)[bars.length - 1];
+          return (
+            <>
+              <path d={`${cur} L296,98 L4,98 Z`} fill="url(#heroArea)" />
+              <path d={prev} fill="none" stroke="#3B7DD8" strokeWidth="1.1" strokeDasharray="3 3" strokeLinejoin="round" />
+              <path d={cur} fill="none" stroke="#E5484D" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" pathLength={1} style={{ strokeDasharray: 1, animation: "reportDraw 1.1s ease-out both" }} />
+              <circle cx={last[0]} cy={last[1]} r="3.5" fill="#fff" stroke="#E5484D" strokeWidth="2" />
+            </>
+          );
+        })()}
+        {["L", "M", "M", "J", "V", "S", "D"].map((d, k) => (
+          <text key={k} x={4 + (k / 6) * 292} y="110" textAnchor={k === 0 ? "start" : k === 6 ? "end" : "middle"} style={{ fontSize: 7.5, fill: "rgba(0,0,0,0.45)", fontFamily: "Inter, sans-serif" }}>{d}</text>
+        ))}
+      </svg>
+      <div className="flex flex-col gap-1.5">
         {HERO_CH_NAMES.map((name, idx) => (
           <div key={name} className="flex items-center gap-2.5">
             <span className="font-inter text-[10px] text-black/65 w-[80px]">{name}</span>
@@ -108,25 +132,6 @@ function HeroDashboard() {
           </div>
         ))}
       </div>
-      {/* Sparkline — tendencia (otra gráfica) */}
-      <div className="rounded-[10px] bg-black/[0.03]" style={{ padding: "10px 12px" }}>
-        <div className="flex items-center justify-between" style={{ marginBottom: 6 }}>
-          <span className="font-inter text-[10px] text-black/55">Tendencia · 14 días</span>
-          <span className="font-inter text-[10px] font-semibold text-[#16A34A]">{HERO_PCT[i]}</span>
-        </div>
-        <svg viewBox="0 0 100 30" preserveAspectRatio="none" className="w-full" style={{ height: 34 }}>
-          <polyline
-            fill="none"
-            stroke="#DB3B2B"
-            strokeWidth="1.6"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            vectorEffect="non-scaling-stroke"
-            points={bars.map((h, idx) => `${(idx / (bars.length - 1)) * 100},${30 - (h / 100) * 27}`).join(" ")}
-            style={{ transition: `all 0.7s ${EASE}` }}
-          />
-        </svg>
-      </div>
     </div>
   );
 }
@@ -134,9 +139,9 @@ function HeroDashboard() {
 /* ── Floating metric badge — hace "zoom in" (abre) y "zoom out" (cierra)
    ciclando distintas métricas. ── */
 const FLOAT_METRICS = [
-  { label: "Ventas de la semana", chg: "+18%", type: "bars", data: [42, 60, 50, 76, 58, 90, 72], pct: 0 },
+  { label: "Ventas de la semana", chg: "+18%", type: "area", data: [42, 60, 50, 76, 58, 90, 72], pct: 0 },
   { label: "Conversión", chg: "+5%", type: "line", data: [30, 45, 40, 55, 62, 70, 80], pct: 0 },
-  { label: "Ticket promedio", chg: "+12%", type: "donut", data: [50, 48, 58, 54, 66, 72, 68], pct: 68 },
+  { label: "Ticket promedio", chg: "+12%", type: "line", data: [50, 48, 58, 54, 66, 72, 68], pct: 68 },
   { label: "Tráfico del día", chg: "+22%", type: "area", data: [20, 35, 48, 42, 60, 72, 88], pct: 0 },
 ];
 function FloatMiniChart({ m }: { m: (typeof FLOAT_METRICS)[number] }) {
@@ -189,134 +194,224 @@ function FloatingMetric() {
   );
 }
 
-/* ── Live sales panel (animated) ── */
-const LIVE_HOURLY = [
-  [12, 18, 25, 32, 40, 55, 48, 62, 70, 58, 78, 85, 65, 50],
-  [20, 28, 22, 44, 52, 48, 66, 58, 74, 82, 70, 90, 60, 55],
-  [16, 22, 34, 28, 46, 60, 54, 70, 64, 78, 88, 76, 68, 58],
+/* ── Ventas: periodo actual vs comparativo (curvas suaves, como el reporte real) ── */
+/* Curva suave (Catmull-Rom → Bézier) a partir de puntos [x, y]. */
+function smoothPath(pts: [number, number][]) {
+  let d = `M${pts[0][0]},${pts[0][1]}`;
+  for (let k = 0; k < pts.length - 1; k++) {
+    const p0 = pts[k - 1] ?? pts[k], p1 = pts[k], p2 = pts[k + 1], p3 = pts[k + 2] ?? p2;
+    const c1x = p1[0] + (p2[0] - p0[0]) / 6, c1y = p1[1] + (p2[1] - p0[1]) / 6;
+    const c2x = p2[0] - (p3[0] - p1[0]) / 6, c2y = p2[1] - (p3[1] - p1[1]) / 6;
+    d += ` C${c1x},${c1y} ${c2x},${c2y} ${p2[0]},${p2[1]}`;
+  }
+  return d;
+}
+const SALES_TABS = [
+  {
+    label: "Mis ventas", value: "$54,062.00", chg: "-2.5%", up: false, max: 6000, ticks: ["0", "1500", "3000", "4500", "6000"],
+    actual: "$58,041.62", actualChg: "-3.91%", actualUp: false, comp: "$60,401.00",
+    cur: [1400, 2200, 1700, 850, 1250, 1300, 2100, 1700, 2600, 0, 3700, 1550, 2400, 1850, 4700, 550, 1300, 800, 1050, 500, 1700, 2950, 300, 1500, 3500, 4000, 2600, 500, 5300, 1900],
+    prev: [1200, 2050, 1050, 3100, 750, 2150, 2200, 2500, 1050, 2400, 1150, 3950, 400, 1000, 1200, 5000, 3700, 350, 2900, 2200, 2400, 2350, 2750, 2500, 1050, 1500, 400, 1200, 2200, 3500],
+  },
+  {
+    label: "Unidades vendidas", value: "133", chg: "-9.52%", up: false, max: 12, ticks: ["0", "3", "6", "9", "12"],
+    actual: "133", actualChg: "-9.52%", actualUp: false, comp: "147",
+    cur: [3, 5, 4, 2, 3, 3, 5, 4, 6, 1, 8, 4, 5, 4, 10, 2, 3, 2, 3, 1, 4, 7, 1, 4, 8, 9, 6, 2, 11, 5],
+    prev: [3, 5, 3, 7, 2, 5, 5, 6, 3, 6, 3, 9, 1, 3, 3, 11, 8, 1, 7, 5, 6, 5, 6, 6, 3, 4, 1, 3, 5, 8],
+  },
+  {
+    label: "Ticket Promedio", value: "$406.48", chg: "+7.76%", up: true, max: 600, ticks: ["0", "150", "300", "450", "600"],
+    actual: "$406.48", actualChg: "+7.76%", actualUp: true, comp: "$377.20",
+    cur: [380, 420, 400, 360, 390, 410, 430, 400, 450, 330, 470, 390, 420, 410, 520, 350, 380, 360, 400, 340, 420, 480, 320, 400, 470, 500, 450, 360, 540, 430],
+    prev: [360, 400, 350, 430, 340, 390, 400, 410, 360, 400, 350, 450, 300, 340, 360, 470, 440, 320, 420, 390, 400, 390, 410, 400, 350, 370, 310, 350, 380, 420],
+  },
 ];
-const LIVE_KPI = [
-  [48250, 42, 1148],
-  [51420, 45, 1142],
-  [46980, 40, 1174],
-];
-const LIVE_KPI_CHG = [
-  ["+12%", "+8%", "−3%"],
-  ["+18%", "+11%", "−1%"],
-  ["+9%", "+6%", "+2%"],
-];
-const LIVE_KPI_COLOR = [
-  ["#16A34A", "#16A34A", "#DC2626"],
-  ["#16A34A", "#16A34A", "#DC2626"],
-  ["#16A34A", "#16A34A", "#16A34A"],
-];
-const LIVE_LABELS = ["Ventas", "Pedidos", "Ticket prom."];
+const X_LABELS = ["09 sep.", "13 sep.", "17 sep.", "21 sep.", "25 sep.", "29 sep.", "03 oct.", "08 oct."];
 
 function LiveSalesPanel() {
-  const i = useCycle(LIVE_HOURLY.length, 2200);
-  const hourly = LIVE_HOURLY[i];
-  const kpi = LIVE_KPI[i];
+  const i = useCycle(SALES_TABS.length, 3200);
+  const t = SALES_TABS[i];
+  // Área del gráfico dentro del viewBox
+  const L = 34, R = 316, T = 8, B = 122;
+  const toPts = (arr: number[]) => arr.map((v, k) => [Math.round((L + (k / (arr.length - 1)) * (R - L)) * 100) / 100, Math.round((B - (v / t.max) * (B - T)) * 100) / 100] as [number, number]);
+  const cur = smoothPath(toPts(t.cur));
+  const prev = smoothPath(toPts(t.prev));
   return (
-    <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
-      <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
-        <p className="font-sora text-[14px] font-medium text-black">Resumen del día</p>
-        <span className="flex items-center gap-1.5 rounded-full bg-[rgba(34,197,94,0.12)] px-2 py-0.5 font-inter text-[10px] font-bold text-[#16A34A]">
-          <span className="h-[6px] w-[6px] rounded-full bg-[#16A34A]" style={{ animation: "pulse-soft 1.6s ease-in-out infinite" }} />
-          En vivo
-        </span>
-      </div>
+    <div className="relative overflow-hidden rounded-[18px] border border-black/[0.06] bg-white" style={{ padding: 20, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
+      {/* KPI tabs — la activa se resalta (blanca con sombra) */}
       <div className="grid grid-cols-3 gap-2" style={{ marginBottom: 14 }}>
-        {LIVE_LABELS.map((label, idx) => (
-          <div key={label} className="rounded-[10px] bg-[#FAFAF9] p-3">
-            <p className="font-inter text-[9px] text-black/45">{label}</p>
-            <AnimNumber value={kpi[idx]} prefix={idx === 1 ? "" : "$"} className="font-sora text-[16px] font-light text-black" style={{ letterSpacing: "-0.02em", lineHeight: 1, marginBottom: 2, display: "block" }} />
-            <p className="font-inter text-[9px] font-bold" style={{ color: LIVE_KPI_COLOR[i][idx], transition: "color 0.4s ease" }}>{LIVE_KPI_CHG[i][idx]}</p>
+        {SALES_TABS.map((k, idx) => {
+          const on = idx === i;
+          return (
+            <div key={k.label} className="rounded-[10px] p-2.5 tablet:p-3" style={{ background: on ? "#FFFFFF" : "#F6F6F6", boxShadow: on ? "0 2px 10px rgba(0,0,0,0.10)" : "none", border: on ? "1px solid rgba(0,0,0,0.06)" : "1px solid transparent", transition: "all 0.4s ease" }}>
+              <p className={`font-inter text-[9.5px] tablet:text-[10.5px] ${on ? "font-semibold text-black" : "text-black/50"}`}>{k.label}</p>
+              <div className="mt-1 flex flex-wrap items-center gap-1">
+                <span className={`font-inter text-[13px] font-medium tablet:text-[15px] ${on ? "text-black" : "text-black/70"}`} style={{ letterSpacing: "-0.01em" }}>{k.value}</span>
+                <span className="rounded-full px-1.5 py-0.5 font-inter text-[8.5px] font-semibold" style={{ color: k.up ? "#16A34A" : "#E5484D", background: k.up ? "rgba(34,197,94,0.10)" : "rgba(229,72,77,0.10)" }}>{k.chg}</span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <div className="border-t border-black/[0.07]" style={{ paddingTop: 12, marginBottom: 6 }}>
+        <div className="flex items-end gap-6">
+          <div>
+            <p className="font-inter text-[10px] text-black/45">Período actual</p>
+            <div className="mt-1 flex items-center gap-1.5">
+              <span className="font-inter text-[17px] font-medium text-black/80" style={{ letterSpacing: "-0.01em" }}>{t.actual}</span>
+              <span className="rounded-full px-1.5 py-0.5 font-inter text-[8.5px] font-semibold" style={{ color: t.actualUp ? "#16A34A" : "#E5484D", background: t.actualUp ? "rgba(34,197,94,0.10)" : "rgba(229,72,77,0.10)" }}>{t.actualChg}</span>
+            </div>
           </div>
-        ))}
+          <div>
+            <p className="font-inter text-[10px] text-black/45">Periodo comparativo</p>
+            <span className="mt-1 block font-inter text-[17px] font-medium text-black/80" style={{ letterSpacing: "-0.01em" }}>{t.comp}</span>
+          </div>
+        </div>
       </div>
-      <p className="font-inter text-[10px] font-semibold uppercase tracking-wider text-black/45" style={{ marginBottom: 8 }}>Por hora</p>
-      <div className="flex h-[124px] items-end gap-1">
-        {hourly.map((h, idx) => (
-          <div key={idx} className="flex-1 rounded-t-[2px]" style={{ height: `${h}%`, background: idx >= 11 ? "rgba(219,59,43,0.30)" : "#DB3B2B", transition: `height 0.7s ${EASE}` }} />
+      <svg key={i} viewBox="0 0 320 146" className="w-full" style={{ animation: "fadeSlideIn 0.5s ease-out" }}>
+        {/* Rejilla + eje Y */}
+        {t.ticks.map((tk, k) => {
+          const y = B - (k / (t.ticks.length - 1)) * (B - T);
+          return (
+            <g key={tk}>
+              <line x1={L} x2={R} y1={y} y2={y} stroke="rgba(0,0,0,0.05)" strokeWidth="0.6" />
+              <text x={L - 4} y={y + 2.5} textAnchor="end" style={{ fontSize: 7, fill: "rgba(0,0,0,0.5)", fontFamily: "Inter, sans-serif" }}>{tk}</text>
+            </g>
+          );
+        })}
+        <line x1={L} x2={L} y1={T} y2={B} stroke="rgba(0,0,0,0.35)" strokeWidth="0.6" />
+        <line x1={L} x2={R} y1={B} y2={B} stroke="rgba(0,0,0,0.35)" strokeWidth="0.6" />
+        <defs><clipPath id="salesPlot"><rect x={L} y={0} width={R - L} height={B} /></clipPath></defs>
+        <g clipPath="url(#salesPlot)">
+          {/* Relleno suave bajo la curva actual */}
+          <path d={`${cur} L${R},${B} L${L},${B} Z`} fill="rgba(229,72,77,0.05)" />
+          <path d={prev} fill="none" stroke="#3B7DD8" strokeWidth="0.9" strokeLinejoin="round" />
+          <path d={cur} fill="none" stroke="#E5636B" strokeWidth="1.5" strokeLinejoin="round" pathLength={1} style={{ strokeDasharray: 1, animation: "reportDraw 1.1s ease-out both" }} />
+        </g>
+        {X_LABELS.map((lb, k) => (
+          <text key={lb} x={L + (k / (X_LABELS.length - 1)) * (R - L)} y={B + 11} textAnchor={k === 0 ? "start" : k === X_LABELS.length - 1 ? "end" : "middle"} style={{ fontSize: 6.5, fill: "rgba(0,0,0,0.5)", fontFamily: "Inter, sans-serif" }}>{lb}</text>
         ))}
-      </div>
-      <div className="mt-1 flex justify-between font-inter text-[8px] text-black/40">
-        <span>9am</span><span>12pm</span><span>3pm</span><span>6pm</span><span>10pm</span>
+      </svg>
+      <div className="mt-1 flex items-center justify-center gap-5 font-inter text-[10px] text-black/70">
+        <span className="flex items-center gap-1.5"><span className="h-[8px] w-[8px] rounded-full bg-[#E5636B]" />09 sep - 08 oct</span>
+        <span className="flex items-center gap-1.5"><span className="h-[8px] w-[8px] rounded-full bg-[#3B7DD8]" />10 ago - 08 sep</span>
       </div>
     </div>
   );
 }
 
-/* ── Channel comparison panel (animated fill + change) ── */
-const CH_DATA = [
-  [
-    { ch: "Tienda online", val: 136761, pct: 48, color: "#DB3B2B", change: "+24%" },
-    { ch: "MercadoLibre", val: 79778, pct: 28, color: "#FFE600", change: "+18%" },
-    { ch: "Amazon", val: 42165, pct: 15, color: "#FF9900", change: "+9%" },
-    { ch: "Sucursales", val: 26216, pct: 9, color: "#22C55E", change: "+5%" },
-  ],
-  [
-    { ch: "Tienda online", val: 158940, pct: 52, color: "#DB3B2B", change: "+29%" },
-    { ch: "MercadoLibre", val: 84300, pct: 27, color: "#FFE600", change: "+21%" },
-    { ch: "Amazon", val: 48720, pct: 14, color: "#FF9900", change: "+12%" },
-    { ch: "Sucursales", val: 21040, pct: 7, color: "#22C55E", change: "+3%" },
-  ],
-  [
-    { ch: "Tienda online", val: 147250, pct: 50, color: "#DB3B2B", change: "+26%" },
-    { ch: "MercadoLibre", val: 88110, pct: 29, color: "#FFE600", change: "+19%" },
-    { ch: "Amazon", val: 39980, pct: 13, color: "#FF9900", change: "+7%" },
-    { ch: "Sucursales", val: 24360, pct: 8, color: "#22C55E", change: "+6%" },
-  ],
+/* ── Ventas por canal — pastel con etiquetas y líneas guía (como el reporte real) ── */
+const CH_SLICES = [
+  { ch: "Tienda en línea", color: "#111111", icon: null as string | null },
+  { ch: "Shein", color: "#111111", icon: "/img/shein-iso.svg" },
+  { ch: "Sears", color: "#E04355", icon: "/img/sears-isotipo.svg" },
+  { ch: "Mercado Libre", color: "#F9E54E", icon: "/img/circles/ml.svg" },
+  { ch: "Shopify", color: "#9FC54D", icon: "/img/shopify.svg" },
 ];
-const PIE_C = 2 * Math.PI * 48;
+/* Periodos que van rotando — ventas y variación por canal (mismo orden que CH_SLICES) */
+const CH_PERIODS = [
+  { vals: [6274, 395, 17256, 31372, 2745], change: ["+12%", "+4%", "+18%", "+24%", "+6%"] },
+  { vals: [8120, 540, 15480, 28960, 4310], change: ["+29%", "+37%", "-10%", "-8%", "+57%"] },
+  { vals: [7140, 460, 20380, 26150, 3620], change: ["-12%", "-15%", "+32%", "-10%", "-16%"] },
+];
+const ROW_ORDER = [3, 2, 0, 4, 1]; // orden fijo de la tabla (evita que las filas salten)
+const PIE_CX = 170, PIE_CY = 118, PIE_R = 78;
+const polar = (deg: number, r: number): [number, number] => {
+  const a = ((deg - 90) * Math.PI) / 180;
+  // Redondeo: mismas cadenas en servidor y cliente (evita mismatch de hidratación)
+  return [Math.round((PIE_CX + r * Math.cos(a)) * 100) / 100, Math.round((PIE_CY + r * Math.sin(a)) * 100) / 100];
+};
+function pieSlices(vals: number[]) {
+  const total = vals.reduce((a, b) => a + b, 0);
+  let before = 0;
+  return CH_SLICES.map((s, idx) => {
+    const pct = (vals[idx] / total) * 100;
+    const start = before * 3.6, end = (before + pct) * 3.6;
+    before += pct;
+    const [x1, y1] = polar(start, PIE_R), [x2, y2] = polar(end, PIE_R);
+    const d = `M${PIE_CX},${PIE_CY} L${x1},${y1} A${PIE_R},${PIE_R} 0 ${end - start > 180 ? 1 : 0} 1 ${x2},${y2} Z`;
+    return { ...s, val: vals[idx], pct, d, mid: (start + end) / 2 };
+  });
+}
+
+/* Interpola los valores hacia el periodo nuevo (el pastel y los montos se "mueven") */
+function useTweened(target: number[], ms = 900) {
+  const [vals, setVals] = useState(target);
+  const fromRef = useRef(target);
+  useEffect(() => {
+    const from = fromRef.current;
+    let raf = 0;
+    const t0 = performance.now();
+    const tick = (now: number) => {
+      const p = Math.min(1, (now - t0) / ms);
+      const e = 1 - Math.pow(1 - p, 3);
+      const next = target.map((v, k) => from[k] + (v - from[k]) * e);
+      fromRef.current = next;
+      setVals(next);
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [target, ms]);
+  return vals;
+}
 
 function ChannelComparePanel() {
-  const [started, setStarted] = useState(false);
-  const i = useCycle(CH_DATA.length, 2800);
-  useEffect(() => {
-    const t = setTimeout(() => setStarted(true), 150);
-    return () => clearTimeout(t);
-  }, []);
-  const rows = CH_DATA[i];
-  let acc = 0;
-  const segs = rows.map((r) => {
-    const len = started ? (r.pct / 100) * PIE_C : 0;
-    const seg = { len, offset: -acc };
-    acc += len;
-    return seg;
-  });
+  const i = useCycle(CH_PERIODS.length, 3400);
+  const period = CH_PERIODS[i];
+  const vals = useTweened(period.vals);
+  const slices = pieSlices(vals);
+  // Se resalta el canal que más creció en el periodo
+  const best = period.change.reduce((bi, c, k, arr) => (parseFloat(c) > parseFloat(arr[bi]) ? k : bi), 0);
   return (
-    <div className="relative order-2 overflow-hidden rounded-[18px] border border-black/[0.06] bg-white tablet:order-1" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
-      <div className="flex items-center justify-between" style={{ marginBottom: 16 }}>
-        <p className="font-sora text-[14px] font-medium text-black">Desempeño por canal</p>
+    <div className="relative order-2 overflow-hidden rounded-[18px] border border-black/[0.06] bg-white tablet:order-1" style={{ padding: 20, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
+      <div className="flex items-center justify-between" style={{ marginBottom: 4 }}>
+        <p className="font-sora text-[14px] font-medium text-black">Ventas por canal</p>
         <span className="rounded-full bg-black/[0.05] px-2 py-0.5 font-inter text-[10px] font-medium text-black/60">Últimos 30 días</span>
       </div>
-      {rows.map((c) => (
-        <div key={c.ch} className="flex items-center gap-3 py-2.5" style={{ borderBottom: "1px solid rgba(0,0,0,0.04)" }}>
-          <span className="h-[10px] w-[10px] rounded-full" style={{ background: c.color }} />
-          <span className="font-inter text-[12px] text-black/70 flex-1">{c.ch}</span>
-          <AnimNumber value={c.val} prefix="$" className="font-inter text-[12px] font-semibold text-black" />
-          <span className="rounded-full bg-[rgba(34,197,94,0.10)] px-1.5 py-0.5 font-inter text-[9px] font-bold text-[#16A34A]">{c.change}</span>
-        </div>
-      ))}
-      <div className="flex items-center justify-center" style={{ marginTop: 16 }}>
-        <svg width="120" height="120" viewBox="0 0 120 120" className="-rotate-90">
-          {rows.map((c, idx) => (
-            <circle
-              key={c.ch}
-              cx="60"
-              cy="60"
-              r="48"
-              fill="none"
-              stroke={c.color}
-              strokeWidth="14"
-              strokeDasharray={`${segs[idx].len} ${PIE_C}`}
-              strokeDashoffset={segs[idx].offset}
-              style={{ transition: `stroke-dasharray 0.9s ${EASE}, stroke-dashoffset 0.9s ${EASE}` }}
-            />
-          ))}
-        </svg>
-      </div>
+      {/* Tabla por canal — montos y variación cambian con el periodo; se marca el canal que más creció */}
+      {ROW_ORDER.map((idx) => {
+        const c = slices[idx];
+        const on = idx === best;
+        const up = !period.change[idx].startsWith("-");
+        return (
+          <div key={c.ch} className="flex items-center gap-3 rounded-[8px] px-1.5 py-2" style={{ borderBottom: "1px solid rgba(0,0,0,0.04)", background: on ? "rgba(0,0,0,0.03)" : "transparent", transition: "background 0.4s ease" }}>
+            <span className="h-[10px] w-[10px] rounded-full" style={{ background: c.color, boxShadow: c.color === "#F9E54E" ? "inset 0 0 0 1px rgba(0,0,0,0.08)" : "none" }} />
+            <span className="flex-1 font-inter text-[12px] text-black/70">{c.ch}</span>
+            <span className="font-inter text-[12px] font-semibold tabular-nums text-black">${Math.round(c.val).toLocaleString("en-US")}</span>
+            <span className="w-[40px] rounded-full px-1.5 py-0.5 text-center font-inter text-[9px] font-bold" style={{ color: up ? "#16A34A" : "#E5484D", background: up ? "rgba(34,197,94,0.10)" : "rgba(229,72,77,0.10)", transition: "all 0.4s ease" }}>{period.change[idx]}</span>
+          </div>
+        );
+      })}
+      <svg viewBox="-66 0 466 236" className="w-full" style={{ marginTop: 6 }}>
+        {slices.map((s, idx) => {
+          const [dx, dy] = polar(s.mid, idx === best ? 6 : 0).map((v, k) => v - (k === 0 ? PIE_CX : PIE_CY));
+          return (
+            <path key={s.ch} d={s.d} fill={s.color} stroke="#fff" strokeWidth="1.2" style={{ transform: `translate(${dx}px, ${dy}px)`, transition: `transform 0.5s ${EASE}` }} />
+          );
+        })}
+        {/* Etiquetas con línea guía */}
+        {slices.map((s) => {
+          const [ax, ay] = polar(s.mid, PIE_R + 2);
+          const [bx, by] = polar(s.mid, PIE_R + 16);
+          const right = s.mid < 180;
+          const ex = bx + (right ? 10 : -10);
+          const label = `${s.ch}: ${s.pct.toFixed(2)}%`;
+          const tx = ex + (right ? 4 : -4);
+          const iconX = right ? tx : tx - label.length * 5.5 - 14;
+          return (
+            <g key={`l-${s.ch}`}>
+              <polyline points={`${ax},${ay} ${bx},${by} ${ex},${by}`} fill="none" stroke={s.color === "#F9E54E" ? "#E3CC2A" : s.color} strokeWidth="0.8" />
+              {s.icon ? (
+                <image href={s.icon} x={iconX} y={by - 6} width="12" height="12" />
+              ) : (
+                <g transform={`translate(${iconX} ${by - 5})`}><rect width="10" height="10" rx="2" fill="#444" /><path d="M2 4h6M2.5 4v4h5V4M2 4l1-2h4l1 2" stroke="#fff" strokeWidth="0.8" fill="none" /></g>
+              )}
+              <text x={right ? tx + 14 : tx} y={by + 3} textAnchor={right ? "start" : "end"} style={{ fontSize: 10, fontWeight: 700, fill: "#111", fontFamily: "Inter, sans-serif" }}>{label}</text>
+            </g>
+          );
+        })}
+      </svg>
     </div>
   );
 }
@@ -596,7 +691,7 @@ export default function T1Reportes() {
             <div aria-hidden className="pointer-events-none absolute hidden lg:block" style={{ left: "16.6%", right: "16.6%", top: 30, height: 1, background: "linear-gradient(90deg, transparent 0%, rgba(219,59,43,0.25) 12%, rgba(219,59,43,0.25) 88%, transparent 100%)" }} />
             {[
               { n: "01", title: "Conecta tus canales", desc: "Tienda online, sucursales y marketplaces." },
-              { n: "02", title: "Revisa tus KPIs principales", desc: "Ventas, pedidos, tráfico, conversión y ticket promedio." },
+              { n: "02", title: "Visualiza las métricas clave de tu negocio", desc: "Ventas, pedidos, tráfico, conversión y ticket promedio." },
               { n: "03", title: "Compara y toma decisiones", desc: "Filtra por canal, periodo, producto o categoría." },
             ].map((s, i) => (
               <div key={s.n} data-stagger className="tienda-card relative rounded-[18px] border border-black/[0.06] bg-white p-7" style={{ ["--i" as string]: i }}>

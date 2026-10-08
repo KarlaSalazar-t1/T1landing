@@ -12,6 +12,7 @@ import { useCountUp } from "@/hooks/useCountUp";
 import { SIGNUP_URL } from "@/lib/constants";
 import HeroBackground from "@/components/HeroBackground";
 import TiendaPromptBox from "@/components/TiendaPromptBox";
+import T1TiendaHero from "@/components/T1TiendaHero";
 import T1FinalCTA from "@/components/T1FinalCTA";
 import StoreShowcase from "@/components/StoreShowcase";
 import TodoIncluidoDark from "@/components/TodoIncluidoDark";
@@ -479,8 +480,9 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
         >
           <div className={`relative ${pageMode ? "bg-black" : "bg-white"}`}>
 
-            {/* ── Section 1: Crea tu tienda con IA — bg changes per prompt ── */}
-            {/* Background covers header + section 1 together */}
+            {/* ── Section 1: Crea tu tienda con IA — bg changes per prompt ──
+                pageMode: mismo hero que la landing de Tienda (T1TiendaHero). */}
+            {pageMode ? <T1TiendaHero pageContext="tienda_ia" /> : (
             <div className={`relative overflow-hidden ${pageMode ? "bg-black pb-24" : "pb-8"}`}>
               {/* Hero backdrop */}
               <div className="absolute inset-0 z-0">
@@ -636,6 +638,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
               )}
               </div>{/* close z-10 wrapper */}
             </div>
+            )}
 
             {/* ── Section 2: Inspírate — carousel ── */}
             {/* No data-modal-animate here: this carousel must be visible from the

@@ -453,13 +453,13 @@ export default function T1HeroB({ buenFin = false, variantB = false }: { buenFin
                         if (!tiendaOk) e.preventDefault();
                         else submit({ length: value.trim().length, prompt_source: promptSource, chip_category: promptSource === "chip" ? chipCategory : null });
                       }}
-                      aria-label="Comienza gratis"
+                      aria-label="Crea tu tienda"
                       style={kbOpen ? { position: "fixed", right: 16, bottom: kbH + 10, zIndex: 60 } : undefined}
                       className={`absolute bottom-3 right-3 flex h-[40px] items-center gap-1.5 rounded-full pl-4 pr-3 font-inter text-[14px] font-semibold transition-colors ${
                         tiendaOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
                       }`}
                     >
-                      Comienza gratis
+                      Crea tu tienda
                       {ArrowRight}
                     </a>
                   </div>

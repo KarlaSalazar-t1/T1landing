@@ -17,17 +17,6 @@ const STORES = [
     scrollDur: "38s",
   },
   {
-    id: "loverboy",
-    name: "Lover Boy",
-    category: "Merch de artista",
-    summary:
-      "Merch oficial y vinilo de edición limitada del artista Mario Bautista, con pre-venta y cobros en un solo lugar.",
-    url: "https://loverboy.mx/",
-    desktop: "/img/store-loverboy-desktop.png",
-    mobile: "/img/store-loverboy-mobile.png",
-    scrollDur: "12s",
-  },
-  {
     id: "pirma",
     name: "Pirma",
     category: "Deporte & calzado",
@@ -37,6 +26,28 @@ const STORES = [
     desktop: "/img/store-pirma-desktop.png",
     mobile: "/img/store-pirma-mobile.png",
     scrollDur: "16s",
+  },
+  {
+    id: "cruzazul",
+    name: "Cruz Azul",
+    category: "Club de fútbol",
+    summary:
+      "La tienda oficial del Club de Futbol Cruz Azul: jerseys, ropa de entrenamiento y artículos oficiales para toda la afición.",
+    url: "https://tiendacruzazul.mx/",
+    desktop: "/img/store-cruzazul-desktop.png",
+    mobile: "/img/store-cruzazul-mobile.png",
+    scrollDur: "10s",
+  },
+  {
+    id: "loverboy",
+    name: "Lover Boy",
+    category: "Merch de artista",
+    summary:
+      "Merch oficial y vinilo de edición limitada del artista Mario Bautista, con pre-venta y cobros en un solo lugar.",
+    url: "https://loverboy.mx/",
+    desktop: "/img/store-loverboy-desktop.png",
+    mobile: "/img/store-loverboy-mobile.png",
+    scrollDur: "12s",
   },
 ];
 
@@ -87,11 +98,12 @@ export default function StoreShowcase({ dark = true }: { dark?: boolean }) {
         {/* ── Left: a deck — active store in front, the others peeking behind ── */}
         <div className="relative h-[340px] tablet:h-[392px]">
           {STORES.map((st, i) => {
-            const pos = (i - active + STORES.length) % STORES.length; // 0 front, 1/2 behind
+            const pos = (i - active + STORES.length) % STORES.length; // 0 front, 1/2/3 behind
             const deck = [
               { x: 0, y: 0, s: 1, z: 30, dim: 0 },
               { x: 22, y: -18, s: 0.965, z: 20, dim: 0.36 },
               { x: 44, y: -36, s: 0.93, z: 10, dim: 0.5 },
+              { x: 44, y: -36, s: 0.93, z: 5, dim: 0.6 }, // 4ª tienda: oculta detrás de la 3ª
             ][pos];
             const isFront = pos === 0;
             return (

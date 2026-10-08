@@ -11,9 +11,9 @@ const IconSeguimiento = (
 );
 
 const CARDS = [
-  { icon: IconCotiza, title: "Cotiza", desc: "Compara tarifas, tiempos de entrega y servicios entre las mejores paqueterías de México.", cta: "Cotiza ahora", href: "#cotizador" },
-  { icon: IconEnvia, title: "Envía", desc: "Crea guías de envío, usa plantillas y solicita recolección de tus paquetes.", cta: "Comienza a enviar", href: ENVIOS_SIGNUP_URL },
-  { icon: IconSeguimiento, title: "Rastrea", desc: "Conoce la ubicación de tus paquetes en todo momento, da seguimiento a las incidencias y resuélvelas desde T1.", cta: "Conoce más", href: "/productos/t1envios/rastreo" },
+  { icon: IconCotiza, title: "Cotiza", desc: "Compara precio y tiempo de entrega de las principales paqueterías del país en una sola pantalla y elige la que más te conviene.", cta: "Cotiza ahora", href: "#cotizador" },
+  { icon: IconEnvia, title: "Envía", desc: "Genera tu guía, usa plantillas y agenda la recolección sin salir de T1.", cta: "Comienza a enviar", href: ENVIOS_SIGNUP_URL },
+  { icon: IconSeguimiento, title: "Rastrea", desc: "Sigue cada envío con estatus claros y resuelve incidencias desde el mismo lugar.", cta: "Conoce más", href: "/productos/t1envios/rastreo" },
 ];
 
 /* 3 cards de servicio — Cotiza / Envía / Seguimiento (estilo del landing actual). */

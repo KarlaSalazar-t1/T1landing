@@ -8,7 +8,7 @@ const ITEMS = [
   {
     id: "checkout",
     title: "Pasarela en línea",
-    description: "Una pasarela optimizada para convertir, con todos los métodos de pago y meses sin intereses.",
+    description: "Optimizada para convertir, con todos los métodos de pago y meses sin intereses.",
     cta: "Conoce más",
     ctaHref: "/productos/t1pagos/pagos-en-linea",
     Flow: TiendaFlow,
@@ -114,7 +114,7 @@ export default function T1PagosPilares() {
           Una plataforma para todos tus cobros
         </h2>
         <p className="mx-auto font-inter text-[16px] font-light text-white/85 tablet:whitespace-nowrap tablet:text-[18px]" style={{ textAlign: "center", marginBottom: 56 }}>
-          Cobra en tu pasarela, con un link o desde tu propia integración, todo en un lugar.
+          Cobra en tu negocio, con un link o desde tu propia integración, todo en un lugar.
         </p>
 
         <div className="hidden grid-cols-1 gap-8 tablet:grid tablet:grid-cols-[minmax(0,0.95fr)_minmax(0,1fr)] tablet:items-center tablet:gap-8">

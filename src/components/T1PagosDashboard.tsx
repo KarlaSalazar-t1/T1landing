@@ -12,7 +12,7 @@ const TX = [
   { name: "Roberto Díaz", method: "AMEX ····8841", amount: 1100, color: "#B45309" },
   { name: "Laura Sánchez", method: "VISA ····2291", amount: 3780, color: "#7C3AED" },
 ];
-const METHODS = ["/img/logos/brands/mastercard.webp", "/img/logos/brands/amex.webp", "/img/logos/brands/spei.webp", "/img/logos/brands/carnet.webp"];
+const METHODS = ["/img/logos/brands/visa.webp", "/img/logos/brands/mastercard.webp", "/img/logos/brands/amex.webp", "/img/logos/brands/spei.webp", "/img/logos/brands/carnet.webp", "/img/logos/brands/kueski.webp"];
 
 const fmt = (n: number) => n.toLocaleString("es-MX", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const initials = (name: string) => name.split(" ").map((w) => w[0]).slice(0, 2).join("");

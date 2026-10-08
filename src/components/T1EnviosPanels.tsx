@@ -146,7 +146,7 @@ export function RastreoPanel({ flat = false, height = 300, bare = false }: { fla
   const EVENTS = [
     { chip: "Hoy", icon: "truck", title: "Envío entregado · Guía #5127-SH1 · CDMX", time: "12:02:59 p.m." },
     { icon: "box", title: "Paquete entregado · Recibió: Ana Martínez", time: "12:02:59 p.m." },
-    { title: "En reparto · unidad en ruta", time: "09:14:10 a.m." },
+    { title: "En tránsito · rumbo a destino", time: "06:20:10 a.m." },
     { title: "Recolectado por la paquetería", time: "Ayer · 05:30 p.m." },
     { title: "Guía generada · #5127-SH1", time: "Ayer · 02:02 p.m." },
     { title: "Pedido preparado", time: "Ayer · 01:40 p.m." },

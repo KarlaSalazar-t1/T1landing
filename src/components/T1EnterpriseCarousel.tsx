@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 
 /* Brand "spotlight" tint baked over every card photo (dark maroon). */
 const TINT = "#241014";
@@ -99,6 +100,14 @@ export default function T1EnterpriseCarousel({
   subtitle?: string;
 }) {
   const [videoOpen, setVideoOpen] = useState(false);
+  useEffect(() => {
+    if (!videoOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setVideoOpen(false); };
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => { document.body.style.overflow = prev; window.removeEventListener("keydown", onKey); };
+  }, [videoOpen]);
   const [activeVideo, setActiveVideo] = useState<(typeof CASES)[number] | null>(null);
   const trackRef = useRef<HTMLDivElement>(null);
 
@@ -359,15 +368,16 @@ export default function T1EnterpriseCarousel({
       </div>
 
       {/* Video modal */}
-      {videoOpen && activeVideo?.hasVideo && activeVideo.videoId && (
+      {videoOpen && activeVideo?.hasVideo && activeVideo.videoId && createPortal(
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center"
+          className="fixed inset-0 z-[1000] flex items-center justify-center"
           style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(8px)", animation: "fadeSlideIn 0.2s ease-out" }}
           onClick={() => setVideoOpen(false)}
         >
           <button
-            onClick={() => setVideoOpen(false)}
-            className="absolute right-6 top-6 flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border-none bg-white/10 text-white transition-colors hover:bg-white/20"
+            type="button"
+            onClick={(e) => { e.stopPropagation(); setVideoOpen(false); }}
+            className="absolute right-4 top-4 z-[2] flex tablet:right-6 tablet:top-6 h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border-none bg-white/10 text-white transition-colors hover:bg-white/20"
             aria-label="Cerrar"
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -387,7 +397,8 @@ export default function T1EnterpriseCarousel({
               className="absolute inset-0 h-full w-full border-none"
             />
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </section>
   );

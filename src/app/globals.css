@@ -1016,3 +1016,15 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .box-drop-item { animation: none !important; opacity: 1 !important; transform: translateY(0) rotate(var(--r, 0deg)) !important; }
 }
+
+/* Reportería — la curva del periodo actual se "dibuja" */
+@keyframes reportDraw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+
+/* Reportería de envíos — barras que crecen desde la izquierda */
+@keyframes barGrow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}

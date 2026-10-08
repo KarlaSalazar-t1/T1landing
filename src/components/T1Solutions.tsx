@@ -77,7 +77,6 @@ const TAB_CARDS: TabCard[] = [
     ctaHref: "/registro",
     subTabs: [
       { label: "Conecta canales", description: "Conecta más de 8 canales de venta —Amazon, Mercado Libre, Walmart, SHEIN y más— en un solo click.", image: null, floatingCards: null, panel: "pedidos" },
-      { label: "Sincroniza inventario", description: "Tu inventario se actualiza en tiempo real en todos tus canales de venta.", image: null, floatingCards: null, panel: "sync-inventory" },
     ],
   },
   {
@@ -301,7 +300,7 @@ export default function T1Solutions() {
               type="button"
               onClick={() => handleSubTabChange((activeSubTab - 1 + card.subTabs.length) % card.subTabs.length)}
               aria-label="Herramienta anterior"
-              className="absolute left-3 z-[3] hidden h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/70 opacity-0 transition-all duration-200 hover:border-white/35 hover:text-white group-hover/card:opacity-100 tablet:flex"
+              className={`absolute left-3 z-[3] hidden h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/70 opacity-0 transition-all duration-200 hover:border-white/35 hover:text-white group-hover/card:opacity-100 tablet:flex ${card.subTabs.length < 2 ? "!hidden" : ""}`}
               style={{ top: "calc(50% + 25px)", transform: "translateY(-50%)" }}
             >
               <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M10 4L6 8L10 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -310,7 +309,7 @@ export default function T1Solutions() {
               type="button"
               onClick={() => handleSubTabChange((activeSubTab + 1) % card.subTabs.length)}
               aria-label="Siguiente herramienta"
-              className="absolute right-3 z-[3] hidden h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/70 opacity-0 transition-all duration-200 hover:border-white/35 hover:text-white group-hover/card:opacity-100 tablet:flex"
+              className={`absolute right-3 z-[3] hidden h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/70 opacity-0 transition-all duration-200 hover:border-white/35 hover:text-white group-hover/card:opacity-100 tablet:flex ${card.subTabs.length < 2 ? "!hidden" : ""}`}
               style={{ top: "calc(50% + 25px)", transform: "translateY(-50%)" }}
             >
               <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -369,7 +368,7 @@ export default function T1Solutions() {
                   type="button"
                   onClick={() => handleSubTabChange((activeSubTab - 1 + card.subTabs.length) % card.subTabs.length)}
                   aria-label="Herramienta anterior"
-                  className="flex shrink-0 cursor-pointer items-center justify-center bg-transparent border-none p-1 text-white/55 transition-colors duration-150 hover:text-white"
+                  className={`flex shrink-0 cursor-pointer items-center justify-center bg-transparent border-none p-1 text-white/55 transition-colors duration-150 hover:text-white ${card.subTabs.length < 2 ? "!hidden" : ""}`}
                 >
                   <svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M10 4L6 8L10 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
                 </button>
@@ -384,7 +383,7 @@ export default function T1Solutions() {
                   type="button"
                   onClick={() => handleSubTabChange((activeSubTab + 1) % card.subTabs.length)}
                   aria-label="Siguiente herramienta"
-                  className="flex shrink-0 cursor-pointer items-center justify-center bg-transparent border-none p-1 text-white/55 transition-colors duration-150 hover:text-white"
+                  className={`flex shrink-0 cursor-pointer items-center justify-center bg-transparent border-none p-1 text-white/55 transition-colors duration-150 hover:text-white ${card.subTabs.length < 2 ? "!hidden" : ""}`}
                 >
                   <svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
                 </button>

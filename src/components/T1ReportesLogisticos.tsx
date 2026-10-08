@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
 import HeroBackground from "@/components/HeroBackground";
 import T1FinalCTA from "@/components/T1FinalCTA";
+import { ReporteGeneral, ReporteTiempoReal, ReporteIncidencias } from "@/components/T1ReportesLogisticosPaneles";
 
 const MANROPE = "var(--font-manrope-var), 'Manrope', sans-serif";
 
@@ -162,300 +163,12 @@ function DiaEntregaDonut() {
   );
 }
 
-/* Donut "Estado de envíos" + leyenda (entrada ligera) */
-type DonutItem = { name: string; count: number; pct: number; color: string };
-function DonutChart({ data }: { data: DonutItem[] }) {
-  const r = 56;
-  const C = 2 * Math.PI * r;
-  let acc = 0;
-  const slices = data
-    .filter((d) => d.pct > 0)
-    .map((d) => {
-      const dash = (d.pct / 100) * C;
-      const seg = { color: d.color, dash, offset: -((acc / 100) * C) };
-      acc += d.pct;
-      return seg;
-    });
-
-  return (
-    <div className="flex flex-col items-center gap-7 tablet:flex-row" style={{ fontFamily: MANROPE }}>
-      <svg className="donut-in shrink-0" width="150" height="150" viewBox="0 0 150 150">
-        <circle cx="75" cy="75" r={r} fill="none" stroke="rgba(0,0,0,0.06)" strokeWidth="18" />
-        <g transform="rotate(-90 75 75)">
-          {slices.map((s, i) => (
-            <circle key={i} cx="75" cy="75" r={r} fill="none" stroke={s.color} strokeWidth="18" strokeDasharray={`${s.dash} ${C - s.dash}`} strokeDashoffset={s.offset} />
-          ))}
-        </g>
-      </svg>
-      <div className="grid w-full grid-cols-2 gap-x-6 gap-y-3.5">
-        {data.map((d, i) => (
-          <div key={d.name} className="flex items-center gap-2" style={{ animation: "rastreoReveal 0.45s ease both", animationDelay: `${0.15 + i * 0.06}s` }}>
-            <span className="h-[10px] w-[10px] shrink-0 rounded-full" style={{ background: d.color }} />
-            <span className="min-w-0 flex-1 truncate text-[12px] text-black/70">{d.name}</span>
-            <span className="text-[12px] font-semibold text-black/80">{d.count}</span>
-            <span className="w-[48px] text-right text-[12px] text-black/45">{d.pct}%</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* Donut "Estado de envíos" — versión responsive (leyenda vertical) */
-function DonutChartResponsive({ className = "" }: { className?: string }) {
-  const DATA = [
-    { name: "Guía generada", pct: 23, count: 23, color: "#7CE0B4" },
-    { name: "Por recolectar", pct: 18, count: 18, color: "#EA6A2B" },
-    { name: "Recolectado", pct: 21, count: 21, color: "#DDB85F" },
-    { name: "En camino", pct: 17, count: 17, color: "#5A81E6" },
-    { name: "Entregado", pct: 5, count: 5, color: "#3BA152" },
-    { name: "Incidencia", pct: 16, count: 16, color: "#E85C6B" },
-  ];
-  const r = 68;
-  const C = 2 * Math.PI * r;
-  let acc = 0;
-  const slices = DATA.filter((d) => d.pct > 0).map((d) => {
-    const dash = (d.pct / 100) * C;
-    const seg = { color: d.color, dash, offset: -((acc / 100) * C) };
-    acc += d.pct;
-    return seg;
-  });
-
-  return (
-    <div className={className} style={{ fontFamily: MANROPE }}>
-      <div className="flex justify-center" style={{ marginBottom: 24 }}>
-        <svg className="donut-in" width="210" height="210" viewBox="0 0 180 180">
-          <circle cx="90" cy="90" r={r} fill="none" stroke="rgba(0,0,0,0.06)" strokeWidth="22" />
-          <g transform="rotate(-90 90 90)">
-            {slices.map((s, i) => (
-              <circle key={i} cx="90" cy="90" r={r} fill="none" stroke={s.color} strokeWidth="22" strokeDasharray={`${s.dash} ${C - s.dash}`} strokeDashoffset={s.offset} />
-            ))}
-          </g>
-        </svg>
-      </div>
-      <div className="flex flex-col">
-        {DATA.map((d, i) => (
-          <div key={d.name} className="flex items-center gap-3" style={{ paddingTop: 11, paddingBottom: 11, animation: "rastreoReveal 0.45s ease both", animationDelay: `${0.15 + i * 0.06}s` }}>
-            <span className="h-[14px] w-[14px] shrink-0 rounded-full" style={{ background: d.color }} />
-            <span className="min-w-0 flex-1 text-[16px] text-black/75">{d.name}</span>
-            <span className="w-[60px] text-right text-[16px] text-black/70">{d.pct}%</span>
-            <span className="w-[40px] text-right text-[16px] font-medium text-black/85">{d.count}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* Tabla "Últimos envíos" (scrolleable) */
-function EnviosList() {
-  const cols = "0.7fr 1.5fr 1.1fr 1fr";
-  const ROWS = [
-    { brand: "dhl", guia: "3316457756" },
-    { brand: "dhl", guia: "3316457362" },
-    { brand: "dhl", guia: "3316457336" },
-    { brand: "dhl", guia: "3316457222" },
-    { brand: "fedex", guia: "873588472878" },
-    { brand: "estafeta", guia: "552309817745" },
-    { brand: "paquetexpress", guia: "884512309776" },
-    { brand: "ups", guia: "1Z117W7K0421" },
-    { brand: "99min", guia: "99M2230981770" },
-  ];
-  return (
-    <div style={{ fontFamily: MANROPE }}>
-      <p className="text-[14px] font-bold text-black" style={{ marginBottom: 14 }}>Últimos 20 envíos</p>
-      <div className="grid gap-2 px-2 pb-2" style={{ gridTemplateColumns: cols }}>
-        <span className="text-[11px] font-medium text-black/50">Paquetería</span>
-        <span className="text-[11px] font-medium text-black/50">N.º de guía</span>
-        <span className="text-[11px] font-medium text-black/50">Fecha de envío</span>
-        <span className="text-right text-[11px] font-medium text-black/50">Estado</span>
-      </div>
-      <div className="overflow-y-auto" style={{ maxHeight: 264 }}>
-        {ROWS.map((r, i) => (
-          <div key={i} className="grid items-center gap-2 px-2 py-3" style={{ gridTemplateColumns: cols, borderTop: "1px solid rgba(0,0,0,0.05)" }}>
-            <img src={`/img/carriers/${r.brand}.svg`} alt={r.brand} width={34} height={34} className="h-[34px] w-[34px] object-contain" />
-            <span className="text-[13px] text-black/80">{r.guia}</span>
-            <span className="text-[13px] text-black/65">25/06/2026</span>
-            <span className="justify-self-end whitespace-nowrap rounded-full bg-[rgba(245,158,11,0.12)] px-3 py-1 text-[11px] font-semibold text-[#B45309]">Por recolectar</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* Tabla "Envíos por paquetería" (scrolleable, con fila Total) */
-function PaqueteriaTable() {
-  const cols = "46px 0.9fr 0.85fr 1fr 1fr 1fr 1.1fr";
-  const tile = (brand: string) =>
-    brand === "t1" ? (
-      <span className="flex h-[34px] w-[34px] items-center justify-center rounded-[9px] bg-[#E0241B]">
-        <span className="font-sora text-[12px] font-extrabold text-white">T1</span>
-      </span>
-    ) : (
-      <img src={`/img/carriers/${brand}.svg`} alt={brand} width={34} height={34} className="h-[34px] w-[34px] object-contain" />
-    );
-  const ROWS = [
-    { brand: "ups", total: 14, ent: 0, tiempo: "0", costo: "450.6", peso: "11", tot: "$6,308.44" },
-    { brand: "ampm", total: 12, ent: 0, tiempo: "0", costo: "105.08", peso: "1.08", tot: "$1,260.93" },
-    { brand: "paquetexpress", total: 34, ent: 0, tiempo: "0", costo: "304.37", peso: "10.59", tot: "$10,348.63" },
-    { brand: "dhl", total: 177, ent: 14, tiempo: "-24", costo: "285.82", peso: "8.36", tot: "$50,590.52" },
-    { brand: "fedex", total: 82, ent: 1, tiempo: "-1", costo: "339.72", peso: "12.02", tot: "$27,856.85" },
-    { brand: "99min", total: 2, ent: 0, tiempo: "0", costo: "137.37", peso: "1", tot: "$274.74" },
-  ];
-  return (
-    <div style={{ fontFamily: MANROPE }}>
-      <p className="text-[14px] font-bold text-black" style={{ marginBottom: 14 }}>Envíos por paquetería</p>
-      <div className="overflow-auto" style={{ maxHeight: 320 }}>
-        <div style={{ minWidth: 620 }}>
-          <div className="grid gap-2 px-1 pb-2" style={{ gridTemplateColumns: cols }}>
-            <span className="text-[10px] font-medium text-black/50">Paquetería</span>
-            <span className="text-center text-[10px] font-medium text-black/50">Total</span>
-            <span className="text-center text-[10px] font-medium text-black/50">Entregado</span>
-            <span className="text-center text-[10px] font-medium text-black/50">Tiempo</span>
-            <span className="text-center text-[10px] font-medium text-black/50">Costo prom.</span>
-            <span className="text-center text-[10px] font-medium text-black/50">Peso (kg)</span>
-            <span className="text-right text-[10px] font-medium text-black/50">Costo total</span>
-          </div>
-          {ROWS.map((r, i) => (
-            <div key={i} className="grid items-center gap-2 px-1 py-2.5" style={{ gridTemplateColumns: cols, borderTop: "1px solid rgba(0,0,0,0.05)" }}>
-              {tile(r.brand)}
-              <span className="text-center text-[12px] text-black/75">{r.total}</span>
-              <span className="text-center text-[12px] text-black/75">{r.ent}</span>
-              <span className="text-center text-[12px] text-black/75">{r.tiempo}</span>
-              <span className="text-center text-[12px] text-black/75">{r.costo}</span>
-              <span className="text-center text-[12px] text-black/75">{r.peso}</span>
-              <span className="text-right text-[12px] font-semibold text-black/80">{r.tot}</span>
-            </div>
-          ))}
-          <div className="grid items-center gap-2 px-1 py-3" style={{ gridTemplateColumns: cols, borderTop: "2px solid rgba(0,0,0,0.12)" }}>
-            <span className="text-[12px] font-bold text-black">Total</span>
-            <span className="text-center text-[12px] font-bold text-black">321</span>
-            <span className="text-center text-[12px] font-bold text-black">15</span>
-            <span className="text-center text-[12px] font-bold text-black">-22.5</span>
-            <span className="text-center text-[12px] font-bold text-black">96640.11</span>
-            <span className="text-center text-[12px] font-bold text-black">9.05</span>
-            <span className="text-right text-[12px] font-bold text-black">$96,640.11</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
+/* Chips del explorador — mismas 3 vistas que la reportería real de la plataforma */
 const REPORTS = [
-  {
-    key: "estado",
-    tab: "Estado de envíos",
-    type: "donut" as const,
-    note: "Distribución de envíos por estado, este mes.",
-    donut: [
-      { name: "Guía generada", count: 0, pct: 0, color: "#34A853" },
-      { name: "En camino", count: 20, pct: 6.02, color: "#4285F4" },
-      { name: "Por recolectar", count: 296, pct: 89.16, color: "#EA6A2B" },
-      { name: "Entregado", count: 15, pct: 4.52, color: "#1E8E3E" },
-      { name: "Recolectado", count: 1, pct: 0.3, color: "#F4C20D" },
-      { name: "Incidencia", count: 0, pct: 0, color: "#DB3B2B" },
-    ] as DonutItem[],
-    data: [],
-  },
-  {
-    key: "ultimos",
-    tab: "Últimos envíos",
-    type: "list" as const,
-    note: "Tus envíos más recientes y su estado actual.",
-    data: [],
-  },
-  {
-    key: "paqueteria",
-    tab: "Envíos por paquetería",
-    type: "table" as const,
-    note: "Resumen de envíos, costo y peso por paquetería, este mes.",
-    data: [],
-  },
+  { key: "general", tab: "General", note: "El panorama de tu operación: cuántos envías, cuántos llegan a tiempo, cuánto pagas en promedio y qué paquetería te rinde mejor, con mapa por estado.", Panel: ReporteGeneral },
+  { key: "tiempo-real", tab: "Tiempo real", note: "Lo que está pasando ahora: dónde va cada envío y qué incidencias necesitan que actúes hoy.", Panel: ReporteTiempoReal },
+  { key: "incidencias", tab: "Incidencias y retornos", note: "Por qué fallan tus envíos: causas principales de incidencias y retornos, y cómo vas contra el periodo anterior.", Panel: ReporteIncidencias },
 ];
-
-/* "Últimos envíos" — versión responsive (tarjetas por envío) */
-function EnviosListResponsive({ className = "" }: { className?: string }) {
-  const ROWS = [
-    { brand: "dhl", guia: "3316457756" },
-    { brand: "dhl", guia: "3316457362" },
-    { brand: "dhl", guia: "3316457336" },
-    { brand: "dhl", guia: "3316457222" },
-    { brand: "fedex", guia: "873588472878" },
-    { brand: "estafeta", guia: "552309817745" },
-    { brand: "paquetexpress", guia: "884512309776" },
-    { brand: "ups", guia: "1Z117W7K0421" },
-    { brand: "99min", guia: "99M2230981770" },
-  ];
-  return (
-    <div className={className} style={{ fontFamily: MANROPE }}>
-      <p className="text-[19px] font-bold text-black" style={{ marginBottom: 16 }}>Últimos 20 envíos</p>
-      <div className="overflow-y-auto" style={{ maxHeight: 512 }}>
-        {ROWS.map((r, i) => (
-          <div key={i} style={{ borderTop: "1px solid rgba(0,0,0,0.08)", paddingTop: 16, paddingBottom: 16 }}>
-            {/* Logo + N.º de guía + estado */}
-            <div className="flex items-center gap-3" style={{ marginBottom: 14 }}>
-              <img src={`/img/carriers/${r.brand}.svg`} alt={r.brand} width={40} height={40} className="h-[40px] w-[40px] shrink-0" />
-              <span className="min-w-0 flex-1 truncate text-[16px] font-semibold text-black">{r.guia}</span>
-              <span className="shrink-0 rounded-full bg-[rgba(245,158,11,0.12)] px-3 py-1.5 text-[13px] font-semibold text-[#B45309]">Por recolectar</span>
-            </div>
-            {/* Fecha de envío */}
-            <div>
-              <p className="text-[13px] text-black/45" style={{ marginBottom: 3 }}>Fecha de envío</p>
-              <p className="text-[15px] text-black/80">25/06/2026</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* "Envíos por paquetería" — versión responsive (tarjetas por paquetería) */
-function PaqueteriaResponsive({ className = "" }: { className?: string }) {
-  const ROWS = [
-    { brand: "ups", envios: 14, ent: 0, dias: "3 días", inc: 1, prom: "$450.60", total: "$6,308.44" },
-    { brand: "ampm", envios: 12, ent: 0, dias: "2 días", inc: 0, prom: "$105.08", total: "$1,260.93" },
-    { brand: "paquetexpress", envios: 34, ent: 0, dias: "3 días", inc: 2, prom: "$304.37", total: "$10,348.63" },
-    { brand: "dhl", envios: 177, ent: 14, dias: "2 días", inc: 8, prom: "$285.82", total: "$50,590.52" },
-    { brand: "fedex", envios: 82, ent: 1, dias: "2 días", inc: 3, prom: "$339.72", total: "$27,856.85" },
-    { brand: "99min", envios: 2, ent: 0, dias: "1 día", inc: 0, prom: "$137.37", total: "$274.74" },
-  ];
-  const Cell = ({ label, value, divider = false }: { label: string; value: string; divider?: boolean }) => (
-    <div className={divider ? "pl-4" : ""} style={divider ? { borderLeft: "1px solid rgba(0,0,0,0.08)" } : undefined}>
-      <p className="text-[13px] text-black/45" style={{ marginBottom: 3 }}>{label}</p>
-      <p className="text-[16px] text-black/80">{value}</p>
-    </div>
-  );
-  return (
-    <div className={className} style={{ fontFamily: MANROPE }}>
-      <p className="text-[19px] font-bold text-black" style={{ marginBottom: 16 }}>Envíos por paquetería</p>
-      <div className="overflow-y-auto" style={{ maxHeight: 490 }}>
-      {ROWS.map((r, i) => (
-        <div key={i} style={{ borderTop: "1px solid rgba(0,0,0,0.08)", paddingTop: 18, paddingBottom: 18 }}>
-          {/* Logo + envíos */}
-          <div className="flex items-center justify-between" style={{ marginBottom: 16 }}>
-            <img src={`/img/carriers/${r.brand}.svg`} alt={r.brand} width={44} height={44} className="h-[44px] w-[44px] shrink-0" />
-            <span className="text-[18px] font-semibold text-black">{r.envios} envíos</span>
-          </div>
-          {/* Entregado / Tiempo / Incidencia */}
-          <div className="grid grid-cols-3 gap-3" style={{ marginBottom: 14 }}>
-            <Cell label="Entregado" value={String(r.ent)} />
-            <Cell label="Tiempo de entrega" value={r.dias} divider />
-            <Cell label="Incidencia" value={String(r.inc)} divider />
-          </div>
-          {/* Costo promedio / Costo total */}
-          <div className="grid grid-cols-2 gap-3">
-            <Cell label="Costo promedio" value={r.prom} />
-            <Cell label="Costo total" value={r.total} divider />
-          </div>
-        </div>
-      ))}
-      </div>
-    </div>
-  );
-}
 
 export default function T1ReportesLogisticos() {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -565,42 +278,20 @@ export default function T1ReportesLogisticos() {
             ))}
           </div>
 
-          {/* Chart panel */}
-          <div data-modal-animate className="mx-auto max-w-[760px] overflow-hidden rounded-[20px] border border-black/[0.07] bg-white" style={{ padding: 28, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
-            {active.type !== "list" && active.type !== "table" && (
-              <div className="flex items-center justify-between" style={{ marginBottom: 18, fontFamily: MANROPE }}>
-                <p className="text-[14px] font-bold text-black">{active.tab}</p>
-                <span className="flex items-center gap-1.5 rounded-full bg-black/[0.04] px-3 py-1.5 text-[11px] font-semibold text-black/55">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 3v12M12 15l-4-4M12 15l4-4M5 21h14" stroke="rgba(0,0,0,0.45)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                  Exportar
-                </span>
-              </div>
-            )}
-            <div className="flex flex-col justify-center tablet:min-h-[360px]">
-              {active.type === "donut" ? (
-                <>
-                  <DonutChartResponsive key={`${active.key}-m`} className="tablet:hidden" />
-                  <div className="hidden tablet:block">
-                    <DonutChart key={active.key} data={active.donut!} />
-                  </div>
-                </>
-              ) : active.type === "list" ? (
-                <>
-                  <EnviosListResponsive className="tablet:hidden" />
-                  <div className="hidden tablet:block">
-                    <EnviosList key={active.key} />
-                  </div>
-                </>
-              ) : active.type === "table" ? (
-                <>
-                  <PaqueteriaResponsive className="tablet:hidden" />
-                  <div className="hidden tablet:block">
-                    <PaqueteriaTable key={active.key} />
-                  </div>
-                </>
-              ) : null}
+          {/* Panel del reporte activo */}
+          <p key={`${active.key}-note`} className="mx-auto mb-5 max-w-[640px] text-center lg:max-w-none lg:whitespace-nowrap font-inter text-[14px] font-light text-black/60 tablet:text-[15px]" style={{ lineHeight: 1.55, animation: "fadeSlideIn 0.4s ease-out both" }}>{active.note}</p>
+          <div data-modal-animate className="mx-auto max-w-[1000px] overflow-hidden rounded-[20px] border border-black/[0.07] bg-[#FAFAFA]" style={{ padding: 16, boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
+            <div className="flex items-center justify-between px-1" style={{ marginBottom: 12, fontFamily: MANROPE }}>
+              <p className="text-[16px] font-semibold text-black/85 tablet:text-[18px]">{active.tab === "Tiempo real" ? "En tiempo real" : active.tab}</p>
+              <span className="flex items-center gap-1.5 rounded-full bg-black/[0.04] px-3 py-1.5 text-[11px] font-semibold text-black/55">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 3v12M12 15l-4-4M12 15l4-4M5 21h14" stroke="rgba(0,0,0,0.45)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                Exportar
+              </span>
             </div>
-            <p className="mt-4 font-inter text-[12px] text-black/50">{active.note}</p>
+            {/* Misma altura para los 3 reportes en desktop */}
+            <div key={active.key} className="tablet:h-[568px]" style={{ animation: "fadeSlideIn 0.45s ease-out both" }}>
+              <active.Panel />
+            </div>
           </div>
         </div>
       </section>

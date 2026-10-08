@@ -183,7 +183,6 @@ const RASTREO = [
   { t: "Guía generada", s: "Ayer · 14:02" },
   { t: "Recolectado", s: "Ayer · 17:30" },
   { t: "En tránsito", s: "Hoy · 06:20" },
-  { t: "En reparto", s: "Hoy · 09:14" },
   { t: "Entregado", s: "Hoy · 12:02" },
 ];
 function RastreaScreen() {
@@ -200,8 +199,8 @@ function RastreaScreen() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/img/carriers/fedex.svg" alt="FedEx" width={34} height={34} className="h-[34px] w-[34px] shrink-0" />
         <div className="min-w-0">
-          <p className="text-[12.5px] font-bold text-black">FedEx · <span className="underline">7745 2320 9774</span></p>
-          <p className="text-[10.5px] text-black/50" style={{ marginTop: 1 }}>Sucursal Polanco → Ma. Fernanda Baz</p>
+          <p className="text-[12.5px] font-bold text-black">FedEx · <span className="underline">1234 5678 9012</span></p>
+          <p className="text-[10.5px] text-black/50" style={{ marginTop: 1 }}>Tienda Centro → Laura Gómez</p>
           <p className="text-[10.5px] text-black/50" style={{ marginTop: 1 }}>1 pieza · 10.8 kg</p>
         </div>
       </div>
@@ -345,7 +344,7 @@ const STEP_FIRST = [0, 2, 6, 7];
 const STEPS = [
   { n: "1", title: "Cotiza", desc: "Compara tarifas y tiempos entre las mejores paqueterías." },
   { n: "2", title: "Crea tu envío", desc: "Pones direcciones, info del paquete y eliges paquetería." },
-  { n: "3", title: "Rastrea", desc: "Sigue cada estatus del paquete hasta la entrega." },
+  { n: "3", title: "Rastrea", desc: "Sigue tu paquete en cada paso, de la guía a la entrega." },
   { n: "4", title: "Gestiona incidencias", desc: "Detectamos y resolvemos desde la torre de control." },
 ];
 

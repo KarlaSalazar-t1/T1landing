@@ -657,7 +657,7 @@ export default function T1Marketplaces() {
         {/* centered copy */}
         <div className="relative mx-auto max-w-[620px] text-center">
           <h2 className="font-sora text-[26px] font-light text-black tablet:text-[36px] lg:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
-            Actualizar cada canal a mano
+            Administra todos tus canales en un lugar
           </h2>
           <p className="mx-auto font-inter text-[15px] font-light text-black/60 tablet:text-[17px]" style={{ lineHeight: 1.6, marginBottom: 28, maxWidth: 500 }}>
             Conecta los canales donde ya vendes y gestiona todas tus ventas sin salir de T1.
@@ -683,14 +683,14 @@ export default function T1Marketplaces() {
             <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
               <div>
                 <h3 className="font-sora text-[32px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 18 }}>
-                  Importa y publica tus productos
+                  Conecta tus pedidos y publica tus productos
                 </h3>
                 <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, maxWidth: 460 }}>
-                  Importa tus productos y pedidos desde otros marketplaces, y publícalos en Sears, Sanborns, redes sociales o tu tienda en línea sin recapturar información.
+                  Conecta los pedidos de todos tus canales y publica tus productos en Sears y Sanborns sin recapturar información.
                 </p>
               </div>
               <div className="tablet:scale-[1.55] tablet:origin-center">
-                <Image src="/img/importa.png" alt="Importa y publica tus productos" width={1672} height={941} className="h-auto w-full" sizes="(max-width: 768px) 94vw, 860px" />
+                <Image src="/img/importa.png" alt="Conecta tus pedidos y publica tus productos" width={1672} height={941} className="h-auto w-full" sizes="(max-width: 768px) 94vw, 860px" />
               </div>
             </div>
           </div>

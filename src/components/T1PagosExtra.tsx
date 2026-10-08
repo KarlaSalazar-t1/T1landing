@@ -17,7 +17,7 @@ const REASONS = [
     ),
   },
   {
-    title: "Seguro contra reclamaciones",
+    title: "Seguro contra reclamaciones*",
     desc: "Cobertura total que elimina las pérdidas por fraude y reclamaciones en tus cobros.",
     icon: (
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4-2.7 7.4-7 9-4.3-1.6-7-5-7-9V6l7-3z" stroke="#FFFFFF" strokeWidth="1.6" strokeLinejoin="round" /><path d="M12 8v5m0 3h.01" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" /></svg>
@@ -46,6 +46,7 @@ export function T1PagosPorQue() {
             </div>
           ))}
         </div>
+        <p className="mx-auto mt-5 max-w-[980px] text-center font-inter text-[12px] font-light text-white/45 tablet:text-right">*Aplican términos y condiciones.</p>
       </div>
     </section>
   );
@@ -54,7 +55,8 @@ export function T1PagosPorQue() {
 /* ══════════ Precios / comisiones ══════════ */
 const PRICING = [
   { name: "Tarjetas de crédito y débito", rate: "3.5%", plus: "+ $1", desc: "O 4.5% + $1 con protección de contracargos.", featured: false },
-  { name: "SPEI", rate: "3.30%", plus: "+ $5", desc: "Transferencias interbancarias.", featured: false },
+  { name: "SPEI", rate: "$3", plus: "", desc: "Transferencias interbancarias.", featured: false },
+  { name: "Kueski Pay", rate: "5%", plus: "", desc: "Compra ahora y paga después.", featured: false },
 ];
 export function T1PagosPrecios() {
   return (
@@ -72,7 +74,7 @@ export function T1PagosPrecios() {
           </div>
 
           {/* Cards (derecha) */}
-          <div className="grid grid-cols-1 gap-4 tablet:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 tablet:grid-cols-2 desktop:grid-cols-3">
             {PRICING.map((p) => (
               <div key={p.name} className={`relative flex flex-col rounded-[18px] p-6 ${p.featured ? "border border-[rgba(219,59,43,0.45)] bg-[#181117]" : "border border-white/[0.10] bg-[#141215]"}`} style={p.featured ? { boxShadow: "0 24px 60px -30px rgba(219,59,43,0.30)" } : undefined}>
                 <div className="flex items-center justify-between gap-3">
@@ -82,7 +84,7 @@ export function T1PagosPrecios() {
                 <div className="mt-4">
                   <div className="flex items-baseline gap-1.5">
                     <span className="font-sora text-[40px] font-light text-white" style={{ letterSpacing: "-0.02em", lineHeight: 1 }}>{p.rate}</span>
-                    <span className="font-sora text-[22px] font-light text-white/70" style={{ lineHeight: 1 }}>{p.plus}</span>
+                    {p.plus && <span className="font-sora text-[22px] font-light text-white/70" style={{ lineHeight: 1 }}>{p.plus}</span>}
                   </div>
                   <span className="mt-1.5 block font-inter text-[13px] font-light text-white/45">por transacción</span>
                 </div>
