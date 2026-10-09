@@ -31,7 +31,7 @@ function CotizaPhone({ className = "" }: { className?: string }) {
     { brand: "fedex", name: "FedEx", sub: "Económico / Día siguiente / semanal", date: "26 de ene", adv: "Mejor servicio", price: "$158.00", note: null as string[] | null, highlight: true },
     { brand: "ups", name: "UPS", sub: "UPS SAVER (65) Express", date: "26 de ene", adv: "Mejor servicio", price: "$214.00", note: ["Incluye ", "seguro y zona extendida"] as string[] | null, highlight: false },
     { brand: "dhl", name: "DHL", sub: "Express Worldwide", date: "27 de ene", adv: "Más rápido", price: "$312.00", note: null as string[] | null, highlight: false },
-    { brand: "estafeta", name: "Estafeta", sub: "Día siguiente nacional", date: "27 de ene", adv: "Mejor precio", price: "$129.00", note: null as string[] | null, highlight: false },
+    { brand: "ampm", name: "Grupo ampm", sub: "Estándar nacional", date: "27 de ene", adv: "Mejor precio", price: "$129.00", note: null as string[] | null, highlight: false },
     { brand: "paquetexpress", name: "Paquetexpress", sub: "Estándar terrestre", date: "28 de ene", adv: "Económico", price: "$98.00", note: null as string[] | null, highlight: false },
     { brand: "99min", name: "99 Minutos", sub: "Same day metropolitano", date: "26 de ene", adv: "Más rápido", price: "$175.00", note: null as string[] | null, highlight: false },
   ];
@@ -193,7 +193,7 @@ function CarrierTable({ className = "", variant = "card" }: { className?: string
     { brand: "fedex", name: "FedEx", svc: "Económico / Día siguiente / semanal", date: "26 de ene", adv: "Mejor servicio", price: "$158.00", note: null as string[] | null, highlight: true },
     { brand: "ups", name: "UPS", svc: "UPS SAVER (65) Express", date: "26 de ene", adv: "Mejor servicio", price: "$214.00", note: ["Incluye ", "seguro y zona extendida"] as string[] | null, highlight: false },
     { brand: "dhl", name: "DHL", svc: "Express Worldwide", date: "27 de ene", adv: "Más rápido", price: "$312.00", note: null as string[] | null, highlight: false },
-    { brand: "estafeta", name: "Estafeta", svc: "Día siguiente nacional", date: "27 de ene", adv: "Mejor precio", price: "$129.00", note: null as string[] | null, highlight: false },
+    { brand: "ampm", name: "Grupo ampm", svc: "Estándar nacional", date: "27 de ene", adv: "Mejor precio", price: "$129.00", note: null as string[] | null, highlight: false },
     { brand: "paquetexpress", name: "Paquetexpress", svc: "Estándar terrestre", date: "28 de ene", adv: "Económico", price: "$98.00", note: null as string[] | null, highlight: false },
     { brand: "99min", name: "99 Minutos", svc: "Same day metropolitano", date: "26 de ene", adv: "Más rápido", price: "$175.00", note: null as string[] | null, highlight: false },
   ];
@@ -507,7 +507,7 @@ function ReglasBuilderScreen({ variant = "desktop" }: { variant?: "desktop" | "m
   const CARRIERS = [
     { name: "T1 Envíos", t1: true }, { name: "DHL", brand: "dhl" }, { name: "Fedex", brand: "fedex" },
     { name: "Grupo AMPM", brand: "ampm" }, { name: "Paquetexpress", brand: "paquetexpress" }, { name: "Ups", brand: "ups" },
-    { name: "JT Express", brand: "jtexpress" }, { name: "Estafeta", brand: "estafeta" }, { name: "99 minutos", brand: "99min" },
+    { name: "JT Express", brand: "jtexpress" }, { name: "99 minutos", brand: "99min" },
   ];
 
   /* Step 0 — Agregar nueva regla */

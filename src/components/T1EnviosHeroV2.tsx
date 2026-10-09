@@ -9,7 +9,7 @@ import HeroBackground from "@/components/HeroBackground";
    los inputs van directo sobre el degradado (modo `bare`). */
 
 const SOCIAL_PROOF = [ENVIOS_STATS.enviosEntregados + " de envíos", ENVIOS_STATS.negocios + " negocios", ENVIOS_STATS.paqueterias + " paqueterías"];
-const CARRIERS = ["/img/circles/ups.svg", "/img/circles/fedex.svg", "/img/circles/dhl.svg", "/img/circles/ampm.svg", "/img/circles/99.svg", "/img/circles/jt.svg", "/img/circles/estafeta.svg"];
+const CARRIERS = ["/img/circles/ups.svg", "/img/circles/fedex.svg", "/img/circles/dhl.svg", "/img/circles/ampm.svg", "/img/circles/99.svg", "/img/circles/jt.svg"];
 
 const ArrowRight = (
   <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>

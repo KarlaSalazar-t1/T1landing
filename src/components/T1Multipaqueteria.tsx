@@ -117,7 +117,6 @@ const ORBIT = [
   { name: "99 Minutos", logo: "/img/carriers/99min.svg" },
   { name: "Grupo ampm", logo: "/img/carriers/ampm.svg" },
   { name: "J&T Express", logo: "/img/carriers/jtexpress.svg" },
-  { name: "Estafeta", logo: "/img/carriers/estafeta.svg" },
 ];
 
 /* Hero visual — radar circular (mismo estilo que reglas) */
@@ -127,7 +126,7 @@ function RadarFlow() {
   const LOGOS = [
     "/img/carriers/fedex.svg",
     "/img/carriers/dhl.svg",
-    "/img/carriers/estafeta.svg",
+    "/img/carriers/ampm.svg",
     "/img/carriers/paquetexpress.svg",
     "/img/carriers/ups.svg",
     "/img/carriers/99min.svg",
@@ -437,7 +436,6 @@ export default function T1Multipaqueteria() {
           { i: 4, l: "88%", t: "24%", s: 58, r: 8 },
           { i: 5, l: "79%", t: "68%", s: 52, r: -7 },
           { i: 6, l: "90%", t: "48%", s: 56, r: 6 },
-          { i: 7, l: "70%", t: "17%", s: 50, r: -5 },
         ].map(({ i, l, t, s, r }) => {
           const mp = ORBIT[i];
           return (
@@ -455,10 +453,9 @@ export default function T1Multipaqueteria() {
 
         {/* MOBILE floating scatter — bandas superior e inferior */}
         {[
-          { i: 0, l: "13%", t: "9%", s: 44, r: -8 },
-          { i: 3, l: "40%", t: "7%", s: 42, r: 5 },
-          { i: 7, l: "66%", t: "8%", s: 42, r: -5 },
-          { i: 4, l: "88%", t: "12%", s: 46, r: 8 },
+          { i: 0, l: "16%", t: "9%", s: 44, r: -8 },
+          { i: 3, l: "50%", t: "7%", s: 42, r: 5 },
+          { i: 4, l: "84%", t: "11%", s: 46, r: 8 },
           { i: 1, l: "13%", t: "91%", s: 44, r: 7 },
           { i: 2, l: "40%", t: "93%", s: 44, r: -6 },
           { i: 5, l: "64%", t: "92%", s: 42, r: 7 },

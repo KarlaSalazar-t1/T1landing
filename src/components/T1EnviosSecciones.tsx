@@ -139,7 +139,7 @@ export function T1EnviosAdministracion() {
 const FAQS = [
   { q: "¿Qué es T1 Envíos y cómo funciona?", a: "T1 Envíos es una plataforma para cotizar, comparar y administrar toda tu operación logística desde un solo lugar, con paqueterías líderes y tarifas competitivas. En minutos creas tu cuenta y administras guías, recolecciones, seguimientos, incidencias y reportes." },
   { q: "¿Necesito una tienda para usar T1 Envíos?", a: "No. Puedes cotizar y crear guías aunque vendas por redes sociales, marketplaces o tu propia tienda." },
-  { q: "¿Con qué paqueterías puedo enviar?", a: "Con +10 paqueterías: DHL, FedEx, UPS, Estafeta, 99 minutos, Paquete Express, J&T, AMPM y más." },
+  { q: "¿Con qué paqueterías puedo enviar?", a: "Con +10 paqueterías: DHL, FedEx, UPS, 99 minutos, Paquete Express, J&T, AMPM y más." },
   { q: "¿Hay volumen mínimo de envíos?", a: "No. Accedes a tarifas preferenciales desde tu primer envío, sin mínimos ni contratos." },
   { q: "¿Cómo pago mis envíos?", a: "Con saldo prepagado que recargas con tarjeta o SPEI, con opción de recarga automática." },
   { q: "¿Puedo rastrear y gestionar incidencias?", a: "Sí. Rastreas todos tus paquetes en un solo lugar y gestionas incidencias antes que tu cliente." },

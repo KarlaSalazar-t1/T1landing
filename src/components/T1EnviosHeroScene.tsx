@@ -14,7 +14,6 @@ const LOGOS = [
   "/img/circles/ampm.svg",
   "/img/circles/99.svg",
   "/img/circles/jt.svg",
-  "/img/circles/estafeta.svg",
 ];
 const DUR = 30; // segundos por vuelta
 

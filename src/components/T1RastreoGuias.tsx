@@ -167,9 +167,8 @@ export default function T1RastreoGuias() {
             <div aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 h-[260px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full tablet:h-[480px] tablet:w-[620px]" style={{ background: "radial-gradient(circle, rgba(219,59,43,0.06) 0%, transparent 68%)" }} />
             {/* DESKTOP scatter — más dispersos y lejos del título */}
             {[
-              { b: "fedex", l: "9%", t: "22%", s: 52, r: -8 },
-              { b: "estafeta", l: "12%", t: "52%", s: 50, r: -5 },
-              { b: "dhl", l: "18%", t: "82%", s: 46, r: 7 },
+              { b: "fedex", l: "9%", t: "26%", s: 52, r: -8 },
+              { b: "dhl", l: "14%", t: "70%", s: 48, r: 7 },
               { b: "jtexpress", l: "28%", t: "12%", s: 44, r: 5 },
               { b: "ampm", l: "72%", t: "12%", s: 46, r: -5 },
               { b: "paquetexpress", l: "91%", t: "22%", s: 50, r: 8 },
@@ -184,10 +183,9 @@ export default function T1RastreoGuias() {
               { b: "jtexpress", l: "42%", t: "13%", s: 34, r: 5 },
               { b: "ampm", l: "66%", t: "14%", s: 34, r: -5 },
               { b: "paquetexpress", l: "84%", t: "17%", s: 36, r: 8 },
-              { b: "dhl", l: "16%", t: "85%", s: 36, r: 7 },
-              { b: "estafeta", l: "43%", t: "87%", s: 34, r: -6 },
-              { b: "ups", l: "66%", t: "86%", s: 34, r: 7 },
-              { b: "99min", l: "84%", t: "83%", s: 36, r: 6 },
+              { b: "dhl", l: "20%", t: "85%", s: 36, r: 7 },
+              { b: "ups", l: "50%", t: "87%", s: 34, r: 7 },
+              { b: "99min", l: "80%", t: "84%", s: 36, r: 6 },
             ].map(({ b, l, t, s, r }) => (
               <img key={`m-${b}`} src={`/img/carriers/${b}.svg`} alt="" width={s} height={s} className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 object-contain tablet:hidden" style={{ left: l, top: t, width: s, height: s, transform: `translate(-50%,-50%) rotate(${r}deg)`, filter: "drop-shadow(0 12px 22px rgba(0,0,0,0.12))" }} />
             ))}
@@ -217,7 +215,7 @@ export default function T1RastreoGuias() {
                   { brand: "dhl", name: "DHL", id: "78112094553", date: "26 de ene", time: "2:24 hrs", client: "Javier Mena", state: "Entregado", tone: "done" as const, highlight: true },
                   { brand: "ampm", name: "Grupo ampm", id: "55230981770", date: "26 de ene", time: "2:24 hrs", client: "Javier Mena", state: "Recolectado", tone: "neutral" as const, highlight: false },
                   { brand: "fedex", name: "FedEx", id: "34092817745", date: "26 de ene", time: "2:24 hrs", client: "Javier Mena", state: "Entregado", tone: "done" as const, highlight: false },
-                  { brand: "estafeta", name: "Estafeta", id: "90233145677", date: "25 de ene", time: "5:10 hrs", client: "Ana Torres", state: "En camino", tone: "neutral" as const, highlight: false },
+                  { brand: "paquetexpress", name: "Paquetexpress", id: "90233145677", date: "25 de ene", time: "5:10 hrs", client: "Ana Torres", state: "En camino", tone: "neutral" as const, highlight: false },
                   { brand: "ups", name: "UPS", id: "11209845330", date: "25 de ene", time: "3:02 hrs", client: "Luis Cruz", state: "Entregado", tone: "done" as const, highlight: false },
                 ].map((r, i, arr) => {
                   const st = r.tone === "done" ? { bg: "rgba(34,197,94,0.12)", color: "#16A34A" } : { bg: "rgba(0,0,0,0.05)", color: "rgba(0,0,0,0.6)" };

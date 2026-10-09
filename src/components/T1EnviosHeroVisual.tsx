@@ -19,7 +19,6 @@ const LOGOS = [
   "/img/circles/ampm.svg",
   "/img/circles/99.svg",
   "/img/circles/jt.svg",
-  "/img/circles/estafeta.svg",
 ];
 const DUR = 32; // segundos por vuelta (órbita)
 const BOX_DUR = 8.4; // segundos por ciclo de caída

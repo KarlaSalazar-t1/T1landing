@@ -307,7 +307,7 @@ export default function T1Recolecciones() {
                 Nuestra IA aprendió de más de 1.6 millones de recolecciones reales y te recomienda el horario en que la paquetería suele pasar por tu zona. Prepara tus paquetes con tiempo y aprovecha mejor tu día.
               </p>
               <ul className="flex flex-col gap-2.5">
-                {["Horario recomendado según tu código postal y día de la semana", "Sugerencia por paquetería: FedEx, DHL, Estafeta y más", "Recordatorio el día del pickup"].map((it) => (
+                {["Horario recomendado según tu código postal y día de la semana", "Sugerencia por paquetería: FedEx, DHL, Paquetexpress y más", "Recordatorio el día del pickup"].map((it) => (
                   <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                     {it}
