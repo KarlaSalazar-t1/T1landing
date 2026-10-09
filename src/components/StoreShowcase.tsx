@@ -6,17 +6,6 @@ import { useState, useCallback, useEffect } from "react";
 /* Real T1 stores featured in the "tiendas que ya venden con T1" section. */
 const STORES = [
   {
-    id: "lochwild",
-    name: "LochWild",
-    category: "Outdoor & aventura",
-    summary:
-      "Ropa y equipo para vivir la aventura al aire libre. Una tienda con identidad propia, con envíos y pagos listos desde el día uno.",
-    url: "https://lochwild.mx",
-    desktop: "/img/store-lochwild-desktop.png",
-    mobile: "/img/store-lochwild-mobile.png",
-    scrollDur: "38s",
-  },
-  {
     id: "pirma",
     name: "Pirma",
     category: "Deporte & calzado",
@@ -37,6 +26,17 @@ const STORES = [
     desktop: "/img/store-cruzazul-desktop.png",
     mobile: "/img/store-cruzazul-mobile.png",
     scrollDur: "10s",
+  },
+  {
+    id: "lochwild",
+    name: "LochWild",
+    category: "Outdoor & aventura",
+    summary:
+      "Ropa y equipo para vivir la aventura al aire libre. Una tienda con identidad propia, con envíos y pagos listos desde el día uno.",
+    url: "https://lochwild.mx",
+    desktop: "/img/store-lochwild-desktop.png",
+    mobile: "/img/store-lochwild-mobile.png",
+    scrollDur: "38s",
   },
   {
     id: "loverboy",

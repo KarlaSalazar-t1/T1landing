@@ -44,7 +44,7 @@ function LineCompare({ cur, prev, max, yTicks, xLabels, legend, height = 150, wi
   return (
     <div>
       <svg viewBox={`0 0 ${W} ${height}`} className="w-full">
-        <defs><clipPath id={`lc-${legend[0]}`}><rect x={L} y={0} width={R - L} height={B + 1} /></clipPath></defs>
+        <defs><clipPath id={`lc-${legend[0]}-${width}`}><rect x={L} y={0} width={R - L} height={B + 1} /></clipPath></defs>
         {yTicks.map((tk, k) => {
           const y = B - (k / (yTicks.length - 1)) * (B - T);
           return (
@@ -54,7 +54,7 @@ function LineCompare({ cur, prev, max, yTicks, xLabels, legend, height = 150, wi
             </g>
           );
         })}
-        <g clipPath={`url(#lc-${legend[0]})`}>
+        <g clipPath={`url(#lc-${legend[0]}-${width})`}>
           <path d={p} fill="none" stroke={PINK} strokeWidth="1.2" strokeDasharray="3 3" />
           <path d={c} fill="none" stroke={RED} strokeWidth="1.6" strokeLinejoin="round" pathLength={1} style={{ strokeDasharray: 1, animation: "reportDraw 1.2s ease-out both" }} />
         </g>
@@ -71,11 +71,11 @@ function LineCompare({ cur, prev, max, yTicks, xLabels, legend, height = 150, wi
 }
 
 /* Lista con barra horizontal + conteo + porcentaje */
-function BarList({ rows }: { rows: { name: string; n: number; pct: number }[] }) {
+function BarList({ rows, mobileMax = 99 }: { rows: { name: string; n: number; pct: number }[]; mobileMax?: number }) {
   return (
     <div className="flex flex-col gap-2.5">
       {rows.map((r, i) => (
-        <div key={r.name} className="grid items-center gap-3" style={{ gridTemplateColumns: "minmax(0,1.25fr) minmax(0,1fr) 22px 34px" }}>
+        <div key={r.name} className={`grid grid-cols-[minmax(0,1.9fr)_minmax(0,0.6fr)_20px_34px] items-center gap-2.5 tablet:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)_22px_34px] tablet:gap-3 ${i >= mobileMax ? "hidden tablet:grid" : ""}`}>
           <span className="truncate text-[11.5px] text-black/80">{r.name}</span>
           <span className="h-[6px] overflow-hidden rounded-full bg-black/[0.06]">
             <span className="block h-full rounded-full" style={{ width: `${Math.max(r.pct, 2)}%`, background: RED, transformOrigin: "left", animation: `barGrow 0.8s cubic-bezier(0.22,1,0.36,1) ${0.1 + i * 0.06}s both` }} />
@@ -113,8 +113,8 @@ export function ReporteGeneral() {
   return (
     <div className="flex h-full flex-col gap-3" style={{ fontFamily: MANROPE }}>
       <div className="grid grid-cols-2 gap-2.5 tablet:grid-cols-5">
-        {KPIS.map((k) => (
-          <div key={k.label} className="rounded-[12px] border border-black/[0.07] bg-white px-3 py-2.5">
+        {KPIS.map((k, i) => (
+          <div key={k.label} className={`rounded-[12px] border border-black/[0.07] bg-white px-3 py-2.5 ${i === 4 ? "hidden tablet:block" : ""}`}>
             <p className="truncate text-[10.5px] text-black/60 underline decoration-dotted underline-offset-2">{k.label}</p>
             <div className="mt-1 flex items-center gap-1.5">
               <span className="text-[17px] font-semibold text-black/85">{k.value}</span>
@@ -137,7 +137,7 @@ export function ReporteGeneral() {
             legend={["Envíos", "Periodo anterior"]} height={112}
           />
         </Card>
-        <Card title="Envíos por estado">
+        <Card title="Envíos por estado" className="hidden tablet:block">
           <div className="flex flex-col gap-2.5">
             {TOP_ESTADOS.map((s, i) => (
               <div key={s.n} className="grid items-center gap-2" style={{ gridTemplateColumns: "minmax(0,1.2fr) minmax(0,1fr) 34px 40px" }}>
@@ -157,8 +157,19 @@ export function ReporteGeneral() {
         </Card>
       </div>
 
-      <Card title="Envíos por paquetería" className="tablet:flex-1">
-        <div className="overflow-x-auto">
+      <Card title="Envíos por paquetería" className="flex-1">
+        {/* Móvil: filas compactas */}
+        <div className="flex flex-col tablet:hidden">
+          {PAQ.map((r) => (
+            <div key={r.serv} className="grid items-center gap-2.5 py-2" style={{ gridTemplateColumns: "28px minmax(0,1fr) auto", borderTop: "1px solid rgba(0,0,0,0.05)" }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={`/img/carriers/${r.brand}.svg`} alt={r.name} width={28} height={28} className="h-[28px] w-[28px] object-contain" />
+              <span className="min-w-0 leading-tight"><span className="block text-[12px] font-semibold text-black/85">{r.name}</span><span className="block truncate text-[10.5px] text-black/50">{r.serv} · {r.envios} envíos</span></span>
+              <span className="text-right text-[12px] font-semibold text-black/80">{r.costo}</span>
+            </div>
+          ))}
+        </div>
+        <div className="hidden overflow-x-auto tablet:block">
           <div style={{ minWidth: 520 }}>
             <div className="grid gap-2 pb-1.5 text-[9.5px] font-medium text-black/45" style={{ gridTemplateColumns: PAQ_COLS }}>
               <span /><span>Servicio</span><span className="text-right">Envíos</span><span className="text-right">Entregados</span><span className="text-right">Días prom.</span><span className="text-right">Costo prom.</span>
@@ -196,10 +207,10 @@ const ICONS = {
   x: <><circle cx="12" cy="12" r="8.5" /><path d="M9.5 9.5l5 5M14.5 9.5l-5 5" /></>,
 };
 const FLUJO = [
-  { k: "guia", n: "Por recolectar", v: 22 },
+  { k: "guia", n: "Guías generadas", v: 22 },
   { k: "caja", n: "Recolectado", v: 14 },
   { k: "camino", n: "En camino", v: 106 },
-  { k: "ok", n: "Entregado", v: 205 },
+  { k: "ok", n: "Entregados hoy", v: 205 },
 ] as const;
 const FUERA = [
   { k: "ret", n: "Retornado", v: 106 },
@@ -218,44 +229,44 @@ export function ReporteTiempoReal() {
           Ahora mismo
         </span>
       </div>
-      <Card className="flex flex-col tablet:flex-1">
+      <Card className="flex flex-1 flex-col">
         <div className="flex items-center justify-between" style={{ marginBottom: 10 }}>
           <p className="text-[12.5px] font-bold text-black underline decoration-dotted underline-offset-2">Requiere acción</p>
-          <span className="rounded-[10px] border border-black/[0.10] px-3 py-1.5 text-[10.5px] font-medium text-black/75">Ir a incidencias</span>
+          <span className="hidden rounded-[10px] border border-black/[0.10] px-3 py-1.5 text-[10.5px] font-medium text-black/75 tablet:inline">Ir a incidencias</span>
         </div>
         <div className="grid flex-1 grid-cols-1 overflow-hidden rounded-[10px] border border-black/[0.08] tablet:grid-cols-3">
           {ACCION.map((a, i) => (
-            <div key={a.n} className={`flex flex-col p-4 tablet:p-5 ${i ? "border-t border-black/[0.08] tablet:border-l tablet:border-t-0" : ""}`}>
+            <div key={a.n} className={`flex flex-col justify-center px-4 py-3 tablet:justify-start tablet:p-5 ${i ? "border-t border-black/[0.08] tablet:border-l tablet:border-t-0" : ""}`}>
               <p className="text-[11.5px] text-black/75">{a.n}</p>
-              <div className="mt-2 flex items-center gap-2">
-                <span className="text-[30px] font-semibold leading-none text-black/85">{a.v}</span>
+              <div className="mt-1.5 flex items-center gap-2 tablet:mt-2">
+                <span className="text-[24px] font-semibold leading-none text-black/85 tablet:text-[30px]">{a.v}</span>
                 <span className="rounded-full bg-black/[0.05] px-1.5 py-0.5 text-[9.5px] font-semibold text-black/60">{a.p}</span>
               </div>
-              <p className="mt-5 text-right text-[10.5px] text-black/55 underline underline-offset-2 tablet:mt-auto">Ver detalle ›</p>
+              <p className="-mt-3 text-right text-[10.5px] text-black/55 underline underline-offset-2 tablet:mt-auto">Ir a incidencias ›</p>
             </div>
           ))}
         </div>
       </Card>
-      <Card title="Tus envíos en tiempo real" className="flex flex-col tablet:flex-1">
-        <div className="grid flex-1 grid-cols-1 items-center gap-5 py-2 tablet:grid-cols-[1fr_auto_0.45fr] tablet:py-3">
+      <Card title="Tus envíos en tiempo real" className="flex flex-1 flex-col">
+        <div className="grid flex-1 grid-cols-1 items-center gap-4 tablet:grid-cols-[1fr_auto_0.45fr] tablet:gap-5 tablet:py-3">
           <div className="relative grid grid-cols-4">
-            {/* Línea punteada entre pasos */}
+            {/* Línea punteada entre pasos (desktop) */}
             <span aria-hidden className="absolute left-[12.5%] right-[12.5%] top-[10px] border-t border-dashed border-black/25" />
             {FLUJO.map((f, i) => (
               <div key={f.n} className="relative flex flex-col items-center text-center" style={{ animation: "fadeSlideIn 0.5s ease-out both", animationDelay: `${i * 0.1}s` }}>
                 <span className="bg-white px-1.5"><Ico k={f.k} /></span>
-                <span className="mt-3 text-[28px] font-semibold leading-none text-black/85">{f.v}</span>
-                <span className="mt-1.5 text-[10px] text-black/55 underline underline-offset-2">{f.n}</span>
+                <span className="mt-2 text-[20px] font-semibold leading-none text-black/85 tablet:mt-3 tablet:text-[28px]">{f.v}</span>
+                <span className="mt-1.5 text-[9.5px] leading-tight text-black/55 underline underline-offset-2 tablet:text-[10px]">{f.n}</span>
               </div>
             ))}
           </div>
           <span className="hidden h-[90px] w-px bg-black/10 tablet:block" />
-          <div className="grid grid-cols-2 border-t border-black/[0.08] pt-4 tablet:border-t-0 tablet:pt-0">
+          <div className="grid grid-cols-2 border-t border-black/[0.08] pt-3 tablet:border-t-0 tablet:pt-0">
             {FUERA.map((f) => (
               <div key={f.n} className="flex flex-col items-center text-center">
                 <Ico k={f.k} />
-                <span className="mt-3 text-[28px] font-semibold leading-none text-black/85">{f.v}</span>
-                <span className="mt-1.5 text-[10px] text-black/55 underline underline-offset-2">{f.n}</span>
+                <span className="mt-2 text-[20px] font-semibold leading-none text-black/85 tablet:mt-3 tablet:text-[28px]">{f.v}</span>
+                <span className="mt-1.5 text-[9.5px] leading-tight text-black/55 underline underline-offset-2 tablet:text-[10px]">{f.n}</span>
               </div>
             ))}
           </div>
@@ -280,6 +291,11 @@ const RETORNOS = [
   { name: "Reenvío a mensajería", n: 3, pct: 9 },
 ];
 
+const INC_CUR = [35, 38, 43, 50, 52, 48, 40, 32, 34, 52, 54, 54, 53, 40, 2];
+const INC_PREV = [0, 0, 1, 2, 8, 15, 21, 25, 18, 3, 6, 18, 30, 40, 12];
+const INC_Y = ["0", "25%", "50%", "75%", "100%"];
+const INC_X = ["2 jun", "9 jun", "16 jun", "23 jun", "30 jun"];
+
 export function ReporteIncidencias() {
   return (
     <div className="flex h-full flex-col gap-3" style={{ fontFamily: MANROPE }}>
@@ -288,21 +304,22 @@ export function ReporteIncidencias() {
           <span className="text-[22px] font-semibold text-black/85">2.8%</span>
           <span className="text-[10px] text-black/55">En relación al total</span>
         </div>
-        <LineCompare
-          cur={[35, 38, 43, 50, 52, 48, 40, 32, 34, 52, 54, 54, 53, 40, 2]}
-          prev={[0, 0, 1, 2, 8, 15, 21, 25, 18, 3, 6, 18, 30, 40, 12]}
-          max={100} yTicks={["0", "25%", "50%", "75%", "100%"]} xLabels={["2 jun", "9 jun", "16 jun", "23 jun", "30 jun"]}
-          legend={["Incidencias", "Periodo anterior"]} height={165} width={900}
-        />
+        {/* Móvil: viewBox angosto para que el texto se lea; desktop: ancho completo */}
+        <div className="tablet:hidden">
+          <LineCompare cur={INC_CUR} prev={INC_PREV} max={100} yTicks={INC_Y} xLabels={INC_X} legend={["Incidencias", "Periodo anterior"]} height={130} />
+        </div>
+        <div className="hidden tablet:block">
+          <LineCompare cur={INC_CUR} prev={INC_PREV} max={100} yTicks={INC_Y} xLabels={INC_X} legend={["Incidencias", "Periodo anterior"]} height={165} width={900} />
+        </div>
       </Card>
-      <div className="grid grid-cols-1 gap-3 tablet:flex-1 tablet:grid-cols-2">
+      <div className="grid flex-1 grid-cols-1 gap-3 tablet:grid-cols-2">
         <Card title="Incidencias">
           <div className="-mt-1 mb-3 flex items-baseline gap-2"><span className="text-[20px] font-semibold text-black/85">2.8%</span><span className="text-[10px] text-black/55">En relación al total</span></div>
-          <BarList rows={INCIDENCIAS} />
+          <BarList rows={INCIDENCIAS} mobileMax={3} />
         </Card>
         <Card title="Retornos">
           <div className="-mt-1 mb-3 flex items-baseline gap-2"><span className="text-[20px] font-semibold text-black/85">1.12%</span><span className="text-[10px] text-black/55">En relación al total</span></div>
-          <BarList rows={RETORNOS} />
+          <BarList rows={RETORNOS} mobileMax={3} />
         </Card>
       </div>
     </div>

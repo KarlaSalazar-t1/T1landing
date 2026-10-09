@@ -7,6 +7,7 @@ import { useCountUp } from "@/hooks/useCountUp";
 import { useFSStackCards } from "@/hooks/useFSStackCards";
 import HeroBackground from "@/components/HeroBackground";
 import T1FinalCTA from "@/components/T1FinalCTA";
+import { T1FAQSection } from "@/components/T1FAQ";
 
 const EASE = "cubic-bezier(0.22,1,0.36,1)";
 
@@ -940,30 +941,15 @@ export default function T1PagosEnLinea() {
       </div>
 
       {/* ── FAQ ── */}
-      <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
-        <div className="mx-auto max-w-[760px]">
-          <div data-modal-animate className="text-center" style={{ marginBottom: 40 }}>
-            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.02em", lineHeight: 1.15 }}>Preguntas frecuentes</h2>
-          </div>
-          <div data-modal-animate className="flex flex-col gap-3">
-            {[
-              { q: "¿Qué métodos de pago puedo aceptar?", a: "Tarjetas Visa, Mastercard y AMEX (crédito y débito), SPEI, transferencias, Kueski y meses sin intereses hasta 18 meses." },
-              { q: "¿Cuánto tarda en llegar mi dinero?", a: "Liquidación T+1 hábil para tarjetas. SPEI y transferencias se acreditan en cuestión de minutos." },
-              { q: "¿Cómo me integro?", a: "Con plugin para Shopify, WooCommerce, VTEX y Magento, o con nuestra API REST y SDKs. La mayoría empieza a cobrar el mismo día." },
-              { q: "¿Necesito contrato con cada banco?", a: "No. Con un solo contrato T1 te conecta a múltiples procesadores y enruta cada cobro al de mayor aprobación." },
-              { q: "¿Es seguro?", a: "Sí. Cumplimos PCI DSS, tokenizamos los datos y cada transacción pasa por antifraude T1 Score en menos de 100ms." },
-            ].map((f, i) => (
-              <details key={f.q} data-stagger className="group rounded-[14px] border border-white/[0.08] bg-white/[0.03] transition-all duration-200 open:border-[rgba(219,59,43,0.4)] open:bg-white/[0.05]" style={{ ["--i" as string]: i }}>
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-sora text-[16px] font-normal text-white transition-colors duration-150 hover:text-[#FF6F5E]">
-                  {f.q}
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="shrink-0 text-white/40 transition-transform duration-300 group-open:rotate-180 group-open:text-[#FF6F5E]"><path d="M3 5.5L8 10.5L13 5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                </summary>
-                <p className="px-6 pb-5 font-inter text-[14px] font-light text-white/60" style={{ lineHeight: 1.65 }}>{f.a}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
+      <T1FAQSection
+        faqs={[
+          { q: "¿Qué métodos de pago puedo aceptar?", a: "Tarjetas Visa, Mastercard y AMEX (crédito y débito), SPEI, transferencias, Kueski y meses sin intereses hasta 18 meses." },
+          { q: "¿Cuánto tarda en llegar mi dinero?", a: "Liquidación T+1 hábil para tarjetas. SPEI y transferencias se acreditan en cuestión de minutos." },
+          { q: "¿Cómo me integro?", a: "Con plugin para Shopify, WooCommerce, VTEX y Magento, o con nuestra API REST y SDKs. La mayoría empieza a cobrar el mismo día." },
+          { q: "¿Necesito contrato con cada banco?", a: "No. Con un solo contrato T1 te conecta a múltiples procesadores y enruta cada cobro al de mayor aprobación." },
+          { q: "¿Es seguro?", a: "Sí. Cumplimos PCI DSS, tokenizamos los datos y cada transacción pasa por antifraude T1 Score en menos de 100ms." },
+        ]}
+      />
 
       <T1FinalCTA
         title="¿Listo para cobrar en línea?"

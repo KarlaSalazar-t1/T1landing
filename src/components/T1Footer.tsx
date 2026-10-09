@@ -62,6 +62,15 @@ function TikTokIcon() {
   );
 }
 
+/* Redes sociales de T1 (footer desktop y móvil) */
+const SOCIAL = [
+  { Icon: LinkedInIcon, label: "LinkedIn", href: "https://mx.linkedin.com/company/t1latam" },
+  { Icon: InstagramIcon, label: "Instagram", href: "https://www.instagram.com/t1latam_/" },
+  { Icon: XIcon, label: "X", href: "https://twitter.com/t1latam_" },
+  { Icon: FacebookIcon, label: "Facebook", href: "https://www.facebook.com/T1latinoamerica/" },
+  { Icon: TikTokIcon, label: "TikTok", href: "https://www.tiktok.com/@t1latam_" },
+];
+
 export default function T1Footer() {
   const [langOpen, setLangOpen] = useState(false);
 
@@ -81,16 +90,12 @@ export default function T1Footer() {
                 <T1LogoWhite />
               </div>
               <div className="flex items-center gap-3">
-                {[
-                  { Icon: LinkedInIcon, label: "LinkedIn" },
-                  { Icon: InstagramIcon, label: "Instagram" },
-                  { Icon: XIcon, label: "X" },
-                  { Icon: FacebookIcon, label: "Facebook" },
-                  { Icon: TikTokIcon, label: "TikTok" },
-                ].map(({ Icon, label }) => (
+                {SOCIAL.map(({ Icon, label, href }) => (
                   <a
                     key={label}
-                    href="#"
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     aria-label={label}
                     className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-white/10 text-white/60 no-underline transition-colors hover:bg-white/20 hover:text-white"
                   >
@@ -134,16 +139,12 @@ export default function T1Footer() {
                 <T1LogoWhite />
               </div>
               <div className="flex items-center gap-3">
-                {[
-                  { Icon: LinkedInIcon, label: "LinkedIn" },
-                  { Icon: InstagramIcon, label: "Instagram" },
-                  { Icon: XIcon, label: "X" },
-                  { Icon: FacebookIcon, label: "Facebook" },
-                  { Icon: TikTokIcon, label: "TikTok" },
-                ].map(({ Icon, label }) => (
+                {SOCIAL.map(({ Icon, label, href }) => (
                   <a
                     key={label}
-                    href="#"
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     aria-label={label}
                     className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-white/10 text-white/60 no-underline transition-colors hover:bg-white/20 hover:text-white"
                   >

@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
 import HeroBackground from "@/components/HeroBackground";
 import T1FinalCTA from "@/components/T1FinalCTA";
+import { T1FAQSection } from "@/components/T1FAQ";
 
 const MANROPE = "var(--font-manrope-var), 'Manrope', sans-serif";
 
@@ -60,86 +61,131 @@ function RecoleccionOrbit() {
   );
 }
 
-/* Marco de teléfono reutilizable (bordes redondeados) — SOLO responsive */
-function PhoneShell({ children }: { children: React.ReactNode }) {
+const IA_PURPLE = "#7C3AED";
+
+/* Chip "✦ IA de T1" (morado) */
+function IAChip({ className = "" }: { className?: string }) {
   return (
-    <div className="mx-auto w-full" style={{ maxWidth: 340, fontFamily: MANROPE }}>
-      <div className="relative overflow-hidden bg-white" style={{ borderRadius: 44, border: "1px solid rgba(0,0,0,0.08)", boxShadow: "0 30px 80px rgba(0,0,0,0.45)" }}>
-        <div className="px-5 pt-6 pb-7">{children}</div>
+    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10.5px] font-semibold ${className}`} style={{ color: IA_PURPLE, background: "rgba(124,58,237,0.10)" }}>
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M12 3l1.8 5.4L19 10l-5.2 1.6L12 17l-1.8-5.4L5 10l5.2-1.6L12 3z" fill="currentColor" /></svg>
+      IA de T1
+    </span>
+  );
+}
+
+function StepCheck() {
+  return (
+    <span className="flex h-[20px] w-[20px] shrink-0 items-center justify-center rounded-full bg-[#5BAE6E]">
+      <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="#FFFFFF" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
+    </span>
+  );
+}
+
+/* Panel "Crear recolección" — el flujo de la plataforma en 3 pasos (dirección → paquetería → día) */
+function CrearRecoleccionPanel() {
+  return (
+    <div className="flex flex-col gap-2.5 rounded-[18px] border border-black/[0.06] bg-[#FAFAFA] p-3 tablet:p-4" style={{ boxShadow: "0 16px 50px rgba(0,0,0,0.08)", fontFamily: MANROPE }}>
+      <p className="px-1 text-[16px] font-bold text-black">Crear recolección</p>
+      {[
+        { t: "Dirección de recolección", body: (<><p className="text-[12.5px] font-semibold text-black">Bodega CDMX</p><p className="text-[11.5px] text-black/55">Av. Francisco I. Madero 140, Centro, CDMX · 06000</p></>) },
+        {
+          t: "Elige la paquetería",
+          body: (
+            <div className="flex items-center gap-2.5">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/img/carriers/fedex.svg" alt="FedEx" width={30} height={30} className="h-[30px] w-[30px]" />
+              <span className="text-[12.5px] font-semibold text-black">FedEx</span>
+            </div>
+          ),
+        },
+        { t: "Agenda la recolección", body: (<p className="text-[12.5px] font-semibold text-black">Mañana, viernes 21 de agosto</p>) },
+      ].map((st, i) => (
+        <div key={st.t} className="rounded-[12px] border border-black/[0.07] bg-white px-4 py-3" style={{ animation: "rastreoReveal 0.5s ease both", animationDelay: `${0.1 + i * 0.12}s` }}>
+          <div className="flex items-center justify-between" style={{ marginBottom: 6 }}>
+            <span className="flex items-center gap-2"><StepCheck /><span className="text-[13px] font-semibold text-black">{st.t}</span></span>
+            <span className="text-[11px] text-black/50">Editar</span>
+          </div>
+          {st.body}
+        </div>
+      ))}
+      <div className="flex items-center justify-between rounded-[12px] border border-black/[0.07] bg-white px-4 py-3">
+        <span className="text-[12.5px] text-black/60">Número de paquetes</span>
+        <span className="text-[12.5px] font-semibold text-black">12</span>
       </div>
+      <span className="self-end rounded-[10px] bg-[#DB3B2B] px-4 py-2 text-[12px] font-semibold text-white">Crear recolección</span>
     </div>
   );
 }
 
-/* Mockup "¡Recolección creada con éxito!" — SOLO responsive */
-function RecoleccionCreadaPhone({ className = "" }: { className?: string }) {
+/* Panel IA — "Estimando el horario de tu zona…" → horario sugerido + recolección creada */
+function HorarioIAPanel() {
+  const [phase, setPhase] = useState<0 | 1>(0);
+  useEffect(() => {
+    const id = setTimeout(() => setPhase((p) => (p === 0 ? 1 : 0)), phase === 0 ? 1700 : 5200);
+    return () => clearTimeout(id);
+  }, [phase]);
   return (
-    <div className={className}>
-      <PhoneShell>
-        <div className="flex items-center gap-2.5" style={{ marginBottom: 18 }}>
-          <span className="status-pulse flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-full bg-[#15A33F]" style={{ ["--glow" as string]: "rgba(21,163,63,0.4)" }}>
-            <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="#FFFFFF" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
-          </span>
-          <p className="text-[17px] font-bold text-black">¡Recolección creada con éxito!</p>
+    <div className="flex flex-col gap-3" style={{ fontFamily: MANROPE }}>
+      {/* Agenda la recolección — la IA estima el horario */}
+      <div className="rounded-[18px] border border-black/[0.06] bg-white p-4 tablet:p-5" style={{ boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
+        <div className="flex items-center gap-2" style={{ marginBottom: 10 }}>
+          {phase === 1 ? <StepCheck /> : <span className="h-[20px] w-[20px] shrink-0 rounded-full border-2 border-black/15" />}
+          <span className="text-[14px] font-semibold text-black">Agenda la recolección</span>
         </div>
-
-        <div className="rounded-[14px] border border-black/[0.08]">
-          {/* Carrier + horario */}
-          <div className="flex items-start justify-between gap-3 px-4 py-4">
-            <div className="flex min-w-0 items-center gap-3">
-              <img src="/img/carriers/fedex.svg" alt="FedEx" width={48} height={48} className="h-[48px] w-[48px] shrink-0" />
-              <div className="min-w-0">
-                <p className="text-[13px] text-black/55">FedEx</p>
-                <p className="truncate text-[16px] font-bold text-black">34567889909765445676</p>
+        <p className="text-[12.5px] font-semibold text-black" style={{ marginBottom: 8 }}>Mañana, viernes 21 de agosto</p>
+        <div className="min-h-[96px]">
+          {phase === 0 ? (
+            <div key="loading" className="rounded-[12px] border px-4 py-3" style={{ borderColor: "rgba(124,58,237,0.18)", background: "rgba(124,58,237,0.05)", animation: "fadeSlideIn 0.3s ease-out both" }}>
+              <p className="flex items-center gap-2 text-[12px] font-medium" style={{ color: IA_PURPLE }}>
+                <span className="h-[12px] w-[12px] rounded-full border-2 border-current border-t-transparent" style={{ animation: "spin 0.8s linear infinite" }} />
+                Estimando el horario de tu zona…
+              </p>
+              <span className="mt-3 block h-[8px] w-[62%] rounded-full" style={{ background: "rgba(124,58,237,0.14)" }} />
+              <span className="mt-2 block h-[8px] w-[84%] rounded-full" style={{ background: "rgba(124,58,237,0.10)" }} />
+            </div>
+          ) : (
+            <div key="result" style={{ animation: "fadeSlideIn 0.4s ease-out both" }}>
+              <div className="flex items-center gap-2">
+                <span className="text-[24px] font-semibold text-black" style={{ letterSpacing: "-0.01em" }}>10:00 – 13:00</span>
+                <IAChip />
               </div>
+              <p className="mt-1 text-[12.5px] text-black/65">FedEx suele recolectar en tu zona en este horario.</p>
+              <p className="mt-1.5 flex items-center gap-1.5 text-[12px] text-black/65">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.8" /><path d="M12 7v5l3 2" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>
+                Ten tus paquetes listos desde las 10:00
+              </p>
             </div>
-            <div className="shrink-0 text-right">
-              <p className="text-[14px] font-semibold text-black/80">Mañana, 08 de Octubre</p>
-              <p className="text-[12px] text-black/50">10:00 - 13:00 hrs</p>
-            </div>
-          </div>
-          {/* Ubicación + paquetes */}
-          <div className="flex items-start justify-between gap-3 border-t border-black/[0.06] px-4 py-4">
-            <div className="min-w-0">
-              <p className="text-[14px] font-semibold text-black" style={{ marginBottom: 3 }}>Bodega CDMX</p>
-              <p className="text-[12px] text-black/55" style={{ lineHeight: 1.5 }}>Lago Zurich 25, C.P. 55110, Ampliación granada, CDMX, México.</p>
-            </div>
-            <span className="shrink-0 whitespace-nowrap text-[13px] text-black/55">12 paquetes</span>
-          </div>
+          )}
         </div>
-      </PhoneShell>
-    </div>
-  );
-}
+      </div>
 
-/* Mockup "Recolección de hoy" — SOLO responsive */
-function RecoleccionHoyPhone({ className = "" }: { className?: string }) {
-  const CARRIERS = [
-    { brand: "fedex", name: "FedEx", count: "8 guías" },
-    { brand: "dhl", name: "DHL", count: "5 guías" },
-    { brand: "estafeta", name: "Estafeta", count: "3 guías" },
-  ];
-  return (
-    <div className={className}>
-      <PhoneShell>
-        <div className="flex items-center justify-between" style={{ marginBottom: 16 }}>
-          <p className="text-[19px] font-bold text-black">Recolección de hoy</p>
-          <span className="rounded-full bg-[rgba(219,59,43,0.10)] px-3 py-1 text-[12px] font-bold text-[#DB3B2B]">1 visita</span>
+      {/* ¡Recolección creada con éxito! — con la línea del horario recomendado por IA */}
+      <div className="rounded-[18px] border border-black/[0.06] bg-white p-4 tablet:p-5" style={{ boxShadow: "0 16px 50px rgba(0,0,0,0.08)" }}>
+        <div className="flex items-center gap-2.5" style={{ marginBottom: 12 }}>
+          <span className="status-pulse flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full bg-[#15A33F]" style={{ ["--glow" as string]: "rgba(21,163,63,0.4)" }}>
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="#FFFFFF" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
+          </span>
+          <p className="text-[14px] font-bold text-black">¡Recolección creada con éxito!</p>
         </div>
-        <div className="flex flex-col gap-2.5">
-          {CARRIERS.map((c, i) => (
-            <div key={i} className="flex items-center gap-3 rounded-[12px] border border-black/[0.08] bg-white px-3.5 py-3">
-              <img src={`/img/carriers/${c.brand}.svg`} alt={c.name} width={40} height={40} className="h-[40px] w-[40px] shrink-0" />
-              <span className="min-w-0 flex-1 truncate text-[15px] font-semibold text-black">{c.name}</span>
-              <span className="text-[13px] text-black/55">{c.count}</span>
+        <div className="flex items-start justify-between gap-3 rounded-[12px] border border-black/[0.08] px-3.5 py-3">
+          <div className="flex min-w-0 items-center gap-2.5">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/img/carriers/fedex.svg" alt="FedEx" width={34} height={34} className="h-[34px] w-[34px] shrink-0 object-contain" />
+            <div className="min-w-0">
+              <p className="text-[11px] text-black/55">FedEx · Bodega CDMX</p>
+              <p className="truncate text-[12.5px] font-bold text-black">12 paquetes</p>
             </div>
-          ))}
+          </div>
+          <div className="shrink-0 text-right">
+            <p className="text-[12px] font-semibold text-black/80">Mañana, 21 de agosto</p>
+            <p className="text-[11px] text-black/50">10:00 - 13:00 hrs</p>
+          </div>
         </div>
-        <div className="mt-3.5 flex items-center gap-2 rounded-[12px] bg-[#FAFAF9] px-3.5 py-3">
-          <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="#16A34A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-          <span className="text-[12px] text-black/65">16 paquetes · 3 paqueterías · una sola recolección</span>
+        <div className="mt-2.5 flex flex-wrap items-center gap-2 text-[11.5px] text-black/70">
+          <IAChip />
+          Horario recomendado por IA de T1 · 10:00–13:00
         </div>
-      </PhoneShell>
+      </div>
     </div>
   );
 }
@@ -179,7 +225,7 @@ export default function T1Recolecciones() {
                 </span>.
               </h1>
               <p className="font-inter text-[16px] font-light text-white/70 tablet:text-[19px]" style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 470 }}>
-                Programa pickups una vez y T1 los repite automáticamente.
+                Programa tus recolecciones en minutos y la IA de T1 te sugiere el horario en que la paquetería suele pasar por tu zona.
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <a href={SIGNUP_URL} className="inline-flex items-center rounded-full bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
@@ -218,19 +264,19 @@ export default function T1Recolecciones() {
         </div>
       </section>
 
-      {/* ════════════ SPLIT — pickup recurrente + weekly calendar ════════════ */}
+      {/* ════════════ SPLIT — programar es fácil (flujo de la plataforma) ════════════ */}
       <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32" data-modal-animate>
         <div className="mx-auto flex max-w-[var(--max-w)] items-center">
           <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
             <div>
               <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[46px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 18 }}>
-                Recolecciones automáticas
+                Programa tus recolecciones fácil
               </h2>
               <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                Define tus días de recolección y T1 agenda tus pickups automáticamente.
+                Elige el punto de recolección, la paquetería y el día. En unos clics queda agendada, sin llamadas ni filas en sucursal.
               </p>
               <ul className="flex flex-col gap-2.5">
-                {["Recolecciones recurrentes por día y horario", "Pausa o ajusta tu agenda cuando quieras", "Recordatorio del pickup del día"].map((it) => (
+                {["Todo el flujo en una sola pantalla", "Guarda tus puntos de recolección", "Comprobante de lo recolectado"].map((it) => (
                   <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                     {it}
@@ -238,86 +284,30 @@ export default function T1Recolecciones() {
                 ))}
               </ul>
             </div>
-            {/* Panel — teléfono en responsive */}
-            <RecoleccionCreadaPhone className="tablet:hidden" />
-            {/* Panel — recolección creada con éxito (desktop) */}
-            <div className="relative hidden overflow-hidden rounded-[18px] border border-black/[0.06] bg-white tablet:block" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)", fontFamily: MANROPE, animation: "rastreoReveal 0.5s cubic-bezier(0.16,1,0.3,1) both" }}>
-              <div className="flex items-center gap-2.5" style={{ marginBottom: 18 }}>
-                <span className="status-pulse flex h-[24px] w-[24px] shrink-0 items-center justify-center rounded-full bg-[#15A33F]" style={{ ["--glow" as string]: "rgba(21,163,63,0.4)" }}>
-                  <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="#FFFFFF" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                </span>
-                <p className="text-[15px] font-bold text-black">¡Recolección creada con éxito!</p>
-              </div>
-
-              <div className="rounded-[14px] border border-black/[0.08]">
-                {/* Carrier + horario */}
-                <div className="flex items-start justify-between gap-3 px-4 py-4">
-                  <div className="flex min-w-0 items-center gap-3">
-                    <img src="/img/carriers/fedex.svg" alt="FedEx" width={40} height={40} className="h-[40px] w-[40px] shrink-0 object-contain" />
-                    <div className="min-w-0">
-                      <p className="text-[12px] text-black/55">FedEx</p>
-                      <p className="truncate text-[14px] font-bold text-black">34567889909765445676</p>
-                    </div>
-                  </div>
-                  <div className="shrink-0 text-right">
-                    <p className="text-[13px] font-semibold text-black/80">Mañana, 08 de Octubre</p>
-                    <p className="text-[11px] text-black/50">10:00 - 13:00 hrs</p>
-                  </div>
-                </div>
-                {/* Ubicación + paquetes */}
-                <div className="flex items-start justify-between gap-3 border-t border-black/[0.06] px-4 py-4">
-                  <div className="min-w-0">
-                    <p className="text-[13px] font-semibold text-black" style={{ marginBottom: 3 }}>Bodega CDMX</p>
-                    <p className="text-[11px] text-black/55" style={{ lineHeight: 1.5 }}>Lago Zurich 25, C.P. 55110, Ampliación granada, CDMX, México.</p>
-                  </div>
-                  <span className="shrink-0 whitespace-nowrap text-[12px] text-black/55">12 paquetes</span>
-                </div>
-              </div>
-            </div>
+            <CrearRecoleccionPanel />
           </div>
         </div>
       </section>
 
-      {/* ════════════ SPLIT (reverse) — multi-paquetería en una visita ════════════ */}
-      <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-32" data-modal-animate>
+      {/* ════════════ SPLIT (reverse) — IA de T1: horario recomendado ════════════ */}
+      <section className="relative bg-[#FBFBFB] px-5 py-24 tablet:px-10 tablet:py-32" data-modal-animate>
         <div className="mx-auto flex max-w-[var(--max-w)] items-center">
           <div className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16">
-            {/* Panel — teléfono en responsive */}
-            <RecoleccionHoyPhone className="order-2 tablet:hidden" />
-            {/* Panel — multiple carriers one pickup (desktop) */}
-            <div className="relative order-2 hidden overflow-hidden rounded-[18px] border border-black/[0.06] bg-white tablet:order-1 tablet:block" style={{ padding: 22, boxShadow: "0 16px 50px rgba(0,0,0,0.08)", fontFamily: MANROPE }}>
-              <div className="flex items-center justify-between" style={{ marginBottom: 16 }}>
-                <p className="text-[14px] font-bold text-black">Recolección de hoy</p>
-                <span className="rounded-full bg-[rgba(219,59,43,0.10)] px-2.5 py-1 text-[10px] font-bold text-[#DB3B2B]">1 visita</span>
-              </div>
-              <div className="flex flex-col gap-2">
-                {[
-                  { brand: "fedex", name: "FedEx", count: "8 guías" },
-                  { brand: "dhl", name: "DHL", count: "5 guías" },
-                  { brand: "estafeta", name: "Estafeta", count: "3 guías" },
-                ].map((c, i) => (
-                  <div key={i} className="flex items-center gap-3 rounded-[10px] border border-black/[0.06] bg-white px-3 py-2.5">
-                    <img src={`/img/carriers/${c.brand}.svg`} alt={c.name} width={30} height={30} className="h-[30px] w-[30px] shrink-0 object-contain" />
-                    <span className="min-w-0 flex-1 truncate text-[12px] font-semibold text-black">{c.name}</span>
-                    <span className="text-[11px] text-black/55">{c.count}</span>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-3 flex items-center gap-2 rounded-[10px] bg-[#FAFAF9] px-3 py-2.5">
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="#16A34A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                <span className="text-[11px] text-black/65">16 paquetes · 3 paqueterías · una sola recolección</span>
-              </div>
+            <div className="order-2 tablet:order-1">
+              <HorarioIAPanel />
             </div>
-
             <div className="order-1 tablet:order-2">
+              <span className="mb-4 inline-flex items-center gap-1.5 rounded-full px-3 py-1 font-inter text-[12px] font-semibold" style={{ color: IA_PURPLE, background: "rgba(124,58,237,0.10)" }}>
+                ✦ IA de T1
+              </span>
               <h2 className="font-sora text-[28px] font-light text-black tablet:text-[40px] lg:text-[46px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 18 }}>
-                Varias paqueterías, una sola visita
+                Tu recolección, en el mejor horario
               </h2>
               <p className="font-inter text-[15px] font-light text-black/65 tablet:text-[18px]" style={{ lineHeight: 1.6, marginBottom: 24 }}>
-                Junta todos tus envíos del día sin importar la paquetería. T1 coordina la recolección para que entregues todo de una vez, en un mismo punto.
+                Nuestra IA aprendió de más de 1.6 millones de recolecciones reales y te recomienda el horario en que la paquetería suele pasar por tu zona. Prepara tus paquetes con tiempo y aprovecha mejor tu día.
               </p>
               <ul className="flex flex-col gap-2.5">
-                {["Consolida +25 paqueterías en un pickup", "Menos interrupciones en tu operación", "Comprobante de lo recolectado"].map((it) => (
+                {["Horario recomendado según tu código postal y día de la semana", "Sugerencia por paquetería: FedEx, DHL, Estafeta y más", "Recordatorio el día del pickup"].map((it) => (
                   <li key={it} className="flex items-start gap-2.5 font-inter text-[14px] text-black/70 tablet:text-[15px]">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0 mt-0.5"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                     {it}
@@ -330,35 +320,14 @@ export default function T1Recolecciones() {
       </section>
 
       {/* ════════════ FAQ — estilo t1.com/mx/tienda ════════════ */}
-      <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
-        <div className="mx-auto max-w-[760px]">
-          <div className="text-center" style={{ marginBottom: 40 }}>
-            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
-              Preguntas frecuentes
-            </h2>
-          </div>
-          <div className="flex flex-col gap-3">
-            {[
-              { q: "¿Desde dónde pueden recolectar?", a: "Desde tu sucursal, bodega o casa. Defines uno o varios puntos de recolección y el horario que mejor te convenga." },
-              { q: "¿Puedo programar recolecciones recurrentes?", a: "Sí. Eliges los días y la ventana de horario, y T1 agenda el pickup cada semana en automático. Puedes pausarlo o ajustarlo cuando quieras." },
-              { q: "¿Recogen varias paqueterías en una sola visita?", a: "Sí. T1 consolida tus envíos del día de +25 paqueterías para que entregues todo en una sola recolección." },
-              { q: "¿Tiene costo la recolección?", a: "Depende de la paquetería y tu plan. Al agendar verás si el pickup está incluido o su costo antes de confirmar." },
-              { q: "¿Cómo sé que pasaron por mis paquetes?", a: "Recibes un comprobante de lo recolectado y el seguimiento en vivo de cada guía continúa desde el administrador de T1." },
-            ].map((f) => (
-              <details
-                key={f.q}
-                className="group rounded-[14px] border border-white/[0.08] bg-white/[0.03] transition-all duration-200 open:border-[rgba(219,59,43,0.4)] open:bg-white/[0.05]"
-              >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-sora text-[16px] font-normal text-white transition-colors duration-150 hover:text-[#FF6F5E]">
-                  {f.q}
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="shrink-0 text-white/40 transition-transform duration-300 group-open:rotate-180 group-open:text-[#FF6F5E]"><path d="M3 5.5L8 10.5L13 5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                </summary>
-                <p className="px-6 pb-5 font-inter text-[14px] font-light text-white/60" style={{ lineHeight: 1.65 }}>{f.a}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
+      <T1FAQSection
+        faqs={[
+          { q: "¿Desde dónde pueden recolectar?", a: "Desde tu sucursal, bodega o casa. Defines uno o varios puntos de recolección y el horario que mejor te convenga." },
+              { q: "¿Cómo sé a qué hora pasará la paquetería?", a: "Al agendar, la IA de T1 te sugiere el horario en que esa paquetería suele recolectar en tu zona, según tu código postal y el día de la semana. Así tienes tus paquetes listos a tiempo y organizas mejor tu día." },
+          { q: "¿Tiene costo la recolección?", a: "Depende de la paquetería y tu plan. Al agendar verás si el pickup está incluido o su costo antes de confirmar." },
+          { q: "¿Cómo sé que pasaron por mis paquetes?", a: "Recibes un comprobante de lo recolectado y el seguimiento en vivo de cada guía continúa desde el administrador de T1." },
+        ]}
+      />
 
       <T1FinalCTA
         title="Recolecciones desde donde operas"

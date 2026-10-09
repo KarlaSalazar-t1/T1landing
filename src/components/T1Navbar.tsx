@@ -167,6 +167,22 @@ export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis
     return () => document.removeEventListener("keydown", onKey);
   }, [close]);
 
+  /* Click fuera → cierra el switcher de producto y el menú Productos. Escucha en
+     el documento (no con overlay) para que también funcione al dar clic dentro
+     de la barra, p. ej. en "Productos" con el switcher abierto. */
+  useEffect(() => {
+    if (!switcherOpen && !menuOpen && !recursosOpen) return;
+    const onDown = (e: PointerEvent) => {
+      const t = e.target as HTMLElement | null;
+      if (t?.closest("[data-nav-menu]")) return;
+      setSwitcherOpen(false);
+      setMenuOpen(false);
+      setRecursosOpen(false);
+    };
+    document.addEventListener("pointerdown", onDown);
+    return () => document.removeEventListener("pointerdown", onDown);
+  }, [switcherOpen, menuOpen, recursosOpen]);
+
   /* Lock body scroll when mobile menu is open */
   useEffect(() => {
     if (mobileOpen) {
@@ -234,7 +250,7 @@ export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis
                   {/* Descriptor + switcher.
                       Móvil: centrado absoluto en la barra. Desktop: en línea tras el símbolo. */}
                   <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 tablet:static tablet:translate-x-0 tablet:translate-y-0">
-                    <div className="relative">
+                    <div className="relative" data-nav-menu>
                       {/* Nombre del producto = trigger del switcher */}
                       <button
                         type="button"
@@ -299,7 +315,8 @@ export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis
 
             {/* Desktop nav links - hidden on mobile */}
             <button
-              onClick={() => { setRecursosOpen(false); setMenuOpen(!menuOpen); }}
+              data-nav-menu
+              onClick={() => { setRecursosOpen(false); setSwitcherOpen(false); setMenuOpen(!menuOpen); }}
               className={`hidden cursor-pointer items-center gap-1 border-none bg-transparent font-inter text-[16px] font-medium transition-colors duration-150 tablet:flex ${menuOpen ? textActive : textClass}`}
             >
               Productos
@@ -347,7 +364,7 @@ export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis
 
             {/* Hamburger button - mobile only */}
             <button
-              onClick={() => setMobileOpen(!mobileOpen)}
+              onClick={() => { setSwitcherOpen(false); setMobileOpen(!mobileOpen); }}
               className="flex cursor-pointer items-center justify-center border-none bg-transparent p-1 text-white transition-colors duration-150 tablet:hidden"
             >
               <HamburgerIcon open={mobileOpen} />
@@ -508,6 +525,7 @@ export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis
 
       {/* Mega Menu - desktop only */}
       <div
+        data-nav-menu
         className={`fixed left-1/2 top-[86px] z-[60] hidden w-[calc(100%-40px)] max-w-[var(--max-w)] -translate-x-1/2 overflow-hidden rounded-[20px] border border-white/[0.10] bg-[#1A1A1D] shadow-[0_24px_50px_rgba(0,0,0,0.55)] tablet:block ${
           menuOpen ? "tablet:block animate-slide-down" : "!hidden"
         }`}

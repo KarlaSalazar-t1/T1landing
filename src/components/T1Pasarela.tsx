@@ -8,6 +8,7 @@ import { useFSStackCards } from "@/hooks/useFSStackCards";
 import T1FinalCTA from "@/components/T1FinalCTA";
 import HeroBackground from "@/components/HeroBackground";
 import { CheckoutHeroScreen, PagoFlowScreen } from "@/components/showcase/PagoMockups";
+import { T1FAQSection } from "@/components/T1FAQ";
 
 /* ── Animated count stat (white-on-dark, used in stats strip) ── */
 function CountStat({ end, prefix = "", suffix = "", label, decimals = 0 }: { end: number; prefix?: string; suffix?: string; label: string; decimals?: number }) {
@@ -722,41 +723,15 @@ export default function T1Pasarela() {
       </div>
 
       {/* ── Section 7 — FAQ (fondo oscuro) ── */}
-      <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
-        <div className="mx-auto max-w-[760px]">
-          <div data-modal-animate className="text-center" style={{ marginBottom: 40 }}>
-            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
-              Preguntas frecuentes
-            </h2>
-          </div>
-          <div data-modal-animate className="flex flex-col gap-3">
-            {[
-              { q: "¿Qué métodos de pago acepta T1?", a: "Tarjetas Visa, Mastercard, AMEX (crédito y débito), SPEI, OXXO, transferencia interbancaria, MSI hasta 18 meses y wallets." },
-              { q: "¿Necesito un contrato con cada banco?", a: "No. T1 te conecta a múltiples procesadores con un solo contrato y enruta cada cobro al que más conviene." },
-              { q: "¿Qué tan rápido recibo el dinero?", a: "Liquidación T+1 hábil para tarjetas. SPEI y transferencias en cuestión de minutos." },
-              { q: "¿Cómo funciona el antifraude?", a: "Cada transacción pasa por T1 Score, que evalúa +200 señales y emite decisión en menos de 100ms sin afectar la experiencia." },
-              { q: "¿Puedo integrarme a mi tienda actual?", a: "Sí. Ofrecemos plugin para Shopify, VTEX, Magento y WooCommerce, además de SDKs y API REST." },
-            ].map((f, i) => (
-              <details
-                key={f.q}
-                data-stagger
-                className="group rounded-[14px] border border-white/[0.08] bg-white/[0.03] transition-all duration-200 open:border-[rgba(219,59,43,0.4)] open:bg-white/[0.05]"
-                style={{ ["--i" as string]: i }}
-              >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-sora text-[16px] font-normal text-white transition-colors duration-150 hover:text-[#FF6F5E]">
-                  {f.q}
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="shrink-0 text-white/40 transition-transform duration-300 group-open:rotate-180 group-open:text-[#FF6F5E]">
-                    <path d="M3 5.5L8 10.5L13 5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </summary>
-                <p className="px-6 pb-5 font-inter text-[14px] font-light text-white/60" style={{ lineHeight: 1.65 }}>
-                  {f.a}
-                </p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
+      <T1FAQSection
+        faqs={[
+          { q: "¿Qué métodos de pago acepta T1?", a: "Tarjetas Visa, Mastercard, AMEX (crédito y débito), SPEI, OXXO, transferencia interbancaria, MSI hasta 18 meses y wallets." },
+          { q: "¿Necesito un contrato con cada banco?", a: "No. T1 te conecta a múltiples procesadores con un solo contrato y enruta cada cobro al que más conviene." },
+          { q: "¿Qué tan rápido recibo el dinero?", a: "Liquidación T+1 hábil para tarjetas. SPEI y transferencias en cuestión de minutos." },
+          { q: "¿Cómo funciona el antifraude?", a: "Cada transacción pasa por T1 Score, que evalúa +200 señales y emite decisión en menos de 100ms sin afectar la experiencia." },
+          { q: "¿Puedo integrarme a mi tienda actual?", a: "Sí. Ofrecemos plugin para Shopify, VTEX, Magento y WooCommerce, además de SDKs y API REST." },
+        ]}
+      />
 
       {/* ── Final CTA — scroll-reveal pattern like the main T1 landing ── */}
       <T1FinalCTA

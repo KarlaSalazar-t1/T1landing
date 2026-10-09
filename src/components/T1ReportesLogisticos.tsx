@@ -6,6 +6,7 @@ import { SIGNUP_URL } from "@/lib/constants";
 import HeroBackground from "@/components/HeroBackground";
 import T1FinalCTA from "@/components/T1FinalCTA";
 import { ReporteGeneral, ReporteTiempoReal, ReporteIncidencias } from "@/components/T1ReportesLogisticosPaneles";
+import { T1FAQSection } from "@/components/T1FAQ";
 
 const MANROPE = "var(--font-manrope-var), 'Manrope', sans-serif";
 
@@ -288,8 +289,8 @@ export default function T1ReportesLogisticos() {
                 Exportar
               </span>
             </div>
-            {/* Misma altura para los 3 reportes en desktop */}
-            <div key={active.key} className="tablet:h-[568px]" style={{ animation: "fadeSlideIn 0.45s ease-out both" }}>
+            {/* Misma altura para los 3 reportes (móvil y desktop) */}
+            <div key={active.key} className="h-[604px] tablet:h-[568px]" style={{ animation: "fadeSlideIn 0.45s ease-out both" }}>
               <active.Panel />
             </div>
           </div>
@@ -377,35 +378,15 @@ export default function T1ReportesLogisticos() {
       </section>
 
       {/* ════════════ FAQ — estilo t1.com/mx/tienda ════════════ */}
-      <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
-        <div className="mx-auto max-w-[760px]">
-          <div className="text-center" style={{ marginBottom: 40 }}>
-            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
-              Preguntas frecuentes
-            </h2>
-          </div>
-          <div className="flex flex-col gap-3">
-            {[
-              { q: "¿Qué puedo medir en los reportes?", a: "Tiempos de entrega, % a tiempo, costos por envío y desempeño de cada paquetería, con cortes por fecha, zona, estado y tipo de servicio." },
-              { q: "¿Los datos se actualizan solos?", a: "Sí. Los reportes se alimentan del estatus real de tus guías en todas las paqueterías conectadas, sin captura manual." },
-              { q: "¿Puedo comparar paqueterías?", a: "Sí. El explorador te deja cambiar de indicador y ver lado a lado a tus carriers por velocidad, costo y cumplimiento." },
-              { q: "¿Puedo exportar la información?", a: "Sí. Descargas cualquier reporte en CSV o Excel para compartirlo con tu equipo o integrarlo a tus propios tableros." },
-              { q: "¿Tiene costo adicional?", a: "No. Los reportes logísticos vienen incluidos en T1 Envíos." },
-            ].map((f) => (
-              <details
-                key={f.q}
-                className="group rounded-[14px] border border-white/[0.08] bg-white/[0.03] transition-all duration-200 open:border-[rgba(219,59,43,0.4)] open:bg-white/[0.05]"
-              >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-sora text-[16px] font-normal text-white transition-colors duration-150 hover:text-[#FF6F5E]">
-                  {f.q}
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="shrink-0 text-white/40 transition-transform duration-300 group-open:rotate-180 group-open:text-[#FF6F5E]"><path d="M3 5.5L8 10.5L13 5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                </summary>
-                <p className="px-6 pb-5 font-inter text-[14px] font-light text-white/60" style={{ lineHeight: 1.65 }}>{f.a}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
+      <T1FAQSection
+        faqs={[
+          { q: "¿Qué puedo medir en los reportes?", a: "Tiempos de entrega, % a tiempo, costos por envío y desempeño de cada paquetería, con cortes por fecha, zona, estado y tipo de servicio." },
+          { q: "¿Los datos se actualizan solos?", a: "Sí. Los reportes se alimentan del estatus real de tus guías en todas las paqueterías conectadas, sin captura manual." },
+          { q: "¿Puedo comparar paqueterías?", a: "Sí. El explorador te deja cambiar de indicador y ver lado a lado a tus carriers por velocidad, costo y cumplimiento." },
+          { q: "¿Puedo exportar la información?", a: "Sí. Descargas cualquier reporte en CSV o Excel para compartirlo con tu equipo o integrarlo a tus propios tableros." },
+          { q: "¿Tiene costo adicional?", a: "No. Los reportes logísticos vienen incluidos en T1 Envíos." },
+        ]}
+      />
 
       <T1FinalCTA
         title="Convierte tus envíos en decisiones"

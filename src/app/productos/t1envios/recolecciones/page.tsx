@@ -5,7 +5,7 @@ import T1Recolecciones from "@/components/T1Recolecciones";
 export const metadata = {
   title: "Recolecciones · T1 Envíos",
   description:
-    "Programa pickups automáticos desde tu sucursal, bodega o casa. Agenda recolecciones recurrentes, junta varias paqueterías en una sola visita y olvídate de ir a dejar paquetes.",
+    "Programa recolecciones desde tu sucursal, bodega o casa. La IA de T1 te sugiere el horario en que la paquetería suele pasar por tu zona para que prepares tus paquetes con tiempo.",
 };
 
 export default function RecoleccionesPage() {

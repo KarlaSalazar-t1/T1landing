@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import Image from "next/image";
+import { FAQItem } from "@/components/T1FAQ";
 import T1TiendaCobraCard from "@/components/T1TiendaCobraCard";
 
 /* ══════════ 1 · Tu tienda con pagos y envíos integrados ══════════ */
@@ -248,24 +249,6 @@ const FAQS = [
   { q: "¿Los pagos y envíos están incluidos?", a: "Sí. Tu tienda ya viene integrada con T1 Pagos (tarjetas, SPEI, MSI) y T1 Envíos (+10 paqueterías)." },
   { q: "¿Tiene costo crear mi tienda?", a: "Puedes empezar gratis y crear tu tienda sin tarjeta. Escalas a planes de pago cuando lo necesites." },
 ];
-function FAQItem({ q, a }: { q: string; a: string }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <button type="button" onClick={() => setOpen((o) => !o)} className="w-full border-b border-white/10 py-5 text-left">
-      <div className="flex items-center justify-between gap-4">
-        <span className="font-inter text-[16px] font-medium text-white tablet:text-[18px]">{q}</span>
-        <span className={`shrink-0 text-white/50 transition-transform duration-200 ${open ? "rotate-45" : ""}`}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>
-        </span>
-      </div>
-      <div className="grid transition-all duration-300" style={{ gridTemplateRows: open ? "1fr" : "0fr" }}>
-        <div className="overflow-hidden">
-          <p className="pr-8 pt-3 font-inter text-[15px] font-light leading-relaxed text-white/60 tablet:text-[16px]">{a}</p>
-        </div>
-      </div>
-    </button>
-  );
-}
 export function T1TiendaFAQ() {
   return (
     <section className="bg-black px-5 py-[56px] tablet:px-6 tablet:py-[78px]">

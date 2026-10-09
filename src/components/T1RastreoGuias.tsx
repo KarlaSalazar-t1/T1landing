@@ -6,6 +6,7 @@ import { SIGNUP_URL } from "@/lib/constants";
 import { useCountUp } from "@/hooks/useCountUp";
 import HeroBackground from "@/components/HeroBackground";
 import T1FinalCTA from "@/components/T1FinalCTA";
+import { T1FAQSection } from "@/components/T1FAQ";
 
 const MANROPE = "var(--font-manrope-var), 'Manrope', sans-serif";
 
@@ -307,35 +308,15 @@ export default function T1RastreoGuias() {
 
 
       {/* ════════════ FAQ (fondo oscuro) ════════════ */}
-      <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
-        <div className="mx-auto max-w-[760px]">
-          <div className="text-center" style={{ marginBottom: 40 }}>
-            <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
-              Preguntas frecuentes
-            </h2>
-          </div>
-          <div className="flex flex-col gap-3">
-            {[
-              { q: "¿Funciona con cualquier paquetería?", a: "Sí. Rastreas las +25 paqueterías conectadas a T1 y también guías generadas fuera de T1 que importes con su número." },
-              { q: "¿Mi cliente recibe un link de rastreo?", a: "Sí. Recibe una página de rastreo con el estado en vivo, y avisos automáticos por WhatsApp y email en cada cambio." },
-              { q: "¿Puedo personalizar la página con mi marca?", a: "Sí. La página de rastreo lleva tu logo y colores, para que la experiencia se sienta tuya y no de la paquetería." },
-              { q: "¿Cómo se abren las incidencias?", a: "T1 detecta envíos sin movimiento y abre la incidencia automáticamente. Un equipo dedicado da seguimiento con la paquetería." },
-              { q: "¿Hay API o webhooks?", a: "Sí. Puedes recibir los cambios de estatus por webhook para integrarlos a tu CRM, ERP o flujos internos." },
-            ].map((f) => (
-              <details
-                key={f.q}
-                className="group rounded-[14px] border border-white/[0.08] bg-white/[0.03] transition-all duration-200 open:border-[rgba(219,59,43,0.4)] open:bg-white/[0.05]"
-              >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-sora text-[16px] font-normal text-white transition-colors duration-150 hover:text-[#FF6F5E]">
-                  {f.q}
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="shrink-0 text-white/40 transition-transform duration-300 group-open:rotate-180 group-open:text-[#FF6F5E]"><path d="M3 5.5L8 10.5L13 5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                </summary>
-                <p className="px-6 pb-5 font-inter text-[14px] font-light text-white/60" style={{ lineHeight: 1.65 }}>{f.a}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
+      <T1FAQSection
+        faqs={[
+          { q: "¿Funciona con cualquier paquetería?", a: "Sí. Rastreas las +25 paqueterías conectadas a T1 y también guías generadas fuera de T1 que importes con su número." },
+          { q: "¿Mi cliente recibe un link de rastreo?", a: "Sí. Recibe una página de rastreo con el estado en vivo, y avisos automáticos por WhatsApp y email en cada cambio." },
+          { q: "¿Puedo personalizar la página con mi marca?", a: "Sí. La página de rastreo lleva tu logo y colores, para que la experiencia se sienta tuya y no de la paquetería." },
+          { q: "¿Cómo se abren las incidencias?", a: "T1 detecta envíos sin movimiento y abre la incidencia automáticamente. Un equipo dedicado da seguimiento con la paquetería." },
+          { q: "¿Hay API o webhooks?", a: "Sí. Puedes recibir los cambios de estatus por webhook para integrarlos a tu CRM, ERP o flujos internos." },
+        ]}
+      />
 
       <T1FinalCTA
         title={<>Olvídate del<br />¿dónde está mi pedido?</>}

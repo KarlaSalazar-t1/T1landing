@@ -6,6 +6,7 @@ import { SIGNUP_URL } from "@/lib/constants";
 import { useFSStackCards } from "@/hooks/useFSStackCards";
 import T1FinalCTA from "@/components/T1FinalCTA";
 import HeroBackground from "@/components/HeroBackground";
+import { T1FAQSection } from "@/components/T1FAQ";
 
 /* ── Sales-channel icons (real T1 channels) ── */
 const MARKETPLACES = [
@@ -753,39 +754,15 @@ export default function T1Marketplaces() {
 
 
       {/* ── FAQ (fondo oscuro) ── */}
-      <section className="relative bg-black px-5 py-24 tablet:px-10 tablet:py-32">
-        <div className="mx-auto max-w-[760px]">
-          <div className="text-center" style={{ marginBottom: 40 }}>
-            <h2 className="font-sora text-[32px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
-              Preguntas frecuentes
-            </h2>
-          </div>
-          <div className="flex flex-col gap-3">
-            {[
-              { q: "¿Qué canales de venta puedo conectar?", a: "Mercado Libre, Amazon, Walmart, SHEIN, Sears, Sanborns, AliExpress, TikTok Shop, Total Play, Shopify, Tienda Nube, WooCommerce y más." },
-              { q: "¿Necesito tener cuenta en cada marketplace?", a: "Sí, necesitas una cuenta de vendedor en cada marketplace que quieras conectar. T1 te ayuda con la configuración y conecta cada cuenta una sola vez." },
-              { q: "¿Cómo se sincroniza el inventario?", a: "En tiempo real. Cada venta en cualquier canal descuenta el inventario al instante en todos los demás." },
-              { q: "¿Puedo tener precios diferentes por canal?", a: "Sí. Cada SKU puede tener un precio distinto en cada marketplace para optimizar margen según las comisiones de cada plataforma." },
-              { q: "¿Qué pasa con las categorías de cada marketplace?", a: "T1 mapea automáticamente tus categorías a las taxonomías de cada marketplace. Tú nombras una vez, T1 traduce al lenguaje de cada canal." },
-            ].map((f) => (
-              <details
-                key={f.q}
-                className="group rounded-[14px] border border-white/[0.08] bg-white/[0.03] transition-all duration-200 open:border-[rgba(219,59,43,0.4)] open:bg-white/[0.05]"
-              >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 font-sora text-[16px] font-normal text-white transition-colors duration-150 hover:text-[#FF6F5E]">
-                  {f.q}
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="shrink-0 text-white/40 transition-transform duration-300 group-open:rotate-180 group-open:text-[#FF6F5E]">
-                    <path d="M3 5.5L8 10.5L13 5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </summary>
-                <p className="px-6 pb-5 font-inter text-[14px] font-light text-white/60" style={{ lineHeight: 1.65 }}>
-                  {f.a}
-                </p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
+      <T1FAQSection
+        faqs={[
+          { q: "¿Qué canales de venta puedo conectar?", a: "Mercado Libre, Amazon, Walmart, SHEIN, Sears, Sanborns, AliExpress, TikTok Shop, Total Play, Shopify, Tienda Nube, WooCommerce y más." },
+          { q: "¿Necesito tener cuenta en cada marketplace?", a: "Sí, necesitas una cuenta de vendedor en cada marketplace que quieras conectar. T1 te ayuda con la configuración y conecta cada cuenta una sola vez." },
+          { q: "¿Cómo se sincroniza el inventario?", a: "En tiempo real. Cada venta en cualquier canal descuenta el inventario al instante en todos los demás." },
+          { q: "¿Puedo tener precios diferentes por canal?", a: "Sí. Cada SKU puede tener un precio distinto en cada marketplace para optimizar margen según las comisiones de cada plataforma." },
+          { q: "¿Qué pasa con las categorías de cada marketplace?", a: "T1 mapea automáticamente tus categorías a las taxonomías de cada marketplace. Tú nombras una vez, T1 traduce al lenguaje de cada canal." },
+        ]}
+      />
 
       {/* ── Final CTA — scroll-reveal pattern like the main T1 landing ── */}
       <T1FinalCTA
