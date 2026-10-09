@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
 import { FUENTE, UI } from "@/components/T1FinanzasTokens";
 import { Chip } from "@/components/T1FinanzasUI";
+import { CANAL_LOGOS, DISPERSION_DESKTOP, DISPERSION_MOVIL, NEGOCIOS } from "@/components/T1FinanzasDatos";
 
 /* ──────────────────────────────────────────────────────────────────────────
    Secciones de la landing de T1 Finanzas.
@@ -348,26 +349,37 @@ function PanelFacturacionLimpio() {
   );
 }
 
-export function T1FinanzasProblema() {
+/* `sinEncabezado` lo usa la v2: ahí el título y el subtítulo los pone la
+   sección de beneficios que va arriba, y este bloque queda solo como la
+   prueba visual —la hoja de cálculo contra la pantalla de Facturación. */
+export function T1FinanzasProblema({ sinEncabezado = false }: { sinEncabezado?: boolean }) {
   return (
-    <section className="relative overflow-hidden bg-black px-5 pb-[88px] pt-[56px] tablet:px-6 tablet:pb-[130px] tablet:pt-[72px]">
+    <section
+      className={`relative overflow-hidden bg-black px-5 pb-[88px] tablet:px-6 tablet:pb-[130px] ${
+        sinEncabezado ? "pt-0 tablet:pt-0" : "pt-[56px] tablet:pt-[72px]"
+      }`}
+    >
       <div
         aria-hidden
         className="pointer-events-none absolute left-1/2 top-1/2 h-[460px] w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full"
         style={{ background: "radial-gradient(ellipse at center, rgba(219,59,43,0.12) 0%, transparent 65%)", filter: "blur(55px)" }}
       />
       <div className="relative mx-auto flex max-w-[var(--max-w)] flex-col items-center text-center">
-        <h2
-          className="font-sora text-[30px] font-light text-white tablet:text-[52px]"
-          style={{ letterSpacing: "-0.03em", lineHeight: 1.12, maxWidth: 680 }}
-        >
-          Facturar a mano te quita medio día al mes
-        </h2>
-        <p className="mt-4 font-inter text-[15px] font-light text-white/55 tablet:text-[17px]" style={{ maxWidth: 560 }}>
-          Hoy lo armas canal por canal. Con T1 Finanzas, ya está listo.
-        </p>
+        {!sinEncabezado && (
+          <>
+            <h2
+              className="font-sora text-[30px] font-light text-white tablet:text-[52px]"
+              style={{ letterSpacing: "-0.03em", lineHeight: 1.12, maxWidth: 680 }}
+            >
+              Facturar a mano te quita medio día al mes
+            </h2>
+            <p className="mt-4 font-inter text-[15px] font-light text-white/55 tablet:text-[17px]" style={{ maxWidth: 560 }}>
+              Hoy lo armas canal por canal. Con T1 Finanzas, ya está listo.
+            </p>
+          </>
+        )}
 
-        <div className="mt-12 grid w-full grid-cols-1 items-start gap-10 tablet:mt-16 tablet:grid-cols-2 tablet:gap-12" aria-hidden>
+        <div className={`${sinEncabezado ? "mt-2 tablet:mt-4" : "mt-12 tablet:mt-16"} grid w-full grid-cols-1 items-start gap-10 tablet:grid-cols-2 tablet:gap-12`} aria-hidden>
           {/* Hoy */}
           <div className="flex flex-col items-center">
             <p className="font-inter text-[12px] font-semibold uppercase tracking-[0.1em] text-white/35" style={{ marginBottom: 16 }}>
@@ -386,7 +398,7 @@ export function T1FinanzasProblema() {
 
           {/* Con T1 Finanzas */}
           <div className="flex flex-col items-center">
-            <p className="font-inter text-[12px] font-semibold uppercase tracking-[0.1em] text-[#FF6F5E]" style={{ marginBottom: 16 }}>
+            <p className="font-inter text-[12px] font-semibold uppercase tracking-[0.1em] text-white/70" style={{ marginBottom: 16 }}>
               Con T1 Finanzas
             </p>
             <div className="w-full tablet:[transform:rotate(1.5deg)]">
@@ -420,50 +432,6 @@ export function T1FinanzasProblema() {
 /* ══════════ 2 · Los pedidos de T1 Tienda ══════════
    Los logos son SOLO los de las tiendas cuyos pedidos llegan a Finanzas el
    día que se publica. WooCommerce queda fuera hasta confirmarlo. */
-const CANAL_LOGOS = [
-  { src: "/img/meli-iso.svg", alt: "Mercado Libre" },
-  { src: "/img/amazon-iso.svg", alt: "Amazon" },
-  { src: "/img/walmart.svg", alt: "Walmart" },
-  { src: "/img/tiktokshop.svg", alt: "TikTok Shop" },
-  { src: "/img/sears-isotipo.svg", alt: "Sears" },
-  { src: "/img/sanborns-iso.svg", alt: "Sanborns" },
-  { src: "/img/shein-iso.svg", alt: "SHEIN" },
-  { src: "/img/aliexpress.svg", alt: "AliExpress" },
-  { src: "/img/shopify.svg", alt: "Shopify" },
-  { src: "/img/tiendanube.svg", alt: "Tienda Nube" },
-  { src: "/img/totalplay.svg", alt: "Total Play" },
-];
-
-/* Los isotipos flotan alrededor del texto, como en "Actualizar cada canal a
-   mano" de la sublanding de marketplaces. En móvil se reparten arriba y
-   abajo, para que nunca se encimen con el texto. */
-const DISPERSION_DESKTOP = [
-  { i: 0, l: "8%", t: "22%", s: 54, r: -8 },
-  { i: 1, l: "16%", t: "62%", s: 48, r: 7 },
-  { i: 2, l: "90%", t: "24%", s: 52, r: 8 },
-  { i: 3, l: "84%", t: "64%", s: 46, r: -7 },
-  { i: 4, l: "28%", t: "11%", s: 44, r: 5 },
-  { i: 5, l: "72%", t: "10%", s: 42, r: -5 },
-  { i: 6, l: "6%", t: "44%", s: 44, r: 6 },
-  { i: 7, l: "94%", t: "44%", s: 46, r: -6 },
-  { i: 8, l: "30%", t: "88%", s: 46, r: 6 },
-  { i: 9, l: "70%", t: "89%", s: 44, r: -6 },
-  { i: 10, l: "49%", t: "92%", s: 40, r: 4 },
-];
-const DISPERSION_MOVIL = [
-  { i: 0, l: "12%", t: "8%", s: 42, r: -8 },
-  { i: 4, l: "38%", t: "5%", s: 38, r: 5 },
-  { i: 3, l: "64%", t: "6%", s: 38, r: -5 },
-  { i: 2, l: "88%", t: "10%", s: 42, r: 8 },
-  { i: 6, l: "22%", t: "16%", s: 36, r: 4 },
-  { i: 5, l: "78%", t: "17%", s: 36, r: -6 },
-  { i: 1, l: "12%", t: "90%", s: 42, r: 7 },
-  { i: 8, l: "38%", t: "93%", s: 40, r: -6 },
-  { i: 9, l: "62%", t: "92%", s: 40, r: 7 },
-  { i: 7, l: "88%", t: "88%", s: 42, r: 6 },
-  { i: 10, l: "74%", t: "81%", s: 36, r: -4 },
-];
-
 export function T1FinanzasCanales() {
   return (
     <section className="relative flex min-h-[560px] items-center overflow-hidden bg-[#0e0d0d] px-5 py-[80px] tablet:min-h-[620px] tablet:px-10 tablet:py-[120px]">
@@ -520,29 +488,6 @@ export function T1FinanzasCanales() {
 
    Mientras no existan las sublandings, cada tarjeta lleva a la pregunta
    frecuente de su tema, que se abre sola al llegar por la liga. */
-const NEGOCIOS = [
-  {
-    title: "Marketplaces",
-    desc: "Tu factura global de cada marketplace, sin armarla a mano.",
-    href: "/productos/t1finanzas#faq-global-marketplaces",
-  },
-  {
-    title: "Tienda en línea",
-    desc: "Facturas cada pedido en un clic, y los datos de tu cliente se guardan desde su primera factura.",
-    href: "/productos/t1finanzas#faq-ya-uso-t1-tienda",
-  },
-  {
-    title: "Mostrador",
-    desc: "Facturas tus ventas sin pagar otro sistema.",
-    href: "/productos/t1finanzas#faq-venta-fuera-de-t1",
-  },
-  {
-    title: "Ventas a empresas",
-    desc: "Facturas a crédito y registras cada pago con su recibo.",
-    href: "/productos/t1finanzas#faq-recibos-de-pago",
-  },
-];
-
 export function T1FinanzasPorNegocio() {
   const ref = useRef<HTMLDivElement>(null);
   const scrollBy = (dir: 1 | -1) => {

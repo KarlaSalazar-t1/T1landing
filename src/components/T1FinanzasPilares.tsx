@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { BotonApp, Campo, Chip, Chispa, Cursor, Radio, UI, usePasos, useEscritura, VentanaApp } from "@/components/T1FinanzasUI";
 
 /* ──────────────────────────────────────────────────────────────────────────
@@ -368,7 +368,7 @@ function PanelClave() {
   );
 }
 
-const ITEMS = [
+const TODOS = [
   {
     id: "pedido",
     label: "Pedidos en línea",
@@ -406,7 +406,20 @@ const ITEMS = [
 
 const DURATION = 9000;
 
-export default function T1FinanzasPilares() {
+/* La v2 le pasa otro título: en la v1 esta sección y las dos siguientes
+   contestaban lo mismo —dónde vendes—, así que aquí se queda solo con el
+   cómo se factura. */
+export default function T1FinanzasPilares({
+  titulo = "Todas tus ventas, en un solo lugar",
+  sinClave = false,
+}: {
+  titulo?: string;
+  /* La v2 quita la pestaña de la clave: la sección queda con las tres formas
+     de facturar, y la clave se ve donde de verdad pasa —el asistente de
+     "Otras ventas" ya la sugiere— y en los beneficios de arriba. */
+  sinClave?: boolean;
+}) {
+  const ITEMS = useMemo(() => (sinClave ? TODOS.filter((t) => t.id !== "clave") : TODOS), [sinClave]);
   const [active, setActive] = useState(0);
   const [started, setStarted] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
@@ -471,7 +484,7 @@ export default function T1FinanzasPilares() {
             className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
             style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}
           >
-            Todas tus ventas, en un solo lugar
+            {titulo}
           </h2>
         </div>
 

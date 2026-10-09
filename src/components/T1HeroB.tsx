@@ -31,42 +31,6 @@ const TABS = [
   { id: "link", label: "Crea link de pago", mLabel: "Pagos", href: PAGOS_START_URL },
 ];
 
-/* Íconos por tab (tienda / link / envío) */
-function TabIcon({ id }: { id: string }) {
-  const c = {
-    width: 15, height: 15, viewBox: "0 0 24 24", fill: "none",
-    stroke: "currentColor", strokeWidth: 1.8,
-    strokeLinecap: "round" as const, strokeLinejoin: "round" as const,
-  };
-  if (id === "tienda") {
-    return (
-      <svg {...c}>
-        <path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7" />
-        <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
-        <path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4" />
-        <path d="M2 7h20" />
-        <path d="M2 7v3a2 2 0 0 0 2 2 2 2 0 0 0 2-2V7m0 3a2 2 0 0 0 2 2 2 2 0 0 0 2-2V7m0 3a2 2 0 0 0 2 2 2 2 0 0 0 2-2V7m0 3a2 2 0 0 0 2 2 2 2 0 0 0 2-2V7" />
-      </svg>
-    );
-  }
-  if (id === "link") {
-    return (
-      <svg {...c}>
-        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-      </svg>
-    );
-  }
-  return (
-    <svg {...c}>
-      <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2" />
-      <path d="M15 18H9" />
-      <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14" />
-      <circle cx="17" cy="18" r="2" />
-      <circle cx="7" cy="18" r="2" />
-    </svg>
-  );
-}
 
 /* ── Carrusel de logos de marcas (mismas que Casos de éxito) ── */
 const LOGOS = [
@@ -110,8 +74,7 @@ const PAY_LOGOS = [
 ];
 function PayLogos() {
   return (
-    <div className="mt-6 flex flex-col items-center gap-3">
-      <span className="font-inter text-[12px] font-normal text-white/45">Acepta todos los métodos de pago</span>
+    <div className="mt-6 flex flex-col items-center">
       {/* Logos sin contenedor — a color, directos sobre el fondo */}
       <div className="flex items-center justify-center gap-4">
         {PAY_LOGOS.map((src) => (
@@ -132,8 +95,7 @@ const CARRIER_LOGOS = [
 ];
 function CarrierLogos() {
   return (
-    <div className="mt-6 flex flex-col items-center gap-3">
-      <span className="font-inter text-[12px] font-normal text-white/45">Envía con las mejores paqueterías</span>
+    <div className="mt-6 flex flex-col items-center">
       <div className="flex items-center justify-center gap-2.5">
         {CARRIER_LOGOS.map((src) => (
           <div key={src} className="flex h-[30px] w-[30px] shrink-0 items-center justify-center overflow-hidden rounded-full">
@@ -298,7 +260,7 @@ export default function T1HeroB({ buenFin = false, variantB = false }: { buenFin
 
         {/* ══ FIRST FOLD ══ título + selector + contenido. En móvil un poco menos alto
             (85svh) para que asome un hint de los datos/marquee = "hay scroll". ══ */}
-        <div className="relative z-10 flex min-h-[calc(85svh-96px)] w-full max-w-[440px] flex-col items-center tablet:min-h-[680px] tablet:max-w-[720px]">
+        <div className="relative z-10 flex min-h-[calc(85svh-96px)] w-full max-w-[440px] flex-col items-center tablet:min-h-[760px] tablet:max-w-[840px] wide:min-h-[860px] wide:max-w-[1040px]">
           {buenFin && variantB ? (
             /* ══ Versión B — logo VERTICAL a la izquierda · título a la derecha (desktop);
                en móvil se apila (logo arriba, título abajo). ══ */
@@ -330,18 +292,27 @@ export default function T1HeroB({ buenFin = false, variantB = false }: { buenFin
                 </div>
               )}
 
-              {/* 1 · H1 (arriba) — rotativo: "Un solo lugar para [acción]." */}
+              {/* 1 · H1 (arriba) — rotativo: "Un solo lugar para [acción]."
+                  Desktop (≥1024px): una sola línea, la frase que cambia va a la derecha. Todas las
+                  frases ocupan la misma celda del grid (solo una visible), así el ancho
+                  es siempre el de la más larga y el texto fijo no brinca al rotar.
+                  Móvil y tablet: dos líneas, como antes. */}
               <h1
-                className="text-center font-sora text-[30px] font-light leading-[1.12] text-white tablet:text-[44px]"
+                className="text-center font-sora text-[32px] font-light leading-[1.12] text-white tablet:text-[48px] lg:whitespace-nowrap wide:text-[56px]"
                 style={{ letterSpacing: "-0.03em" }}
               >
-                <span className="block">{buenFin ? "Este Buen Fin con T1" : "Un solo lugar para"}</span>
-                <span
-                  key={pIdx}
-                  className="block text-white"
-                  style={{ animation: "heroWordIn 0.4s ease-out" }}
-                >
-                  {heroPhrases[pIdx]}
+                <span className="block lg:inline">{buenFin ? "Este Buen Fin con T1" : "Un solo lugar para"} </span>
+                <span className="grid justify-items-center lg:inline-grid lg:justify-items-start lg:text-left">
+                  {heroPhrases.map((ph, i) => (
+                    <span
+                      key={i === pIdx ? `on-${pIdx}` : ph}
+                      aria-hidden={i !== pIdx}
+                      className="text-white"
+                      style={{ gridArea: "1 / 1", visibility: i === pIdx ? "visible" : "hidden", animation: i === pIdx ? "heroWordIn 0.4s ease-out" : undefined }}
+                    >
+                      {ph}
+                    </span>
+                  ))}
                 </span>
               </h1>
             </>
@@ -349,7 +320,7 @@ export default function T1HeroB({ buenFin = false, variantB = false }: { buenFin
 
           {/* Bloque central — anclado bajo el H1 (NO centrado) para que el selector
               quede fijo y no suba/baje al cambiar de tab (el contenido varía de alto). */}
-          <div className={`flex w-full flex-col items-center gap-8 pt-10 ${variantB ? "tablet:pt-6" : "tablet:pt-14"}`}>
+          <div className={`flex w-full flex-col items-center gap-8 pt-10 tablet:gap-10 ${variantB ? "tablet:pt-6" : "tablet:pt-16"}`}>
 
             {/* 2 · Selector — móvil: tabs con subrayado · desktop: segmented pill */}
             {/* Móvil — tabs con subrayado */}
@@ -407,9 +378,6 @@ export default function T1HeroB({ buenFin = false, variantB = false }: { buenFin
                       selected ? "text-white" : "text-white/50 hover:text-white/80"
                     }`}
                   >
-                    <span className={selected ? "text-white" : "text-white/60"}>
-                      <TabIcon id={t.id} />
-                    </span>
                     {t.label}
                     <span
                       className={`absolute inset-x-2 -bottom-px h-[2px] rounded-full bg-white transition-transform duration-200 ${
@@ -423,14 +391,11 @@ export default function T1HeroB({ buenFin = false, variantB = false }: { buenFin
 
             {/* 3 · Zona que cambia por tab. El selector va anclado ARRIBA (bloque no
                 centrado), así que aunque esta zona cambie de alto el selector no se mueve. */}
-            <div className="flex min-h-[336px] w-full flex-col items-center gap-5 tablet:min-h-[300px]" aria-live="polite">
+            <div className="flex min-h-[336px] w-full flex-col items-center gap-5 tablet:min-h-[260px]" aria-live="polite">
               {/* ── TIENDA ── */}
               {tab.id === "tienda" && (
                 <>
-                  <p className="max-w-[360px] text-center font-inter text-[16px] font-light leading-[1.6] text-white">
-                    Describe tu negocio y crea tu tienda con IA
-                  </p>
-                  <div className="relative w-full rounded-[14px] bg-[#1D1D1D] min-h-[160px] tablet:min-h-[180px]">
+                  <div className="relative w-full rounded-[16px] bg-[#1D1D1D] min-h-[160px] tablet:min-h-[170px]">
                     <textarea
                       ref={textareaRef}
                       value={value}
@@ -438,11 +403,11 @@ export default function T1HeroB({ buenFin = false, variantB = false }: { buenFin
                       rows={3}
                       aria-label="Describe tu negocio"
                       placeholder=""
-                      className="h-[160px] tablet:h-[180px] w-full resize-none rounded-[14px] bg-transparent px-[18px] py-[15px] font-inter text-[16px] leading-[1.5] text-white outline-none"
+                      className="h-[160px] tablet:h-[170px] w-full resize-none rounded-[16px] bg-transparent px-[18px] py-[15px] font-inter text-[16px] tablet:px-[22px] tablet:py-[18px] tablet:text-[17px] leading-[1.5] text-white outline-none"
                     />
                     {/* Placeholder animado con cursor (solo cuando el input está vacío) */}
                     {!value && (
-                      <div aria-hidden className="pointer-events-none absolute inset-0 px-[18px] py-[15px] font-inter text-[16px] leading-[1.5] text-[#8A8A8A]">
+                      <div aria-hidden className="pointer-events-none absolute inset-0 px-[18px] py-[15px] font-inter text-[16px] leading-[1.5] text-[#8A8A8A] tablet:px-[22px] tablet:py-[18px] tablet:text-[17px]">
                         {capFirst(placeholder)}
                         <span className="ml-px inline-block w-[2px] align-[-2px] bg-[#8A8A8A]" style={{ height: "1.1em", animation: "blink 1s step-end infinite" }} />
                       </div>
@@ -483,9 +448,6 @@ export default function T1HeroB({ buenFin = false, variantB = false }: { buenFin
               {/* ── LINK DE PAGO ── */}
               {tab.id === "link" && (
                 <>
-                  <p className="flex min-h-[52px] max-w-[360px] items-center justify-center text-center font-inter text-[16px] font-light leading-[1.6] text-white tablet:min-h-0 tablet:max-w-none tablet:whitespace-nowrap">
-                    Cobra sin terminal. Comparte un link y listo.
-                  </p>
                   <div className="flex w-full flex-1 flex-col gap-3.5 tablet:flex-none">
                     {/* Campos (monto + concepto) — misma altura mín. que el CP de envío para alinear los logos entre pestañas */}
                     <div className="flex min-h-[172px] flex-col gap-3.5">
@@ -499,7 +461,7 @@ export default function T1HeroB({ buenFin = false, variantB = false }: { buenFin
                         onChange={(e) => setMonto(e.target.value.replace(/\D/g, "").slice(0, 9))}
                         placeholder="0.00"
                         aria-label="Monto a cobrar"
-                        className="min-w-[64px] max-w-[280px] bg-transparent text-center font-sora text-[44px] font-light leading-none text-white caret-[#DB3B2B] outline-none [field-sizing:content] placeholder:text-white/25 [&:placeholder-shown:not(:focus)]:caret-transparent"
+                        className="min-w-[64px] max-w-[280px] bg-transparent text-left font-sora text-[44px] font-light leading-none text-white caret-[#DB3B2B] outline-none [field-sizing:content] placeholder:text-white/25 [&:placeholder-shown:not(:focus)]:caret-transparent"
                       />
                     </div>
                     {/* Concepto — pregunta arriba + hint abajo */}
@@ -538,9 +500,6 @@ export default function T1HeroB({ buenFin = false, variantB = false }: { buenFin
               {/* ── ENVÍO ── */}
               {tab.id === "envio" && (
                 <>
-                  <p className="flex min-h-[52px] max-w-[360px] items-center justify-center text-center font-inter text-[16px] font-light leading-[1.6] text-white tablet:min-h-0 tablet:max-w-none tablet:whitespace-nowrap">
-                    Cotiza con +10 paqueterías en un clic.
-                  </p>
                   <div className="flex w-full flex-1 flex-col gap-4 tablet:flex-none">
                     {/* CP — misma altura mín. que los campos de link para alinear los logos entre pestañas */}
                     <div className="mx-auto flex min-h-[172px] w-full flex-col justify-center rounded-[16px] bg-[#1D1D1D] px-4 py-2 transition-shadow focus-within:ring-1 focus-within:ring-white/25 tablet:max-w-[440px]">
