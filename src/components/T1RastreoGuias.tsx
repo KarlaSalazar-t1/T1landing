@@ -251,7 +251,7 @@ export default function T1RastreoGuias() {
           <div data-modal-animate className="grid w-full grid-cols-1 items-center gap-10 tablet:grid-cols-2 tablet:gap-16" style={{ marginBottom: 112 }}>
             {/* Imagen — estatus estandarizado */}
             <div className="order-2 tablet:order-1">
-              <Image src="/img/estatus-v2.png" alt="Estatus estandarizado de paqueterías" width={1179} height={967} className="block h-auto w-full" sizes="(max-width: 768px) 100vw, 560px" />
+              <Image src="/img/estatus-v3.png" alt="Estatus estandarizado de paqueterías" width={1179} height={967} className="block h-auto w-full" sizes="(max-width: 768px) 100vw, 560px" />
             </div>
             <div className="order-1 tablet:order-2">
               <h3 className="font-sora text-[26px] font-light text-black tablet:text-[36px] lg:text-[42px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 18 }}>El mismo estatus para todas tus paqueterías</h3>
