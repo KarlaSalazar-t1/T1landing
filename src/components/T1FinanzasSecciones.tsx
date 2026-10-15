@@ -379,7 +379,13 @@ export function T1FinanzasProblema({ sinEncabezado = false }: { sinEncabezado?: 
           </>
         )}
 
-        <div className={`${sinEncabezado ? "mt-2 tablet:mt-4" : "mt-12 tablet:mt-16"} grid w-full grid-cols-1 items-start gap-10 tablet:grid-cols-2 tablet:gap-12`} aria-hidden>
+        {/* El ancho tope deja los dos paneles un poco más chicos que la caja de
+            la sección: la comparación se lee mejor cuando no llena la pantalla. */}
+        <div
+          className={`${sinEncabezado ? "mt-2 tablet:mt-4" : "mt-12 tablet:mt-16"} mx-auto grid w-full grid-cols-1 items-start gap-10 tablet:grid-cols-2 tablet:gap-10`}
+          style={{ maxWidth: 1000 }}
+          aria-hidden
+        >
           {/* Hoy */}
           <div className="flex flex-col items-center">
             <p className="font-inter text-[12px] font-semibold uppercase tracking-[0.1em] text-white/35" style={{ marginBottom: 16 }}>
@@ -748,7 +754,7 @@ const FAQS: Faq[] = [
   {
     q: "¿Cuánto cuesta?",
     grupo: "Precio",
-    a: "Empezar es gratis: tienes 25 facturas al mes por negocio y hasta 3 negocios en una cuenta. Cuentan todas las facturas, facturas globales, notas de crédito y recibos de pago que emites. Los planes Básico y Avanzado incluyen facturas sin límite y la factura global automática de tus tiendas y marketplaces. Los precios están en la sección de planes.",
+    a: "Empezar es gratis: tienes 25 facturas al mes por negocio y hasta 3 negocios en una cuenta. Cuentan todas las facturas, facturas globales, notas de crédito y recibos de pago que emites. Los planes Básico y Avanzado incluyen facturas sin límite y la factura global automática de tus tiendas y marketplaces. Los precios están en la página de precios.",
   },
   {
     q: "¿Qué pasa cuando llego a las 25 facturas del mes?",

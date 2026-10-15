@@ -6,7 +6,6 @@ import { T1FinanzasPerfiles, T1FinanzasEcosistema } from "@/components/T1Finanza
 import {
   T1FinanzasProblema,
   T1FinanzasDocumentos,
-  T1FinanzasPlanes,
   T1FinanzasFAQ,
 } from "@/components/T1FinanzasSecciones";
 import T1FinanzasAlta from "@/components/T1FinanzasAlta";
@@ -57,9 +56,7 @@ export default function FinanzasLandingV3() {
         <T1FinanzasEcosistema />
         {/* 7 · Lo que haces después de facturar */}
         <T1FinanzasDocumentos />
-        {/* 8 · Planes */}
-        <T1FinanzasPlanes titulo="Paga solo cuando crezcas" />
-        {/* 9 · FAQ larga, a propósito: la leen los agentes de IA */}
+        {/* 8 · FAQ larga, a propósito: la leen los agentes de IA */}
         <T1FinanzasFAQ />
       </div>
 

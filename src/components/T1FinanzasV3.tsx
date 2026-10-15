@@ -115,84 +115,53 @@ export function T1FinanzasPerfiles() {
 }
 
 const PIEZAS = [
-  { nombre: "Tienda", desc: "Vendes en línea, en marketplaces y en tu punto de venta.", href: "/productos/t1tienda" },
-  { nombre: "Pagos", desc: "Cobras con tarjeta, transferencia o un link de pago.", href: "/productos/t1pagos" },
-  { nombre: "Envíos", desc: "Envías con más de diez paqueterías desde un solo lugar.", href: "/productos/t1envios" },
-  { nombre: "Finanzas", desc: "Facturas todo eso. Y también funciona sola.", href: null },
+  { nombre: "Tienda", desc: "Tu tienda en línea, tus marketplaces y tu punto de venta, con el inventario sincronizado.", href: "/productos/t1tienda" },
+  { nombre: "Pagos", desc: "Cobras con tarjeta, transferencia o efectivo, en línea o compartiendo un link de pago.", href: "/productos/t1pagos" },
+  { nombre: "Envíos", desc: "Cotizas, envías y rastreas con más de diez paqueterías desde un solo lugar.", href: "/productos/t1envios" },
 ];
 
-/* 2 · El ecosistema: Finanzas es la pieza que faltaba, no un producto suelto. */
+/* 2 · El ecosistema: la frase y, debajo, una sola tarjeta con los otros tres
+   productos separados por una línea. Una tarjeta, no tres: lo que se veía de
+   relleno en las versiones anteriores era tener una caja por producto con el
+   isotipo repetido en cada una. En móvil la línea se vuelve horizontal. */
 export function T1FinanzasEcosistema() {
   return (
-    <section className="relative overflow-hidden bg-[#0e0d0d] px-5 py-[80px] tablet:px-6 tablet:py-[140px]">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-        style={{ width: 760, height: 620, borderRadius: "50%", background: "radial-gradient(circle, rgba(219,59,43,0.10) 0%, transparent 62%)" }}
-      />
-
-      <div className="relative mx-auto max-w-[var(--max-w)] text-center">
-        <h2
-          className="mx-auto font-sora text-[28px] font-light text-white tablet:text-[44px]"
-          style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14, maxWidth: 820 }}
+    <section className="bg-[#0e0d0d] px-5 py-[64px] tablet:px-6 tablet:py-[96px]">
+      <div className="mx-auto max-w-[var(--max-w)]">
+        <p
+          className="mx-auto text-center font-sora text-[22px] font-light text-white tablet:text-[30px]"
+          style={{ letterSpacing: "-0.02em", lineHeight: 1.35, maxWidth: 760, marginBottom: 36 }}
         >
-          Funciona sola, y mejor con el resto de T1
-        </h2>
-        <p className="mx-auto font-inter text-[15px] font-light text-white/60 tablet:text-[17px]" style={{ lineHeight: 1.6, maxWidth: 560 }}>
-          Si ya vendes, cobras o envías con T1, no vuelves a capturar nada.
+          Facturar es una parte de T1. Úsala sola o con las otras tres.
         </p>
 
-        <div className="-mx-5 mt-12 flex gap-4 overflow-x-auto px-5 pb-2 text-left tablet:mx-0 tablet:mt-14 tablet:grid tablet:grid-cols-2 tablet:gap-5 tablet:overflow-visible tablet:px-0 tablet:pb-0 desktop:grid-cols-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {PIEZAS.map((p) => {
-            const aqui = p.href === null;
-            const contenido = (
-              <>
-                <div className="flex items-center gap-2" style={{ marginBottom: 12 }}>
-                  <T1Marca size={26} />
-                  <span className="font-sora text-[19px] font-normal text-white" style={{ letterSpacing: "-0.02em" }}>
-                    {p.nombre}
-                  </span>
-                  {aqui && (
-                    <span
-                      className="ml-auto rounded-full px-2.5 py-1 font-inter text-[11px] font-semibold"
-                      style={{ background: "rgba(219,59,43,0.14)", color: "#FF8A7A" }}
-                    >
-                      Estás aquí
-                    </span>
-                  )}
-                </div>
-                <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.55 }}>
-                  {p.desc}
-                </p>
-              </>
-            );
-
-            const clases = `flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border p-6 tablet:w-auto ${
-              aqui ? "border-[#DB3B2B]/35 bg-[#17100F]" : "border-white/[0.08] bg-[#1A1A1D]"
-            }`;
-
-            return aqui ? (
-              <div key={p.nombre} className={clases}>
-                {contenido}
-              </div>
-            ) : (
-              <a key={p.nombre} href={p.href!} className={`${clases} no-underline transition-colors hover:border-white/20`}>
-                {contenido}
-              </a>
-            );
-          })}
-        </div>
-
-        {/* Tres apoyos cortos para cerrar, en vez de otro bloque de tarjetas */}
-        <div className="mt-12 flex flex-wrap items-center justify-center gap-x-9 gap-y-3 tablet:mt-14">
-          {["Empiezas con Finanzas sola", "Un solo acceso", "Nada que conectar"].map((t) => (
-            <span key={t} className="flex items-center gap-2 font-inter text-[14.5px] font-light text-white/55">
-              <span className="text-[#FF6F5E]">{Palomita}</span>
-              {t}
-            </span>
+        <div
+          className="mx-auto grid grid-cols-1 overflow-hidden rounded-[20px] border border-white/[0.08] bg-[#141416] tablet:grid-cols-3"
+          style={{ maxWidth: 900 }}
+        >
+          {PIEZAS.map((p, i) => (
+            <a
+              key={p.nombre}
+              href={p.href}
+              className={`group flex flex-col items-center gap-2.5 px-7 py-8 text-center no-underline transition-colors hover:bg-white/[0.03] ${
+                i ? "border-t border-white/[0.08] tablet:border-l tablet:border-t-0" : ""
+              }`}
+            >
+              <span className="flex items-center gap-2.5">
+                <T1Marca size={27} />
+                <span
+                  className="font-sora text-[19px] font-normal text-white/85 transition-colors group-hover:text-white tablet:text-[21px]"
+                  style={{ letterSpacing: "-0.02em" }}
+                >
+                  {p.nombre}
+                </span>
+              </span>
+              <span className="font-inter text-[14.5px] font-light text-white/55 tablet:text-[15px]" style={{ lineHeight: 1.5 }}>
+                {p.desc}
+              </span>
+            </a>
           ))}
         </div>
-
       </div>
     </section>
   );
