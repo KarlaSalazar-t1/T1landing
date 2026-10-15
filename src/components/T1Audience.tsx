@@ -17,7 +17,7 @@ const AUDIENCES = [
     id: "pyme",
     title: "PyME",
     description: "Conecta todos tus canales de venta, automatiza envíos y optimiza tus cobros.",
-    cta: "Empezar ahora",
+    cta: "Empieza ahora",
     ctaHref: "/registro",
     image: "/img/pyme-v4.png",
     glow: "rgba(59,110,255,0.55)", // blue

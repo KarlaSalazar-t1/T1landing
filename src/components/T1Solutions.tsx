@@ -50,7 +50,7 @@ const TAB_CARDS: TabCard[] = [
     title: "PAGOS EN LÍNEA",
     description:
       "Recibe pagos con tarjeta, transferencia y efectivo. Enrutamiento inteligente para la mayor tasa de aprobación del mercado.",
-    cta: "Comenzar a cobrar",
+    cta: "Comienza a cobrar",
     ctaHref: "/registro",
     subTabs: [
       { label: "Checkout integrado", description: "Un checkout rápido y sin fricción, optimizado para mayor conversión: menos carritos abandonados y más ventas cerradas.", image: null, floatingCards: null, panel: "checkout" },
@@ -83,7 +83,7 @@ const TAB_CARDS: TabCard[] = [
     title: "GESTIÓN DE PEDIDOS",
     description:
       "Administrador unificado para gestionar pedidos de todos tus canales de venta. Visualiza, filtra y procesa pedidos en tiempo real.",
-    cta: "Comenzar ahora",
+    cta: "Comienza ahora",
     ctaHref: "/registro",
     subTabs: [
       { label: "Administrador de pedidos", description: "Visualiza, filtra y gestiona pedidos de todos tus canales en el administrador.", image: null, floatingCards: null, panel: "order-list" },
@@ -105,7 +105,7 @@ const TAB_CARDS: TabCard[] = [
     title: "VENDE EN TU TIENDA FÍSICA",
     description:
       "Vende en tu tienda física con un POS integrado a tu inventario, pagos y envíos. Sincroniza todo en tiempo real.",
-    cta: "Empezar a vender",
+    cta: "Empieza a vender",
     ctaHref: "/registro",
     subTabs: [
       { label: "Cobra en sucursal", description: "Registra tus ventas en sucursal y configura tus métodos de pago; los cobros con tarjeta se procesan con tu propia terminal.", image: null, floatingCards: null, panel: "pos-cobro" },

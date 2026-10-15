@@ -21,7 +21,7 @@ export const metadata = {
 export default function BuenFinLanding() {
   return (
     <main className="min-h-screen">
-      <T1Navbar bVariant />
+      <T1Navbar />
 
       {/* Hero (versión B) — variante Buen Fin */}
       <T1HeroB buenFin />

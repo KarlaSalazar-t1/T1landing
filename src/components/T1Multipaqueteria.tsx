@@ -387,7 +387,7 @@ export default function T1Multipaqueteria() {
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <a href={SIGNUP_URL} className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
-                  Comenzar ahora
+                  Comienza ahora
                 </a>
               </div>
             </div>
@@ -484,7 +484,7 @@ export default function T1Multipaqueteria() {
             Cotiza, compara, genera guía y da seguimiento desde una plataforma.
           </p>
           <a href={SIGNUP_URL} className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-8 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
-            Empezar ahora
+            Empieza ahora
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
           </a>
         </div>

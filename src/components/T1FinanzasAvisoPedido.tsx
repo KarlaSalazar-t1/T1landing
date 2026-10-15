@@ -13,7 +13,7 @@ import { FUENTE, UI } from "@/components/T1FinanzasTokens";
 const PEDIDOS = [
   { canal: "Mercado Libre", logo: "/img/meli-iso.svg", total: "$12,996.00" },
   { canal: "Amazon", logo: "/img/amazon-iso.svg", total: "$8,990.00" },
-  { canal: "Tienda Nube", logo: "/img/tiendanube.svg", total: "$34,500.00" },
+  { canal: "Walmart", logo: "/img/walmart.svg", total: "$34,500.00" },
   { canal: "TikTok Shop", logo: "/img/tiktokshop.svg", total: "$4,980.00" },
 ];
 

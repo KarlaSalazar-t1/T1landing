@@ -107,17 +107,6 @@ export const MEGA_MENU_COLUMNS = [
   // },
 ];
 
-export const MEGA_MENU_SIDEBAR = {
-  caseStudy: {
-    image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=520&h=200&fit=crop",
-    text: "Nuestros resultados nos respaldan",
-  },
-  news: [
-    "T1 Tienda + TikTok Shop",
-    "T1 Score integra Círculo de Crédito",
-    "T1 Envíos llega a Colombia y Brasil",
-  ],
-};
 
 export const MEGA_MENU_BOTTOM = [
   { title: "Soy emprendedor", desc: "Empieza gratis sin tarjeta", href: SIGNUP_URL },

@@ -50,13 +50,13 @@ export const DISPERSION_MOVIL = [
   { i: 10, l: "74%", t: "81%", s: 36, r: -4 },
 ];
 
-/* Mientras no existan las sublandings, cada tarjeta lleva a la pregunta
-   frecuente de su tema, que se abre sola al llegar por la liga. */
+/* Las tarjetas no llevan liga: una liga que solo salta a una pregunta
+   frecuente promete una página que no existe. Cuando haya sublandings,
+   aquí se les pone su href. */
 export const NEGOCIOS = [
   {
     title: "Marketplaces",
     desc: "Tu factura global de cada marketplace, sin armarla a mano.",
-    href: "/productos/t1finanzas#faq-global-marketplaces",
   },
   {
     title: "Tienda en línea",
@@ -71,6 +71,5 @@ export const NEGOCIOS = [
   {
     title: "Ventas a empresas",
     desc: "Facturas a crédito y registras cada pago con su recibo.",
-    href: "/productos/t1finanzas#faq-recibos-de-pago",
   },
 ];

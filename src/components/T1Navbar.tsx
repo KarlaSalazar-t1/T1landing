@@ -4,13 +4,13 @@ import { useState, useEffect, useCallback } from "react";
 import {
   NAV_LINKS,
   MEGA_MENU_COLUMNS,
-  MEGA_MENU_SIDEBAR,
   MEGA_MENU_BOTTOM,
   RECURSOS_MENU_COLUMNS,
   SIGNUP_URL,
   LOGIN_URL,
 } from "@/lib/constants";
 import { track } from "@/lib/analytics";
+import T1Marca from "@/components/T1Marca";
 
 /* Lockup de marca del header: logo T1 + descriptor del producto (CAMBIO header).
    El "T1" lo aporta el logo; el descriptor es solo "Envíos"/"Tienda"/"Pagos". */
@@ -32,25 +32,7 @@ const PRODUCT_SWITCHER: { key: ProductKey; name: string; desc: string; href: str
 
 /* ── Inline SVGs ── */
 function T1Logo() {
-  return (
-    <svg width="45" height="44" viewBox="0 0 45 44" fill="none">
-      <g clipPath="url(#t1clip)">
-        <path
-          d="M27.6733 19.1041H31.4027C31.5444 19.1041 31.6388 19.1041 31.7332 19.1985C31.7332 19.1985 31.7332 19.1985 31.7332 19.2457V37.7039C31.7332 38.5064 32.4885 39.0729 33.291 38.8369C35.0377 38.1288 37.3037 37.2318 38.956 36.4765C39.2392 36.3349 39.6169 36.1932 39.6169 35.6268V19.2457C39.6169 19.2457 39.6169 19.1985 39.6169 19.1513C39.6169 19.1041 39.6169 19.1041 39.6169 19.1041V7.86867C39.6169 7.20776 39.0976 6.68848 38.4367 6.68848H35.6514C35.1321 6.68848 34.7073 7.01893 34.5184 7.491C33.3855 10.6539 31.2139 13.0143 27.9566 13.5808C24.6992 14.1473 27.6733 13.628 27.4845 13.628C26.8708 13.7224 26.4459 14.1945 26.4459 14.8082V17.8767C26.4459 18.5376 26.9652 19.0569 27.6261 19.0569L27.6733 19.1041Z"
-          fill="#D93A26"
-        />
-        <path
-          d="M32.5831 5.41411C32.4415 5.27248 32.2055 5.13086 31.9694 5.13086H4.63622C3.78648 5.13086 3.07837 5.74456 3.07837 6.54709V10.7014C3.07837 11.6927 3.2672 12.1648 4.4946 12.1648H13.6057C13.8417 12.1648 14.0305 12.3536 14.0305 12.5897V16.083V35.5326C14.0305 35.9574 14.3138 36.2879 14.7387 36.4767C15.5412 36.8072 18.3264 38.1762 19.2706 38.6955C20.2147 39.2148 21.867 38.3178 21.867 36.996V13.2506C21.867 13.2034 21.867 13.0617 21.867 13.0617C21.8198 12.7313 21.867 12.4008 22.1975 12.2592C22.2919 12.2592 22.3391 12.2592 22.4335 12.2592H25.4076C31.9222 11.6455 32.5831 6.5943 32.6303 6.02781C32.6303 6.02781 32.6303 5.9806 32.6303 5.93339V5.79177C32.6303 5.65014 32.6303 5.55573 32.4887 5.46131L32.5831 5.41411Z"
-          fill="#D93A26"
-        />
-      </g>
-      <defs>
-        <clipPath id="t1clip">
-          <rect width="44.1244" height="43.0982" fill="white" />
-        </clipPath>
-      </defs>
-    </svg>
-  );
+  return <T1Marca size={45} />;
 }
 
 function ChevronDown({ className = "" }: { className?: string }) {
@@ -139,7 +121,7 @@ function HamburgerIcon({ open }: { open: boolean }) {
 }
 
 /* ── Main Component ── */
-export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis", ctaHref = SIGNUP_URL, product, pageType = "home" }: { bVariant?: boolean; ctaLabel?: string; ctaHref?: string; product?: ProductKey; pageType?: PageType }) {
+export default function T1Navbar({ ctaLabel = "Comienza gratis", ctaHref = SIGNUP_URL, product, pageType = "home" }: { ctaLabel?: string; ctaHref?: string; product?: ProductKey; pageType?: PageType }) {
   const descriptor = product ? PRODUCT_DESCRIPTORS[product] : null;
   const productHref = product ? `/productos/t1${product}` : "/";
   const trackLogo = (target: "general" | "producto") =>
@@ -536,39 +518,8 @@ export default function T1Navbar({ bVariant = false, ctaLabel = "Comienza gratis
             <MenuColumn key={col.title} col={col} />
           ))}
 
-          {/* Sidebar — casos de éxito (solo versión A; en B se oculta) */}
-          {!bVariant && (
-          <div className="relative w-[270px] shrink-0 bg-[#212125] px-6 pb-8 pt-6">
-            <div className="absolute bottom-0 left-full top-0 w-screen bg-[#212125]" />
-            <p className="mb-3 font-inter text-[11px] font-semibold uppercase tracking-[0.06em] text-white/40">
-              Casos de exito
-            </p>
-            <div className="mb-5 cursor-pointer overflow-hidden rounded-[10px]">
-              <img
-                src={MEGA_MENU_SIDEBAR.caseStudy.image}
-                alt="Caso de exito"
-                className="block h-[100px] w-full rounded-[10px] object-cover"
-              />
-              <p className="pt-2 font-inter text-[12px] font-medium text-white/55">
-                {MEGA_MENU_SIDEBAR.caseStudy.text}
-              </p>
-            </div>
-            <p className="mb-3 font-inter text-[11px] font-semibold uppercase tracking-[0.06em] text-white/40">
-              Novedades recientes
-            </p>
-            <ul className="list-none">
-              {MEGA_MENU_SIDEBAR.news.map((n) => (
-                <li
-                  key={n}
-                  className="flex cursor-pointer items-center gap-2 py-1 font-inter text-[13px] font-medium text-white/60 transition-colors duration-150 hover:text-white"
-                >
-                  <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-white/30" />
-                  {n}
-                </li>
-              ))}
-            </ul>
-          </div>
-          )}
+          {/* El panel de "Casos de exito" y "Novedades recientes" se quitó: la
+              foto era de banco y el texto, provisional. Va siempre oculto. */}
         </div>
 
         {/* Bottom bar */}

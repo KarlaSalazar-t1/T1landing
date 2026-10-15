@@ -22,11 +22,31 @@ const RESUMEN = [
   { k: "Ventas sin factura este mes", v: "$18,720.00", d: "Júntalas en tu factura global." },
 ];
 
+/* El icono de los canales propios: un mostrador, dibujado para que combine
+   con los isotipos de los marketplaces sin pedir prestada ninguna marca. */
+function IconoCanal() {
+  return (
+    <span
+      className="flex h-[15px] w-[15px] shrink-0 items-center justify-center rounded-[4px]"
+      style={{ background: "rgba(0,0,0,0.055)" }}
+      aria-hidden
+    >
+      <svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke={UI.suave} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M2.2 6.2h11.6v7.1H2.2z" />
+        <path d="M1.6 3.1h12.8l-.7 3.1H2.3z" />
+        <path d="M6.3 13.3V9.4h3.4v3.9" />
+      </svg>
+    </span>
+  );
+}
+
 /* ── La actividad reciente, con los nombres de la plataforma ── */
 type Actividad = {
   fecha: string;
   canal: string;
-  logo: string;
+  /* Los canales propios —punto de venta, tienda en línea— no tienen logo de
+     marca: llevan un icono dibujado aquí mismo. */
+  logo?: string;
   receptor: string;
   tipo: string;
   global?: boolean;
@@ -35,10 +55,10 @@ type Actividad = {
 };
 
 const ACTIVIDAD: Actividad[] = [
-  { fecha: "04/09/2026", canal: "Tienda Nube", logo: "/img/tiendanube.svg", receptor: "Comercializadora Delta", tipo: "Factura de venta", total: "$34,500.00", estado: "Registrada" },
+  { fecha: "04/09/2026", canal: "Punto de venta", receptor: "Comercializadora Delta", tipo: "Factura de venta", total: "$34,500.00", estado: "Registrada" },
   { fecha: "03/09/2026", canal: "Mercado Libre", logo: "/img/meli-iso.svg", receptor: "Público en general", tipo: "Factura de venta", global: true, total: "$28,750.00", estado: "Registrada" },
   { fecha: "02/09/2026", canal: "TikTok Shop", logo: "/img/tiktokshop.svg", receptor: "María González López", tipo: "Factura de venta", total: "$4,980.00", estado: "Registrada" },
-  { fecha: "01/09/2026", canal: "Shopify", logo: "/img/shopify.svg", receptor: "Distribuidora Monterrey", tipo: "Recibo de pago", total: "$12,200.00", estado: "Registrada" },
+  { fecha: "01/09/2026", canal: "Tienda en línea", receptor: "Distribuidora Monterrey", tipo: "Recibo de pago", total: "$12,200.00", estado: "Registrada" },
 ];
 
 const COLS = "72px minmax(0,1fr) minmax(0,1.15fr) 92px 84px";
@@ -121,7 +141,7 @@ function PanelInicio() {
               <div className="hidden items-center gap-3 px-3.5 py-2.5 tablet:grid" style={{ gridTemplateColumns: COLS }}>
                 <span style={{ fontSize: 10, color: UI.tenue }}>{a.fecha}</span>
                 <span className="flex min-w-0 items-center gap-2">
-                  <Image src={a.logo} alt="" width={18} height={18} className="h-[15px] w-[15px] shrink-0 object-contain" />
+                  {a.logo ? <Image src={a.logo} alt="" width={18} height={18} className="h-[15px] w-[15px] shrink-0 object-contain" /> : <IconoCanal />}
                   <span className="truncate" style={{ fontSize: 10.5, color: UI.suave }}>
                     {a.canal}
                   </span>
@@ -147,7 +167,7 @@ function PanelInicio() {
 
               {/* Móvil: dos renglones, sin columnas que se corten */}
               <div className="flex items-center gap-3 px-3.5 py-2.5 tablet:hidden">
-                <Image src={a.logo} alt="" width={20} height={20} className="h-[17px] w-[17px] shrink-0 object-contain" />
+                {a.logo ? <Image src={a.logo} alt="" width={20} height={20} className="h-[17px] w-[17px] shrink-0 object-contain" /> : <IconoCanal />}
                 <span className="min-w-0 flex-1 leading-tight">
                   <span className="block truncate font-medium" style={{ fontSize: 11, color: UI.texto }}>
                     {a.receptor}

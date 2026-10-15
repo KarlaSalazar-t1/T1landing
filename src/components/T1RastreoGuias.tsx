@@ -319,7 +319,7 @@ export default function T1RastreoGuias() {
       <T1FinalCTA
         title={<>Olvídate del<br />¿dónde está mi pedido?</>}
         description="Rastrea tus guías en un solo lugar y mantén a tus clientes informados en automático."
-        buttonLabel="Empezar a rastrear"
+        buttonLabel="Empieza a rastrear"
       />
     </div>
   );

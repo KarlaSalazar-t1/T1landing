@@ -21,7 +21,7 @@ interface T1FinalCTAProps {
 export default function T1FinalCTA({
   title,
   description,
-  buttonLabel = "Comenzar gratis",
+  buttonLabel = "Comienza gratis",
   buttonHref = SIGNUP_URL,
 }: T1FinalCTAProps) {
   const innerRef = useRef<HTMLDivElement>(null);

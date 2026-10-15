@@ -74,7 +74,7 @@ const BENEFICIOS = [
   {
     icono: IconoClic,
     dato: "En un clic",
-    desc: "Tus ventas en línea llegan listas: las revisas y la factura sale.",
+    desc: "Revisas lo que ya está capturado y la factura sale.",
   },
   {
     icono: IconoChispa,
@@ -181,21 +181,15 @@ export function T1FinanzasOrigen() {
         {/* Los cuatro casos. En móvil se deslizan; desde escritorio, una fila. */}
         <div className="-mx-5 mt-12 flex gap-4 overflow-x-auto px-5 pb-2 text-left tablet:mx-0 tablet:mt-14 tablet:grid tablet:grid-cols-2 tablet:gap-5 tablet:overflow-visible tablet:px-0 tablet:pb-0 desktop:grid-cols-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {NEGOCIOS.map((n) => (
-            <a
+            <div
               key={n.title}
-              href={n.href}
-              className="group flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-white/[0.08] bg-[#1A1A1D] p-6 no-underline transition-colors hover:border-white/20 tablet:w-auto"
+              className="flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-white/[0.08] bg-[#1A1A1D] p-6 tablet:w-auto"
             >
-              <div className="flex items-center justify-between gap-2" style={{ marginBottom: 10 }}>
-                <h3 className="font-sora text-[19px] font-normal text-white">{n.title}</h3>
-                <span className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full border border-white/15 text-white/55 transition-all duration-200 group-hover:translate-x-0.5 group-hover:border-white/40 group-hover:text-white">
-                  <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                </span>
-              </div>
+              <h3 className="font-sora text-[19px] font-normal text-white" style={{ marginBottom: 10 }}>{n.title}</h3>
               <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.55 }}>
                 {n.desc}
               </p>
-            </a>
+            </div>
           ))}
         </div>
 

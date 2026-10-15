@@ -38,10 +38,24 @@ function DisponibleEn({ planes }: { planes: string }) {
    una sola fila arriba y un panel abajo. En móvil las pestañas se deslizan y
    solo se ve el panel de la activa, así que la sección ocupa una pantalla y
    no cuatro. */
+/* Los canales propios —tienda en línea, punto de venta— no toman prestado
+   ningún isotipo: llevan este mostrador dibujado. */
+function IconoCanal() {
+  return (
+    <span className="flex h-[15px] w-[15px] shrink-0 items-center justify-center rounded-[4px]" style={{ background: "rgba(0,0,0,0.055)" }} aria-hidden>
+      <svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke={UI.suave} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M2.2 6.2h11.6v7.1H2.2z" />
+        <path d="M1.6 3.1h12.8l-.7 3.1H2.3z" />
+        <path d="M6.3 13.3V9.4h3.4v3.9" />
+      </svg>
+    </span>
+  );
+}
+
 /* ══════════ 1 · Pedidos de todos los canales ══════════ */
 const PEDIDOS = [
   { folio: "ML-2138", canal: "Mercado Libre", logo: "/img/meli-iso.svg", cliente: "Laura Medina", fecha: "05/09/2026", total: "$12,996.00", estado: "Sin facturar", tono: "neutro" as const },
-  { folio: "TN-5512", canal: "Tienda Nube", logo: "/img/tiendanube.svg", cliente: "Comercializadora Delta", fecha: "04/09/2026", total: "$34,500.00", estado: "Sin facturar", tono: "neutro" as const },
+  { folio: "WEB-5512", canal: "Tienda en línea", logo: null, cliente: "Comercializadora Delta", fecha: "04/09/2026", total: "$34,500.00", estado: "Sin facturar", tono: "neutro" as const },
   { folio: "AMZ-7731", canal: "Amazon", logo: "/img/amazon-iso.svg", cliente: "Carlos Ramírez", fecha: "03/09/2026", total: "$8,990.00", estado: "Facturado en global", tono: "verde" as const },
   { folio: "TT-0914", canal: "TikTok Shop", logo: "/img/tiktokshop.svg", cliente: "María González López", fecha: "02/09/2026", total: "$4,980.00", estado: "Facturado particular", tono: "verde" as const },
 ];
@@ -64,7 +78,7 @@ function PanelPedidos() {
           {PEDIDOS.map((p) => (
             <div key={p.folio} className="flex items-center gap-3 rounded-[11px] border px-3 py-2.5" style={{ borderColor: UI.bordeSuave, background: UI.fondo }}>
               <span className="flex h-[28px] w-[28px] shrink-0 items-center justify-center overflow-hidden rounded-full border bg-white" style={{ borderColor: UI.borde }}>
-                <Image src={p.logo} alt="" width={28} height={28} className="h-[15px] w-[15px] object-contain" />
+                {p.logo ? <Image src={p.logo} alt="" width={28} height={28} className="h-[15px] w-[15px] object-contain" /> : <IconoCanal />}
               </span>
               <span className="min-w-0 flex-1 leading-tight">
                 <span className="block truncate font-semibold" style={{ fontSize: 11.5, color: UI.texto }}>{p.folio} · {p.canal}</span>

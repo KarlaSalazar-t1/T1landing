@@ -241,7 +241,7 @@ export default function T1Enrutamiento() {
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <a href={SIGNUP_URL} className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
-                  Comenzar ahora
+                  Comienza ahora
                 </a>
               </div>
             </div>

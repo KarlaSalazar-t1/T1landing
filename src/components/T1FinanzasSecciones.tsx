@@ -43,7 +43,7 @@ const MONO = "ui-monospace, SFMono-Regular, Menlo, monospace";
 const FILAS_EXCEL = [
   { n: "2", canal: "Mercado Libre", pedido: "ML-2138", total: "12,996.00", fact: "?" },
   { n: "3", canal: "Amazon", pedido: "AMZ-7731", total: "8,990.00", fact: "sí" },
-  { n: "4", canal: "Tienda Nube", pedido: "TN-5512", total: "34,500.00", fact: "" },
+  { n: "4", canal: "Tienda en línea", pedido: "WEB-5512", total: "34,500.00", fact: "" },
   { n: "5", canal: "TikTok Shop", pedido: "TT-0914", total: "4,980.00", fact: "no" },
   { n: "6", canal: "Mostrador", pedido: "—", total: "1,290.00", fact: "?" },
 ];
@@ -530,22 +530,16 @@ export function T1FinanzasPorNegocio() {
               className="-mr-5 flex gap-5 overflow-x-auto pb-2 pr-5 tablet:mr-0 tablet:pr-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
             >
               {NEGOCIOS.map((n) => (
-                <a
+                <div
                   key={n.title}
-                  href={n.href}
                   data-card
-                  className="group flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-white/[0.08] bg-[#1A1A1D] p-6 no-underline transition-colors hover:border-white/20"
+                  className="flex w-[270px] shrink-0 snap-start flex-col rounded-[20px] border border-white/[0.08] bg-[#1A1A1D] p-6"
                 >
-                  <div className="flex items-center justify-between gap-2" style={{ marginBottom: 10 }}>
-                    <h3 className="font-sora text-[19px] font-normal text-white">{n.title}</h3>
-                    <span className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full border border-white/15 text-white/55 transition-all duration-200 group-hover:translate-x-0.5 group-hover:border-white/40 group-hover:text-white">
-                      <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                    </span>
-                  </div>
+                  <h3 className="font-sora text-[19px] font-normal text-white" style={{ marginBottom: 10 }}>{n.title}</h3>
                   <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.55 }}>
                     {n.desc}
                   </p>
-                </a>
+                </div>
               ))}
             </div>
             <div className="flex items-center gap-3">
@@ -658,7 +652,9 @@ const PLAN_ROWS = [
   { label: "Factura global automática", gratis: "No", pago: "Sí" },
 ];
 
-export function T1FinanzasPlanes() {
+/* El título es prop porque el de la v1 —"Comienza gratis, crece sin límite"—
+   viene de la lista que aprobó el dueño; la v3 prueba otro sin tocarlo. */
+export function T1FinanzasPlanes({ titulo = "Comienza gratis, crece sin límite" }: { titulo?: string }) {
   return (
     <section className="bg-[#0e0d0d] px-5 py-[56px] tablet:px-6 tablet:py-[88px]">
       {/* El par texto + tabla va centrado en la sección, no pegado a la izquierda. */}
@@ -669,7 +665,7 @@ export function T1FinanzasPlanes() {
               className="font-sora text-[28px] font-light text-white tablet:text-[44px]"
               style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 14 }}
             >
-              Comienza gratis, crece sin límite
+              {titulo}
             </h2>
             <p className="font-inter text-[15px] font-light text-white/60 tablet:text-[17px]" style={{ lineHeight: 1.55, maxWidth: 360, marginBottom: 24 }}>
               El plan Gratuito incluye 25 facturas al mes. Con los planes Básico y Avanzado,
