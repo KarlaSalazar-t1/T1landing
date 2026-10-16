@@ -63,7 +63,16 @@ export const RECURSOS_MENU_COLUMNS = [
 ];
 
 // ── Mega Menu ──
-export const MEGA_MENU_COLUMNS = [
+/* Una columna puede ir sin temas: si el producto todavía no tiene
+   sublandings, lleva `desc` y se pinta esa línea en lugar de la lista. */
+type MegaMenuColumn = {
+  title: string;
+  href: string;
+  desc?: string;
+  items: { title: string; desc: string; href?: string }[];
+};
+
+export const MEGA_MENU_COLUMNS: MegaMenuColumn[] = [
   {
     title: "T1 Tienda",
     href: "/productos/t1tienda",
@@ -95,6 +104,14 @@ export const MEGA_MENU_COLUMNS = [
       { title: "Links de pago", desc: "Cobra compartiendo un enlace", href: "/productos/t1pagos/links-de-pago" },
       { title: "Reclamaciones", desc: "Gestiona reclamaciones y contracargos", href: "/productos/t1pagos/reclamaciones" },
     ],
+  },
+  {
+    title: "T1 Finanzas",
+    href: "/productos/t1finanzas",
+    /* Sin temas: Finanzas todavía no tiene sublandings y no se inventan
+       ligas. Cuando existan, se llena `items` como en las otras columnas. */
+    desc: "Tus pedidos llegan listos para facturar y cualquier otra venta la facturas en minutos.",
+    items: [],
   },
   // T1 Score — oculto del menú por ahora
   // {

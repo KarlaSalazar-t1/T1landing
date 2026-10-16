@@ -14,8 +14,6 @@ import T1Marca from "@/components/T1Marca";
 
 /* Lockup de marca del header: logo T1 + descriptor del producto (CAMBIO header).
    El "T1" lo aporta el logo; el descriptor es solo "Envíos"/"Tienda"/"Pagos". */
-/* Finanzas vive aquí solo para el lockup de su propia landing: todavía NO va
-   en el mega menú ni en el switcher de productos (PRODUCT_SWITCHER). */
 const PRODUCT_DESCRIPTORS = { envios: "Envíos", tienda: "Tienda", pagos: "Pagos", finanzas: "Finanzas" } as const;
 type ProductKey = keyof typeof PRODUCT_DESCRIPTORS;
 type PageType = "home" | "producto" | "sublanding";
@@ -27,6 +25,7 @@ const PRODUCT_SWITCHER: { key: ProductKey; name: string; desc: string; href: str
   { key: "tienda", name: "T1 Tienda", desc: "Crea y vende en línea", href: "/productos/t1tienda" },
   { key: "envios", name: "T1 Envíos", desc: "Envía al mejor precio", href: "/productos/t1envios" },
   { key: "pagos", name: "T1 Pagos", desc: "Cobra en línea", href: "/productos/t1pagos" },
+  { key: "finanzas", name: "T1 Finanzas", desc: "Factura tus ventas", href: "/productos/t1finanzas" },
 ];
 
 
@@ -77,6 +76,13 @@ function MenuColumn({ col }: { col: (typeof MEGA_MENU_COLUMNS)[number] }) {
           <ArrowRight />
         </span>
       </a>
+
+      {/* Sin temas: la columna lleva una línea de apoyo en vez de la lista */}
+      {col.items.length === 0 && col.desc && (
+        <p className="font-inter text-[12px] font-normal text-white/40" style={{ lineHeight: 1.6, paddingBottom: 32, maxWidth: 230 }}>
+          {col.desc}
+        </p>
+      )}
 
       {/* Items — generous vertical spacing */}
       <div className="flex flex-col" style={{ gap: 6, paddingBottom: 32 }}>
