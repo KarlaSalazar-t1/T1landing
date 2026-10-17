@@ -210,9 +210,11 @@ export default function T1Navbar({ ctaLabel = "Comienza gratis", ctaHref = SIGNU
           className={`relative mx-auto flex max-w-[var(--max-w)] items-center justify-between transition-all duration-300 ${pill ? "rounded-[20px] px-4 py-2 tablet:px-6" : "px-5 py-3 tablet:px-6"}`}
           style={{
             // Arriba transparente; al scrollear pill flotante oscuro.
-            background: (menuOpen || recursosOpen || mobileOpen)
+            // Con el menú Productos abierto se mantiene el vidrio (transparencia + blur);
+            // solo el drawer móvil (pantalla completa) usa negro sólido.
+            background: mobileOpen
               ? "#000000"
-              : scrolled
+              : (scrolled || menuOpen || recursosOpen)
                 ? "rgba(0,0,0,0.42)"
                 : "transparent",
             backdropFilter: pill ? "blur(16px)" : "none",

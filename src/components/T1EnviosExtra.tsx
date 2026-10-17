@@ -134,8 +134,10 @@ const ECOSISTEMA = [
     logo: "/img/t1tienda-white.svg",
     desc: "Crea tu tienda en línea con IA y vende en los principales marketplaces desde el administrador.",
     href: "/productos/t1tienda",
-    type: "brand" as const,
-    icons: ["/img/logos/brands/mercadolibre.webp", "/img/logos/brands/amazon.webp", "/img/logos/brands/tiktokshop.webp", "/img/logos/brands/shein.webp"],
+    type: "circle" as const,
+    // Mismos canales que la card "Vende" de la home (T1FeatureIntro): círculos de marca + "+5"
+    icons: ["/img/circles/ml.svg", "/img/circles/amazon.svg", "/img/circles/shein.svg", "/img/circles/sears.svg", "/img/circles/sanborns.svg"],
+    plus: "+5",
   },
 ];
 export function T1EnviosAmplifica() {
@@ -161,8 +163,13 @@ export function T1EnviosAmplifica() {
                       <Image key={src} src={src} alt="" width={80} height={52} className="h-[30px] w-auto shrink-0 object-contain" />
                     ))
                   : it.icons.map((src) => (
-                      <Image key={src} src={src} alt="" width={90} height={40} className="h-[22px] w-auto shrink-0 object-contain opacity-90" />
+                      <div key={src} className="flex h-[32px] w-[32px] shrink-0 items-center justify-center overflow-hidden rounded-full">
+                        <Image src={src} alt="" width={64} height={64} className="h-full w-full object-cover" style={{ filter: "drop-shadow(0 3px 6px rgba(0,0,0,0.4))" }} />
+                      </div>
                     ))}
+                {"plus" in it && it.plus && (
+                  <span className="flex h-[32px] shrink-0 items-center rounded-full border border-white/20 px-2.5 font-inter text-[12px] font-semibold text-white/70">{it.plus}</span>
+                )}
               </div>
               <span className="mt-6 inline-flex items-center gap-1.5 font-inter text-[14px] font-medium text-white/80 group-hover:text-white">
                 Conoce más
