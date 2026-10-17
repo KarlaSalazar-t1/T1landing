@@ -81,7 +81,6 @@ export const MEGA_MENU_COLUMNS: MegaMenuColumn[] = [
       { title: "Marketplaces", desc: "Vende en Mercado Libre, Amazon y más", href: "/productos/t1tienda/marketplaces" },
       { title: "Productos e inventario", desc: "Inventario, precios y variantes centralizados", href: "/productos/t1tienda/productos" },
       { title: "Pasarela de pagos", desc: "Optimizado para mayor conversión", href: "/productos/t1tienda/pasarela" },
-      { title: "Punto de venta", desc: "Vende en tienda física y en línea", href: "/productos/t1tienda/punto-de-venta" },
       { title: "Reportería avanzada", desc: "Ventas, tráfico y rendimiento", href: "/productos/t1tienda/reportes" },
     ],
   },
@@ -104,6 +103,13 @@ export const MEGA_MENU_COLUMNS: MegaMenuColumn[] = [
       { title: "Links de pago", desc: "Cobra compartiendo un enlace", href: "/productos/t1pagos/links-de-pago" },
       { title: "Reclamaciones", desc: "Gestiona reclamaciones y contracargos", href: "/productos/t1pagos/reclamaciones" },
     ],
+  },
+  {
+    title: "T1 POS",
+    href: "/productos/t1pos",
+    /* Producto propio (antes era sublanding de Tienda). Sin temas todavía. */
+    desc: "Vende en tu sucursal y en línea desde una sola caja, con el inventario siempre al día.",
+    items: [],
   },
   {
     title: "T1 Finanzas",
@@ -153,7 +159,8 @@ export const FOOTER_COLUMNS = [
       { label: "T1 Tienda", href: "/productos/t1tienda" },
       { label: "T1 Envíos", href: "/productos/t1envios" },
       { label: "T1 Pagos", href: "/productos/t1pagos" },
-      { label: "Punto de venta", href: "/productos/t1tienda/punto-de-venta" },
+      { label: "T1 POS", href: "/productos/t1pos" },
+      { label: "T1 Finanzas", href: "/productos/t1finanzas" },
     ],
   },
   {

@@ -186,115 +186,139 @@ const GARABATOS = `url("data:image/svg+xml,${encodeURIComponent(
     "</g></svg>",
 )}")`;
 
-/* El mensaje del contador, montado como una pantalla de WhatsApp: barra de
-   estado, cabecera con la foto, y las dos burbujas sobre el fondo de
-   garabatos. Todo dibujado aquí para que no se pixelee. */
-function MensajeContador() {
+/* El mensaje del contador, montado como una pantalla de WhatsApp: cabecera
+   con la foto y "en línea", la conversación sobre el fondo de garabatos
+   (pedido de tickets → fotos de tickets arrugados → otro pendiente →
+   "escribiendo…") y la barra para escribir. Dibujado en código para que no
+   se pixelee; mismo acabado (borde, radio y sombra) que las tarjetas
+   flotantes de las demás landings. */
+function Hora({ t, leido = false }: { t: string; leido?: boolean }) {
+  return (
+    <span className="mt-0.5 flex items-center justify-end gap-[3px]" style={{ fontSize: 9, color: "#667781" }}>
+      {t}
+      {leido && (
+        <svg width="13" height="8" viewBox="0 0 16 11" fill="none" stroke="#53BDEB" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M1 6l3 3 5.5-7" />
+          <path d="M6.5 6l3 3L15 2" />
+        </svg>
+      )}
+    </span>
+  );
+}
+
+/* Ticket de papel arrugado, dibujado (va dentro de la "foto" adjunta). */
+function TicketArrugado({ r, x }: { r: number; x: number }) {
+  return (
+    <div
+      className="absolute top-2 rounded-[3px] px-1.5 pb-2 pt-1.5"
+      style={{ left: x, width: 46, background: "#FBF8F1", transform: `rotate(${r}deg)`, boxShadow: "0 3px 8px rgba(0,0,0,0.25)" }}
+    >
+      <span className="mx-auto mb-1 block h-[3px] w-[60%] rounded-full" style={{ background: "#BDB4A4" }} />
+      {[80, 62, 72, 54, 68].map((w, i) => (
+        <span key={i} className="mb-[3px] flex items-center justify-between">
+          <span className="block h-[2px] rounded-full" style={{ width: `${w * 0.45}%`, background: "#D2C9B8" }} />
+          <span className="block h-[2px] w-[18%] rounded-full" style={{ background: "#C7BDAA" }} />
+        </span>
+      ))}
+      <span className="mt-1 block h-[3px] w-full rounded-full" style={{ background: "#B3A894" }} />
+    </div>
+  );
+}
+
+function MensajeContador({ compacto = false }: { compacto?: boolean }) {
+  /* Los mensajes van apareciendo uno por uno dentro de la pantalla y el ciclo
+     se reinicia: 0 vacío · 1 pide tickets · 2 mandas fotos · 3 pide lo que
+     falta (solo versión completa) · 4 escribiendo…. El espacio de cada globo
+     está reservado (solo cambia opacidad/posición) para que el teléfono no
+     cambie de alto mientras se anima. */
+  const [paso, setPaso] = useState(0);
+  useEffect(() => {
+    const espera = [800, 1600, 1800, compacto ? 0 : 1700, 2800][paso];
+    const t = setTimeout(() => setPaso((p) => (p === 2 && compacto ? 4 : (p + 1) % 5)), espera);
+    return () => clearTimeout(t);
+  }, [paso, compacto]);
+  const entra = (k: number): React.CSSProperties =>
+    paso >= k
+      ? { opacity: 1, transform: "translateY(0) scale(1)", transition: "opacity 0.35s ease, transform 0.45s cubic-bezier(0.2,0.9,0.3,1.2)" }
+      : { opacity: 0, transform: "translateY(10px) scale(0.97)", transition: "opacity 0.2s ease, transform 0.2s ease" };
   return (
     <div
       aria-hidden
-      className="overflow-hidden rounded-[14px]"
-      style={{ width: 236, boxShadow: "0 24px 48px rgba(0,0,0,0.5)", fontFamily: FUENTE }}
+      className="overflow-hidden rounded-[22px] border border-white/10 text-left"
+      style={{ width: compacto ? 262 : 288, boxShadow: "0 30px 70px rgba(0,0,0,0.6), 0 0 0 6px rgba(255,255,255,0.04)", fontFamily: FUENTE, background: "#0B141A" }}
     >
       {/* Cabecera */}
-      <div style={{ background: "#20404F" }}>
-        {/* Barra de estado */}
-        <div className="flex items-center justify-between px-3 pb-0.5 pt-1.5" style={{ color: "#fff" }}>
-          <span className="font-semibold" style={{ fontSize: 8 }}>
-            9:30
-          </span>
-          <span className="flex items-center gap-[3px]">
-            <svg width="8" height="8" viewBox="0 0 10 10" fill="#fff">
-              <path d="M5 8.6 0.9 4.3a5.9 5.9 0 0 1 8.2 0L5 8.6Z" />
-            </svg>
-            <svg width="8" height="8" viewBox="0 0 10 10" fill="#fff">
-              <path d="M9.2 1v8H1.4L9.2 1Z" />
-            </svg>
-            <svg width="5" height="8" viewBox="0 0 6 10" fill="#fff">
-              <rect x="1.8" y="0" width="2.4" height="1.2" rx="0.4" />
-              <rect x="0" y="1" width="6" height="9" rx="1.4" />
-            </svg>
-          </span>
-        </div>
-
-        {/* Nombre del chat */}
-        <div className="flex items-center gap-2 px-2.5 pb-2 pt-1">
-          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#fff" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M7 3 2.5 8 7 13" />
-            <path d="M2.8 8H14" />
+      <div className="flex items-center gap-2.5 px-3 pb-2.5 pt-3" style={{ background: "#1F2C34" }}>
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#AEBAC1" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M7 3 2.5 8 7 13" />
+          <path d="M2.8 8H14" />
+        </svg>
+        <span className="relative block h-[30px] w-[30px] shrink-0 overflow-hidden rounded-full" style={{ background: "linear-gradient(145deg,#9C8B76,#6F604F)" }}>
+          <svg viewBox="0 0 24 24" className="absolute inset-0 h-full w-full" fill="#EDE5D9">
+            <circle cx="12" cy="9.5" r="4.2" />
+            <path d="M12 14.8c4.2 0 7.4 2.6 7.4 6V24H4.6v-3.2c0-3.4 3.2-6 7.4-6Z" />
           </svg>
-
-          {/* La foto del contador, dibujada: círculo y silueta */}
-          <span className="relative block h-[22px] w-[22px] shrink-0 overflow-hidden rounded-full" style={{ background: "#8D7F6E" }}>
-            <svg viewBox="0 0 24 24" className="absolute inset-0 h-full w-full" fill="#E7DFD4">
-              <circle cx="12" cy="9" r="4.2" />
-              <path d="M12 14.4c4.2 0 7.4 2.6 7.4 6V24H4.6v-3.6c0-3.4 3.2-6 7.4-6Z" />
-            </svg>
-          </span>
-
-          <span className="font-bold text-white" style={{ fontSize: 11.5, letterSpacing: "-0.01em" }}>
-            Contador
-          </span>
-
-          <span className="ml-auto flex items-center gap-2 pr-0.5">
-            <svg width="13" height="13" viewBox="0 0 24 24">
-              <path
-                fill="#fff"
-                d="M3.5 6.2c0-.5.4-.9.9-.9h3.2c.5 0 .9.4.9.9 0 1.1.2 2.2.5 3.2.1.3 0 .7-.2.9l-2 2a15.6 15.6 0 0 0 5.9 5.9l2-2c.2-.2.6-.3.9-.2 1 .3 2.1.5 3.2.5.5 0 .9.4.9.9v3.2c0 .5-.4.9-.9.9-8.5 0-15.3-6.8-15.3-15.3Z"
-              />
-              <path fill="none" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" d="M19.5 2.6v5.2M16.9 5.2h5.2" />
-            </svg>
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="#fff">
-              <circle cx="6" cy="2" r="1.25" />
-              <circle cx="6" cy="6" r="1.25" />
-              <circle cx="6" cy="10" r="1.25" />
-            </svg>
-          </span>
-        </div>
+        </span>
+        <span className="min-w-0 leading-tight">
+          <span className="block font-semibold text-white" style={{ fontSize: 13.5 }}>Contador · Luis</span>
+          <span className="block" style={{ fontSize: 10.5, color: "#8696A0" }}>en línea</span>
+        </span>
+        <span className="ml-auto flex items-center gap-3.5" style={{ color: "#AEBAC1" }}>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2.5" y="6" width="13" height="12" rx="2.5" /><path d="M15.5 10.5 21 7v10l-5.5-3.5" /></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4 5.8c0-.5.4-.9.9-.9h3.3c.5 0 .9.4.9.9 0 1.1.2 2.2.5 3.2.1.3 0 .7-.2.9l-2 2a15.6 15.6 0 0 0 6 6l2-2c.2-.2.6-.3.9-.2 1 .3 2.1.5 3.2.5.5 0 .9.4.9.9v3.3c0 .5-.4.9-.9.9C11.1 21.3 4 14.2 4 5.8Z" /></svg>
+        </span>
       </div>
 
       {/* La conversación */}
-      <div
-        className="px-2.5 pb-4 pt-3"
-        style={{ background: `${GARABATOS}, #EFE7DE`, backgroundSize: "88px 88px, auto" }}
-      >
-        <div
-          className="w-fit rounded-[8px] rounded-tl-[2px] px-2 py-1.5 text-left"
-          style={{
-            maxWidth: "86%",
-            background: "#fff",
-            boxShadow: "0 1px 0.5px rgba(11,20,26,0.13)",
-          }}
-        >
-          <span style={{ fontSize: 10.5, lineHeight: 1.2, color: UI.texto }}>
-            ¿Me mandas los tickets de septiembre? Me faltan los de mostrador.
-          </span>
-          <span className="mt-0.5 block text-right" style={{ fontSize: 7.5, color: "#8696A0" }}>
-            11:04
-          </span>
+      <div className="flex flex-col gap-1.5 px-3 pb-3 pt-3" style={{ background: `${GARABATOS}, #EFE7DE`, backgroundSize: "88px 88px, auto" }}>
+        <span className="mx-auto mb-1 rounded-[6px] px-2 py-0.5 font-medium" style={{ fontSize: 9.5, color: "#54656F", background: "rgba(255,255,255,0.85)" }}>HOY</span>
+
+        {/* Contador */}
+        <div className="w-fit max-w-[84%] rounded-[10px] rounded-tl-[3px] bg-white px-2.5 py-1.5" style={{ boxShadow: "0 1px 0.5px rgba(11,20,26,0.13)", ...entra(1) }}>
+          <span style={{ fontSize: 12, lineHeight: 1.3, color: "#111B21" }}>¿Me mandas los tickets de septiembre? Me faltan los de mostrador 🙏</span>
+          <Hora t="11:04" />
         </div>
 
-        <div
-          className="ml-auto mt-1.5 w-fit rounded-[8px] rounded-tr-[2px] px-2 py-1.5 text-left"
-          style={{
-            maxWidth: "86%",
-            background: "#D9FDD3",
-            boxShadow: "0 1px 0.5px rgba(11,20,26,0.13)",
-          }}
-        >
-          <span style={{ fontSize: 10.5, lineHeight: 1.35, color: "#111B21" }}>Voy, déjame los junto</span>
-          <span className="mt-0.5 flex items-center justify-end gap-[3px]" style={{ fontSize: 7.5, color: "#667781" }}>
-            11:06
-            <svg width="11" height="7" viewBox="0 0 16 11" fill="none" stroke="#53BDEB" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M1 6l3 3 5.5-7" />
-              <path d="M6.5 6l3 3L15 2" />
-            </svg>
-          </span>
+        {/* Tú: fotos de tickets */}
+        <div className="ml-auto w-[70%] rounded-[10px] rounded-tr-[3px] p-1" style={{ background: "#D9FDD3", boxShadow: "0 1px 0.5px rgba(11,20,26,0.13)", ...entra(2) }}>
+          <div className="relative h-[86px] overflow-hidden rounded-[8px]" style={{ background: "linear-gradient(160deg,#8A7A66,#5E5143)" }}>
+            <TicketArrugado r={-9} x={10} />
+            <TicketArrugado r={6} x={58} />
+            <TicketArrugado r={-3} x={108} />
+            <span className="absolute bottom-1.5 right-1.5 rounded-full px-1.5 py-0.5 font-semibold text-white" style={{ fontSize: 9, background: "rgba(0,0,0,0.45)" }}>+12</span>
+          </div>
+          <span className="block px-1 pt-1" style={{ fontSize: 12, lineHeight: 1.3, color: "#111B21" }}>Van los que encontré 😅</span>
+          <span className="block px-1"><Hora t="11:06" leido /></span>
         </div>
+
+        {/* Contador: otro pendiente (se omite en la versión compacta) */}
+        <div className={`${compacto ? "hidden" : ""} w-fit max-w-[84%] rounded-[10px] rounded-tl-[3px] bg-white px-2.5 py-1.5`} style={{ boxShadow: "0 1px 0.5px rgba(11,20,26,0.13)", ...entra(3) }}>
+          <span style={{ fontSize: 12, lineHeight: 1.3, color: "#111B21" }}>Faltan 8 y el XML de Comercializadora Delta. ¿Lo tienes?</span>
+          <Hora t="11:09" />
+        </div>
+
+        {/* Escribiendo… */}
+        <div className="flex w-fit items-center gap-1 rounded-[10px] rounded-tl-[3px] bg-white px-3 py-2.5" style={{ boxShadow: "0 1px 0.5px rgba(11,20,26,0.13)", ...entra(4) }}>
+          {[0, 1, 2].map((d) => (
+            <span key={d} className="h-[6px] w-[6px] rounded-full" style={{ background: "#8696A0", animation: `pulse-soft 1.2s ease-in-out ${d * 0.2}s infinite` }} />
+          ))}
+        </div>
+      </div>
+
+      {/* Barra para escribir */}
+      <div className="flex items-center gap-2 px-2.5 py-2" style={{ background: "#F0F2F5" }}>
+        <span className="flex h-[30px] flex-1 items-center rounded-full bg-white px-3" style={{ fontSize: 11.5, color: "#8696A0" }}>Mensaje</span>
+        <span className="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-full" style={{ background: "#00A884" }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><rect x="9" y="3" width="6" height="11" rx="3" /><path d="M6 11a6 6 0 0 0 12 0" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" /><path d="M12 17v4" stroke="#fff" strokeWidth="2" strokeLinecap="round" /></svg>
+        </span>
       </div>
     </div>
   );
 }
+
+/* El chat de WhatsApp está oculto por ahora (decisión de Karla). Para
+   volver a mostrarlo, cambia esto a true. */
+const MOSTRAR_CHAT = false;
 
 /* La sección: el Excel roto enfrentado con la pantalla real de Facturación.
    No es una tabla de palomitas contra tachas; la comparación la hace el ojo. */
@@ -309,7 +333,7 @@ const FACTURAS_LIMPIAS = [
 function PanelFacturacionLimpio() {
   return (
     <div
-      className="overflow-hidden rounded-[10px] bg-white text-left"
+      className="flex h-full flex-col overflow-hidden rounded-[10px] bg-white text-left"
       style={{ fontFamily: FUENTE, boxShadow: "0 40px 80px rgba(0,0,0,0.55)" }}
     >
       <div className="flex items-center justify-between gap-3 border-b px-4 py-3" style={{ borderColor: UI.bordeSuave }}>
@@ -324,7 +348,7 @@ function PanelFacturacionLimpio() {
       {FACTURAS_LIMPIAS.map((f) => (
         <div
           key={f.tipo + f.receptor + f.total}
-          className="flex items-center gap-3 border-b px-4 py-[11px] last:border-b-0"
+          className="flex flex-1 items-center gap-3 border-b px-4 py-[11px] last:border-b-0"
           style={{ borderColor: UI.bordeSuave }}
         >
           <span className="min-w-0 flex-1 leading-tight">
@@ -382,7 +406,7 @@ export function T1FinanzasProblema({ sinEncabezado = false }: { sinEncabezado?: 
         {/* El ancho tope deja los dos paneles un poco más chicos que la caja de
             la sección: la comparación se lee mejor cuando no llena la pantalla. */}
         <div
-          className={`${sinEncabezado ? "mt-2 tablet:mt-4" : "mt-12 tablet:mt-16"} mx-auto grid w-full grid-cols-1 items-start gap-10 tablet:grid-cols-2 tablet:gap-10`}
+          className={`${sinEncabezado ? "mt-2 tablet:mt-4" : "mt-12 tablet:mt-16"} mx-auto grid w-full grid-cols-1 items-start gap-10 tablet:grid-cols-2 tablet:items-stretch tablet:gap-10`}
           style={{ maxWidth: 1000 }}
           aria-hidden
         >
@@ -395,11 +419,25 @@ export function T1FinanzasProblema({ sinEncabezado = false }: { sinEncabezado?: 
               <div className="tablet:[transform:rotate(-1.5deg)]" style={{ filter: "saturate(0.75)" }}>
                 <HojaDeCalculo />
               </div>
-              {/* El mensaje del contador, encimado. En móvil no cabe. */}
-              <div className="absolute -bottom-20 -left-7 hidden tablet:block" style={{ transform: "rotate(-5deg)" }}>
-                <MensajeContador />
+              {/* El chat (versión compacta) encimado en la esquina inferior
+                  izquierda de la hoja, dentro del margen de la sección. */}
+              {MOSTRAR_CHAT && (
+              <div
+                className="absolute -bottom-14 left-6 z-[2] hidden tablet:block"
+                style={{ transform: "rotate(-4deg) scale(0.8)", transformOrigin: "bottom left" }}
+              >
+                <MensajeContador compacto />
+              </div>
+              )}
+            </div>
+            {/* Móvil: debajo de la hoja, encimado sobre su borde inferior. */}
+            {MOSTRAR_CHAT && (
+            <div className="relative z-[2] -mt-28 flex w-full justify-center tablet:hidden">
+              <div style={{ transform: "scale(0.9)", transformOrigin: "top center", marginBottom: -36 }}>
+                <MensajeContador compacto />
               </div>
             </div>
+            )}
           </div>
 
           {/* Con T1 Finanzas */}
@@ -407,7 +445,8 @@ export function T1FinanzasProblema({ sinEncabezado = false }: { sinEncabezado?: 
             <p className="font-inter text-[12px] font-semibold uppercase tracking-[0.1em] text-white/70" style={{ marginBottom: 16 }}>
               Con T1 Finanzas
             </p>
-            <div className="w-full tablet:[transform:rotate(1.5deg)]">
+            {/* Se estira al alto de la hoja de cálculo para que ambos paneles midan igual */}
+            <div className="w-full tablet:flex-1 tablet:[transform:rotate(1.5deg)]">
               <PanelFacturacionLimpio />
             </div>
           </div>

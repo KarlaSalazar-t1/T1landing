@@ -147,7 +147,7 @@ const ADMIN_CARDS = [
   { title: "Inventario", desc: "Precios, variantes y existencias sincronizadas en todos tus canales.", img: "/img/nv-inventario.png", w: 1254, h: 1254, href: "/productos/t1tienda/productos" },
   { title: "Reportes", desc: "Ventas, tráfico y rendimiento en tiempo real para decidir con datos.", img: "/img/nv-reportes-tienda.png", w: 1254, h: 1254, href: "/productos/t1tienda/reportes" },
   { title: "Clientes", desc: "Historial de compras y segmentación de clientes para vender más.", img: "/img/nv-clientes.png", w: 1254, h: 1254, href: "/productos/t1tienda/reportes" },
-  { title: "Sucursales", desc: "Inventario y ventas por ubicación en cada sucursal o almacén.", img: "/img/nv-sucursales.png", w: 1254, h: 1254, href: "/productos/t1tienda/punto-de-venta" },
+  { title: "Sucursales", desc: "Inventario y ventas por ubicación en cada sucursal o almacén.", img: "/img/nv-sucursales.png", w: 1254, h: 1254, href: "/productos/t1pos" },
 ];
 export function T1TiendaAdministracion() {
   const ref = useRef<HTMLDivElement>(null);
@@ -217,19 +217,30 @@ export function T1TiendaPagos() {
           </div>
           <div className="order-1 tablet:order-2">
             <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.12, marginBottom: 16 }}>
-              Cobra como tus clientes prefieran
+              Más ventas aprobadas en tu tienda
             </h2>
-            <p className="font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 24, maxWidth: 440 }}>
-              Una pasarela de pago pensada para convertir, con todos los métodos de pago y meses sin intereses.
+            <p className="font-inter text-[16px] font-light text-white/60 tablet:text-[18px]" style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 470 }}>
+              Tu tienda ya trae T1 Pagos: tu cliente paga como quiera en un checkout rápido y tú recibes tu dinero al día siguiente.
             </p>
-            <ul className="mb-8 flex flex-col gap-3">
-              {["Tarjetas, SPEI y Kueski", "Meses sin intereses", "Links de pago para vender por WhatsApp", "Antifraude con T1 Score"].map((it) => (
-                <li key={it} className="flex items-start gap-3 font-inter text-[15px] text-white/75 tablet:text-[16px]">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="mt-0.5 shrink-0"><path d="M5 12L10 17L19 7" stroke="#DB3B2B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                  {it}
-                </li>
+            {/* Datos concretos en lugar de una lista genérica */}
+            <div className="mb-7 grid max-w-[520px] grid-cols-3 gap-3">
+              {[
+                { v: "+90%", l: "de pagos aprobados" },
+                { v: "18 MSI", l: "con todos los bancos" },
+                { v: "T+1", l: "tu dinero, al día siguiente" },
+              ].map((k) => (
+                <div key={k.v} className="rounded-[14px] border border-white/[0.08] bg-white/[0.03] px-3.5 py-3">
+                  <p className="font-sora text-[22px] font-light text-white tablet:text-[26px]" style={{ letterSpacing: "-0.02em", lineHeight: 1.1 }}>{k.v}</p>
+                  <p className="mt-1 font-inter text-[12px] font-light leading-snug text-white/55 tablet:text-[13px]">{k.l}</p>
+                </div>
               ))}
-            </ul>
+            </div>
+            <div className="mb-8 flex flex-wrap items-center gap-2.5">
+              {["/img/icons/visa-card.svg", "/img/icons/mc-card.svg", "/img/icons/amex-card.svg", "/img/icons/spei-card.svg", "/img/icons/kueski-card.svg"].map((src) => (
+                <Image key={src} src={src} alt="" width={80} height={52} className="h-[28px] w-auto object-contain" />
+              ))}
+              <span className="ml-1 font-inter text-[13px] font-light text-white/50">y antifraude con T1 Score</span>
+            </div>
             <a href="/productos/t1tienda/pasarela" className="inline-flex items-center gap-2 rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:bg-[#C0332A]">
               Conoce la pasarela
               <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>

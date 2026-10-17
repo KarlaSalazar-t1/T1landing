@@ -14,7 +14,7 @@ import T1Marca from "@/components/T1Marca";
 
 /* Lockup de marca del header: logo T1 + descriptor del producto (CAMBIO header).
    El "T1" lo aporta el logo; el descriptor es solo "Envíos"/"Tienda"/"Pagos". */
-const PRODUCT_DESCRIPTORS = { envios: "Envíos", tienda: "Tienda", pagos: "Pagos", finanzas: "Finanzas" } as const;
+const PRODUCT_DESCRIPTORS = { envios: "Envíos", tienda: "Tienda", pagos: "Pagos", pos: "POS", finanzas: "Finanzas" } as const;
 type ProductKey = keyof typeof PRODUCT_DESCRIPTORS;
 type PageType = "home" | "producto" | "sublanding";
 
@@ -25,6 +25,7 @@ const PRODUCT_SWITCHER: { key: ProductKey; name: string; desc: string; href: str
   { key: "tienda", name: "T1 Tienda", desc: "Crea y vende en línea", href: "/productos/t1tienda" },
   { key: "envios", name: "T1 Envíos", desc: "Envía al mejor precio", href: "/productos/t1envios" },
   { key: "pagos", name: "T1 Pagos", desc: "Cobra en línea", href: "/productos/t1pagos" },
+  { key: "pos", name: "T1 POS", desc: "Vende en tu tienda física", href: "/productos/t1pos" },
   { key: "finanzas", name: "T1 Finanzas", desc: "Factura tus ventas", href: "/productos/t1finanzas" },
 ];
 
@@ -62,9 +63,9 @@ function ItemArrow() {
 }
 
 /* ── Menu Column ── */
-function MenuColumn({ col }: { col: (typeof MEGA_MENU_COLUMNS)[number] }) {
+function MenuColumn({ col, className = "flex-1 px-5 first:pl-0" }: { col: (typeof MEGA_MENU_COLUMNS)[number]; className?: string }) {
   return (
-    <div className="group/col flex-1 px-5 first:pl-0">
+    <div className={`group/col ${className}`}>
       {/* Column header — border changes color on hover of any item in the column */}
       <a
         href={col.href}
@@ -79,12 +80,13 @@ function MenuColumn({ col }: { col: (typeof MEGA_MENU_COLUMNS)[number] }) {
 
       {/* Sin temas: la columna lleva una línea de apoyo en vez de la lista */}
       {col.items.length === 0 && col.desc && (
-        <p className="font-inter text-[12px] font-normal text-white/40" style={{ lineHeight: 1.6, paddingBottom: 32, maxWidth: 230 }}>
+        <p className="font-inter text-[12px] font-normal text-white/40" style={{ lineHeight: 1.6, paddingBottom: 20, maxWidth: 230 }}>
           {col.desc}
         </p>
       )}
 
       {/* Items — generous vertical spacing */}
+      {col.items.length > 0 && (
       <div className="flex flex-col" style={{ gap: 6, paddingBottom: 32 }}>
         {col.items.map((item) => (
           <a
@@ -105,6 +107,7 @@ function MenuColumn({ col }: { col: (typeof MEGA_MENU_COLUMNS)[number] }) {
           </a>
         ))}
       </div>
+      )}
     </div>
   );
 }
@@ -522,9 +525,18 @@ export default function T1Navbar({ ctaLabel = "Comienza gratis", ctaHref = SIGNU
       >
         {/* Columns */}
         <div className="mx-auto flex max-w-[var(--max-w)] gap-0 px-6">
-          {MEGA_MENU_COLUMNS.map((col) => (
+          {/* Los productos sin temas (POS, Finanzas) comparten una columna, uno
+              debajo del otro, para que el menú no tenga columnas casi vacías. */}
+          {MEGA_MENU_COLUMNS.filter((col) => col.items.length > 0).map((col) => (
             <MenuColumn key={col.title} col={col} />
           ))}
+          {MEGA_MENU_COLUMNS.some((col) => col.items.length === 0) && (
+            <div className="flex flex-1 flex-col px-5">
+              {MEGA_MENU_COLUMNS.filter((col) => col.items.length === 0).map((col) => (
+                <MenuColumn key={col.title} col={col} className="" />
+              ))}
+            </div>
+          )}
 
           {/* El panel de "Casos de exito" y "Novedades recientes" se quitó: la
               foto era de banco y el texto, provisional. Va siempre oculto. */}

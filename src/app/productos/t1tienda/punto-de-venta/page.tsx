@@ -1,19 +1,6 @@
-import T1Navbar from "@/components/T1Navbar";
-import T1Footer from "@/components/T1Footer";
-import T1POS from "@/components/T1POS";
+import { redirect } from "next/navigation";
 
-export const metadata = {
-  title: "Punto de venta · T1 Tienda",
-  description:
-    "Vende en sucursal y online desde una sola caja. Cobra con tarjeta, efectivo o transferencia, sincroniza inventario y cierra turno con control de caja.",
-};
-
-export default function POSPage() {
-  return (
-    <main className="min-h-screen bg-white">
-      <T1Navbar product="tienda" pageType="sublanding" />
-      <T1POS />
-      <T1Footer />
-    </main>
-  );
+/* El punto de venta pasó a ser producto propio: /productos/t1pos. */
+export default function POSRedirect() {
+  redirect("/productos/t1pos");
 }

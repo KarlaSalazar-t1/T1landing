@@ -1144,7 +1144,7 @@ const SHOWCASE_CARDS = [
     panelLeft: null,
     panelRight: null,
     ctaLabel: "Conoce T1 POS",
-    ctaHref: "/productos/t1tienda/punto-de-venta",
+    ctaHref: "/productos/t1pos",
   },
   {
     id: "t1envios",
@@ -2190,7 +2190,7 @@ export default function T1Features() {
               } else if (card.id === "t1tienda" || card.id === "t1tienda-en-linea") {
                 window.open("https://www.t1.com/mx/tienda", "_blank", "noopener,noreferrer");
               } else if (card.id === "t1pos") {
-                window.location.href = "/productos/t1tienda/punto-de-venta";
+                window.location.href = "/productos/t1pos";
               } else {
                 setModalCard(card.id);
               }
