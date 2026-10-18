@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState, useRef, useCallback } from "react";
+import { FacturasPanel, PedidosFacturarPanel } from "@/components/T1EcosistemaFacturacion";
 
 /* ── Top-level tabs ── */
 // Ordered by the seller's journey priority: create store → get paid →
@@ -13,6 +14,7 @@ const TABS = [
   "Conecta marketplaces",
   "Gestiona pedidos",
   "Control de calidad",
+  "Factura tus ventas",
   "Vende en persona",
 ];
 
@@ -22,7 +24,7 @@ type SubTab = {
   description: string;
   image: string | null;
   floatingCards: "incidencia" | "metrics" | "sobrepesos" | null;
-  panel?: "tienda-ia" | "producto-grid" | "pedidos" | "personaliza" | "sync-inventory" | "order-list" | "sobrepesos-cards" | "cotizador" | "carrito" | "rastreo" | "guias-masivas" | "enrutamiento-pagos" | "checkout" | "link-pago" | "disputas" | "metricas-contracargos" | "fraude" | "riesgo" | "buro" | "pos-cobro" | "pos-inventario" | "pos-control-caja" | null;
+  panel?: "tienda-ia" | "producto-grid" | "pedidos" | "personaliza" | "sync-inventory" | "order-list" | "sobrepesos-cards" | "cotizador" | "carrito" | "rastreo" | "guias-masivas" | "enrutamiento-pagos" | "checkout" | "link-pago" | "disputas" | "metricas-contracargos" | "fraude" | "riesgo" | "buro" | "pos-cobro" | "pos-inventario" | "pos-control-caja" | "facturas" | "pedidos-facturar" | null;
 };
 
 type TabCard = {
@@ -102,11 +104,22 @@ const TAB_CARDS: TabCard[] = [
     ],
   },
   {
+    title: "FACTURACIÓN",
+    description:
+      "Tus pedidos de Mercado Libre, Amazon y más llegan listos para facturar, y cualquier otra venta la facturas en minutos.",
+    cta: "Conoce T1 Finanzas",
+    ctaHref: "/productos/t1finanzas",
+    subTabs: [
+      { label: "Pedidos listos", description: "Los pedidos de tus canales llegan solos, listos para facturar con un clic.", image: null, floatingCards: null, panel: "pedidos-facturar" },
+      { label: "Tus facturas", description: "Facturas, factura global, recibos de pago y devoluciones, todo registrado en un solo lugar.", image: null, floatingCards: null, panel: "facturas" },
+    ],
+  },
+  {
     title: "VENDE EN TU TIENDA FÍSICA",
     description:
       "Vende en tu tienda física con un POS integrado a tu inventario, pagos y envíos. Sincroniza todo en tiempo real.",
-    cta: "Empieza a vender",
-    ctaHref: "/registro",
+    cta: "Conoce T1 POS",
+    ctaHref: "/productos/t1pos",
     subTabs: [
       { label: "Cobra en sucursal", description: "Registra tus ventas en sucursal y configura tus métodos de pago; los cobros con tarjeta se procesan con tu propia terminal.", image: null, floatingCards: null, panel: "pos-cobro" },
       { label: "Control de inventario", description: "Lleva el control de tu inventario en tiempo real desde el punto de venta.", image: null, floatingCards: null, panel: "pos-inventario" },
@@ -640,6 +653,14 @@ export default function T1Solutions() {
                       ))}
                     </div>
                   </div>
+                </div>
+              ) : currentSub.panel === "facturas" ? (
+                <div key={`panel-m-${activeSubTab}`} style={{ animation: "none" }}>
+                  <FacturasPanel compact />
+                </div>
+              ) : currentSub.panel === "pedidos-facturar" ? (
+                <div key={`panel-m-${activeSubTab}`} style={{ animation: "none" }}>
+                  <PedidosFacturarPanel compact />
                 </div>
               ) : currentSub.panel === "pos-cobro" ? (
                 <div key={`panel-m-${activeSubTab}`} className="relative flex justify-center px-6 py-4" style={{ animation: "none" }}>
@@ -1631,7 +1652,9 @@ export default function T1Solutions() {
                   <div className="relative flex h-full items-center justify-center" style={{ padding: "16px 24px" }}>
                     {/* Carrito — natural ratio 713:1409 (very tall), object-contain so full screen visible */}
                     <div className="relative h-[94%]" style={{ aspectRatio: "713 / 1409", filter: "drop-shadow(0 8px 20px rgba(0,0,0,0.14))" }}>
-                      <Image src="/img/pos-carrito.webp" alt="Carrito de cobro POS" fill className="object-contain" sizes="220px" />
+                      <div className="relative h-full w-full overflow-hidden rounded-[16px]">
+                        <Image src="/img/pos-carrito.webp" alt="Carrito de cobro POS" fill className="object-cover" sizes="220px" />
+                      </div>
                     </div>
                     {/* Cobra (overlapping, right) — kept as before */}
                     <div className="absolute overflow-hidden rounded-[14px] h-[58%]" style={{ right: 36, bottom: 40, aspectRatio: "3 / 4", boxShadow: "0 10px 22px rgba(0,0,0,0.18)" }}>
@@ -1671,12 +1694,18 @@ export default function T1Solutions() {
                       <span className="text-[12px] font-semibold text-[#4c4c4c]">Inventario actualizado</span>
                     </div>
                   </div>
+                ) : currentSub.panel === "facturas" ? (
+                  <FacturasPanel />
+                ) : currentSub.panel === "pedidos-facturar" ? (
+                  <PedidosFacturarPanel />
                 ) : currentSub.panel === "pos-control-caja" ? (
                   /* POS — control de caja image + floating movement cards */
                   <div className="relative flex h-full items-center justify-center" style={{ padding: "16px 24px" }}>
                     {/* Natural ratio 909:1001 (near-square), object-contain so full image visible */}
                     <div className="relative h-[88%]" style={{ aspectRatio: "909 / 1001", filter: "drop-shadow(0 10px 24px rgba(0,0,0,0.14))" }}>
-                      <Image src="/img/pos-control-caja.svg" alt="Control de caja POS" fill className="object-contain" sizes="360px" />
+                      <div className="relative h-full w-full overflow-hidden rounded-[16px]">
+                        <Image src="/img/pos-control-caja.svg" alt="Control de caja POS" fill className="object-cover" sizes="360px" />
+                      </div>
                     </div>
                     {/* Floating: efectivo ingresado */}
                     <div className="absolute flex items-center gap-3 rounded-[12px] border border-black/[0.06] bg-white" style={{ left: 30, top: 70, padding: "12px 14px", boxShadow: "0 8px 24px rgba(0,0,0,0.1)", fontFamily: font }}>

@@ -340,6 +340,22 @@ body {
   animation: blobFloat 11s ease-in-out infinite;
 }
 
+/* Finanzas — coral luminoso + rosa (sin ámbar: sobre oscuro se veía café). */
+.stack-bg-finanzas {
+  background:
+    radial-gradient(ellipse 72% 66% at 72% 32%, rgba(242,84,50,0.58) 0%, transparent 66%),
+    radial-gradient(ellipse 62% 62% at 22% 78%, rgba(236,72,153,0.34) 0%, transparent 64%),
+    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(170,40,60,0.18) 0%, transparent 55%),
+    linear-gradient(150deg, #1e0b12 0%, #220c16 50%, #26101a 100%);
+}
+.stack-bg-finanzas::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 40% 40% at 70% 40%, rgba(255,120,90,0.10) 0%, transparent 70%);
+  animation: blobFloat 12s ease-in-out infinite;
+}
+
 /* ─── Dark section surfaces (P3 tonality) ───
    Warm neutral darks (not pure black) so the big block reads cohesive and
    the light↔dark flips between sections go away. Reference: footer #0e0d0d. */

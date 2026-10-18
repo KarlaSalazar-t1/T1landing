@@ -330,11 +330,11 @@ const FACTURAS_LIMPIAS = [
   { tipo: "Devolución o descuento", receptor: "Comercializadora Delta", total: "$4,640.00" },
 ];
 
-function PanelFacturacionLimpio() {
+export function PanelFacturacionLimpio({ sombra = "0 40px 80px rgba(0,0,0,0.55)" }: { sombra?: string }) {
   return (
     <div
       className="flex h-full flex-col overflow-hidden rounded-[10px] bg-white text-left"
-      style={{ fontFamily: FUENTE, boxShadow: "0 40px 80px rgba(0,0,0,0.55)" }}
+      style={{ fontFamily: FUENTE, boxShadow: sombra }}
     >
       <div className="flex items-center justify-between gap-3 border-b px-4 py-3" style={{ borderColor: UI.bordeSuave }}>
         <span className="font-bold" style={{ fontSize: 13, color: UI.texto }}>

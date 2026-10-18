@@ -185,7 +185,7 @@ const ORBIT_ICONS = [
   { src: "/img/icon-tienda.svg", label: "T1 Tienda" },
   { src: "/img/icon-envios.svg", label: "T1 Envíos" },
   { src: "/img/icon-pagos.svg", label: "T1 Pagos" },
-  { src: "/img/icon-score.svg", label: "T1 Score" },
+  { src: "/img/icon-finanzas.svg", label: "T1 Finanzas" },
 ];
 
 /* Inner-ring feature glyphs — the small "functions" (catálogo, carrito, link

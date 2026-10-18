@@ -17,6 +17,7 @@ import T1FinalCTA from "@/components/T1FinalCTA";
 import StoreShowcase from "@/components/StoreShowcase";
 import TodoIncluidoDark from "@/components/TodoIncluidoDark";
 import { T1FAQSection } from "@/components/T1FAQ";
+import { PedidosFinanzasPantalla } from "@/components/T1EcosistemaFacturacion";
 
 /* ── Store carousel items — 8 unique stores, duplicated so the marquee
    (translateX(-50%)) loops seamlessly. ── */
@@ -1158,6 +1159,18 @@ const SHOWCASE_CARDS = [
     ctaLabel: "Cotiza tu envío",
     ctaHref: "/productos/t1envios#cotizador",
   },
+  {
+    id: "t1finanzas",
+    title: "Factura tus ventas en un clic con T1 Finanzas",
+    description:
+      "Tus pedidos de Mercado Libre, Amazon y más llegan listos para facturar, y cualquier otra venta la facturas en minutos.",
+    bgImage: null,
+    bgCSS: "stack-bg-finanzas",
+    panelLeft: null,
+    panelRight: null,
+    ctaLabel: "Conoce T1 Finanzas",
+    ctaHref: "/productos/t1finanzas",
+  },
 ];
 
 /* Opaque per-card backstop colors keyed on bgCSS. Each is the darkest base of
@@ -1171,6 +1184,7 @@ const STACK_BACKSTOP: Record<string, string> = {
   "stack-bg-pagos": "#0a0f1a",
   "stack-bg-envios": "#100a18",
   "stack-bg-pos": "#170b12",
+  "stack-bg-finanzas": "#1e0b12",
 };
 
 /* AI "sparkle" — the two-star ✨ motif that signals an AI-generated capability.
@@ -2191,6 +2205,8 @@ export default function T1Features() {
                 window.open("https://www.t1.com/mx/tienda", "_blank", "noopener,noreferrer");
               } else if (card.id === "t1pos") {
                 window.location.href = "/productos/t1pos";
+              } else if (card.id === "t1finanzas") {
+                window.location.href = "/productos/t1finanzas";
               } else {
                 setModalCard(card.id);
               }
@@ -2448,6 +2464,67 @@ export default function T1Features() {
                   {/* Mobile: checkout phone mock */}
                   <div className="mx-auto px-5 pb-5 pt-2 tablet:hidden" style={{ maxWidth: 270 }}>
                     <PosCheckoutMobileScreen />
+                  </div>
+                </div>
+              ) : card.id === "t1finanzas" ? (
+                /* ── Finanzas — texto a la izquierda; a la derecha los pedidos
+                       por facturar encima de la pantalla de Facturación (los
+                       mismos mockups de la landing de T1 Finanzas). La
+                       composición sale por el borde inferior como las demás. ── */
+                <div className="flex h-full w-full flex-col tablet:flex-row">
+                  <div className="flex w-full flex-col px-5 pt-24 pb-5 tablet:w-1/2 tablet:justify-center tablet:p-8 lg:p-10">
+                    <div style={{ maxWidth: 440 }}>
+                      <p className="font-sora text-[24px] font-normal text-white tablet:text-[24px] lg:text-[32px]">
+                        {card.title}
+                      </p>
+                      <p className="font-inter text-[16px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
+                        {card.description}
+                      </p>
+                      {card.ctaLabel && (
+                        <a
+                          href={card.ctaHref}
+                          onClick={(e) => e.stopPropagation()}
+                          className="group/cta inline-flex w-fit items-center gap-2 rounded-full border border-white/25 px-5 py-2.5 font-inter text-[15px] font-semibold text-white no-underline transition-colors hover:border-white/50"
+                        >
+                          {card.ctaLabel}
+                          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" className="shrink-0 transition-transform duration-150 group-hover/cta:translate-x-0.5"><path d="M4 8h8M9 5l3 3-3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                  {/* Desktop: igual que el cotizador de Envíos — pegado a la esquina
+                      inferior derecha de la card (se corta a la derecha y abajo), con el
+                      bisel translúcido solo arriba y a la izquierda. */}
+                  <div className="hidden w-1/2 items-end justify-end tablet:flex" style={{ paddingTop: 60 }}>
+                    <div className="relative h-full w-full" style={{ paddingTop: 12, paddingLeft: 12 }}>
+                      <div
+                        aria-hidden
+                        className="absolute inset-0"
+                        style={{
+                          borderRadius: "18px 0 0 0",
+                          background: "linear-gradient(180deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.12) 40%, rgba(255,255,255,0.03) 100%)",
+                          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.4), inset 1px 0 0 rgba(255,255,255,0.3)",
+                        }}
+                      />
+                      <div className="relative h-full">
+                        <PedidosFinanzasPantalla alto="100%" radio="14px 0 0 0" />
+                      </div>
+                    </div>
+                  </div>
+                  {/* Móvil: la misma pantalla, más baja y también cortada abajo */}
+                  <div className="flex justify-center overflow-hidden px-5 tablet:hidden" style={{ marginBottom: -20 }}>
+                    <div
+                      className="w-full"
+                      style={{
+                        maxWidth: 360,
+                        padding: "8px 8px 0 8px",
+                        borderRadius: "16px 16px 0 0",
+                        background: "linear-gradient(180deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 40%, rgba(255,255,255,0.03) 100%)",
+                        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.4), inset 1px 0 0 rgba(255,255,255,0.2), inset -1px 0 0 rgba(255,255,255,0.2)",
+                      }}
+                    >
+                      <PedidosFinanzasPantalla mobile alto={380} />
+                    </div>
                   </div>
                 </div>
               ) : (
