@@ -1044,3 +1044,12 @@ body {
   from { transform: scaleX(0); }
   to { transform: scaleX(1); }
 }
+
+/* Tienda — mosaico de tiendas: cada columna en loop vertical */
+@keyframes mosaicoLoop {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(0, -50%, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mosaico-col { animation: none !important; }
+}

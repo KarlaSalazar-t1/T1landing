@@ -46,29 +46,41 @@ const COLS_MOBILE = [
 type S = { src: string; w: number; h: number; k: number; cover?: boolean; pos?: string };
 
 function ShotCard({ s }: { s: S }) {
+  // Sin transform propio: se mueve la columna completa, así las tarjetas nunca se enciman.
   return (
-    <div
-      className="overflow-hidden rounded-[14px] border border-white/[0.08] bg-[#141215]"
-      style={{ transform: `translate3d(0, calc(var(--p, 0) * ${s.k}px), 0)`, willChange: "transform" }}
-    >
-      {s.cover ? (
-        // Tienda real: caja con la proporción de las mock; recorta el top (logo).
-        <div className="relative w-full" style={{ aspectRatio: `${s.w} / ${s.h}` }}>
-          <Image src={s.src} alt="" fill className="object-cover" style={{ objectPosition: s.pos ?? "50% 0%" }} sizes="(max-width: 768px) 45vw, 260px" />
-        </div>
-      ) : (
-        <Image src={s.src} alt="" width={s.w} height={s.h} className="h-auto w-full" sizes="(max-width: 768px) 45vw, 260px" />
-      )}
+    <div className="pb-3.5 tablet:pb-4">
+      <div className="overflow-hidden rounded-[14px] border border-white/[0.08] bg-[#141215]">
+        {s.cover ? (
+          // Tienda real: caja con la proporción de las mock; recorta el top (logo).
+          <div className="relative w-full" style={{ aspectRatio: `${s.w} / ${s.h}` }}>
+            <Image src={s.src} alt="" fill className="object-cover" style={{ objectPosition: s.pos ?? "50% 0%" }} sizes="(max-width: 768px) 45vw, 260px" />
+          </div>
+        ) : (
+          <Image src={s.src} alt="" width={s.w} height={s.h} className="h-auto w-full" sizes="(max-width: 768px) 45vw, 260px" />
+        )}
+      </div>
     </div>
   );
 }
 
+/* Cada columna es un loop vertical infinito: la lista va duplicada y se
+   desplaza -50% (exacto, porque el espacio entre tarjetas es padding de cada
+   una). Las columnas alternan dirección y velocidad para que se note el
+   movimiento sin que se vea mecánico. */
 function Columns({ cols }: { cols: { offset: number; shots: S[] }[] }) {
   return (
     <>
       {cols.map((c, ci) => (
-        <div key={ci} className="flex flex-1 flex-col gap-3.5 tablet:gap-4" style={{ marginTop: c.offset }}>
-          {c.shots.map((s, i) => <ShotCard key={i} s={s} />)}
+        <div key={ci} className="flex-1" style={{ marginTop: c.offset }}>
+          <div
+            className="mosaico-col flex flex-col"
+            style={{
+              animation: `mosaicoLoop ${46 + (ci % 2) * 10 + ci * 3}s linear infinite`,
+              animationDirection: ci % 2 ? "reverse" : "normal",
+            }}
+          >
+            {[...c.shots, ...c.shots].map((s, i) => <ShotCard key={i} s={s} />)}
+          </div>
         </div>
       ))}
     </>

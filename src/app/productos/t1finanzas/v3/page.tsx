@@ -9,7 +9,7 @@ import {
   T1FinanzasFAQ,
 } from "@/components/T1FinanzasSecciones";
 import T1FinanzasAlta from "@/components/T1FinanzasAlta";
-import T1FinanzasPedidos from "@/components/T1FinanzasPedidos";
+// import T1FinanzasPedidos from "@/components/T1FinanzasPedidos"; // oculto: el video aún no existe
 import T1FinalCTA from "@/components/T1FinalCTA";
 import T1StickyCTA from "@/components/T1StickyCTA";
 import T1EnviosAnalytics from "@/components/T1EnviosAnalytics";
@@ -41,9 +41,10 @@ export default function FinanzasLandingV3() {
         {/* 1 · Lo que ganas, y debajo la prueba */}
         <T1FinanzasBeneficios />
         <T1FinanzasProblema sinEncabezado />
-        {/* 2 · El diferenciador: los pedidos ya están aquí. El video es su
-            prueba; sin `src` todavía, va el marcador de lugar. */}
-        <T1FinanzasPedidos />
+        {/* 2 · El diferenciador: los pedidos ya están aquí. OCULTO por ahora
+            (decisión de Karla): el video todavía no existe. Para volver a
+            mostrarlo, descomenta el import y esta línea, y pásale `src`. */}
+        {/* <T1FinanzasPedidos /> */}
         {/* 3 · Cómo facturas — pedido · global · otras ventas */}
         <T1FinanzasPilares titulo="Todas tus ventas se facturan igual de fácil" sinClave />
         {/* 4 · Empezar cuesta tres pasos. Sube aquí: la objeción de "¿y qué
