@@ -17,7 +17,7 @@ export function useIrARastreo({ nuevaPestana = false }: { nuevaPestana?: boolean
   };
 }
 
-export default function T1RastreoBuscar({ inicial = "" }: { inicial?: string }) {
+export default function T1RastreoBuscar({ inicial = "", compacto = false }: { inicial?: string; compacto?: boolean }) {
   const [q, setQ] = useState(inicial);
   const ir = useIrARastreo();
   return (
@@ -29,7 +29,7 @@ export default function T1RastreoBuscar({ inicial = "" }: { inicial?: string }) 
       className="mx-auto w-full"
       style={{ maxWidth: 520 }}
     >
-      <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white p-1.5" style={{ boxShadow: "0 16px 40px rgba(0,0,0,0.45)" }}>
+      <div className={`flex items-center gap-2 rounded-full border border-white/10 bg-white ${compacto ? "p-1" : "p-1.5"}`} style={{ boxShadow: "0 16px 40px rgba(0,0,0,0.45)" }}>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="ml-3 shrink-0"><circle cx="11" cy="11" r="7" stroke="rgba(0,0,0,0.4)" strokeWidth="1.8" /><path d="M20 20l-3.2-3.2" stroke="rgba(0,0,0,0.4)" strokeWidth="1.8" strokeLinecap="round" /></svg>
         <input
           value={q}
@@ -37,9 +37,9 @@ export default function T1RastreoBuscar({ inicial = "" }: { inicial?: string }) 
           required
           placeholder="Ingresa tu número de guía"
           aria-label="Número de guía"
-          className="min-w-0 flex-1 bg-transparent px-2 py-2.5 font-inter text-[15px] text-black outline-none placeholder:text-black/40"
+          className={`min-w-0 flex-1 bg-transparent px-2 font-inter text-black outline-none placeholder:text-black/40 ${compacto ? "py-1.5 text-[14px]" : "py-2.5 text-[15px]"}`}
         />
-        <button type="submit" className="shrink-0 rounded-full bg-[#DB3B2B] px-6 py-3 font-inter text-[14px] font-semibold text-white transition-all duration-150 hover:bg-[#C0332A]">
+        <button type="submit" className={`shrink-0 rounded-full bg-[#DB3B2B] font-inter text-[14px] font-semibold text-white transition-all duration-150 hover:bg-[#C0332A] ${compacto ? "px-5 py-2.5" : "px-6 py-3"}`}>
           Rastrear
         </button>
       </div>

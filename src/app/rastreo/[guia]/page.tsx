@@ -28,15 +28,14 @@ export default async function RastreoResultadoPage({ params }: { params: Promise
     <main className="min-h-screen bg-black">
       <T1Navbar ctaLabel="Comienza a enviar" ctaHref={ENVIOS_SIGNUP_URL} product="envios" pageType="sublanding" />
 
-      {/* Banda superior: título + buscar otra guía */}
-      <section className="relative overflow-hidden px-5 pb-40 pt-28 tablet:px-6 tablet:pb-48 tablet:pt-32">
+      {/* Banda superior compacta: solo el buscador (sin título visible, para
+          que el resultado suba y se vea el historial en el primer pantallazo) */}
+      <section className="relative overflow-hidden px-5 pb-40 pt-24 tablet:px-6 tablet:pb-44 tablet:pt-[100px]">
         <HeroBackground fadeHeight={320} />
         <div className="relative z-10 mx-auto flex max-w-[640px] flex-col items-center text-center">
-          <h1 className="font-sora text-[28px] font-light text-white tablet:text-[40px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}>
-            Rastrea tu envío
-          </h1>
-          <div id="buscar-guia" className="mt-6 w-full scroll-mt-28">
-            <T1RastreoBuscar inicial={numero} />
+          <h1 className="sr-only">Rastrea tu envío</h1>
+          <div id="buscar-guia" className="w-full scroll-mt-28">
+            <T1RastreoBuscar inicial={numero} compacto />
           </div>
         </div>
       </section>
