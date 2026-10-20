@@ -7,6 +7,7 @@ import { useCountUp } from "@/hooks/useCountUp";
 import HeroBackground from "@/components/HeroBackground";
 import T1FinalCTA from "@/components/T1FinalCTA";
 import { T1FAQSection } from "@/components/T1FAQ";
+import { useIrARastreo } from "@/components/T1RastreoBuscar";
 
 const MANROPE = "var(--font-manrope-var), 'Manrope', sans-serif";
 
@@ -115,8 +116,10 @@ export default function T1RastreoGuias() {
     return () => observer.disconnect();
   }, []);
 
+  const irARastreo = useIrARastreo({ nuevaPestana: true });
   function handleTrack(e: React.FormEvent) {
     e.preventDefault();
+    irARastreo(query); // → /rastreo/[guia] en una pestaña nueva
   }
 
   return (
@@ -124,15 +127,12 @@ export default function T1RastreoGuias() {
       {/* ════════════ HERO ════════════ */}
       <section className="relative flex items-center overflow-hidden px-5 pt-28 pb-16 tablet:px-10 tablet:pt-20 tablet:pb-10 tablet:h-[660px]">
         <HeroBackground fade={false} />
-        <div className="relative z-10 mx-auto flex w-full max-w-[860px] flex-col items-center text-center">
+        <div className="relative z-10 mx-auto flex w-full max-w-[940px] flex-col items-center text-center">
           {/* Copy + interactive search */}
           <div className="flex w-full flex-col items-center">
             <h1 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[56px]" style={{ lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: 22 }}>
               Rastrea todas tus guías desde{" "}
-              <span className="relative inline-block">
-                T1
-                
-              </span>.
+              <span className="whitespace-nowrap">T1.</span>
             </h1>
             <p className="mx-auto font-inter text-[16px] font-light text-white/70 tablet:text-[19px]" style={{ lineHeight: 1.55, marginBottom: 28, maxWidth: 560 }}>
               Consulta el estado de tus envíos y mantén a tus clientes informados desde un solo lugar.

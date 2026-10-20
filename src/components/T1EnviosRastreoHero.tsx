@@ -1,15 +1,20 @@
-import { ENVIOS_TRACK_URL } from "@/lib/constants";
+"use client";
+
+import { useState } from "react";
+import { useIrARastreo } from "@/components/T1RastreoBuscar";
 import HeroBackground from "@/components/HeroBackground";
 
 /* Hero de la página de Rastreo (réplica de t1.com/mx/track, adaptada a nuestro
-   tema oscuro): número de guía + "Rastrear envío". Form GET nativo hacia
-   ENVIOS_TRACK_URL — el click nunca muere. */
+   tema oscuro): número de guía + "Rastrear envío". Lleva al resultado en
+   /rastreo/[guia]. */
 
 const ArrowRight = (
   <svg width="17" height="17" viewBox="0 0 18 18" fill="none"><path d="M3.75 9h10.5M10 4.75 14.25 9 10 13.25" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
 );
 
 export default function T1EnviosRastreoHero() {
+  const [guia, setGuia] = useState("");
+  const ir = useIrARastreo();
   return (
     <div className="relative z-0">
       <section className="relative flex min-h-[86svh] flex-col items-center justify-center overflow-hidden px-5 pb-0 pt-24 tablet:min-h-[92svh] tablet:px-6 tablet:pt-28">
@@ -27,11 +32,13 @@ export default function T1EnviosRastreoHero() {
 
           {/* Card de rastreo */}
           <div className="mt-8 w-full max-w-[480px] rounded-[18px] bg-[#1D1D1D] p-5 text-left tablet:mt-9 tablet:p-6" style={{ boxShadow: "0 20px 50px rgba(0,0,0,0.30)" }}>
-            <form method="get" action={ENVIOS_TRACK_URL}>
+            <form onSubmit={(e) => { e.preventDefault(); ir(guia); }}>
               <label className="block">
                 <span className="mb-1.5 block font-inter text-[11px] font-semibold uppercase tracking-[0.08em] text-white/50">Número de guía</span>
                 <input
                   name="guia"
+                  value={guia}
+                  onChange={(e) => setGuia(e.target.value)}
                   required
                   placeholder="Ej. 7945123456"
                   aria-label="Número de guía"
