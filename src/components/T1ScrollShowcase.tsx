@@ -180,6 +180,71 @@ export function EnviaCard() {
   );
 }
 
+/* ── Factura — pedidos por facturar; el cursor da clic en "Facturar" uno por
+   uno, cada pedido pasa a "Facturado" y sale el aviso. Se reinicia. ── */
+const FACT_PEDIDOS = [
+  { logo: "/img/circles/ml.svg", canal: "Mercado Libre", total: "$1,890.00" },
+  { logo: "/img/circles/amazon.svg", canal: "Amazon", total: "$899.00" },
+  { logo: "/img/circles/shein.svg", canal: "SHEIN", total: "$459.00" },
+];
+export function FacturaCard() {
+  // paso 0..2: el cursor está sobre el pedido `paso`; los anteriores ya están facturados.
+  // paso 3: todos facturados (pausa) → reinicia.
+  const [paso, setPaso] = useState(0);
+  const [clic, setClic] = useState(false);
+  useEffect(() => {
+    if (paso === 3) {
+      const t = setTimeout(() => setPaso(0), 1800);
+      return () => clearTimeout(t);
+    }
+    const t1 = setTimeout(() => setClic(true), 900);
+    const t2 = setTimeout(() => { setClic(false); setPaso((p) => p + 1); }, 1500);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, [paso]);
+  return (
+    <div className="relative w-[320px] text-left rounded-[18px] border border-white/[0.14] bg-white/[0.06] p-6 backdrop-blur-sm" style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.14)", fontFamily: FONT }}>
+      <p className="text-[14px] font-bold text-white">Pedidos por facturar</p>
+      <div className="mt-4 flex flex-col">
+        {FACT_PEDIDOS.map((p, k) => {
+          const hecho = k < paso;
+          const activo = k === paso;
+          return (
+            <div key={p.canal} className="flex items-center gap-3 border-b border-white/10 py-3 last:border-b-0">
+              <Image src={p.logo} alt="" width={30} height={30} className="h-[30px] w-[30px] shrink-0 rounded-full" />
+              <span className="min-w-0 flex-1 leading-tight">
+                <span className="block truncate text-[13px] font-medium text-white">{p.canal}</span>
+                <span className="block text-[12px] text-white/45">{p.total}</span>
+              </span>
+              {hecho ? (
+                <span className="rounded-full bg-[rgba(74,222,128,0.14)] px-2.5 py-1 text-[11px] font-semibold text-[#4ADE80]" style={{ animation: "fadeSlideIn 0.3s ease-out" }}>Facturado</span>
+              ) : (
+                <span className="relative rounded-[8px] border px-2.5 py-1 text-[11px] font-semibold text-white" style={{ borderColor: activo && clic ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.22)", background: activo && clic ? "rgba(255,255,255,0.10)" : "transparent", transition: "all 0.2s ease" }}>
+                  Facturar
+                  {activo && (
+                    <span className="pointer-events-none absolute z-[6]" style={{ left: "60%", top: "64%" }}>
+                      <span className="absolute rounded-full" style={{ left: -14, top: -14, width: 28, height: 28, border: "2.5px solid rgba(219,59,43,0.85)", animation: "tapRipple 0.9s ease-out infinite" }} />
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="#111827" stroke="white" strokeWidth="1.4" strokeLinejoin="round" style={{ position: "absolute", left: 1, top: 1, filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.35))" }}><path d="M5 2.5l6 17.5 2.3-7.2L20.5 10.5z" /></svg>
+                    </span>
+                  )}
+                </span>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      {/* Aviso de factura emitida */}
+      <div className="mt-4 flex h-[40px] items-center gap-2.5 rounded-[12px] bg-white px-3" style={{ opacity: paso > 0 ? 1 : 0, transform: paso > 0 ? "translateY(0)" : "translateY(6px)", transition: "all 0.3s ease" }}>
+        <span className="flex h-[20px] w-[20px] shrink-0 items-center justify-center rounded-full bg-[#16A34A]">
+          <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        </span>
+        <span key={paso} className="text-[12px] font-semibold text-[#1F1F1F]" style={{ animation: "fadeSlideIn 0.3s ease-out" }}>
+          {paso === 3 ? "3 facturas emitidas" : "Factura emitida"}
+        </span>
+      </div>
+    </div>
+  );
+}
+
 /* ── Card for "Todo en uno" — orbiting product icons around T1 logo ── */
 const ORBIT_ICONS = [
   { src: "/img/icon-tienda.svg", label: "T1 Tienda" },
@@ -345,7 +410,8 @@ const WORDS = [
   { text: "Vende", ctaCopy: "Crea tu tienda con IA y vende en línea y en marketplaces, desde un solo lugar.", ctaLabel: "Crea tu tienda gratis" },
   { text: "Cobra", ctaCopy: "Acepta tarjetas, SPEI y meses sin intereses, o cobra con un link de pago.", ctaLabel: "Comienza a cobrar gratis" },
   { text: "Envía", ctaCopy: "Crea guías con +10 paqueterías a tarifas negociadas por volumen y rastrea todo en un lugar.", ctaLabel: "Comienza a enviar gratis" },
-  { text: "Todo en uno", ctaCopy: "Vende, cobra y envía desde una sola plataforma potenciada con IA.", ctaLabel: "Crea tu cuenta gratis" },
+  { text: "Factura", ctaCopy: "Tus pedidos de Mercado Libre, Amazon y más llegan listos para facturar, y cualquier otra venta la facturas en minutos.", ctaLabel: "Factura gratis" },
+  { text: "Todo en uno", ctaCopy: "Vende, cobra, envía y factura desde una sola plataforma potenciada con IA.", ctaLabel: "Crea tu cuenta gratis" },
 ];
 
 const BG_GRADIENT = "radial-gradient(ellipse at 50% 60%, rgba(226,97,83,0.3) 0%, rgba(226,97,83,0.08) 40%, transparent 70%)";
@@ -417,7 +483,7 @@ export default function T1ScrollShowcase({ bVariant = false }: { bVariant?: bool
     return () => observer.disconnect();
   }, []);
 
-  const cards = [<VendeCard key="v" />, <CobraCard key="c" />, <EnviaCard key="e" />, <TodoEnUnoCard key="t" />];
+  const cards = [<VendeCard key="v" />, <CobraCard key="c" />, <EnviaCard key="e" />, <FacturaCard key="f" />, <TodoEnUnoCard key="t" />];
 
   return (
     <div
