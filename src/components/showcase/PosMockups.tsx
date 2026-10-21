@@ -281,23 +281,148 @@ function Tap({ left = "50%", top = "50%" }: { left?: number | string; top?: numb
   );
 }
 
-/* Animated checkout flow: empty cart → add products → cobrar → tarjeta → paid. */
-const CHECKOUT_ITEMS = [
-  { name: "Playera básica algodón", variant: "Talla: CH", price: "$250.00", img: "/img/playera.png" },
-  { name: "Gorra clásica bordada", variant: "Color: Negro", price: "$250.00", img: "/img/moda-gorra.png" },
+/* ══════════ Nuevo inicio del POS ("Hola, Brenda") ══════════
+   Pantalla de inicio actual del producto: saludo, buscador de producto /
+   orden / cliente con escáner y 4 accesos directos. La venta se arma en el
+   panel "Venta" (desktop) o en la hoja "Nueva venta" (móvil). */
+
+const ATAJOS = [
+  {
+    l: "Generar link de pago",
+    icon: (s: number) => (
+      <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="#DB3B2B" strokeWidth="1.7" strokeLinecap="round"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1 1" /><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1" /></svg>
+    ),
+  },
+  {
+    l: "Órdenes y pedidos",
+    icon: (s: number) => (
+      <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="#111827" strokeWidth="1.6" strokeLinejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" /><path d="M4 7.5l8 4.5 8-4.5M12 12v9" /></svg>
+    ),
+  },
+  {
+    l: "Control de caja",
+    icon: (s: number) => (
+      <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="#374151" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="7" cy="5" r="2.2" /><path d="M3 20l3-3h5l5-4a1.6 1.6 0 0 0-2-2.5l-3 2.2H8l-5 4" /><circle cx="15.5" cy="8" r="2.6" /></svg>
+    ),
+  },
+  {
+    l: "Editar acceso directo",
+    icon: (s: number) => (
+      <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="#374151" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6" /><path d="M17.5 3.5l3 3L12 15l-4 1 1-4z" /></svg>
+    ),
+  },
 ];
 
+function PosAtajos({ compact = false }: { compact?: boolean }) {
+  return (
+    <div className={`grid grid-cols-2 ${compact ? "gap-3" : "gap-4"}`}>
+      {ATAJOS.map((a) => (
+        <div
+          key={a.l}
+          className={`flex flex-col items-center justify-center rounded-[12px] border border-black/[0.07] bg-white text-center ${compact ? "gap-2 px-2 py-4" : "gap-3 py-7"}`}
+          style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}
+        >
+          {a.icon(compact ? 26 : 30)}
+          <span className={`font-inter text-black/70 ${compact ? "text-[11.5px] leading-tight" : "text-[13px]"}`}>{a.l}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function PosBuscador({ texto, compact = false, tap = false }: { texto?: string; compact?: boolean; tap?: boolean }) {
+  return (
+    <div className={`relative flex items-center gap-2 rounded-[12px] border border-black/[0.10] bg-white ${compact ? "px-3" : "px-4"}`} style={{ height: compact ? 38 : 44 }}>
+      <svg width={compact ? 14 : 16} height={compact ? 14 : 16} viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="1.8"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4-4" /></svg>
+      <span className={`flex-1 truncate font-inter ${compact ? "text-[11.5px]" : "text-[13px]"} ${texto ? "text-black/80" : "text-black/40"}`}>{texto || "Buscar producto, orden o cliente..."}</span>
+      {texto && <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6B7280" strokeWidth="1.8"><path d="M6 6l12 12M18 6L6 18" /></svg>}
+      <svg width={compact ? 15 : 17} height={compact ? 15 : 17} viewBox="0 0 24 24" fill="none" stroke="#374151" strokeWidth="1.6"><path d="M4 8V5h3M20 8V5h-3M4 16v3h3M20 16v3h-3M8 8v8M11 8v8M14 8v8M16.5 8v8" /></svg>
+      {tap && <Tap left="40%" top="55%" />}
+    </div>
+  );
+}
+
+/* Resultado de búsqueda (una fila de producto) */
+function PosResultado({ p, compact = false, tap = false }: { p: { name: string; price: string; stock: string; low?: boolean; img: string }; compact?: boolean; tap?: boolean }) {
+  return (
+    <div className="relative flex items-center gap-3" style={{ padding: compact ? "8px 0" : "10px 4px", animation: "fadeSlideIn 0.35s ease-out" }}>
+      <div className={`flex shrink-0 items-center justify-center overflow-hidden rounded-[8px] bg-[#FAFAF9] ${compact ? "h-[38px] w-[38px]" : "h-[44px] w-[44px]"}`}>
+        <Image src={p.img} alt="" width={36} height={30} className="object-contain" />
+      </div>
+      <div className="min-w-0 flex-1">
+        <p className={`truncate font-inter text-black ${compact ? "text-[12px]" : "text-[13px]"}`}>{p.name}</p>
+        <span className={`mt-0.5 inline-block rounded-[5px] px-1.5 py-[1px] font-inter text-[10px] ${p.low ? "bg-[rgba(245,158,11,0.16)] text-[#B45309]" : "text-black/50"}`}>{p.stock}</span>
+      </div>
+      <span className={`font-inter text-black/80 ${compact ? "text-[12px]" : "text-[13px]"}`}>{p.price}</span>
+      <span className="flex h-[24px] w-[24px] items-center justify-center rounded-full border border-black/[0.10]">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="#6B7280"><circle cx="5" cy="12" r="1.8" /><circle cx="12" cy="12" r="1.8" /><circle cx="19" cy="12" r="1.8" /></svg>
+      </span>
+      {tap && <Tap left="34%" top="50%" />}
+    </div>
+  );
+}
+
+/* Productos del flujo de venta (mismos en móvil y desktop) */
+const VENTA_PRODUCTOS = [
+  { name: "Playera básica algodón", price: "$125.00", stock: "1 disponible", low: true, img: "/img/moda-playera.png", qty: 2, total: "$250.00" },
+  { name: "Gorra clásica bordada", price: "$250.00", stock: "120 disponibles", img: "/img/moda-gorra.png", qty: 1, total: "$250.00" },
+];
+
+/* Fila del carrito con control de cantidad y borrar */
+function PosItemVenta({ it, compact = false }: { it: (typeof VENTA_PRODUCTOS)[number]; compact?: boolean }) {
+  return (
+    <div className="flex items-center gap-2.5" style={{ padding: compact ? "7px 0" : "8px 0", animation: "fadeSlideIn 0.35s ease-out" }}>
+      <div className="flex h-[34px] w-[34px] shrink-0 items-center justify-center overflow-hidden rounded-[7px] bg-[#FAFAF9]"><Image src={it.img} alt="" width={28} height={22} className="object-contain" /></div>
+      <div className="min-w-0 flex-1">
+        <p className={`truncate font-inter text-black ${compact ? "text-[11.5px]" : "text-[11.5px]"}`}>{it.name}</p>
+        <span className={`inline-block rounded-[4px] px-1 font-inter text-[9px] ${it.low ? "bg-[rgba(245,158,11,0.16)] text-[#B45309]" : "text-black/50"}`}>{it.stock}</span>
+      </div>
+      <span className="font-inter text-[11px] text-black/80">{it.total}</span>
+      <span className="flex items-center gap-1.5 rounded-full border border-black/[0.10] px-1.5 py-[1px] font-inter text-[10px] text-black/80">- <b className="font-semibold">{it.qty}</b> +</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#374151" strokeWidth="1.6"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M6 7l1 13h10l1-13M10 11v6M14 11v6" /></svg>
+    </div>
+  );
+}
+
+function PosTotales({ compact = false }: { compact?: boolean }) {
+  return (
+    <div className={`rounded-[10px] border border-black/[0.08] font-inter ${compact ? "px-3 py-2 text-[11px]" : "px-3 py-2.5 text-[11.5px]"}`}>
+      <div className="flex justify-between text-black/70"><span>Subtotal</span><span>$431.03</span></div>
+      <div className="mt-1 flex justify-between text-black/70"><span>IVA</span><span>$68.97</span></div>
+      <div className="mt-1 flex justify-between font-semibold text-black"><span>Total</span><span>$500.00</span></div>
+    </div>
+  );
+}
+
+function PosBotonesImporte({ activoDescuento = true }: { activoDescuento?: boolean }) {
+  return (
+    <div className="flex gap-2">
+      {[
+        { l: "Importe", on: !activoDescuento, d: "M12 7v10M9.5 9.5h3.75a1.75 1.75 0 0 1 0 3.5h-2.5a1.75 1.75 0 0 0 0 3.5H15" },
+        { l: "Descuento", on: activoDescuento, d: "M9 15l6-6M9.5 9.5h.01M14.5 14.5h.01" },
+      ].map((b) => (
+        <div key={b.l} className="flex flex-1 flex-col items-center gap-0.5 rounded-[10px] border border-black/[0.10] py-2" style={{ opacity: b.on ? 1 : 0.4 }}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#374151" strokeWidth="1.6" strokeLinecap="round"><circle cx="12" cy="12" r="9" /><path d={b.d} /></svg>
+          <span className="font-inter text-[10.5px] text-black/75">{b.l}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+
 function PosCheckoutDesktop() {
-  // 0 empty · 1 +item1 · 2 +item2 (Cobrar) · 3 método · 4 confirmar · 5 cobro exitoso
+  // 0 inicio (clic en buscar) · 1 busca y agrega playera · 2 busca y agrega gorra
+  // 3 Cobrar · 4 método · 5 confirmar · 6 cobro exitoso
   const [step, setStep] = useState(0);
   useEffect(() => {
-    const durations = [1500, 900, 1400, 2200, 1700, 2700];
-    const t = setTimeout(() => setStep((step + 1) % 6), durations[step]);
+    const durations = [1500, 1500, 1500, 1300, 2200, 1700, 2700];
+    const t = setTimeout(() => setStep((step + 1) % 7), durations[step]);
     return () => clearTimeout(t);
   }, [step]);
 
   const visible = step === 0 ? 0 : step === 1 ? 1 : 2;
-  const modal = step >= 3;
+  const modal = step >= 4;
 
   const RowArrow = () => (
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -328,85 +453,57 @@ function PosCheckoutDesktop() {
           ))}
         </div>
 
-        {/* main */}
-        <div className="flex flex-1 flex-col overflow-hidden px-6 py-5" style={{ filter: modal ? "blur(1.5px)" : "none", opacity: modal ? 0.6 : 1, transition: "opacity 0.3s ease" }}>
-          <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
-            <p className="font-sora text-[22px] font-semibold text-black">La Noria Giftshop</p>
-            <div className="flex items-center gap-2 rounded-[12px] bg-[#DB3B2B] px-4 py-2.5">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2"><path d="M12 5v14M5 12h14" /></svg>
-              <span className="font-inter text-[13px] font-semibold text-white">Crear producto</span>
-            </div>
-          </div>
-          <div className="flex items-center gap-2 rounded-[12px] border border-black/[0.10] px-4" style={{ height: 44, marginBottom: 14 }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="1.8"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4-4" /></svg>
-            <span className="font-inter text-[14px] text-black/40">Buscar producto</span>
-          </div>
-          {DESK_PRODUCTS.map((p) => (
-            <div key={p.name} className="relative flex items-center gap-3 border-b border-black/[0.04]" style={{ height: 56, opacity: p.state === "out" ? 0.45 : 1 }}>
-              <div className="flex h-[40px] w-[40px] shrink-0 items-center justify-center overflow-hidden rounded-[8px] border border-black/[0.05] bg-[#FAFAF9]">
-                <Image src={p.img} alt="" width={32} height={24} className="object-contain" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="truncate font-inter text-[13px] font-medium text-black">{p.name}</p>
-                <p className="font-inter text-[11px] text-black/45">{p.sub}</p>
-              </div>
-              <span className="font-inter text-[13px] font-semibold text-black">{p.price}</span>
-              <div className="flex h-[26px] w-[26px] items-center justify-center rounded-full border border-black/[0.10]">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="#9CA3AF"><circle cx="5" cy="12" r="1.6" /><circle cx="12" cy="12" r="1.6" /><circle cx="19" cy="12" r="1.6" /></svg>
-              </div>
-              {/* tap lands on the product being added to the cart */}
-              {p.name === "Playera básica algodón" && step === 0 && <Tap left="32%" top="50%" />}
-              {p.name === "Gorra clásica bordada" && step === 1 && <Tap left="32%" top="50%" />}
-            </div>
-          ))}
-        </div>
-
-        {/* cart */}
-        <div className="flex flex-col border-l border-black/[0.06] px-4 py-4" style={{ width: 248 }}>
-          <div className="flex items-center justify-between" style={{ marginBottom: 12 }}>
-            <p className="font-sora text-[17px] font-semibold text-black">Carrito</p>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="1.7"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M6 7l1 13h10l1-13" /></svg>
-          </div>
-          {visible === 0 ? (
-            <div className="flex flex-1 items-center justify-center px-4 text-center">
-              <p className="font-inter text-[14px] font-medium text-black/35">No hay productos<br />en el carrito</p>
-            </div>
-          ) : (
-            <>
-              <div className="flex items-center gap-2 rounded-[10px] border border-black/[0.08] px-2.5 py-2" style={{ marginBottom: 14 }}>
-                <span className="flex h-[20px] w-[20px] items-center justify-center rounded-full bg-[#DB3B2B] font-inter text-[9px] font-bold text-white">AE</span>
-                <span className="flex-1 font-inter text-[12px] font-medium text-black">Arturo Elías</span>
-              </div>
-              {CHECKOUT_ITEMS.slice(0, visible).map((it, i) => (
-                <div key={it.name} className="flex items-start gap-2.5" style={{ marginBottom: 14, animation: i === visible - 1 ? "fadeSlideIn 0.4s ease-out" : undefined }}>
-                  <div className="relative h-[34px] w-[34px] shrink-0">
-                    <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-[7px] border border-black/[0.05] bg-[#FAFAF9]"><Image src={it.img} alt="" width={26} height={20} className="object-contain" /></div>
-                    <span className="absolute -left-1 -top-1 flex h-[15px] w-[15px] items-center justify-center rounded-full bg-[#DB3B2B] font-inter text-[8px] font-bold text-white">1</span>
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="font-inter text-[11.5px] font-medium leading-tight text-black">{it.name}</p>
-                    <p className="mt-0.5 font-inter text-[9.5px] text-black/45">{it.variant}</p>
-                  </div>
-                  <span className="font-inter text-[11.5px] font-semibold text-black">{it.price}</span>
-                </div>
-              ))}
-            </>
-          )}
-          <div className="mt-auto">
-            <div className="flex gap-2" style={{ marginBottom: 10 }}>
-              {[{ l: "Importe", d: "M12 6v12M9 9h4.5a1.5 1.5 0 0 1 0 3h-3a1.5 1.5 0 0 0 0 3H15" }, { l: "Descuento", d: "M9 15l6-6M9.5 9.5h.01M14.5 14.5h.01M5 5h14v14H5z" }].map((b) => (
-                <div key={b.l} className="flex flex-1 flex-col items-center gap-1 rounded-[12px] border border-black/[0.10] py-2.5" style={{ opacity: visible === 0 ? 0.5 : 1 }}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B7280" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9" /><path d={b.d} /></svg>
-                  <span className="font-inter text-[11px] text-black/70">{b.l}</span>
-                </div>
-              ))}
-            </div>
-            {visible >= 2 && (
-              <div className="relative flex items-center justify-center rounded-[12px] bg-[#DB3B2B]" style={{ height: 44, animation: "fadeSlideIn 0.4s ease-out" }}>
-                <span className="font-inter text-[14px] font-semibold text-white">Cobrar $500.00</span>
-                {step === 2 && <Tap left="64%" top="56%" />}
+        {/* main — nuevo inicio ("Hola, Brenda") y búsqueda de productos */}
+        <div className="flex flex-1 flex-col overflow-hidden px-6 py-5" style={{ filter: modal ? "blur(1.5px)" : "none", opacity: modal ? 0.6 : 1, transition: "opacity 0.3s" }}>
+          <div className="flex items-center justify-between" style={{ marginBottom: 14, height: 38 }}>
+            <p className="font-sora text-[22px] font-semibold text-black/80">{step === 0 ? "Hola, Brenda" : step === 1 || step >= 3 ? "Playera básica" : "Gorra clásica"}</p>
+            {step > 0 && (
+              <div className="flex items-center gap-2 rounded-[12px] bg-[#DB3B2B] px-4 py-2.5">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2"><path d="M12 5v14M5 12h14" /></svg>
+                <span className="font-inter text-[13px] font-semibold text-white">Crear producto</span>
               </div>
             )}
+          </div>
+          <div style={{ marginBottom: 16 }}>
+            <PosBuscador texto={step === 0 ? "" : step === 2 ? "Gorra clásica" : "Playera básica"} tap={step === 0} />
+          </div>
+          {step === 0 ? (
+            <PosAtajos />
+          ) : (
+            <div key={step === 2 ? "g" : "p"}>
+              <PosResultado p={step === 2 ? VENTA_PRODUCTOS[1] : VENTA_PRODUCTOS[0]} tap={step === 1 || step === 2} />
+            </div>
+          )}
+        </div>
+
+        {/* Venta — panel derecho */}
+        <div className="flex flex-col border-l border-black/[0.06] px-4 py-4" style={{ width: 300, background: "#fff" }}>
+          <div className="flex items-center justify-between" style={{ marginBottom: 10 }}>
+            <p className="font-sora text-[18px] font-semibold text-black/80">Venta</p>
+            <span className="flex items-center gap-1.5 rounded-[9px] border border-black/[0.10] px-2.5 py-1.5 font-inter text-[11px] text-black/80">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#374151" strokeWidth="1.7"><circle cx="10" cy="8" r="3.4" /><path d="M4 20a6 6 0 0 1 12 0M19 8v5M16.5 10.5h5" /></svg>
+              Asignar cliente
+            </span>
+          </div>
+          {visible === 0 ? (
+            <div className="flex flex-1 flex-col items-center justify-center px-3 text-center">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#111827" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 4h2l2.2 10.5h10.6L20 7H6" /><circle cx="9" cy="19" r="1.5" /><circle cx="17" cy="19" r="1.5" /></svg>
+              <p className="mt-2 font-inter text-[15px] font-semibold text-black/80">Agrega productos</p>
+              <p className="mt-1 font-inter text-[11px] text-black/55">Escanea o busca los productos que el cliente quiere comprar</p>
+            </div>
+          ) : (
+            <div className="flex-1 overflow-hidden">
+              {VENTA_PRODUCTOS.slice(0, visible).map((it) => <PosItemVenta key={it.name} it={it} />)}
+            </div>
+          )}
+          <div className="mt-auto flex flex-col gap-2">
+            <PosBotonesImporte activoDescuento={visible > 0} />
+            {visible >= 2 && <PosTotales />}
+            <div className="relative flex items-center justify-center rounded-[12px]" style={{ height: 42, background: visible >= 2 ? "#DB3B2B" : "rgba(219,59,43,0.4)" }}>
+              <span className="font-inter text-[13.5px] font-semibold text-white">{visible >= 2 ? "Cobrar $500.00" : visible === 1 ? "Cobrar $250.00" : "Cobrar $0.00"}</span>
+              {step === 3 && <Tap left="62%" top="56%" />}
+            </div>
+            {visible >= 2 && <p className="text-center font-inter text-[11.5px] font-semibold text-[#DB3B2B]">Vaciar carrito</p>}
           </div>
         </div>
       </div>
@@ -418,7 +515,7 @@ function PosCheckoutDesktop() {
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="1.8" className="absolute right-5 top-5"><path d="M6 6l12 12M18 6L6 18" /></svg>
 
             <div key={step} style={{ animation: "modalContentFade 0.32s ease-out" }}>
-            {step === 3 && (
+            {step === 4 && (
               <>
                 <p className="text-center font-sora text-[15px] font-medium text-black/70" style={{ marginBottom: 2 }}>Monto a cobrar</p>
                 <p className="text-center font-sora text-[40px] font-semibold text-black" style={{ letterSpacing: "-0.02em", marginBottom: 14 }}>$500.00</p>
@@ -438,7 +535,7 @@ function PosCheckoutDesktop() {
               </>
             )}
 
-            {step === 4 && (
+            {step === 5 && (
               <>
                 <p className="text-center font-sora text-[15px] font-medium text-black/70" style={{ marginBottom: 2 }}>Monto a cobrar</p>
                 <p className="text-center font-sora text-[44px] font-semibold text-black" style={{ letterSpacing: "-0.02em", marginBottom: 14 }}>$500.00</p>
@@ -450,7 +547,7 @@ function PosCheckoutDesktop() {
               </>
             )}
 
-            {step === 5 && (
+            {step === 6 && (
               <>
                 <div className="mx-auto flex h-[52px] w-[52px] items-center justify-center rounded-full bg-[#22C55E]" style={{ marginBottom: 10 }}>
                   <svg width="24" height="24" viewBox="0 0 16 16" fill="none"><path d="M3 8L6.5 11.5L13 4.5" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -518,115 +615,68 @@ function PosCheckoutMobile({ liftButtons = false }: { liftButtons?: boolean }) {
   }, [step]);
 
   const screen = step <= 1 ? "list" : step <= 3 ? "cart" : step === 4 ? "confirm" : "success";
-  const NAV = [
-    "M6 2h9l3 3v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z",
-    "M8 4h8v4H8zM6 8h12v12H6z",
-    "M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM5 21a7 7 0 0 1 14 0",
-    "M3 7h18v12H3zM8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2",
-    "M4 7h16M4 12h16M4 17h16",
-  ];
-
   return (
     <div className="relative flex h-full w-full flex-col bg-white font-inter" style={{ width: 300, height: 620 }}>
       <MStatus />
 
-      {/* ── List screen (steps 0–1) ── */}
+      {/* ── Inicio (step 0) y búsqueda (step 1) — nuevo home "Hola, Brenda" ── */}
       {screen === "list" && (
         <div key="list" className="flex flex-1 flex-col overflow-hidden" style={{ animation: "modalContentFade 0.3s ease-out" }}>
-          <div className="flex items-center justify-between px-5" style={{ height: 44 }}>
-            <span className="w-[18px]" />
-            <span className="font-sora text-[15px] font-semibold text-black">La Noria Giftshop</span>
-            <div className="relative">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" strokeWidth="1.7"><path d="M6 6h15l-1.5 9h-12zM6 6L5 3H2M9 20a1 1 0 1 0 0 .01M18 20a1 1 0 1 0 0 .01" /></svg>
-              <span className="absolute -right-1 -top-1 h-[7px] w-[7px] rounded-full bg-[#DB3B2B]" />
-            </div>
+          <div className="flex items-center justify-between px-4" style={{ height: 48 }}>
+            <span className="flex items-center gap-2.5">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#374151" strokeWidth="1.7" strokeLinecap="round"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+              <span className="font-sora text-[15px] font-semibold text-black/80">{step === 0 ? "Hola, Brenda" : "Playera básica"}</span>
+            </span>
+            <span className="flex items-center gap-1.5 rounded-[10px] border border-black/[0.10] px-2.5 py-1.5 font-inter text-[11px] text-black/80">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#374151" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M3 4h2l2.2 10.5h10.6L20 7H6" /><circle cx="9" cy="19" r="1.4" /><circle cx="17" cy="19" r="1.4" /></svg>
+              Nueva venta
+            </span>
           </div>
-          {/* search row */}
-          <div className="flex items-center gap-2 px-4" style={{ marginBottom: 12 }}>
-            <div className="flex flex-1 items-center gap-2 rounded-[11px] bg-black/[0.04] px-3" style={{ height: 38 }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="1.8"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4-4" /></svg>
-              <span className="font-inter text-[12px] text-black/40">Buscar producto</span>
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="1.6" className="ml-auto"><path d="M4 6v12M7 6v12M10 6v12M13 6v12M16 6v12M19 6v12" /></svg>
-            </div>
-            <div className="flex h-[38px] w-[38px] items-center justify-center rounded-[11px] bg-[#DB3B2B]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2"><path d="M12 5v14M5 12h14" /></svg></div>
+          <div className="px-4" style={{ marginBottom: 14 }}>
+            <PosBuscador compact texto={step === 0 ? "" : "Playera básica"} tap={step === 0} />
           </div>
-          {/* tabs */}
-          <div className="flex items-center gap-4 border-b border-black/[0.06] px-4" style={{ marginBottom: 4 }}>
-            <span className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-[8px] border border-black/[0.10]"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6B7280" strokeWidth="1.7"><path d="M8 3v18M8 3L4 7M16 21V3M16 21l4-4" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
-            {["Destacados", "Playeras", "Tenis", "Chamarras"].map((t, i) => (
-              <div key={t} className="relative pb-2.5"><span className={`font-inter text-[12px] ${i === 0 ? "font-semibold text-black" : "text-black/50"}`}>{t}</span>{i === 0 && <span className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full bg-[#DB3B2B]" />}</div>
-            ))}
-          </div>
-          {/* products */}
-          <div className="flex-1 overflow-hidden px-4">
-            {DESK_PRODUCTS.map((p) => (
-              <div key={p.name} className="relative flex items-center gap-3 py-2.5" style={{ opacity: p.state === "out" ? 0.45 : 1 }}>
-                <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center overflow-hidden rounded-[8px] border border-black/[0.05] bg-[#FAFAF9]"><Image src={p.img} alt="" width={30} height={22} className="object-contain" /></div>
-                <div className="min-w-0 flex-1">
-                  <p className="truncate font-inter text-[12px] font-medium text-black">{p.name}</p>
-                  <p className="font-inter text-[12px] font-semibold text-black">{p.price}<span className={`font-normal ${p.state === "low" ? "text-[#B45309]" : p.state === "out" ? "text-[#DB3B2B]" : "text-black/45"}`}> · {p.sub}</span></p>
-                </div>
-                {p.name === "Playera básica algodón" && step === 0 && <Tap left="28%" top="50%" />}
+          {step === 0 ? (
+            <div className="px-4"><PosAtajos compact /></div>
+          ) : (
+            <div className="px-4">
+              <div className="flex gap-4 border-b border-black/[0.06]" style={{ marginBottom: 4 }}>
+                {["Todos", "Productos", "Clientes", "Órdenes"].map((t, k) => (
+                  <span key={t} className={`relative pb-2 font-inter text-[11.5px] ${k === 0 ? "text-black" : "text-black/55"}`}>
+                    {t}
+                    {k === 0 && <span className="absolute inset-x-0 bottom-0 h-[2px] rounded-full bg-[#DB3B2B]" />}
+                  </span>
+                ))}
               </div>
-            ))}
-          </div>
-          {/* cobrar (appears once a product is added) + bottom nav */}
-          {step === 1 && (
-            <div className="relative px-4" style={{ marginBottom: 6 }}>
-              <div className="flex items-center justify-center rounded-[12px] bg-[#DB3B2B]" style={{ height: 44, animation: "fadeSlideIn 0.4s ease-out" }}><span className="font-inter text-[14px] font-semibold text-white">Cobrar $500.00</span></div>
-              <Tap left="50%" top="50%" />
+              <PosResultado compact p={VENTA_PRODUCTOS[0]} tap />
             </div>
           )}
-          <div className="flex items-center justify-around border-t border-black/[0.06] px-2" style={{ height: 52 }}>
-            {NAV.map((d, i) => (
-              <div key={i} className={`flex h-[34px] w-[34px] items-center justify-center rounded-full ${i === 0 ? "bg-[rgba(219,59,43,0.10)]" : ""}`}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={i === 0 ? "#DB3B2B" : "#9CA3AF"} strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d={d} /></svg></div>
-            ))}
-          </div>
         </div>
       )}
 
-      {/* ── Cart screen (steps 2–3) ── */}
+      {/* ── Nueva venta (steps 2–3) ── */}
       {screen === "cart" && (
         <div key="cart" className="flex flex-1 flex-col overflow-hidden" style={{ animation: step === 2 ? "modalContentFade 0.3s ease-out" : undefined, filter: step === 3 ? "blur(1px)" : "none" }}>
-          <div className="flex items-center justify-between px-5" style={{ height: 46 }}>
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#111" strokeWidth="1.8"><path d="M15 5l-7 7 7 7" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            <span className="font-sora text-[15px] font-semibold text-black">Carrito</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B7280" strokeWidth="1.7"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M6 7l1 13h10l1-13" /></svg>
+          <div className="flex items-center justify-between px-4" style={{ height: 48 }}>
+            <span className="flex items-center gap-2">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#111" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M11 6l-6 6 6 6" /></svg>
+              <span className="font-sora text-[15px] font-semibold text-black/80">Nueva venta</span>
+            </span>
+            <span className="flex items-center gap-1.5 rounded-[10px] border border-black/[0.10] px-2.5 py-1.5 font-inter text-[11px] text-black/80">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#374151" strokeWidth="1.7"><circle cx="10" cy="8" r="3.4" /><path d="M4 20a6 6 0 0 1 12 0M19 8v5M16.5 10.5h5" /></svg>
+              Asignar cliente
+            </span>
           </div>
-          <div className="px-4" style={{ marginBottom: 16 }}>
-            <div className="flex items-center gap-2 rounded-[11px] border border-black/[0.10] px-3" style={{ height: 40 }}>
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="1.6"><circle cx="10" cy="8" r="3.2" /><path d="M4 19a6 6 0 0 1 12 0M18 8v5M15.5 10.5h5" /></svg>
-              <span className="font-inter text-[12.5px] text-black/55">Asignar cliente</span>
-            </div>
+          <div className="flex-1 overflow-hidden px-4">
+            {VENTA_PRODUCTOS.map((it) => <PosItemVenta key={it.name} it={it} compact />)}
           </div>
-          <div className="flex-1 px-4">
-            {[
-              { name: "Playera básica algodón", chips: ["Chica", "Azul"], price: "$250.00", img: "/img/playera.png", qty: 2 },
-              { name: "Gorra clásica bordada", chips: ["Negro"], price: "$250.00", img: "/img/moda-gorra.png", qty: 1 },
-            ].map((it) => (
-              <div key={it.name} className="flex items-start gap-3" style={{ marginBottom: 16 }}>
-                <div className="relative h-[38px] w-[38px] shrink-0">
-                  <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-[9px] border border-black/[0.05] bg-[#FAFAF9]"><Image src={it.img} alt="" width={28} height={22} className="object-contain" /></div>
-                  <span className="absolute -left-1.5 -top-1.5 flex h-[16px] w-[16px] items-center justify-center rounded-full bg-[#DB3B2B] font-inter text-[8px] font-bold text-white">{it.qty}</span>
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="font-inter text-[12.5px] font-medium text-black">{it.name}</p>
-                  <div className="mt-1 flex gap-1.5">{it.chips.map((c) => <span key={c} className="rounded-[6px] bg-black/[0.05] px-1.5 py-0.5 font-inter text-[9.5px] text-black/55">{c}</span>)}</div>
-                </div>
-                <span className="font-inter text-[12.5px] font-semibold text-black">{it.price}</span>
-              </div>
-            ))}
-          </div>
-          <div className="px-4" style={{ paddingBottom: 16 + LIFT }}>
-            <div className="flex gap-2.5" style={{ marginBottom: 10 }}>
-              {[{ l: "Importe", d: "M12 6v12M9 9h4.5a1.5 1.5 0 0 1 0 3h-3a1.5 1.5 0 0 0 0 3H15" }, { l: "Descuento", d: "M9 15l6-6M9.5 9.5h.01M14.5 14.5h.01M5 5h14v14H5z" }].map((b) => (
-                <div key={b.l} className="flex flex-1 flex-col items-center gap-1 rounded-[12px] border border-black/[0.10] py-2.5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B7280" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9" /><path d={b.d} /></svg><span className="font-inter text-[11px] text-black/70">{b.l}</span></div>
-              ))}
-            </div>
-            <div className="relative flex items-center justify-center rounded-[12px] bg-[#DB3B2B]" style={{ height: 46 }}>
+          <div className="flex flex-col gap-2 px-4" style={{ paddingBottom: 12 + LIFT }}>
+            <PosBotonesImporte />
+            <PosTotales compact />
+            <div className="relative flex items-center justify-center rounded-[12px] bg-[#DB3B2B]" style={{ height: 44 }}>
               <span className="font-inter text-[14px] font-semibold text-white">Cobrar $500.00</span>
               {step === 2 && <Tap left="50%" top="50%" />}
             </div>
+            <p className="text-center font-inter text-[11.5px] font-semibold text-[#DB3B2B]">Vaciar carrito</p>
           </div>
         </div>
       )}
@@ -731,73 +781,42 @@ function useTyper(active: boolean, text: string, resetKey: number) {
 }
 
 function PosHeroMobile({ cartCount = 0, showNew = false }: { cartCount?: number; showNew?: boolean }) {
-  const NAV = [
-    "M6 2h9l3 3v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z",
-    "M8 4h8v4H8zM6 8h12v12H6z",
-    "M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM5 21a7 7 0 0 1 14 0",
-    "M3 7h18v12H3zM8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2",
-    "M4 7h16M4 12h16M4 17h16",
-  ];
+  /* Nuevo inicio del POS: saludo + "Nueva venta", buscador y accesos directos. */
   return (
     <div className="relative flex h-full w-full flex-col bg-white font-inter" style={{ width: 300, height: 615 }}>
       <MStatus />
-      {/* header */}
-      <div className="flex items-center justify-between px-5" style={{ height: 44 }}>
-        <span className="w-[18px]" />
-        <span className="font-sora text-[15px] font-semibold text-black">La Noria Giftshop</span>
-        <div className="relative">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" strokeWidth="1.7"><path d="M6 6h15l-1.5 9h-12zM6 6L5 3H2M9 20a1 1 0 1 0 0 .01M18 20a1 1 0 1 0 0 .01" /></svg>
-          {cartCount > 0 ? (
-            <span key={cartCount} className="absolute -right-1.5 -top-1.5 flex h-[14px] min-w-[14px] items-center justify-center rounded-full bg-[#DB3B2B] px-[3px] font-inter text-[8px] font-bold text-white" style={{ animation: "countBump 0.4s ease-out" }}>{cartCount}</span>
-          ) : (
-            <span className="absolute -right-1 -top-1 h-[7px] w-[7px] rounded-full bg-[#DB3B2B]" />
+      <div className="flex items-center justify-between gap-2 px-4" style={{ height: 48 }}>
+        <span className="flex min-w-0 items-center gap-2.5">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#374151" strokeWidth="1.7" strokeLinecap="round" className="shrink-0"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+          <span className="max-w-[150px] truncate whitespace-nowrap font-sora text-[15px] font-semibold text-black/80">{showNew ? "Playera Marvelous" : "Hola, Brenda"}</span>
+        </span>
+        <span className="relative flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-[10px] border border-black/[0.10] px-2.5 py-1.5 font-inter text-[11px] text-black/80">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#374151" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M3 4h2l2.2 10.5h10.6L20 7H6" /><circle cx="9" cy="19" r="1.4" /><circle cx="17" cy="19" r="1.4" /></svg>
+          Nueva venta
+          {cartCount > 0 && (
+            <span key={cartCount} className="absolute -right-1.5 -top-1.5 flex h-[15px] min-w-[15px] items-center justify-center rounded-full bg-[#DB3B2B] px-[3px] font-inter text-[8px] font-bold text-white" style={{ animation: "fadeSlideIn 0.3s ease-out" }}>{cartCount}</span>
           )}
-        </div>
+        </span>
       </div>
-      {/* search row */}
-      <div className="flex items-center gap-2 px-4" style={{ marginBottom: 12 }}>
-        <div className="flex flex-1 items-center gap-2 rounded-[11px] bg-black/[0.04] px-3" style={{ height: 38 }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="1.8"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4-4" /></svg>
-          <span className="font-inter text-[12px] text-black/40">Buscar producto</span>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="1.6" className="ml-auto"><path d="M4 6v12M7 6v12M10 6v12M13 6v12M16 6v12M19 6v12" /></svg>
-        </div>
-        <div className="flex h-[38px] w-[38px] items-center justify-center rounded-[11px] bg-[#DB3B2B]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2"><path d="M12 5v14M5 12h14" /></svg></div>
+      <div className="px-4" style={{ marginBottom: 14 }}>
+        <PosBuscador compact texto={showNew ? "Playera Marvelous" : ""} />
       </div>
-      {/* tabs */}
-      <div className="flex items-center gap-4 border-b border-black/[0.06] px-4" style={{ marginBottom: 4 }}>
-        <span className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-[8px] border border-black/[0.10]"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6B7280" strokeWidth="1.7"><path d="M8 3v18M8 3L4 7M16 21V3M16 21l4-4" strokeLinecap="round" strokeLinejoin="round" /></svg></span>
-        {["Destacados", "Playeras", "Tenis", "Chamarras"].map((t, i) => (
-          <div key={t} className="relative pb-2.5"><span className={`font-inter text-[12px] ${i === 0 ? "font-semibold text-black" : "text-black/50"}`}>{t}</span>{i === 0 && <span className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full bg-[#DB3B2B]" />}</div>
-        ))}
-      </div>
-      {/* products */}
-      <div className="flex-1 overflow-hidden px-4">
-        {showNew && (
-          <div key="new" className="relative flex items-center gap-3 rounded-[10px] py-2.5" style={{ background: "rgba(219,59,43,0.06)", animation: "fadeSlideIn 0.5s ease-out both" }}>
-            <div className="ml-1.5 flex h-[38px] w-[38px] shrink-0 items-center justify-center overflow-hidden rounded-[8px] border border-black/[0.05] bg-[#FAFAF9]"><Image src="/img/moda-playera.png" alt="" width={30} height={22} className="object-contain" /></div>
-            <div className="min-w-0 flex-1">
-              <p className="truncate font-inter text-[12px] font-medium text-black">Playera Marvelous</p>
-              <p className="font-inter text-[12px] font-semibold text-black">$2,400.00<span className="font-normal text-black/45"> · 6 disponibles</span></p>
-            </div>
-            <span className="mr-1.5 rounded-[5px] bg-[rgba(34,197,94,0.12)] px-1.5 py-0.5 font-inter text-[8.5px] font-semibold text-[#15803D]">Nuevo</span>
+      {showNew ? (
+        /* Después de crear el producto: la búsqueda lo muestra en la lista, listo para cobrar */
+        <div key="buscar" className="px-4" style={{ animation: "modalContentFade 0.3s ease-out" }}>
+          <div className="flex gap-4 border-b border-black/[0.06]" style={{ marginBottom: 4 }}>
+            {["Todos", "Productos", "Clientes", "Órdenes"].map((t, k) => (
+              <span key={t} className={`relative pb-2 font-inter text-[11.5px] ${k === 0 ? "text-black" : "text-black/55"}`}>
+                {t}
+                {k === 0 && <span className="absolute inset-x-0 bottom-0 h-[2px] rounded-full bg-[#DB3B2B]" />}
+              </span>
+            ))}
           </div>
-        )}
-        {HERO_PRODUCTS.map((p) => (
-          <div key={p.name} className="relative flex items-center gap-3 py-2.5" style={{ opacity: p.state === "out" ? 0.45 : 1 }}>
-            <div className="flex h-[38px] w-[38px] shrink-0 items-center justify-center overflow-hidden rounded-[8px] border border-black/[0.05] bg-[#FAFAF9]"><Image src={p.img} alt="" width={30} height={22} className="object-contain" /></div>
-            <div className="min-w-0 flex-1">
-              <p className="truncate font-inter text-[12px] font-medium text-black">{p.name}</p>
-              <p className="font-inter text-[12px] font-semibold text-black">{p.price}{p.state === "ok" && <span className="font-normal text-black/45"> · {p.sub}</span>}{p.state === "low" && <span className="ml-1.5 rounded-[4px] bg-[rgba(245,158,11,0.12)] px-1 py-0.5 text-[9px] font-semibold text-[#B45309]">{p.sub}</span>}{p.state === "out" && <span className="ml-1.5 rounded-[4px] bg-[rgba(219,59,43,0.10)] px-1 py-0.5 text-[9px] font-semibold text-[#DB3B2B]">{p.sub}</span>}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-      {/* bottom nav */}
-      <div className="flex items-center justify-around border-t border-black/[0.06] px-2" style={{ height: 52 }}>
-        {NAV.map((d, i) => (
-          <div key={i} className={`flex h-[34px] w-[34px] items-center justify-center rounded-full ${i === 0 ? "bg-[rgba(219,59,43,0.10)]" : ""}`}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={i === 0 ? "#DB3B2B" : "#9CA3AF"} strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d={d} /></svg></div>
-        ))}
-      </div>
+          <PosResultado compact p={{ name: "Playera Marvelous", price: "$2,400.00", stock: "6 disponibles", img: "/img/moda-playera.png" }} />
+        </div>
+      ) : (
+        <div className="px-4"><PosAtajos compact /></div>
+      )}
     </div>
   );
 }
