@@ -39,7 +39,7 @@ export default function FinanzasLandingV3() {
 
       <div className="relative z-[5] bg-black">
         {/* 1 · Lo que ganas, y debajo la prueba */}
-        <T1FinanzasBeneficios />
+        <T1FinanzasBeneficios v3 />
         <T1FinanzasProblema sinEncabezado />
         {/* 2 · El diferenciador: los pedidos ya están aquí. OCULTO por ahora
             (decisión de Karla): el video todavía no existe. Para volver a
@@ -65,6 +65,7 @@ export default function FinanzasLandingV3() {
         title={<>Factura gratis desde hoy</>}
         description="Con T1 vendes, cobras, envías y ahora facturas desde un solo lugar."
         buttonLabel="Comienza gratis"
+        nota="25 facturas gratis al mes por negocio. Sin tarjeta."
       />
 
       <T1Footer />

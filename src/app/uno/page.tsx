@@ -5,7 +5,7 @@ import T1IA from "@/components/T1IA";
 export const metadata = {
   title: "Uno, la IA de T1 · Decide con los datos de tu negocio",
   description:
-    "Pregúntale a Uno, la IA de T1, por tus ventas, pedidos, pagos, inventario o facturas y recibe respuestas con tus números. También da de alta productos, genera guías y crea cupones por ti.",
+    "Pregúntale a Uno, la IA de T1, por tus ventas, pedidos, pagos o envíos y recibe respuestas con tus números. También sube tu catálogo, genera guías y crea cupones y links de pago por ti.",
 };
 
 export default function UnoPage() {

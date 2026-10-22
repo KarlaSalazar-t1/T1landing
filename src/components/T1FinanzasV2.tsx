@@ -79,19 +79,24 @@ const BENEFICIOS = [
   {
     icono: IconoChispa,
     dato: "52,513 claves",
+    datoV3: "+52k claves",
     desc: "Escribe tu producto y nuestro sistema inteligente te propone la clave que le toca.",
   },
   {
     icono: IconoRegalo,
     dato: "$0 para empezar",
+    datoV3: "Empieza gratis",
     desc: "25 facturas al mes por negocio, sin tarjeta y sin contratar nada.",
   },
 ];
 
-/* 1 · La primera sección de la v2: el titular, una línea de apoyo y los
-   cuatro beneficios. Debajo va <T1FinanzasProblema sinEncabezado /> con la
-   comparación, así que esta sección cierra sin botón. */
-export function T1FinanzasBeneficios() {
+/* 1 · La primera sección: el titular, una línea de apoyo y los cuatro
+   beneficios. Debajo va <T1FinanzasProblema sinEncabezado /> con la
+   comparación, así que esta sección cierra sin botón.
+
+   `v3` cambia el rótulo de las tarjetas que lo tienen distinto en esa
+   versión; todo lo demás es idéntico. */
+export function T1FinanzasBeneficios({ v3 = false }: { v3?: boolean }) {
   return (
     <section className="relative overflow-hidden bg-black px-5 pb-[48px] pt-[56px] tablet:px-6 tablet:pb-[64px] tablet:pt-[72px]">
       <div
@@ -120,7 +125,7 @@ export function T1FinanzasBeneficios() {
               <div className="flex items-center gap-3" style={{ marginBottom: 14 }}>
                 <span className="shrink-0 text-white">{b.icono}</span>
                 <h3 className="font-sora text-[19px] font-normal text-white tablet:text-[21px]" style={{ letterSpacing: "-0.02em" }}>
-                  {b.dato}
+                  {v3 && b.datoV3 ? b.datoV3 : b.dato}
                 </h3>
               </div>
               <p className="font-inter text-[14px] font-light text-white/55" style={{ lineHeight: 1.6 }}>

@@ -8,6 +8,9 @@ interface T1FinalCTAProps {
   description: string;
   buttonLabel?: string;
   buttonHref?: string;
+  /* Línea chica debajo del botón, para lo que quita el miedo a dar clic:
+     en Finanzas, las 25 facturas gratis. */
+  nota?: string;
 }
 
 /**
@@ -23,6 +26,7 @@ export default function T1FinalCTA({
   description,
   buttonLabel = "Comienza gratis",
   buttonHref = SIGNUP_URL,
+  nota,
 }: T1FinalCTAProps) {
   const innerRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
@@ -84,6 +88,12 @@ export default function T1FinalCTA({
         >
           {buttonLabel}
         </a>
+
+        {nota && (
+          <p className="font-inter text-[13.5px] font-light text-white/40 tablet:text-[14.5px]" style={{ marginTop: 18 }}>
+            {nota}
+          </p>
+        )}
       </div>
     </section>
   );

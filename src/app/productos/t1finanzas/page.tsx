@@ -61,6 +61,7 @@ export default function FinanzasLanding() {
         title={<>Factura gratis desde hoy</>}
         description="Con T1 vendes, cobras, envías y ahora facturas desde un solo lugar."
         buttonLabel="Comienza gratis"
+        nota="25 facturas gratis al mes por negocio. Sin tarjeta."
       />
 
       <T1Footer />

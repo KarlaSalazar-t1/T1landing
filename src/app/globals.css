@@ -923,6 +923,7 @@ body {
 @media (prefers-reduced-motion: reduce) { .bar-grow { animation: none; transform: scaleX(1); } }
 
 @keyframes pilarProgress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes pilarProgressY { from { transform: scaleY(0); } to { transform: scaleY(1); } }
 
 @keyframes speedDash {
   0% { transform: translateX(8px); opacity: 0; }
