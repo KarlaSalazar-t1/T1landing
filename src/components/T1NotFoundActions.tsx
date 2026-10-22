@@ -4,51 +4,58 @@ import { useEffect } from "react";
 import { track } from "@/lib/analytics";
 
 const LINKS = [
-  { name: "T1 Tienda", href: "/productos/t1tienda" },
-  { name: "T1 Envíos", href: "/productos/t1envios" },
-  { name: "T1 Pagos", href: "/productos/t1pagos" },
-  { name: "T1 POS", href: "/productos/t1pos" },
-  { name: "T1 Finanzas", href: "/productos/t1finanzas" },
+  { name: "T1 Tienda", desc: "Crea y vende en línea", href: "/productos/t1tienda" },
+  { name: "T1 Envíos", desc: "Envía al mejor precio", href: "/productos/t1envios" },
+  { name: "T1 Pagos", desc: "Cobra en línea", href: "/productos/t1pagos" },
+  { name: "T1 POS", desc: "Vende en tu tienda física", href: "/productos/t1pos" },
+  { name: "T1 Finanzas", desc: "Factura tus ventas", href: "/productos/t1finanzas" },
 ];
 
-/* Acciones de la 404: un solo CTA al home general + accesos a productos.
-   Sin botón "atrás": quien venía navegando ya tiene el back del navegador, y a
-   quien llega de fuera lo sacaría de T1. */
-export default function T1NotFoundActions() {
+const onClick = (target: string) => track("404_click", { target, path: window.location.pathname });
+
+/* CTA único al home general. Sin botón "atrás": quien venía navegando ya
+   tiene el back del navegador, y a quien llega de fuera lo sacaría de T1. */
+export function T1NotFoundHomeCTA() {
   useEffect(() => {
     track("404_view", { path: window.location.pathname, referrer: document.referrer || null });
   }, []);
 
-  const onClick = (target: string) => track("404_click", { target, path: window.location.pathname });
-
   return (
-    <>
-      <a
-        href="/"
-        onClick={() => onClick("home")}
-        className="inline-flex h-[46px] w-[160px] items-center justify-center rounded-full bg-[#DB3B2B] tablet:h-[48px] tablet:w-[172px] font-inter text-[14px] font-semibold text-white no-underline transition-all duration-200 hover:scale-[1.03] hover:bg-[#C0332A]"
-      >
-        Ve al inicio
-      </a>
+    <a
+      href="/"
+      onClick={() => onClick("home")}
+      className="inline-flex h-[46px] items-center justify-center rounded-full bg-[#DB3B2B] px-7 font-inter text-[14px] font-semibold text-white no-underline transition-all duration-200 hover:scale-[1.03] hover:bg-[#C0332A] tablet:h-[48px]"
+    >
+      Vuelve al inicio
+    </a>
+  );
+}
 
-      {/* Accesos directos: pills con borde + flecha para que lean como links,
-          hover en coral como el mega menú. */}
-      <nav aria-label="Productos de T1" className="mt-10 flex w-full max-w-[880px] flex-col items-center gap-4 border-t border-white/[0.10] pt-6 tablet:mt-14 tablet:pt-8">
-        <p className="font-inter text-[14px] font-normal text-white/50">Sigue navegando por T1</p>
-        <div className="flex flex-wrap items-center justify-center gap-2">
-          {LINKS.map((l) => (
+/* Lista de productos (referencia: 404 de Shopify) — filas con nombre,
+   descripción y flecha (sin círculo), separadas por línea. Toda la fila es link. */
+export function T1NotFoundLinks() {
+  return (
+    <nav aria-label="Productos de T1" className="w-full">
+      <p className="mb-2 font-inter text-[13px] font-normal text-white/55 tablet:text-[14px]">Sigue navegando por T1</p>
+      <ul className="m-0 list-none p-0">
+        {LINKS.map((l) => (
+          <li key={l.href} className="border-b border-white/15 last:border-b-0">
             <a
-              key={l.href}
               href={l.href}
               onClick={() => onClick(l.href)}
-              className="group inline-flex h-[36px] items-center gap-1.5 rounded-full border border-white/15 px-3.5 font-inter text-[13px] tablet:h-[40px] tablet:px-4 tablet:text-[14px] font-normal text-white/85 no-underline transition-colors duration-150 hover:border-[#FF6F5E]/60 hover:text-[#FF6F5E]"
+              className="group flex items-center justify-between gap-4 py-3 no-underline tablet:py-4"
             >
-              {l.name}
-              <svg className="text-white/40 transition-all duration-150 group-hover:translate-x-0.5 group-hover:text-[#FF6F5E]" width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M5.25 3.5L8.75 7L5.25 10.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              <span className="flex flex-col gap-0.5">
+                <span className="font-sora text-[19px] font-light text-white transition-colors duration-150 group-hover:text-[#FFB4A8] tablet:text-[24px]" style={{ letterSpacing: "-0.02em" }}>
+                  {l.name}
+                </span>
+                <span className="font-inter text-[13px] font-light text-white/55 tablet:text-[14px]">{l.desc}</span>
+              </span>
+              <svg className="shrink-0 text-white/60 transition-all duration-200 group-hover:translate-x-1 group-hover:text-[#FFB4A8]" width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </a>
-          ))}
-        </div>
-      </nav>
-    </>
+          </li>
+        ))}
+      </ul>
+    </nav>
   );
 }
