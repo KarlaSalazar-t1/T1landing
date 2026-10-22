@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { SALES_URL, SIGNUP_URL } from "@/lib/constants";
+import { SIGNUP_URL } from "@/lib/constants";
 import HeroBackground from "@/components/HeroBackground";
 import T1FinalCTA from "@/components/T1FinalCTA";
 import { T1FAQSection } from "@/components/T1FAQ";
@@ -685,10 +685,10 @@ export default function T1IA() {
               <h1 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[60px]" style={{ lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: 22 }}>
                 Decide en segundos con{" "}
                 <span className="inline-flex items-center gap-2.5 whitespace-nowrap align-middle font-normal" style={{ color: "#FFB3A6" }}>
+                  Uno
                   <span className="inline-block h-[40px] w-[40px] tablet:h-[54px] tablet:w-[54px] lg:h-[66px] lg:w-[66px]">
                     <Image src="/img/uno-avatar.svg" alt="" width={66} height={66} className="h-full w-full" unoptimized priority />
                   </span>
-                  Uno
                 </span>
               </h1>
               <p className="font-inter text-[16px] font-light text-white/70 tablet:text-[19px]" style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 480 }}>
@@ -697,9 +697,6 @@ export default function T1IA() {
               <div className="flex flex-wrap items-center gap-3">
                 <a href={SIGNUP_URL} className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
                   Comienza gratis
-                </a>
-                <a href={SALES_URL} className="inline-flex items-center rounded-[14px] border border-white/25 px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:border-white/50 hover:bg-white/[0.06]">
-                  Habla con ventas
                 </a>
               </div>
             </div>
@@ -717,6 +714,18 @@ export default function T1IA() {
       <section className="relative bg-white px-5 py-20 tablet:px-10 tablet:py-24">
         <div className="mx-auto max-w-[1040px]">
           <div data-modal-animate className="mx-auto max-w-[720px] text-center" style={{ marginBottom: 48 }}>
+            {/* Avatar animado de Uno. El video trae fondo blanco (sin
+                transparencia): mix-blend-multiply lo funde con el fondo, así
+                que SOLO sirve en secciones claras. */}
+            <video
+              src="/video/uno-avatar.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              aria-hidden
+              className="mx-auto mb-4 h-[96px] w-[96px] mix-blend-multiply tablet:h-[120px] tablet:w-[120px]"
+            />
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
               Un experto en tu negocio
             </h2>
