@@ -26,7 +26,7 @@ const PRODUCT_SWITCHER: { key: ProductKey; name: string; desc: string; href: str
   { key: "envios", name: "T1 Envíos", desc: "Envía al mejor precio", href: "/productos/t1envios" },
   { key: "pagos", name: "T1 Pagos", desc: "Cobra en línea", href: "/productos/t1pagos" },
   { key: "pos", name: "T1 POS", desc: "Vende en tu tienda física", href: "/productos/t1pos" },
-  { key: "finanzas", name: "T1 Finanzas", desc: "Factura tus ventas", href: "/productos/t1finanzas" },
+  { key: "finanzas", name: "T1 Finanzas", desc: "Factura tus ventas", href: "/productos/t1finanzas/v3" },
 ];
 
 

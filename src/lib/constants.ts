@@ -113,7 +113,7 @@ export const MEGA_MENU_COLUMNS: MegaMenuColumn[] = [
   },
   {
     title: "T1 Finanzas",
-    href: "/productos/t1finanzas",
+    href: "/productos/t1finanzas/v3",
     /* Sin temas: Finanzas todavía no tiene sublandings y no se inventan
        ligas. Cuando existan, se llena `items` como en las otras columnas. */
     desc: "Tus pedidos llegan listos para facturar y cualquier otra venta la facturas en minutos.",
@@ -160,7 +160,7 @@ export const FOOTER_COLUMNS = [
       { label: "T1 Envíos", href: "/productos/t1envios" },
       { label: "T1 Pagos", href: "/productos/t1pagos" },
       { label: "T1 POS", href: "/productos/t1pos" },
-      { label: "T1 Finanzas", href: "/productos/t1finanzas" },
+      { label: "T1 Finanzas", href: "/productos/t1finanzas/v3" },
     ],
   },
   {
