@@ -419,12 +419,13 @@ function UnoPanel({ convo, runKey, bodyH }: { convo: Convo; runKey: string | num
 
 /* Uno dentro de un teléfono — para las secciones de preguntar y pedir.
    Alto fijo: el hilo se desplaza dentro de la pantalla si no cabe. */
-function UnoPhone({ convo, runKey, dark = false, height = 600 }: { convo: Convo; runKey: string | number; dark?: boolean; height?: number }) {
+/* `heightClass` deja el teléfono más bajo en celular para que quepa en la
+   pantalla junto con las pestañas que lo controlan. */
+function UnoPhone({ convo, runKey, dark = false, heightClass = "h-[520px] tablet:h-[600px]" }: { convo: Convo; runKey: string | number; dark?: boolean; heightClass?: string }) {
   return (
     <div
-      className="relative mx-auto w-[300px] shrink-0 rounded-[46px] p-[10px]"
+      className={`relative mx-auto w-[290px] shrink-0 rounded-[46px] p-[10px] tablet:w-[300px] ${heightClass}`}
       style={{
-        height,
         background: dark ? "#2A2A2C" : "#111111",
         boxShadow: dark
           ? "0 0 0 1px rgba(255,255,255,0.14), 0 40px 80px -20px rgba(219,59,43,0.25)"
@@ -462,6 +463,48 @@ function HeroChat() {
   return <UnoPanel convo={HERO_CONVOS[i]} runKey={i} bodyH={330} />;
 }
 
+/* Fila de pestañas para celular: va pegada arriba del teléfono y se desliza
+   de lado, así lo que tocas y lo que cambia se ven en la misma pantalla. La
+   activa se centra sola cuando avanza el carrusel. */
+function MobileChips({ labels, active, onPick, dark = false }: { labels: string[]; active: number; onPick: (i: number) => void; dark?: boolean }) {
+  const rowRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const fila = rowRef.current;
+    const pill = fila?.querySelector<HTMLElement>(`[data-pill="${active}"]`);
+    if (!fila || !pill) return;
+    fila.scrollTo({ left: Math.max(0, pill.offsetLeft - (fila.clientWidth - pill.clientWidth) / 2), behavior: "smooth" });
+  }, [active]);
+  return (
+    <div ref={rowRef} className="-mx-5 mb-5 flex gap-2 overflow-x-auto px-5 pb-1 tablet:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      {labels.map((l, i) => {
+        const on = i === active;
+        return (
+          <button
+            key={l}
+            type="button"
+            data-pill={i}
+            onClick={() => onPick(i)}
+            className={`shrink-0 cursor-pointer whitespace-nowrap rounded-[12px] border font-inter transition-all duration-200 ${on ? "font-semibold" : "font-medium"}`}
+            style={dark ? {
+              padding: "9px 16px", fontSize: 13.5,
+              color: on ? "#0e0d0d" : "rgba(255,255,255,0.65)",
+              background: on ? "#ffffff" : "rgba(52,52,52,0.55)",
+              borderColor: on ? "#ffffff" : "rgba(255,255,255,0.10)",
+            } : {
+              padding: "9px 16px", fontSize: 13.5,
+              color: on ? "#ffffff" : "rgba(0,0,0,0.65)",
+              background: on ? "#111111" : "#ffffff",
+              borderColor: on ? "#111111" : "rgba(0,0,0,0.10)",
+            }}
+          >
+            {l}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
 /* ── "Tus números, en segundos" — lista de preguntas tipo pestañas
    verticales: solo la activa se abre y muestra la pregunta, con una barra
    que avanza y pasa sola a la siguiente (como los pilares de Finanzas). ── */
@@ -489,16 +532,17 @@ function PreguntasSection() {
   }, [demo, run, started]);
 
   return (
-    <section ref={sectionRef} className="relative bg-[#FBFBFB] px-5 py-16 tablet:px-10 tablet:py-20">
-      <div data-modal-animate className="mx-auto grid max-w-[920px] grid-cols-1 items-center gap-10 tablet:grid-cols-[minmax(0,420px)_300px] tablet:justify-between tablet:gap-16">
+    <section ref={sectionRef} className="relative bg-[#FBFBFB] px-5 py-14 tablet:px-10 tablet:py-20">
+      <div data-modal-animate className="mx-auto grid max-w-[920px] grid-cols-1 items-center gap-0 tablet:grid-cols-[minmax(0,420px)_300px] tablet:justify-between tablet:gap-16">
         <div>
           <h2 className="text-center font-sora text-[28px] font-light text-black tablet:text-left tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 12 }}>
             Tus números, en segundos
           </h2>
-          <p className="text-center font-inter text-[16px] font-light text-black/60 tablet:text-left tablet:text-[18px]" style={{ lineHeight: 1.5, marginBottom: 32 }}>
+          <p className="mb-6 text-center font-inter text-[16px] font-light text-black/60 tablet:mb-8 tablet:text-left tablet:text-[18px]" style={{ lineHeight: 1.5 }}>
             Pregúntale a Uno lo que quieras saber de tu negocio.
           </p>
-          <div className="flex flex-col">
+          <MobileChips labels={PREGUNTAS.map((a) => a.chip)} active={demo} onPick={(k) => { setDemo(k); setRun((r) => r + 1); }} />
+          <div className="hidden flex-col tablet:flex">
             {PREGUNTAS.map((a, k) => {
               const on = k === demo;
               return (
@@ -544,7 +588,6 @@ function PedidosSection() {
   const [active, setActive] = useState(0);
   const [started, setStarted] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
-  const pillsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -560,20 +603,12 @@ function PedidosSection() {
     return () => clearTimeout(timer);
   }, [active, started]);
 
-  // En móvil la pestaña activa se acomoda sola dentro de la fila deslizable.
-  useEffect(() => {
-    const fila = pillsRef.current;
-    const pill = fila?.querySelector<HTMLElement>(`[data-pill="${active}"]`);
-    if (!fila || !pill) return;
-    fila.scrollTo({ left: Math.max(0, pill.offsetLeft - (fila.clientWidth - pill.clientWidth) / 2), behavior: "smooth" });
-  }, [active]);
-
   const it = PEDIDOS[active];
 
   return (
     <section ref={sectionRef} className="relative overflow-hidden bg-black px-5 tablet:px-6" style={{ paddingTop: 72, paddingBottom: 72 }}>
       <div className="relative mx-auto max-w-[var(--max-w)]">
-        <div className="mx-auto max-w-[760px] text-center" style={{ marginBottom: 44 }}>
+        <div className="mx-auto mb-6 max-w-[760px] text-center tablet:mb-11">
           <h2 className="font-sora text-[28px] font-light text-white tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
             Pídelo y queda hecho
           </h2>
@@ -582,13 +617,17 @@ function PedidosSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 items-center gap-8 tablet:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] tablet:gap-14">
-          <div className="order-2 flex justify-center tablet:order-1">
-            {started ? <UnoPhone convo={it} runKey={active} dark height={540} /> : <div style={{ height: 540 }} />}
+        {/* Celular: pestañas pegadas arriba del teléfono */}
+        <p className="mb-3 text-center font-inter text-[13px] font-medium text-white/50 tablet:hidden">Elige qué pedirle a Uno</p>
+        <MobileChips labels={PEDIDOS.map((t) => t.chip)} active={active} onPick={setActive} dark />
+
+        <div className="grid grid-cols-1 items-center gap-6 tablet:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] tablet:gap-14">
+          <div className="flex justify-center">
+            {started ? <UnoPhone convo={it} runKey={active} dark heightClass="h-[520px] tablet:h-[540px]" /> : <div className="h-[520px] tablet:h-[540px]" />}
           </div>
-          <div className="order-1 flex flex-col tablet:order-2">
-            <p className="mb-3 text-center font-inter text-[13px] font-medium text-white/50 tablet:text-left">Elige qué pedirle a Uno</p>
-            <div ref={pillsRef} className="-mx-5 mb-8 flex gap-2 overflow-x-auto px-5 pb-1 tablet:mx-0 tablet:max-w-[440px] tablet:flex-wrap tablet:overflow-visible tablet:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex flex-col">
+            <p className="mb-3 hidden font-inter text-[13px] font-medium text-white/50 tablet:block">Elige qué pedirle a Uno</p>
+            <div className="mb-8 hidden max-w-[440px] flex-wrap gap-2 tablet:flex">
               {PEDIDOS.map((t, i) => {
                 const on = i === active;
                 return (
@@ -612,14 +651,14 @@ function PedidosSection() {
                 );
               })}
             </div>
-            <div key={it.chip} className="flex flex-1 flex-col text-center tablet:text-left" style={{ animation: "fadeSlideIn 0.4s ease-out", minHeight: 200 }}>
-              <h3 className="mx-auto font-sora text-[22px] font-normal text-white tablet:mx-0 tablet:text-[30px]" style={{ letterSpacing: "-0.02em", lineHeight: 1.2, marginBottom: 12, maxWidth: 420 }}>
+            <div key={it.chip} className="flex flex-1 flex-col text-center tablet:min-h-[200px] tablet:text-left" style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
+              <h3 className="mx-auto font-sora text-[20px] font-normal text-white tablet:mx-0 tablet:text-[30px]" style={{ letterSpacing: "-0.02em", lineHeight: 1.2, marginBottom: 12, maxWidth: 420 }}>
                 {it.title}
               </h3>
               <p className="mx-auto font-inter text-[15px] font-light leading-relaxed text-white/60 tablet:mx-0 tablet:text-[17px]" style={{ maxWidth: 420 }}>
                 {it.desc}
               </p>
-              <div className="mx-auto mt-auto h-[3px] w-full max-w-[420px] overflow-hidden rounded-full tablet:mx-0" style={{ background: "rgba(255,255,255,0.10)" }}>
+              <div className="mx-auto mt-6 h-[3px] w-full max-w-[420px] overflow-hidden rounded-full tablet:mx-0 tablet:mt-auto" style={{ background: "rgba(255,255,255,0.10)" }}>
                 <div
                   key={active}
                   style={{ height: "100%", width: "100%", background: "#DB3B2B", transformOrigin: "left", animation: started ? `pilarProgress ${DURATION}ms linear forwards` : "none", transform: started ? undefined : "scaleX(0)" }}
@@ -711,9 +750,9 @@ export default function T1IA() {
       </section>
 
       {/* ── Intro — qué es Uno en un vistazo, antes de los demos ── */}
-      <section className="relative bg-white px-5 py-20 tablet:px-10 tablet:py-24">
+      <section className="relative bg-white px-5 py-14 tablet:px-10 tablet:py-24">
         <div className="mx-auto max-w-[1040px]">
-          <div data-modal-animate className="mx-auto max-w-[720px] text-center" style={{ marginBottom: 48 }}>
+          <div data-modal-animate className="mx-auto mb-8 max-w-[720px] text-center tablet:mb-12">
             {/* Avatar animado de Uno. El video trae fondo blanco (sin
                 transparencia): mix-blend-multiply lo funde con el fondo, así
                 que SOLO sirve en secciones claras. */}
@@ -739,7 +778,7 @@ export default function T1IA() {
               { title: "Pídele", desc: "Crea cupones, links de pago y guías, o sube tu catálogo.", icon: <path d="M13 3L5 13h6l-1 8 8-10h-6l1-8z" /> },
               { title: "Tú decides", desc: "Nada cambia en tu negocio hasta que lo confirmas.", icon: <><circle cx="12" cy="12" r="9" /><path d="M8 12.3l2.8 2.8L16.2 9.5" /></> },
             ].map((c, i) => (
-              <div key={c.title} data-stagger style={{ ["--i" as string]: i }} className="flex flex-col rounded-[20px] border border-black/[0.06] bg-[#FBFBFB] p-6">
+              <div key={c.title} data-stagger style={{ ["--i" as string]: i }} className="flex flex-col rounded-[20px] border border-black/[0.06] bg-[#FBFBFB] p-5 tablet:p-6">
                 <div className="flex items-center gap-3" style={{ marginBottom: 14 }}>
                   {/* Ícono en oxford, mismo trazo que los beneficios de Finanzas */}
                   <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1E2939" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" className="shrink-0" aria-hidden>{c.icon}</svg>
@@ -756,9 +795,9 @@ export default function T1IA() {
       <PreguntasSection />
 
       {/* ── Tienda, Pagos y Envíos en el mismo chat ── */}
-      <section className="relative bg-white px-5 py-24 tablet:px-10 tablet:py-28">
+      <section className="relative bg-white px-5 py-16 tablet:px-10 tablet:py-28">
         <div className="mx-auto max-w-[var(--max-w)]">
-          <div data-modal-animate className="mx-auto max-w-[760px] text-center" style={{ marginBottom: 48 }}>
+          <div data-modal-animate className="mx-auto mb-8 max-w-[760px] text-center tablet:mb-12">
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
               Todo tu negocio en una sola conversación
             </h2>
@@ -766,9 +805,9 @@ export default function T1IA() {
               Uno vive en cada administrador de T1 y conoce toda tu operación.
             </p>
           </div>
-          <div data-modal-animate className="mx-auto grid max-w-[1040px] grid-cols-1 gap-5 tablet:grid-cols-3">
+          <div data-modal-animate className="-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden tablet:mx-auto tablet:grid tablet:max-w-[1040px] tablet:grid-cols-3 tablet:gap-5 tablet:overflow-visible tablet:px-0 tablet:pb-0">
             {SOURCES.map((s, i) => (
-              <div key={s.alt} data-stagger style={{ ["--i" as string]: i }} className="tienda-card flex flex-col rounded-[20px] border border-black/[0.06] bg-[#FBFBFB] p-6">
+              <div key={s.alt} data-stagger style={{ ["--i" as string]: i }} className="tienda-card flex w-[82%] shrink-0 snap-center flex-col rounded-[20px] border border-black/[0.06] bg-[#FBFBFB] p-6 tablet:w-auto">
                 <Image src={s.logo} alt={s.alt} width={s.w} height={42} className="h-[30px] w-auto self-start" style={{ marginBottom: 14 }} />
                 <p className="font-inter text-[14px] font-light text-black/60" style={{ lineHeight: 1.6, marginBottom: 20 }}>{s.knows}</p>
                 <div className="mt-auto">

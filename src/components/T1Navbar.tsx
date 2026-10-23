@@ -456,7 +456,10 @@ export default function T1Navbar({ ctaLabel = "Comienza gratis", ctaHref = SIGNU
                     <a href={col.href} className="font-inter text-[15px] font-semibold text-white no-underline">
                       {col.title}
                     </a>
-                    <div className="mt-3 flex flex-col gap-3">
+                    {col.items.length === 0 && col.desc && (
+                      <p className="mt-1.5 font-inter text-[12px] font-light leading-snug text-white/45">{col.desc}</p>
+                    )}
+                    <div className={col.items.length ? "mt-3 flex flex-col gap-3" : "hidden"}>
                       {col.items.map((item) => (
                         <a
                           key={item.title}
