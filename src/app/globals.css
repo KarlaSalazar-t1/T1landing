@@ -924,6 +924,7 @@ body {
 
 @keyframes pilarProgress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes pilarProgressY { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes unoScan { 0% { top: 0; } 50% { top: calc(100% - 2px); } 100% { top: 0; } }
 
 @keyframes speedDash {
   0% { transform: translateX(8px); opacity: 0; }
