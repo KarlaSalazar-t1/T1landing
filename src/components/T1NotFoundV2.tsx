@@ -64,13 +64,11 @@ export default function T1NotFoundV2() {
                 onClick={() => onClick(c.href)}
                 className="group relative flex flex-col rounded-[16px] border border-white/[0.12] bg-white/[0.06] p-4 no-underline backdrop-blur-sm transition-all duration-200 hover:border-white/25 hover:bg-white/[0.10] tablet:rounded-[20px] tablet:p-6"
               >
-                <span className="mb-3 flex h-[36px] w-[36px] items-center justify-center rounded-[10px] bg-white/[0.10] transition-colors duration-200 group-hover:bg-[#DB3B2B] tablet:mb-5 tablet:h-[44px] tablet:w-[44px] tablet:rounded-[12px]">
-                  <span
-                    aria-hidden
-                    className="block h-[22px] w-[22px] bg-white tablet:h-[26px] tablet:w-[26px]"
-                    style={{ WebkitMask: `url(${c.icon}) center / contain no-repeat`, mask: `url(${c.icon}) center / contain no-repeat` }}
-                  />
-                </span>
+                <span
+                  aria-hidden
+                  className="mb-3 block h-[26px] w-[26px] bg-white transition-colors duration-200 group-hover:bg-[#FFB4A8] tablet:mb-5 tablet:h-[32px] tablet:w-[32px]"
+                  style={{ WebkitMask: `url(${c.icon}) left center / contain no-repeat`, mask: `url(${c.icon}) left center / contain no-repeat` }}
+                />
                 <span className="flex items-center gap-1.5 font-sora text-[16px] font-normal text-white tablet:text-[20px]" style={{ letterSpacing: "-0.02em" }}>
                   {c.name}
                   <svg className="text-white/40 transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-white" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5.25 3.5L8.75 7L5.25 10.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>

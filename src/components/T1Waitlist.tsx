@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import T1Footer from "@/components/T1Footer";
+import HeroBackground from "@/components/HeroBackground";
 
 /* ── T1 logo (coral wordmark) ── */
 function T1Logo() {
@@ -19,7 +20,9 @@ function T1Logo() {
   );
 }
 
-export default function T1Waitlist() {
+/* `fondo`: "blobs" = manchas rojo/azul/morado sobre negro (original);
+   "hero" = degradado cálido compartido de los heroes (HeroBackground). */
+export default function T1Waitlist({ fondo = "blobs" }: { fondo?: "blobs" | "hero" }) {
   const [email, setEmail] = useState("");
   const [done, setDone] = useState(false);
 
@@ -45,11 +48,15 @@ export default function T1Waitlist() {
       {/* Waitlist hero — IA-style red/blue blobs on black. The country selector
           lives in the footer below (same place as the rest of the site). */}
       <section className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-5 pb-20 pt-[110px] text-center">
-        <div className="pointer-events-none absolute inset-0 z-0">
-          <div className="absolute" style={{ top: "-12%", left: "0%", width: 580, height: 580, borderRadius: "50%", background: "radial-gradient(circle, rgba(219,59,43,0.46) 0%, transparent 62%)", filter: "blur(100px)" }} />
-          <div className="absolute" style={{ top: "-6%", right: "-8%", width: 540, height: 540, borderRadius: "50%", background: "radial-gradient(circle, rgba(56,120,255,0.42) 0%, transparent 62%)", filter: "blur(100px)" }} />
-          <div className="absolute" style={{ bottom: "-14%", left: "38%", width: 620, height: 620, borderRadius: "50%", background: "radial-gradient(circle, rgba(139,92,246,0.30) 0%, transparent 64%)", filter: "blur(120px)" }} />
-        </div>
+        {fondo === "hero" ? (
+          <HeroBackground fadeHeight={420} />
+        ) : (
+          <div className="pointer-events-none absolute inset-0 z-0">
+            <div className="absolute" style={{ top: "-12%", left: "0%", width: 580, height: 580, borderRadius: "50%", background: "radial-gradient(circle, rgba(219,59,43,0.46) 0%, transparent 62%)", filter: "blur(100px)" }} />
+            <div className="absolute" style={{ top: "-6%", right: "-8%", width: 540, height: 540, borderRadius: "50%", background: "radial-gradient(circle, rgba(56,120,255,0.42) 0%, transparent 62%)", filter: "blur(100px)" }} />
+            <div className="absolute" style={{ bottom: "-14%", left: "38%", width: 620, height: 620, borderRadius: "50%", background: "radial-gradient(circle, rgba(139,92,246,0.30) 0%, transparent 64%)", filter: "blur(120px)" }} />
+          </div>
+        )}
 
         <div className="relative z-10 mx-auto flex w-full max-w-[620px] flex-col items-center">
         <span className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.05] px-3.5 py-1.5 font-inter text-[12px] font-medium text-white/75">
@@ -97,12 +104,18 @@ export default function T1Waitlist() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Ingresa tu correo"
-              className="h-[54px] w-full flex-1 rounded-[14px] border border-white/15 bg-white/[0.04] px-5 font-inter text-[15px] text-white outline-none transition-colors placeholder:text-white/40 focus:border-white/40"
+              className="h-[54px] w-full shrink-0 rounded-[14px] tablet:flex-1 tablet:shrink border border-white/15 bg-white/[0.04] px-5 font-inter text-[15px] text-white outline-none transition-colors placeholder:text-white/40 focus:border-white/40"
             />
             <button
               type="submit"
               disabled={!valid}
-              className="h-[54px] w-full shrink-0 rounded-[14px] bg-[#DB3B2B] px-7 font-inter text-[15px] font-semibold text-white transition-colors duration-150 hover:bg-[#C0332A] disabled:cursor-not-allowed disabled:bg-[#F1B0A9] disabled:hover:bg-[#F1B0A9] tablet:w-auto"
+              className={`h-[54px] w-full shrink-0 rounded-[14px] bg-[#DB3B2B] px-7 font-inter text-[15px] font-semibold text-white transition-colors duration-150 hover:bg-[#C0332A] disabled:cursor-not-allowed tablet:w-auto ${
+                /* Sobre el degradado del hero el rosa se ve lavado: mismo
+                   deshabilitado que los heroes (rojo oscuro + texto tenue). */
+                fondo === "hero"
+                  ? "disabled:bg-[#60160F] disabled:text-white/45 disabled:hover:bg-[#60160F]"
+                  : "disabled:bg-[#F1B0A9] disabled:hover:bg-[#F1B0A9]"
+              }`}
             >
               Registrarme
             </button>

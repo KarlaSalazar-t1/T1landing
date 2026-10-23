@@ -7,5 +7,5 @@ export const metadata = {
 };
 
 export default function USAWaitlistEPage() {
-  return <T1WaitlistD anim="stack" />;
+  return <T1WaitlistD anim="stack" fondo="hero" login={false} />;
 }

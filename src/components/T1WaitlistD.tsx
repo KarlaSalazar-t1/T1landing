@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { VendeCard, CobraCard, EnviaCard, TodoEnUnoCard } from "@/components/T1ScrollShowcase";
 import { ValueStrip, EverythingYouNeed, BusinessStages, Faq, FinalCta } from "@/components/T1WaitlistSections";
+import HeroBackground from "@/components/HeroBackground";
 
 /* Deck de cards del landing (Vende / Cobra / Envía / Todo en uno). */
 const DECK = [VendeCard, CobraCard, EnviaCard, TodoEnUnoCard];
@@ -137,9 +138,9 @@ function ShippingCard() {
       <p className="mt-4 text-[11px] text-white/45">Shipping label</p>
       <p className="text-[16px] font-bold tracking-wide text-white">4657 8912 34</p>
       <div className="mt-3 flex items-center gap-3">
-        <div className="flex-1"><p className="text-[11px] text-white/40">Origin</p><p className="text-[13px] font-semibold text-white">CDMX · 06600</p></div>
+        <div className="flex-1"><p className="text-[11px] text-white/40">Origin</p><p className="text-[13px] font-semibold text-white">Your store</p></div>
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 12h16M14 6l6 6-6 6" stroke="#E2604C" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-        <div className="flex-1 text-right"><p className="text-[11px] text-white/40">Destination</p><p className="text-[13px] font-semibold text-white">GDL · 44100</p></div>
+        <div className="flex-1 text-right"><p className="text-[11px] text-white/40">Destination</p><p className="text-[13px] font-semibold text-white">Your customer</p></div>
       </div>
       <div className="mt-5 rounded-[12px] border border-white/10 bg-white/[0.05] p-4">
         <p className="mb-4 text-[12px] font-semibold text-white">Track your shipment in real time</p>
@@ -229,24 +230,51 @@ export default function T1WaitlistD({
   subtitle = "Sell, get paid, and ship from one AI-native platform. Join the waitlist for early access.",
   social = "1,500+ merchants on the list",
   anim = "swipe",
+  fondo = "landing",
+  login = true,
 }: {
   pill?: string;
   headline?: string;
   subtitle?: string;
   social?: string;
   anim?: "swipe" | "stack";
+  /* "landing" = HERO_BG en toda la página (original); "hero" = degradado
+     compartido de los heroes (HeroBackground) solo detrás del header + hero,
+     con fade a negro, y el resto de la página en negro. */
+  fondo?: "landing" | "hero";
+  /* Link "Log in" del header. En la E se quita: aún no hay cuenta que abrir
+     en EE.UU., sería un callejón sin salida. */
+  login?: boolean;
 }) {
   const [email, setEmail] = useState("");
   const [done, setDone] = useState(false);
   const ok = /.+@.+\..+/.test(email.trim());
 
   return (
-    <main id="top" className="relative min-h-screen overflow-hidden" style={{ background: HERO_BG }}>
+    <main id="top" className="relative min-h-screen overflow-hidden" style={{ background: fondo === "hero" ? "#000" : HERO_BG }}>
+      <div className={fondo === "hero" ? "relative" : undefined}>
+      {fondo === "hero" && (
+        /* Degradado del hero alargado: cubre todo el first fold (incluida la
+           franja One platform / AI-native) y se funde a negro con una curva
+           larga y suave ya entrada la sección "Everything you need". En móvil
+           es más alto porque el hero (cards apiladas) mide mucho más. */
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[calc(max(100svh,720px)+1100px)] lg:h-[calc(max(100svh,720px)+560px)]">
+          <HeroBackground fade={false} />
+          <div
+            className="absolute inset-x-0 bottom-0"
+            style={{
+              height: "62%",
+              background:
+                "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.05) 12%, rgba(0,0,0,0.13) 24%, rgba(0,0,0,0.25) 36%, rgba(0,0,0,0.4) 48%, rgba(0,0,0,0.56) 60%, rgba(0,0,0,0.72) 72%, rgba(0,0,0,0.86) 84%, rgba(0,0,0,0.95) 93%, #000 100%)",
+            }}
+          />
+        </div>
+      )}
       <header className="relative z-20 mx-auto flex max-w-[var(--max-w)] items-center justify-between px-5 py-5 tablet:px-10">
         <a href="/" aria-label="T1" className="inline-flex">{T1Logo}</a>
         <div className="flex items-center gap-6">
           <a href="/" className="font-inter text-[14px] font-medium text-white/55 no-underline transition-colors hover:text-white/90">Switch to México</a>
-          <a href="/login" className="font-inter text-[14px] font-medium text-white/80 no-underline transition-colors hover:text-white">Log in</a>
+          {login && <a href="/login" className="font-inter text-[14px] font-medium text-white/80 no-underline transition-colors hover:text-white">Log in</a>}
         </div>
       </header>
 
@@ -290,19 +318,32 @@ export default function T1WaitlistD({
 
           {/* Derecha — animación de cards (también en móvil) */}
           <div className="mt-4 flex justify-center lg:mt-0 lg:block">
-            <div className="origin-top scale-[0.86] tablet:scale-95 lg:scale-100">
+            <div className={`origin-top scale-[0.86] tablet:scale-95 lg:scale-100 ${fondo === "hero" ? "-mb-16 tablet:-mb-6 lg:mb-0" : ""}`}>
               {anim === "stack" ? <CardStack /> : <CardSwiper />}
             </div>
           </div>
         </div>
       </section>
 
+      {/* En "hero" la franja y Everything you need van dentro del degradado */}
+      {fondo === "hero" && (
+        <>
+          <ValueStrip />
+          <EverythingYouNeed />
+        </>
+      )}
+      </div>
+
       {/* ── Secciones inferiores ── */}
-      <ValueStrip />
-      <EverythingYouNeed />
-      <BusinessStages />
+      {fondo !== "hero" && (
+        <>
+          <ValueStrip />
+          <EverythingYouNeed />
+        </>
+      )}
+      <BusinessStages glow={fondo === "hero"} />
       <Faq />
-      <FinalCta />
+      <FinalCta glow={fondo === "hero"} />
     </main>
   );
 }

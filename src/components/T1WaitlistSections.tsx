@@ -36,9 +36,12 @@ const STAGES = [
 export function BusinessStages({
   title = "Built for every stage of your business",
   subtitle = "Whether you're making your first sale or running at scale, T1 gives you the tools you need at every step, and grows with you.",
+  glow = false,
 }: {
   title?: string;
   subtitle?: string;
+  /* Blob cálido detrás de la foto, para cuando la sección va sobre negro. */
+  glow?: boolean;
 }) {
   return (
     <section className="relative z-10 mx-auto max-w-[var(--max-w)] px-5 pb-6 pt-20 tablet:px-10 tablet:py-20">
@@ -65,16 +68,38 @@ export function BusinessStages({
         </div>
 
         {/* Derecha — imagen lifestyle */}
-        <div className="flex justify-center">
+        <div className="relative flex justify-center">
+          {glow && (
+            <div
+              aria-hidden
+              className="pointer-events-none absolute left-1/2 top-[44%] h-[130%] w-[135%] -translate-x-1/2 -translate-y-1/2"
+              style={{
+                background:
+                  "radial-gradient(ellipse 50% 46% at 50% 50%, rgba(226,84,58,0.40) 0%, rgba(150,38,50,0.22) 50%, transparent 78%)",
+                filter: "blur(50px)",
+              }}
+            />
+          )}
           <Image
             src="/img/every-stage.png"
             alt="A merchant running their business with T1"
             width={1285}
             height={1187}
-            className="h-auto w-full max-w-[520px] object-contain"
+            className="relative h-auto w-full max-w-[520px] object-contain"
             style={{
-              WebkitMaskImage: "linear-gradient(to bottom, #000 60%, transparent 90%)",
-              maskImage: "linear-gradient(to bottom, #000 60%, transparent 90%)",
+              /* Con blob: la foto trae fondo negro propio, así que se difumina
+                 en óvalo para que sus orillas se fundan con el brillo de atrás
+                 (sin teñir la foto). Sin blob: solo el corte inferior. */
+              WebkitMaskImage: glow
+                ? "radial-gradient(ellipse 66% 62% at 50% 42%, #000 62%, transparent 86%), linear-gradient(to bottom, #000 60%, transparent 90%)"
+                : "linear-gradient(to bottom, #000 60%, transparent 90%)",
+              maskImage: glow
+                ? "radial-gradient(ellipse 66% 62% at 50% 42%, #000 62%, transparent 86%), linear-gradient(to bottom, #000 60%, transparent 90%)"
+                : "linear-gradient(to bottom, #000 60%, transparent 90%)",
+              /* Las dos máscaras se intersectan: óvalo + el corte inferior
+                 original (oculta el piso claro bajo la mesa). */
+              WebkitMaskComposite: glow ? "source-in" : undefined,
+              maskComposite: glow ? "intersect" : undefined,
             }}
           />
         </div>
@@ -203,17 +228,31 @@ export function FinalCta({
   title = "Be first to sell with T1",
   subtitle = "Get early access before everyone else. It only takes a few seconds.",
   cta = "Join the waitlist",
+  glow = false,
 }: {
   title?: string;
   subtitle?: string;
   cta?: string;
+  /* Brillo cálido detrás de la card, para cuando la sección va sobre negro. */
+  glow?: boolean;
 }) {
   const scrollTop = () => {
     if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
   };
   return (
     <section className="relative z-10 mx-auto max-w-[var(--max-w)] px-5 pb-24 pt-6 tablet:px-10">
-      <div className="mx-auto max-w-[760px] rounded-[24px] border border-white/[0.1] bg-white/[0.04] px-6 py-12 text-center tablet:px-12 tablet:py-14">
+      {glow && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-[45%] h-[150%] w-full max-w-[1000px] -translate-x-1/2 -translate-y-1/2"
+          style={{
+            background:
+              "radial-gradient(ellipse 50% 42% at 50% 50%, rgba(226,84,58,0.32) 0%, rgba(150,38,50,0.16) 50%, transparent 78%)",
+            filter: "blur(50px)",
+          }}
+        />
+      )}
+      <div className="relative mx-auto max-w-[760px] rounded-[24px] border border-white/[0.1] bg-white/[0.04] px-6 py-12 text-center backdrop-blur-sm tablet:px-12 tablet:py-14">
         <h2 className="font-sora text-[28px] font-light text-white tablet:text-[38px]" style={{ letterSpacing: "-0.02em", lineHeight: 1.1 }}>
           {title}
         </h2>
