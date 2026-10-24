@@ -173,11 +173,12 @@ export default function T1IA() {
           <div className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] tablet:gap-12">
             <div>
               <h1 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[60px]" style={{ lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: 22 }}>
-                Decide en segundos con{" "}
-                <span className="font-normal" style={{ color: "#FFB3A6" }}>Uno</span>
+                {/* Juego de palabras: el "ia" de aliado va en color, en minúsculas
+                    (en Sora la "l" y la "I" mayúscula se confunden: "allAdo") */}
+                El al<span style={{ color: "#FFB3A6" }}>ia</span>do que tu negocio necesitaba
               </h1>
               <p className="font-inter text-[16px] font-light text-white/70 tablet:text-[19px]" style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 480 }}>
-                La IA de T1 que te responde con tus números y hace el trabajo por ti.
+                Uno, la IA de T1, entiende tu operación y te ayuda a sacarla adelante.
               </p>
               <div className="flex flex-wrap items-center gap-3">
                 <a href={SIGNUP_URL} className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">

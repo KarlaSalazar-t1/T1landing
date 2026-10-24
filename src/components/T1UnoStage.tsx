@@ -409,8 +409,8 @@ export function UnoHeroCard({ avatar }: { avatar: ReactNode }) {
       className="relative mx-auto flex w-full max-w-[440px] flex-col items-center rounded-[28px] px-6 pt-8 pb-6 text-center tablet:px-8 tablet:pt-10"
       style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.16)", backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.12), 0 40px 90px -30px rgba(0,0,0,0.55)" }}
     >
-      <p className="font-inter text-[15px] font-medium text-white/60 tablet:text-[17px]">¡Hola! Soy Uno</p>
-      <p className="font-inter text-[17px] font-semibold text-white tablet:text-[20px]">Tu experto en T1</p>
+      <p className="font-inter text-[15px] font-medium text-white/60 tablet:text-[17px]">Hola, soy Uno</p>
+      <p className="font-inter text-[17px] font-semibold text-white tablet:text-[20px]">¿En qué te ayudo hoy?</p>
       <div className="relative my-4 flex h-[170px] w-full items-center justify-center tablet:my-6 tablet:h-[210px]">
         <div className="absolute inset-0 flex items-center justify-center transition-all duration-500" style={{ opacity: shown === -1 ? 1 : 0, transform: shown === -1 ? "scale(1)" : "scale(0.85)" }}>
           <div className="h-[150px] w-[150px] tablet:h-[200px] tablet:w-[200px]">{avatar}</div>
@@ -591,6 +591,7 @@ function EditorIcon({ d }: { d: string }) {
 export function VisualTienda({ done, variante }: { done: boolean; variante: "crear" | "seccion" | "oscuro" }) {
   const real = variante !== "crear" || done;
   const oscuro = variante === "oscuro" && done;
+  const nueva = variante === "seccion" && done;
   const productos = [FOTO.hoodie, FOTO.gorra, FOTO.playera, FOTO.crew];
   const t = { transition: `all 0.8s ${ease}` };
   return (
@@ -623,32 +624,51 @@ export function VisualTienda({ done, variante }: { done: boolean; variante: "cre
 
         {/* Lienzo: la tienda */}
         <div className="min-w-0 flex-1 p-2 tablet:p-3">
-          <div className="flex h-full flex-col overflow-hidden rounded-[8px]" style={{ ...t, background: oscuro ? "#111" : "#fff" }}>
+          <div className="h-full overflow-hidden rounded-[8px]" style={{ ...t, background: oscuro ? "#111" : "#fff" }}>
+          {/* En celular, al agregar la sección la página "baja" sola hasta
+              ella, como si el editor hiciera scroll; en escritorio cabe todo. */}
+          <div
+            className={`flex min-h-full flex-col transition-transform duration-1000 ${nueva ? "-translate-y-[112px] tablet:translate-y-0" : ""}`}
+            style={{ transitionTimingFunction: ease, transitionDelay: nueva ? "500ms" : "0ms" }}
+          >
             <div className="py-1 text-center font-inter text-[8px] font-semibold text-white tablet:text-[10px]" style={{ ...t, background: oscuro ? "#DB3B2B" : "#111" }}>Envío gratis desde $999</div>
             <div className="flex items-center justify-between px-3 py-2 tablet:px-4" style={{ ...t, borderBottom: `1px solid ${oscuro ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.06)"}` }}>
               {real ? <span className="font-sora text-[11px] font-bold tracking-[0.18em] tablet:text-[13px]" style={{ ...t, color: oscuro ? "#fff" : "#000" }}>AURUM</span> : <span className="h-[10px] w-[60px] rounded bg-black/10" />}
               <span className="flex gap-2.5">{[0, 1, 2].map((k) => <span key={k} className="h-[5px] w-[24px] rounded" style={{ ...t, background: oscuro ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.12)" }} />)}</span>
             </div>
-            {/* Banner seleccionado, como en el editor */}
-            <div className="relative h-[38%] shrink-0 overflow-hidden" style={{ ...t, background: "rgba(0,0,0,0.06)", boxShadow: "inset 0 0 0 2px #DB3B2B" }}>
+            {/* Banner seleccionado, como en el editor (la selección pasa a la
+                sección nueva cuando se agrega) */}
+            <div className="relative h-[96px] shrink-0 overflow-hidden tablet:h-[150px]" style={{ ...t, background: "rgba(0,0,0,0.06)", boxShadow: nueva ? "none" : "inset 0 0 0 2px #DB3B2B" }}>
               <div className="absolute inset-0 transition-opacity duration-700" style={{ opacity: real ? 1 : 0 }}>
                 <Image src="/img/moda-banner-desktop.png" alt="" fill sizes="700px" className="object-cover object-right" />
               </div>
-              <span className="absolute left-2 top-2 rounded-[6px] bg-white px-1.5 py-0.5 font-inter text-[9px] font-semibold text-black tablet:text-[10px]">Banner</span>
-              <span className="absolute right-2 top-2 hidden items-center gap-1 rounded-[6px] bg-white px-2 py-0.5 font-inter text-[10px] font-semibold text-black tablet:flex">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="#DB3B2B" aria-hidden><path d="M11 1.6l1.75 6.9 6.9 1.75-6.9 1.75L11 18.85 9.25 11.95 2.35 10.25 9.25 8.5 11 1.6z" /></svg>
-                Pedir un cambio
-              </span>
+              {!nueva && <span className="absolute left-2 top-2 rounded-[6px] bg-white px-1.5 py-0.5 font-inter text-[9px] font-semibold text-black tablet:text-[10px]">Banner</span>}
+              {!nueva && (
+                <span className="absolute right-2 top-2 hidden items-center gap-1 rounded-[6px] bg-white px-2 py-0.5 font-inter text-[10px] font-semibold text-black tablet:flex">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="#DB3B2B" aria-hidden><path d="M11 1.6l1.75 6.9 6.9 1.75-6.9 1.75L11 18.85 9.25 11.95 2.35 10.25 9.25 8.5 11 1.6z" /></svg>
+                  Pedir un cambio
+                </span>
+              )}
             </div>
             {variante === "seccion" && (
-              <div className="overflow-hidden transition-all duration-700" style={{ maxHeight: done ? 36 : 0, transitionTimingFunction: ease }}>
-                <p className="px-3 pt-2.5 font-inter text-[10px] font-bold uppercase tracking-[0.12em] text-[#DB3B2B] tablet:px-4">Lo más vendido</p>
+              <div className="shrink-0 overflow-hidden transition-all duration-700" style={{ maxHeight: done ? 160 : 0, transitionTimingFunction: ease }}>
+                <div className="relative mx-2 mt-2 rounded-[6px] px-2 pb-2 pt-6 tablet:mx-3 tablet:pt-7" style={{ boxShadow: "inset 0 0 0 2px #DB3B2B" }}>
+                  <span className="absolute left-1.5 top-1.5 rounded-[5px] bg-[#DB3B2B] px-1.5 py-0.5 font-inter text-[8px] font-semibold text-white tablet:text-[9px]">Sección nueva</span>
+                  <p className="text-center font-inter text-[9px] font-bold uppercase tracking-[0.14em] text-black tablet:text-[11px]">Lo más vendido</p>
+                  <div className="mt-1.5 grid grid-cols-4 gap-1.5 tablet:gap-2">
+                    {[FOTO.bucket, FOTO.pantalon, FOTO.sneaker, FOTO.hoodie].map((src, k) => (
+                      <div key={k} className="relative h-[52px] overflow-hidden rounded-[5px] tablet:h-[64px]" style={{ opacity: done ? 1 : 0, transition: "opacity 0.5s", transitionDelay: `${600 + k * 120}ms` }}>
+                        <Foto src={src} className="h-full w-full" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             )}
-            <div className="grid flex-1 grid-cols-4 gap-1.5 p-2.5 tablet:gap-2.5 tablet:p-4">
+            <div className="grid grid-cols-4 gap-1.5 p-2.5 tablet:gap-2.5 tablet:p-4">
               {productos.map((src, k) => (
-                <div key={k} className="flex min-h-0 flex-col">
-                  <div className="relative min-h-0 flex-1 overflow-hidden rounded-[6px]" style={{ ...t, background: oscuro ? "#222" : "rgba(0,0,0,0.06)" }}>
+                <div key={k} className="flex flex-col">
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-[6px]" style={{ ...t, background: oscuro ? "#222" : "rgba(0,0,0,0.06)" }}>
                     <div className="absolute inset-0 transition-all duration-500" style={{ opacity: real ? 1 : 0, transform: real ? "scale(1)" : "scale(0.9)", transitionDelay: variante === "crear" ? `${300 + k * 150}ms` : "0ms" }}>
                       <Foto src={src} className="h-full w-full" />
                     </div>
@@ -657,6 +677,7 @@ export function VisualTienda({ done, variante }: { done: boolean; variante: "cre
                 </div>
               ))}
             </div>
+          </div>
           </div>
         </div>
       </div>
