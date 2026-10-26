@@ -50,6 +50,17 @@ function Typed({ text, ms }: { text: string; ms: number }) {
 
 function ChatPanel({ scene, phase, runKey, compact = false }: { scene: Scene; phase: number; runKey: string; compact?: boolean }) {
   const ic = "h-[15px] w-[15px] text-black/55";
+  const bodyRef = useRef<HTMLDivElement>(null);
+  // Cuando llega la respuesta el chat baja solo hasta ella (en celular el
+  // panel es bajito y si no, el campo de texto la tapaba).
+  useEffect(() => {
+    if (phase < 2) return;
+    const t = window.setTimeout(() => {
+      const b = bodyRef.current;
+      if (b && b.scrollHeight > b.clientHeight) b.scrollTo({ top: b.scrollHeight, behavior: "smooth" });
+    }, 450);
+    return () => window.clearTimeout(t);
+  }, [phase]);
   return (
     <div
       className="flex h-full flex-col overflow-hidden rounded-[22px] bg-white"
@@ -69,7 +80,7 @@ function ChatPanel({ scene, phase, runKey, compact = false }: { scene: Scene; ph
       </div>
 
       {/* Conversación */}
-      <div key={runKey} className="flex min-h-0 flex-1 flex-col gap-3 overflow-hidden px-5 pt-2">
+      <div key={runKey} ref={bodyRef} className="flex min-h-0 flex-1 flex-col gap-3 overflow-hidden px-5 pt-2 pb-1">
         {phase >= 1 && (
           <div className="rounded-[14px] bg-[#F4F4F3] px-4 py-3 font-inter text-[13px] leading-snug text-black/80" style={{ animation: "fadeSlideIn 0.35s ease-out both" }}>
             {scene.prompt}
@@ -94,8 +105,20 @@ function ChatPanel({ scene, phase, runKey, compact = false }: { scene: Scene; ph
         )}
       </div>
 
-      {/* Campo de texto: ahí se escribe la pregunta antes de mandarla */}
-      <div className="p-3">
+      {/* Campo de texto: ahí se escribe la pregunta antes de mandarla.
+          En celular va en una sola línea para dejarle más alto a la respuesta. */}
+      <div className="p-3 tablet:hidden">
+        <div className="flex items-center gap-2.5 rounded-[14px] bg-white py-2 pl-3 pr-2" style={{ boxShadow: "0 0 0 1px rgba(219,59,43,0.18), 0 6px 20px -6px rgba(219,59,43,0.28)" }}>
+          <UnoMark size={20} />
+          <p className="min-w-0 flex-1 truncate font-inter text-[13px] text-black/80">
+            {phase === 0 ? <Typed key={runKey} text={scene.prompt} ms={T_SEND - 300} /> : <span className="text-black/40">Pide lo que necesites…</span>}
+          </p>
+          <span className={`flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full text-white transition-colors ${phase === 0 ? "bg-[#DB3B2B]" : "bg-black/15"}`}>
+            <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M8 13V3.5M8 3.5L4 7.5M8 3.5L12 7.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+          </span>
+        </div>
+      </div>
+      <div className="hidden p-3 tablet:block">
         <div
           className="rounded-[16px] bg-white px-3.5 pt-3 pb-2.5"
           style={{ boxShadow: "0 0 0 1px rgba(219,59,43,0.18), 0 6px 24px -6px rgba(219,59,43,0.28)" }}
@@ -216,9 +239,6 @@ export function UnoStage({ scenes, dark = false, reverse = false, layout = "chip
             }}
           >
             {s.chip}
-            {on && visible && (
-              <span key={runKey} aria-hidden className="absolute bottom-0 left-0 h-[2px] w-full bg-[#DB3B2B]" style={{ transformOrigin: "left", animation: `pilarProgress ${sceneMs}ms linear forwards` }} />
-            )}
           </button>
         );
       })}
@@ -406,7 +426,7 @@ export function UnoHeroCard({ avatar }: { avatar: ReactNode }) {
   const it = HERO_ITEMS[i];
   return (
     <div
-      className="relative mx-auto flex w-full max-w-[440px] flex-col items-center rounded-[28px] px-6 pt-8 pb-6 text-center tablet:px-8 tablet:pt-10"
+      className="relative mx-auto flex w-full max-w-[440px] flex-col items-center rounded-[28px] px-6 pt-8 pb-3 text-center tablet:px-8 tablet:pt-10"
       style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.16)", backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.12), 0 40px 90px -30px rgba(0,0,0,0.55)" }}
     >
       <p className="font-inter text-[15px] font-medium text-white/60 tablet:text-[17px]">Hola, soy Uno</p>
@@ -421,7 +441,9 @@ export function UnoHeroCard({ avatar }: { avatar: ReactNode }) {
           </div>
         )}
       </div>
-      <div className="flex w-full items-center gap-3 rounded-full bg-white py-2.5 pl-3 pr-2.5" style={{ boxShadow: "0 0 0 3px rgba(219,59,43,0.25), 0 10px 30px -8px rgba(219,59,43,0.45)" }}>
+      {/* Esquinas concéntricas con la tarjeta: el campo queda a 12 px del
+          borde por los tres lados y su radio es 28 − 12 = 16 px. */}
+      <div className="-mx-3 flex items-center gap-3 self-stretch rounded-[16px] bg-white py-2.5 pl-3 pr-2.5 tablet:-mx-5" style={{ boxShadow: "0 10px 30px -10px rgba(219,59,43,0.5)" }}>
         <UnoMark size={24} />
         <span className="min-w-0 flex-1 truncate text-left font-inter text-[14px] text-black/80">
           {sent ? <span className="text-black/40">Pide lo que necesites…</span> : <Typed key={i} text={it.prompt} ms={HERO_SEND - 300} />}

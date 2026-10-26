@@ -26,7 +26,8 @@ const UNO_VIDEO_SRC: string | null = null;
 const UNO_VIDEO_POSTER: string | null = null;
 
 /* Un solo demo con lo más representativo de preguntar, pedir y diseñar */
-const DEMO: Scene[] = [PREGUNTAS[0], PREGUNTAS[1], PEDIDOS[0], PEDIDOS[1], PEDIDOS[3], TIENDA[0]];
+// PEDIDOS: [cupón, producto con foto, link de pago, guía, catálogo]
+const DEMO: Scene[] = [PREGUNTAS[0], PREGUNTAS[1], PEDIDOS[0], PEDIDOS[1], PEDIDOS[2], PEDIDOS[3], TIENDA[0]];
 
 const INTRO = [
   { title: "Pregúntale", desc: "Ventas, pedidos, cobros o envíos: te responde con tus números.", icon: <path d="M5 6.5A2.5 2.5 0 017.5 4h9A2.5 2.5 0 0119 6.5v7a2.5 2.5 0 01-2.5 2.5H11l-4 3.5V16h0.5A2.5 2.5 0 015 13.5v-7z" /> },
