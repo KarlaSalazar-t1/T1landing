@@ -146,7 +146,7 @@ function MiniChat({ scene, phase, runKey }: { scene: Scene; phase: number; runKe
 
 /* `separate`: el chat va a un lado (escritorio) o abajo en versión mini
    (celular), sin encimarse — para el builder, donde el resultado es grande. */
-export function UnoStage({ scenes, dark = false, reverse = false, layout = "chips", header, separate = false }: { scenes: Scene[]; dark?: boolean; reverse?: boolean; layout?: "chips" | "list"; header?: ReactNode; separate?: boolean }) {
+export function UnoStage({ scenes, dark = false, reverse = false, layout = "chips", header, separate = false, sceneMs = SCENE_MS }: { scenes: Scene[]; dark?: boolean; reverse?: boolean; layout?: "chips" | "list"; header?: ReactNode; separate?: boolean; sceneMs?: number }) {
   const [active, setActive] = useState(0);
   const [run, setRun] = useState(0);
   const [phase, setPhase] = useState(0);
@@ -171,10 +171,10 @@ export function UnoStage({ scenes, dark = false, reverse = false, layout = "chip
       window.setTimeout(() => setPhase(1), T_SEND),
       window.setTimeout(() => setPhase(2), T_REPLY),
       window.setTimeout(() => setPhase(3), T_DONE),
-      window.setTimeout(() => { setPhase(0); setActive((a) => (a + 1) % scenes.length); }, SCENE_MS),
+      window.setTimeout(() => { setPhase(0); setActive((a) => (a + 1) % scenes.length); }, sceneMs),
     ];
     return () => ts.forEach((t) => window.clearTimeout(t));
-  }, [active, run, visible, scenes.length]);
+  }, [active, run, visible, scenes.length, sceneMs]);
 
   // En celular la pestaña activa se centra sola en la fila deslizable.
   useEffect(() => {
@@ -217,7 +217,7 @@ export function UnoStage({ scenes, dark = false, reverse = false, layout = "chip
           >
             {s.chip}
             {on && visible && (
-              <span key={runKey} aria-hidden className="absolute bottom-0 left-0 h-[2px] w-full bg-[#DB3B2B]" style={{ transformOrigin: "left", animation: `pilarProgress ${SCENE_MS}ms linear forwards` }} />
+              <span key={runKey} aria-hidden className="absolute bottom-0 left-0 h-[2px] w-full bg-[#DB3B2B]" style={{ transformOrigin: "left", animation: `pilarProgress ${sceneMs}ms linear forwards` }} />
             )}
           </button>
         );
@@ -260,7 +260,7 @@ export function UnoStage({ scenes, dark = false, reverse = false, layout = "chip
               return (
                 <button key={s.chip} type="button" onClick={() => pick(i)} className="group relative cursor-pointer py-3 pl-5 text-left">
                   <span aria-hidden className="absolute left-0 top-0 h-full w-[2px] overflow-hidden rounded-full bg-black/[0.08]">
-                    {on && visible && <span key={runKey} className="block h-full w-full bg-[#DB3B2B]" style={{ transformOrigin: "top", animation: `pilarProgressY ${SCENE_MS}ms linear forwards` }} />}
+                    {on && visible && <span key={runKey} className="block h-full w-full bg-[#DB3B2B]" style={{ transformOrigin: "top", animation: `pilarProgressY ${sceneMs}ms linear forwards` }} />}
                   </span>
                   <span className={`block font-inter text-[16px] font-semibold transition-colors duration-200 ${on ? "text-black" : "text-black/40 group-hover:text-black/70"}`}>{s.chip}</span>
                   <span className="grid transition-all duration-300" style={{ gridTemplateRows: on ? "1fr" : "0fr" }}>
@@ -488,14 +488,14 @@ export function VisualCupon({ done }: { done: boolean }) {
     ["Estado al crear", "Activo (visible en tu tienda)", "hidden tablet:flex"],
   ];
   return (
-    <div className="flex h-full items-start justify-center bg-[#EFEAE4] p-3 tablet:items-center tablet:p-6">
+    <div className="flex h-full items-start justify-center bg-[#F7F7F7] p-3 tablet:items-center tablet:p-6">
       <div className="w-full max-w-[360px] overflow-hidden rounded-[14px] border border-black/[0.08] bg-white">
         <div className="px-4 pt-3.5 tablet:px-5 tablet:pt-4">
           <p className="font-inter text-[13px] font-bold text-[#1E2939] tablet:text-[15px]">Crear el cupón PROMO15</p>
-          <p className="mt-1 hidden font-inter text-[12px] text-black/50 tablet:block">Al confirmar, el descuento queda creado en tu tienda con estos datos.</p>
+          <p className="mt-1 hidden font-inter text-[13px] text-black/50 tablet:block">Al confirmar, el descuento queda creado en tu tienda con estos datos.</p>
           <div className="mt-2 flex flex-col gap-1 pb-3 tablet:mt-3 tablet:gap-1.5 tablet:pb-4">
             {filas.map(([l, v, cls]) => (
-              <div key={l} className={`flex gap-3 font-inter text-[11px] tablet:text-[12.5px] ${cls || "flex"}`}>
+              <div key={l} className={`flex gap-3 font-inter text-[12px] tablet:text-[12.5px] ${cls || "flex"}`}>
                 <span className="w-[40%] shrink-0 text-black/50">{l}</span>
                 <span className="font-semibold text-[#1E2939]">{v}</span>
               </div>
@@ -504,7 +504,7 @@ export function VisualCupon({ done }: { done: boolean }) {
         </div>
         <div className="flex justify-start border-t border-black/[0.07] px-4 py-2.5 tablet:justify-end tablet:px-5 tablet:py-3">
           <span
-            className="flex items-center gap-1.5 rounded-[9px] px-4 py-1.5 font-inter text-[12px] font-semibold text-white transition-colors duration-500 tablet:text-[13px]"
+            className="flex items-center gap-1.5 rounded-[9px] px-4 py-1.5 font-inter text-[13px] font-semibold text-white transition-colors duration-500 tablet:text-[13px]"
             style={{ background: done ? "#16A34A" : "#DB3B2B", transitionDelay: "1600ms" }}
           >
             {done && <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5 9-10" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" /></svg>}
@@ -520,15 +520,15 @@ export function VisualCupon({ done }: { done: boolean }) {
    para copiar. Uno NO lo manda por WhatsApp: eso lo haces tú. */
 export function VisualLink({ done }: { done: boolean }) {
   return (
-    <div className="relative flex h-full flex-col items-center justify-start gap-3 bg-[#EFEAE4] p-4 tablet:justify-center">
+    <div className="relative flex h-full flex-col items-center justify-start gap-3 bg-[#F7F7F7] p-4 tablet:justify-center">
       <div className="flex w-full max-w-[330px] gap-3 rounded-[16px] bg-white p-3.5 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.3)] tablet:p-4">
         <Foto src={FOTO.hoodie} className="h-[80px] w-[80px] shrink-0 rounded-[10px] tablet:h-[120px] tablet:w-[120px]" />
         <div className="flex min-w-0 flex-1 flex-col">
-          <p className="font-sora text-[10px] font-bold tracking-[0.18em] text-black/50">AURUM</p>
-          <p className="truncate font-inter text-[12px] font-semibold text-black">Sudadera hueso</p>
+          <p className="font-sora text-[11.5px] font-bold tracking-[0.18em] text-black/50">AURUM</p>
+          <p className="truncate font-inter text-[13px] font-semibold text-black">Sudadera hueso</p>
           <p className="font-sora text-[18px] font-semibold text-black tablet:text-[24px]">$1,250</p>
-          <p className="font-inter text-[10px] text-black/55">3 meses sin intereses de $416.67</p>
-          <span className="mt-auto hidden rounded-[8px] bg-black py-1.5 text-center font-inter text-[11px] font-semibold text-white tablet:block">Pagar</span>
+          <p className="font-inter text-[11.5px] text-black/55">3 meses sin intereses de $416.67</p>
+          <span className="mt-auto hidden rounded-[8px] bg-black py-1.5 text-center font-inter text-[12px] font-semibold text-white tablet:block">Pagar</span>
         </div>
       </div>
       <div
@@ -536,8 +536,8 @@ export function VisualLink({ done }: { done: boolean }) {
         style={{ opacity: done ? 1 : 0, transform: done ? "translateY(0)" : "translateY(12px)", transitionTimingFunction: ease, transitionDelay: "400ms" }}
       >
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden className="shrink-0 text-[#16A34A]"><path d="M5 12l5 5 9-10" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-        <span className="min-w-0 flex-1 truncate font-mono text-[11px] text-black/75">pago.t1.com/aurum/8F2K</span>
-        <span className="rounded-full bg-black px-3 py-1 font-inter text-[11px] font-semibold text-white">Copiar</span>
+        <span className="min-w-0 flex-1 truncate font-mono text-[12px] text-black/75">pago.t1.com/aurum/8F2K</span>
+        <span className="rounded-full bg-black px-3 py-1 font-inter text-[12px] font-semibold text-white">Copiar</span>
       </div>
     </div>
   );
@@ -555,7 +555,7 @@ export function VisualProductoFoto({ done }: { done: boolean }) {
   ];
   const t = `all 0.9s ${ease}`;
   return (
-    <div className="relative h-full overflow-hidden bg-[#FAFAF9]">
+    <div className="relative h-full overflow-hidden bg-[#F7F7F7]">
       <div className="absolute bottom-3 left-3 top-3 overflow-hidden rounded-[14px] tablet:bottom-6 tablet:left-6 tablet:top-6" style={{ right: done ? "56%" : "12px", transition: t }}>
         <Foto src={FOTO.hoodie} className="h-full w-full" />
         <span aria-hidden className="absolute inset-x-0 h-[2px] bg-[#DB3B2B] shadow-[0_0_14px_3px_rgba(219,59,43,0.6)]" style={{ top: 0, animation: done ? "none" : "unoScan 1.8s ease-in-out infinite", opacity: done ? 0 : 1, transition: "opacity 0.3s" }} />
@@ -563,8 +563,8 @@ export function VisualProductoFoto({ done }: { done: boolean }) {
       <div className="absolute bottom-3 right-3 top-3 flex w-[50%] flex-col justify-start gap-2 tablet:bottom-6 tablet:right-6 tablet:top-6 tablet:justify-center tablet:gap-3" style={{ opacity: done ? 1 : 0, transform: done ? "translateX(0)" : "translateX(24px)", transition: t, transitionDelay: done ? "250ms" : "0ms" }}>
         {campos.map(([l, v], k) => (
           <div key={l} className={k === 3 ? "hidden tablet:block" : ""} style={{ opacity: done ? 1 : 0, transition: "opacity 0.5s", transitionDelay: `${450 + k * 200}ms` }}>
-            <p className="font-inter text-[9px] font-semibold uppercase tracking-[0.08em] text-black/45 tablet:text-[10px]">{l}</p>
-            <div className="mt-0.5 rounded-[8px] border border-black/[0.08] bg-white px-2 py-1 font-inter text-[11px] text-black tablet:px-2.5 tablet:py-1.5 tablet:text-[12px]">
+            <p className="font-inter text-[11px] font-semibold uppercase tracking-[0.08em] text-black/45 tablet:text-[11.5px]">{l}</p>
+            <div className="mt-0.5 rounded-[8px] border border-black/[0.08] bg-white px-2 py-1 font-inter text-[12px] text-black tablet:px-2.5 tablet:py-1.5 tablet:text-[13px]">
               {k === 3 ? <span className="line-clamp-2">{v}</span> : v}
             </div>
           </div>
@@ -595,12 +595,12 @@ export function VisualTienda({ done, variante }: { done: boolean; variante: "cre
   const productos = [FOTO.hoodie, FOTO.gorra, FOTO.playera, FOTO.crew];
   const t = { transition: `all 0.8s ${ease}` };
   return (
-    <div className="flex h-full flex-col bg-[#F4F4F5]">
+    <div className="flex h-full flex-col bg-[#F7F7F7]">
       {/* Barra superior del editor */}
       <div className="flex h-[38px] shrink-0 items-center gap-3 border-b border-black/[0.07] bg-white px-3 tablet:h-[44px] tablet:px-4">
         <EditorIcon d="M10 17l-5-5 5-5M5 12h11a3 3 0 003-3V5" />
         <span className="hidden items-center gap-1.5 rounded-[8px] border border-black/[0.08] px-2 py-1 tablet:flex"><EditorIcon d="M9 14l-4-4 4-4M5 10h9a5 5 0 010 10h-2" /></span>
-        <span className="flex items-center gap-1.5 font-inter text-[11px] text-black tablet:text-[12px]">
+        <span className="flex items-center gap-1.5 font-inter text-[12px] text-black tablet:text-[13px]">
           <span className="h-[7px] w-[7px] rounded-full bg-[#22C55E]" />
           <span className="font-semibold">aurum</span>
           <span className="hidden text-black/40 tablet:inline">/ Página de Inicio ⌄</span>
@@ -609,7 +609,7 @@ export function VisualTienda({ done, variante }: { done: boolean; variante: "cre
           <span className="rounded-[6px] bg-white px-2 py-1 shadow-sm"><EditorIcon d="M3 5h18v11H3zM8 20h8" /></span>
           <span className="px-2 py-1"><EditorIcon d="M8 3h8v18H8z" /></span>
         </span>
-        <span className="ml-auto rounded-[8px] bg-black px-2.5 py-1 font-inter text-[10px] font-semibold text-white tablet:ml-0 tablet:px-3 tablet:text-[11px]">Publicar</span>
+        <span className="ml-auto rounded-[8px] bg-black px-2.5 py-1 font-inter text-[11.5px] font-semibold text-white tablet:ml-0 tablet:px-3 tablet:text-[12px]">Publicar</span>
       </div>
 
       <div className="flex min-h-0 flex-1">
@@ -631,9 +631,9 @@ export function VisualTienda({ done, variante }: { done: boolean; variante: "cre
             className={`flex min-h-full flex-col transition-transform duration-1000 ${nueva ? "-translate-y-[112px] tablet:translate-y-0" : ""}`}
             style={{ transitionTimingFunction: ease, transitionDelay: nueva ? "500ms" : "0ms" }}
           >
-            <div className="py-1 text-center font-inter text-[8px] font-semibold text-white tablet:text-[10px]" style={{ ...t, background: oscuro ? "#DB3B2B" : "#111" }}>Envío gratis desde $999</div>
+            <div className="py-1 text-center font-inter text-[10px] font-semibold text-white tablet:text-[11.5px]" style={{ ...t, background: oscuro ? "#DB3B2B" : "#111" }}>Envío gratis desde $999</div>
             <div className="flex items-center justify-between px-3 py-2 tablet:px-4" style={{ ...t, borderBottom: `1px solid ${oscuro ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.06)"}` }}>
-              {real ? <span className="font-sora text-[11px] font-bold tracking-[0.18em] tablet:text-[13px]" style={{ ...t, color: oscuro ? "#fff" : "#000" }}>AURUM</span> : <span className="h-[10px] w-[60px] rounded bg-black/10" />}
+              {real ? <span className="font-sora text-[12px] font-bold tracking-[0.18em] tablet:text-[13px]" style={{ ...t, color: oscuro ? "#fff" : "#000" }}>AURUM</span> : <span className="h-[10px] w-[60px] rounded bg-black/10" />}
               <span className="flex gap-2.5">{[0, 1, 2].map((k) => <span key={k} className="h-[5px] w-[24px] rounded" style={{ ...t, background: oscuro ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.12)" }} />)}</span>
             </div>
             {/* Banner seleccionado, como en el editor (la selección pasa a la
@@ -642,9 +642,9 @@ export function VisualTienda({ done, variante }: { done: boolean; variante: "cre
               <div className="absolute inset-0 transition-opacity duration-700" style={{ opacity: real ? 1 : 0 }}>
                 <Image src="/img/moda-banner-desktop.png" alt="" fill sizes="700px" className="object-cover object-right" />
               </div>
-              {!nueva && <span className="absolute left-2 top-2 rounded-[6px] bg-white px-1.5 py-0.5 font-inter text-[9px] font-semibold text-black tablet:text-[10px]">Banner</span>}
+              {!nueva && <span className="absolute left-2 top-2 rounded-[6px] bg-white px-1.5 py-0.5 font-inter text-[11px] font-semibold text-black tablet:text-[11.5px]">Banner</span>}
               {!nueva && (
-                <span className="absolute right-2 top-2 hidden items-center gap-1 rounded-[6px] bg-white px-2 py-0.5 font-inter text-[10px] font-semibold text-black tablet:flex">
+                <span className="absolute right-2 top-2 hidden items-center gap-1 rounded-[6px] bg-white px-2 py-0.5 font-inter text-[11.5px] font-semibold text-black tablet:flex">
                   <svg width="10" height="10" viewBox="0 0 24 24" fill="#DB3B2B" aria-hidden><path d="M11 1.6l1.75 6.9 6.9 1.75-6.9 1.75L11 18.85 9.25 11.95 2.35 10.25 9.25 8.5 11 1.6z" /></svg>
                   Pedir un cambio
                 </span>
@@ -653,8 +653,8 @@ export function VisualTienda({ done, variante }: { done: boolean; variante: "cre
             {variante === "seccion" && (
               <div className="shrink-0 overflow-hidden transition-all duration-700" style={{ maxHeight: done ? 160 : 0, transitionTimingFunction: ease }}>
                 <div className="relative mx-2 mt-2 rounded-[6px] px-2 pb-2 pt-6 tablet:mx-3 tablet:pt-7" style={{ boxShadow: "inset 0 0 0 2px #DB3B2B" }}>
-                  <span className="absolute left-1.5 top-1.5 rounded-[5px] bg-[#DB3B2B] px-1.5 py-0.5 font-inter text-[8px] font-semibold text-white tablet:text-[9px]">Sección nueva</span>
-                  <p className="text-center font-inter text-[9px] font-bold uppercase tracking-[0.14em] text-black tablet:text-[11px]">Lo más vendido</p>
+                  <span className="absolute left-1.5 top-1.5 rounded-[5px] bg-[#DB3B2B] px-1.5 py-0.5 font-inter text-[10px] font-semibold text-white tablet:text-[11px]">Sección nueva</span>
+                  <p className="text-center font-inter text-[11px] font-bold uppercase tracking-[0.14em] text-black tablet:text-[12px]">Lo más vendido</p>
                   <div className="mt-1.5 grid grid-cols-4 gap-1.5 tablet:gap-2">
                     {[FOTO.bucket, FOTO.pantalon, FOTO.sneaker, FOTO.hoodie].map((src, k) => (
                       <div key={k} className="relative h-[52px] overflow-hidden rounded-[5px] tablet:h-[64px]" style={{ opacity: done ? 1 : 0, transition: "opacity 0.5s", transitionDelay: `${600 + k * 120}ms` }}>
@@ -689,38 +689,38 @@ export function VisualTienda({ done, variante }: { done: boolean; variante: "cre
    al terminar aparece la guía lista con su número y las acciones. */
 export function VisualGuia({ done }: { done: boolean }) {
   return (
-    <div className="flex h-full items-start justify-center bg-[#F4F4F5] p-3 tablet:items-center tablet:p-6">
+    <div className="flex h-full items-start justify-center bg-[#F7F7F7] p-3 tablet:items-center tablet:p-6">
       <div className="w-full max-w-[380px] rounded-[16px] border border-black/[0.07] bg-white p-4 shadow-[0_20px_50px_-24px_rgba(0,0,0,0.25)] tablet:p-5">
         <div className="flex items-center justify-between">
           <p className="font-inter text-[13px] font-bold text-[#1E2939] tablet:text-[15px]">Guía de envío · Pedido #129</p>
           <span
-            className="rounded-full px-2 py-0.5 font-inter text-[10px] font-semibold transition-colors duration-500"
-            style={done ? { background: "rgba(34,197,94,0.12)", color: "#15803D" } : { background: "rgba(245,158,11,0.14)", color: "#B45309" }}
+            className="rounded-full px-2 py-0.5 font-inter text-[11.5px] font-semibold transition-colors duration-500"
+            style={done ? { background: "rgba(34,197,94,0.12)", color: "#15803D" } : { background: "rgba(0,0,0,0.06)", color: "rgba(0,0,0,0.6)" }}
           >
             {done ? "Lista" : "Generando…"}
           </span>
         </div>
-        <div className="mt-3 flex items-center gap-3 rounded-[12px] bg-[#F7F7F8] px-3 py-2.5">
+        <div className="mt-3 flex items-center gap-3 rounded-[12px] bg-[#F7F7F7] px-3 py-2.5">
           <span className="font-sora text-[13px] font-black italic text-[#D40511]">DHL</span>
           <div className="min-w-0 flex-1">
-            <p className="font-inter text-[12px] font-semibold text-[#1E2939]">Express · 1 a 2 días</p>
-            <p className="font-inter text-[10px] text-black/50">2 kg · 30 × 25 × 10 cm</p>
+            <p className="font-inter text-[13px] font-semibold text-[#1E2939]">Express · 1 a 2 días</p>
+            <p className="font-inter text-[11.5px] text-black/50">2 kg · 30 × 25 × 10 cm</p>
           </div>
           <span className="font-inter text-[13px] font-bold text-[#1E2939]">$168</span>
         </div>
-        <div className="mt-3 grid grid-cols-[auto_1fr] gap-x-2.5 gap-y-1 font-inter text-[11px] tablet:text-[12px]">
+        <div className="mt-3 grid grid-cols-[auto_1fr] gap-x-2.5 gap-y-1 font-inter text-[12px] tablet:text-[13px]">
           <span className="mt-1 h-[8px] w-[8px] rounded-full border-2 border-black/40" />
           <span className="text-black/70">AURUM · CDMX 06600</span>
           <span className="mt-1 h-[8px] w-[8px] rounded-full bg-[#DB3B2B]" />
           <span className="text-black/70">Ana López · Monterrey 64000</span>
         </div>
         <div className="mt-3 flex items-center gap-2 border-t border-black/[0.06] pt-3">
-          <span className="font-inter text-[10px] text-black/45">Guía</span>
-          <span className="font-mono text-[12px] tracking-[0.12em] text-[#1E2939] transition-opacity duration-500" style={{ opacity: done ? 1 : 0.15 }}>{done ? "4829 1036 52" : "•••• •••• ••"}</span>
+          <span className="font-inter text-[11.5px] text-black/45">Guía</span>
+          <span className="font-mono text-[13px] tracking-[0.12em] text-[#1E2939] transition-opacity duration-500" style={{ opacity: done ? 1 : 0.15 }}>{done ? "4829 1036 52" : "•••• •••• ••"}</span>
         </div>
         <div className="mt-3 hidden gap-2 transition-opacity duration-500 tablet:flex" style={{ opacity: done ? 1 : 0.35 }}>
-          <span className="rounded-[9px] bg-[#1E2939] px-3.5 py-1.5 font-inter text-[12px] font-semibold text-white">Imprimir guía</span>
-          <span className="rounded-[9px] border border-black/10 px-3.5 py-1.5 font-inter text-[12px] font-semibold text-[#1E2939]">Rastrear</span>
+          <span className="rounded-[9px] bg-[#1E2939] px-3.5 py-1.5 font-inter text-[13px] font-semibold text-white">Imprimir guía</span>
+          <span className="rounded-[9px] border border-black/10 px-3.5 py-1.5 font-inter text-[13px] font-semibold text-[#1E2939]">Rastrear</span>
         </div>
       </div>
     </div>
@@ -732,13 +732,13 @@ export function VisualCatalogo({ done }: { done: boolean }) {
   const fotos = [FOTO.hoodie, FOTO.gorra, FOTO.playera, FOTO.bucket, FOTO.crew, FOTO.pantalon, FOTO.sneaker, FOTO.hoodie];
   const n = useCount(231, done, 1600);
   return (
-    <div className="flex h-full flex-col bg-[#FAFAF9] p-4 tablet:p-6">
+    <div className="flex h-full flex-col bg-[#F7F7F7] p-4 tablet:p-6">
       <div className="mb-3 flex items-center justify-between">
         <div>
           <p className="font-inter text-[13px] font-semibold text-black tablet:text-[15px]">Productos</p>
-          <p className="font-inter text-[10px] text-black/50 tablet:text-[11px]">catalogo-aurum.xlsx</p>
+          <p className="font-inter text-[11.5px] text-black/50 tablet:text-[12px]">catalogo-aurum.xlsx</p>
         </div>
-        <span className="rounded-full bg-[rgba(34,197,94,0.12)] px-2.5 py-1 font-inter text-[11px] font-semibold text-[#15803D] tabular-nums">{n} creados</span>
+        <span className="rounded-full bg-[rgba(34,197,94,0.12)] px-2.5 py-1 font-inter text-[12px] font-semibold text-[#15803D] tabular-nums">{n} creados</span>
       </div>
       <div className="mb-3 h-[4px] overflow-hidden rounded-full bg-black/[0.06]">
         <div className="h-full rounded-full bg-[#DB3B2B] transition-all duration-[1600ms]" style={{ width: done ? "100%" : "6%", transitionTimingFunction: ease }} />
@@ -763,10 +763,10 @@ export function VisualVentas({ done }: { done: boolean }) {
   const path = pts.map((v, k) => `${k === 0 ? "M" : "L"}${(k / (pts.length - 1)) * 300},${100 - v}`).join(" ");
   return (
     <div className="flex h-full flex-col bg-white p-5 tablet:p-8">
-      <p className="font-inter text-[12px] text-black/50">Ventas · octubre</p>
+      <p className="font-inter text-[13px] text-black/50">Ventas · octubre</p>
       <div className="flex items-center gap-3">
         <span className="font-sora text-[30px] font-semibold tabular-nums text-black tablet:text-[44px]" style={{ letterSpacing: "-0.03em" }}>${mx(n)}</span>
-        <span className="rounded-full bg-[rgba(34,197,94,0.12)] px-2 py-0.5 font-inter text-[12px] font-bold text-[#15803D] transition-opacity duration-500" style={{ opacity: done ? 1 : 0 }}>▲ 32%</span>
+        <span className="rounded-full bg-[rgba(34,197,94,0.12)] px-2 py-0.5 font-inter text-[13px] font-bold text-[#15803D] transition-opacity duration-500" style={{ opacity: done ? 1 : 0 }}>▲ 32%</span>
       </div>
       {/* La línea se "dibuja" destapándose de izquierda a derecha (clip-path):
           con vectorEffect el truco de strokeDasharray no funciona bien. */}
@@ -781,7 +781,7 @@ export function VisualVentas({ done }: { done: boolean }) {
         <path d={`${path} L300,100 L0,100 Z`} fill="url(#uno-ventas)" />
         <path d={path} fill="none" stroke="#DB3B2B" strokeWidth="2.2" strokeLinejoin="round" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
       </svg>
-      <div className="mt-3 hidden grid-cols-3 gap-2 font-inter text-[10px] text-black/55 tablet:grid tablet:text-[12px]">
+      <div className="mt-3 hidden grid-cols-3 gap-2 font-inter text-[11.5px] text-black/55 tablet:grid tablet:text-[13px]">
         {[["Tienda en línea", "48%"], ["Mercado Libre", "29%"], ["Sucursales", "23%"]].map(([c, p]) => (
           <div key={c}><p>{c}</p><p className="font-semibold text-black">{p}</p></div>
         ))}
@@ -799,20 +799,20 @@ export function VisualPedidos({ done }: { done: boolean }) {
     { src: FOTO.playera, n: "#126", c: "Luis Torres", m: "$480" },
   ];
   return (
-    <div className="flex h-full flex-col bg-[#FAFAF9] p-4 tablet:p-6">
+    <div className="flex h-full flex-col bg-[#F7F7F7] p-4 tablet:p-6">
       <div className="mb-3 flex items-center gap-2">
         <p className="font-inter text-[13px] font-semibold text-black tablet:text-[15px]">Pedidos</p>
-        <span className="rounded-full bg-[rgba(245,158,11,0.14)] px-2 py-0.5 font-inter text-[11px] font-semibold text-[#B45309]">12 por preparar</span>
+        <span className="rounded-full bg-black/[0.06] px-2 py-0.5 font-inter text-[12px] font-semibold text-black/70">12 por preparar</span>
       </div>
       <div className="flex flex-1 flex-col gap-2">
         {pedidos.map((p, k) => (
           <div key={p.n} className="flex flex-1 items-center gap-3 rounded-[12px] bg-white px-3 shadow-[0_1px_0_rgba(0,0,0,0.04)] transition-all duration-500" style={{ opacity: done ? 1 : 0.25, transform: done ? "translateX(0)" : "translateX(-14px)", transitionDelay: `${k * 120}ms`, transitionTimingFunction: ease }}>
             <Foto src={p.src} className="h-[34px] w-[34px] shrink-0 rounded-[8px] tablet:h-[44px] tablet:w-[44px]" />
             <div className="min-w-0 flex-1">
-              <p className="font-inter text-[12px] font-semibold text-black">{p.n} · {p.c}</p>
-              <p className="font-inter text-[10px] text-black/45">Tienda en línea · hoy</p>
+              <p className="font-inter text-[13px] font-semibold text-black">{p.n} · {p.c}</p>
+              <p className="font-inter text-[11.5px] text-black/45">Tienda en línea · hoy</p>
             </div>
-            <span className="font-inter text-[12px] font-semibold text-black">{p.m}</span>
+            <span className="font-inter text-[13px] font-semibold text-black">{p.m}</span>
           </div>
         ))}
       </div>
@@ -826,14 +826,14 @@ export function VisualCobros({ done }: { done: boolean }) {
   const barras = [38, 62, 30, 80, 54, 92, 46, 70];
   return (
     <div className="flex h-full flex-col bg-white p-5 tablet:p-8">
-      <p className="font-inter text-[12px] text-black/50">Te queda neto hoy</p>
+      <p className="font-inter text-[13px] text-black/50">Te queda neto hoy</p>
       <p className="font-sora text-[30px] font-semibold tabular-nums text-black tablet:text-[44px]" style={{ letterSpacing: "-0.03em" }}>${mx(neto)}</p>
       <div className="mt-4 flex flex-1 items-end gap-2">
         {barras.map((h, k) => (
           <span key={k} className="flex-1 rounded-t-[6px] bg-[#DB3B2B] transition-all duration-700" style={{ height: done ? `${h}%` : "6%", opacity: 0.35 + (k / barras.length) * 0.65, transitionDelay: `${k * 70}ms`, transitionTimingFunction: ease }} />
         ))}
       </div>
-      <div className="mt-3 hidden justify-between font-inter text-[11px] text-black/55 tablet:flex tablet:text-[12px]">
+      <div className="mt-3 hidden justify-between font-inter text-[12px] text-black/55 tablet:flex tablet:text-[13px]">
         <span>18 cobros · $12,480</span>
         <span className="font-semibold text-black">Depósito 24 oct</span>
       </div>
@@ -844,7 +844,7 @@ export function VisualCobros({ done }: { done: boolean }) {
 /* Rastreo: el paquete avanza por la ruta CDMX → Guadalajara */
 export function VisualRastreo({ done }: { done: boolean }) {
   return (
-    <div className="relative h-full overflow-hidden bg-[#F1EEE9]">
+    <div className="relative h-full overflow-hidden bg-[#F7F7F7]">
       <svg viewBox="0 0 400 240" className="absolute inset-0 h-full w-full" preserveAspectRatio="xMidYMid slice" aria-hidden>
         {Array.from({ length: 12 }).map((_, k) => <line key={`v${k}`} x1={k * 36} y1="0" x2={k * 36 - 40} y2="240" stroke="rgba(0,0,0,0.05)" strokeWidth="6" />)}
         {Array.from({ length: 8 }).map((_, k) => <line key={`h${k}`} x1="0" y1={k * 34} x2="400" y2={k * 34 + 20} stroke="rgba(0,0,0,0.04)" strokeWidth="4" />)}
@@ -853,13 +853,13 @@ export function VisualRastreo({ done }: { done: boolean }) {
         <circle cx="320" cy="170" r="7" fill="#111" />
         <circle cx="80" cy="64" r="9" fill="#fff" stroke="#DB3B2B" strokeWidth="3" />
       </svg>
-      <span className="absolute font-inter text-[11px] font-semibold text-black" style={{ right: "12%", bottom: "16%" }}>CDMX</span>
-      <span className="absolute font-inter text-[11px] font-semibold text-black" style={{ left: "10%", top: "14%" }}>Guadalajara</span>
+      <span className="absolute font-inter text-[12px] font-semibold text-black" style={{ right: "12%", bottom: "16%" }}>CDMX</span>
+      <span className="absolute font-inter text-[12px] font-semibold text-black" style={{ left: "10%", top: "14%" }}>Guadalajara</span>
       <div className="absolute left-3 right-3 top-3 flex items-center gap-3 rounded-[14px] bg-white p-3 shadow-[0_14px_34px_-12px_rgba(0,0,0,0.3)] transition-all duration-700 tablet:bottom-5 tablet:left-5 tablet:right-auto tablet:top-auto tablet:w-[300px]" style={{ opacity: done ? 1 : 0, transform: done ? "translateY(0)" : "translateY(12px)", transitionDelay: "700ms" }}>
-        <span className="font-sora text-[12px] font-black italic text-[#D40511]">DHL</span>
+        <span className="font-sora text-[13px] font-black italic text-[#D40511]">DHL</span>
         <div className="min-w-0 flex-1">
-          <p className="font-inter text-[12px] font-semibold text-black">En tránsito a Guadalajara</p>
-          <p className="font-inter text-[10px] text-black/50">Pedido #124 · llega mañana</p>
+          <p className="font-inter text-[13px] font-semibold text-black">En tránsito a Guadalajara</p>
+          <p className="font-inter text-[11.5px] text-black/50">Pedido #124 · llega mañana</p>
         </div>
       </div>
     </div>
@@ -870,17 +870,17 @@ export function VisualRastreo({ done }: { done: boolean }) {
 export function VisualSobrepeso({ done }: { done: boolean }) {
   return (
     <div className="flex h-full flex-col justify-start bg-white p-5 tablet:justify-center tablet:p-10">
-      <p className="font-inter text-[12px] text-black/50">Guía 7710 2284 · Estafeta</p>
+      <p className="font-inter text-[13px] text-black/50">Guía 7710 2284 · Estafeta</p>
       <p className="mb-5 font-sora text-[22px] font-semibold text-black tablet:text-[30px]">Cobro extra de <span className="text-[#DB3B2B]">+$86</span></p>
       {[["Declarado", 1, "1 kg", "bg-black/25"], ["Real", 2.4, "2.4 kg", "bg-[#DB3B2B]"]].map(([l, v, t, c], k) => (
         <div key={l as string} className="mb-3">
-          <div className="mb-1 flex justify-between font-inter text-[12px]"><span className="text-black/60">{l}</span><span className="font-semibold text-black">{t}</span></div>
+          <div className="mb-1 flex justify-between font-inter text-[13px]"><span className="text-black/60">{l}</span><span className="font-semibold text-black">{t}</span></div>
           <div className="h-[14px] overflow-hidden rounded-full bg-black/[0.05]">
             <div className={`h-full rounded-full ${c} transition-all duration-1000`} style={{ width: done ? `${((v as number) / 2.6) * 100}%` : "0%", transitionDelay: `${k * 250}ms`, transitionTimingFunction: ease }} />
           </div>
         </div>
       ))}
-      <span className="mt-2 hidden self-start rounded-full border border-[#D97706]/30 tablet:inline-block bg-[rgba(245,158,11,0.10)] px-2.5 py-1 font-inter text-[11px] font-semibold text-[#B45309] transition-opacity duration-500" style={{ opacity: done ? 1 : 0, transitionDelay: "900ms" }}>Abre una incidencia desde el chat</span>
+      <span className="mt-2 hidden self-start rounded-full border border-black/10 tablet:inline-block bg-black/[0.04] px-2.5 py-1 font-inter text-[12px] font-semibold text-black/70 transition-opacity duration-500" style={{ opacity: done ? 1 : 0, transitionDelay: "900ms" }}>Abre una incidencia desde el chat</span>
     </div>
   );
 }

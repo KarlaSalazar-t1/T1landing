@@ -38,9 +38,9 @@ import {
    mismo lienzo de 738×748, así que cambiar de estado no lo mueve de lugar.
    `listo` y `aviso` son gestos de una vez: con `then`, al terminar pasa a
    ese estado en loop. Con `onView` el gesto espera a que se vea en pantalla. */
-type UnoEstado = "saludo" | "reposo" | "escuchando" | "trabajando" | "listo" | "aviso";
+export type UnoEstado = "saludo" | "reposo" | "escuchando" | "trabajando" | "listo" | "aviso";
 
-function UnoVideo({ estado, then, onView = false, className = "" }: { estado: UnoEstado; then?: UnoEstado; onView?: boolean; className?: string }) {
+export function UnoVideo({ estado, then, onView = false, className = "" }: { estado: UnoEstado; then?: UnoEstado; onView?: boolean; className?: string }) {
   const [actual, setActual] = useState<UnoEstado>(estado);
   const [visible, setVisible] = useState(!onView);
   const ref = useRef<HTMLVideoElement>(null);
@@ -89,7 +89,7 @@ function Pill({ children, tone = "gray" }: { children: ReactNode; tone?: "gray" 
 }
 
 /* Diseño de la tienda (builder de T1 Tienda con Uno) */
-const TIENDA: Scene[] = [
+export const TIENDA: Scene[] = [
   { chip: "Crea tu tienda", panelTitle: "Diseño de tienda", prompt: "Hazme una tienda de streetwear que se llame AURUM", reply: "Tu tienda está lista con portada, colección y tus productos.", action: "Abrir editor de tienda", Visual: ({ done }) => <VisualTienda done={done} variante="crear" /> },
   { chip: "Agrega una sección", panelTitle: "Diseño de tienda", prompt: "Agrega una sección con lo más vendido", reply: "Agregué la sección “Lo más vendido” debajo de la portada.", action: "Ver sección en el editor", Visual: ({ done }) => <VisualTienda done={done} variante="seccion" /> },
   { chip: "Cambia el estilo", panelTitle: "Diseño de tienda", prompt: "Ponle un estilo oscuro y elegante", reply: "Cambié los colores de tu tienda a un estilo oscuro.", action: "Ver cambios en el editor", Visual: ({ done }) => <VisualTienda done={done} variante="oscuro" /> },
@@ -97,7 +97,7 @@ const TIENDA: Scene[] = [
 
 /* ── Escenas. Cada una usa una tarjeta real de Uno (tipo en el comentario) ── */
 
-const PREGUNTAS: Scene[] = [
+export const PREGUNTAS: Scene[] = [
   // report_summary
   { chip: "Resumen de ventas", panelTitle: "Ventas", prompt: "¿Cómo me fue en ventas este mes?", reply: "Vendiste $84,320 en octubre, 32% más que el mes pasado. Tu mejor canal fue la tienda en línea.", action: "Ver reporte de ventas", Visual: VisualVentas },
   // orders_list
@@ -110,7 +110,7 @@ const PREGUNTAS: Scene[] = [
   { chip: "Sobrepesos", panelTitle: "Envíos", prompt: "¿Tengo envíos con sobrepeso?", reply: "Sí, una guía de Estafeta pesó 2.4 kg y declaraste 1 kg. El cobro extra es de $86.", action: "Ver sobrepesos", Visual: VisualSobrepeso },
 ];
 
-const PEDIDOS: Scene[] = [
+export const PEDIDOS: Scene[] = [
   // coupon_draft
   { chip: "Crea un cupón", panelTitle: "Promociones", prompt: "Crea un cupón del 15% para sudaderas", reply: "Te preparé el cupón PROMO15. Revísalo y confírmalo para activarlo.", action: "Ver cupones", Visual: VisualCupon },
   // product_draft — alta de producto a partir de una foto
@@ -125,13 +125,13 @@ const PEDIDOS: Scene[] = [
 
 /* ── "Todo tu negocio" — logo de cada producto y una burbuja de pregunta
    que va cambiando sola (desfasada por tarjeta para que no cambien juntas). ── */
-const SOURCES = [
+export const SOURCES = [
   { logo: "/img/t1tienda-logo.svg", alt: "T1 Tienda", w: 130, knows: "Ventas por canal, pedidos, productos, cupones y catálogo.", asks: ["¿Qué pedidos tengo por preparar?", "¿Cuál fue mi mejor día este mes?", "Crea un cupón del 10% para mi categoría Bazar", "¿Qué canal me vende más?"] },
   { logo: "/img/t1pagos-logo.svg", alt: "T1 Pagos", w: 137, knows: "Transacciones con comisión y neto, links de pago y métodos de cobro.", asks: ["¿Cuánto me queda neto de lo que cobré hoy?", "Crea un link de pago de $850", "¿Cuándo me liquidan lo de esta semana?", "¿Qué cobros me rechazaron hoy?"] },
   { logo: "/img/t1envios-logo.svg", alt: "T1 Envíos", w: 137, knows: "Cotizaciones, guías, rastreo, recolecciones, incidencias y sobrepesos.", asks: ["¿Dónde va el envío del pedido #124?", "Cotiza 2 kg de CDMX a Mérida", "Programa una recolección para mañana", "¿Qué envíos tienen sobrepeso?"] },
 ];
 
-function RotatingAsk({ asks, offset }: { asks: string[]; offset: number }) {
+export function RotatingAsk({ asks, offset }: { asks: string[]; offset: number }) {
   const [i, setI] = useState(0);
   useEffect(() => {
     let id = 0;
