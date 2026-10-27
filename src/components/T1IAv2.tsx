@@ -7,14 +7,14 @@ import HeroBackground from "@/components/HeroBackground";
 import T1FinalCTA from "@/components/T1FinalCTA";
 import { T1FAQSection } from "@/components/T1FAQ";
 import { UnoHeroCard, UnoStage, type Scene } from "@/components/T1UnoStage";
-import { PEDIDOS, PREGUNTAS, SOURCES, TIENDA, UnoVideo } from "@/components/T1IA";
+import { PEDIDOS, PREGUNTAS, TIENDA, UnoVideo } from "@/components/T1IA";
 
 /* Landing de Uno — V2 (más simple, por comentarios del CEO: "desordenado,
    muchos colores, difícil de leer").
    · 5 secciones en lugar de 9: hero → video + qué es Uno → un solo demo →
      todo tu negocio → FAQ y cierre (el alta pasó a la FAQ).
    · Una sola paleta: el degradado oscuro de T1 solo en el hero y el cierre;
-     en medio solo blanco y #FBFBFB.
+     en medio todo blanco.
    · Menos movimiento: un solo demo, escenas de 13 s, burbujas fijas y Uno
      animado solo en el hero y en el cierre.
    · El video va como SEGUNDA sección (no en el hero: ningún landing de T1
@@ -34,6 +34,47 @@ const INTRO = [
   { title: "Tú decides", desc: "Nada cambia en tu negocio hasta que lo confirmas.", icon: <><circle cx="12" cy="12" r="9" /><path d="M8 12.3l2.8 2.8L16.2 9.5" /></> },
 ];
 
+
+/* Ejemplos de qué pedirle a Uno (solo funciones que ya existen). El chip dice
+   de qué producto de T1 sale cada respuesta. */
+type Producto = "tienda" | "pagos" | "envios";
+const LOGO: Record<Producto, { src: string; alt: string; w: number }> = {
+  tienda: { src: "/img/t1tienda-logo.svg", alt: "T1 Tienda", w: 130 },
+  pagos: { src: "/img/t1pagos-logo.svg", alt: "T1 Pagos", w: 137 },
+  envios: { src: "/img/t1envios-logo.svg", alt: "T1 Envíos", w: 137 },
+};
+type Prompt = { tema: string; texto: string; producto: Producto };
+const PROMPT_ROWS: Prompt[][] = [
+  [
+    { tema: "Productos", texto: "Crea un nuevo producto con esta foto", producto: "tienda" },
+    { tema: "Cobros", texto: "¿Cuánto me queda neto de lo que cobré hoy?", producto: "pagos" },
+    { tema: "Guías", texto: "Genera la guía del pedido #129 con la opción más rápida", producto: "envios" },
+    { tema: "Promociones", texto: "Crea un cupón del 15% para sudaderas", producto: "tienda" },
+    { tema: "Ventas", texto: "¿Cómo me fue en ventas este mes?", producto: "tienda" },
+    { tema: "Rastreo", texto: "¿Dónde va el envío del pedido #124?", producto: "envios" },
+  ],
+  [
+    { tema: "Links de pago", texto: "Crea un link de pago de $850", producto: "pagos" },
+    { tema: "Tu tienda", texto: "Agrega una sección con lo más vendido", producto: "tienda" },
+    { tema: "Cotizaciones", texto: "Cotiza un envío de 2 kg de CDMX a Mérida", producto: "envios" },
+    { tema: "Pedidos", texto: "¿Qué pedidos tengo por preparar?", producto: "tienda" },
+    { tema: "Sobrepesos", texto: "¿Tengo envíos con sobrepeso?", producto: "envios" },
+    { tema: "Catálogo", texto: "Sube los productos de mi archivo de Excel", producto: "tienda" },
+  ],
+];
+
+function PromptCard({ tema, texto, producto, hidden }: Prompt & { hidden?: boolean }) {
+  const l = LOGO[producto];
+  return (
+    <div aria-hidden={hidden || undefined} className="mr-4 flex h-[148px] w-[264px] shrink-0 flex-col rounded-[20px] border border-black/[0.07] bg-white p-5 shadow-[0_12px_40px_-28px_rgba(0,0,0,0.35)] tablet:h-[160px] tablet:w-[300px] tablet:p-6">
+      <div className="flex items-center justify-between gap-3">
+        <span className="font-inter text-[13px] font-medium text-black/45">{tema}</span>
+        <Image src={l.src} alt={l.alt} width={l.w} height={42} className="h-[15px] w-auto" />
+      </div>
+      <p className="mt-3 font-inter text-[17px] text-black tablet:text-[18px]" style={{ lineHeight: 1.4, letterSpacing: "-0.01em" }}>{texto}</p>
+    </div>
+  );
+}
 
 function VideoUno() {
   const ref = useRef<HTMLVideoElement>(null);
@@ -111,7 +152,7 @@ export default function T1IAv2() {
       </section>
 
       {/* ── 2 · Video + qué es Uno, en una sola sección ── */}
-      <section className="relative bg-[#FBFBFB] px-5 py-16 tablet:px-10 tablet:py-24">
+      <section className="relative bg-white px-5 py-16 tablet:px-10 tablet:py-24">
         <div className="mx-auto max-w-[1040px]">
           <div data-modal-animate className="mx-auto mb-8 max-w-[720px] text-center tablet:mb-12">
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 12 }}>
@@ -151,9 +192,9 @@ export default function T1IAv2() {
         </div>
       </section>
 
-      {/* ── 4 · Todo tu negocio (burbujas fijas, sin rotar) ── */}
-      <section className="relative bg-[#FBFBFB] px-5 py-16 tablet:px-10 tablet:py-24">
-        <div className="mx-auto max-w-[var(--max-w)]">
+      {/* ── 4 · Todo tu negocio: ejemplos de qué pedirle, por producto ── */}
+      <section className="relative overflow-hidden bg-white py-16 tablet:py-24">
+        <div className="mx-auto max-w-[var(--max-w)] px-5 tablet:px-10">
           <div data-modal-animate className="mx-auto mb-8 max-w-[760px] text-center tablet:mb-12">
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
               Todo tu negocio en una sola conversación
@@ -162,15 +203,16 @@ export default function T1IAv2() {
               Uno vive en cada administrador de T1 y conoce toda tu operación.
             </p>
           </div>
-          <div data-modal-animate className="grid grid-cols-1 gap-4 tablet:mx-auto tablet:max-w-[1040px] tablet:grid-cols-3 tablet:gap-5">
-            {SOURCES.map((s, i) => (
-              <div key={s.alt} data-stagger style={{ ["--i" as string]: i }} className="flex flex-col rounded-[20px] border border-black/[0.07] bg-white p-6 shadow-[0_12px_40px_-28px_rgba(0,0,0,0.35)]">
-                <Image src={s.logo} alt={s.alt} width={s.w} height={42} className="h-[30px] w-auto self-start" style={{ marginBottom: 14 }} />
-                <p className="font-inter text-[15px] font-light text-black/60" style={{ lineHeight: 1.6, marginBottom: 18 }}>{s.knows}</p>
-                <div className="mt-auto self-end rounded-[16px] rounded-br-[4px] bg-[#F2F2F1] px-3.5 py-2.5 font-inter text-[14px] text-black/80">{s.asks[0]}</div>
+        </div>
+        {/* Dos filas en sentidos opuestos; se pausan con el mouse encima */}
+        <div data-modal-animate className="flex flex-col gap-4" style={{ maskImage: "linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent)", WebkitMaskImage: "linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent)" }}>
+          {PROMPT_ROWS.map((row, r) => (
+            <div key={r} className="overflow-hidden py-3">
+              <div className="marquee-track flex motion-reduce:[animation:none]" style={{ animationDuration: r ? "70s" : "60s", animationDirection: r ? "reverse" : "normal" }}>
+                {[...row, ...row].map((p, i) => <PromptCard key={i} {...p} hidden={i >= row.length} />)}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -190,10 +232,10 @@ export default function T1IAv2() {
         title={
           <>
             <UnoVideo estado="saludo" className="mx-auto mb-4 block h-[88px] w-[88px] tablet:h-[110px] tablet:w-[110px]" />
-            Tu próxima gran decisión empieza con una pregunta
+            Decide mejor desde hoy
           </>
         }
-        description="Crea tu cuenta gratis y pregúntale a Uno cómo va tu negocio hoy."
+        description="Crea tu cuenta gratis y pregúntale a Uno cómo va tu negocio."
       />
     </div>
   );
