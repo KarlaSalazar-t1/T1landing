@@ -130,9 +130,15 @@ const ArrowRight = (
   </svg>
 );
 
+/* Instrucción arriba de cada pestaña (como en t1.com) — solo con `uno` */
+const INSTR = "max-w-[360px] text-center font-inter text-[16px] font-light leading-[1.6] text-white tablet:max-w-none";
+
 const FIELD = "w-full rounded-[14px] bg-[#1D1D1D] px-4 py-3 font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A] focus:ring-1 focus:ring-white/20";
 
-export default function T1HeroB({ buenFin = false, variantB = false }: { buenFin?: boolean; variantB?: boolean }) {
+/* uno: propuesta para presentar a Uno (la IA de T1) sin rehacer el hero. Agrega
+   las instrucciones por pestaña de t1.com (las tres mencionan a Uno) y el avatar
+   de Uno dentro del input de tienda, como en el chat de Uno en la app. */
+export default function T1HeroB({ buenFin = false, variantB = false, uno = false }: { buenFin?: boolean; variantB?: boolean; uno?: boolean }) {
   const [tabIdx, setTabIdx] = useState(0);
   const tab = TABS[tabIdx];
 
@@ -395,6 +401,7 @@ export default function T1HeroB({ buenFin = false, variantB = false }: { buenFin
               {/* ── TIENDA ── */}
               {tab.id === "tienda" && (
                 <>
+                  {uno && <p className={INSTR}>Describe tu negocio y <b className="font-semibold">Uno</b> crea tu tienda</p>}
                   <div className="relative w-full rounded-[16px] bg-[#1D1D1D] min-h-[160px] tablet:min-h-[170px]">
                     <textarea
                       ref={textareaRef}
@@ -411,6 +418,9 @@ export default function T1HeroB({ buenFin = false, variantB = false }: { buenFin
                         {capFirst(placeholder)}
                         <span className="ml-px inline-block w-[2px] align-[-2px] bg-[#8A8A8A]" style={{ height: "1.1em", animation: "blink 1s step-end infinite" }} />
                       </div>
+                    )}
+                    {uno && (
+                      <Image src="/img/uno-avatar.svg" alt="Uno" width={36} height={36} unoptimized className="pointer-events-none absolute bottom-[14px] left-[16px] h-[34px] w-[34px] tablet:left-[20px]" />
                     )}
                     <a
                       href={tab.href}
@@ -448,6 +458,7 @@ export default function T1HeroB({ buenFin = false, variantB = false }: { buenFin
               {/* ── LINK DE PAGO ── */}
               {tab.id === "link" && (
                 <>
+                  {uno && <p className={INSTR}>Cobra sin terminal. <b className="font-semibold">Uno</b> crea tu link de pago.</p>}
                   <div className="flex w-full flex-1 flex-col gap-3.5 tablet:flex-none">
                     {/* Campos (monto + concepto) — misma altura mín. que el CP de envío para alinear los logos entre pestañas */}
                     <div className="flex min-h-[172px] flex-col gap-3.5">
@@ -500,6 +511,7 @@ export default function T1HeroB({ buenFin = false, variantB = false }: { buenFin
               {/* ── ENVÍO ── */}
               {tab.id === "envio" && (
                 <>
+                  {uno && <p className={INSTR}><b className="font-semibold">Uno</b> cotiza con +10 paqueterías en segundos.</p>}
                   <div className="flex w-full flex-1 flex-col gap-4 tablet:flex-none">
                     {/* CP — misma altura mín. que los campos de link para alinear los logos entre pestañas */}
                     <div className="mx-auto flex min-h-[172px] w-full flex-col justify-center rounded-[16px] bg-[#1D1D1D] px-4 py-2 transition-shadow focus-within:ring-1 focus-within:ring-white/25 tablet:max-w-[440px]">
