@@ -26,12 +26,13 @@ const UNO_VIDEO_SRC: string | null = "/video/uno/uno-evento.mp4";
 
 /* Un solo demo con lo más representativo de preguntar, pedir y diseñar */
 // PEDIDOS: [cupón, producto con foto, link de pago, guía, catálogo]
-const DEMO: Scene[] = [PREGUNTAS[0], PREGUNTAS[1], PEDIDOS[0], PEDIDOS[1], PEDIDOS[2], PEDIDOS[3], TIENDA[0]];
+// Empieza con la historia del evento: producto → link de pago → guía → rastreo
+const DEMO: Scene[] = [PEDIDOS[1], PEDIDOS[2], PEDIDOS[3], PREGUNTAS[3], PREGUNTAS[0], PEDIDOS[0], TIENDA[0]];
 
 const INTRO = [
   { title: "Pregúntale", desc: "Ventas, pedidos, cobros o envíos: te responde con tus números.", icon: <path d="M5 6.5A2.5 2.5 0 017.5 4h9A2.5 2.5 0 0119 6.5v7a2.5 2.5 0 01-2.5 2.5H11l-4 3.5V16h0.5A2.5 2.5 0 015 13.5v-7z" /> },
   { title: "Pídele", desc: "Crea cupones, productos, guías y links de pago por ti.", icon: <path d="M13 3L5 13h6l-1 8 8-10h-6l1-8z" /> },
-  { title: "Tú decides", desc: "Nada cambia en tu negocio hasta que lo confirmas.", icon: <><circle cx="12" cy="12" r="9" /><path d="M8 12.3l2.8 2.8L16.2 9.5" /></> },
+  { title: "Tú decides", desc: "Antes de hacer algo con dinero, te pregunta y espera tu confirmación.", icon: <><circle cx="12" cy="12" r="9" /><path d="M8 12.3l2.8 2.8L16.2 9.5" /></> },
 ];
 
 
@@ -69,7 +70,7 @@ function PromptCard({ tema, texto, producto, hidden }: Prompt & { hidden?: boole
     <div aria-hidden={hidden || undefined} className="mr-4 flex h-[148px] w-[264px] shrink-0 flex-col rounded-[20px] border border-black/[0.07] bg-white p-5 shadow-[0_12px_40px_-28px_rgba(0,0,0,0.35)] tablet:h-[160px] tablet:w-[300px] tablet:p-6">
       <div className="flex items-center justify-between gap-3">
         <span className="font-inter text-[13px] font-medium text-black/45">{tema}</span>
-        <Image src={l.src} alt={l.alt} width={l.w} height={42} className="h-[15px] w-auto" />
+        <Image src={l.src} alt={l.alt} width={l.w} height={42} loading="eager" className="h-[15px] w-auto" />
       </div>
       <p className="mt-3 font-inter text-[17px] text-black tablet:text-[18px]" style={{ lineHeight: 1.4, letterSpacing: "-0.01em" }}>{texto}</p>
     </div>
@@ -129,10 +130,10 @@ export default function T1IAv2() {
           <div className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] tablet:gap-12">
             <div>
               <h1 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[60px]" style={{ lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: 22 }}>
-                El aliado que tu negocio necesitaba
+                El experto de tu negocio
               </h1>
               <p className="font-inter text-[16px] font-light text-white/70 tablet:text-[19px]" style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 480 }}>
-                Uno, la IA de T1, entiende tu operación y te ayuda a sacarla adelante.
+                Uno, la IA de T1, conoce tus ventas, productos, clientes y envíos, y hace el trabajo por ti.
               </p>
               <a href={SIGNUP_URL} className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
                 Comienza gratis
@@ -141,7 +142,7 @@ export default function T1IAv2() {
                   no se paga aparte. */}
               <p className="mt-3 flex items-center gap-1.5 font-inter text-[13px] text-white/65">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M5 12l5 5 9-10" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                Uno viene incluido en tu cuenta, sin costo adicional
+                Uno viene incluido en todos los planes de T1
               </p>
             </div>
             <div className="relative">
@@ -156,10 +157,10 @@ export default function T1IAv2() {
         <div className="mx-auto max-w-[1040px]">
           <div data-modal-animate className="mx-auto mb-8 max-w-[720px] text-center tablet:mb-12">
             <h2 className="font-sora text-[28px] font-light text-black tablet:text-[44px]" style={{ letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 12 }}>
-              Resuelve en segundos lo que te tomaba horas
+              Uno no te contesta. Uno lo hace.
             </h2>
             <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.5 }}>
-              Así trabaja Uno dentro de tu administrador de T1.
+              Le pides lo que necesitas con tus palabras, y lo hace.
             </p>
           </div>
           <div data-modal-animate><VideoUno /></div>
@@ -185,7 +186,7 @@ export default function T1IAv2() {
               Tu día, resuelto en una conversación
             </h2>
             <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.5 }}>
-              Elige un ejemplo y mira cómo responde Uno.
+              Sube un producto, cóbralo y mándalo sin salir de la conversación.
             </p>
           </div>
           <UnoStage scenes={DEMO} sceneMs={13000} />
@@ -200,7 +201,7 @@ export default function T1IAv2() {
               Todo tu negocio en una sola conversación
             </h2>
             <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
-              Uno vive en cada administrador de T1 y conoce toda tu operación.
+              Una sola IA para tu tienda, tus pagos y tus envíos, con más de 250 acciones.
             </p>
           </div>
         </div>
@@ -219,8 +220,8 @@ export default function T1IAv2() {
       {/* ── 6 · FAQ y cierre ── */}
       <T1FAQSection
         faqs={[
-          { q: "¿Uno tiene costo?", a: "No. Uno viene incluido en tu cuenta de T1, sin costo adicional." },
-          { q: "¿Dónde encuentro a Uno?", a: "Uno vive en cada uno de los administradores de T1. Ábrelo desde el panel lateral en cualquier sección y haz tu pregunta." },
+          { q: "¿Uno tiene costo?", a: "No. Uno viene incluido en todos los planes de T1, sin costo adicional." },
+          { q: "¿Dónde encuentro a Uno?", a: "Uno vive en cada uno de los administradores de T1. Ábrelo desde el panel lateral en cualquier sección, desde tu computadora o tu celular, a la hora que sea." },
           { q: "¿Qué puede hacer Uno?", a: "Consulta tus ventas, pedidos, transacciones y envíos; cotiza y genera guías, programa recolecciones, crea productos, cupones y links de pago, importa tu catálogo y diseña tu tienda." },
           { q: "¿Puede hacer cambios en mi negocio?", a: "Sí, pero siempre te muestra una propuesta antes. Nada se aplica hasta que eliges Aplicar o Confirmar." },
           { q: "¿Qué hace diferente a Uno de otras herramientas de IA?", a: "Uno trabaja con los datos reales de tu tienda, tus cobros y tus envíos, y puede hacer cambios en ellos. No te da consejos genéricos: te responde con tus números." },
@@ -232,7 +233,7 @@ export default function T1IAv2() {
         title={
           <>
             <UnoVideo estado="saludo" className="mx-auto mb-4 block h-[88px] w-[88px] tablet:h-[110px] tablet:w-[110px]" />
-            Decide mejor desde hoy
+            El verdadero todo en Uno
           </>
         }
         description="Crea tu cuenta gratis y pregúntale a Uno cómo va tu negocio."

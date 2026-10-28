@@ -3,7 +3,7 @@ import T1Footer from "@/components/T1Footer";
 import T1IAv2 from "@/components/T1IAv2";
 
 export const metadata = {
-  title: "Uno, la IA de T1 · El aliado que tu negocio necesitaba",
+  title: "Uno, la IA de T1 · El experto de tu negocio",
   description:
     "Pregúntale a Uno, la IA de T1, por tus ventas, pedidos, pagos o envíos y recibe respuestas con tus números. También crea cupones, productos, guías y links de pago por ti.",
   robots: { index: false },
