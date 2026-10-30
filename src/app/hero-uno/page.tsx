@@ -12,11 +12,14 @@ import T1EnterpriseCarousel from "@/components/T1EnterpriseCarousel";
 import T1AudienceRotator from "@/components/T1AudienceRotator";
 import T1ScrollShowcase from "@/components/T1ScrollShowcase";
 import T1Footer from "@/components/T1Footer";
+import T1UnoHomeBlock from "@/components/T1UnoHomeBlock";
+import { UnoBrandProvider } from "@/lib/unoBrand";
 
 export const metadata = { robots: { index: false } };
 
 export default function HomeHeroUno() {
   return (
+    <UnoBrandProvider>
     <main className="min-h-screen">
       <T1Navbar />
 
@@ -36,6 +39,11 @@ export default function HomeHeroUno() {
         <T1AudienceRotator bVariant />
       </div>
 
+      {/* Uno: bloque que lo presenta y manda a /uno */}
+      <div className="relative z-[10]">
+        <T1UnoHomeBlock />
+      </div>
+
       <div className="relative z-[10]">
         <T1EnterpriseCarousel bVariant />
       </div>
@@ -49,5 +57,6 @@ export default function HomeHeroUno() {
         <T1Footer />
       </div>
     </main>
+    </UnoBrandProvider>
   );
 }

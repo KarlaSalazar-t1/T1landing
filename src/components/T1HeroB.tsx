@@ -26,9 +26,9 @@ function track(event: string, data: Record<string, unknown>) {
 
 /* ── Tabs (segmented control) ── */
 const TABS = [
-  { id: "tienda", label: "Crea tu tienda", mLabel: "Tienda", href: SIGNUP_URL },
-  { id: "envio", label: "Cotizar envío", mLabel: "Envíos", href: ENVIOS_QUOTE_URL },
-  { id: "link", label: "Crea link de pago", mLabel: "Pagos", href: PAGOS_START_URL },
+  { id: "tienda", label: "Crea tu tienda", mLabel: "Tienda", vLabel: "Tienda en línea", href: SIGNUP_URL },
+  { id: "envio", label: "Cotizar envío", mLabel: "Envíos", vLabel: "Cotizar envío", href: ENVIOS_QUOTE_URL },
+  { id: "link", label: "Crea link de pago", mLabel: "Pagos", vLabel: "Link de pago", href: PAGOS_START_URL },
 ];
 
 
@@ -111,6 +111,25 @@ function CarrierLogos() {
 const TIENDA_PLACEHOLDERS = HERO_PROMPT_PLACEHOLDERS;
 const TIENDA_CHIPS = HERO_CHIPS;
 
+/* unoChat (propuesta B): sin pestañas, un solo input de chat con Uno.
+   Las sugerencias cubren los tres productos y mandan a su flujo. */
+const UNO_PLACEHOLDERS = [
+  "Crea mi tienda de ropa casual con estilo minimalista",
+  "Cotiza un envío de 2 kg de CDMX a Monterrey",
+  "Crea un link de pago de $850 por una sesión de fotos",
+  "Crea mi tienda de joyería de plata con diseños elegantes",
+  "¿Cuánto cuesta mandar una caja a Mérida?",
+  "Cóbrale $1,200 a un cliente con meses sin intereses",
+];
+const UNO_SUGGESTIONS = [
+  { id: "tienda", label: "Crea tu tienda", prompt: "Crea mi tienda de ropa casual con estilo minimalista", href: SIGNUP_URL,
+    icon: <path d="M4 9.5 5.5 4h13L20 9.5M4 9.5h16M4 9.5a2.7 2.7 0 0 0 5.3 0 2.7 2.7 0 0 0 5.4 0 2.7 2.7 0 0 0 5.3 0M5.5 12v8h13v-8M10 20v-4.5h4V20" /> },
+  { id: "envio", label: "Cotiza un envío", prompt: "Cotiza un envío de 2 kg de CDMX a Monterrey", href: ENVIOS_QUOTE_URL,
+    icon: <><path d="M3 6.5h11v9.5H3zM14 9.5h3.8L21 13v3h-7" /><circle cx="7" cy="17.5" r="1.8" /><circle cx="17.5" cy="17.5" r="1.8" /></> },
+  { id: "link", label: "Crea un link de pago", prompt: "Crea un link de pago de $850 por una sesión de fotos", href: PAGOS_START_URL,
+    icon: <path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" /> },
+];
+
 /* H1 rotativo (versión B): marco fijo "Un solo lugar para" + acción que rota. */
 const HERO_PHRASES = ["crear tu tienda", "cobrar tus ventas", "enviar tus pedidos", "crecer sin límites"];
 const BUENFIN_PHRASES = ["crea tu tienda", "envía tus pedidos", "cobra tus ventas", "crece sin límites"];
@@ -130,15 +149,28 @@ const ArrowRight = (
   </svg>
 );
 
+/* Uno con su avatar en línea, junto a su nombre en la instrucción de cada pestaña */
+function UnoInline({ label = "Uno" }: { label?: string }) {
+  return (
+    <b className="inline-flex items-center gap-1.5 whitespace-nowrap align-[-7px] font-semibold">
+      <Image src="/img/uno-avatar.svg" alt="" width={26} height={26} unoptimized className="h-[25px] w-[25px]" />
+      {label}
+    </b>
+  );
+}
+
 /* Instrucción arriba de cada pestaña (como en t1.com) — solo con `uno` */
 const INSTR = "max-w-[360px] text-center font-inter text-[16px] font-light leading-[1.6] text-white tablet:max-w-none";
 
 const FIELD = "w-full rounded-[14px] bg-[#1D1D1D] px-4 py-3 font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A] focus:ring-1 focus:ring-white/20";
 
 /* uno: propuesta para presentar a Uno (la IA de T1) sin rehacer el hero. Agrega
-   las instrucciones por pestaña de t1.com (las tres mencionan a Uno) y el avatar
-   de Uno dentro del input de tienda, como en el chat de Uno en la app. */
-export default function T1HeroB({ buenFin = false, variantB = false, uno = false }: { buenFin?: boolean; variantB?: boolean; uno?: boolean }) {
+   las instrucciones por pestaña de t1.com; las tres mencionan a Uno con su
+   avatar junto al nombre, y en Tienda se presenta como "Uno, la IA de T1". */
+/* unoChat: propuesta B, más limpia — sin pestañas ni formularios, solo el chat. */
+/* unoSub: propuesta v2 — sin instrucción por pestaña; una sola frase general
+   bajo el título que presenta a Uno y no cambia al cambiar de pestaña. */
+export default function T1HeroB({ buenFin = false, variantB = false, uno = false, unoChat = false, unoSub = false }: { buenFin?: boolean; variantB?: boolean; uno?: boolean; unoChat?: boolean; unoSub?: boolean }) {
   const [tabIdx, setTabIdx] = useState(0);
   const tab = TABS[tabIdx];
 
@@ -200,7 +232,8 @@ export default function T1HeroB({ buenFin = false, variantB = false, uno = false
   // Placeholder con animación typewriter (solo modo tienda, input vacío)
   useEffect(() => {
     if (tabIdx !== 0 || value) return;
-    const full = TIENDA_PLACEHOLDERS[phIdx % TIENDA_PLACEHOLDERS.length];
+    const list = unoChat ? UNO_PLACEHOLDERS : TIENDA_PLACEHOLDERS;
+    const full = list[phIdx % list.length];
     let delay = deleting ? 35 : 65;
     if (!deleting && typed === full) delay = 1900;
     if (deleting && typed === "") delay = 350;
@@ -214,7 +247,7 @@ export default function T1HeroB({ buenFin = false, variantB = false, uno = false
       }
     }, delay);
     return () => clearTimeout(t);
-  }, [typed, deleting, phIdx, tabIdx, value]);
+  }, [typed, deleting, phIdx, tabIdx, value, unoChat]);
 
   const selectTab = (i: number, focusBtn = false) => {
     if (i === tabIdx) return;
@@ -253,6 +286,19 @@ export default function T1HeroB({ buenFin = false, variantB = false, uno = false
   };
 
   const submit = (extra: Record<string, unknown>) => track("hero_prompt_submit", { mode: tab.id, ...extra });
+
+  // unoChat: la sugerencia elegida decide a qué flujo va el botón
+  const [sugIdx, setSugIdx] = useState<number | null>(null);
+  const pickSuggestion = (i: number) => {
+    const sg = UNO_SUGGESTIONS[i];
+    track("hero_chip_click", { mode: "uno_chat", chip: sg.id });
+    setValue(sg.prompt);
+    setSugIdx(i);
+    requestAnimationFrame(() => {
+      const el = textareaRef.current;
+      if (el) { el.focus(); el.setSelectionRange(el.value.length, el.value.length); }
+    });
+  };
 
   const tiendaOk = value.trim().length > 0;
   const linkOk = Number(monto) > 0;
@@ -324,6 +370,68 @@ export default function T1HeroB({ buenFin = false, variantB = false, uno = false
             </>
           )}
 
+          {unoSub && (
+            <p className="mb-4 mt-4 max-w-[340px] text-balance text-center font-inter text-[16px] font-light leading-[1.55] text-white/75 tablet:max-w-[560px] tablet:text-[18px]">
+              Tú lo pides y <b className="font-semibold text-white">Uno</b> lo hace.
+            </p>
+          )}
+
+          {unoChat ? (
+            /* ── Propuesta B: solo el chat con Uno ── */
+            <div className="flex w-full flex-col items-center gap-5 pt-10 tablet:pt-14">
+              <p className={INSTR}>Pídele a <b className="whitespace-nowrap font-semibold">Uno, la IA de T1,</b> lo que necesites</p>
+              <div className="relative w-full rounded-[20px] bg-[#1D1D1D] transition-shadow focus-within:ring-1 focus-within:ring-white/20">
+                <textarea
+                  ref={textareaRef}
+                  value={value}
+                  onChange={(e) => { setValue(e.target.value.slice(0, 500)); setSugIdx(null); }}
+                  rows={2}
+                  aria-label="Pídele algo a Uno"
+                  placeholder=""
+                  className="h-[132px] w-full resize-none rounded-[20px] bg-transparent px-[18px] py-[16px] font-inter text-[16px] leading-[1.5] text-white outline-none tablet:h-[128px] tablet:px-[22px] tablet:py-[18px] tablet:text-[17px]"
+                />
+                {!value && (
+                  <div aria-hidden className="pointer-events-none absolute inset-0 px-[18px] py-[16px] font-inter text-[16px] leading-[1.5] text-[#8A8A8A] tablet:px-[22px] tablet:py-[18px] tablet:text-[17px]">
+                    {placeholder}
+                    <span className="ml-px inline-block w-[2px] align-[-2px] bg-[#8A8A8A]" style={{ height: "1.1em", animation: "blink 1s step-end infinite" }} />
+                  </div>
+                )}
+                <Image src="/img/uno-avatar.svg" alt="Uno" width={36} height={36} unoptimized className="pointer-events-none absolute bottom-[14px] left-[16px] h-[34px] w-[34px] tablet:left-[20px]" />
+                <a
+                  href={sugIdx === null ? SIGNUP_URL : UNO_SUGGESTIONS[sugIdx].href}
+                  onClick={(e) => {
+                    if (!tiendaOk) e.preventDefault();
+                    else track("hero_prompt_submit", { mode: "uno_chat", suggestion: sugIdx === null ? null : UNO_SUGGESTIONS[sugIdx].id, length: value.trim().length });
+                  }}
+                  aria-label="Enviar a Uno"
+                  style={kbOpen ? { position: "fixed", right: 16, bottom: kbH + 10, zIndex: 60 } : undefined}
+                  className={`absolute bottom-3 right-3 flex h-[40px] w-[40px] items-center justify-center rounded-full transition-colors ${
+                    tiendaOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
+                  }`}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" /></svg>
+                </a>
+              </div>
+              {/* Sugerencias: una por producto (tienda, envíos, pagos) */}
+              <div className="flex w-full flex-wrap items-center justify-center gap-2.5">
+                {UNO_SUGGESTIONS.map((sg, i) => (
+                  <button
+                    key={sg.id}
+                    type="button"
+                    onClick={() => pickSuggestion(i)}
+                    className={`flex items-center gap-2 rounded-full border px-4 py-2 font-inter text-[14px] font-medium text-white transition-colors ${
+                      sugIdx === i ? "border-white/40 bg-white/10" : "border-white/12 hover:border-white/30"
+                    }`}
+                    style={{ background: sugIdx === i ? undefined : "rgba(52,52,52,0.6)" }}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 opacity-80">{sg.icon}</svg>
+                    {sg.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : (
+          <>
           {/* Bloque central — anclado bajo el H1 (NO centrado) para que el selector
               quede fijo y no suba/baje al cambiar de tab (el contenido varía de alto). */}
           <div className={`flex w-full flex-col items-center gap-8 pt-10 tablet:gap-10 ${variantB ? "tablet:pt-6" : "tablet:pt-16"}`}>
@@ -346,11 +454,11 @@ export default function T1HeroB({ buenFin = false, variantB = false, uno = false
                     aria-checked={selected}
                     tabIndex={selected ? 0 : -1}
                     onClick={() => selectTab(i)}
-                    className={`relative flex-1 whitespace-nowrap px-1 pb-3 pt-1 font-inter text-[13px] font-medium uppercase tracking-[0.03em] transition-colors ${
+                    className={`relative flex-1 whitespace-nowrap px-1 pb-3 pt-1 font-inter font-medium transition-colors ${unoSub ? "text-[14px] max-[380px]:text-[13px]" : "text-[13px] uppercase tracking-[0.03em]"} ${
                       selected ? "text-white" : "text-white/45 hover:text-white/70"
                     }`}
                   >
-                    {t.mLabel}
+                    {unoSub ? t.vLabel : t.mLabel}
                     <span
                       className={`absolute inset-x-2 -bottom-px h-[2px] rounded-full bg-white transition-transform duration-200 ${
                         selected ? "scale-x-100" : "scale-x-0"
@@ -401,7 +509,7 @@ export default function T1HeroB({ buenFin = false, variantB = false, uno = false
               {/* ── TIENDA ── */}
               {tab.id === "tienda" && (
                 <>
-                  {uno && <p className={INSTR}>Describe tu negocio y <b className="font-semibold">Uno</b> crea tu tienda</p>}
+                  {uno && <p className={INSTR}>Describe tu negocio y crea tu tienda con <br className="tablet:hidden" /><UnoInline label="Uno, la IA de T1" /></p>}
                   <div className="relative w-full rounded-[16px] bg-[#1D1D1D] min-h-[160px] tablet:min-h-[170px]">
                     <textarea
                       ref={textareaRef}
@@ -419,7 +527,8 @@ export default function T1HeroB({ buenFin = false, variantB = false, uno = false
                         <span className="ml-px inline-block w-[2px] align-[-2px] bg-[#8A8A8A]" style={{ height: "1.1em", animation: "blink 1s step-end infinite" }} />
                       </div>
                     )}
-                    {uno && (
+                    {/* unoSub: Uno vive en el input de la tienda (abajo a la izquierda) */}
+                    {unoSub && (
                       <Image src="/img/uno-avatar.svg" alt="Uno" width={36} height={36} unoptimized className="pointer-events-none absolute bottom-[14px] left-[16px] h-[34px] w-[34px] tablet:left-[20px]" />
                     )}
                     <a
@@ -458,7 +567,7 @@ export default function T1HeroB({ buenFin = false, variantB = false, uno = false
               {/* ── LINK DE PAGO ── */}
               {tab.id === "link" && (
                 <>
-                  {uno && <p className={INSTR}>Cobra sin terminal. <b className="font-semibold">Uno</b> crea tu link de pago.</p>}
+                  {uno && <p className={INSTR}>Cobra sin terminal: crea tu link de pago con <br className="tablet:hidden" /><UnoInline /></p>}
                   <div className="flex w-full flex-1 flex-col gap-3.5 tablet:flex-none">
                     {/* Campos (monto + concepto) — misma altura mín. que el CP de envío para alinear los logos entre pestañas */}
                     <div className="flex min-h-[172px] flex-col gap-3.5">
@@ -511,7 +620,7 @@ export default function T1HeroB({ buenFin = false, variantB = false, uno = false
               {/* ── ENVÍO ── */}
               {tab.id === "envio" && (
                 <>
-                  {uno && <p className={INSTR}><b className="font-semibold">Uno</b> cotiza con +10 paqueterías en segundos.</p>}
+                  {uno && <p className={INSTR}>Compara +10 paqueterías en segundos con <br className="tablet:hidden" /><UnoInline /></p>}
                   <div className="flex w-full flex-1 flex-col gap-4 tablet:flex-none">
                     {/* CP — misma altura mín. que los campos de link para alinear los logos entre pestañas */}
                     <div className="mx-auto flex min-h-[172px] w-full flex-col justify-center rounded-[16px] bg-[#1D1D1D] px-4 py-2 transition-shadow focus-within:ring-1 focus-within:ring-white/25 tablet:max-w-[440px]">
@@ -560,6 +669,8 @@ export default function T1HeroB({ buenFin = false, variantB = false, uno = false
               )}
             </div>
           </div>
+          </>
+          )}
 
           {/* Números — dentro del first fold, debajo del input */}
           <div className="mt-8 flex flex-col items-center gap-2.5 pb-2 tablet:mt-10 tablet:gap-4">

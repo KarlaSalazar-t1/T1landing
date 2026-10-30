@@ -1,5 +1,6 @@
 "use client";
 
+import { useUnoCopy } from "@/lib/unoBrand";
 import Image from "next/image";
 import { useState, useRef, useCallback } from "react";
 import { FacturasPanel, PedidosFacturarPanel } from "@/components/T1EcosistemaFacturacion";
@@ -204,6 +205,7 @@ function FloatingCards({ type }: { type: string | null }) {
 
 /* ── Main component ── */
 export default function T1Solutions() {
+  const uc = useUnoCopy();
   const [activeTab, setActiveTab] = useState(0);
   const [activeSubTab, setActiveSubTab] = useState(0);
   const mobileSubTabsRef = useRef<HTMLDivElement>(null);
@@ -407,7 +409,7 @@ export default function T1Solutions() {
                 className="font-inter text-[14px] font-light text-white/60 px-4"
                 style={{ lineHeight: 1.5, animation: "none", marginBottom: 12 }}
               >
-                {currentSub.description}
+                {uc(currentSub.description)}
               </p>
               <a
                 href={card.ctaHref}
@@ -1020,7 +1022,7 @@ export default function T1Solutions() {
                   className="font-inter text-[16px] font-light text-white/60"
                   style={{ lineHeight: 1.6, animation: "none" }}
                 >
-                  {currentSub.description}
+                  {uc(currentSub.description)}
                 </p>
 
                 {/* CTA link */}

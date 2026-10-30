@@ -1,5 +1,6 @@
 "use client";
 
+import { UNO_MENU_COLUMN, useUnoBrand } from "@/lib/unoBrand";
 import { useState, useEffect, useCallback } from "react";
 import {
   NAV_LINKS,
@@ -131,6 +132,8 @@ function HamburgerIcon({ open }: { open: boolean }) {
 
 /* ── Main Component ── */
 export default function T1Navbar({ ctaLabel = "Comienza gratis", ctaHref = SIGNUP_URL, product, pageType = "home" }: { ctaLabel?: string; ctaHref?: string; product?: ProductKey; pageType?: PageType }) {
+  // Propuesta: con UnoBrandProvider, Uno se suma al menú de Productos
+  const menuCols = useUnoBrand() ? [...MEGA_MENU_COLUMNS, UNO_MENU_COLUMN] : MEGA_MENU_COLUMNS;
   const descriptor = product ? PRODUCT_DESCRIPTORS[product] : null;
   const productHref = product ? `/productos/t1${product}` : "/";
   const trackLogo = (target: "general" | "producto") =>
@@ -451,7 +454,7 @@ export default function T1Navbar({ ctaLabel = "Comienza gratis", ctaHref = SIGNU
 
               {/* Product columns stacked vertically */}
               <div className="flex flex-col">
-                {MEGA_MENU_COLUMNS.map((col) => (
+                {menuCols.map((col) => (
                   <div key={col.title} className="border-b border-white/[0.08] px-6 py-5">
                     <a href={col.href} className="font-inter text-[15px] font-semibold text-white no-underline">
                       {col.title}
@@ -530,12 +533,12 @@ export default function T1Navbar({ ctaLabel = "Comienza gratis", ctaHref = SIGNU
         <div className="mx-auto flex max-w-[var(--max-w)] gap-0 px-6">
           {/* Los productos sin temas (POS, Finanzas) comparten una columna, uno
               debajo del otro, para que el menú no tenga columnas casi vacías. */}
-          {MEGA_MENU_COLUMNS.filter((col) => col.items.length > 0).map((col) => (
+          {menuCols.filter((col) => col.items.length > 0).map((col) => (
             <MenuColumn key={col.title} col={col} />
           ))}
-          {MEGA_MENU_COLUMNS.some((col) => col.items.length === 0) && (
+          {menuCols.some((col) => col.items.length === 0) && (
             <div className="flex flex-1 flex-col px-5">
-              {MEGA_MENU_COLUMNS.filter((col) => col.items.length === 0).map((col) => (
+              {menuCols.filter((col) => col.items.length === 0).map((col) => (
                 <MenuColumn key={col.title} col={col} className="" />
               ))}
             </div>

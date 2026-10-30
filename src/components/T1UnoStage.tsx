@@ -33,7 +33,7 @@ export function UnoMark({ size = 22 }: { size?: number }) {
   return <Image src="/img/uno-avatar.svg" alt="" width={size} height={size} className="shrink-0" unoptimized />;
 }
 
-function Typed({ text, ms }: { text: string; ms: number }) {
+export function Typed({ text, ms }: { text: string; ms: number }) {
   const [n, setN] = useState(0);
   useEffect(() => {
     const step = Math.max(14, ms / Math.max(1, text.length));
@@ -279,12 +279,12 @@ export function UnoStage({ scenes, dark = false, reverse = false, layout = "chip
               const on = i === active;
               return (
                 <button key={s.chip} type="button" onClick={() => pick(i)} className="group relative cursor-pointer py-3 pl-5 text-left">
-                  <span aria-hidden className="absolute left-0 top-0 h-full w-[2px] overflow-hidden rounded-full bg-black/[0.08]">
+                  <span aria-hidden className={`absolute left-0 top-0 h-full w-[2px] overflow-hidden rounded-full ${dark ? "bg-white/[0.12]" : "bg-black/[0.08]"}`}>
                     {on && visible && <span key={runKey} className="block h-full w-full bg-[#DB3B2B]" style={{ transformOrigin: "top", animation: `pilarProgressY ${sceneMs}ms linear forwards` }} />}
                   </span>
-                  <span className={`block font-inter text-[16px] font-semibold transition-colors duration-200 ${on ? "text-black" : "text-black/40 group-hover:text-black/70"}`}>{s.chip}</span>
+                  <span className={`block font-inter text-[16px] font-semibold transition-colors duration-200 ${dark ? (on ? "text-white" : "text-white/40 group-hover:text-white/70") : (on ? "text-black" : "text-black/40 group-hover:text-black/70")}`}>{s.chip}</span>
                   <span className="grid transition-all duration-300" style={{ gridTemplateRows: on ? "1fr" : "0fr" }}>
-                    <span className="overflow-hidden"><span className="block pt-1 font-inter text-[14px] font-light text-black/55">“{s.prompt}”</span></span>
+                    <span className="overflow-hidden"><span className={`block pt-1 font-inter text-[14px] font-light ${dark ? "text-white/55" : "text-black/55"}`}>“{s.prompt}”</span></span>
                   </span>
                 </button>
               );
@@ -540,9 +540,10 @@ export function VisualCupon({ done }: { done: boolean }) {
 
 /* Link de pago: Uno lo crea (por producto o por monto libre) y queda listo
    para copiar. Uno NO lo manda por WhatsApp: eso lo haces tú. */
-export function VisualLink({ done }: { done: boolean }) {
+/* bare: sin el fondo gris, para ponerlo sobre un degradado oscuro (home) */
+export function VisualLink({ done, bare = false }: { done: boolean; bare?: boolean }) {
   return (
-    <div className="relative flex h-full flex-col items-center justify-start gap-3 bg-[#F7F7F7] p-4 tablet:justify-center">
+    <div className={`relative flex h-full flex-col items-center justify-start gap-3 p-4 tablet:justify-center ${bare ? "" : "bg-[#F7F7F7]"}`}>
       <div className="flex w-full max-w-[330px] gap-3 rounded-[16px] bg-white p-3.5 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.3)] tablet:p-4">
         <Foto src={FOTO.hoodie} className="h-[80px] w-[80px] shrink-0 rounded-[10px] tablet:h-[120px] tablet:w-[120px]" />
         <div className="flex min-w-0 flex-1 flex-col">
@@ -568,7 +569,7 @@ export function VisualLink({ done }: { done: boolean }) {
 /* Producto con una foto: primero solo se ve la foto mientras Uno la "lee"
    (la línea roja la recorre). Cuando responde, la foto se hace a un lado y
    aparecen nombre, precio, categoría y descripción. */
-export function VisualProductoFoto({ done }: { done: boolean }) {
+export function VisualProductoFoto({ done, bare = false }: { done: boolean; bare?: boolean }) {
   const campos = [
     ["Nombre", "Sudadera hueso Aurum"],
     ["Precio", "$1,250"],
@@ -576,9 +577,44 @@ export function VisualProductoFoto({ done }: { done: boolean }) {
     ["Descripción", "Sudadera oversize de algodón con capucha y bolsa canguro."],
   ];
   const t = `all 0.9s ${ease}`;
+  /* Sobre degradado (home): primero la foto grande escaneándose y, al
+     terminar, una sola tarjeta de "producto creado" con la foto y los campos
+     juntos (sueltos sobre el fondo oscuro se veían desarmados). */
+  if (bare) {
+    return (
+      <div className="relative flex h-full items-start justify-center p-4 tablet:items-center tablet:p-8">
+        <div className="absolute inset-4 overflow-hidden rounded-[16px] tablet:inset-8" style={{ opacity: done ? 0 : 1, transform: done ? "scale(0.94)" : "none", transition: t }}>
+          <Foto src={FOTO.hoodie} className="h-full w-full" />
+          <span aria-hidden className="absolute inset-x-0 h-[2px] bg-[#DB3B2B] shadow-[0_0_14px_3px_rgba(219,59,43,0.6)]" style={{ top: 0, animation: done ? "none" : "unoScan 1.8s ease-in-out infinite" }} />
+        </div>
+        <div className="relative w-full max-w-[380px] rounded-[16px] border border-black/[0.07] bg-white p-4 shadow-[0_20px_50px_-24px_rgba(0,0,0,0.25)] tablet:p-5" style={{ opacity: done ? 1 : 0, transform: done ? "translateY(0)" : "translateY(14px)", transition: t, transitionDelay: done ? "200ms" : "0ms" }}>
+          <div className="flex items-center justify-between">
+            <p className="font-inter text-[13px] font-bold text-[#1E2939] tablet:text-[15px]">Producto nuevo</p>
+            <span className="rounded-full px-2 py-0.5 font-inter text-[11.5px] font-semibold" style={{ background: "rgba(34,197,94,0.12)", color: "#15803D" }}>Listo para publicar</span>
+          </div>
+          <div className="mt-3 flex gap-3.5">
+            <Foto src={FOTO.hoodie} className="h-[92px] w-[92px] shrink-0 rounded-[12px] tablet:h-[112px] tablet:w-[112px]" />
+            <div className="flex min-w-0 flex-1 flex-col gap-1.5 tablet:gap-2">
+              {campos.slice(0, 3).map(([l, v], k) => (
+                <div key={l} className="flex items-baseline justify-between gap-2 border-b border-black/[0.06] pb-1.5 last:border-0 last:pb-0" style={{ opacity: done ? 1 : 0, transition: "opacity 0.5s", transitionDelay: `${500 + k * 200}ms` }}>
+                  <span className="font-inter text-[11.5px] text-black/45">{l}</span>
+                  <span className="truncate font-inter text-[13px] font-semibold text-[#1E2939]">{v.replace(" Aurum", "")}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <p className="mt-3 hidden rounded-[10px] bg-[#F7F7F7] px-3 py-2 font-inter text-[12.5px] leading-snug text-black/65 tablet:block" style={{ opacity: done ? 1 : 0, transition: "opacity 0.5s", transitionDelay: "1100ms" }}>
+            {campos[3][1]}
+          </p>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="relative h-full overflow-hidden bg-[#F7F7F7]">
-      <div className="absolute bottom-3 left-3 top-3 overflow-hidden rounded-[14px] tablet:bottom-6 tablet:left-6 tablet:top-6" style={{ right: done ? "56%" : "12px", transition: t }}>
+      <div className="absolute bottom-3 left-3 top-3 overflow-hidden rounded-[14px] tablet:bottom-6 tablet:left-6 tablet:top-6" style={{ right: done ? "56%" : "12px", top: done ? "22%" : undefined, bottom: done ? "22%" : undefined, transition: t }}>
+        {/* Al llegar los campos la foto se encoge también de alto, para que no
+            quede como una tira angosta y alargada */}
         <Foto src={FOTO.hoodie} className="h-full w-full" />
         <span aria-hidden className="absolute inset-x-0 h-[2px] bg-[#DB3B2B] shadow-[0_0_14px_3px_rgba(219,59,43,0.6)]" style={{ top: 0, animation: done ? "none" : "unoScan 1.8s ease-in-out infinite", opacity: done ? 0 : 1, transition: "opacity 0.3s" }} />
       </div>
@@ -709,9 +745,9 @@ export function VisualTienda({ done, variante }: { done: boolean; variante: "cre
 
 /* Guía: tarjeta de T1 Envíos. Mientras Uno trabaja dice "Generando…";
    al terminar aparece la guía lista con su número y las acciones. */
-export function VisualGuia({ done }: { done: boolean }) {
+export function VisualGuia({ done, bare = false }: { done: boolean; bare?: boolean }) {
   return (
-    <div className="flex h-full items-start justify-center bg-[#F7F7F7] p-3 tablet:items-center tablet:p-6">
+    <div className={`flex h-full items-start justify-center p-3 tablet:items-center tablet:p-6 ${bare ? "" : "bg-[#F7F7F7]"}`}>
       <div className="w-full max-w-[380px] rounded-[16px] border border-black/[0.07] bg-white p-4 shadow-[0_20px_50px_-24px_rgba(0,0,0,0.25)] tablet:p-5">
         <div className="flex items-center justify-between">
           <p className="font-inter text-[13px] font-bold text-[#1E2939] tablet:text-[15px]">Guía de envío · Pedido #129</p>

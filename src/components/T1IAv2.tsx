@@ -36,8 +36,8 @@ const INTRO = [
 ];
 
 
-/* Ejemplos de qué pedirle a Uno (solo funciones que ya existen). El chip dice
-   de qué producto de T1 sale cada respuesta. */
+/* Ejemplos de qué pedirle a Uno (solo funciones que ya existen). Los logos de
+   los productos van una sola vez arriba de las cards, no en cada una. */
 type Producto = "tienda" | "pagos" | "envios";
 const LOGO: Record<Producto, { src: string; alt: string; w: number }> = {
   tienda: { src: "/img/t1tienda-logo.svg", alt: "T1 Tienda", w: 130 },
@@ -64,14 +64,10 @@ const PROMPT_ROWS: Prompt[][] = [
   ],
 ];
 
-function PromptCard({ tema, texto, producto, hidden }: Prompt & { hidden?: boolean }) {
-  const l = LOGO[producto];
+function PromptCard({ tema, texto, hidden }: Prompt & { hidden?: boolean }) {
   return (
     <div aria-hidden={hidden || undefined} className="mr-4 flex h-[148px] w-[264px] shrink-0 flex-col rounded-[20px] border border-black/[0.07] bg-white p-5 shadow-[0_12px_40px_-28px_rgba(0,0,0,0.35)] tablet:h-[160px] tablet:w-[300px] tablet:p-6">
-      <div className="flex items-center justify-between gap-3">
-        <span className="font-inter text-[13px] font-medium text-black/45">{tema}</span>
-        <Image src={l.src} alt={l.alt} width={l.w} height={42} loading="eager" className="h-[15px] w-auto" />
-      </div>
+      <span className="font-inter text-[13px] font-medium text-black/45">{tema}</span>
       <p className="mt-3 font-inter text-[17px] text-black tablet:text-[18px]" style={{ lineHeight: 1.4, letterSpacing: "-0.01em" }}>{texto}</p>
     </div>
   );
@@ -203,6 +199,14 @@ export default function T1IAv2() {
             <p className="font-inter text-[16px] font-light text-black/60 tablet:text-[18px]" style={{ lineHeight: 1.55 }}>
               Una sola IA para tu tienda, tus pagos y tus envíos, con más de 250 acciones.
             </p>
+            {/* Cada logo en su pastilla con contorno: así se leen como parte del bloque y no flotan */}
+            <div className="mt-7 flex flex-wrap items-center justify-center gap-2.5 tablet:mt-8 tablet:gap-3">
+              {Object.values(LOGO).map((l) => (
+                <span key={l.src} className="flex h-[40px] items-center rounded-full border border-black/[0.12] px-4 tablet:h-[46px] tablet:px-5">
+                  <Image src={l.src} alt={l.alt} width={l.w} height={42} className="h-[16px] w-auto tablet:h-[19px]" />
+                </span>
+              ))}
+            </div>
           </div>
         </div>
         {/* Dos filas en sentidos opuestos; se pausan con el mouse encima */}
@@ -236,7 +240,7 @@ export default function T1IAv2() {
             El verdadero todo en Uno
           </>
         }
-        description="Crea tu cuenta gratis y pregúntale a Uno cómo va tu negocio."
+        description="Crea tu cuenta gratis. Vende, cobra, envía y factura con solo pedírselo a Uno."
       />
     </div>
   );

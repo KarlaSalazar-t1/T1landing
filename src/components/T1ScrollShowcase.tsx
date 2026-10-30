@@ -1,5 +1,6 @@
 "use client";
 
+import { useUnoCopy } from "@/lib/unoBrand";
 import Image from "next/image";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
@@ -418,6 +419,7 @@ const BG_GRADIENT = "radial-gradient(ellipse at 50% 60%, rgba(226,97,83,0.3) 0%,
 
 /* ── Mobile section: Vende/Cobra/Envía as tabs + Todo en uno as scroll-driven ── */
 function MobileScrollSections({ cards, bVariant = false }: { cards: React.ReactNode[]; bVariant?: boolean }) {
+  const uc = useUnoCopy();
   // Móvil: scroll normal, cada punto apilado — título, descripción, imagen y el botón dentro de cada card (abajo).
   return (
     <div className="tablet:hidden px-5" style={{ paddingTop: 88, paddingBottom: 48 }}>
@@ -428,7 +430,7 @@ function MobileScrollSections({ cards, bVariant = false }: { cards: React.ReactN
               {w.text}
             </h3>
             <p className="mt-3 max-w-[320px] font-inter text-[15px] font-light leading-relaxed text-white/65">
-              {w.ctaCopy}
+              {uc(w.ctaCopy)}
             </p>
             <div className="relative mt-7 flex w-full justify-center" style={{ perspective: 800 }}>
               <div className="absolute inset-0 rounded-[20px]" style={{ background: BG_GRADIENT }} />
@@ -450,6 +452,7 @@ function MobileScrollSections({ cards, bVariant = false }: { cards: React.ReactN
 }
 
 export default function T1ScrollShowcase({ bVariant = false }: { bVariant?: boolean }) {
+  const uc = useUnoCopy();
   const ctaRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -535,7 +538,7 @@ export default function T1ScrollShowcase({ bVariant = false }: { bVariant?: bool
                       {on && (
                         <div key={`d-${i}`} style={{ animation: "fadeSlideIn 0.4s ease-out" }}>
                           <p className="mt-3 font-inter text-[15px] font-light text-white/65" style={{ maxWidth: 380, lineHeight: 1.55 }}>
-                            {w.ctaCopy}
+                            {uc(w.ctaCopy)}
                           </p>
                           <a
                             href={SIGNUP_URL}

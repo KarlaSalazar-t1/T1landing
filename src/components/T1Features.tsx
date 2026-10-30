@@ -1,5 +1,6 @@
 "use client";
 
+import { useUnoCopy } from "@/lib/unoBrand";
 import Image from "next/image";
 import { createPortal } from "react-dom";
 import { useEffect, useRef, useState, useCallback } from "react";
@@ -2025,6 +2026,7 @@ function DesktopTiendaPanel({ animate }: { animate: boolean }) {
 }
 /* ── Main Component ── */
 export default function T1Features() {
+  const uc = useUnoCopy();
   const tiendaRef = useRef<HTMLDivElement>(null);
   const [tiendaVisible, setTiendaVisible] = useState(false);
   const tiendaOnlineRef = useRef<HTMLDivElement>(null);
@@ -2261,7 +2263,7 @@ export default function T1Features() {
                         {card.title}
                       </p>
                       <p className="font-inter text-[16px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
-                        {withBoldIA(card.description)}
+                        {withBoldIA(uc(card.description))}
                       </p>
                       {/* CTA — underlined text instead of the small arrow chip
                           (CEO: "el call to action puede ser un texto subrayado"). */}
@@ -2304,7 +2306,7 @@ export default function T1Features() {
                         className="font-inter text-[16px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]"
                         style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}
                       >
-                        {withBoldIA(card.description)}
+                        {withBoldIA(uc(card.description))}
                       </p>
                       {card.ctaLabel && (
                         <a
@@ -2343,7 +2345,7 @@ export default function T1Features() {
                         {card.title}
                       </p>
                       <p className="font-inter text-[16px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
-                        {withBoldIA(card.description)}
+                        {withBoldIA(uc(card.description))}
                       </p>
                       {card.ctaLabel && (
                         <a
@@ -2395,7 +2397,7 @@ export default function T1Features() {
                         {card.title}
                       </p>
                       <p className="font-inter text-[16px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
-                        {withBoldIA(card.description)}
+                        {withBoldIA(uc(card.description))}
                       </p>
                       {card.ctaLabel && (
                         <a
@@ -2436,7 +2438,7 @@ export default function T1Features() {
                         {card.title}
                       </p>
                       <p className="font-inter text-[16px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
-                        {card.description}
+                        {uc(card.description)}
                       </p>
                       {card.ctaLabel && (
                         <a
@@ -2478,7 +2480,7 @@ export default function T1Features() {
                         {card.title}
                       </p>
                       <p className="font-inter text-[16px] font-normal text-white/90 tablet:text-[14px] lg:text-[16px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 18 }}>
-                        {card.description}
+                        {uc(card.description)}
                       </p>
                       {card.ctaLabel && (
                         <a
@@ -2536,7 +2538,7 @@ export default function T1Features() {
                       <span className="text-white/60"><ExternalArrow /></span>
                     </p>
                     <p className="font-inter text-[14px] font-normal text-white/90 tablet:text-[16px] lg:text-[18px]" style={{ lineHeight: 1.6, marginTop: 8, marginBottom: 12 }}>
-                      {card.description}
+                      {uc(card.description)}
                     </p>
                   </div>
                   <div className="hidden flex-1 items-center justify-center tablet:flex" style={{ minHeight: 0 }}>
