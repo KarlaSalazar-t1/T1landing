@@ -11,7 +11,7 @@
       métodos de pago respectivamente.
    ───────────────────────────────────────────────────────────────────────── */
 
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { SIGNUP_URL, PAGOS_START_URL, ENVIOS_QUOTE_URL } from "@/lib/constants";
 import { HERO_CHIPS, HERO_PROMPT_PLACEHOLDERS, capFirst, type HeroChip } from "@/lib/heroPrompt";
@@ -547,18 +547,20 @@ export default function T1HeroB({ buenFin = false, variantB = false, uno = false
                       {ArrowRight}
                     </a>
                   </div>
-                  {/* chips — una sola línea (scroll horizontal si no caben) */}
-                  <div className="flex w-full flex-nowrap items-center justify-start gap-2.5 overflow-x-auto tablet:justify-center tablet:gap-2" style={{ scrollbarWidth: "none" }}>
-                    {TIENDA_CHIPS.map((chip) => (
-                      <button
-                        key={chip.label}
-                        type="button"
-                        onClick={() => insertChip(chip)}
-                        className="shrink-0 whitespace-nowrap rounded-[11px] border border-white/10 px-2.5 py-1.5 font-inter text-[14px] font-medium text-white transition-colors hover:border-white/25 tablet:text-[13px]"
-                        style={{ background: "rgba(52,52,52,0.6)" }}
-                      >
-                        {chip.label}
-                      </button>
+                  {/* chips — móvil: 2 filas centradas; desktop: una sola línea */}
+                  <div className="flex w-full flex-wrap items-center justify-center gap-x-1 gap-y-1 tablet:flex-nowrap tablet:gap-2 tablet:overflow-x-auto" style={{ scrollbarWidth: "none" }}>
+                    {TIENDA_CHIPS.map((chip, k) => (
+                      <Fragment key={chip.label}>
+                        <button
+                          type="button"
+                          onClick={() => insertChip(chip)}
+                          className="shrink-0 whitespace-nowrap rounded-[11px] border border-white/10 px-[7px] py-1.5 font-inter text-[12.5px] font-medium text-white transition-colors hover:border-white/25 tablet:px-2.5 tablet:text-[13px]"
+                          style={{ background: "rgba(52,52,52,0.6)" }}
+                        >
+                          {chip.label}
+                        </button>
+                        {k === 3 && <span aria-hidden className="basis-full tablet:hidden" />}
+                      </Fragment>
                     ))}
                   </div>
                 </>
