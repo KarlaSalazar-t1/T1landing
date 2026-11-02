@@ -188,9 +188,6 @@ export default function T1AudienceRotator({ bVariant = false }: { bVariant?: boo
                     <h3 className="font-sora text-[18px] font-light tablet:text-[22px]" style={{ letterSpacing: "-0.02em", color: on ? "#FFFFFF" : "rgba(255,255,255,0.45)", transition: "color 0.3s" }}>
                       {it.title}
                     </h3>
-                    <span className="flex h-[26px] w-[26px] items-center justify-center rounded-full" style={{ background: on ? "#DB3B2B" : "rgba(255,255,255,0.08)", transition: "background 0.3s" }}>
-                      <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke={on ? "#fff" : "rgba(255,255,255,0.4)"} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                    </span>
                   </div>
                   {on && (
                     <>

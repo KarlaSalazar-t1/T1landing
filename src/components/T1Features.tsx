@@ -2048,6 +2048,13 @@ export default function T1Features({ uno = false }: { uno?: boolean }) {
   // Versión B: la barra de Uno de Pagos va al ritmo del teléfono del link
   const [pagosUno, setPagosUno] = useState({ fase: 0, vuelta: 0 });
   const onPagosFase = useCallback((f: number) => setPagosUno((s) => (f === s.fase ? s : { fase: f, vuelta: f === 0 ? s.vuelta + 1 : s.vuelta })), []);
+  // Envíos: la barra sigue al cotizador — escribe mientras se llenan los CP,
+  // Uno trabaja mientras se llenan medidas y peso, y contesta con la tabla.
+  const [enviosUno, setEnviosUno] = useState({ fase: 0, vuelta: 0 });
+  const onEnviosStage = useCallback((st: number) => {
+    const f = st >= 5 ? 2 : st >= 3 ? 1 : 0;
+    setEnviosUno((s) => (f === s.fase ? s : { fase: f, vuelta: f === 0 ? s.vuelta + 1 : s.vuelta }));
+  }, []);
   const tiendaRef = useRef<HTMLDivElement>(null);
   const [tiendaVisible, setTiendaVisible] = useState(false);
   const tiendaOnlineRef = useRef<HTMLDivElement>(null);
@@ -2248,15 +2255,16 @@ export default function T1Features({ uno = false }: { uno?: boolean }) {
             {/* Dark overlay for readability */}
             <div className="absolute inset-0 bg-black/[0.08]" />
 
-            {/* Versión B: barra de Uno flotando sobre el panel del admin (abajo,
-                centrada en la columna del panel; en móvil, arriba de la flecha) */}
+            {/* Versión B: barra de Uno flotando sobre el panel del admin (abajo;
+                en móvil, arriba de la flecha). En escritorio sobresale un poco
+                del panel hacia la izquierda; en Pagos va centrada bajo el teléfono. */}
             {uno && UNO_PILL_IDS.includes(card.id) && (
               <div
-                className={`absolute inset-x-5 bottom-[68px] z-20 tablet:inset-x-auto tablet:bottom-8 tablet:w-[340px] tablet:-translate-x-1/2 lg:w-[380px] ${
-                  card.id === "t1pagos" ? "tablet:left-1/4" : "tablet:left-3/4"
+                className={`absolute inset-x-5 bottom-[68px] z-20 tablet:inset-x-auto tablet:bottom-8 tablet:w-[380px] lg:w-[440px] ${
+                  card.id === "t1pagos" ? "tablet:left-1/4 tablet:-translate-x-1/2" : "tablet:left-[calc(50%-64px)] lg:left-[calc(50%-96px)]"
                 }`}
               >
-                <T1UnoCardPill id={card.id} control={card.id === "t1pagos" ? pagosUno : undefined} />
+                <T1UnoCardPill id={card.id} control={card.id === "t1pagos" ? pagosUno : card.id === "t1envios" ? enviosUno : undefined} />
               </div>
             )}
 
@@ -2448,14 +2456,14 @@ export default function T1Features({ uno = false }: { uno?: boolean }) {
                     {/* Mobile: cotizador in a phone frame */}
                     {isDesktop !== true && (
                       <div className="pb-5 pt-2">
-                        <CotizadorPanel animate={enviosVisible} mobile />
+                        <CotizadorPanel animate={enviosVisible} mobile onStage={uno ? onEnviosStage : undefined} />
                       </div>
                     )}
                   </div>
                   {/* CotizadorPanel — matches Marketplaces panel width (w-1/2) */}
                   {isDesktop !== false && (
                     <div className="hidden w-1/2 items-end justify-end tablet:flex" style={{ paddingTop: 60 }}>
-                      <CotizadorPanel animate={enviosVisible} />
+                      <CotizadorPanel animate={enviosVisible} onStage={uno ? onEnviosStage : undefined} />
                     </div>
                   )}
                 </div>

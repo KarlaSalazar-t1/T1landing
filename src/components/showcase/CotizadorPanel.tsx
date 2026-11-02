@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * Cotizador panel — mirrors the T1 Envíos shipping-rate quote tool.
@@ -91,8 +91,13 @@ function MiniStatusBar() {
   );
 }
 
-export default function CotizadorPanel({ animate, mobile = false }: { animate: boolean; mobile?: boolean }) {
+/* onStage (versión B del home): avisa cada etapa para que la barra de Uno de
+   la card vaya al mismo ritmo que el cotizador. */
+export default function CotizadorPanel({ animate, mobile = false, onStage }: { animate: boolean; mobile?: boolean; onStage?: (s: Stage) => void }) {
   const [stage, setStage] = useState<Stage>(0);
+  const onStageRef = useRef(onStage);
+  useEffect(() => { onStageRef.current = onStage; }, [onStage]);
+  useEffect(() => { onStageRef.current?.(stage); }, [stage]);
 
   useEffect(() => {
     if (!animate) { setStage(0); return; }
