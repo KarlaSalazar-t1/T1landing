@@ -11,6 +11,7 @@ import T1EnterpriseCarousel from "@/components/T1EnterpriseCarousel";
 import T1AudienceRotator from "@/components/T1AudienceRotator";
 import T1ScrollShowcase from "@/components/T1ScrollShowcase";
 import T1Footer from "@/components/T1Footer";
+import T1UnoHomeBlock from "@/components/T1UnoHomeBlock";
 
 export default function Home() {
   return (
@@ -31,6 +32,11 @@ export default function Home() {
       <div className="relative isolate z-10 rounded-t-[24px] bg-[#0e0d0d] tablet:rounded-t-[28px]">
         <T1Features />
         <T1AudienceRotator bVariant />
+      </div>
+
+      {/* Uno: bloque que lo presenta y manda a /uno */}
+      <div className="relative z-[10]">
+        <T1UnoHomeBlock />
       </div>
 
       <div className="relative z-[10]">

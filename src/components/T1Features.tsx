@@ -19,6 +19,7 @@ import StoreShowcase from "@/components/StoreShowcase";
 import TodoIncluidoDark from "@/components/TodoIncluidoDark";
 import { T1FAQSection } from "@/components/T1FAQ";
 import { PedidosFinanzasPantalla } from "@/components/T1EcosistemaFacturacion";
+import T1UnoCardPill, { UNO_PILL_IDS } from "@/components/T1UnoCardPill";
 
 /* ── Store carousel items — 8 unique stores, duplicated so the marquee
    (translateX(-50%)) loops seamlessly. ── */
@@ -1224,9 +1225,15 @@ function withBoldIA(text: string) {
 
 /* ── External link arrow icon ── */
 /* ── Phone mockup with WhatsApp → Link de pago ── */
-function PhoneLinkPago() {
+/* onFase (versión B): la barra de Uno de la card sigue el ritmo de este
+   teléfono — 0 escribe el pedido, 1 Uno trabaja, 2 el link está listo. Con
+   Uno el ciclo es más lento: un segundo más antes de crear el link y una
+   pausa con el link ya creado; al reiniciar, teléfono y barra vuelven juntos. */
+function PhoneLinkPago({ onFase }: { onFase?: (f: number) => void }) {
   // 0 = payment form, 1 = confirmation
   const [screen, setScreen] = useState(0);
+  const onFaseRef = useRef(onFase);
+  useEffect(() => { onFaseRef.current = onFase; }, [onFase]);
   const [btnPressed, setBtnPressed] = useState(false);
   const phoneRef = useRef<HTMLDivElement>(null);
 
@@ -1236,18 +1243,26 @@ function PhoneLinkPago() {
     let timers: ReturnType<typeof setTimeout>[] = [];
     let cycle: ReturnType<typeof setInterval> | null = null;
 
+    const uno = !!onFaseRef.current;
+    const fase = (f: number) => onFaseRef.current?.(f);
     const runCycle = () => {
+      timers.forEach(clearTimeout);
+      timers = [];
       setScreen(0);
       setBtnPressed(false);
-      // After 2.5s, simulate button press
-      timers.push(setTimeout(() => setBtnPressed(true), 2500));
-      // After 3s (0.5s after press), switch to confirmation
+      fase(0);
+      if (uno) timers.push(setTimeout(() => fase(1), 2400));
+      // After 2.5s (3.5s con Uno), simulate button press
+      timers.push(setTimeout(() => setBtnPressed(true), uno ? 3500 : 2500));
+      // 0.6s after press, switch to confirmation
       timers.push(setTimeout(() => {
         setBtnPressed(false);
         setScreen(1);
-      }, 3100));
-      // After 7s, reset back to payment and restart
-      timers.push(setTimeout(() => {
+        fase(2);
+      }, uno ? 4100 : 3100));
+      // After 7.5s, reset back to payment and restart (con Uno el reinicio
+      // es el inicio del siguiente ciclo, para que la barra no se quede atrás)
+      if (!uno) timers.push(setTimeout(() => {
         setScreen(0);
         setBtnPressed(false);
       }, 7500));
@@ -1257,10 +1272,11 @@ function PhoneLinkPago() {
       ([entry]) => {
         if (entry.isIntersecting) {
           runCycle();
-          cycle = setInterval(runCycle, 8500);
+          cycle = setInterval(runCycle, uno ? 9800 : 8500);
         } else {
           setScreen(0);
           setBtnPressed(false);
+          fase(0);
           timers.forEach(clearTimeout);
           timers = [];
           if (cycle) clearInterval(cycle);
@@ -2025,8 +2041,13 @@ function DesktopTiendaPanel({ animate }: { animate: boolean }) {
   );
 }
 /* ── Main Component ── */
-export default function T1Features() {
+/* uno: versión B del home — las mismas animaciones del admin, y encima de
+   cada una una barra de Uno que muestra cómo se lo pides (T1UnoCardPill). */
+export default function T1Features({ uno = false }: { uno?: boolean }) {
   const uc = useUnoCopy();
+  // Versión B: la barra de Uno de Pagos va al ritmo del teléfono del link
+  const [pagosUno, setPagosUno] = useState({ fase: 0, vuelta: 0 });
+  const onPagosFase = useCallback((f: number) => setPagosUno((s) => (f === s.fase ? s : { fase: f, vuelta: f === 0 ? s.vuelta + 1 : s.vuelta })), []);
   const tiendaRef = useRef<HTMLDivElement>(null);
   const [tiendaVisible, setTiendaVisible] = useState(false);
   const tiendaOnlineRef = useRef<HTMLDivElement>(null);
@@ -2227,6 +2248,18 @@ export default function T1Features() {
             {/* Dark overlay for readability */}
             <div className="absolute inset-0 bg-black/[0.08]" />
 
+            {/* Versión B: barra de Uno flotando sobre el panel del admin (abajo,
+                centrada en la columna del panel; en móvil, arriba de la flecha) */}
+            {uno && UNO_PILL_IDS.includes(card.id) && (
+              <div
+                className={`absolute inset-x-5 bottom-[68px] z-20 tablet:inset-x-auto tablet:bottom-8 tablet:w-[340px] tablet:-translate-x-1/2 lg:w-[380px] ${
+                  card.id === "t1pagos" ? "tablet:left-1/4" : "tablet:left-3/4"
+                }`}
+              >
+                <T1UnoCardPill id={card.id} control={card.id === "t1pagos" ? pagosUno : undefined} />
+              </div>
+            )}
+
             {/* Móvil: flecha animada al final de la card → scroll a la siguiente */}
             {idx < SHOWCASE_CARDS.length - 1 && (
               <button
@@ -2364,7 +2397,7 @@ export default function T1Features() {
                     {/* Mobile: phone link de pago — only mounted on mobile (Q1) */}
                     {isDesktop !== true && (
                       <div className="mx-auto mt-5 tablet:hidden">
-                        <PhoneLinkPago />
+                        <PhoneLinkPago onFase={uno ? onPagosFase : undefined} />
                       </div>
                     )}
                   </div>
@@ -2382,7 +2415,7 @@ export default function T1Features() {
                             boxShadow: "inset 0 1px 0 rgba(255,255,255,0.4), inset 1px 0 0 rgba(255,255,255,0.2), inset -1px 0 0 rgba(255,255,255,0.2)",
                           }}
                         >
-                          <PhoneLinkPago />
+                          <PhoneLinkPago onFase={uno ? onPagosFase : undefined} />
                         </div>
                       </div>
                     </div>
