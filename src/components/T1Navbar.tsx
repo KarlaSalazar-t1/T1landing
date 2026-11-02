@@ -22,12 +22,13 @@ type PageType = "home" | "producto" | "sublanding";
 /* Switcher de productos que cuelga del nombre del servicio en el lockup
    (CEO: al dar click en el nombre se despliegan los demás productos, tipo
    Adobe pero más sutil). */
-const PRODUCT_SWITCHER: { key: ProductKey; name: string; desc: string; href: string }[] = [
+const PRODUCT_SWITCHER: { key: ProductKey | "uno"; name: string; desc: string; href: string }[] = [
   { key: "tienda", name: "T1 Tienda", desc: "Crea y vende en línea", href: "/productos/t1tienda" },
   { key: "envios", name: "T1 Envíos", desc: "Envía al mejor precio", href: "/productos/t1envios" },
   { key: "pagos", name: "T1 Pagos", desc: "Cobra en línea", href: "/productos/t1pagos" },
   { key: "pos", name: "T1 POS", desc: "Vende en tu tienda física", href: "/productos/t1pos" },
   { key: "finanzas", name: "T1 Finanzas", desc: "Factura tus ventas", href: "/productos/t1finanzas/v3" },
+  { key: "uno", name: "Uno", desc: "La IA de T1 que lo hace por ti", href: "/uno" },
 ];
 
 
@@ -131,9 +132,10 @@ function HamburgerIcon({ open }: { open: boolean }) {
 }
 
 /* ── Main Component ── */
-export default function T1Navbar({ ctaLabel = "Comienza gratis", ctaHref = SIGNUP_URL, product, pageType = "home" }: { ctaLabel?: string; ctaHref?: string; product?: ProductKey; pageType?: PageType }) {
-  // Propuesta: con UnoBrandProvider, Uno se suma al menú de Productos
-  const menuCols = useUnoBrand() ? [...MEGA_MENU_COLUMNS, UNO_MENU_COLUMN] : MEGA_MENU_COLUMNS;
+export default function T1Navbar({ ctaLabel = "Comienza gratis", ctaHref = SIGNUP_URL, product, pageType = "home", uno = false }: { ctaLabel?: string; ctaHref?: string; product?: ProductKey; pageType?: PageType; uno?: boolean }) {
+  // Uno se suma al menú de Productos con `uno` o dentro de UnoBrandProvider
+  const unoBrand = useUnoBrand();
+  const menuCols = uno || unoBrand ? [...MEGA_MENU_COLUMNS, UNO_MENU_COLUMN] : MEGA_MENU_COLUMNS;
   const descriptor = product ? PRODUCT_DESCRIPTORS[product] : null;
   const productHref = product ? `/productos/t1${product}` : "/";
   const trackLogo = (target: "general" | "producto") =>

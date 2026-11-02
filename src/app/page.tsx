@@ -16,7 +16,7 @@ import T1UnoHomeBlock from "@/components/T1UnoHomeBlock";
 export default function Home() {
   return (
     <main className="min-h-screen">
-      <T1Navbar />
+      <T1Navbar uno />
 
       {/* Hero (versión B) */}
       <T1HeroB />
