@@ -1,6 +1,6 @@
-/* Propuesta: el home con Uno en la instrucción de "Crea tu tienda" del hero,
-   armado como está hoy en t1.com (T1HeroB + instrucciones por pestaña).
-   Solo para revisión (noindex); el resto del home es idéntico a /. */
+/* Propuesta: el home con Uno. El hero es igual al de t1.com; Uno aparece en
+   el menú, en los textos que decían "la IA" y en su bloque.
+   Solo para revisión (noindex). */
 
 import T1Navbar from "@/components/T1Navbar";
 import T1HeroB from "@/components/T1HeroB";
@@ -23,8 +23,8 @@ export default function HomeHeroUno() {
     <main className="min-h-screen">
       <T1Navbar />
 
-      {/* Hero con Uno (base visual de t1.com) */}
-      <T1HeroB uno />
+      {/* Hero igual al de t1.com (sin cambios) */}
+      <T1HeroB />
 
       <div className="relative z-[5] -mt-2.5 rounded-t-[24px] bg-black pt-4">
         <T1Problema />
