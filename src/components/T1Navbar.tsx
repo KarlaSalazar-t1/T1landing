@@ -15,14 +15,14 @@ import T1Marca from "@/components/T1Marca";
 
 /* Lockup de marca del header: logo T1 + descriptor del producto (CAMBIO header).
    El "T1" lo aporta el logo; el descriptor es solo "Envíos"/"Tienda"/"Pagos". */
-const PRODUCT_DESCRIPTORS = { envios: "Envíos", tienda: "Tienda", pagos: "Pagos", pos: "POS", finanzas: "Finanzas" } as const;
+const PRODUCT_DESCRIPTORS = { envios: "Envíos", tienda: "Tienda", pagos: "Pagos", pos: "POS", finanzas: "Finanzas", uno: "Uno" } as const;
 type ProductKey = keyof typeof PRODUCT_DESCRIPTORS;
 type PageType = "home" | "producto" | "sublanding";
 
 /* Switcher de productos que cuelga del nombre del servicio en el lockup
    (CEO: al dar click en el nombre se despliegan los demás productos, tipo
    Adobe pero más sutil). */
-const PRODUCT_SWITCHER: { key: ProductKey | "uno"; name: string; desc: string; href: string }[] = [
+const PRODUCT_SWITCHER: { key: ProductKey; name: string; desc: string; href: string }[] = [
   { key: "tienda", name: "T1 Tienda", desc: "Crea y vende en línea", href: "/productos/t1tienda" },
   { key: "envios", name: "T1 Envíos", desc: "Envía al mejor precio", href: "/productos/t1envios" },
   { key: "pagos", name: "T1 Pagos", desc: "Cobra en línea", href: "/productos/t1pagos" },
@@ -136,7 +136,7 @@ export default function T1Navbar({ ctaLabel = "Comienza gratis", ctaHref = SIGNU
   // Uno va en el menú de Productos de todas las páginas
   const menuCols = [...MEGA_MENU_COLUMNS, UNO_MENU_COLUMN];
   const descriptor = product ? PRODUCT_DESCRIPTORS[product] : null;
-  const productHref = product ? `/productos/t1${product}` : "/";
+  const productHref = product === "uno" ? "/uno" : product ? `/productos/t1${product}` : "/";
   const trackLogo = (target: "general" | "producto") =>
     track("logo_click", { page_type: pageType, product: product ?? null, target, scroll_position: typeof window !== "undefined" ? Math.round(window.scrollY) : 0 });
   const scrollTop = (e: React.MouseEvent) => {

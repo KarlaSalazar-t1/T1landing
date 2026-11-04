@@ -1,23 +1,29 @@
 import type { Metadata } from "next";
-import { Sora, Inter, Manrope } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const sora = Sora({
+/* Las fuentes viven en el proyecto (src/app/fonts, versiones variables de
+   Google Fonts, subconjunto latin) en lugar de next/font/google: así el build
+   no depende de descargarlas de Google, que a veces fallaba en Vercel. */
+const sora = localFont({
+  src: "./fonts/sora.woff2",
   variable: "--font-sora-var",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: "300 600",
+  display: "swap",
 });
 
-const inter = Inter({
+const inter = localFont({
+  src: "./fonts/inter.woff2",
   variable: "--font-inter-var",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: "300 600",
+  display: "swap",
 });
 
-const manrope = Manrope({
+const manrope = localFont({
+  src: "./fonts/manrope.woff2",
   variable: "--font-manrope-var",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: "400 700",
+  display: "swap",
 });
 
 export const metadata: Metadata = {

@@ -13,7 +13,7 @@ export const metadata = {
 export default function UnoV2Page() {
   return (
     <main className="min-h-screen bg-white">
-      <T1Navbar pageType="sublanding" />
+      <T1Navbar pageType="sublanding" product="uno" />
       <T1IA />
       <T1Footer />
     </main>
