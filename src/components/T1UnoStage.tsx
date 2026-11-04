@@ -385,7 +385,7 @@ const HERO_ITEMS: { prompt: string; card: ReactNode }[] = [
     card: (
       <MiniCard>
         <div className="flex items-center justify-between">
-          <span className="font-sora text-[15px] font-black italic text-[#FF8A80]">DHL</span>
+          <Image src="/img/dhl-iso.svg" alt="DHL" width={28} height={28} className="shrink-0 rounded-[6px]" />
           <span className="font-inter text-[12px] font-semibold text-white">$168</span>
         </div>
         <p className="mt-1 font-mono text-[11px] tracking-[0.15em] text-white/80">4829 1036 52</p>
@@ -759,7 +759,7 @@ export function VisualGuia({ done, bare = false }: { done: boolean; bare?: boole
           </span>
         </div>
         <div className="mt-3 flex items-center gap-3 rounded-[12px] bg-[#F7F7F7] px-3 py-2.5">
-          <span className="font-sora text-[13px] font-black italic text-[#D40511]">DHL</span>
+          <Image src="/img/dhl-iso.svg" alt="DHL" width={30} height={30} className="shrink-0 rounded-[7px]" />
           <div className="min-w-0 flex-1">
             <p className="font-inter text-[13px] font-semibold text-[#1E2939]">Express · 1 a 2 días</p>
             <p className="font-inter text-[11.5px] text-black/50">2 kg · 30 × 25 × 10 cm</p>
@@ -914,7 +914,7 @@ export function VisualRastreo({ done }: { done: boolean }) {
       <span className="absolute font-inter text-[12px] font-semibold text-black" style={{ right: "12%", bottom: "16%" }}>CDMX</span>
       <span className="absolute font-inter text-[12px] font-semibold text-black" style={{ left: "10%", top: "14%" }}>Guadalajara</span>
       <div className="absolute left-3 right-3 top-3 flex items-center gap-3 rounded-[14px] bg-white p-3 shadow-[0_14px_34px_-12px_rgba(0,0,0,0.3)] transition-all duration-700 tablet:bottom-5 tablet:left-5 tablet:right-auto tablet:top-auto tablet:w-[300px]" style={{ opacity: done ? 1 : 0, transform: done ? "translateY(0)" : "translateY(12px)", transitionDelay: "700ms" }}>
-        <span className="font-sora text-[13px] font-black italic text-[#D40511]">DHL</span>
+        <Image src="/img/dhl-iso.svg" alt="DHL" width={30} height={30} className="shrink-0 rounded-[7px]" />
         <div className="min-w-0 flex-1">
           <p className="font-inter text-[13px] font-semibold text-black">En tránsito a Guadalajara</p>
           <p className="font-inter text-[11.5px] text-black/50">Pedido #124 · llega mañana</p>
