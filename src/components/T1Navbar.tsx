@@ -1,6 +1,6 @@
 "use client";
 
-import { UNO_MENU_COLUMN, useUnoBrand } from "@/lib/unoBrand";
+import { UNO_MENU_COLUMN } from "@/lib/unoBrand";
 import { useState, useEffect, useCallback } from "react";
 import {
   NAV_LINKS,
@@ -132,10 +132,9 @@ function HamburgerIcon({ open }: { open: boolean }) {
 }
 
 /* ── Main Component ── */
-export default function T1Navbar({ ctaLabel = "Comienza gratis", ctaHref = SIGNUP_URL, product, pageType = "home", uno = false }: { ctaLabel?: string; ctaHref?: string; product?: ProductKey; pageType?: PageType; uno?: boolean }) {
-  // Uno se suma al menú de Productos con `uno` o dentro de UnoBrandProvider
-  const unoBrand = useUnoBrand();
-  const menuCols = uno || unoBrand ? [...MEGA_MENU_COLUMNS, UNO_MENU_COLUMN] : MEGA_MENU_COLUMNS;
+export default function T1Navbar({ ctaLabel = "Comienza gratis", ctaHref = SIGNUP_URL, product, pageType = "home" }: { ctaLabel?: string; ctaHref?: string; product?: ProductKey; pageType?: PageType }) {
+  // Uno va en el menú de Productos de todas las páginas
+  const menuCols = [...MEGA_MENU_COLUMNS, UNO_MENU_COLUMN];
   const descriptor = product ? PRODUCT_DESCRIPTORS[product] : null;
   const productHref = product ? `/productos/t1${product}` : "/";
   const trackLogo = (target: "general" | "producto") =>

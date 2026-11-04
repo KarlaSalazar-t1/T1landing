@@ -41,7 +41,7 @@ export default function TiendaLanding() {
         {/* 5.5 · Casos de éxito (comercio / omnicanal) */}
         <T1EnterpriseCarousel
           bVariant
-          only={["pirma", "sears", "makora"]}
+          only={["pirma", "sears", "makora", "sesen"]}
           title="Marcas que venden con T1"
           subtitle="Historias reales de negocios que centralizaron su venta con T1."
         />

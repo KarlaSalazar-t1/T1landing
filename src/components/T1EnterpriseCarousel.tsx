@@ -7,45 +7,28 @@ import { createPortal } from "react-dom";
 /* Brand "spotlight" tint baked over every card photo (dark maroon). */
 const TINT = "#241014";
 
-/* ── Case studies data (same source as T1Enterprise) ── */
+/* ── Case studies data (same source as T1Enterprise) ──
+   El orden del array es el orden de la Home; las páginas de producto lo fijan con `only`. */
 type CaseStudy = {
   id: string; name: string; image: string; whiteLogo?: string; coverImage: string;
   /* Foto-still real del entrevistado (solo versión B, para las tarjetas con video). */
   videoCover?: string;
-  treated?: boolean; textSide?: "left" | "right"; hidden?: boolean; logoH?: number; logoHm?: number; bgColor: string;
+  treated?: boolean; textSide?: "left" | "right"; videoTextRight?: boolean; hidden?: boolean; logoH?: number; logoHm?: number; bgColor: string;
   metric: string; metricLabel: string; quote: string;
   person: string; role: string; hasVideo: boolean; videoId?: string;
 };
 const CASES: CaseStudy[] = [
   {
-    id: "sears", name: "Sears", image: "/img/logos/sears-v2.png", whiteLogo: "/img/logo-sears-white.png", coverImage: "/img/caso-sears-art.png", videoCover: "/img/sears-video.png", treated: true, bgColor: "#241014",
-    metric: "Cobertura", metricLabel: "nacional con entrega el mismo día",
-    quote: "T1 como core logístico, con cobertura a nivel nacional y entrega el mismo día.",
-    person: "Mario Muñoz", role: "CHIEF DIGITAL OFFICER | SEARS", hasVideo: true, videoId: "KtUy7AhmdlA",
-  },
-  {
-    id: "circulo", name: "Círculo de Crédito", image: "/img/logos/circulo-v3.png", whiteLogo: "/img/logo-circulo-white.png", coverImage: "/img/caso-circulo-art.png", videoCover: "/img/circulo-video.png", treated: true, logoH: 40, bgColor: "#241014",
-    metric: "−40%", metricLabel: "de mora temprana gracias a data alternativa",
-    quote: "Con T1 Score logramos reducir 40% la mora temprana gracias a la data alternativa que integran al modelo.",
-    person: "Juan Manuel Ruiz", role: "DIRECTOR GENERAL | CÍRCULO DE CRÉDITO", hasVideo: true, videoId: "MPXrBe7iNgE",
-  },
-  {
-    id: "casadetono", name: "Casa de Toño", image: "/img/logos/casadetono-v3.png", whiteLogo: "/img/logo-casadetono-white.png", coverImage: "/img/casa-card-v5.png", treated: true, logoH: 60, logoHm: 45, bgColor: "#241014",
-    metric: "+92%", metricLabel: "de aprobación y fraude casi cero",
-    quote: "T1 Pagos permitió a Casa de Toño mantener altos niveles de aprobación, con fraude prácticamente nulo en sus operaciones digitales a través de su canal de WhatsApp.",
-    person: "", role: "", hasVideo: false,
-  },
-  {
-    id: "telcel", name: "Telcel", image: "/img/logos/telcel-v2.png", whiteLogo: "/img/logo-telcel-white.png", coverImage: "/img/telcel-card-v5.png", treated: true, bgColor: "#241014",
-    metric: "+2 M", metricLabel: "de recargas procesadas",
-    quote: "T1 Pagos ha procesado más de 2 millones de paquetes y recargas Telcel, consolidando una operación digital de alto volumen dentro del ecosistema.",
-    person: "", role: "", hasVideo: false,
-  },
-  {
     id: "pirma", name: "Pirma", image: "/img/logos/pirma-v2.png", whiteLogo: "/img/logo-pirma-white.png", coverImage: "/img/pirma-card-v5.png", treated: true, logoH: 45, logoHm: 36, bgColor: "#241014",
     metric: "45%", metricLabel: "reducción en tiempo de entrega promedio",
     quote: "T1 Envíos nos dio acceso a las mejores paqueterías con tarifas que no podíamos negociar solos.",
     person: "Fernando Díaz", role: "HEAD OF LOGISTICS | PIRMA", hasVideo: false,
+  },
+  {
+    id: "sesen", name: "Sesen", image: "/img/logo-sesen-white.png", whiteLogo: "/img/logo-sesen-white.png", coverImage: "/img/sesen-video.jpg", videoCover: "/img/sesen-video.jpg", treated: true, videoTextRight: true, bgColor: "#241014",
+    metric: "+15 mil", metricLabel: "órdenes de compra y casi un millón de visitas al año",
+    quote: "Si no tuviéramos un aliado con la infraestructura que tiene T1, para nosotros sería muy complicado y tendríamos muchísimos problemas con los clientes.",
+    person: "Karim Nakid", role: "COFUNDADOR | SESEN", hasVideo: true, videoId: "9RhBr228C_o",
   },
   {
     id: "makora", name: "Makora", image: "/img/logos/makora-v2.png", whiteLogo: "/img/logo-makora-white.png", coverImage: "/img/caso-makora-art.png", videoCover: "/img/makora-video.png", treated: true, textSide: "right", bgColor: "#241014",
@@ -54,10 +37,64 @@ const CASES: CaseStudy[] = [
     person: "Marín Ramos", role: "FUNDADOR Y DIRECTOR GENERAL | MAKORA", hasVideo: true, videoId: "7l0BDngMRUk",
   },
   {
+    id: "doto", name: "Doto", image: "/img/logo-doto-white.png", whiteLogo: "/img/logo-doto-white.png", coverImage: "/img/doto-video.jpg", videoCover: "/img/doto-video.jpg", treated: true, videoTextRight: true, logoH: 34, logoHm: 30, bgColor: "#241014",
+    metric: "−20%", metricLabel: "en costos de envío",
+    quote: "Hoy en día usamos la tecnología de T1 para centralizar toda la información.",
+    person: "Jacobo Sutton", role: "HEAD DE E-COMMERCE | DOTO", hasVideo: true, videoId: "nKPCKDAd8Vg",
+  },
+  {
+    id: "visa", name: "Visa", image: "/img/logos/visa.png", whiteLogo: "/img/logo-visa-white.svg", coverImage: "/img/visa-video.jpg", videoCover: "/img/visa-video.jpg", treated: true, videoTextRight: true, bgColor: "#241014",
+    metric: "8 países", metricLabel: "con millones de transacciones al mes",
+    quote: "No todas las empresas tienen la capacidad de tener equipos especializados. El acompañamiento de T1pagos en la integración ha sido esencial.",
+    person: "Berenice Dávalos", role: "VISA ACCEPTANCE SOLUTIONS | VISA", hasVideo: true, videoId: "vxP9Boi-gNs",
+  },
+  {
+    id: "casadetono", name: "Casa de Toño", image: "/img/logos/casadetono-v3.png", whiteLogo: "/img/logo-casadetono-white.png", coverImage: "/img/casa-card-v5.png", treated: true, logoH: 60, logoHm: 45, bgColor: "#241014",
+    metric: "+92%", metricLabel: "de aprobación y fraude casi cero",
+    quote: "T1 Pagos permitió a Casa de Toño mantener altos niveles de aprobación, con fraude prácticamente nulo en sus operaciones digitales a través de su canal de WhatsApp.",
+    person: "", role: "", hasVideo: false,
+  },
+  {
+    id: "marcosmetics", name: "Mar Cosmetics", image: "/img/logo-marcosmetics-white.png", whiteLogo: "/img/logo-marcosmetics-white.png", coverImage: "/img/marcosmetics-video.jpg", videoCover: "/img/marcosmetics-video.jpg", treated: true, videoTextRight: true, logoH: 20, logoHm: 18, bgColor: "#241014",
+    metric: "−30%", metricLabel: "en tiempos de entrega",
+    quote: "Llegamos a T1envíos, que nos ofrecieron una solución rápida, sencilla, que nos permita generar la mayor cantidad de guías posibles, con las mejores paqueterías.",
+    person: "Jorge Rodríguez", role: "DIRECTOR GENERAL | MAR COSMETICS", hasVideo: true, videoId: "RgOzL4L65X8",
+  },
+  {
+    id: "sears", name: "Sears", image: "/img/logos/sears-v2.png", whiteLogo: "/img/logo-sears-white.png", coverImage: "/img/caso-sears-art.png", videoCover: "/img/sears-video.png", treated: true, bgColor: "#241014",
+    metric: "Cobertura", metricLabel: "nacional con entrega el mismo día",
+    quote: "T1 como core logístico, con cobertura a nivel nacional y entrega el mismo día.",
+    person: "Mario Muñoz", role: "CHIEF DIGITAL OFFICER | SEARS", hasVideo: true, videoId: "KtUy7AhmdlA",
+  },
+  {
+    id: "telcel", name: "Telcel", image: "/img/logos/telcel-v2.png", whiteLogo: "/img/logo-telcel-white.png", coverImage: "/img/telcel-card-v5.png", treated: true, bgColor: "#241014",
+    metric: "+2 M", metricLabel: "de recargas procesadas",
+    quote: "T1 Pagos ha procesado más de 2 millones de paquetes y recargas Telcel, consolidando una operación digital de alto volumen dentro del ecosistema.",
+    person: "", role: "", hasVideo: false,
+  },
+  {
+    id: "melonn", name: "Melonn", image: "/img/logo-melonn-white.png", whiteLogo: "/img/logo-melonn-white.png", coverImage: "/img/melonn-video.jpg", videoCover: "/img/melonn-video.jpg", treated: true, videoTextRight: true, bgColor: "#241014",
+    metric: "+95%", metricLabel: "de entregas a tiempo",
+    quote: "Nosotros nos conectamos con T1 de una forma muy natural. Las integraciones fueron sencillas, fueron rápidas y fluyen súper bien.",
+    person: "Alejandro Celis", role: "COFUNDADOR | MELONN", hasVideo: true, videoId: "w49Dhj15DxQ",
+  },
+  {
     id: "pase", name: "PASE", image: "/img/logos/pase-v3.png", whiteLogo: "/img/logo-pase-white.png", coverImage: "/img/caso-pase-art.png", videoCover: "/img/pase-video.png", treated: true, textSide: "right", logoH: 45, logoHm: 36, bgColor: "#241014",
     metric: "<0.5 s", metricLabel: "tiempo de respuesta · 98% aprobación · +2 mil entregas de tags al mes",
     quote: "Con T1 procesamos en menos de 0.5 segundos con 98% de aprobación y entregamos más de 2 mil tags al mes.",
     person: "Alexis Reséndiz Meza", role: "DIRECTOR GENERAL | PASE", hasVideo: true, videoId: "ezeCCveM8y4",
+  },
+  {
+    id: "circulo", name: "Círculo de Crédito", image: "/img/logos/circulo-v3.png", whiteLogo: "/img/logo-circulo-white.png", coverImage: "/img/caso-circulo-art.png", videoCover: "/img/circulo-video.png", treated: true, logoH: 40, bgColor: "#241014",
+    metric: "−40%", metricLabel: "de mora temprana gracias a data alternativa",
+    quote: "Con T1 Score logramos reducir 40% la mora temprana gracias a la data alternativa que integran al modelo.",
+    person: "Juan Manuel Ruiz", role: "DIRECTOR GENERAL | CÍRCULO DE CRÉDITO", hasVideo: true, videoId: "MPXrBe7iNgE",
+  },
+  {
+    id: "bzpay", name: "Bzpay", image: "/img/logo-bzpay-white.png", whiteLogo: "/img/logo-bzpay-white.png", coverImage: "/img/bzpay-video.jpg", videoCover: "/img/bzpay-video.jpg", treated: true, videoTextRight: true, bgColor: "#241014",
+    metric: "+ Aprobación", metricLabel: "de 80% a 98% con T1score",
+    quote: "T1score llegó a complementar esta estrategia, ayudándonos a tomar decisiones de riesgo mucho más inteligentes en tiempo real.",
+    person: "Luis Bravo", role: "CEO | BZPAY", hasVideo: true, videoId: "LktQjyQDAeU",
   },
   {
     id: "claro", name: "Claro", image: "/img/logos/claro-v3.png", coverImage: "/img/caso-claro-v2.png", hidden: true, bgColor: "#1A0510",
@@ -164,8 +201,6 @@ export default function T1EnterpriseCarousel({
       >
         {(only && only.length
           ? (only.map((id) => CASES.find((c) => c.id === id)).filter(Boolean) as CaseStudy[])
-          : bVariant
-          ? [...CASES.filter((c) => !c.hidden && c.hasVideo), ...CASES.filter((c) => !c.hidden && !c.hasVideo)]
           : CASES.filter((c) => !c.hidden)
         ).map((c) => {
           // Pre-treated art carries the spotlight baked into the PNG, so it
@@ -175,7 +210,9 @@ export default function T1EnterpriseCarousel({
           const videoCard = bVariant && c.hasVideo && !!c.videoCover;
           const cover = videoCard ? c.videoCover! : c.coverImage;
           const treated = videoCard ? true : !!c.treated; // videoCard trae su propio degradado, sin spotlight
-          const isRight = videoCard ? false : c.textSide === "right";
+          // Foto-still: por defecto el entrevistado va a la derecha y el texto a la izquierda;
+          // las miniaturas nuevas lo traen a la izquierda, así que marcan videoTextRight.
+          const isRight = videoCard ? c.videoTextRight === true : c.textSide === "right";
           const logoH = c.logoH ?? 26;   // desktop white-logo height
           const logoHm = c.logoHm ?? Math.round(logoH * 0.9); // mobile height
           return (
@@ -293,6 +330,10 @@ export default function T1EnterpriseCarousel({
                   ? "linear-gradient(180deg, rgba(0,0,0,0.42) 0%, transparent 26%, rgba(0,0,0,0.45) 58%, rgba(0,0,0,0.92) 100%)"
                   : "linear-gradient(180deg, rgba(0,0,0,0.25) 0%, transparent 34%, rgba(0,0,0,0.18) 58%, rgba(0,0,0,0.82) 100%)" }}
               />
+              {/* Foto-still con texto a la derecha: oscurece ese lado para que la cita se lea sobre fondos claros */}
+              {videoCard && isRight && (
+                <div className="absolute inset-0" style={{ background: "linear-gradient(270deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.45) 38%, transparent 62%)" }} />
+              )}
 
               {/* Brand logo — color side */}
               {c.whiteLogo ? (

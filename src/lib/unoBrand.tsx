@@ -2,8 +2,8 @@
 
 /* Propuesta "Uno en el home": un interruptor para que las páginas de propuesta
    (/hero-uno, /hero-uno/b) presenten a Uno sin tocar el home publicado.
-   Con el interruptor encendido, el menú de Productos suma a Uno y los textos
-   que dicen "la IA" pasan a decir "Uno". */
+   Con el interruptor encendido, los textos que dicen "la IA" pasan a decir
+   "Uno". */
 
 import { createContext, useContext, type ReactNode } from "react";
 
@@ -30,7 +30,7 @@ export function useUnoCopy() {
   return (text: string) => (on ? UNO_COPY.reduce((t, [a, b]) => t.replace(a, b), text) : text);
 }
 
-/* Columna de Uno en el menú de Productos (sin temas: va junto a POS y Finanzas) */
+/* Columna de Uno en el menú de Productos de todas las páginas (sin temas: va junto a POS y Finanzas) */
 export const UNO_MENU_COLUMN = {
   title: "Uno",
   href: "/uno",

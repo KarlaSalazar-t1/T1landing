@@ -108,7 +108,7 @@ export const MEGA_MENU_COLUMNS: MegaMenuColumn[] = [
     title: "T1 POS",
     href: "/productos/t1pos",
     /* Producto propio (antes era sublanding de Tienda). Sin temas todavía. */
-    desc: "Vende en tu sucursal y en línea desde una sola caja, con el inventario siempre al día.",
+    desc: "Vende en tu sucursal y en línea con tu inventario al día.",
     items: [],
   },
   {
@@ -116,7 +116,7 @@ export const MEGA_MENU_COLUMNS: MegaMenuColumn[] = [
     href: "/productos/t1finanzas/v3",
     /* Sin temas: Finanzas todavía no tiene sublandings y no se inventan
        ligas. Cuando existan, se llena `items` como en las otras columnas. */
-    desc: "Tus pedidos llegan listos para facturar y cualquier otra venta la facturas en minutos.",
+    desc: "Factura tus pedidos y cualquier otra venta en minutos.",
     items: [],
   },
   // T1 Score — oculto del menú por ahora

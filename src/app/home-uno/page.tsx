@@ -19,7 +19,7 @@ export const metadata = { robots: { index: false } };
 export default function HomeUnoB() {
   return (
     <main className="min-h-screen">
-      <T1Navbar uno />
+      <T1Navbar />
 
       {/* Hero con Uno (base visual de t1.com) */}
       <T1HeroB />

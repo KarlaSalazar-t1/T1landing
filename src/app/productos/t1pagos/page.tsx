@@ -48,7 +48,7 @@ export default function PagosLanding() {
         {/* 8 · Casos de éxito (pagos / antifraude) */}
         <T1EnterpriseCarousel
           bVariant
-          only={["casadetono", "telcel", "pase", "circulo"]}
+          only={["casadetono", "visa", "sesen", "makora", "telcel", "pase", "circulo", "bzpay"]}
           title="Marcas que cobran con T1"
           subtitle="Historias reales de negocios que crecieron sus cobros con T1 Pagos."
         />

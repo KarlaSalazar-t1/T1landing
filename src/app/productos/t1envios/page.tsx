@@ -50,7 +50,7 @@ export default function EnviosLanding() {
         {/* 7 · Casos de éxito (envíos / logística) */}
         <T1EnterpriseCarousel
           bVariant
-          only={["pirma", "sears", "makora"]}
+          only={["pirma", "makora", "melonn", "doto", "pase", "marcosmetics", "sesen", "sears"]}
           title="Marcas que envían con T1"
           subtitle="Historias reales de negocios que optimizaron su logística con T1 Envíos."
         />

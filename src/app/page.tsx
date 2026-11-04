@@ -16,7 +16,7 @@ import T1UnoHomeBlock from "@/components/T1UnoHomeBlock";
 export default function Home() {
   return (
     <main className="min-h-screen">
-      <T1Navbar uno />
+      <T1Navbar />
 
       {/* Hero (versión B) */}
       <T1HeroB />
@@ -30,7 +30,7 @@ export default function Home() {
       </div>
 
       <div className="relative isolate z-10 rounded-t-[24px] bg-[#0e0d0d] tablet:rounded-t-[28px]">
-        <T1Features />
+        <T1Features uno />
         <T1AudienceRotator bVariant />
       </div>
 
