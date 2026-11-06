@@ -105,12 +105,16 @@ const CASES: CaseStudy[] = [
 ];
 
 /* ── Arrow button ── */
-function ArrowBtn({ direction, onClick }: { direction: "left" | "right"; onClick: () => void }) {
+/* disabled: al inicio/final del carrusel la flecha se apaga (antes seguía viéndose
+   activa al llegar al último caso y la gente la tocaba varias veces). */
+function ArrowBtn({ direction, onClick, disabled = false }: { direction: "left" | "right"; onClick: () => void; disabled?: boolean }) {
   return (
     <button
+      type="button"
       onClick={onClick}
+      disabled={disabled}
       aria-label={direction === "left" ? "Anterior" : "Siguiente"}
-      className="flex h-[44px] w-[44px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/50 transition-all duration-150 hover:border-white/30 hover:text-white"
+      className="flex h-[44px] w-[44px] cursor-pointer items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-white/50 transition-all duration-150 hover:border-white/30 hover:text-white disabled:cursor-default disabled:opacity-30 disabled:hover:border-white/15 disabled:hover:text-white/50"
     >
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
         <path
@@ -148,15 +152,48 @@ export default function T1EnterpriseCarousel({
   const [activeVideo, setActiveVideo] = useState<(typeof CASES)[number] | null>(null);
   const trackRef = useRef<HTMLDivElement>(null);
 
-  const scrollByCard = useCallback((dir: 1 | -1) => {
+  const cards = only && only.length
+    ? (only.map((id) => CASES.find((c) => c.id === id)).filter(Boolean) as CaseStudy[])
+    : CASES.filter((c) => !c.hidden);
+
+  // Card width + gap: lo que avanza una flecha (y la base para saber en qué caso vas).
+  const cardStep = useCallback(() => {
+    const el = trackRef.current;
+    const first = el?.querySelector<HTMLElement>("[data-card]");
+    const gap = 20;
+    return first ? first.offsetWidth + gap : (el?.clientWidth ?? 0) * 0.62;
+  }, []);
+
+  // Va a un caso por índice (no scrollBy relativo: con scroll-snap un clic durante la
+  // animación a veces se perdía y la flecha "no hacía nada").
+  const scrollToCard = (i: number) => {
     const el = trackRef.current;
     if (!el) return;
-    // First child = a card; scroll by its width + gap so one card advances.
-    const first = el.querySelector<HTMLElement>("[data-card]");
-    const gap = 20;
-    const step = first ? first.offsetWidth + gap : el.clientWidth * 0.62;
-    el.scrollBy({ left: dir * step, behavior: "smooth" });
-  }, []);
+    const max = el.scrollWidth - el.clientWidth;
+    el.scrollTo({ left: Math.min(max, Math.max(0, i * cardStep())), behavior: "smooth" });
+  };
+
+  // Posición: caso activo + si ya se llegó al inicio/final (para apagar flechas)
+  // idx = caso alineado a la izquierda (navegación); dot = el que se marca (al final, el último).
+  const [pos, setPos] = useState({ idx: 0, dot: 0, atStart: true, atEnd: false });
+  const scrollByCard = (dir: 1 | -1) => scrollToCard(pos.idx + dir);
+  const updatePos = useCallback(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4;
+    const atStart = el.scrollLeft <= 4;
+    const step = cardStep();
+    // Al final el último caso no llega a alinearse a la izquierda: se redondea hacia
+    // arriba para que "Anterior" regrese de uno en uno (sin saltarse uno).
+    const idx = step ? (atEnd ? Math.ceil : Math.round)(el.scrollLeft / step) : 0;
+    const dot = atEnd ? cards.length - 1 : idx;
+    setPos((p) => (p.idx === idx && p.dot === dot && p.atEnd === atEnd && p.atStart === atStart ? p : { idx, dot, atStart, atEnd }));
+  }, [cardStep, cards.length]);
+  useEffect(() => {
+    updatePos();
+    window.addEventListener("resize", updatePos);
+    return () => window.removeEventListener("resize", updatePos);
+  }, [updatePos]);
 
   return (
     <section className="bg-[#0e0d0d] pb-[60px] pt-[100px]">
@@ -178,8 +215,8 @@ export default function T1EnterpriseCarousel({
             </p>
           </div>
           <div className="hidden items-center gap-2 tablet:flex">
-            <ArrowBtn direction="left" onClick={() => scrollByCard(-1)} />
-            <ArrowBtn direction="right" onClick={() => scrollByCard(1)} />
+            <ArrowBtn direction="left" onClick={() => scrollByCard(-1)} disabled={pos.atStart} />
+            <ArrowBtn direction="right" onClick={() => scrollByCard(1)} disabled={pos.atEnd} />
           </div>
         </div>
       </div>
@@ -190,6 +227,7 @@ export default function T1EnterpriseCarousel({
           "more to come". */}
       <div
         ref={trackRef}
+        onScroll={updatePos}
         className="flex gap-5 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         style={{
           scrollSnapType: "x mandatory",
@@ -199,10 +237,7 @@ export default function T1EnterpriseCarousel({
           paddingRight: 24,
         }}
       >
-        {(only && only.length
-          ? (only.map((id) => CASES.find((c) => c.id === id)).filter(Boolean) as CaseStudy[])
-          : CASES.filter((c) => !c.hidden)
-        ).map((c) => {
+        {cards.map((c) => {
           // Pre-treated art carries the spotlight baked into the PNG, so it
           // skips the CSS overlay. Subject side varies per photo: text goes on
           // the empty color side (opposite the person).
@@ -407,6 +442,24 @@ export default function T1EnterpriseCarousel({
           );
         })}
       </div>
+
+      {/* Paginación — en qué caso vas y cuántos hay (también en móvil, sin flechas) */}
+      {cards.length > 1 && (
+        <div className="mx-auto mt-4 flex max-w-[var(--max-w)] items-center gap-0.5 px-5 tablet:px-6">
+          {cards.map((c, i) => (
+            <button
+              key={c.id}
+              type="button"
+              onClick={() => scrollToCard(i)}
+              aria-label={`Ver caso ${c.name}`}
+              aria-current={pos.dot === i ? "true" : undefined}
+              className="flex h-[24px] cursor-pointer items-center justify-center border-none bg-transparent px-[3px] py-0"
+            >
+              <span className={`block h-[6px] rounded-full transition-all duration-200 ${pos.dot === i ? "w-[20px] bg-white" : "w-[6px] bg-white/30 hover:bg-white/50"}`} />
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Video modal */}
       {videoOpen && activeVideo?.hasVideo && activeVideo.videoId && createPortal(

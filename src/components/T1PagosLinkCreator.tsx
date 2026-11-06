@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { PAGOS_START_URL } from "@/lib/constants";
+import { track } from "@/lib/analytics";
+import { CTA_ON, CTA_OFF, CTA_HINT } from "@/lib/heroCta";
 
 const ArrowRight = (
   <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -22,11 +24,14 @@ export default function T1PagosLinkCreator({ bare = false, vertical = false }: {
   const [monto, setMonto] = useState("");
   const [concepto, setConcepto] = useState("");
   const ok = Number(monto) > 0;
+  const montoRef = useRef<HTMLInputElement>(null);
+  // Tocó el botón sin monto → se enfoca el monto y la etiqueta pide escribirlo
+  const [hint, setHint] = useState(false);
 
   // Envoltura de cada campo: underline (dentro de card) o caja oscura (bare/V2).
   const wrap = bare
-    ? "flex h-[52px] items-center gap-1 rounded-[10px] border border-white/[0.10] bg-[#1D1D1D] px-3 transition-colors focus-within:border-[#E2604C]"
-    : "flex items-baseline gap-1 border-b border-white/25 pb-1 transition-colors focus-within:border-[#E2604C]";
+    ? "flex h-[52px] cursor-text items-center gap-1 rounded-[10px] border border-white/[0.10] bg-[#1D1D1D] px-3 transition-colors focus-within:border-[#E2604C]"
+    : "flex cursor-text items-baseline gap-1 border-b border-white/25 pb-1 transition-colors focus-within:border-[#E2604C]";
   const labelCls = "mb-1 block font-inter text-[11.5px] font-medium text-white/75";
   // vertical: campos apilados (para columna angosta). horizontal (default): barra.
   const rowCls = vertical ? "flex flex-col gap-4" : "flex flex-col gap-3.5 tablet:flex-row tablet:items-end tablet:gap-5";
@@ -41,13 +46,15 @@ export default function T1PagosLinkCreator({ bare = false, vertical = false }: {
       <div className={rowCls}>
         {/* Monto */}
         <label className={montoCls}>
-          <span className={labelCls}>Monto a cobrar</span>
+          <span role={hint ? "status" : undefined} className={`${labelCls} ${hint ? CTA_HINT : ""}`}>{hint ? "Escribe el monto a cobrar" : "Monto a cobrar"}</span>
           <div className={wrap}>
             <span className="font-sora text-[18px] font-light text-white/45">$</span>
             <input
+              ref={montoRef}
               inputMode="numeric"
               value={monto === "" ? "" : formatMonto(monto)}
-              onChange={(e) => setMonto(e.target.value.replace(/\D/g, "").slice(0, 9))}
+              onChange={(e) => { setMonto(e.target.value.replace(/\D/g, "").slice(0, 9)); setHint(false); }}
+              onBlur={() => setHint(false)}
               placeholder="0.00"
               aria-label="Monto a cobrar"
               className="min-w-0 flex-1 bg-transparent font-sora text-[20px] font-light text-white outline-none placeholder:text-white/40"
@@ -72,9 +79,15 @@ export default function T1PagosLinkCreator({ bare = false, vertical = false }: {
         {/* Botón */}
         <a
           href={PAGOS_START_URL}
-          onClick={(e) => { if (!ok) e.preventDefault(); }}
+          onClick={(e) => {
+            if (ok) return;
+            e.preventDefault();
+            setHint(true);
+            montoRef.current?.focus();
+            track("hero_prompt_empty_click", { mode: "link" });
+          }}
           aria-disabled={!ok}
-          className={`${btnCls} ${ok ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"}`}
+          className={`${btnCls} ${ok ? CTA_ON : CTA_OFF}`}
         >
           Crea tu link de pago
           {ArrowRight}

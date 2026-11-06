@@ -135,9 +135,9 @@ function MpInventoryPanel() {
                   <span className="font-semibold tabular-nums text-black">{row.price}</span>
                 </p>
               </div>
-              <button type="button" className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full border border-black/10 text-black/40">
+              <span aria-hidden className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full border border-black/10 text-black/40">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="6" cy="12" r="1.6" /><circle cx="12" cy="12" r="1.6" /><circle cx="18" cy="12" r="1.6" /></svg>
-              </button>
+              </span>
             </div>
           );
         })}

@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { ENVIOS_QUOTE_URL } from "@/lib/constants";
 import { track } from "@/lib/analytics";
+import { CTA_ON, CTA_OFF, CTA_HINT } from "@/lib/heroCta";
 
 /* Cotizador funcional del hero de Envíos. Card sólida elevada con campos en caja
    (no underline). Es un <form method="get"> nativo hacia /envios/cotizar: el click
@@ -27,15 +28,22 @@ const ORIGIN = { cp: "06000", city: "CDMX" };
 /* Paquete típico por defecto (el detalle se ajusta en el cotizador completo). */
 const PKG = { peso: "1", largo: "30", alto: "20", ancho: "15" };
 
-function Field({ name, label, unit, placeholder, maxLength, required, pattern, defaultValue, filled = false, className = "" }: { name: string; label: string; unit?: string; placeholder: string; maxLength?: number; required?: boolean; pattern?: string; defaultValue?: string; filled?: boolean; className?: string }) {
+/* error: la etiqueta se cambia por lo que falta (sin mover el layout). */
+function Field({ name, label, unit, placeholder, maxLength, required, pattern, defaultValue, filled = false, error, className = "" }: { name: string; label: string; unit?: string; placeholder: string; maxLength?: number; required?: boolean; pattern?: string; defaultValue?: string; filled?: boolean; error?: string; className?: string }) {
   return (
     <label className={`block ${className}`}>
-      <span className="mb-1 block truncate font-inter text-[11.5px] font-medium text-white/75">{label}</span>
+      <span role={error ? "status" : undefined} className={`mb-1 block truncate font-inter text-[11.5px] font-medium ${error ? CTA_HINT : "text-white/75"}`}>{error ?? label}</span>
       <div className={filled
-        ? "flex items-center gap-1 rounded-[10px] border border-white/[0.10] bg-[#1D1D1D] px-3 py-2.5 transition-colors focus-within:border-[#E2604C]"
-        : "flex items-baseline gap-1 border-b border-white/25 pb-1 transition-colors focus-within:border-[#E2604C]"}>
+        ? "flex cursor-text items-center gap-1 rounded-[10px] border border-white/[0.10] bg-[#1D1D1D] px-3 py-2.5 transition-colors focus-within:border-[#E2604C]"
+        : "flex cursor-text items-baseline gap-1 border-b border-white/25 pb-1 transition-colors focus-within:border-[#E2604C]"}>
         <input
           name={name}
+          // Solo dígitos (el CP es numérico aunque el teclado de escritorio deje letras)
+          onInput={(e) => { const el = e.currentTarget; el.value = el.value.replace(/\D/g, ""); }}
+          // El origen viene prellenado: al enfocarlo se selecciona para reemplazarlo de un
+          // jalón (antes había que borrar a mano → clics repetidos en "CP Origen").
+          // (diferido: el mouseup del clic quitaría la selección si fuera inmediata)
+          onFocus={(e) => { const el = e.currentTarget; setTimeout(() => el.select(), 0); }}
           required={required}
           inputMode="numeric"
           pattern={pattern}
@@ -54,10 +62,29 @@ function Field({ name, label, unit, placeholder, maxLength, required, pattern, d
 export default function T1EnviosCotizadorPanel({ bare = false }: { bare?: boolean }) {
   const started = useRef(false);
   const [valid, setValid] = useState(false); // destino vacío → el usuario lo llena
+  // Campos que faltan tras tocar "Cotizar" con datos incompletos
+  const [errors, setErrors] = useState<{ cp_origen?: string; cp_destino?: string }>({});
   const onFirstFocus = () => {
     if (started.current) return;
     started.current = true;
     track("cotizador_start", { cta_section: "hero" });
+  };
+  // Con datos incompletos el navegador cancela el envío (validación nativa, que también
+  // cubre clics antes de hidratar) y dispara `invalid`: en vez de su globo, el botón no
+  // muere — enfoca el primer CP inválido y la etiqueta dice qué falta.
+  const onInvalid = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const first = form.querySelector<HTMLInputElement>("input:invalid");
+    if (e.target !== first) return; // `invalid` llega una vez por campo; basta con el primero
+    const msg = (n: string, vacio: string) => {
+      const el = form.elements.namedItem(n) as HTMLInputElement;
+      if (el.validity.valid) return undefined; // (checkValidity() re-dispararía `invalid`)
+      return el.value ? "CP de 5 dígitos" : vacio;
+    };
+    setErrors({ cp_origen: msg("cp_origen", "Escribe el CP origen"), cp_destino: msg("cp_destino", "Escribe el CP destino") });
+    first?.focus();
+    track("cotizador_empty_click", { cta_section: "hero" });
   };
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     const f = new FormData(e.currentTarget);
@@ -76,7 +103,8 @@ export default function T1EnviosCotizadorPanel({ bare = false }: { bare?: boolea
         method="get"
         onSubmit={onSubmit}
         onFocusCapture={onFirstFocus}
-        onInput={(e) => setValid(e.currentTarget.checkValidity())}
+        onInvalidCapture={onInvalid}
+        onInput={(e) => { setValid(e.currentTarget.checkValidity()); setErrors({}); }}
         className={bare ? "w-full text-left" : "w-full overflow-hidden rounded-[16px] bg-[#1D1D1D] p-4 text-left tablet:p-6"}
         style={bare ? undefined : { boxShadow: "0 20px 50px rgba(0,0,0,0.30)" }}
       >
@@ -84,8 +112,8 @@ export default function T1EnviosCotizadorPanel({ bare = false }: { bare?: boolea
         <div className="flex flex-col gap-3.5 tablet:flex-row tablet:items-end tablet:justify-center tablet:gap-4">
           {/* CP origen / destino — móvil 2-col, desktop en línea */}
           <div className="grid grid-cols-2 gap-3 tablet:contents">
-            <Field name="cp_origen" label="CP Origen" placeholder="00000" maxLength={5} required pattern="\d{5}" defaultValue={ORIGIN.cp} filled={bare} className="tablet:w-[168px]" />
-            <Field name="cp_destino" label="CP Destino" placeholder="Ej. 64000" maxLength={5} required pattern="\d{5}" filled={bare} className="tablet:w-[168px]" />
+            <Field name="cp_origen" label="CP Origen" placeholder="00000" maxLength={5} required pattern="\d{5}" defaultValue={ORIGIN.cp} filled={bare} error={errors.cp_origen} className="tablet:w-[168px]" />
+            <Field name="cp_destino" label="CP Destino" placeholder="Ej. 64000" maxLength={5} required pattern="\d{5}" filled={bare} error={errors.cp_destino} className="tablet:w-[168px]" />
           </div>
 
           {/* Peso y medidas — paquete típico por defecto (se ajustan al cotizar) */}
@@ -95,7 +123,7 @@ export default function T1EnviosCotizadorPanel({ bare = false }: { bare?: boolea
           <input type="hidden" name="ancho" defaultValue={PKG.ancho} />
 
           {/* Botón */}
-          <button type="submit" disabled={!valid} className={`mt-1 flex h-[48px] w-full shrink-0 items-center justify-center gap-1.5 rounded-[12px] px-8 font-inter text-[14px] font-semibold transition-colors tablet:mt-0 tablet:h-[50px] tablet:w-auto tablet:text-[15px] ${valid ? "bg-red-500 text-white hover:bg-red-600" : "cursor-not-allowed bg-[#60160F] text-white/45"}`}>
+          <button type="submit" aria-disabled={!valid} className={`mt-1 flex h-[48px] w-full shrink-0 items-center justify-center gap-1.5 rounded-[12px] px-8 font-inter text-[14px] font-semibold transition-colors tablet:mt-0 tablet:h-[50px] tablet:w-auto tablet:text-[15px] ${valid ? CTA_ON : CTA_OFF}`}>
             Cotizar
             {ArrowRight}
           </button>

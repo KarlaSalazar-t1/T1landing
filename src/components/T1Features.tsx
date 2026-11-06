@@ -530,6 +530,7 @@ export function ProductModal({ cardId, onClose, pageMode = false }: { cardId: st
                   <h2 className="font-sora text-[32px] font-normal text-white">{title}</h2>
                   <button
                     onClick={onClose}
+                    aria-label="Cerrar"
                     className="flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border-none bg-white/[0.15] text-white/80 transition-colors duration-150 hover:bg-white/[0.25] hover:text-white"
                   >
                     <svg width="18" height="18" viewBox="0 0 16 16" fill="none">

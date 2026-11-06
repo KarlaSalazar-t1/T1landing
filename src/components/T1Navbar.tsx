@@ -362,6 +362,8 @@ export default function T1Navbar({ ctaLabel = "Comienza gratis", ctaHref = SIGNU
             {/* Hamburger button - mobile only */}
             <button
               onClick={() => { setSwitcherOpen(false); setMobileOpen(!mobileOpen); }}
+              aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
+              aria-expanded={mobileOpen}
               className="flex cursor-pointer items-center justify-center border-none bg-transparent p-1 text-white transition-colors duration-150 tablet:hidden"
             >
               <HamburgerIcon open={mobileOpen} />

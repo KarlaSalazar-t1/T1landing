@@ -3,6 +3,7 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
 import { track } from "@/lib/analytics";
+import { CTA_ON, CTA_OFF, CTA_HINT } from "@/lib/heroCta";
 import { HERO_CHIPS, HERO_PROMPT_PLACEHOLDERS, capFirst, type HeroChip } from "@/lib/heroPrompt";
 
 /* Caja de prompt "Crea tu tienda con IA" — COMPONENTE COMPARTIDO. Lo usan tanto el
@@ -27,6 +28,16 @@ export default function TiendaPromptBox({ pageContext = "producto_tienda" }: { p
   const [typed, setTyped] = useState("");
   const [deleting, setDeleting] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [focused, setFocused] = useState(false);
+  // Tocó "Crea tu tienda" con la caja vacía → se enfoca y se pide la descripción
+  const [hint, setHint] = useState(false);
+
+  // Desktop: enfoca la caja al cargar (como la versión anterior) para que se note
+  // que está lista para escribir. En móvil no (abriría el teclado de golpe).
+  useEffect(() => {
+    if (window.innerWidth < 768) return;
+    textareaRef.current?.focus({ preventScroll: true });
+  }, []);
 
   // Alto del teclado móvil para subir la flecha por encima
   const [kbH, setKbH] = useState(0);
@@ -82,32 +93,57 @@ export default function TiendaPromptBox({ pageContext = "producto_tienda" }: { p
   return (
     <div className="flex w-full flex-col items-center gap-6">
       {/* Caja de prompt */}
-      <div className="relative w-full rounded-[14px] bg-[#1D1D1D] min-h-[160px] tablet:min-h-[180px]">
+      <div
+        onClick={() => textareaRef.current?.focus()}
+        className={`relative w-full cursor-text rounded-[14px] bg-[#1D1D1D] min-h-[160px] tablet:min-h-[180px] ring-1 transition-shadow ${
+          hint ? "ring-[#FF8A7A]/60" : "ring-transparent focus-within:ring-white/25"
+        }`}
+      >
         <textarea
           ref={textareaRef}
           value={value}
-          onChange={(e) => { setValue(e.target.value.slice(0, 500)); setSource("typed"); setChipCategory(null); }}
+          onFocus={() => setFocused(true)}
+          onBlur={() => { setFocused(false); setHint(false); }}
+          onChange={(e) => { setValue(e.target.value.slice(0, 500)); setSource("typed"); setChipCategory(null); setHint(false); }}
           rows={3}
           aria-label="Describe tu negocio"
           placeholder=""
-          className="h-[160px] tablet:h-[180px] w-full resize-none rounded-[14px] bg-transparent px-[18px] py-[15px] font-inter text-[16px] leading-[1.5] text-white outline-none"
+          className="h-[160px] tablet:h-[180px] w-full resize-none rounded-[14px] bg-transparent px-[18px] pt-[15px] pb-[56px] font-inter text-[16px] leading-[1.5] text-white outline-none"
         />
         {!value && (
-          <div aria-hidden className="pointer-events-none absolute inset-0 px-[18px] py-[15px] text-left font-inter text-[16px] leading-[1.5] text-[#8A8A8A]">
-            {cap(typed)}
-            <span className="ml-px inline-block w-[2px] align-[-2px] bg-[#8A8A8A]" style={{ height: "1.1em", animation: "blink 1s step-end infinite" }} />
+          <div aria-hidden className="pointer-events-none absolute inset-0 px-[18px] py-[15px] text-left font-inter text-[16px] leading-[1.5] text-white/40">
+            {hint ? (
+              <span className={CTA_HINT}>Escribe qué vendes para crear tu tienda</span>
+            ) : (
+              <>
+                {/* "Ej.:" distingue el ejemplo animado de lo que se envía */}
+                <span className="text-white/30">Ej.: </span>
+                {cap(typed)}
+                {/* Con foco ya se ve el cursor real; el falso solo cuando no hay foco */}
+                {!focused && <span className="ml-px inline-block w-[2px] align-[-2px] bg-white/40" style={{ height: "1.1em", animation: "blink 1s step-end infinite" }} />}
+              </>
+            )}
           </div>
         )}
+        <span aria-hidden className="pointer-events-none absolute bottom-[22px] left-[18px] font-inter text-[12px] text-white/30">{value.length}/500</span>
         <a
           href={SIGNUP_URL}
           onClick={(e) => {
-            if (!tiendaOk) { e.preventDefault(); return; }
+            e.stopPropagation();
+            if (!tiendaOk) {
+              e.preventDefault();
+              setHint(true);
+              textareaRef.current?.focus();
+              track("hero_prompt_empty_click", { page_context: pageContext });
+              return;
+            }
             track("hero_prompt_submit", { page_context: pageContext, prompt_source: source, chip_category: source === "chip" ? chipCategory : null, length: value.trim().length });
           }}
           aria-label="Crea tu tienda"
+          aria-disabled={!tiendaOk}
           style={kbOpen ? { position: "fixed", right: 16, bottom: kbH + 10, zIndex: 60 } : undefined}
           className={`absolute bottom-3 right-3 flex h-[40px] items-center gap-1.5 rounded-full pl-4 pr-3 font-inter text-[14px] font-semibold transition-colors ${
-            tiendaOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
+            tiendaOk ? CTA_ON : CTA_OFF
           }`}
         >
           Crea tu tienda

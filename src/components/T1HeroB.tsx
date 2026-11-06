@@ -20,6 +20,7 @@ import HeroBackground from "@/components/HeroBackground";
 /* Analítica: track compartido (posthog + dataLayer, con props base y variant).
    page_context distingue home vs producto_tienda con el mismo namespace hero_*. */
 import { track as baseTrack } from "@/lib/analytics";
+import { CTA_ON, CTA_OFF, CTA_HINT } from "@/lib/heroCta";
 function track(event: string, data: Record<string, unknown>) {
   baseTrack(event, { page_context: "home", ...data });
 }
@@ -193,6 +194,12 @@ export default function T1HeroB({ buenFin = false, variantB = false, uno = false
   const [cpDesde, setCpDesde] = useState("");
   const [cpHasta, setCpHasta] = useState("");
   const cpDesdeRef = useRef<HTMLInputElement>(null);
+  const cpHastaRef = useRef<HTMLInputElement>(null);
+
+  // Tocó el botón con datos faltantes → se enfoca el campo y se pide lo que falta
+  // (el botón nunca muere en silencio). Se limpia al escribir o al cambiar de pestaña.
+  const [hint, setHint] = useState(false);
+  const [focused, setFocused] = useState(false);
 
   // H1 rotativo — cicla la acción cada 2.2s
   const heroPhrases = buenFin ? BUENFIN_PHRASES : HERO_PHRASES;
@@ -206,7 +213,9 @@ export default function T1HeroB({ buenFin = false, variantB = false, uno = false
   // En móvil NO se enfoca (abriría el teclado de golpe, molesto).
   useEffect(() => {
     if (typeof window !== "undefined" && window.innerWidth < 768) return;
-    if (tab.id === "link") montoRef.current?.focus();
+    setHint(false);
+    if (tab.id === "tienda") textareaRef.current?.focus({ preventScroll: true });
+    else if (tab.id === "link") montoRef.current?.focus();
     else if (tab.id === "envio") cpDesdeRef.current?.focus();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tabIdx]);
@@ -400,13 +409,13 @@ export default function T1HeroB({ buenFin = false, variantB = false, uno = false
                 <a
                   href={sugIdx === null ? SIGNUP_URL : UNO_SUGGESTIONS[sugIdx].href}
                   onClick={(e) => {
-                    if (!tiendaOk) e.preventDefault();
+                    if (!tiendaOk) { e.preventDefault(); textareaRef.current?.focus(); }
                     else track("hero_prompt_submit", { mode: "uno_chat", suggestion: sugIdx === null ? null : UNO_SUGGESTIONS[sugIdx].id, length: value.trim().length });
                   }}
                   aria-label="Enviar a Uno"
                   style={kbOpen ? { position: "fixed", right: 16, bottom: kbH + 10, zIndex: 60 } : undefined}
                   className={`absolute bottom-3 right-3 flex h-[40px] w-[40px] items-center justify-center rounded-full transition-colors ${
-                    tiendaOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
+                    tiendaOk ? CTA_ON : CTA_OFF
                   }`}
                 >
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" /></svg>
@@ -510,23 +519,40 @@ export default function T1HeroB({ buenFin = false, variantB = false, uno = false
               {tab.id === "tienda" && (
                 <>
                   {uno && <p className={INSTR}>Describe tu negocio y crea tu tienda con <br className="tablet:hidden" /><UnoInline label="Uno, la IA de T1" /></p>}
-                  <div className="relative w-full rounded-[16px] bg-[#1D1D1D] min-h-[160px] tablet:min-h-[170px]">
+                  <div
+                    onClick={() => textareaRef.current?.focus()}
+                    className={`relative w-full cursor-text rounded-[16px] bg-[#1D1D1D] min-h-[160px] tablet:min-h-[170px] ring-1 transition-shadow ${
+                      hint ? "ring-[#FF8A7A]/60" : "ring-transparent focus-within:ring-white/25"
+                    }`}
+                  >
                     <textarea
                       ref={textareaRef}
                       value={value}
-                      onChange={(e) => { setValue(e.target.value.slice(0, 500)); setPromptSource("typed"); setChipCategory(null); }}
+                      onFocus={() => setFocused(true)}
+                      onBlur={() => { setFocused(false); setHint(false); }}
+                      onChange={(e) => { setValue(e.target.value.slice(0, 500)); setPromptSource("typed"); setChipCategory(null); setHint(false); }}
                       rows={3}
                       aria-label="Describe tu negocio"
                       placeholder=""
-                      className="h-[160px] tablet:h-[170px] w-full resize-none rounded-[16px] bg-transparent px-[18px] py-[15px] font-inter text-[16px] tablet:px-[22px] tablet:py-[18px] tablet:text-[17px] leading-[1.5] text-white outline-none"
+                      className="h-[160px] tablet:h-[170px] w-full resize-none rounded-[16px] bg-transparent px-[18px] pt-[15px] pb-[56px] font-inter text-[16px] tablet:px-[22px] tablet:pt-[18px] tablet:text-[17px] leading-[1.5] text-white outline-none"
                     />
                     {/* Placeholder animado con cursor (solo cuando el input está vacío) */}
                     {!value && (
-                      <div aria-hidden className="pointer-events-none absolute inset-0 px-[18px] py-[15px] font-inter text-[16px] leading-[1.5] text-[#8A8A8A] tablet:px-[22px] tablet:py-[18px] tablet:text-[17px]">
-                        {capFirst(placeholder)}
-                        <span className="ml-px inline-block w-[2px] align-[-2px] bg-[#8A8A8A]" style={{ height: "1.1em", animation: "blink 1s step-end infinite" }} />
+                      <div aria-hidden className="pointer-events-none absolute inset-0 px-[18px] py-[15px] font-inter text-[16px] leading-[1.5] text-white/40 tablet:px-[22px] tablet:py-[18px] tablet:text-[17px]">
+                        {hint ? (
+                          <span className={CTA_HINT}>Escribe qué vendes para crear tu tienda</span>
+                        ) : (
+                          <>
+                            {/* "Ej.:" distingue el ejemplo animado de lo que se envía */}
+                            <span className="text-white/30">Ej.: </span>
+                            {capFirst(placeholder)}
+                            {/* Con foco ya se ve el cursor real; el falso solo sin foco */}
+                            {!focused && <span className="ml-px inline-block w-[2px] align-[-2px] bg-white/40" style={{ height: "1.1em", animation: "blink 1s step-end infinite" }} />}
+                          </>
+                        )}
                       </div>
                     )}
+                    <span aria-hidden className={`pointer-events-none absolute bottom-[22px] font-inter text-[12px] text-white/30 ${unoSub ? "left-[60px] tablet:left-[64px]" : "left-[18px] tablet:left-[22px]"}`}>{value.length}/500</span>
                     {/* unoSub: Uno vive en el input de la tienda (abajo a la izquierda) */}
                     {unoSub && (
                       <Image src="/img/uno-avatar.svg" alt="Uno" width={36} height={36} unoptimized className="pointer-events-none absolute bottom-[14px] left-[16px] h-[34px] w-[34px] tablet:left-[20px]" />
@@ -534,13 +560,20 @@ export default function T1HeroB({ buenFin = false, variantB = false, uno = false
                     <a
                       href={tab.href}
                       onClick={(e) => {
-                        if (!tiendaOk) e.preventDefault();
+                        e.stopPropagation();
+                        if (!tiendaOk) {
+                          e.preventDefault();
+                          setHint(true);
+                          textareaRef.current?.focus();
+                          track("hero_prompt_empty_click", { mode: "tienda" });
+                        }
                         else submit({ length: value.trim().length, prompt_source: promptSource, chip_category: promptSource === "chip" ? chipCategory : null });
                       }}
                       aria-label="Crea tu tienda"
+                      aria-disabled={!tiendaOk}
                       style={kbOpen ? { position: "fixed", right: 16, bottom: kbH + 10, zIndex: 60 } : undefined}
                       className={`absolute bottom-3 right-3 flex h-[40px] items-center gap-1.5 rounded-full pl-4 pr-3 font-inter text-[14px] font-semibold transition-colors ${
-                        tiendaOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
+                        tiendaOk ? CTA_ON : CTA_OFF
                       }`}
                     >
                       Crea tu tienda
@@ -574,17 +607,19 @@ export default function T1HeroB({ buenFin = false, variantB = false, uno = false
                     {/* Campos (monto + concepto) — misma altura mín. que el CP de envío para alinear los logos entre pestañas */}
                     <div className="flex min-h-[172px] flex-col gap-3.5">
                     {/* Monto grande, sin caja */}
-                    <div className="flex items-center justify-center gap-1.5" style={{ minHeight: 85 }}>
+                    <div onClick={() => montoRef.current?.focus()} className="relative flex cursor-text items-center justify-center gap-1.5" style={{ minHeight: 85 }}>
                       <span className="font-sora text-[28px] font-light text-white/45">$</span>
                       <input
                         ref={montoRef}
                         inputMode="numeric"
                         value={monto === "" ? "" : formatMonto(monto)}
-                        onChange={(e) => setMonto(e.target.value.replace(/\D/g, "").slice(0, 9))}
+                        onChange={(e) => { setMonto(e.target.value.replace(/\D/g, "").slice(0, 9)); setHint(false); }}
+                        onBlur={() => setHint(false)}
                         placeholder="0.00"
                         aria-label="Monto a cobrar"
                         className="min-w-[64px] max-w-[280px] bg-transparent text-left font-sora text-[44px] font-light leading-none text-white caret-[#DB3B2B] outline-none [field-sizing:content] placeholder:text-white/25 [&:placeholder-shown:not(:focus)]:caret-transparent"
                       />
+                      {hint && <span role="status" className={`absolute inset-x-0 bottom-0 text-center font-inter text-[13px] ${CTA_HINT}`}>Escribe el monto que quieres cobrar</span>}
                     </div>
                     {/* Concepto — pregunta arriba + hint abajo */}
                     <div className="mx-auto w-full tablet:max-w-[440px]">
@@ -601,13 +636,13 @@ export default function T1HeroB({ buenFin = false, variantB = false, uno = false
                     <a
                       href={tab.href}
                       onClick={(e) => {
-                        if (!linkOk) e.preventDefault();
+                        if (!linkOk) { e.preventDefault(); setHint(true); montoRef.current?.focus(); track("hero_prompt_empty_click", { mode: "link" }); }
                         else submit({ length: monto.length });
                       }}
                       aria-disabled={!linkOk}
                       style={kbBtnStyle}
                       className={`mt-auto flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors tablet:mt-3 tablet:w-full tablet:max-w-[440px] tablet:self-center ${
-                        linkOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
+                        linkOk ? CTA_ON : CTA_OFF
                       }`}
                     >
                       Crea link de pago
@@ -625,7 +660,7 @@ export default function T1HeroB({ buenFin = false, variantB = false, uno = false
                   {uno && <p className={INSTR}>Compara +10 paqueterías en segundos con <br className="tablet:hidden" /><UnoInline /></p>}
                   <div className="flex w-full flex-1 flex-col gap-4 tablet:flex-none">
                     {/* CP — misma altura mín. que los campos de link para alinear los logos entre pestañas */}
-                    <div className="mx-auto flex min-h-[172px] w-full flex-col justify-center rounded-[16px] bg-[#1D1D1D] px-4 py-2 transition-shadow focus-within:ring-1 focus-within:ring-white/25 tablet:max-w-[440px]">
+                    <div className={`mx-auto flex min-h-[172px] w-full flex-col justify-center rounded-[16px] bg-[#1D1D1D] px-4 py-2 ring-1 transition-shadow tablet:max-w-[440px] ${hint ? "ring-[#FF8A7A]/60" : "ring-transparent focus-within:ring-white/25"}`}>
                       <div className="flex gap-3.5">
                         <div className="flex flex-col items-center self-stretch py-[22px]">
                           {/* Origen: punto · Destino: pin de localización */}
@@ -637,14 +672,14 @@ export default function T1HeroB({ buenFin = false, variantB = false, uno = false
                           </svg>
                         </div>
                         <div className="min-w-0 flex-1">
-                          <label className="block py-4">
-                            <span className="font-inter text-[12px] font-normal text-white">Desde</span>
-                            <input ref={cpDesdeRef} value={cpDesde} onChange={(e) => setCpDesde(e.target.value.slice(0, 40))} placeholder="Código postal o colonia" aria-label="Origen del envío" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
+                          <label className="block cursor-text py-4">
+                            <span className={`font-inter text-[12px] font-normal ${hint && !cpDesde.trim() ? CTA_HINT : "text-white"}`}>{hint && !cpDesde.trim() ? "Escribe desde dónde envías" : "Desde"}</span>
+                            <input ref={cpDesdeRef} value={cpDesde} onChange={(e) => { setCpDesde(e.target.value.slice(0, 40)); setHint(false); }} placeholder="Código postal o colonia" aria-label="Origen del envío" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white caret-[#DB3B2B] outline-none placeholder:text-[#8A8A8A]" />
                           </label>
                           <span className="block h-px w-full bg-white/10" />
-                          <label className="block py-4">
-                            <span className="font-inter text-[12px] font-normal text-white">Hacia</span>
-                            <input value={cpHasta} onChange={(e) => setCpHasta(e.target.value.slice(0, 40))} placeholder="Código postal o colonia" aria-label="Destino del envío" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A]" />
+                          <label className="block cursor-text py-4">
+                            <span className={`font-inter text-[12px] font-normal ${hint && !cpHasta.trim() ? CTA_HINT : "text-white"}`}>{hint && !cpHasta.trim() ? "Escribe a dónde va" : "Hacia"}</span>
+                            <input ref={cpHastaRef} value={cpHasta} onChange={(e) => { setCpHasta(e.target.value.slice(0, 40)); setHint(false); }} placeholder="Código postal o colonia" aria-label="Destino del envío" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white caret-[#DB3B2B] outline-none placeholder:text-[#8A8A8A]" />
                           </label>
                         </div>
                       </div>
@@ -652,13 +687,18 @@ export default function T1HeroB({ buenFin = false, variantB = false, uno = false
                     <a
                       href={tab.href}
                       onClick={(e) => {
-                        if (!envioOk) e.preventDefault();
+                        if (!envioOk) {
+                          e.preventDefault();
+                          setHint(true);
+                          (cpDesde.trim() ? cpHastaRef : cpDesdeRef).current?.focus();
+                          track("hero_prompt_empty_click", { mode: "envio" });
+                        }
                         else submit({ mode: "envio" });
                       }}
                       aria-disabled={!envioOk}
                       style={kbBtnStyle}
                       className={`mt-auto flex h-[46px] items-center justify-center gap-1.5 rounded-[16px] font-inter text-[14px] font-semibold no-underline transition-colors tablet:mt-3 tablet:w-full tablet:max-w-[440px] tablet:self-center ${
-                        envioOk ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#60160F] text-white/45"
+                        envioOk ? CTA_ON : CTA_OFF
                       }`}
                     >
                       Cotiza gratis
