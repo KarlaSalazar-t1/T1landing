@@ -9,5 +9,15 @@
 export const CTA_ON = "bg-red-500 text-white hover:bg-red-600";
 export const CTA_OFF = "cursor-not-allowed bg-white/[0.08] text-white/35";
 
-/* Texto de error/aviso sobre fondo oscuro (rojo claro legible). */
-export const CTA_HINT = "text-[#FF8A7A]";
+/* Aviso de "qué falta" sobre fondo oscuro. Neutro a propósito: es una guía, no un
+   error, y en rojo se sentía regaño. Más claro que el placeholder (white/40). */
+export const CTA_HINT = "text-white/85";
+
+/* Foco de los inputs del hero (prompt, CP, link). Insight PostHog: clics repetidos en
+   la caja porque no se notaba cuándo estaba lista. Borde claro + halo suave, en blanco
+   para que no se lea como error. Con aviso activo (FOCUS_ON) se ve igual que con foco. */
+// Clases completas y literales (Tailwind no detecta clases armadas con ${}).
+export const FOCUS_ON = "ring-white/60 shadow-[0_0_0_4px_rgba(255,255,255,0.08)]";
+export const FOCUS_BOX = "ring-transparent focus-within:ring-white/60 focus-within:shadow-[0_0_0_4px_rgba(255,255,255,0.08)]";
+export const FOCUS_FIELD = "focus-within:border-white/60 focus-within:shadow-[0_0_0_4px_rgba(255,255,255,0.08)]";
+export const FOCUS_LINE = "focus-within:border-white focus-within:shadow-[0_1px_0_0_#fff]";

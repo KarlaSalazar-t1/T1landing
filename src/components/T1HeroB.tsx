@@ -20,7 +20,7 @@ import HeroBackground from "@/components/HeroBackground";
 /* Analítica: track compartido (posthog + dataLayer, con props base y variant).
    page_context distingue home vs producto_tienda con el mismo namespace hero_*. */
 import { track as baseTrack } from "@/lib/analytics";
-import { CTA_ON, CTA_OFF, CTA_HINT } from "@/lib/heroCta";
+import { CTA_ON, CTA_OFF, CTA_HINT, FOCUS_ON, FOCUS_BOX } from "@/lib/heroCta";
 function track(event: string, data: Record<string, unknown>) {
   baseTrack(event, { page_context: "home", ...data });
 }
@@ -163,7 +163,7 @@ function UnoInline({ label = "Uno" }: { label?: string }) {
 /* Instrucción arriba de cada pestaña (como en t1.com) — solo con `uno` */
 const INSTR = "max-w-[360px] text-center font-inter text-[16px] font-light leading-[1.6] text-white tablet:max-w-none";
 
-const FIELD = "w-full rounded-[14px] bg-[#1D1D1D] px-4 py-3 font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A] focus:ring-1 focus:ring-white/20";
+const FIELD = "w-full rounded-[14px] bg-[#1D1D1D] px-4 py-3 font-inter text-[16px] text-white outline-none placeholder:text-[#8A8A8A] transition-shadow focus:ring-1 focus:ring-white/60 focus:shadow-[0_0_0_4px_rgba(255,255,255,0.08)]";
 
 /* uno: propuesta para presentar a Uno (la IA de T1) sin rehacer el hero. Agrega
    las instrucciones por pestaña de t1.com; las tres mencionan a Uno con su
@@ -389,7 +389,7 @@ export default function T1HeroB({ buenFin = false, variantB = false, uno = false
             /* ── Propuesta B: solo el chat con Uno ── */
             <div className="flex w-full flex-col items-center gap-5 pt-10 tablet:pt-14">
               <p className={INSTR}>Pídele a <b className="whitespace-nowrap font-semibold">Uno, la IA de T1,</b> lo que necesites</p>
-              <div className="relative w-full rounded-[20px] bg-[#1D1D1D] transition-shadow focus-within:ring-1 focus-within:ring-white/20">
+              <div className={`relative w-full rounded-[20px] bg-[#1D1D1D] ring-1 transition-shadow ${FOCUS_BOX}`}>
                 <textarea
                   ref={textareaRef}
                   value={value}
@@ -522,7 +522,7 @@ export default function T1HeroB({ buenFin = false, variantB = false, uno = false
                   <div
                     onClick={() => textareaRef.current?.focus()}
                     className={`relative w-full cursor-text rounded-[16px] bg-[#1D1D1D] min-h-[160px] tablet:min-h-[170px] ring-1 transition-shadow ${
-                      hint ? "ring-[#FF8A7A]/60" : "ring-transparent focus-within:ring-white/25"
+                      hint ? FOCUS_ON : FOCUS_BOX
                     }`}
                   >
                     <textarea
@@ -540,7 +540,7 @@ export default function T1HeroB({ buenFin = false, variantB = false, uno = false
                     {!value && (
                       <div aria-hidden className="pointer-events-none absolute inset-0 px-[18px] py-[15px] font-inter text-[16px] leading-[1.5] text-white/40 tablet:px-[22px] tablet:py-[18px] tablet:text-[17px]">
                         {hint ? (
-                          <span className={CTA_HINT}>Escribe qué vendes para crear tu tienda</span>
+                          <span>Escribe qué vendes para crear tu tienda</span>
                         ) : (
                           <>
                             {/* "Ej.:" distingue el ejemplo animado de lo que se envía */}
@@ -570,14 +570,16 @@ export default function T1HeroB({ buenFin = false, variantB = false, uno = false
                         else submit({ length: value.trim().length, prompt_source: promptSource, chip_category: promptSource === "chip" ? chipCategory : null });
                       }}
                       aria-label="Crea tu tienda"
+                      title="Crea tu tienda"
                       aria-disabled={!tiendaOk}
                       style={kbOpen ? { position: "fixed", right: 16, bottom: kbH + 10, zIndex: 60 } : undefined}
-                      className={`absolute bottom-3 right-3 flex h-[40px] items-center gap-1.5 rounded-full pl-4 pr-3 font-inter text-[14px] font-semibold transition-colors ${
+                      className={`absolute bottom-3 right-3 flex h-[40px] w-[40px] items-center justify-center rounded-full transition-colors ${
                         tiendaOk ? CTA_ON : CTA_OFF
                       }`}
                     >
-                      Crea tu tienda
-                      {ArrowRight}
+                      {/* Solo flecha, como la versión anterior (100% de clics enviaban). El aria-label
+                         mantiene el nombre "Crea tu tienda" en PostHog. */}
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" /></svg>
                     </a>
                   </div>
                   {/* chips — móvil: 2 filas centradas; desktop: una sola línea */}
@@ -607,7 +609,9 @@ export default function T1HeroB({ buenFin = false, variantB = false, uno = false
                     {/* Campos (monto + concepto) — misma altura mín. que el CP de envío para alinear los logos entre pestañas */}
                     <div className="flex min-h-[172px] flex-col gap-3.5">
                     {/* Monto grande, sin caja */}
-                    <div onClick={() => montoRef.current?.focus()} className="relative flex cursor-text items-center justify-center gap-1.5" style={{ minHeight: 85 }}>
+                    {/* El aviso va en su propia línea bajo el subrayado (espacio reservado: no mueve nada) */}
+                    <div onClick={() => montoRef.current?.focus()} className="flex cursor-text flex-col items-center justify-center gap-1.5" style={{ minHeight: 85 }}>
+                      <div className="flex items-center justify-center gap-1.5">
                       <span className="font-sora text-[28px] font-light text-white/45">$</span>
                       <input
                         ref={montoRef}
@@ -617,9 +621,10 @@ export default function T1HeroB({ buenFin = false, variantB = false, uno = false
                         onBlur={() => setHint(false)}
                         placeholder="0.00"
                         aria-label="Monto a cobrar"
-                        className="min-w-[64px] max-w-[280px] bg-transparent text-left font-sora text-[44px] font-light leading-none text-white caret-[#DB3B2B] outline-none [field-sizing:content] placeholder:text-white/25 [&:placeholder-shown:not(:focus)]:caret-transparent"
+                        className="min-w-[64px] max-w-[280px] border-b-2 border-white/10 bg-transparent pb-1 transition-colors focus:border-white/70 text-left font-sora text-[44px] font-light leading-none text-white caret-white outline-none [field-sizing:content] placeholder:text-white/25 [&:placeholder-shown:not(:focus)]:caret-transparent"
                       />
-                      {hint && <span role="status" className={`absolute inset-x-0 bottom-0 text-center font-inter text-[13px] ${CTA_HINT}`}>Escribe el monto que quieres cobrar</span>}
+                      </div>
+                      <span role="status" className={`h-[18px] text-center font-inter text-[13px] leading-[18px] ${CTA_HINT}`}>{hint ? "Escribe el monto que quieres cobrar" : ""}</span>
                     </div>
                     {/* Concepto — pregunta arriba + hint abajo */}
                     <div className="mx-auto w-full tablet:max-w-[440px]">
@@ -660,7 +665,7 @@ export default function T1HeroB({ buenFin = false, variantB = false, uno = false
                   {uno && <p className={INSTR}>Compara +10 paqueterías en segundos con <br className="tablet:hidden" /><UnoInline /></p>}
                   <div className="flex w-full flex-1 flex-col gap-4 tablet:flex-none">
                     {/* CP — misma altura mín. que los campos de link para alinear los logos entre pestañas */}
-                    <div className={`mx-auto flex min-h-[172px] w-full flex-col justify-center rounded-[16px] bg-[#1D1D1D] px-4 py-2 ring-1 transition-shadow tablet:max-w-[440px] ${hint ? "ring-[#FF8A7A]/60" : "ring-transparent focus-within:ring-white/25"}`}>
+                    <div className={`mx-auto flex min-h-[172px] w-full flex-col justify-center rounded-[16px] bg-[#1D1D1D] px-4 py-2 ring-1 transition-shadow tablet:max-w-[440px] ${hint ? FOCUS_ON : FOCUS_BOX}`}>
                       <div className="flex gap-3.5">
                         <div className="flex flex-col items-center self-stretch py-[22px]">
                           {/* Origen: punto · Destino: pin de localización */}
@@ -674,12 +679,12 @@ export default function T1HeroB({ buenFin = false, variantB = false, uno = false
                         <div className="min-w-0 flex-1">
                           <label className="block cursor-text py-4">
                             <span className={`font-inter text-[12px] font-normal ${hint && !cpDesde.trim() ? CTA_HINT : "text-white"}`}>{hint && !cpDesde.trim() ? "Escribe desde dónde envías" : "Desde"}</span>
-                            <input ref={cpDesdeRef} value={cpDesde} onChange={(e) => { setCpDesde(e.target.value.slice(0, 40)); setHint(false); }} placeholder="Código postal o colonia" aria-label="Origen del envío" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white caret-[#DB3B2B] outline-none placeholder:text-[#8A8A8A]" />
+                            <input ref={cpDesdeRef} value={cpDesde} onChange={(e) => { setCpDesde(e.target.value.slice(0, 40)); setHint(false); }} placeholder="Código postal o colonia" aria-label="Origen del envío" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white caret-white outline-none placeholder:text-[#8A8A8A]" />
                           </label>
                           <span className="block h-px w-full bg-white/10" />
                           <label className="block cursor-text py-4">
                             <span className={`font-inter text-[12px] font-normal ${hint && !cpHasta.trim() ? CTA_HINT : "text-white"}`}>{hint && !cpHasta.trim() ? "Escribe a dónde va" : "Hacia"}</span>
-                            <input ref={cpHastaRef} value={cpHasta} onChange={(e) => { setCpHasta(e.target.value.slice(0, 40)); setHint(false); }} placeholder="Código postal o colonia" aria-label="Destino del envío" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white caret-[#DB3B2B] outline-none placeholder:text-[#8A8A8A]" />
+                            <input ref={cpHastaRef} value={cpHasta} onChange={(e) => { setCpHasta(e.target.value.slice(0, 40)); setHint(false); }} placeholder="Código postal o colonia" aria-label="Destino del envío" className="mt-0.5 w-full bg-transparent font-inter text-[16px] text-white caret-white outline-none placeholder:text-[#8A8A8A]" />
                           </label>
                         </div>
                       </div>

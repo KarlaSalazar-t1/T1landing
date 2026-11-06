@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import { ENVIOS_QUOTE_URL } from "@/lib/constants";
 import { track } from "@/lib/analytics";
-import { CTA_ON, CTA_OFF, CTA_HINT } from "@/lib/heroCta";
+import { CTA_ON, CTA_OFF, CTA_HINT, FOCUS_FIELD, FOCUS_LINE } from "@/lib/heroCta";
 
 /* Cotizador funcional del hero de Envíos. Card sólida elevada con campos en caja
    (no underline). Es un <form method="get"> nativo hacia /envios/cotizar: el click
@@ -34,8 +34,8 @@ function Field({ name, label, unit, placeholder, maxLength, required, pattern, d
     <label className={`block ${className}`}>
       <span role={error ? "status" : undefined} className={`mb-1 block truncate font-inter text-[11.5px] font-medium ${error ? CTA_HINT : "text-white/75"}`}>{error ?? label}</span>
       <div className={filled
-        ? "flex cursor-text items-center gap-1 rounded-[10px] border border-white/[0.10] bg-[#1D1D1D] px-3 py-2.5 transition-colors focus-within:border-[#E2604C]"
-        : "flex cursor-text items-baseline gap-1 border-b border-white/25 pb-1 transition-colors focus-within:border-[#E2604C]"}>
+        ? `flex cursor-text items-center gap-1 rounded-[10px] border border-white/[0.10] bg-[#1D1D1D] px-3 py-2.5 transition ${FOCUS_FIELD}`
+        : `flex cursor-text items-baseline gap-1 border-b border-white/25 pb-1 transition ${FOCUS_LINE}`}>
         <input
           name={name}
           // Solo dígitos (el CP es numérico aunque el teclado de escritorio deje letras)

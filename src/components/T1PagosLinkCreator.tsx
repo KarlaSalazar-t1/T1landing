@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import { PAGOS_START_URL } from "@/lib/constants";
 import { track } from "@/lib/analytics";
-import { CTA_ON, CTA_OFF, CTA_HINT } from "@/lib/heroCta";
+import { CTA_ON, CTA_OFF, CTA_HINT, FOCUS_FIELD, FOCUS_LINE } from "@/lib/heroCta";
 
 const ArrowRight = (
   <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -30,8 +30,8 @@ export default function T1PagosLinkCreator({ bare = false, vertical = false }: {
 
   // Envoltura de cada campo: underline (dentro de card) o caja oscura (bare/V2).
   const wrap = bare
-    ? "flex h-[52px] cursor-text items-center gap-1 rounded-[10px] border border-white/[0.10] bg-[#1D1D1D] px-3 transition-colors focus-within:border-[#E2604C]"
-    : "flex cursor-text items-baseline gap-1 border-b border-white/25 pb-1 transition-colors focus-within:border-[#E2604C]";
+    ? `flex h-[52px] cursor-text items-center gap-1 rounded-[10px] border border-white/[0.10] bg-[#1D1D1D] px-3 transition ${FOCUS_FIELD}`
+    : `flex cursor-text items-baseline gap-1 border-b border-white/25 pb-1 transition ${FOCUS_LINE}`;
   const labelCls = "mb-1 block font-inter text-[11.5px] font-medium text-white/75";
   // vertical: campos apilados (para columna angosta). horizontal (default): barra.
   const rowCls = vertical ? "flex flex-col gap-4" : "flex flex-col gap-3.5 tablet:flex-row tablet:items-end tablet:gap-5";

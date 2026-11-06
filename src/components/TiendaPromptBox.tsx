@@ -3,7 +3,7 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import { SIGNUP_URL } from "@/lib/constants";
 import { track } from "@/lib/analytics";
-import { CTA_ON, CTA_OFF, CTA_HINT } from "@/lib/heroCta";
+import { CTA_ON, CTA_OFF, FOCUS_ON, FOCUS_BOX } from "@/lib/heroCta";
 import { HERO_CHIPS, HERO_PROMPT_PLACEHOLDERS, capFirst, type HeroChip } from "@/lib/heroPrompt";
 
 /* Caja de prompt "Crea tu tienda con IA" — COMPONENTE COMPARTIDO. Lo usan tanto el
@@ -13,12 +13,6 @@ import { HERO_CHIPS, HERO_PROMPT_PLACEHOLDERS, capFirst, type HeroChip } from "@
 const PLACEHOLDERS = HERO_PROMPT_PLACEHOLDERS;
 const CHIPS = HERO_CHIPS;
 const cap = capFirst;
-
-const ArrowRight = (
-  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-    <path d="M6.75 4.5 11.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
 
 export default function TiendaPromptBox({ pageContext = "producto_tienda" }: { pageContext?: string }) {
   const [value, setValue] = useState("");
@@ -96,7 +90,7 @@ export default function TiendaPromptBox({ pageContext = "producto_tienda" }: { p
       <div
         onClick={() => textareaRef.current?.focus()}
         className={`relative w-full cursor-text rounded-[14px] bg-[#1D1D1D] min-h-[160px] tablet:min-h-[180px] ring-1 transition-shadow ${
-          hint ? "ring-[#FF8A7A]/60" : "ring-transparent focus-within:ring-white/25"
+          hint ? FOCUS_ON : FOCUS_BOX
         }`}
       >
         <textarea
@@ -113,7 +107,7 @@ export default function TiendaPromptBox({ pageContext = "producto_tienda" }: { p
         {!value && (
           <div aria-hidden className="pointer-events-none absolute inset-0 px-[18px] py-[15px] text-left font-inter text-[16px] leading-[1.5] text-white/40">
             {hint ? (
-              <span className={CTA_HINT}>Escribe qué vendes para crear tu tienda</span>
+              <span>Escribe qué vendes para crear tu tienda</span>
             ) : (
               <>
                 {/* "Ej.:" distingue el ejemplo animado de lo que se envía */}
@@ -140,14 +134,16 @@ export default function TiendaPromptBox({ pageContext = "producto_tienda" }: { p
             track("hero_prompt_submit", { page_context: pageContext, prompt_source: source, chip_category: source === "chip" ? chipCategory : null, length: value.trim().length });
           }}
           aria-label="Crea tu tienda"
+          title="Crea tu tienda"
           aria-disabled={!tiendaOk}
           style={kbOpen ? { position: "fixed", right: 16, bottom: kbH + 10, zIndex: 60 } : undefined}
-          className={`absolute bottom-3 right-3 flex h-[40px] items-center gap-1.5 rounded-full pl-4 pr-3 font-inter text-[14px] font-semibold transition-colors ${
+          className={`absolute bottom-3 right-3 flex h-[40px] w-[40px] items-center justify-center rounded-full transition-colors ${
             tiendaOk ? CTA_ON : CTA_OFF
           }`}
         >
-          Crea tu tienda
-          {ArrowRight}
+          {/* Solo flecha, como la versión anterior (100% de clics enviaban). El aria-label
+             mantiene el nombre "Crea tu tienda" en PostHog. */}
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" /></svg>
         </a>
       </div>
 
