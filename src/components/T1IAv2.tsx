@@ -125,11 +125,20 @@ export default function T1IAv2() {
         <div className="relative z-10 mx-auto max-w-[var(--max-w)]">
           <div className="grid grid-cols-1 items-center gap-10 tablet:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] tablet:gap-12">
             <div>
-              <h1 className="font-sora text-[34px] font-light text-white tablet:text-[48px] lg:text-[60px]" style={{ lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: 22 }}>
-                El experto de tu negocio
+              <h1 className="font-sora text-[34px] tablet:text-balance font-light text-white tablet:text-[48px] lg:text-[60px]" style={{ lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: 22 }}>
+                {/* Que se sepa desde el primer vistazo que esta es la página
+                    de Uno: avatar + nombre en el título (el logo aún no se
+                    puede usar por el registro de marca). */}
+                {/* En móvil el título corre seguido (2 líneas); desde tablet
+                    "Uno," va en su propia línea con el avatar. */}
+                <span className="inline tablet:flex tablet:items-center tablet:gap-4">
+                  <Image src="/img/uno-avatar.svg" alt="" width={64} height={64} unoptimized className="mr-2.5 inline-block h-[36px] w-[36px] shrink-0 align-[-4px] tablet:mr-0 tablet:h-[52px] tablet:w-[52px] lg:h-[64px] lg:w-[64px]" />
+                  <span>Uno,</span>
+                </span>{" "}
+                el experto de tu negocio
               </h1>
               <p className="font-inter text-[16px] font-light text-white/70 tablet:text-[19px]" style={{ lineHeight: 1.55, marginBottom: 32, maxWidth: 480 }}>
-                Uno, la IA de T1, conoce tus ventas, productos, clientes y envíos, y hace el trabajo por ti.
+                La IA de T1 conoce tus ventas, productos, clientes y envíos, y hace el trabajo por ti.
               </p>
               <a href={SIGNUP_URL} className="inline-flex items-center rounded-[14px] bg-[#DB3B2B] px-7 py-3.5 font-inter text-[15px] font-semibold text-white no-underline transition-all duration-150 hover:bg-[#C0332A]">
                 Comienza gratis
